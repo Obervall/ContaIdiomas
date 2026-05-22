@@ -1,0 +1,69 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
+  <Profiles />
+  <Settings>
+    <Setting Name="PantallaCompleta" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="PantallaCierre" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="PantallaAncho" Type="System.String" Scope="User">
+      <Value Profile="(Default)">1139</Value>
+    </Setting>
+    <Setting Name="PantallaAlto" Type="System.String" Scope="User">
+      <Value Profile="(Default)">629</Value>
+    </Setting>
+    <Setting Name="Posicion" Type="System.String" Scope="User">
+      <Value Profile="(Default)">{x=150,y=0}</Value>
+    </Setting>
+    <Setting Name="Pantallas" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Version" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Versión: 3.1.0</Value>
+    </Setting>
+    <Setting Name="Previsualizar" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ElegirImpresora" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="DirectoImpresora" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="RutaBD" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\ContaHogar3.0\ContaHogar.mdb</Value>
+    </Setting>
+    <Setting Name="Autorizar" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Se autoriza el uso de ContaHogar 3.0 a: Modo Demo</Value>
+    </Setting>
+    <Setting Name="Codigo" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Codigo Activación: Sin Activar</Value>
+    </Setting>
+    <Setting Name="Actualizar" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Moneda" Type="System.String" Scope="User">
+      <Value Profile="(Default)">€</Value>
+    </Setting>
+    <Setting Name="PathExportar" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="MenuColores" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="BarraHerramientas" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="BarraEstado" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="UpgradeRequired" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="CulturaUsuario" Type="System.String" Scope="User">
+      <Value Profile="(Default)">es-ES</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

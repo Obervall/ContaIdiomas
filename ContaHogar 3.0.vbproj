@@ -1,0 +1,1621 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\Microsoft.SqlServer.Types.170.1000.7\build\net472\Microsoft.SqlServer.Types.props" Condition="Exists('packages\Microsoft.SqlServer.Types.170.1000.7\build\net472\Microsoft.SqlServer.Types.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F5BBC0C7-9A64-47D9-AC81-A82513BA1E23}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>ContaHogar</RootNamespace>
+    <AssemblyName>ContaHogar3.0</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Empty</MyType>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <PublishUrl>C:\Hogar\InstaladorMyHogar\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>true</UpdateRequired>
+    <MapFileExtensions>false</MapFileExtensions>
+    <InstallUrl>http://localhost:8080/</InstallUrl>
+    <TargetCulture>es-ES</TargetCulture>
+    <ProductName>HogarMdb</ProductName>
+    <PublisherName>Antonio Oberholzer</PublisherName>
+    <SuiteName>HogarMdb</SuiteName>
+    <MinimumRequiredVersion>1.4.2.0</MinimumRequiredVersion>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>publish.htm</WebPage>
+    <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
+    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationVersion>1.8.3.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>ContaHogar.Principal</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Logo ContaHogar.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>15C06548B927E2FC35661F3F871697F05E9E48B9</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="My Project\app.manifest" />
+    <None Include="My Project\Settings.settings">
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 y x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AcercaDe.Designer.vb">
+      <DependentUpon>AcercaDe.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AcercaDe.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActivarSoftware.Designer.vb">
+      <DependentUpon>ActivarSoftware.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ActivarSoftware.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AportacionBizum.Designer.vb">
+      <DependentUpon>AportacionBizum.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AportacionBizum.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ApuntesPeriodicos.Designer.vb">
+      <DependentUpon>ApuntesPeriodicos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ApuntesPeriodicos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ApuntesContables.Designer.vb">
+      <DependentUpon>ApuntesContables.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ApuntesContables.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Buscar.Designer.vb">
+      <DependentUpon>Buscar.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Buscar.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditarApuntesPeriodicos.Designer.vb">
+      <DependentUpon>EditarApuntesPeriodicos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="EditarApuntesPeriodicos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditarTipoCuentaBancaria.Designer.vb">
+      <DependentUpon>EditarTipoCuentaBancaria.vb</DependentUpon>
+    </Compile>
+    <Compile Include="EditarTipoCuentaBancaria.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditarApuntes.Designer.vb">
+      <DependentUpon>EditarApuntes.vb</DependentUpon>
+    </Compile>
+    <Compile Include="EditarApuntes.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FiltroF5.Designer.vb">
+      <DependentUpon>FiltroF5.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FiltroF5.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GraficosConceptos3D.Designer.vb">
+      <DependentUpon>GraficosConceptos3D.vb</DependentUpon>
+    </Compile>
+    <Compile Include="GraficosConceptos3D.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GraficosPresupuestos.Designer.vb">
+      <DependentUpon>GraficosPresupuestos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="GraficosPresupuestos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GraficosCuentas3D.Designer.vb">
+      <DependentUpon>GraficosCuentas3D.vb</DependentUpon>
+    </Compile>
+    <Compile Include="GraficosCuentas3D.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GraficosFechas3D.Designer.vb">
+      <DependentUpon>GraficosFechas3D.vb</DependentUpon>
+    </Compile>
+    <Compile Include="GraficosFechas3D.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GraficosMeses3D.Designer.vb">
+      <DependentUpon>GraficosMeses3D.vb</DependentUpon>
+    </Compile>
+    <Compile Include="GraficosMeses3D.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GraficosSoloConceptos3D.Designer.vb">
+      <DependentUpon>GraficosSoloConceptos3D.vb</DependentUpon>
+    </Compile>
+    <Compile Include="GraficosSoloConceptos3D.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GraficosSoloConceptos.Designer.vb">
+      <DependentUpon>GraficosSoloConceptos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="GraficosSoloConceptos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GraficosMeses.Designer.vb">
+      <DependentUpon>GraficosMeses.vb</DependentUpon>
+    </Compile>
+    <Compile Include="GraficosMeses.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GraficosFechas.Designer.vb">
+      <DependentUpon>GraficosFechas.vb</DependentUpon>
+    </Compile>
+    <Compile Include="GraficosFechas.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GraficosCuentas.Designer.vb">
+      <DependentUpon>GraficosCuentas.vb</DependentUpon>
+    </Compile>
+    <Compile Include="GraficosCuentas.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GraficosConceptos.Designer.vb">
+      <DependentUpon>GraficosConceptos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="GraficosConceptos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImprimirForm.Designer.vb">
+      <DependentUpon>ImprimirForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ImprimirForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IntroApuntesPeriodicos.Designer.vb">
+      <DependentUpon>IntroApuntesPeriodicos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="IntroApuntesPeriodicos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Module1.vb" />
+    <Compile Include="NuevoTipoCuentaBancaria.Designer.vb">
+      <DependentUpon>NuevoTipoCuentaBancaria.vb</DependentUpon>
+    </Compile>
+    <Compile Include="NuevoTipoCuentaBancaria.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Recursos.ca.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Recursos.ca.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Recursos.de.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Recursos.de.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Recursos.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Recursos.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Recursos.en.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Recursos.en.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Recursos.es.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Recursos.es.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Recursos.fr.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Recursos.fr.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Recursos.pt.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Recursos.pt.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SeleccionDatosGastos.Designer.vb">
+      <DependentUpon>SeleccionDatosGastos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SeleccionDatosGastos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SeleccionDatosIngresos.Designer.vb">
+      <DependentUpon>SeleccionDatosIngresos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SeleccionDatosIngresos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SeleccionFechas.Designer.vb">
+      <DependentUpon>SeleccionFechas.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SeleccionFechas.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TipoCuentasBancarias.Designer.vb">
+      <DependentUpon>TipoCuentasBancarias.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TipoCuentasBancarias.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditarCuentaBancaria.Designer.vb">
+      <DependentUpon>EditarCuentaBancaria.vb</DependentUpon>
+    </Compile>
+    <Compile Include="EditarCuentaBancaria.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditarConceptoContable.Designer.vb">
+      <DependentUpon>EditarConceptoContable.vb</DependentUpon>
+    </Compile>
+    <Compile Include="EditarConceptoContable.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NuevaCuentaBancaria.Designer.vb">
+      <DependentUpon>NuevaCuentaBancaria.vb</DependentUpon>
+    </Compile>
+    <Compile Include="NuevaCuentaBancaria.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NuevoConceptoContable.Designer.vb">
+      <DependentUpon>NuevoConceptoContable.vb</DependentUpon>
+    </Compile>
+    <Compile Include="NuevoConceptoContable.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Preferencias.Designer.vb">
+      <DependentUpon>Preferencias.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Preferencias.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presupuestos.Designer.vb">
+      <DependentUpon>Presupuestos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Presupuestos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CuentasBancarias.Designer.vb">
+      <DependentUpon>CuentasBancarias.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CuentasBancarias.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConceptosContables.Designer.vb">
+      <DependentUpon>ConceptosContables.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ConceptosContables.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Funciones.vb" />
+    <Compile Include="IntroPresupuestos.Designer.vb">
+      <DependentUpon>IntroPresupuestos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="IntroPresupuestos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings.vb" />
+    <Compile Include="TipoGraficoPeriodico.Designer.vb">
+      <DependentUpon>TipoGraficoPeriodico.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TipoGraficoPeriodico.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TipoGrafico.Designer.vb">
+      <DependentUpon>TipoGrafico.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TipoGrafico.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TipoInformeApuntesPeriodicos.Designer.vb">
+      <DependentUpon>TipoInformeApuntesPeriodicos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TipoInformeApuntesPeriodicos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TipoInformeApuntes.Designer.vb">
+      <DependentUpon>TipoInformeApuntes.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TipoInformeApuntes.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TraspasoCuentas.Designer.vb">
+      <DependentUpon>TraspasoCuentas.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TraspasoCuentas.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IntroApuntes.Designer.vb">
+      <DependentUpon>IntroApuntes.vb</DependentUpon>
+    </Compile>
+    <Compile Include="IntroApuntes.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Principal.Designer.vb">
+      <DependentUpon>Principal.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Principal.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SeleccionEjercicio.Designer.vb">
+      <DependentUpon>SeleccionEjercicio.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SeleccionEjercicio.vb">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.9.0.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>packages\Portable.BouncyCastle.1.9.0\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
+      <HintPath>packages\BouncyCastle.Cryptography.2.6.2\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Protobuf, Version=3.34.1.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
+      <HintPath>packages\Google.Protobuf.3.34.1\lib\net45\Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>packages\iTextSharp.5.5.13\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="K4os.Compression.LZ4, Version=1.3.8.0, Culture=neutral, PublicKeyToken=2186fa9121ef231d, processorArchitecture=MSIL">
+      <HintPath>packages\K4os.Compression.LZ4.1.3.8\lib\net462\K4os.Compression.LZ4.dll</HintPath>
+    </Reference>
+    <Reference Include="K4os.Compression.LZ4.Streams, Version=1.3.8.0, Culture=neutral, PublicKeyToken=2186fa9121ef231d, processorArchitecture=MSIL">
+      <HintPath>packages\K4os.Compression.LZ4.Streams.1.3.8\lib\net462\K4os.Compression.LZ4.Streams.dll</HintPath>
+    </Reference>
+    <Reference Include="K4os.Hash.xxHash, Version=1.0.8.0, Culture=neutral, PublicKeyToken=32cd54395057cec3, processorArchitecture=MSIL">
+      <HintPath>packages\K4os.Hash.xxHash.1.0.8\lib\net462\K4os.Hash.xxHash.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=10.0.0.5, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.10.0.5\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=10.0.0.5, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.DependencyInjection.Abstractions.10.0.5\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=10.0.0.5, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.Logging.Abstractions.10.0.5\lib\net462\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Office.Interop.Excel.16.0.18925.20022\lib\net40\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Design, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=23ec7fc2d6eaa4a5, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.SqlServer.Server.1.0.0\lib\net46\Microsoft.SqlServer.Server.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=17.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.SqlServer.Types.170.1000.7\lib\net472\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic.Compatibility" />
+    <Reference Include="Microsoft.VisualBasic.Compatibility.Data" />
+    <Reference Include="Microsoft.VisualStudio.Imaging, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.VisualStudio.Imaging.14.3.25407\lib\net45\Microsoft.VisualStudio.Imaging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Imaging.Interop.14.0.DesignTime, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.VisualStudio.Imaging.Interop.14.0.DesignTime.17.14.40254\lib\net472\Microsoft.VisualStudio.Imaging.Interop.14.0.DesignTime.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Interop, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.VisualStudio.Interop.17.14.40260\lib\net472\Microsoft.VisualStudio.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>packages\Microsoft.VisualStudio.OLE.Interop.7.10.6070\lib\Microsoft.VisualStudio.OLE.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.14.0, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.VisualStudio.Shell.14.0.14.3.25407\lib\Microsoft.VisualStudio.Shell.14.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Immutable.10.0, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.VisualStudio.Shell.Immutable.10.0.10.0.30319\lib\net40\Microsoft.VisualStudio.Shell.Immutable.10.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Immutable.11.0, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.VisualStudio.Shell.Immutable.11.0.11.0.50727\lib\net45\Microsoft.VisualStudio.Shell.Immutable.11.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Immutable.12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.VisualStudio.Shell.Immutable.12.0.12.0.21003\lib\net45\Microsoft.VisualStudio.Shell.Immutable.12.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Immutable.14.0, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.VisualStudio.Shell.Immutable.14.0.14.3.25407\lib\net45\Microsoft.VisualStudio.Shell.Immutable.14.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.VisualStudio.Shell.Interop.17.14.40260\lib\net472\Microsoft.VisualStudio.Shell.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.VisualStudio.Shell.Interop.8.0.17.14.40260\lib\net472\Microsoft.VisualStudio.Shell.Interop.8.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.9.0, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.VisualStudio.Shell.Interop.9.0.17.14.40260\lib\net472\Microsoft.VisualStudio.Shell.Interop.9.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TextManager.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>packages\Microsoft.VisualStudio.TextManager.Interop.7.10.6070\lib\Microsoft.VisualStudio.TextManager.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Threading, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.VisualStudio.Threading.14.1.111\lib\net45\Microsoft.VisualStudio.Threading.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Utilities, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.VisualStudio.Utilities.14.3.25407\lib\net45\Microsoft.VisualStudio.Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Validation, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.VisualStudio.Validation.14.1.111\lib\net45\Microsoft.VisualStudio.Validation.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=9.6.0.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>packages\MySql.Data.9.6.0\lib\net462\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="MySqlBackup, Version=2.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\MySqlBackup.NET.2.7.0\lib\net462\MySqlBackup.dll</HintPath>
+    </Reference>
+    <Reference Include="MySqlConnector, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d33d3e53aa5f8c92, processorArchitecture=MSIL">
+      <HintPath>packages\MySqlConnector.2.5.0\lib\net471\MySqlConnector.dll</HintPath>
+    </Reference>
+    <Reference Include="netstandard" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.ConfigurationManager, Version=10.0.0.5, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Configuration.ConfigurationManager.10.0.5\lib\net462\System.Configuration.ConfigurationManager.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Device" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=10.0.0.5, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Diagnostics.DiagnosticSource.10.0.5\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Pipelines, Version=10.0.0.5, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.IO.Pipelines.10.0.5\lib\net462\System.IO.Pipelines.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Management" />
+    <Reference Include="System.Memory, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Memory.4.6.3\lib\net462\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.NetworkInformation, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Net.NetworkInformation.4.3.0\lib\net46\System.Net.NetworkInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Numerics.Vectors.4.6.1\lib\net462\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.6.1.2\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Threading.Tasks.Extensions.4.6.3\lib\net462\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="ZstdSharp, Version=0.8.7.0, Culture=neutral, PublicKeyToken=8d151af33a4ad5cf, processorArchitecture=MSIL">
+      <HintPath>packages\ZstdSharp.Port.0.8.7\lib\net462\ZstdSharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AcercaDe.ca.resx">
+      <DependentUpon>AcercaDe.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AcercaDe.de.resx">
+      <DependentUpon>AcercaDe.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AcercaDe.en.resx">
+      <DependentUpon>AcercaDe.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AcercaDe.es.resx">
+      <DependentUpon>AcercaDe.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AcercaDe.fr.resx">
+      <DependentUpon>AcercaDe.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AcercaDe.pt.resx">
+      <DependentUpon>AcercaDe.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AcercaDe.resx">
+      <DependentUpon>AcercaDe.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActivarSoftware.ca.resx">
+      <DependentUpon>ActivarSoftware.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActivarSoftware.de.resx">
+      <DependentUpon>ActivarSoftware.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActivarSoftware.en.resx">
+      <DependentUpon>ActivarSoftware.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActivarSoftware.es.resx">
+      <DependentUpon>ActivarSoftware.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActivarSoftware.fr.resx">
+      <DependentUpon>ActivarSoftware.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActivarSoftware.pt.resx">
+      <DependentUpon>ActivarSoftware.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActivarSoftware.resx">
+      <DependentUpon>ActivarSoftware.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AportacionBizum.ca.resx">
+      <DependentUpon>AportacionBizum.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AportacionBizum.de.resx">
+      <DependentUpon>AportacionBizum.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AportacionBizum.en.resx">
+      <DependentUpon>AportacionBizum.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AportacionBizum.es.resx">
+      <DependentUpon>AportacionBizum.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AportacionBizum.fr.resx">
+      <DependentUpon>AportacionBizum.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AportacionBizum.pt.resx">
+      <DependentUpon>AportacionBizum.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AportacionBizum.resx">
+      <DependentUpon>AportacionBizum.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApuntesContables.ca.resx">
+      <DependentUpon>ApuntesContables.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApuntesContables.de.resx">
+      <DependentUpon>ApuntesContables.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApuntesContables.en.resx">
+      <DependentUpon>ApuntesContables.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApuntesContables.es.resx">
+      <DependentUpon>ApuntesContables.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApuntesContables.fr.resx">
+      <DependentUpon>ApuntesContables.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApuntesContables.pt.resx">
+      <DependentUpon>ApuntesContables.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApuntesPeriodicos.ca.resx">
+      <DependentUpon>ApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApuntesPeriodicos.de.resx">
+      <DependentUpon>ApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApuntesPeriodicos.en.resx">
+      <DependentUpon>ApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApuntesPeriodicos.es.resx">
+      <DependentUpon>ApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApuntesPeriodicos.fr.resx">
+      <DependentUpon>ApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApuntesPeriodicos.pt.resx">
+      <DependentUpon>ApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApuntesPeriodicos.resx">
+      <DependentUpon>ApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApuntesContables.resx">
+      <DependentUpon>ApuntesContables.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Buscar.ca.resx">
+      <DependentUpon>Buscar.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Buscar.de.resx">
+      <DependentUpon>Buscar.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Buscar.en.resx">
+      <DependentUpon>Buscar.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Buscar.es.resx">
+      <DependentUpon>Buscar.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Buscar.fr.resx">
+      <DependentUpon>Buscar.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Buscar.pt.resx">
+      <DependentUpon>Buscar.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Buscar.resx">
+      <DependentUpon>Buscar.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConceptosContables.ca.resx">
+      <DependentUpon>ConceptosContables.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConceptosContables.de.resx">
+      <DependentUpon>ConceptosContables.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConceptosContables.en.resx">
+      <DependentUpon>ConceptosContables.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConceptosContables.es.resx">
+      <DependentUpon>ConceptosContables.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConceptosContables.fr.resx">
+      <DependentUpon>ConceptosContables.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConceptosContables.pt.resx">
+      <DependentUpon>ConceptosContables.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CuentasBancarias.ca.resx">
+      <DependentUpon>CuentasBancarias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CuentasBancarias.de.resx">
+      <DependentUpon>CuentasBancarias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CuentasBancarias.en.resx">
+      <DependentUpon>CuentasBancarias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CuentasBancarias.es.resx">
+      <DependentUpon>CuentasBancarias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CuentasBancarias.fr.resx">
+      <DependentUpon>CuentasBancarias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CuentasBancarias.pt.resx">
+      <DependentUpon>CuentasBancarias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarApuntes.ca.resx">
+      <DependentUpon>EditarApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarApuntes.de.resx">
+      <DependentUpon>EditarApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarApuntes.en.resx">
+      <DependentUpon>EditarApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarApuntes.es.resx">
+      <DependentUpon>EditarApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarApuntes.fr.resx">
+      <DependentUpon>EditarApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarApuntes.pt.resx">
+      <DependentUpon>EditarApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarApuntesPeriodicos.ca.resx">
+      <DependentUpon>EditarApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarApuntesPeriodicos.de.resx">
+      <DependentUpon>EditarApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarApuntesPeriodicos.en.resx">
+      <DependentUpon>EditarApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarApuntesPeriodicos.es.resx">
+      <DependentUpon>EditarApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarApuntesPeriodicos.fr.resx">
+      <DependentUpon>EditarApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarApuntesPeriodicos.pt.resx">
+      <DependentUpon>EditarApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarApuntesPeriodicos.resx">
+      <DependentUpon>EditarApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarConceptoContable.ca.resx">
+      <DependentUpon>EditarConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarConceptoContable.de.resx">
+      <DependentUpon>EditarConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarConceptoContable.en.resx">
+      <DependentUpon>EditarConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarConceptoContable.es.resx">
+      <DependentUpon>EditarConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarConceptoContable.fr.resx">
+      <DependentUpon>EditarConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarConceptoContable.pt.resx">
+      <DependentUpon>EditarConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarCuentaBancaria.ca.resx">
+      <DependentUpon>EditarCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarCuentaBancaria.de.resx">
+      <DependentUpon>EditarCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarCuentaBancaria.en.resx">
+      <DependentUpon>EditarCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarCuentaBancaria.es.resx">
+      <DependentUpon>EditarCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarCuentaBancaria.fr.resx">
+      <DependentUpon>EditarCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarCuentaBancaria.pt.resx">
+      <DependentUpon>EditarCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarTipoCuentaBancaria.ca.resx">
+      <DependentUpon>EditarTipoCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarTipoCuentaBancaria.de.resx">
+      <DependentUpon>EditarTipoCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarTipoCuentaBancaria.en.resx">
+      <DependentUpon>EditarTipoCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarTipoCuentaBancaria.es.resx">
+      <DependentUpon>EditarTipoCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarTipoCuentaBancaria.fr.resx">
+      <DependentUpon>EditarTipoCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarTipoCuentaBancaria.pt.resx">
+      <DependentUpon>EditarTipoCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarTipoCuentaBancaria.resx">
+      <DependentUpon>EditarTipoCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarApuntes.resx">
+      <DependentUpon>EditarApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FiltroF5.ca.resx">
+      <DependentUpon>FiltroF5.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FiltroF5.de.resx">
+      <DependentUpon>FiltroF5.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FiltroF5.en.resx">
+      <DependentUpon>FiltroF5.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FiltroF5.es.resx">
+      <DependentUpon>FiltroF5.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FiltroF5.fr.resx">
+      <DependentUpon>FiltroF5.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FiltroF5.pt.resx">
+      <DependentUpon>FiltroF5.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FiltroF5.resx">
+      <DependentUpon>FiltroF5.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosConceptos.ca.resx">
+      <DependentUpon>GraficosConceptos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosConceptos.de.resx">
+      <DependentUpon>GraficosConceptos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosConceptos.en.resx">
+      <DependentUpon>GraficosConceptos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosConceptos.es.resx">
+      <DependentUpon>GraficosConceptos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosConceptos.fr.resx">
+      <DependentUpon>GraficosConceptos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosConceptos.pt.resx">
+      <DependentUpon>GraficosConceptos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosConceptos3D.ca.resx">
+      <DependentUpon>GraficosConceptos3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosConceptos3D.de.resx">
+      <DependentUpon>GraficosConceptos3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosConceptos3D.en.resx">
+      <DependentUpon>GraficosConceptos3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosConceptos3D.es.resx">
+      <DependentUpon>GraficosConceptos3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosConceptos3D.fr.resx">
+      <DependentUpon>GraficosConceptos3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosConceptos3D.pt.resx">
+      <DependentUpon>GraficosConceptos3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosConceptos3D.resx">
+      <DependentUpon>GraficosConceptos3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosCuentas.ca.resx">
+      <DependentUpon>GraficosCuentas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosCuentas.de.resx">
+      <DependentUpon>GraficosCuentas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosCuentas.en.resx">
+      <DependentUpon>GraficosCuentas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosCuentas.es.resx">
+      <DependentUpon>GraficosCuentas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosCuentas.fr.resx">
+      <DependentUpon>GraficosCuentas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosCuentas.pt.resx">
+      <DependentUpon>GraficosCuentas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosCuentas3D.ca.resx">
+      <DependentUpon>GraficosCuentas3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosCuentas3D.de.resx">
+      <DependentUpon>GraficosCuentas3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosCuentas3D.en.resx">
+      <DependentUpon>GraficosCuentas3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosCuentas3D.es.resx">
+      <DependentUpon>GraficosCuentas3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosCuentas3D.fr.resx">
+      <DependentUpon>GraficosCuentas3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosCuentas3D.pt.resx">
+      <DependentUpon>GraficosCuentas3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosFechas.ca.resx">
+      <DependentUpon>GraficosFechas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosFechas.de.resx">
+      <DependentUpon>GraficosFechas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosFechas.en.resx">
+      <DependentUpon>GraficosFechas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosFechas.es.resx">
+      <DependentUpon>GraficosFechas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosFechas.fr.resx">
+      <DependentUpon>GraficosFechas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosFechas.pt.resx">
+      <DependentUpon>GraficosFechas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosFechas3D.ca.resx">
+      <DependentUpon>GraficosFechas3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosFechas3D.de.resx">
+      <DependentUpon>GraficosFechas3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosFechas3D.en.resx">
+      <DependentUpon>GraficosFechas3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosFechas3D.es.resx">
+      <DependentUpon>GraficosFechas3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosFechas3D.fr.resx">
+      <DependentUpon>GraficosFechas3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosFechas3D.pt.resx">
+      <DependentUpon>GraficosFechas3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosMeses.ca.resx">
+      <DependentUpon>GraficosMeses.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosMeses.de.resx">
+      <DependentUpon>GraficosMeses.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosMeses.en.resx">
+      <DependentUpon>GraficosMeses.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosMeses.es.resx">
+      <DependentUpon>GraficosMeses.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosMeses.fr.resx">
+      <DependentUpon>GraficosMeses.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosMeses.pt.resx">
+      <DependentUpon>GraficosMeses.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosMeses3D.ca.resx">
+      <DependentUpon>GraficosMeses3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosMeses3D.de.resx">
+      <DependentUpon>GraficosMeses3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosMeses3D.en.resx">
+      <DependentUpon>GraficosMeses3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosMeses3D.es.resx">
+      <DependentUpon>GraficosMeses3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosMeses3D.fr.resx">
+      <DependentUpon>GraficosMeses3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosMeses3D.pt.resx">
+      <DependentUpon>GraficosMeses3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosPresupuestos.ca.resx">
+      <DependentUpon>GraficosPresupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosPresupuestos.de.resx">
+      <DependentUpon>GraficosPresupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosPresupuestos.en.resx">
+      <DependentUpon>GraficosPresupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosPresupuestos.es.resx">
+      <DependentUpon>GraficosPresupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosPresupuestos.fr.resx">
+      <DependentUpon>GraficosPresupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosPresupuestos.pt.resx">
+      <DependentUpon>GraficosPresupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosPresupuestos.resx">
+      <DependentUpon>GraficosPresupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosCuentas3D.resx">
+      <DependentUpon>GraficosCuentas3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosFechas3D.resx">
+      <DependentUpon>GraficosFechas3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosMeses3D.resx">
+      <DependentUpon>GraficosMeses3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosSoloConceptos.ca.resx">
+      <DependentUpon>GraficosSoloConceptos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosSoloConceptos.de.resx">
+      <DependentUpon>GraficosSoloConceptos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosSoloConceptos.en.resx">
+      <DependentUpon>GraficosSoloConceptos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosSoloConceptos.es.resx">
+      <DependentUpon>GraficosSoloConceptos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosSoloConceptos.fr.resx">
+      <DependentUpon>GraficosSoloConceptos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosSoloConceptos.pt.resx">
+      <DependentUpon>GraficosSoloConceptos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosSoloConceptos3D.ca.resx">
+      <DependentUpon>GraficosSoloConceptos3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosSoloConceptos3D.de.resx">
+      <DependentUpon>GraficosSoloConceptos3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosSoloConceptos3D.en.resx">
+      <DependentUpon>GraficosSoloConceptos3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosSoloConceptos3D.es.resx">
+      <DependentUpon>GraficosSoloConceptos3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosSoloConceptos3D.fr.resx">
+      <DependentUpon>GraficosSoloConceptos3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosSoloConceptos3D.pt.resx">
+      <DependentUpon>GraficosSoloConceptos3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosSoloConceptos3D.resx">
+      <DependentUpon>GraficosSoloConceptos3D.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosSoloConceptos.resx">
+      <DependentUpon>GraficosSoloConceptos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosMeses.resx">
+      <DependentUpon>GraficosMeses.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosFechas.resx">
+      <DependentUpon>GraficosFechas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosCuentas.resx">
+      <DependentUpon>GraficosCuentas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosConceptos.resx">
+      <DependentUpon>GraficosConceptos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImprimirForm.resx">
+      <DependentUpon>ImprimirForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroApuntes.ca.resx">
+      <DependentUpon>IntroApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroApuntes.de.resx">
+      <DependentUpon>IntroApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroApuntes.en.resx">
+      <DependentUpon>IntroApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroApuntes.es.resx">
+      <DependentUpon>IntroApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroApuntes.fr.resx">
+      <DependentUpon>IntroApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroApuntes.pt.resx">
+      <DependentUpon>IntroApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroApuntesPeriodicos.ca.resx">
+      <DependentUpon>IntroApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroApuntesPeriodicos.de.resx">
+      <DependentUpon>IntroApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroApuntesPeriodicos.en.resx">
+      <DependentUpon>IntroApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroApuntesPeriodicos.es.resx">
+      <DependentUpon>IntroApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroApuntesPeriodicos.fr.resx">
+      <DependentUpon>IntroApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroApuntesPeriodicos.pt.resx">
+      <DependentUpon>IntroApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroApuntesPeriodicos.resx">
+      <DependentUpon>IntroApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroPresupuestos.ca.resx">
+      <DependentUpon>IntroPresupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroPresupuestos.de.resx">
+      <DependentUpon>IntroPresupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroPresupuestos.en.resx">
+      <DependentUpon>IntroPresupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroPresupuestos.es.resx">
+      <DependentUpon>IntroPresupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroPresupuestos.fr.resx">
+      <DependentUpon>IntroPresupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroPresupuestos.pt.resx">
+      <DependentUpon>IntroPresupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevaCuentaBancaria.ca.resx">
+      <DependentUpon>NuevaCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevaCuentaBancaria.de.resx">
+      <DependentUpon>NuevaCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevaCuentaBancaria.en.resx">
+      <DependentUpon>NuevaCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevaCuentaBancaria.es.resx">
+      <DependentUpon>NuevaCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevaCuentaBancaria.fr.resx">
+      <DependentUpon>NuevaCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevaCuentaBancaria.pt.resx">
+      <DependentUpon>NuevaCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevoConceptoContable.ca.resx">
+      <DependentUpon>NuevoConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevoConceptoContable.de.resx">
+      <DependentUpon>NuevoConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevoConceptoContable.en.resx">
+      <DependentUpon>NuevoConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevoConceptoContable.es.resx">
+      <DependentUpon>NuevoConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevoConceptoContable.fr.resx">
+      <DependentUpon>NuevoConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevoConceptoContable.pt.resx">
+      <DependentUpon>NuevoConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevoTipoCuentaBancaria.ca.resx">
+      <DependentUpon>NuevoTipoCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevoTipoCuentaBancaria.de.resx">
+      <DependentUpon>NuevoTipoCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevoTipoCuentaBancaria.en.resx">
+      <DependentUpon>NuevoTipoCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevoTipoCuentaBancaria.es.resx">
+      <DependentUpon>NuevoTipoCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevoTipoCuentaBancaria.fr.resx">
+      <DependentUpon>NuevoTipoCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevoTipoCuentaBancaria.pt.resx">
+      <DependentUpon>NuevoTipoCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevoTipoCuentaBancaria.resx">
+      <DependentUpon>NuevoTipoCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Preferencias.ca.resx">
+      <DependentUpon>Preferencias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Preferencias.de.resx">
+      <DependentUpon>Preferencias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Preferencias.en.resx">
+      <DependentUpon>Preferencias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Preferencias.es.resx">
+      <DependentUpon>Preferencias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Preferencias.fr.resx">
+      <DependentUpon>Preferencias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Preferencias.pt.resx">
+      <DependentUpon>Preferencias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presupuestos.ca.resx">
+      <DependentUpon>Presupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presupuestos.de.resx">
+      <DependentUpon>Presupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presupuestos.en.resx">
+      <DependentUpon>Presupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presupuestos.es.resx">
+      <DependentUpon>Presupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presupuestos.fr.resx">
+      <DependentUpon>Presupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presupuestos.pt.resx">
+      <DependentUpon>Presupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Principal.ca.resx">
+      <DependentUpon>Principal.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Principal.de.resx">
+      <DependentUpon>Principal.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Principal.en.resx">
+      <DependentUpon>Principal.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Principal.es.resx">
+      <DependentUpon>Principal.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Principal.fr.resx">
+      <DependentUpon>Principal.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Principal.pt.resx">
+      <DependentUpon>Principal.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Recursos.ca.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Recursos.ca.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Recursos.de.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Recursos.de.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Recursos.en.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Recursos.en.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Recursos.es.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Recursos.es.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Recursos.fr.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Recursos.fr.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Recursos.pt.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Recursos.pt.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Recursos.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Recursos.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionDatosGastos.ca.resx">
+      <DependentUpon>SeleccionDatosGastos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionDatosGastos.de.resx">
+      <DependentUpon>SeleccionDatosGastos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionDatosGastos.en.resx">
+      <DependentUpon>SeleccionDatosGastos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionDatosGastos.es.resx">
+      <DependentUpon>SeleccionDatosGastos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionDatosGastos.fr.resx">
+      <DependentUpon>SeleccionDatosGastos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionDatosGastos.pt.resx">
+      <DependentUpon>SeleccionDatosGastos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionDatosGastos.resx">
+      <DependentUpon>SeleccionDatosGastos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionDatosIngresos.ca.resx">
+      <DependentUpon>SeleccionDatosIngresos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionDatosIngresos.de.resx">
+      <DependentUpon>SeleccionDatosIngresos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionDatosIngresos.en.resx">
+      <DependentUpon>SeleccionDatosIngresos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionDatosIngresos.es.resx">
+      <DependentUpon>SeleccionDatosIngresos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionDatosIngresos.fr.resx">
+      <DependentUpon>SeleccionDatosIngresos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionDatosIngresos.pt.resx">
+      <DependentUpon>SeleccionDatosIngresos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionDatosIngresos.resx">
+      <DependentUpon>SeleccionDatosIngresos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionEjercicio.ca.resx">
+      <DependentUpon>SeleccionEjercicio.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionEjercicio.de.resx">
+      <DependentUpon>SeleccionEjercicio.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionEjercicio.en.resx">
+      <DependentUpon>SeleccionEjercicio.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionEjercicio.es.resx">
+      <DependentUpon>SeleccionEjercicio.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionEjercicio.fr.resx">
+      <DependentUpon>SeleccionEjercicio.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionEjercicio.pt.resx">
+      <DependentUpon>SeleccionEjercicio.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionFechas.ca.resx">
+      <DependentUpon>SeleccionFechas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionFechas.de.resx">
+      <DependentUpon>SeleccionFechas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionFechas.en.resx">
+      <DependentUpon>SeleccionFechas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionFechas.es.resx">
+      <DependentUpon>SeleccionFechas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionFechas.fr.resx">
+      <DependentUpon>SeleccionFechas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionFechas.pt.resx">
+      <DependentUpon>SeleccionFechas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionFechas.resx">
+      <DependentUpon>SeleccionFechas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoCuentasBancarias.ca.resx">
+      <DependentUpon>TipoCuentasBancarias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoCuentasBancarias.de.resx">
+      <DependentUpon>TipoCuentasBancarias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoCuentasBancarias.en.resx">
+      <DependentUpon>TipoCuentasBancarias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoCuentasBancarias.es.resx">
+      <DependentUpon>TipoCuentasBancarias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoCuentasBancarias.fr.resx">
+      <DependentUpon>TipoCuentasBancarias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoCuentasBancarias.pt.resx">
+      <DependentUpon>TipoCuentasBancarias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoCuentasBancarias.resx">
+      <DependentUpon>TipoCuentasBancarias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarCuentaBancaria.resx">
+      <DependentUpon>EditarCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarConceptoContable.resx">
+      <DependentUpon>EditarConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevaCuentaBancaria.resx">
+      <DependentUpon>NuevaCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevoConceptoContable.resx">
+      <DependentUpon>NuevoConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Preferencias.resx">
+      <DependentUpon>Preferencias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presupuestos.resx">
+      <DependentUpon>Presupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CuentasBancarias.resx">
+      <DependentUpon>CuentasBancarias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConceptosContables.resx">
+      <DependentUpon>ConceptosContables.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroPresupuestos.resx">
+      <DependentUpon>IntroPresupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoGrafico.ca.resx">
+      <DependentUpon>TipoGrafico.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoGrafico.de.resx">
+      <DependentUpon>TipoGrafico.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoGrafico.en.resx">
+      <DependentUpon>TipoGrafico.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoGrafico.es.resx">
+      <DependentUpon>TipoGrafico.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoGrafico.fr.resx">
+      <DependentUpon>TipoGrafico.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoGrafico.pt.resx">
+      <DependentUpon>TipoGrafico.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoGraficoPeriodico.ca.resx">
+      <DependentUpon>TipoGraficoPeriodico.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoGraficoPeriodico.de.resx">
+      <DependentUpon>TipoGraficoPeriodico.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoGraficoPeriodico.en.resx">
+      <DependentUpon>TipoGraficoPeriodico.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoGraficoPeriodico.es.resx">
+      <DependentUpon>TipoGraficoPeriodico.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoGraficoPeriodico.fr.resx">
+      <DependentUpon>TipoGraficoPeriodico.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoGraficoPeriodico.pt.resx">
+      <DependentUpon>TipoGraficoPeriodico.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoGraficoPeriodico.resx">
+      <DependentUpon>TipoGraficoPeriodico.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoGrafico.resx">
+      <DependentUpon>TipoGrafico.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoInformeApuntes.ca.resx">
+      <DependentUpon>TipoInformeApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoInformeApuntes.de.resx">
+      <DependentUpon>TipoInformeApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoInformeApuntes.en.resx">
+      <DependentUpon>TipoInformeApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoInformeApuntes.es.resx">
+      <DependentUpon>TipoInformeApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoInformeApuntes.fr.resx">
+      <DependentUpon>TipoInformeApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoInformeApuntes.pt.resx">
+      <DependentUpon>TipoInformeApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoInformeApuntesPeriodicos.ca.resx">
+      <DependentUpon>TipoInformeApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoInformeApuntesPeriodicos.de.resx">
+      <DependentUpon>TipoInformeApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoInformeApuntesPeriodicos.en.resx">
+      <DependentUpon>TipoInformeApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoInformeApuntesPeriodicos.es.resx">
+      <DependentUpon>TipoInformeApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoInformeApuntesPeriodicos.fr.resx">
+      <DependentUpon>TipoInformeApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoInformeApuntesPeriodicos.pt.resx">
+      <DependentUpon>TipoInformeApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoInformeApuntesPeriodicos.resx">
+      <DependentUpon>TipoInformeApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoInformeApuntes.resx">
+      <DependentUpon>TipoInformeApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TraspasoCuentas.ca.resx">
+      <DependentUpon>TraspasoCuentas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TraspasoCuentas.de.resx">
+      <DependentUpon>TraspasoCuentas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TraspasoCuentas.en.resx">
+      <DependentUpon>TraspasoCuentas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TraspasoCuentas.es.resx">
+      <DependentUpon>TraspasoCuentas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TraspasoCuentas.fr.resx">
+      <DependentUpon>TraspasoCuentas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TraspasoCuentas.pt.resx">
+      <DependentUpon>TraspasoCuentas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TraspasoCuentas.resx">
+      <DependentUpon>TraspasoCuentas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroApuntes.resx">
+      <DependentUpon>IntroApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Principal.resx">
+      <DependentUpon>Principal.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionEjercicio.resx">
+      <DependentUpon>SeleccionEjercicio.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CuentaHogar.ico" />
+    <Content Include="HogarMdb.ico" />
+    <Content Include="Logo ContaHogar.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="ADODB">
+      <Guid>{2A75196C-D9EB-4129-B803-931327F72D5C}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="JRO">
+      <Guid>{AC3B8B4C-B6CA-11D1-9F31-00C04FC29D52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>6</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\Microsoft.SqlServer.Types.170.1000.7\build\net472\Microsoft.SqlServer.Types.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.SqlServer.Types.170.1000.7\build\net472\Microsoft.SqlServer.Types.props'))" />
+  </Target>
+</Project>

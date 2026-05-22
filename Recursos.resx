@@ -1,0 +1,395 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Exercici" xml:space="preserve">
+    <value>Ejercicio</value>
+  </data>
+  <data name="RegistroApuntePeriódicoBorrado" xml:space="preserve">
+    <value>Registro Apunte Periódico, Borrado !!!</value>
+  </data>
+  <data name="TitolApp" xml:space="preserve">
+    <value>ContaHogar 3.0</value>
+  </data>
+  <data name="Versio" xml:space="preserve">
+    <value>Versión</value>
+  </data>
+  <data name="ToolTipAplicarFiltro" xml:space="preserve">
+    <value>Aplica el filtro a los Registros</value>
+  </data>
+  <data name="ToolTipQuitarFiltro" xml:space="preserve">
+    <value>Quitar el filtro a los Registros</value>
+  </data>
+  <data name="ToolTipAñadir" xml:space="preserve">
+    <value>Añadir Registro</value>
+  </data>
+  <data name="ToolTipEditar" xml:space="preserve">
+    <value>Editar Registro</value>
+  </data>
+  <data name="ToolTipEliminar" xml:space="preserve">
+    <value>Eliminar Registro</value>
+  </data>
+  <data name="ToolTipTraspasar" xml:space="preserve">
+    <value>Traspasar de una Cuenta a Otra</value>
+  </data>
+  <data name="ToolTipBuscar" xml:space="preserve">
+    <value>Buscar Registro</value>
+  </data>
+  <data name="ToolTipImprimir" xml:space="preserve">
+    <value>Imprimir</value>
+  </data>
+  <data name="ToolTipSeguirBuscando" xml:space="preserve">
+    <value>Pulsar para Seguir Buscando o F3</value>
+  </data>
+  <data name="ToolTipGraficos" xml:space="preserve">
+    <value>Mostrar Gráficos</value>
+  </data>
+  <data name="ToolTipCalculadora" xml:space="preserve">
+    <value>Activar la Calculadora</value>
+  </data>
+  <data name="ToolTipSalir" xml:space="preserve">
+    <value>Salir/Cerrar Ventana</value>
+  </data>
+  <data name="ToolTipPrimero" xml:space="preserve">
+    <value>Ir al Primer Registro</value>
+  </data>
+  <data name="ToolTipAnterior" xml:space="preserve">
+    <value>Ir al Anterior Registro</value>
+  </data>
+  <data name="ToolTipSiguiente" xml:space="preserve">
+    <value>Ir al Siguiente Registro</value>
+  </data>
+  <data name="ToolTipUltimo" xml:space="preserve">
+    <value>Ir al Ultimo Registro</value>
+  </data>
+  <data name="ToolTipEliminaSeleccion" xml:space="preserve">
+    <value>Suprimir las Filas Seleccionadas de la Parrilla
+No se Eliminan de la Base de Datos</value>
+  </data>
+  <data name="ToolTipChekedList" xml:space="preserve">
+    <value>Abrir listado de Conceptos para múltiple selección</value>
+  </data>
+  <data name="ToolTipLabelApuntes" xml:space="preserve">
+    <value>Con Tecla Suprimir: Elimina filas seleccionadas
+Con F5: Filtra por Descripción
+Con F6: Refresca la Parrilla Apuntes y Quita Filtros</value>
+  </data>
+  <data name="ToolTipListBox" xml:space="preserve">
+    <value>Con Tecla Esc: Cerrar Listado</value>
+  </data>
+  <data name="ToolTipFechas" xml:space="preserve">
+    <value>Activar o Desactivar Acceso a Fechas anteriores al Ejercicio Actual</value>
+  </data>
+  <data name="ToolTipF5" xml:space="preserve">
+    <value>Filtra por Descripción</value>
+  </data>
+  <data name="ToolTipF6" xml:space="preserve">
+    <value>Refrescar la Parrilla Apuntes y Quitar Filtros</value>
+  </data>
+  <data name="ToolTipExcel" xml:space="preserve">
+    <value>Exportar Apuntes a Excel</value>
+  </data>
+  <data name="ToolTipAumentar" xml:space="preserve">
+    <value>Aumentar tamaño de fuente</value>
+  </data>
+  <data name="ToolTipNormal" xml:space="preserve">
+    <value>Restaurar tamaño de fuente</value>
+  </data>
+  <data name="MsgErrorFecha" xml:space="preserve">
+    <value>Formato de fecha no válido</value>
+  </data>
+  <data name="MsgAviso1" xml:space="preserve">
+    <value>Hay Conceptos Varios, Seleccionados.
+Filtrar Primero por Cuentas y Fechas,
+después por Conceptos Varios</value>
+  </data>
+  <data name="MsgText1" xml:space="preserve">
+    <value>Aviso de Filtros</value>
+  </data>
+  <data name="MsgSaldos1" xml:space="preserve">
+    <value>Los Saldos iniciales, NO se pueden Borrar</value>
+  </data>
+  <data name="MsgEspera" xml:space="preserve">
+    <value>En Espera ...</value>
+  </data>
+  <data name="MsgSaldos2" xml:space="preserve">
+    <value>Los Saldos iniciales, NO se pueden Editar</value>
+  </data>
+  <data name="MsgDatos1" xml:space="preserve">
+    <value>No hay ninguna Coincidencia con los datos Introducidos</value>
+  </data>
+  <data name="MsgDatos2" xml:space="preserve">
+    <value>No hay más Registros que Coincidan con los datos Introducidos</value>
+  </data>
+  <data name="MsgFila1" xml:space="preserve">
+    <value>Fila Primera Seleccionada</value>
+  </data>
+  <data name="MsgFila2" xml:space="preserve">
+    <value>Fila Ultima Seleccionada</value>
+  </data>
+  <data name="MsgText2" xml:space="preserve">
+    <value>Introducción de Apuntes</value>
+  </data>
+  <data name="MsgText3" xml:space="preserve">
+    <value>Varios Conceptos Seleccionados</value>
+  </data>
+  <data name="MsgText4" xml:space="preserve">
+    <value>VARIOS CONCEPTOS</value>
+  </data>
+  <data name="LblAvisoActivacion" xml:space="preserve">
+    <value>"Software en Modo Demo. Por favor active el software para quitar esta advertencia."</value>
+  </data>
+  <data name="SeCrearaEjercicio" xml:space="preserve">
+    <value>se creará ejercicio</value>
+  </data>
+  <data name="NoExistenRegistros" xml:space="preserve">
+    <value>No existen registros del</value>
+  </data>
+  <data name="CreadoCorrectamente" xml:space="preserve">
+    <value>creado correctamente</value>
+  </data>
+  <data name="ErrorAlCrearEjercicio" xml:space="preserve">
+    <value>Error al crear el ejercicio</value>
+  </data>
+  <data name="ErrorAlBuscarEjercicio" xml:space="preserve">
+    <value>Error al buscar el ejercicio</value>
+  </data>
+  <data name="VersionInstalada" xml:space="preserve">
+    <value>Versión Instalada:</value>
+  </data>
+  <data name="VersionDisponible" xml:space="preserve">
+    <value>Versión disponible:</value>
+  </data>
+  <data name="ErrorAlEliminarSaldo" xml:space="preserve">
+    <value>Error al eliminar los registros SALDO del Ejercicio</value>
+  </data>
+  <data name="VerApuntes" xml:space="preserve">
+    <value>Ver Apuntes</value>
+  </data>
+  <data name="IntroducirApuntes" xml:space="preserve">
+    <value>Introducción de Apuntes</value>
+  </data>
+  <data name="TraspasoCuentas" xml:space="preserve">
+    <value>Traspaso entre Cuentas</value>
+  </data>
+  <data name="ApuntesPeriodicos" xml:space="preserve">
+    <value>Apuntes Periódicos</value>
+  </data>
+  <data name="Filtrado" xml:space="preserve">
+    <value>(Filtrado)</value>
+  </data>
+  <data name="SinFiltrar" xml:space="preserve">
+    <value>(Sin Filtrar)</value>
+  </data>
+  <data name="TodosLosCampos" xml:space="preserve">
+    <value>Todos los Campos</value>
+  </data>
+  <data name="CON" xml:space="preserve">
+    <value>CON</value>
+  </data>
+  <data name="NoHayCoincidencia" xml:space="preserve">
+    <value>No hay ninguna Coincidencia con los datos Introducidos</value>
+  </data>
+  <data name="NoHayMasCoincidencias" xml:space="preserve">
+    <value>No hay más Registros que Coincidencian con los datos Introducidos</value>
+  </data>
+  <data name="ListadoConceptosContablesFiltrado" xml:space="preserve">
+    <value>Listado de Conceptos Contables. Filtrado por:</value>
+  </data>
+  <data name="ListadoConceptosContables" xml:space="preserve">
+    <value>Listado de Conceptos Contables.</value>
+  </data>
+  <data name="Tipo" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="Codigo" xml:space="preserve">
+    <value>Código</value>
+  </data>
+  <data name="Descripcion" xml:space="preserve">
+    <value>Descripción</value>
+  </data>
+  <data name="Notas" xml:space="preserve">
+    <value>Notas</value>
+  </data>
+  <data name="Tipo_Gasto" xml:space="preserve">
+    <value>GASTO</value>
+  </data>
+  <data name="Tipo_Ingreso" xml:space="preserve">
+    <value>INGRESO</value>
+  </data>
+  <data name="Tipo_Especial" xml:space="preserve">
+    <value>ESPECIAL</value>
+  </data>
+  <data name="Concepto_No_Editable" xml:space="preserve">
+    <value>Este Concepto No es Editable, pertenece al Sistema</value>
+  </data>
+  <data name="Tipo_Traspaso" xml:space="preserve">
+    <value>TRASPASO</value>
+  </data>
+  <data name="Concepto_Contable" xml:space="preserve">
+    <value>Concepto Contable</value>
+  </data>
+  <data name="Todos_Los_Campos" xml:space="preserve">
+    <value>Todos los Campos</value>
+  </data>
+  <data name="ToolTipAceptar" xml:space="preserve">
+    <value>Aceptar y Salir</value>
+  </data>
+  <data name="ToolTipCancelar" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="ToolTipTipoConcepto" xml:space="preserve">
+    <value>Seleccionar el Tipo de Concepto</value>
+  </data>
+  <data name="ToolTipDescripcion" xml:space="preserve">
+    <value>Descripción del Concepto</value>
+  </data>
+  <data name="ErrorModificarRegistro" xml:space="preserve">
+    <value>Error al Modificar el Registro</value>
+  </data>
+  <data name="EliminarConcepto" xml:space="preserve">
+    <value>¿Estás seguro de Eliminar el Concepto Contable</value>
+  </data>
+  <data name="EliminarConcepto2" xml:space="preserve">
+    <value>y todos sus Apuntes de Todos los Ejercicios?.</value>
+  </data>
+  <data name="EliminarConcepto3" xml:space="preserve">
+    <value>Registro Concepto Contable, Borrado !!</value>
+  </data>
+  <data name="EliminarConcepto4" xml:space="preserve">
+    <value>Error al Eliminar el Registro del Concepto Contable</value>
+  </data>
+  <data name="EliminarApuntes" xml:space="preserve">
+    <value>Apuntes, Borrados !!</value>
+  </data>
+  <data name="EliminarApuntesError" xml:space="preserve">
+    <value>Error al Eliminar los Apuntes relacionados con el Concepto Contable</value>
+  </data>
+  <data name="EliminarApuntesPeriodicos" xml:space="preserve">
+    <value>Apuntes Periódicos, Borrados !!</value>
+  </data>
+  <data name="EliminarApuntesPeriodicosError" xml:space="preserve">
+    <value>Error al Eliminar los Apuntes Periódicos relacionados con el Concepto Contable</value>
+  </data>
+  <data name="EliminarPresupuestos" xml:space="preserve">
+    <value>Presupuestos, Borrados !!</value>
+  </data>
+  <data name="EliminarPresupuestosError" xml:space="preserve">
+    <value>Error al Eliminar los Presupuestos relacionados con el Concepto Contable</value>
+  </data>
+</root>
