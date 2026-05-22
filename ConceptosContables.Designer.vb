@@ -50,7 +50,7 @@ Partial Class ConceptosContables
         Me.PrintDialog1 = New System.Windows.Forms.PrintDialog()
         Me.PrintDocument1 = New System.Drawing.Printing.PrintDocument()
         Me.PrintPreviewDialog1 = New System.Windows.Forms.PrintPreviewDialog()
-        Me.LblCuentas = New System.Windows.Forms.Label()
+        Me.LblConceptos = New System.Windows.Forms.Label()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -237,16 +237,16 @@ Partial Class ConceptosContables
         resources.ApplyResources(Me.PrintPreviewDialog1, "PrintPreviewDialog1")
         Me.PrintPreviewDialog1.Name = "PrintPreviewDialog1"
         '
-        'LblCuentas
+        'LblConceptos
         '
-        resources.ApplyResources(Me.LblCuentas, "LblCuentas")
-        Me.LblCuentas.Name = "LblCuentas"
+        resources.ApplyResources(Me.LblConceptos, "LblConceptos")
+        Me.LblConceptos.Name = "LblConceptos"
         '
         'ConceptosContables
         '
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.Controls.Add(Me.LblCuentas)
+        Me.Controls.Add(Me.LblConceptos)
         Me.Controls.Add(Me.GroupBox8)
         Me.Controls.Add(Me.DgvConceptos)
         Me.Controls.Add(Me.GroupBox4)
@@ -297,5 +297,5 @@ Partial Class ConceptosContables
     Friend WithEvents PrintDialog1 As Windows.Forms.PrintDialog
     Friend WithEvents PrintDocument1 As Drawing.Printing.PrintDocument
     Friend WithEvents PrintPreviewDialog1 As Windows.Forms.PrintPreviewDialog
-    Friend WithEvents LblCuentas As Windows.Forms.Label
+    Friend WithEvents LblConceptos As Windows.Forms.Label
 End Class

@@ -223,26 +223,26 @@ Public Class Principal
         'Buscamos Ejercicio
         '******************
         vAñoActual = Date.Now.Year
-        cmdMySql1cr.Connection = conexion1
-        cmdMySql1cr.CommandType = CommandType.Text
-        cmdMySql1cr.CommandText = "Select * FROM ejercicios"
-        cmdMySql1cr.CommandText += " WHERE ejercicios.EjercicioEJE = " & vAñoActual.ToString
+        cmdMdb1cr.Connection = conexion1
+        cmdMdb1cr.CommandType = CommandType.Text
+        cmdMdb1cr.CommandText = "Select * FROM ejercicios"
+        cmdMdb1cr.CommandText += " WHERE ejercicios.EjercicioEJE = " & vAñoActual.ToString
         Try
-            drMySql1 = cmdMySql1cr.ExecuteReader()
-            If drMySql1.HasRows Then
-                While drMySql1.Read()
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            If drMdb1.HasRows Then
+                While drMdb1.Read()
                     vAñoEjercicio = vAñoActual
                 End While
                 'MsgBox("Ya Existe registro del " & vAñoActual.ToString)
             Else
                 MsgBox(resManager.GetString("NoExistenRegistros") & " " & vAñoActual.ToString & ", " & resManager.GetString("SeCrearaEjercicio"))
-                drMySql1.Close()
+                drMdb1.Close()
                 tipoSql = "INSERT INTO ejercicios "
                 tipoSql += "(EjercicioEJE) "
                 tipoSql += "VALUES ('" & vAñoActual & "')"
-                cmdMySql1cr.CommandText = tipoSql
+                cmdMdb1cr.CommandText = tipoSql
                 Try
-                    cmdMySql1cr.ExecuteNonQuery()
+                    cmdMdb1cr.ExecuteNonQuery()
                     vAñoEjercicio = vAñoActual
                     MsgBox(resManager.GetString("Exercici") & " " & vAñoActual.ToString & " " & resManager.GetString("CreadoCorrectamente"))
                 Catch ex As Exception
@@ -250,7 +250,7 @@ Public Class Principal
                     MsgBox(ex.ToString)
                 End Try
             End If
-            drMySql1.Close()
+            drMdb1.Close()
         Catch ex As Exception
             MsgBox(resManager.GetString("ErrorAlBuscarEjercicio") & " " & vAñoActual.ToString)
             MsgBox(ex.ToString)
@@ -299,16 +299,16 @@ Public Class Principal
         System.Threading.Thread.Sleep(2500)
 
         'Buscamos si hay un Apunte Periódico que tenga fecha igual o anterior a la fecha de hoy y cuento los que hay.
-        cmdMySql1cr.CommandText = "SELECT * FROM apuper"
-        cmdMySql1cr.CommandText += " WHERE apuper.EjercicioAPP = " & vAñoEjercicio.ToString
-        cmdMySql1cr.CommandText += " ORDER BY apuper.FechaAPP ASC"
+        cmdMdb1cr.CommandText = "SELECT * FROM apuper"
+        cmdMdb1cr.CommandText += " WHERE apuper.EjercicioAPP = " & vAñoEjercicio.ToString
+        cmdMdb1cr.CommandText += " ORDER BY apuper.FechaAPP ASC"
         Try
-            drMySql1 = cmdMySql1cr.ExecuteReader()
-            If drMySql1.HasRows Then
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            If drMdb1.HasRows Then
                 vContador = 0
-                While drMySql1.Read()
+                While drMdb1.Read()
                     ' 1. Obtén la fecha directamente como objeto Date (sin pasar por String)
-                    vDate1 = Convert.ToDateTime(drMySql1.GetValue(1))
+                    vDate1 = Convert.ToDateTime(drMdb1.GetValue(1))
                     ' 2. Asegúrate de que vfechaHoy sea un objeto Date (no String)
                     ' Si ya es Date, úsalo directamente. Si es String, convierte:
                     ' Dim dHoy As Date = Convert.ToDateTime(vfechaHoy)
@@ -319,35 +319,35 @@ Public Class Principal
                     End If
                 End While
             Else
-                'MsgBox("No existen registros en " & cmdMySql1cr.CommandText)
+                'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
             End If
         Catch ex As Exception
             MsgBox("Error al buscar los Apuntes Periódicos del Ejercicio " & vAñoEjercicio.ToString & vbCrLf & ex.ToString)
         End Try
-        drMySql1.Close()
+        drMdb1.Close()
 
         For i = 1 To vContador
-            cmdMySql1cr.CommandText = "SELECT * FROM apuper"
-            cmdMySql1cr.CommandText += " WHERE apuper.EjercicioAPP = " & vAñoEjercicio.ToString
-            cmdMySql1cr.CommandText += " ORDER BY apuper.FechaAPP ASC"
+            cmdMdb1cr.CommandText = "SELECT * FROM apuper"
+            cmdMdb1cr.CommandText += " WHERE apuper.EjercicioAPP = " & vAñoEjercicio.ToString
+            cmdMdb1cr.CommandText += " ORDER BY apuper.FechaAPP ASC"
             Try
-                drMySql1 = cmdMySql1cr.ExecuteReader()
-                If drMySql1.HasRows Then
-                    While drMySql1.Read()
-                        vCodigo = drMySql1.GetValue(0)
-                        vConcepto = drMySql1.GetValue(2).ToString
-                        vDescripcion = ApostrofePorAcentoAgudo(drMySql1.GetValue(3))
-                        vImporte = drMySql1.GetValue(4).ToString
-                        vNotas = drMySql1.GetValue(6).ToString
-                        vCuenta = drMySql1.GetValue(7).ToString
+                drMdb1 = cmdMdb1cr.ExecuteReader()
+                If drMdb1.HasRows Then
+                    While drMdb1.Read()
+                        vCodigo = drMdb1.GetValue(0)
+                        vConcepto = drMdb1.GetValue(2).ToString
+                        vDescripcion = ApostrofePorAcentoAgudo(drMdb1.GetValue(3))
+                        vImporte = drMdb1.GetValue(4).ToString
+                        vNotas = drMdb1.GetValue(6).ToString
+                        vCuenta = drMdb1.GetValue(7).ToString
                         If vDate1 <= DateTime.Today Then
-                            drMySql1.Close()
+                            drMdb1.Close()
                             vAñadirSql = "INSERT INTO apuntes "
                             vAñadirSql += "(FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) "
                             vAñadirSql += "VALUES (#" & vDate1 & "#,'" & vConcepto & "','" & vDescripcion & "','" & vImporte & "','" & vAñoEjercicio & "','" & vNotas & "','" & vCuenta & "')"
-                            cmdMySql1cr.CommandText = vAñadirSql
+                            cmdMdb1cr.CommandText = vAñadirSql
                             Try
-                                cmdMySql1cr.ExecuteNonQuery()
+                                cmdMdb1cr.ExecuteNonQuery()
                                 MsgBox(vDate1 & vbNewLine & vConcepto & "     " & vDescripcion & "     " & vImporte & vbNewLine & "Grabado Correctamente")
                             Catch ex As Exception
                                 MsgBox("Error al insertar el Apunte Periódico con fecha: " & vDate1 & " y concepto: " & vConcepto & " del Ejercicio " & vAñoEjercicio.ToString & vbCrLf & ex.ToString)
@@ -355,9 +355,9 @@ Public Class Principal
                             ' Eliminar Registro Apunte Periódico
                             vtipoSql = "DELETE FROM apuper"
                             vtipoSql += " WHERE apuper.CodigoAPP = " & vCodigo.ToString
-                            cmdMySql1cr.CommandText = vtipoSql
+                            cmdMdb1cr.CommandText = vtipoSql
                             Try
-                                cmdMySql1cr.ExecuteNonQuery()
+                                cmdMdb1cr.ExecuteNonQuery()
                                 MsgBox(resManager.GetString("RegistroApuntePeriódicoBorrado"))
                             Catch ex As Exception
                                 MsgBox("Error al eliminar el Apunte Periódico con fecha: " & vDate1 & " y concepto: " & vConcepto & " del Ejercicio " & vAñoEjercicio.ToString & vbCrLf & ex.ToString)
@@ -366,14 +366,14 @@ Public Class Principal
                         End If
                     End While
                 Else
-                    'MsgBox("No existen registros en " & cmdMySql1cr.CommandText)
+                    'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
                 End If
             Catch ex As Exception
                 MsgBox("Error al buscar los Apuntes Periódicos del Ejercicio " & vAñoEjercicio.ToString & vbCrLf & ex.ToString)
             End Try
-            drMySql1.Close()
+            drMdb1.Close()
         Next
-        drMySql1.Close()
+        drMdb1.Close()
 
         ' Traducimos este formulario
         ActualizarTextosFormulario(Me)
@@ -1487,27 +1487,27 @@ Public Class Principal
             respuesta = MsgBox("Se va a Iniciar el Vaciado de la Base de Datos " & vAñoEjercicio.ToString & " ¿Ok?.", vbQuestion + vbYesNo + vbDefaultButton2, "VACIAR Base de Datos: " & vAñoEjercicio.ToString)
             If respuesta = vbYes Then
                 ' Eliminar Registro Apuntes Contables
-                cmdMySql1cr.CommandText = "DELETE FROM apuntes WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+                cmdMdb1cr.CommandText = "DELETE FROM apuntes WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
                 Try
-                    cmdMySql1cr.ExecuteNonQuery()
+                    cmdMdb1cr.ExecuteNonQuery()
                     MsgBox("Apuntes Contables, Vaciado !!!")
                 Catch ex As Exception
                     MsgBox(ex.ToString)
                 End Try
 
                 ' Eliminar Registros Apuntes Periódicos
-                cmdMySql1cr.CommandText = "DELETE FROM apuper WHERE apuper.EjercicioAPP = " & vAñoEjercicio.ToString
+                cmdMdb1cr.CommandText = "DELETE FROM apuper WHERE apuper.EjercicioAPP = " & vAñoEjercicio.ToString
                 Try
-                    cmdMySql1cr.ExecuteNonQuery()
+                    cmdMdb1cr.ExecuteNonQuery()
                     MsgBox("Apuntes Periódicos, Vaciado !!!")
                 Catch ex As Exception
                     MsgBox(ex.ToString)
                 End Try
 
                 ' Eliminar Registros Presupuestos
-                cmdMySql1cr.CommandText = "DELETE FROM presupuesto WHERE presupuesto.EjercicioPRE = " & vAñoEjercicio.ToString
+                cmdMdb1cr.CommandText = "DELETE FROM presupuesto WHERE presupuesto.EjercicioPRE = " & vAñoEjercicio.ToString
                 Try
-                    cmdMySql1cr.ExecuteNonQuery()
+                    cmdMdb1cr.ExecuteNonQuery()
                     MsgBox("Presupuestos, Vaciado !!!")
                 Catch ex As Exception
                     MsgBox(ex.ToString)
@@ -1519,9 +1519,9 @@ Public Class Principal
                 'If respuesta = vbYes Then
                 '    vtipoSql = "DELETE FROM conceptos"
                 '    vtipoSql += " WHERE conceptos.CodigoCON <> 'TRASPASO' "
-                '    cmdMySql1cr.CommandText = vtipoSql
+                '    cmdMdb1cr.CommandText = vtipoSql
                 '    Try
-                '        cmdMySql1cr.ExecuteNonQuery()
+                '        cmdMdb1cr.ExecuteNonQuery()
                 '        MsgBox("Conceptos Contables, Vaciado !!!")
                 '    Catch ex As Exception
                 '        MsgBox(ex.ToString)
@@ -1532,9 +1532,9 @@ Public Class Principal
                 'respuesta = MsgBox("Se Borran Todas las Cuentas Contables de la Base de Datos de TODOS LOS EJERCICOS ¿Ok?.", vbQuestion + vbYesNo + vbDefaultButton2, "VACIAR Base de Datos")
                 'If respuesta = vbYes Then
                 '    vtipoSql = "DELETE FROM cuentas"
-                '    cmdMySql1cr.CommandText = vtipoSql
+                '    cmdMdb1cr.CommandText = vtipoSql
                 '    Try
-                '        cmdMySql1cr.ExecuteNonQuery()
+                '        cmdMdb1cr.ExecuteNonQuery()
                 '        MsgBox("Cuentas Contables, Vaciado !!!")
                 '    Catch ex As Exception
                 '        MsgBox(ex.ToString)
@@ -1543,9 +1543,9 @@ Public Class Principal
 
                 '' Eliminar Registros Ejercicios
                 'vtipoSql = "DELETE FROM ejercicios"
-                'cmdMySql1cr.CommandText = vtipoSql
+                'cmdMdb1cr.CommandText = vtipoSql
                 'Try
-                '    cmdMySql1cr.ExecuteNonQuery()
+                '    cmdMdb1cr.ExecuteNonQuery()
                 '    MsgBox("Ejercicios, Vaciado !!!")
                 'Catch ex As Exception
                 '    MsgBox(ex.ToString)
@@ -1553,9 +1553,9 @@ Public Class Principal
 
                 ' Eliminar Registros extracto
                 vtipoSql = "DELETE FROM extracto"
-                cmdMySql1cr.CommandText = vtipoSql
+                cmdMdb1cr.CommandText = vtipoSql
                 Try
-                    cmdMySql1cr.ExecuteNonQuery()
+                    cmdMdb1cr.ExecuteNonQuery()
                     MsgBox("Extracto, Vaciado !!!")
                 Catch ex As Exception
                     MsgBox(ex.ToString)
@@ -1563,9 +1563,9 @@ Public Class Principal
 
                 ' Eliminar Registros Tempapu
                 vtipoSql = "DELETE FROM tempapu"
-                cmdMySql1cr.CommandText = vtipoSql
+                cmdMdb1cr.CommandText = vtipoSql
                 Try
-                    cmdMySql1cr.ExecuteNonQuery()
+                    cmdMdb1cr.ExecuteNonQuery()
                     MsgBox("TempApu, Vaciado !!!")
                 Catch ex As Exception
                     MsgBox(ex.ToString)
@@ -1573,9 +1573,9 @@ Public Class Principal
 
                 ' Eliminar Registros Temppre
                 vtipoSql = "DELETE FROM temppre"
-                cmdMySql1cr.CommandText = vtipoSql
+                cmdMdb1cr.CommandText = vtipoSql
                 Try
-                    cmdMySql1cr.ExecuteNonQuery()
+                    cmdMdb1cr.ExecuteNonQuery()
                     MsgBox("TempPre, Vaciado !!!")
                 Catch ex As Exception
                     MsgBox(ex.ToString)
@@ -1583,9 +1583,9 @@ Public Class Principal
 
                 ' Eliminar Registros Tmpprint
                 vtipoSql = "DELETE FROM tmpprint"
-                cmdMySql1cr.CommandText = vtipoSql
+                cmdMdb1cr.CommandText = vtipoSql
                 Try
-                    cmdMySql1cr.ExecuteNonQuery()
+                    cmdMdb1cr.ExecuteNonQuery()
                     'MsgBox("TmpPrint, Vaciado !!!")
                 Catch ex As Exception
                     MsgBox(ex.ToString)

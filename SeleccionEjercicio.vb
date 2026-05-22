@@ -12,21 +12,21 @@ Public Class SeleccionEjercicio
 
         ' Llenar el Combo Ejercicio
         '**************************
-        cmdMySql1cr.CommandText = "SELECT * FROM ejercicios ORDER BY ejercicios.EjercicioEJE ASC"
+        cmdMdb1cr.CommandText = "SELECT * FROM ejercicios ORDER BY ejercicios.EjercicioEJE ASC"
         Try
-            drMySql1 = cmdMySql1cr.ExecuteReader()
-            If drMySql1.HasRows Then
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            If drMdb1.HasRows Then
                 vCantAños = -1
-                While drMySql1.Read()
+                While drMdb1.Read()
                     vCantAños += 1
-                    CmbEjercicio.Items.Add(drMySql1.GetValue(0))
+                    CmbEjercicio.Items.Add(drMdb1.GetValue(0))
                 End While
                 CmbEjercicio.Text = Str(vAñoActual).ToString
                 vAñoEjercicio = vAñoActual
             Else
                 MsgBox(rmse.GetString("MsgNoExistenReg"))
             End If
-            drMySql1.Close()
+            drMdb1.Close()
         Catch ex As Exception
             MsgBox(ex.ToString)
         End Try
@@ -56,9 +56,9 @@ Public Class SeleccionEjercicio
         vConceptoAPU = "SALDO"
         vtipoSql = "DELETE FROM apuntes"
         vtipoSql += " WHERE apuntes.ConceptoAPU = '" & vConceptoAPU & "' "
-        cmdMySql1cr.CommandText = vtipoSql
+        cmdMdb1cr.CommandText = vtipoSql
         Try
-            cmdMySql1cr.ExecuteNonQuery()
+            cmdMdb1cr.ExecuteNonQuery()
             'MsgBox("Registros SALDO, Borrados !!!")
         Catch ex As Exception
             MsgBox(ex.ToString)
@@ -204,28 +204,28 @@ Public Class SeleccionEjercicio
         Else
             ' Añadimos un año si no está en la tabla
             vAñoNuevo = yearValue
-            cmdMySql1cr.CommandText = "SELECT * FROM ejercicios"
-            cmdMySql1cr.CommandText += " WHERE "
-            cmdMySql1cr.CommandText += "ejercicios.EjercicioEJE = " & vAñoNuevo.ToString
+            cmdMdb1cr.CommandText = "SELECT * FROM ejercicios"
+            cmdMdb1cr.CommandText += " WHERE "
+            cmdMdb1cr.CommandText += "ejercicios.EjercicioEJE = " & vAñoNuevo.ToString
             Try
-                drMySql1 = cmdMySql1cr.ExecuteReader()
-                If drMySql1.HasRows Then
+                drMdb1 = cmdMdb1cr.ExecuteReader()
+                If drMdb1.HasRows Then
                     MsgBox(rmse.GetString("MsgExiste") & vAñoNuevo)
                 Else
                     MsgBox(rmse.GetString("MsgNoExiste") & vAñoNuevo)
-                    drMySql1.Close()
+                    drMdb1.Close()
                     tipoSql = "INSERT INTO ejercicios "
                     tipoSql += "(EjercicioEJE) "
                     tipoSql += "VALUES ('" & vAñoNuevo & "')"
-                    cmdMySql1cr.CommandText = tipoSql
+                    cmdMdb1cr.CommandText = tipoSql
                     Try
-                        cmdMySql1cr.ExecuteNonQuery()
+                        cmdMdb1cr.ExecuteNonQuery()
                         'MsgBox("Registro, Grabado Correctamente")
                     Catch ex As Exception
                         MsgBox(rmse.GetString("MsgErrorAñadirEjercicio") & vAñoNuevo.ToString & vbCrLf & ex.ToString)
                     End Try
                 End If
-                drMySql1.Close()
+                drMdb1.Close()
             Catch ex As Exception
                 MsgBox(rmse.GetString("MsgErrorBuscarEjercicio") & vAñoNuevo.ToString & vbCrLf & ex.ToString)
             End Try

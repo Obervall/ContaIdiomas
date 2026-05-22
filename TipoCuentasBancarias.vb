@@ -7,12 +7,13 @@ Public Class TipoCuentaBancaria
 
     Public vtipoSql, vtipoGrid, vTxtNombre, filaActual As String
     Public vRow, vRowSeguir, vCampo, vContador, vCantidadFilas, PrintLine, Contador As Integer
+    Public TL(10) As ToolTip
+    Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub TipoCuentasBancarias_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ActualizarTextosFormulario(Me)
 
         Me.KeyPreview = True
-        Dim TL(10) As ToolTip
         TL(0) = New ToolTip
         TL(0).SetToolTip(Me.BtnAñadirRegistro, "Añadir Registro")
         TL(1) = New ToolTip
@@ -450,10 +451,10 @@ Public Class TipoCuentaBancaria
         '    ' Eliminar Registro Tipo Cuentas
         '    vtipoSql = "DELETE FROM tipocuentas"
         '    vtipoSql += " WHERE tipocuentas.CodigoTIP = '" & vTxtNombre & "' "
-        '    cmdMySql1cr.CommandText = vtipoSql
+        '    cmdMdb1cr.CommandText = vtipoSql
 
         '    Try
-        '        cmdMySql1cr.ExecuteNonQuery()
+        '        cmdMdb1cr.ExecuteNonQuery()
         '        MsgBox("Registro Tipo Cuenta Bancaria, Borrada !!!")
         '    Catch ex As Exception
         '        MsgBox(ex.ToString)

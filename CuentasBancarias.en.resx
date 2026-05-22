@@ -162,4 +162,25 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Bank Accounts</value>
   </data>
+  <data name="ErrorAlLlenarComboTipoCuenta" xml:space="preserve">
+    <value>Error filling out the Account Type Combo</value>
+  </data>
+  <data name="Cuenta Corriente" xml:space="preserve">
+    <value>Current Account</value>
+  </data>
+  <data name="Cuenta Vivienda" xml:space="preserve">
+    <value>Housing Account</value>
+  </data>
+  <data name="Efectivo" xml:space="preserve">
+    <value>Cash</value>
+  </data>
+  <data name="Fondo de Inversión" xml:space="preserve">
+    <value>Investment Fund</value>
+  </data>
+  <data name="Plan de Pensiones" xml:space="preserve">
+    <value>Pension Plan</value>
+  </data>
+  <data name="Tarjeta de Crédito" xml:space="preserve">
+    <value>Credit Card</value>
+  </data>
 </root>

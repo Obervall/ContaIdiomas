@@ -55,17 +55,17 @@ Public Class EditarTipoCuentaBancaria
         '*******************
         vtipoSql = "UPDATE tipocuentas SET DescripcionTIP = '" & vTxtDescripcion & "' "
         vtipoSql += " WHERE tipocuentas.CodigoTIP = '" & vTxtNombre & "' "
-        cmdMySql1cr.CommandText = vtipoSql
+        cmdMdb1cr.CommandText = vtipoSql
 
         Try
-            drMySql1 = cmdMySql1cr.ExecuteReader()
+            drMdb1 = cmdMdb1cr.ExecuteReader()
             'MsgBox("Registro, Grabado Correctamente")
             Me.Close()
         Catch ex As Exception
             MsgBox("Error al Modificar el Registro")
             MsgBox(ex.ToString)
         End Try
-        drMySql1.Close()
+        drMdb1.Close()
     End Sub
 
     Private Sub BtnEliminar_Click(sender As Object, e As EventArgs) Handles BtnEliminar.Click

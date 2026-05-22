@@ -67,8 +67,8 @@ Module Funciones
     Public restore As New OpenFileDialog
 
     Public conexion1 As New OleDbConnection()
-    Public cmdMySql1cr As New OleDbCommand
-    Public drMySql1 As OleDbDataReader
+    Public cmdMdb1cr As New OleDbCommand
+    Public drMdb1 As OleDbDataReader
 
     Public vgrid, linSql, opcion, vTipoEstados, vNombreCuenta, vNombreConcepto, vFecha, vFechaMes As String
     Public vtipoSql, vAñadirSql, vtipoGrid, vMes, vEditar, respuesta, vBuscar, vTituloInforme, vtipoSqlChk As String
@@ -173,9 +173,9 @@ Module Funciones
         vConceptoAPU = "SALDO"
         vtipoSql = "DELETE FROM apuntes"
         vtipoSql += " WHERE apuntes.ConceptoAPU = '" & vConceptoAPU & "' "
-        cmdMySql1cr.CommandText = vtipoSql
+        cmdMdb1cr.CommandText = vtipoSql
         Try
-            cmdMySql1cr.ExecuteNonQuery()
+            cmdMdb1cr.ExecuteNonQuery()
             'MsgBox("Registros SALDO, Borrados !!!")
         Catch ex As Exception
             MsgBox(ex.ToString)
@@ -530,15 +530,15 @@ Module Funciones
                 .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
                 .Columns(3).DefaultCellStyle.ForeColor = Color.DarkBlue
                 .Columns(0).Width = 135
-                .Columns(0).HeaderText = "Tipo"
+                .Columns(0).HeaderText = resManager.GetString("Tipo") ' My.Resources.Recursos.Tipo
                 .Columns(1).Width = 135
-                .Columns(1).HeaderText = "Nombre"
+                .Columns(1).HeaderText = resManager.GetString("Nombre") ' My.Resources.Recursos.Nombre
                 .Columns(2).Width = 200
-                .Columns(2).HeaderText = "Número"
-                .Columns(3).Width = 85
-                .Columns(3).HeaderText = "Saldo(" & vMoneda & ")"
-                .Columns(4).Width = 160
-                .Columns(4).HeaderText = "Notas"
+                .Columns(2).HeaderText = resManager.GetString("Numero") ' My.Resources.Recursos.Numero
+                .Columns(3).Width = 90
+                .Columns(3).HeaderText = resManager.GetString("Saldo") & "(" & vMoneda & ")" ' My.Resources.Recursos.Saldo
+                .Columns(4).Width = 155
+                .Columns(4).HeaderText = resManager.GetString("Notas") ' My.Resources.Recursos.Notas
 
                 '' Para insertar alguna columna
                 'Dim columna As New DataGridViewTextBoxColumn With {
@@ -551,23 +551,23 @@ Module Funciones
                     vNombreCuenta = fila.Cells(1).Value
                     ' Buscar el Saldo de cada Cuenta Bancaria en Apuntes
                     '***************************************************
-                    cmdMySql1cr.CommandText = "SELECT apuntes.ImporteAPU FROM apuntes"
-                    cmdMySql1cr.CommandText += " WHERE "
-                    cmdMySql1cr.CommandText += "apuntes.CuentaAPU = '" & vNombreCuenta & "' "
-                    cmdMySql1cr.CommandText += "And apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+                    cmdMdb1cr.CommandText = "SELECT apuntes.ImporteAPU FROM apuntes"
+                    cmdMdb1cr.CommandText += " WHERE "
+                    cmdMdb1cr.CommandText += "apuntes.CuentaAPU = '" & vNombreCuenta & "' "
+                    cmdMdb1cr.CommandText += "And apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
                     Try
-                        drMySql1 = cmdMySql1cr.ExecuteReader()
+                        drMdb1 = cmdMdb1cr.ExecuteReader()
                         vSaldoCuentas = 0
-                        If drMySql1.HasRows Then
-                            While drMySql1.Read()
-                                vSaldoCuentas += drMySql1.GetValue(0)
+                        If drMdb1.HasRows Then
+                            While drMdb1.Read()
+                                vSaldoCuentas += drMdb1.GetValue(0)
                             End While
                         Else
                             'MsgBox("No existen registros en " & tipoSql)
                         End If
-                        drMySql1.Close()
+                        drMdb1.Close()
                     Catch ex As Exception
-                        MsgBox("Error al ejecutar: " & cmdMySql1cr.CommandText & " por: " & ex.Message)
+                        MsgBox(resManager.GetString("ErrorAlEjecutar") & ": " & cmdMdb1cr.CommandText & ex.Message)
                     End Try
                     fila.Cells(3).Value = Format(vSaldoCuentas, "###,##0.00")
                 Next
@@ -594,23 +594,23 @@ Module Funciones
                 vNombreCuenta = fila.Cells(1).Value
                 ' Buscar el Saldo de cada Cuenta Bancaria en Apuntes
                 '***************************************************
-                cmdMySql1cr.CommandText = "SELECT apuntes.ImporteAPU FROM apuntes"
-                cmdMySql1cr.CommandText += " WHERE "
-                cmdMySql1cr.CommandText += "apuntes.CuentaAPU = '" & vNombreCuenta & "' "
-                cmdMySql1cr.CommandText += "And apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+                cmdMdb1cr.CommandText = "SELECT apuntes.ImporteAPU FROM apuntes"
+                cmdMdb1cr.CommandText += " WHERE "
+                cmdMdb1cr.CommandText += "apuntes.CuentaAPU = '" & vNombreCuenta & "' "
+                cmdMdb1cr.CommandText += "And apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
                 Try
-                    drMySql1 = cmdMySql1cr.ExecuteReader()
+                    drMdb1 = cmdMdb1cr.ExecuteReader()
                     vSaldoCuentas = 0
-                    If drMySql1.HasRows Then
-                        While drMySql1.Read()
-                            vSaldoCuentas += drMySql1.GetValue(0)
+                    If drMdb1.HasRows Then
+                        While drMdb1.Read()
+                            vSaldoCuentas += drMdb1.GetValue(0)
                         End While
                     Else
                         'MsgBox("No existen registros en " & tipoSql)
                     End If
-                    drMySql1.Close()
+                    drMdb1.Close()
                 Catch ex As Exception
-                    MsgBox("Error al ejecutar: " & cmdMySql1cr.CommandText & " por: " & ex.Message)
+                    MsgBox("Error al ejecutar: " & cmdMdb1cr.CommandText & " por: " & ex.Message)
                 End Try
                 fila.Cells(3).Value = Format(vSaldoCuentas, "###,##0.00")
                 vValor += vSaldoCuentas
@@ -667,27 +667,27 @@ Module Funciones
                     vNombreConcepto = fila.Cells(0).Value
                     ' Buscar el Saldo Total de cada Concepto por meses
                     '*************************************************
-                    cmdMySql1cr.CommandText = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.ImporteAPU FROM apuntes"
-                    cmdMySql1cr.CommandText += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-                    cmdMySql1cr.CommandText += "And apuntes.ConceptoAPU = '" & vNombreConcepto & "' "
+                    cmdMdb1cr.CommandText = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.ImporteAPU FROM apuntes"
+                    cmdMdb1cr.CommandText += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+                    cmdMdb1cr.CommandText += "And apuntes.ConceptoAPU = '" & vNombreConcepto & "' "
                     Try
-                        drMySql1 = cmdMySql1cr.ExecuteReader()
+                        drMdb1 = cmdMdb1cr.ExecuteReader()
                         vSaldoMes = 0
                         vSaldoAnualReal = 0
-                        If drMySql1.HasRows Then
-                            While drMySql1.Read()
-                                vSaldoAnualReal += -drMySql1.GetValue(2)
-                                vFechaMes = drMySql1.GetValue(0).ToString
+                        If drMdb1.HasRows Then
+                            While drMdb1.Read()
+                                vSaldoAnualReal += -drMdb1.GetValue(2)
+                                vFechaMes = drMdb1.GetValue(0).ToString
                                 If Mid(vFechaMes, 4, 2) = vMes Then
-                                    vSaldoMes += drMySql1.GetValue(2).ToString
+                                    vSaldoMes += drMdb1.GetValue(2).ToString
                                 End If
                             End While
                         Else
-                            'MsgBox("No existen registros en " & cmdMySql1cr.CommandText)
+                            'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
                         End If
-                        drMySql1.Close()
+                        drMdb1.Close()
                     Catch ex As Exception
-                        MsgBox("Error al ejecutar: " & cmdMySql1cr.CommandText & " por: " & ex.Message)
+                        MsgBox("Error al ejecutar: " & cmdMdb1cr.CommandText & " por: " & ex.Message)
                     End Try
                     fila.Cells(2).Value = -vSaldoMes
                 Next

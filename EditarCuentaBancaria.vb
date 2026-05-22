@@ -26,19 +26,19 @@ Public Class EditarCuentaBancaria
 
         ' Llenar el Combo Tipo Cuenta
         '****************************
-        cmdMySql1cr.CommandText = "SELECT tipocuentas.CodigoTIP FROM tipocuentas"
-        cmdMySql1cr.CommandText += " ORDER BY tipocuentas.CodigoTIP ASC"
+        cmdMdb1cr.CommandText = "SELECT tipocuentas.CodigoTIP FROM tipocuentas"
+        cmdMdb1cr.CommandText += " ORDER BY tipocuentas.CodigoTIP ASC"
         Try
-            drMySql1 = cmdMySql1cr.ExecuteReader()
-            If drMySql1.HasRows Then
-                While drMySql1.Read()
-                    CmbTipoCuenta.Items.Add(drMySql1.GetValue(0))
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            If drMdb1.HasRows Then
+                While drMdb1.Read()
+                    CmbTipoCuenta.Items.Add(drMdb1.GetValue(0))
                 End While
                 CmbTipoCuenta.Text = CmbTipoCuenta.Items(0)
             Else
-                MsgBox("No existen registros en " & cmdMySql1cr.CommandText)
+                MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
             End If
-            drMySql1.Close()
+            drMdb1.Close()
         Catch ex As Exception
             MsgBox("Error al llenar el Combo Tipo Cuenta")
             MsgBox(ex.ToString)
@@ -92,17 +92,17 @@ Public Class EditarCuentaBancaria
         '*******************
         vtipoSql = "UPDATE cuentas SET NumeroCUE = '" & vTxtNumero & "' , TipoCUE = '" & vTxtTipo & "' , NotasCUE = '" & vTxtNotas & "' "
         vtipoSql += " WHERE cuentas.NombreCUE = '" & vTxtNombre & "' "
-        cmdMySql1cr.CommandText = vtipoSql
+        cmdMdb1cr.CommandText = vtipoSql
 
         Try
-            drMySql1 = cmdMySql1cr.ExecuteReader()
+            drMdb1 = cmdMdb1cr.ExecuteReader()
             'MsgBox("Registro, Grabado Correctamente")
             Me.Close()
         Catch ex As Exception
             MsgBox("Error al Modificar el Registro")
             MsgBox(ex.ToString)
         End Try
-        drMySql1.Close()
+        drMdb1.Close()
     End Sub
 
     Private Sub BtnEliminar_Click(sender As Object, e As EventArgs) Handles BtnEliminar.Click
@@ -112,9 +112,9 @@ Public Class EditarCuentaBancaria
             ' Eliminar Registro Cuentas
             vtipoSql = "DELETE FROM cuentas"
             vtipoSql += " WHERE cuentas.NombreCUE = '" & vTxtNombre & "' "
-            cmdMySql1cr.CommandText = vtipoSql
+            cmdMdb1cr.CommandText = vtipoSql
             Try
-                cmdMySql1cr.ExecuteNonQuery()
+                cmdMdb1cr.ExecuteNonQuery()
                 MsgBox("Registro Cuenta Bancaria, Borrada !!!")
             Catch ex As Exception
                 MsgBox("Error al Eliminar el Registro de la Cuenta Bancaria")
@@ -124,9 +124,9 @@ Public Class EditarCuentaBancaria
             ' Eliminar Registros Apuntes
             vtipoSql = "DELETE FROM apuntes"
             vtipoSql += " WHERE apuntes.CuentaAPU = '" & vTxtNombre & "' "
-            cmdMySql1cr.CommandText = vtipoSql
+            cmdMdb1cr.CommandText = vtipoSql
             Try
-                cmdMySql1cr.ExecuteNonQuery()
+                cmdMdb1cr.ExecuteNonQuery()
                 MsgBox("Apuntes, Borrados !!!")
             Catch ex As Exception
                 MsgBox("Error al Eliminar los Apuntes de la Cuenta Bancaria")
@@ -136,9 +136,9 @@ Public Class EditarCuentaBancaria
             ' Eliminar Registros Apuntes Periódicos
             vtipoSql = "DELETE FROM apuper"
             vtipoSql += " WHERE apuper.CuentaAPP = '" & vTxtNombre & "' "
-            cmdMySql1cr.CommandText = vtipoSql
+            cmdMdb1cr.CommandText = vtipoSql
             Try
-                cmdMySql1cr.ExecuteNonQuery()
+                cmdMdb1cr.ExecuteNonQuery()
                 MsgBox("Apuntes Periodicos, Borrados !!!")
             Catch ex As Exception
                 MsgBox("Error al Eliminar los Apuntes Periódicos de la Cuenta Bancaria")

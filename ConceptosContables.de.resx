@@ -156,7 +156,7 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Buchhaltungskonzepte</value>
   </data>
-  <data name="LblCuentas.Text" xml:space="preserve">
+  <data name="LblConceptos.Text" xml:space="preserve">
     <value>KONZEPTE</value>
   </data>
 </root>

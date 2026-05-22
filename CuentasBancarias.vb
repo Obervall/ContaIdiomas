@@ -1,4 +1,5 @@
-﻿Imports System.Drawing
+﻿Imports System.Collections.Generic
+Imports System.Drawing
 Imports System.Drawing.Printing
 Imports System.Windows.Forms
 Imports ToolTip = System.Windows.Forms.ToolTip
@@ -7,53 +8,99 @@ Public Class CuentasBancarias
 
     Public vtipoSql, vtipoGrid, vTxtNombre, filaActual As String
     Public vRow, vRowSeguir, vCampo, vContador, vCantidadFilas, PrintLine, Contador, filaSelec As Integer
+    Public TL(13) As ToolTip
+    Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub CuentasBancarias_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ActualizarTextosFormulario(Me)
 
         Me.KeyPreview = True
-        Dim TL(10) As ToolTip
         TL(0) = New ToolTip
-        TL(0).SetToolTip(Me.BtnFiltroTipoCuenta, "Aplica el filtro a los Registros")
+        TL(0).SetToolTip(Me.BtnFiltroTipoCuenta, resManager.GetString("ToolTipAplicarFiltro"))
         TL(1) = New ToolTip
-        TL(1).SetToolTip(Me.BtnSinFiltroTipoCuenta, "Quitar el filtro a los Registros")
+        TL(1).SetToolTip(Me.BtnSinFiltroTipoCuenta, resManager.GetString("ToolTipQuitarFiltro"))
         TL(2) = New ToolTip
-        TL(2).SetToolTip(Me.BtnAñadirRegistro, "Añadir Registro")
+        TL(2).SetToolTip(Me.BtnAñadirRegistro, resManager.GetString("ToolTipAñadir"))
         TL(3) = New ToolTip
-        TL(3).SetToolTip(Me.BtnEditarRegistro, "Editar Registro")
+        TL(3).SetToolTip(Me.BtnEditarRegistro, resManager.GetString("ToolTipEditar"))
         TL(4) = New ToolTip
-        TL(4).SetToolTip(Me.BtnEliminarRegistro, "Eliminar Registro")
+        TL(4).SetToolTip(Me.BtnEliminarRegistro, resManager.GetString("ToolTipEliminar"))
         TL(5) = New ToolTip
-        TL(5).SetToolTip(Me.BtnBuscarRegistro, "Buscar")
+        TL(5).SetToolTip(Me.BtnBuscarRegistro, resManager.GetString("ToolTipBuscar"))
         TL(6) = New ToolTip
-        TL(6).SetToolTip(Me.BtnSeguirBuscando, "Pulsar para Seguir Buscando o F3")
+        TL(6).SetToolTip(Me.BtnSeguirBuscando, resManager.GetString("ToolTipSeguirBuscando"))
         TL(7) = New ToolTip
-        TL(7).SetToolTip(Me.BtnImprimir, "Imprimir")
+        TL(7).SetToolTip(Me.BtnImprimir, resManager.GetString("ToolTipImprimir"))
         TL(8) = New ToolTip
-        TL(8).SetToolTip(Me.BtnSalir, "Salir de Cuentas Bancarias")
+        TL(8).SetToolTip(Me.BtnSalir, resManager.GetString("ToolTipSalir"))
         TL(9) = New ToolTip
-        TL(9).SetToolTip(Me.BtnEliminaSeleccion, "Suprimir las Filas Seleccionadas de la parilla, " & vbCrLf & "No se eliminan de la Base de Datos")
+        TL(9).SetToolTip(Me.BtnEliminaSeleccion, resManager.GetString("ToolTipEliminaSeleccion"))
         TL(10) = New ToolTip
-        TL(10).SetToolTip(Me.LblCuentas, "Con Tecla 'Supr': Elimina filas seleccionadas. " & vbCrLf & "Con F6: Refrescar la Parrilla Cuentas y Quitar Filtros. ")
+        TL(10).SetToolTip(Me.BtnPrimero, resManager.GetString("ToolTipPrimero"))
+        TL(11) = New ToolTip
+        TL(11).SetToolTip(Me.BtnAnterior, resManager.GetString("ToolTipAnterior"))
+        TL(12) = New ToolTip
+        TL(12).SetToolTip(Me.BtnSiguiente, resManager.GetString("ToolTipSiguiente"))
+        TL(13) = New ToolTip
+        TL(13).SetToolTip(Me.BtnUltimo, resManager.GetString("ToolTipUltimo"))
 
-        ' Llenar el Combo Tipo Cuenta
-        '****************************
-        cmdMySql1cr.CommandText = "SELECT tipocuentas.CodigoTIP FROM tipocuentas"
-        cmdMySql1cr.CommandText += " ORDER BY tipocuentas.CodigoTIP ASC"
+        ' Añade una línea por cada GroupBox donde tengas estos botones:
+        AddHandler Me.GroupBox3.MouseMove, AddressOf VerificarFiltrosDesactivados
+        AddHandler Me.GroupBox4.MouseMove, AddressOf VerificarFiltrosDesactivados
+
+        ' Llenar el Combo Tipo Cuenta desde Access (Modelo Híbrido)
+        '********************************************************
+        cmdMdb1cr.CommandText = "SELECT tipocuentas.CodigoTIP FROM tipocuentas"
+        cmdMdb1cr.CommandText += " ORDER BY tipocuentas.CodigoTIP ASC"
+
         Try
-            drMySql1 = cmdMySql1cr.ExecuteReader()
-            If drMySql1.HasRows Then
-                While drMySql1.Read()
-                    CmbTipoCuenta.Items.Add(drMySql1.GetValue(0))
+            ' 1. Guardamos la posición seleccionada actual para que no salte el combo
+            Dim indiceSeleccionado As Integer = CmbTipoCuenta.SelectedIndex
+
+            ' 2. Limpiamos los ítems viejos para evitar duplicados
+            CmbTipoCuenta.Items.Clear()
+
+            ' 3. Ejecutamos el lector de Access
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+
+            If drMdb1.HasRows Then
+                While drMdb1.Read()
+                    ' Obtenemos el texto guardado en Access (quitando espacios en blanco extras)
+                    Dim valorBD As String = drMdb1.GetValue(0).ToString().Trim()
+
+                    ' Buscamos si tú programaste una traducción para este valor en el .resx
+                    Dim textoTraducido As String = rmse.GetString(valorBD)
+
+                    ' PROTECCIÓN: Si no hay traducción (porque lo creó el usuario), 
+                    ' se usa el valor original de la base de datos de Access
+                    If String.IsNullOrEmpty(textoTraducido) Then
+                        textoTraducido = valorBD
+                    End If
+
+                    ' Añadimos el ítem definitivo al ComboBox
+                    CmbTipoCuenta.Items.Add(textoTraducido)
                 End While
-                CmbTipoCuenta.Text = CmbTipoCuenta.Items(0)
+
+                ' 4. Restauramos la selección del usuario o dejamos el primer ítem por defecto
+                If indiceSeleccionado >= 0 AndAlso indiceSeleccionado < CmbTipoCuenta.Items.Count Then
+                    CmbTipoCuenta.SelectedIndex = indiceSeleccionado
+                ElseIf CmbTipoCuenta.Items.Count > 0 Then
+                    CmbTipoCuenta.SelectedIndex = 0
+                End If
             Else
-                MsgBox("No existen registros en " & cmdMySql1cr.CommandText)
+                MsgBox(resManager.GetString("NoExistenRegistros") & " " & cmdMdb1cr.CommandText)
             End If
-            drMySql1.Close()
+
+            drMdb1.Close()
+
         Catch ex As Exception
-            MsgBox("Error al llenar el Combo Tipo Cuenta")
+            MsgBox(rmse.GetString("ErrorAlLlenarComboTipoCuenta"))
             MsgBox(ex.ToString)
+        Finally
+            ' Bloque de seguridad: cerramos el reader por si ocurre algún fallo en el bucle
+            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then
+                drMdb1.Close()
+            End If
         End Try
 
         CmbTipoCuenta.DropDownStyle = ComboBoxStyle.DropDownList
@@ -791,6 +838,39 @@ Public Class CuentasBancarias
             DgvCuentas.Rows(vFila).Selected = True
             DgvCuentas.CurrentCell = DgvCuentas.Rows(vFila).Cells(0)
         End If
+    End Sub
+
+    Private Sub VerificarFiltrosDesactivados(sender As Object, e As MouseEventArgs)
+        ' Diccionario con tus botones deshabilitados y sus ToolTips correspondientes
+        Dim botonesBloqueados As New Dictionary(Of Button, ToolTip) From {
+            {Me.BtnSinFiltroTipoCuenta, TL(1)},
+            {Me.BtnSeguirBuscando, TL(6)}
+        }
+
+        For Each par In botonesBloqueados
+            Dim boton As Button = par.Key
+            Dim tool As ToolTip = par.Value
+
+            If Not boton.Enabled Then
+                ' Traducimos la posición del ratón al contenedor nativo del botón (su GroupBox)
+                Dim posRatonRelativaAlBoton As Point = boton.Parent.PointToClient(Cursor.Position)
+
+                ' Si el ratón está sobre el botón desactivado
+                If boton.Bounds.Contains(posRatonRelativaAlBoton) Then
+                    ' Calculamos la posición respecto al formulario para dibujar el cartelito en el lugar correcto
+                    Dim posRatonRelativaAlForm As Point = Me.PointToClient(Cursor.Position)
+                    'tool.Show(resManager.GetString("ToolTipQuitarFiltro"), Me, posRatonRelativaAlForm.X + 15, posRatonRelativaAlForm.Y + 15)
+                    ' Cargamos dinámicamente su texto correspondiente desde tu recurso
+                    Dim textoKey As String = If(boton Is Me.BtnSeguirBuscando, "ToolTipSeguirBuscando", "ToolTipQuitarFiltro")
+                    tool.Show(resManager.GetString(textoKey), Me, posRatonRelativaAlForm.X + 15, posRatonRelativaAlForm.Y + 15)
+                    Exit Sub
+                End If
+            End If
+        Next
+
+        ' Si el ratón no está sobre ningún botón bloqueado, ocultamos los tres
+        TL(1).Hide(Me)
+        TL(6).Hide(Me)
     End Sub
 
 End Class

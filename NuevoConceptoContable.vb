@@ -80,23 +80,23 @@ Public Class NuevoConceptoContable
                 '***********************************************************
                 vtipoSql = "SELECT * FROM conceptos WHERE conceptos.CodigoCON = '" & vTxtNombre & "' "
                 vtipoGrid = "NOMBRESEXISTENTES"
-                cmdMySql1cr.CommandText = vtipoSql
+                cmdMdb1cr.CommandText = vtipoSql
 
                 Try
-                    drMySql1 = cmdMySql1cr.ExecuteReader()
-                    If drMySql1.HasRows Then
-                        drMySql1.Close()
+                    drMdb1 = cmdMdb1cr.ExecuteReader()
+                    If drMdb1.HasRows Then
+                        drMdb1.Close()
                         MsgBox("El Nombre: " & vTxtNombre & ", ya existe en Conceptos Contables", vbOKOnly, "Concepto Existente")
                         TxtNombre.Select()
                     Else
-                        drMySql1.Close()
+                        drMdb1.Close()
                         vtipoSql = "INSERT INTO conceptos "
                         vtipoSql += "(CodigoCON, DescripcionCON, TipoCON, NotasCON) "
                         vtipoSql += "VALUES ('" & vTxtNombre & "','" & vTxtDescripcion & "','" & vTxtTipo & "','" & vTxtNotas & "')"
 
-                        cmdMySql1cr.CommandText = vtipoSql
+                        cmdMdb1cr.CommandText = vtipoSql
                         Try
-                            cmdMySql1cr.ExecuteNonQuery()
+                            cmdMdb1cr.ExecuteNonQuery()
                             'MsgBox("Registro, Grabado Correctamente")
                             Me.Close()
                         Catch ex As Exception

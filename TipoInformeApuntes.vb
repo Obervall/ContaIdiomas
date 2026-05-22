@@ -99,9 +99,9 @@ Public Class TipoInformeApuntes
             'Iniciamos Tabla Tempapu
             '***********************
             vTempapu = "DELETE FROM tempapu"
-            cmdMySql1cr.CommandText = vTempapu
+            cmdMdb1cr.CommandText = vTempapu
             Try
-                cmdMySql1cr.ExecuteNonQuery()
+                cmdMdb1cr.ExecuteNonQuery()
                 'MsgBox("Registros Tempapu, Borrados !!!")
             Catch ex As Exception
                 MsgBox("Error al Borrar los Registros de Tempapu")
@@ -122,30 +122,30 @@ Public Class TipoInformeApuntes
                     vAñadir = "INSERT INTO tempapu"
                     vAñadir += "(ConceptoAPU, SumaImporteAPU) "
                     vAñadir += "VALUES (?, ?)"
-                    cmdMySql1cr.CommandText = vAñadir
-                    cmdMySql1cr.Parameters.Clear() ' Limpia parámetros anteriores
-                    cmdMySql1cr.Parameters.Add("@con", OleDb.OleDbType.VarWChar).Value = vNombreConcepto
-                    cmdMySql1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = vImporteConcepto
+                    cmdMdb1cr.CommandText = vAñadir
+                    cmdMdb1cr.Parameters.Clear() ' Limpia parámetros anteriores
+                    cmdMdb1cr.Parameters.Add("@con", OleDb.OleDbType.VarWChar).Value = vNombreConcepto
+                    cmdMdb1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = vImporteConcepto
                     Try
-                        cmdMySql1cr.ExecuteNonQuery()
+                        cmdMdb1cr.ExecuteNonQuery()
                         'MsgBox("Registro1, Grabado Correctamente")
                     Catch ex As Exception
                         MsgBox("Error al Grabar el Concepto: " & vNombreConcepto)
                         MsgBox(ex.ToString)
                     End Try
                 Else
-                    cmdMySql1cr.CommandType = CommandType.Text
-                    cmdMySql1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+                    cmdMdb1cr.CommandType = CommandType.Text
+                    cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
                     Try
-                        drMySql1 = cmdMySql1cr.ExecuteReader()
-                        If drMySql1.HasRows Then
-                            While drMySql1.Read()
-                                vExistenteImporteConcepto = drMySql1.GetValue(1)
+                        drMdb1 = cmdMdb1cr.ExecuteReader()
+                        If drMdb1.HasRows Then
+                            While drMdb1.Read()
+                                vExistenteImporteConcepto = drMdb1.GetValue(1)
                             End While
                         Else
-                            'MsgBox("No existen registros en " & cmdMySql1cr.CommandText)
+                            'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
                         End If
-                        drMySql1.Close()
+                        drMdb1.Close()
                     Catch ex As Exception
                         MsgBox("Error al Leer el Concepto: " & vNombreConcepto)
                         MsgBox(ex.ToString)
@@ -153,18 +153,18 @@ Public Class TipoInformeApuntes
                     vNewImporteConcepto = vImporteConcepto + vExistenteImporteConcepto
                     vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = ? "
                     vAñadir2 += " WHERE tempapu.ConceptoAPU = ? "
-                    cmdMySql1cr.CommandText = vAñadir2
-                    cmdMySql1cr.Parameters.Clear()
-                    cmdMySql1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = vNewImporteConcepto
-                    cmdMySql1cr.Parameters.Add("@con", OleDb.OleDbType.VarWChar).Value = vNombreConcepto
+                    cmdMdb1cr.CommandText = vAñadir2
+                    cmdMdb1cr.Parameters.Clear()
+                    cmdMdb1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = vNewImporteConcepto
+                    cmdMdb1cr.Parameters.Add("@con", OleDb.OleDbType.VarWChar).Value = vNombreConcepto
                     Try
-                        drMySql1 = cmdMySql1cr.ExecuteReader()
+                        drMdb1 = cmdMdb1cr.ExecuteReader()
                         'MsgBox("Registro2, Grabado Correctamente")
                     Catch ex As Exception
                         MsgBox("Error al Actualizar el Concepto: " & vNombreConcepto)
                         MsgBox(ex.ToString)
                     End Try
-                    drMySql1.Close()
+                    drMdb1.Close()
                 End If
             Next
             'Llenamos la tabla de ImprimirForm con los cálculos realizados
@@ -190,9 +190,9 @@ Public Class TipoInformeApuntes
             'Iniciamos Tabla Tempapu
             '***********************
             vTempapu = "DELETE FROM tempapu"
-            cmdMySql1cr.CommandText = vTempapu
+            cmdMdb1cr.CommandText = vTempapu
             Try
-                cmdMySql1cr.ExecuteNonQuery()
+                cmdMdb1cr.ExecuteNonQuery()
                 'MsgBox("Registros Tempapu, Borrados !!!")
             Catch ex As Exception
                 MsgBox("Error al Borrar los Registros de Tempapu")
@@ -213,32 +213,32 @@ Public Class TipoInformeApuntes
                     vAñadir = "INSERT INTO tempapu"
                     vAñadir += "(ConceptoAPU, SumaImporteAPU) "
                     vAñadir += "VALUES (?, ?)"
-                    cmdMySql1cr.CommandText = vAñadir
-                    cmdMySql1cr.Parameters.Clear()
-                    cmdMySql1cr.Parameters.Add("@con", OleDb.OleDbType.VarWChar).Value = vNombreConcepto
-                    cmdMySql1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = vImporteConcepto
+                    cmdMdb1cr.CommandText = vAñadir
+                    cmdMdb1cr.Parameters.Clear()
+                    cmdMdb1cr.Parameters.Add("@con", OleDb.OleDbType.VarWChar).Value = vNombreConcepto
+                    cmdMdb1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = vImporteConcepto
                     Try
-                        cmdMySql1cr.ExecuteNonQuery()
+                        cmdMdb1cr.ExecuteNonQuery()
                         'MsgBox("Registro1, Grabado Correctamente")
                     Catch ex As Exception
                         MsgBox("Error al Grabar la Cuenta: " & vNombreConcepto)
                         MsgBox(ex.ToString)
                     End Try
                 Else
-                    cmdMySql1cr.CommandType = CommandType.Text
-                    cmdMySql1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = ?"
-                    cmdMySql1cr.Parameters.Clear()
-                    cmdMySql1cr.Parameters.Add("@con", OleDb.OleDbType.VarWChar).Value = vNombreConcepto
+                    cmdMdb1cr.CommandType = CommandType.Text
+                    cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = ?"
+                    cmdMdb1cr.Parameters.Clear()
+                    cmdMdb1cr.Parameters.Add("@con", OleDb.OleDbType.VarWChar).Value = vNombreConcepto
                     Try
-                        drMySql1 = cmdMySql1cr.ExecuteReader()
-                        If drMySql1.HasRows Then
-                            While drMySql1.Read()
-                                vExistenteImporteConcepto = drMySql1.GetValue(1)
+                        drMdb1 = cmdMdb1cr.ExecuteReader()
+                        If drMdb1.HasRows Then
+                            While drMdb1.Read()
+                                vExistenteImporteConcepto = drMdb1.GetValue(1)
                             End While
                         Else
-                            'MsgBox("No existen registros en " & cmdMySql1cr.CommandText)
+                            'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
                         End If
-                        drMySql1.Close()
+                        drMdb1.Close()
                     Catch ex As Exception
                         MsgBox("Error al Leer el Concepto: " & vNombreConcepto)
                         MsgBox(ex.ToString)
@@ -246,18 +246,18 @@ Public Class TipoInformeApuntes
                     vNewImporteConcepto = vImporteConcepto + vExistenteImporteConcepto
                     vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = ? "
                     vAñadir2 += " WHERE tempapu.ConceptoAPU = ? "
-                    cmdMySql1cr.CommandText = vAñadir2
-                    cmdMySql1cr.Parameters.Clear()
-                    cmdMySql1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = vNewImporteConcepto
-                    cmdMySql1cr.Parameters.Add("@con", OleDb.OleDbType.VarWChar).Value = vNombreConcepto
+                    cmdMdb1cr.CommandText = vAñadir2
+                    cmdMdb1cr.Parameters.Clear()
+                    cmdMdb1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = vNewImporteConcepto
+                    cmdMdb1cr.Parameters.Add("@con", OleDb.OleDbType.VarWChar).Value = vNombreConcepto
                     Try
-                        drMySql1 = cmdMySql1cr.ExecuteReader()
+                        drMdb1 = cmdMdb1cr.ExecuteReader()
                         'MsgBox("Registro2, Grabado Correctamente")
                     Catch ex As Exception
                         MsgBox("Error al Actualizar la Cuenta: " & vNombreConcepto)
                         MsgBox(ex.ToString)
                     End Try
-                    drMySql1.Close()
+                    drMdb1.Close()
                 End If
             Next
             'Llenamos la tabla de ImprimirForm con los cálculos realizados
@@ -280,9 +280,9 @@ Public Class TipoInformeApuntes
             Dim vNewImporteFechas As String
             'Iniciamos Tabla Tmpprint
             vTmpprint = "DELETE FROM tmpprint"
-            cmdMySql1cr.CommandText = vTmpprint
+            cmdMdb1cr.CommandText = vTmpprint
             Try
-                cmdMySql1cr.ExecuteNonQuery()
+                cmdMdb1cr.ExecuteNonQuery()
                 'MsgBox("Registros Tmpprint, Borrados !!!")
             Catch ex As Exception
                 MsgBox("Error al Borrar los Registros de Tmpprint")
@@ -304,17 +304,17 @@ Public Class TipoInformeApuntes
                     vAñadir = "INSERT INTO tmpprint"
                     vAñadir += "(FechaTMP, ConceptoTMP, DescripcionTMP, CuentaTMP, NotasTMP, ImporteTMP, SaldoTMP) "
                     vAñadir += "VALUES (?, ?, ?, ?, ?, ?, ?)"
-                    cmdMySql1cr.CommandText = vAñadir
-                    cmdMySql1cr.Parameters.Clear() ' Limpia parámetros anteriores
-                    cmdMySql1cr.Parameters.Add("@fec", OleDb.OleDbType.Date).Value = vFechaTemp
-                    cmdMySql1cr.Parameters.Add("@con", OleDb.OleDbType.VarWChar).Value = ""
-                    cmdMySql1cr.Parameters.Add("@des", OleDb.OleDbType.VarWChar).Value = ""
-                    cmdMySql1cr.Parameters.Add("@cue", OleDb.OleDbType.VarWChar).Value = ""
-                    cmdMySql1cr.Parameters.Add("@not", OleDb.OleDbType.VarWChar).Value = ""
-                    cmdMySql1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = vImporteFecha
-                    cmdMySql1cr.Parameters.Add("@sal", OleDb.OleDbType.Currency).Value = vImporteFecha
+                    cmdMdb1cr.CommandText = vAñadir
+                    cmdMdb1cr.Parameters.Clear() ' Limpia parámetros anteriores
+                    cmdMdb1cr.Parameters.Add("@fec", OleDb.OleDbType.Date).Value = vFechaTemp
+                    cmdMdb1cr.Parameters.Add("@con", OleDb.OleDbType.VarWChar).Value = ""
+                    cmdMdb1cr.Parameters.Add("@des", OleDb.OleDbType.VarWChar).Value = ""
+                    cmdMdb1cr.Parameters.Add("@cue", OleDb.OleDbType.VarWChar).Value = ""
+                    cmdMdb1cr.Parameters.Add("@not", OleDb.OleDbType.VarWChar).Value = ""
+                    cmdMdb1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = vImporteFecha
+                    cmdMdb1cr.Parameters.Add("@sal", OleDb.OleDbType.Currency).Value = vImporteFecha
                     Try
-                        cmdMySql1cr.ExecuteNonQuery()
+                        cmdMdb1cr.ExecuteNonQuery()
                         'MsgBox("Registro1, Grabado Correctamente")
                     Catch ex As Exception
                         MsgBox("Error al Grabar la Fecha: " & vFechaTemp)
@@ -322,48 +322,48 @@ Public Class TipoInformeApuntes
                     End Try
                 Else
                     vFechaTemp2 = vFechaTemp
-                    cmdMySql1cr.CommandType = CommandType.Text
-                    cmdMySql1cr.Parameters.Clear() ' Limpia parámetros anteriores
-                    cmdMySql1cr.CommandText = "SELECT * FROM tmpprint WHERE tmpprint.FechaTMP = ?"
-                    cmdMySql1cr.Parameters.Add("@fec", OleDb.OleDbType.Date).Value = vFechaTemp2
+                    cmdMdb1cr.CommandType = CommandType.Text
+                    cmdMdb1cr.Parameters.Clear() ' Limpia parámetros anteriores
+                    cmdMdb1cr.CommandText = "SELECT * FROM tmpprint WHERE tmpprint.FechaTMP = ?"
+                    cmdMdb1cr.Parameters.Add("@fec", OleDb.OleDbType.Date).Value = vFechaTemp2
                     If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
                         vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
                         vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
-                        cmdMySql1cr.CommandText += " And tmpprint.FechaTMP >= ?"
-                        cmdMySql1cr.CommandText += " And tmpprint.FechaTMP <= ?"
-                        cmdMySql1cr.Parameters.Add("@date1", OleDb.OleDbType.Date).Value = vDate1
-                        cmdMySql1cr.Parameters.Add("@date2", OleDb.OleDbType.Date).Value = vDate2
+                        cmdMdb1cr.CommandText += " And tmpprint.FechaTMP >= ?"
+                        cmdMdb1cr.CommandText += " And tmpprint.FechaTMP <= ?"
+                        cmdMdb1cr.Parameters.Add("@date1", OleDb.OleDbType.Date).Value = vDate1
+                        cmdMdb1cr.Parameters.Add("@date2", OleDb.OleDbType.Date).Value = vDate2
                     End If
                     Try
-                        drMySql1 = cmdMySql1cr.ExecuteReader()
-                        If drMySql1.HasRows Then
-                            'MsgBox(cmdMySql1cr.CommandText)
-                            While drMySql1.Read()
-                                vImporteTmpprint = drMySql1.GetValue(5)
+                        drMdb1 = cmdMdb1cr.ExecuteReader()
+                        If drMdb1.HasRows Then
+                            'MsgBox(cmdMdb1cr.CommandText)
+                            While drMdb1.Read()
+                                vImporteTmpprint = drMdb1.GetValue(5)
                                 'MsgBox(vImporteTmpprint)
                             End While
                         Else
-                            'MsgBox("No existen registros en " & cmdMySql1cr.CommandText)
+                            'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
                         End If
-                        drMySql1.Close()
+                        drMdb1.Close()
                     Catch ex As Exception
                         MsgBox("Error al Leer la Fecha: " & vFechaTemp)
                         MsgBox(ex.ToString)
                     End Try
                     vNewImporteFechas = (vImporteTmpprint + Val(fila.Cells(3).Value)).ToString
                     vAñadir2 = "UPDATE tmpprint SET ImporteTMP = ? WHERE tmpprint.FechaTMP = ?"
-                    cmdMySql1cr.CommandText = vAñadir2
-                    cmdMySql1cr.Parameters.Clear()
-                    cmdMySql1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = vNewImporteFechas
-                    cmdMySql1cr.Parameters.Add("@fec", OleDb.OleDbType.Date).Value = vFechaTemp2
+                    cmdMdb1cr.CommandText = vAñadir2
+                    cmdMdb1cr.Parameters.Clear()
+                    cmdMdb1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = vNewImporteFechas
+                    cmdMdb1cr.Parameters.Add("@fec", OleDb.OleDbType.Date).Value = vFechaTemp2
                     Try
-                        drMySql1 = cmdMySql1cr.ExecuteReader()
+                        drMdb1 = cmdMdb1cr.ExecuteReader()
                         'MsgBox("Registro2, Grabado Correctamente")
                     Catch ex As Exception
                         MsgBox("Error al Actualizar la Fecha: " & vFechaTemp)
                         MsgBox(ex.ToString)
                     End Try
-                    drMySql1.Close()
+                    drMdb1.Close()
                 End If
             Next
             'Llenamos la tabla Temporal con los cálculos realizados
@@ -383,9 +383,9 @@ Public Class TipoInformeApuntes
             'Iniciamos Tabla Tempapu
             '***********************
             vTempapu = "DELETE FROM tempapu"
-            cmdMySql1cr.CommandText = vTempapu
+            cmdMdb1cr.CommandText = vTempapu
             Try
-                cmdMySql1cr.ExecuteNonQuery()
+                cmdMdb1cr.ExecuteNonQuery()
                 'MsgBox("Registros Tempapu, Borrados !!!")
             Catch ex As Exception
                 MsgBox("Error al Borrar los Registros de Tempapu")
@@ -406,32 +406,32 @@ Public Class TipoInformeApuntes
                     vAñadir = "INSERT INTO tempapu"
                     vAñadir += "(ConceptoAPU, SumaImporteAPU) "
                     vAñadir += "VALUES (?, ?)"
-                    cmdMySql1cr.CommandText = vAñadir
-                    cmdMySql1cr.Parameters.Clear()
-                    cmdMySql1cr.Parameters.Add("@con", OleDb.OleDbType.VarWChar).Value = vNombreConcepto
-                    cmdMySql1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = vImporteConcepto
+                    cmdMdb1cr.CommandText = vAñadir
+                    cmdMdb1cr.Parameters.Clear()
+                    cmdMdb1cr.Parameters.Add("@con", OleDb.OleDbType.VarWChar).Value = vNombreConcepto
+                    cmdMdb1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = vImporteConcepto
                     Try
-                        cmdMySql1cr.ExecuteNonQuery()
+                        cmdMdb1cr.ExecuteNonQuery()
                         'MsgBox("Registro1, Grabado Correctamente")
                     Catch ex As Exception
                         MsgBox("Error al Grabar el Concepto: " & vNombreConcepto)
                         MsgBox(ex.ToString)
                     End Try
                 Else
-                    cmdMySql1cr.CommandType = CommandType.Text
-                    cmdMySql1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = ?"
-                    cmdMySql1cr.Parameters.Clear()
-                    cmdMySql1cr.Parameters.Add("@con", OleDb.OleDbType.VarWChar).Value = vNombreConcepto
+                    cmdMdb1cr.CommandType = CommandType.Text
+                    cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = ?"
+                    cmdMdb1cr.Parameters.Clear()
+                    cmdMdb1cr.Parameters.Add("@con", OleDb.OleDbType.VarWChar).Value = vNombreConcepto
                     Try
-                        drMySql1 = cmdMySql1cr.ExecuteReader()
-                        If drMySql1.HasRows Then
-                            While drMySql1.Read()
-                                vExistenteImporteConcepto = drMySql1.GetValue(1)
+                        drMdb1 = cmdMdb1cr.ExecuteReader()
+                        If drMdb1.HasRows Then
+                            While drMdb1.Read()
+                                vExistenteImporteConcepto = drMdb1.GetValue(1)
                             End While
                         Else
-                            'MsgBox("No existen registros en " & cmdMySql1cr.CommandText)
+                            'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
                         End If
-                        drMySql1.Close()
+                        drMdb1.Close()
                     Catch ex As Exception
                         MsgBox("Error al Leer el Concepto: " & vNombreConcepto)
                         MsgBox(ex.ToString)
@@ -439,18 +439,18 @@ Public Class TipoInformeApuntes
                     vNewImporteConcepto = vImporteConcepto + vExistenteImporteConcepto
                     vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = ? "
                     vAñadir2 += " WHERE tempapu.ConceptoAPU = ?"
-                    cmdMySql1cr.CommandText = vAñadir2
-                    cmdMySql1cr.Parameters.Clear()
-                    cmdMySql1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = vNewImporteConcepto
-                    cmdMySql1cr.Parameters.Add("@con", OleDb.OleDbType.VarWChar).Value = vNombreConcepto
+                    cmdMdb1cr.CommandText = vAñadir2
+                    cmdMdb1cr.Parameters.Clear()
+                    cmdMdb1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = vNewImporteConcepto
+                    cmdMdb1cr.Parameters.Add("@con", OleDb.OleDbType.VarWChar).Value = vNombreConcepto
                     Try
-                        drMySql1 = cmdMySql1cr.ExecuteReader()
+                        drMdb1 = cmdMdb1cr.ExecuteReader()
                         'MsgBox("Registro2, Grabado Correctamente")
                     Catch ex As Exception
                         MsgBox("Error al Actualizar el Concepto: " & vNombreConcepto)
                         MsgBox(ex.ToString)
                     End Try
-                    drMySql1.Close()
+                    drMdb1.Close()
                 End If
             Next
             'Llenamos la tabla de ImprimirForm con los cálculos realizados

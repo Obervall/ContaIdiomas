@@ -393,4 +393,16 @@ puis par Divers Concepts</value>
   <data name="EliminarPresupuestosError" xml:space="preserve">
     <value>Erreur lors de la suppression des budgets liés à l’élément comptable</value>
   </data>
+  <data name="Nombre" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="Numero" xml:space="preserve">
+    <value>Numéro</value>
+  </data>
+  <data name="Saldo" xml:space="preserve">
+    <value>Équilibre</value>
+  </data>
+  <data name="ErrorAlEjecutar" xml:space="preserve">
+    <value>Exécution par erreur</value>
+  </data>
 </root>

@@ -80,9 +80,9 @@ Public Class GraficosMeses3D
         'Iniciamos Tabla Tempapu
         '***********************
         vTempapu = "DELETE FROM tempapu"
-        cmdMySql1cr.CommandText = vTempapu
+        cmdMdb1cr.CommandText = vTempapu
         Try
-            cmdMySql1cr.ExecuteNonQuery()
+            cmdMdb1cr.ExecuteNonQuery()
             'MsgBox("Registros Tempapu, Borrados !!!")
         Catch ex As Exception
             MsgBox("Error al limpiar la tabla Tempapu")
@@ -111,9 +111,9 @@ Public Class GraficosMeses3D
                         vAñadir = "INSERT INTO tempapu"
                         vAñadir += "(ConceptoAPU, SumaImporteAPU) "
                         vAñadir += "VALUES ('" & vNombreConcepto & "','" & vImporteConcepto & "')"
-                        cmdMySql1cr.CommandText = vAñadir
+                        cmdMdb1cr.CommandText = vAñadir
                         Try
-                            cmdMySql1cr.ExecuteNonQuery()
+                            cmdMdb1cr.ExecuteNonQuery()
                         Catch ex As Exception
                             MsgBox("Error al añadir el Concepto a Tempapu")
                             MsgBox(ex.ToString)
@@ -121,29 +121,29 @@ Public Class GraficosMeses3D
                         vAñadir = "INSERT INTO tempapu"
                         vAñadir += "(ConceptoAPU, SumaImporteAPU) "
                         vAñadir += "VALUES ('" & vNombreConcepto & "',' 0 ')"
-                        cmdMySql1cr.CommandText = vAñadir
+                        cmdMdb1cr.CommandText = vAñadir
                         Try
-                            cmdMySql1cr.ExecuteNonQuery()
+                            cmdMdb1cr.ExecuteNonQuery()
                         Catch ex As Exception
                             MsgBox("Error al añadir el Concepto a Tempapu")
                             MsgBox(ex.ToString)
                         End Try
                     Else ' Si el Concepto existe y hay importe diferente a cero, si es positivo o negativo se suma
-                        cmdMySql1cr.CommandType = CommandType.Text
+                        cmdMdb1cr.CommandType = CommandType.Text
                         If Val(vImporteConcepto) > 0 Then
-                            cmdMySql1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                            cmdMySql1cr.CommandText += "And tempapu.SumaImporteAPU > 0 "
+                            cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+                            cmdMdb1cr.CommandText += "And tempapu.SumaImporteAPU > 0 "
                         ElseIf Val(vImporteConcepto) < 0 Then
-                            cmdMySql1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                            cmdMySql1cr.CommandText += "And tempapu.SumaImporteAPU < 0 "
+                            cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+                            cmdMdb1cr.CommandText += "And tempapu.SumaImporteAPU < 0 "
                         End If
                         Try
-                            drMySql1 = cmdMySql1cr.ExecuteReader()
-                            If drMySql1.HasRows Then 'Significa que existe con las condiciones
-                                While drMySql1.Read()
-                                    vExistenteImporteConcepto = drMySql1.GetValue(1)
+                            drMdb1 = cmdMdb1cr.ExecuteReader()
+                            If drMdb1.HasRows Then 'Significa que existe con las condiciones
+                                While drMdb1.Read()
+                                    vExistenteImporteConcepto = drMdb1.GetValue(1)
                                 End While
-                                drMySql1.Close()
+                                drMdb1.Close()
                                 vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
                                 If Val(vImporteConcepto) > 0 Then
                                     vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
@@ -154,40 +154,40 @@ Public Class GraficosMeses3D
                                     vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
                                     vAñadir2 += "And tempapu.SumaImporteAPU < 0 "
                                 End If
-                                cmdMySql1cr.CommandText = vAñadir2
+                                cmdMdb1cr.CommandText = vAñadir2
                                 Try
-                                    drMySql1 = cmdMySql1cr.ExecuteReader()
+                                    drMdb1 = cmdMdb1cr.ExecuteReader()
                                 Catch ex As Exception
                                     MsgBox("Error al actualizar el Concepto en Tempapu")
                                     MsgBox(ex.ToString)
                                 End Try
-                                drMySql1.Close()
+                                drMdb1.Close()
 
                             Else   'NO existe, lo añadimos al cero
-                                'MsgBox("No existen registros en " & cmdMySql1cr.CommandText)
-                                drMySql1.Close()
-                                cmdMySql1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                                cmdMySql1cr.CommandText += "And tempapu.SumaImporteAPU = 0 "
-                                drMySql1 = cmdMySql1cr.ExecuteReader()
-                                If drMySql1.HasRows Then 'Significa que existe con las condiciones
-                                    While drMySql1.Read()
-                                        vExistenteImporteConcepto = drMySql1.GetValue(1)
+                                'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
+                                drMdb1.Close()
+                                cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+                                cmdMdb1cr.CommandText += "And tempapu.SumaImporteAPU = 0 "
+                                drMdb1 = cmdMdb1cr.ExecuteReader()
+                                If drMdb1.HasRows Then 'Significa que existe con las condiciones
+                                    While drMdb1.Read()
+                                        vExistenteImporteConcepto = drMdb1.GetValue(1)
                                     End While
-                                    drMySql1.Close()
+                                    drMdb1.Close()
                                     vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
                                     vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
                                     vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
                                     vAñadir2 += "And tempapu.SumaImporteAPU = 0 "
-                                    cmdMySql1cr.CommandText = vAñadir2
+                                    cmdMdb1cr.CommandText = vAñadir2
                                     Try
-                                        drMySql1 = cmdMySql1cr.ExecuteReader()
+                                        drMdb1 = cmdMdb1cr.ExecuteReader()
                                     Catch ex As Exception
                                         MsgBox("Error al actualizar el Concepto en Tempapu")
                                         MsgBox(ex.ToString)
                                     End Try
-                                    drMySql1.Close()
+                                    drMdb1.Close()
                                 End If
-                                drMySql1.Close()
+                                drMdb1.Close()
                             End If
                         Catch ex As Exception
                             MsgBox("Error al verificar que el Concepto existe en Tempapu")
@@ -207,9 +207,9 @@ Public Class GraficosMeses3D
                         vAñadir = "INSERT INTO tempapu"
                         vAñadir += "(ConceptoAPU, SumaImporteAPU) "
                         vAñadir += "VALUES ('" & vNombreConcepto & "','" & vImporteConcepto & "')"
-                        cmdMySql1cr.CommandText = vAñadir
+                        cmdMdb1cr.CommandText = vAñadir
                         Try
-                            cmdMySql1cr.ExecuteNonQuery()
+                            cmdMdb1cr.ExecuteNonQuery()
                         Catch ex As Exception
                             MsgBox("Error al añadir el Concepto a Tempapu")
                             MsgBox(ex.ToString)
@@ -217,29 +217,29 @@ Public Class GraficosMeses3D
                         vAñadir = "INSERT INTO tempapu"
                         vAñadir += "(ConceptoAPU, SumaImporteAPU) "
                         vAñadir += "VALUES ('" & vNombreConcepto & "',' 0 ')"
-                        cmdMySql1cr.CommandText = vAñadir
+                        cmdMdb1cr.CommandText = vAñadir
                         Try
-                            cmdMySql1cr.ExecuteNonQuery()
+                            cmdMdb1cr.ExecuteNonQuery()
                         Catch ex As Exception
                             MsgBox("Error al añadir el Concepto a Tempapu")
                             MsgBox(ex.ToString)
                         End Try
                     Else ' Si el Concepto existe y hay importe diferente a cero, si es positivo o negativo se suma
-                        cmdMySql1cr.CommandType = CommandType.Text
+                        cmdMdb1cr.CommandType = CommandType.Text
                         If Val(vImporteConcepto) > 0 Then
-                            cmdMySql1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                            cmdMySql1cr.CommandText += "And tempapu.SumaImporteAPU > 0 "
+                            cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+                            cmdMdb1cr.CommandText += "And tempapu.SumaImporteAPU > 0 "
                         ElseIf Val(vImporteConcepto) < 0 Then
-                            cmdMySql1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                            cmdMySql1cr.CommandText += "And tempapu.SumaImporteAPU < 0 "
+                            cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+                            cmdMdb1cr.CommandText += "And tempapu.SumaImporteAPU < 0 "
                         End If
                         Try
-                            drMySql1 = cmdMySql1cr.ExecuteReader()
-                            If drMySql1.HasRows Then 'Significa que existe con las condiciones
-                                While drMySql1.Read()
-                                    vExistenteImporteConcepto = drMySql1.GetValue(1)
+                            drMdb1 = cmdMdb1cr.ExecuteReader()
+                            If drMdb1.HasRows Then 'Significa que existe con las condiciones
+                                While drMdb1.Read()
+                                    vExistenteImporteConcepto = drMdb1.GetValue(1)
                                 End While
-                                drMySql1.Close()
+                                drMdb1.Close()
                                 vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
                                 If Val(vImporteConcepto) > 0 Then
                                     vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
@@ -250,40 +250,40 @@ Public Class GraficosMeses3D
                                     vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
                                     vAñadir2 += "And tempapu.SumaImporteAPU < 0 "
                                 End If
-                                cmdMySql1cr.CommandText = vAñadir2
+                                cmdMdb1cr.CommandText = vAñadir2
                                 Try
-                                    drMySql1 = cmdMySql1cr.ExecuteReader()
+                                    drMdb1 = cmdMdb1cr.ExecuteReader()
                                 Catch ex As Exception
                                     MsgBox("Error al actualizar el Concepto en Tempapu")
                                     MsgBox(ex.ToString)
                                 End Try
-                                drMySql1.Close()
+                                drMdb1.Close()
 
                             Else   'NO existe, lo añadimos al cero
-                                'MsgBox("No existen registros en " & cmdMySql1cr.CommandText)
-                                drMySql1.Close()
-                                cmdMySql1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                                cmdMySql1cr.CommandText += "And tempapu.SumaImporteAPU = 0 "
-                                drMySql1 = cmdMySql1cr.ExecuteReader()
-                                If drMySql1.HasRows Then 'Significa que existe con las condiciones
-                                    While drMySql1.Read()
-                                        vExistenteImporteConcepto = drMySql1.GetValue(1)
+                                'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
+                                drMdb1.Close()
+                                cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+                                cmdMdb1cr.CommandText += "And tempapu.SumaImporteAPU = 0 "
+                                drMdb1 = cmdMdb1cr.ExecuteReader()
+                                If drMdb1.HasRows Then 'Significa que existe con las condiciones
+                                    While drMdb1.Read()
+                                        vExistenteImporteConcepto = drMdb1.GetValue(1)
                                     End While
-                                    drMySql1.Close()
+                                    drMdb1.Close()
                                     vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
                                     vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
                                     vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
                                     vAñadir2 += "And tempapu.SumaImporteAPU = 0 "
-                                    cmdMySql1cr.CommandText = vAñadir2
+                                    cmdMdb1cr.CommandText = vAñadir2
                                     Try
-                                        drMySql1 = cmdMySql1cr.ExecuteReader()
+                                        drMdb1 = cmdMdb1cr.ExecuteReader()
                                     Catch ex As Exception
                                         MsgBox("Error al actualizar el Concepto en Tempapu")
                                         MsgBox(ex.ToString)
                                     End Try
-                                    drMySql1.Close()
+                                    drMdb1.Close()
                                 End If
-                                drMySql1.Close()
+                                drMdb1.Close()
                             End If
                         Catch ex As Exception
                             MsgBox("Error al verificar que el Concepto existe en Tempapu")

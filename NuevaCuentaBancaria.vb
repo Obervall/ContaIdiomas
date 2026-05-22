@@ -25,19 +25,19 @@ Public Class NuevaCuentaBancaria
 
         ' Llenar el Combo Tipo Cuenta
         '****************************
-        cmdMySql1cr.CommandText = "SELECT tipocuentas.CodigoTIP FROM tipocuentas"
-        cmdMySql1cr.CommandText += " ORDER BY tipocuentas.CodigoTIP ASC"
+        cmdMdb1cr.CommandText = "SELECT tipocuentas.CodigoTIP FROM tipocuentas"
+        cmdMdb1cr.CommandText += " ORDER BY tipocuentas.CodigoTIP ASC"
         Try
-            drMySql1 = cmdMySql1cr.ExecuteReader()
-            If drMySql1.HasRows Then
-                While drMySql1.Read()
-                    CmbTipoCuenta.Items.Add(drMySql1.GetValue(0))
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            If drMdb1.HasRows Then
+                While drMdb1.Read()
+                    CmbTipoCuenta.Items.Add(drMdb1.GetValue(0))
                 End While
                 CmbTipoCuenta.Text = CmbTipoCuenta.Items(0)
             Else
-                MsgBox("No existen registros en " & cmdMySql1cr.CommandText)
+                MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
             End If
-            drMySql1.Close()
+            drMdb1.Close()
         Catch ex As Exception
             MsgBox("Error al llenar el Combo Tipo Cuenta")
             MsgBox(ex.ToString)
@@ -102,23 +102,23 @@ Public Class NuevaCuentaBancaria
         ' Verificar que no se repite Nombre/Código en Cuentas Bancarias
         '**************************************************************
         vtipoSql = "SELECT * FROM cuentas WHERE cuentas.NombreCUE = '" & vTxtNombre & "' "
-        cmdMySql1cr.CommandText = vtipoSql
+        cmdMdb1cr.CommandText = vtipoSql
 
         Try
-            drMySql1 = cmdMySql1cr.ExecuteReader()
-            If drMySql1.HasRows Then
-                drMySql1.Close()
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            If drMdb1.HasRows Then
+                drMdb1.Close()
                 MsgBox("El Nombre: " & vTxtNombre & ", ya existe en Cuentas Bancarias", vbOKOnly, "Cuenta Existente")
                 TxtNombre.Select()
             Else
-                drMySql1.Close()
+                drMdb1.Close()
                 vtipoSql = "INSERT INTO cuentas "
                 vtipoSql += "(NombreCUE, NumeroCUE, TipoCUE, NotasCUE) "
                 vtipoSql += "VALUES ('" & vTxtNombre & "','" & vTxtNumero & "','" & vTxtTipo & "','" & vTxtNotas & "')"
 
-                cmdMySql1cr.CommandText = vtipoSql
+                cmdMdb1cr.CommandText = vtipoSql
                 Try
-                    cmdMySql1cr.ExecuteNonQuery()
+                    cmdMdb1cr.ExecuteNonQuery()
                     'MsgBox("Registro, Grabado Correctamente")
                     Me.Close()
                 Catch ex As Exception

@@ -19,9 +19,9 @@ Public Class GraficosPresupuestos
         'Iniciamos Tabla Tmpprint
         '************************
         vTmpprint = "DELETE FROM tmpprint"
-        cmdMySql1cr.CommandText = vTmpprint
+        cmdMdb1cr.CommandText = vTmpprint
         Try
-            cmdMySql1cr.ExecuteNonQuery()
+            cmdMdb1cr.ExecuteNonQuery()
             'MsgBox("Registros Tmpprint, Borrados !!!")
         Catch ex As Exception
             MsgBox("Error al borrar los registros de Tmpprint")
@@ -57,27 +57,27 @@ Public Class GraficosPresupuestos
                 vAñadir = "INSERT INTO tmpprint"
                 vAñadir += "(FechaTMP, ConceptoTMP, DescripcionTMP, CuentaTMP, NotasTMP, ImporteTMP, SaldoTMP) "
                 vAñadir += "VALUES ('01/01/1900', '" & vNombreConcepto & "', '', '', '' , '" & vImporteConcepto2 & "', '" & vImporteConcepto & "')"
-                cmdMySql1cr.CommandText = vAñadir
+                cmdMdb1cr.CommandText = vAñadir
                 Try
-                    cmdMySql1cr.ExecuteNonQuery()
+                    cmdMdb1cr.ExecuteNonQuery()
                     'MsgBox("Registro1, Grabado Correctamente " & vNombreConcepto)
                 Catch ex As Exception
                     MsgBox("Error al grabar el Concepto en Tmpprint")
                     MsgBox(ex.ToString)
                 End Try
             Else
-                cmdMySql1cr.CommandType = CommandType.Text
-                cmdMySql1cr.CommandText = "SELECT * FROM tmpprint WHERE tmpprint.ConceptoTMP = '" & vNombreConcepto & "' "
+                cmdMdb1cr.CommandType = CommandType.Text
+                cmdMdb1cr.CommandText = "SELECT * FROM tmpprint WHERE tmpprint.ConceptoTMP = '" & vNombreConcepto & "' "
                 Try
-                    drMySql1 = cmdMySql1cr.ExecuteReader()
-                    If drMySql1.HasRows Then
-                        While drMySql1.Read()
-                            vExistenteImporteConcepto = drMySql1.GetValue(6)
+                    drMdb1 = cmdMdb1cr.ExecuteReader()
+                    If drMdb1.HasRows Then
+                        While drMdb1.Read()
+                            vExistenteImporteConcepto = drMdb1.GetValue(6)
                         End While
                     Else
-                        'MsgBox("No existen registros en " & cmdMySql1cr.CommandText)
+                        'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
                     End If
-                    drMySql1.Close()
+                    drMdb1.Close()
                 Catch ex As Exception
                     MsgBox("Error al buscar el Importe del Concepto en Tempprint")
                     MsgBox(ex.ToString)
@@ -85,15 +85,15 @@ Public Class GraficosPresupuestos
                 vNewImporteConcepto = vImporteConcepto + vExistenteImporteConcepto
                 vAñadir2 = "UPDATE tmpprint SET SaldoTMP = '" & vNewImporteConcepto & "' "
                 vAñadir2 += " WHERE tmpprint.ConceptoTMP = '" & vNombreConcepto & "' "
-                cmdMySql1cr.CommandText = vAñadir2
+                cmdMdb1cr.CommandText = vAñadir2
                 Try
-                    drMySql1 = cmdMySql1cr.ExecuteReader()
+                    drMdb1 = cmdMdb1cr.ExecuteReader()
                     'MsgBox(vImporteConcepto & " Registro2, Grabado Correctamente " & vNombreConcepto & " " & vNewImporteConcepto)
                 Catch ex As Exception
                     MsgBox("Error al actualizar el Importe del Concepto en tmpprint")
                     MsgBox(ex.ToString)
                 End Try
-                drMySql1.Close()
+                drMdb1.Close()
             End If
         Next
 

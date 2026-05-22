@@ -64,23 +64,23 @@ Public Class NuevoTipoCuentaBancaria
             '**************************************************************
             vtipoSql = "SELECT * FROM tipocuentas WHERE tipocuentas.CodigoTIP = '" & vTxtNombre & "' "
             vtipoGrid = "NOMBRESEXISTENTES3"
-            cmdMySql1cr.CommandText = vtipoSql
+            cmdMdb1cr.CommandText = vtipoSql
 
             Try
-                drMySql1 = cmdMySql1cr.ExecuteReader()
-                If drMySql1.HasRows Then
-                    drMySql1.Close()
+                drMdb1 = cmdMdb1cr.ExecuteReader()
+                If drMdb1.HasRows Then
+                    drMdb1.Close()
                     MsgBox("El Nombre: " & vTxtNombre & ", ya existe en Tipo Cuentas Bancarias", vbOKOnly, "Tipo Cuenta Existente")
                     TxtNombre.Select()
                 Else
-                    drMySql1.Close()
+                    drMdb1.Close()
                     vtipoSql = "INSERT INTO tipocuentas "
                     vtipoSql += "(CodigoTIP, DescripcionTIP) "
                     vtipoSql += "VALUES ('" & vTxtNombre & "','" & vTxtDescripcion & "')"
 
-                    cmdMySql1cr.CommandText = vtipoSql
+                    cmdMdb1cr.CommandText = vtipoSql
                     Try
-                        cmdMySql1cr.ExecuteNonQuery()
+                        cmdMdb1cr.ExecuteNonQuery()
                         'MsgBox("Registro, Grabado Correctamente")
                         Me.Close()
                     Catch ex As Exception

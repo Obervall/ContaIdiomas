@@ -8,19 +8,19 @@ Public Class SeleccionDatosGastos
     Private Sub SeleccionDatos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ActualizarTextosFormulario(Me)
 
-        cmdMySql1cr.CommandText = "SELECT * FROM conceptos "
-        cmdMySql1cr.CommandText += "Where conceptos.TipoCON = 'GASTO' ORDER BY conceptos.CodigoCON ASC"
+        cmdMdb1cr.CommandText = "SELECT * FROM conceptos "
+        cmdMdb1cr.CommandText += "Where conceptos.TipoCON = 'GASTO' ORDER BY conceptos.CodigoCON ASC"
         Try
-            drMySql1 = cmdMySql1cr.ExecuteReader()
-            If drMySql1.HasRows Then
-                While drMySql1.Read()
-                    ListBox1.Items.Add(drMySql1.GetValue(0))
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            If drMdb1.HasRows Then
+                While drMdb1.Read()
+                    ListBox1.Items.Add(drMdb1.GetValue(0))
                 End While
                 ListBox1.Text = ListBox1.Items(0)
             Else
                 'MsgBox("No existen registros en " & tipoSql)
             End If
-            drMySql1.Close()
+            drMdb1.Close()
         Catch ex As Exception
             MsgBox("Error al cargar el ListBox de Conceptos de Gastos" & vbCrLf & ex.ToString)
         End Try

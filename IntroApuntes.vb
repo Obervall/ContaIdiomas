@@ -64,12 +64,12 @@ Public Class IntroApuntes
 
         ' Llenar el Combo Cuenta
         '***********************
-        cmdMySql1cr.CommandText = "SELECT * FROM cuentas ORDER BY cuentas.NombreCUE ASC"
+        cmdMdb1cr.CommandText = "SELECT * FROM cuentas ORDER BY cuentas.NombreCUE ASC"
         Try
-            drMySql1 = cmdMySql1cr.ExecuteReader()
-            If drMySql1.HasRows Then
-                While drMySql1.Read()
-                    CmbCuenta.Items.Add(drMySql1.GetValue(0))
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            If drMdb1.HasRows Then
+                While drMdb1.Read()
+                    CmbCuenta.Items.Add(drMdb1.GetValue(0))
                 End While
                 If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
                     CmbCuenta.Text = CmbCuenta.Items(frmApuntesContables.CmbCuenta.SelectedIndex)
@@ -77,9 +77,9 @@ Public Class IntroApuntes
                     CmbCuenta.Text = CmbCuenta.Items(0)
                 End If
             Else
-                'MsgBox("No existen registros en " & cmdMySql1cr.CommandText)
+                'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
             End If
-            drMySql1.Close()
+            drMdb1.Close()
         Catch ex As Exception
             MsgBox("Error al llenar el Combo Cuenta")
             MsgBox(ex.ToString)
@@ -201,18 +201,18 @@ Public Class IntroApuntes
     End Sub
 
     Function BuscarLetras(combo)
-        drMySql1.Close()
+        drMdb1.Close()
         If combo = "concepto" Then
             If CmbConcepto.Items.Count <> 0 Then
                 CmbConcepto.Items.Clear()
             End If
-            cmdMySql1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON like '%" & vLetras & "%' ORDER BY conceptos.CodigoCON ASC"
+            cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON like '%" & vLetras & "%' ORDER BY conceptos.CodigoCON ASC"
             Try
-                drMySql1 = cmdMySql1cr.ExecuteReader()
-                If drMySql1.HasRows Then
-                    While drMySql1.Read()
-                        If drMySql1.GetValue(0) <> "TRASPASO" Then
-                            CmbConcepto.Items.Add(drMySql1.GetValue(0))
+                drMdb1 = cmdMdb1cr.ExecuteReader()
+                If drMdb1.HasRows Then
+                    While drMdb1.Read()
+                        If drMdb1.GetValue(0) <> "TRASPASO" Then
+                            CmbConcepto.Items.Add(drMdb1.GetValue(0))
                         End If
                     End While
                     CmbConcepto.DroppedDown = True
@@ -221,7 +221,7 @@ Public Class IntroApuntes
                     TxtBuscarLetras.Text = Mid(TxtBuscarLetras.Text, 1, Len(TxtBuscarLetras.Text) - 1)
                     TxtBuscarLetras.Select(TxtBuscarLetras.Text.Length, 1)
                 End If
-                drMySql1.Close()
+                drMdb1.Close()
             Catch ex As Exception
                 MsgBox("Error al Buscar Letras en Concepto")
                 MsgBox(ex.ToString)
@@ -231,20 +231,20 @@ Public Class IntroApuntes
             If CmbDescripcion.Items.Count <> 0 Then
                 CmbDescripcion.Items.Clear()
             End If
-            cmdMySql1cr.CommandText = "SELECT * FROM apuntes Where apuntes.DescripcionAPU like '%" & vLetras & "%' "
+            cmdMdb1cr.CommandText = "SELECT * FROM apuntes Where apuntes.DescripcionAPU like '%" & vLetras & "%' "
             Try
-                drMySql1 = cmdMySql1cr.ExecuteReader()
-                If drMySql1.HasRows Then
+                drMdb1 = cmdMdb1cr.ExecuteReader()
+                If drMdb1.HasRows Then
                     primero = 1
-                    While drMySql1.Read()
-                        If Trim(drMySql1.GetValue(3)) <> "Saldo Inicial" Then
+                    While drMdb1.Read()
+                        If Trim(drMdb1.GetValue(3)) <> "Saldo Inicial" Then
                             If primero = 1 Then
-                                CmbDescripcion.Items.Add(Trim(drMySql1.GetValue(3)))
+                                CmbDescripcion.Items.Add(Trim(drMdb1.GetValue(3)))
                                 primero = 2
                             Else
                                 nuevo = 0
                                 For i = 0 To CmbDescripcion.Items.Count - 1
-                                    If Trim(drMySql1.GetValue(3)) = Trim(CmbDescripcion.Items(i)) Then
+                                    If Trim(drMdb1.GetValue(3)) = Trim(CmbDescripcion.Items(i)) Then
                                         nuevo = 0
                                         Exit For
                                     Else
@@ -252,7 +252,7 @@ Public Class IntroApuntes
                                     End If
                                 Next
                                 If nuevo = 1 Then
-                                    CmbDescripcion.Items.Add(Trim(drMySql1.GetValue(3)))
+                                    CmbDescripcion.Items.Add(Trim(drMdb1.GetValue(3)))
                                     nuevo = 0
                                 End If
                             End If
@@ -274,7 +274,7 @@ Public Class IntroApuntes
                         TxtBuscarLetras.Select(TxtBuscarLetras.Text.Length, 1)
                     End If
                 End If
-                drMySql1.Close()
+                drMdb1.Close()
             Catch ex As Exception
                 MsgBox("Error al Buscar Letras en Descripción")
                 MsgBox(ex.ToString)
@@ -288,14 +288,14 @@ Public Class IntroApuntes
         '******************************************
         If vIntro = "NO" Then
             vConcepto = CmbConcepto.Text.ToString
-            drMySql1.Close()
-            cmdMySql1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto & "' ORDER BY conceptos.CodigoCON ASC"
-            drMySql1 = cmdMySql1cr.ExecuteReader()
-            drMySql1.Read()
-            If drMySql1.HasRows Then
-                TxtTipoConcepto.Text = drMySql1.GetValue(2)
-                CmbDescripcion.Text = drMySql1.GetValue(1)
-                drMySql1.Close()
+            drMdb1.Close()
+            cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto & "' ORDER BY conceptos.CodigoCON ASC"
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            drMdb1.Read()
+            If drMdb1.HasRows Then
+                TxtTipoConcepto.Text = drMdb1.GetValue(2)
+                CmbDescripcion.Text = drMdb1.GetValue(1)
+                drMdb1.Close()
             End If
         End If
     End Sub
@@ -305,12 +305,12 @@ Public Class IntroApuntes
         '*******************************************
         If vIntro = "NO" Then
             vDescripcion = CmbDescripcion.Text.ToString
-            drMySql1.Close()
-            cmdMySql1cr.CommandText = "SELECT * FROM apuntes Where apuntes.DescripcionAPU = '" & vDescripcion & "' ORDER BY apuntes.DescripcionAPU ASC"
-            drMySql1 = cmdMySql1cr.ExecuteReader()
-            drMySql1.Read()
-            CmbDescripcion.Text = drMySql1.GetValue(3)
-            drMySql1.Close()
+            drMdb1.Close()
+            cmdMdb1cr.CommandText = "SELECT * FROM apuntes Where apuntes.DescripcionAPU = '" & vDescripcion & "' ORDER BY apuntes.DescripcionAPU ASC"
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            drMdb1.Read()
+            CmbDescripcion.Text = drMdb1.GetValue(3)
+            drMdb1.Close()
         End If
     End Sub
 
@@ -409,9 +409,9 @@ Public Class IntroApuntes
                 vAñadirSql = "INSERT INTO apuntes "
                 vAñadirSql += "(FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) "
                 vAñadirSql += "VALUES (#" & vDate3.ToString("yyyy/MM/dd") & "#,'" & vConcepto & "','" & vDescripcionAPU & "','" & vImporteAPU & "','" & vAñoEjercicio & "','" & vNotasAPU & "','" & vCuentaAPU & "')"
-                cmdMySql1cr.CommandText = vAñadirSql
+                cmdMdb1cr.CommandText = vAñadirSql
                 Try
-                    cmdMySql1cr.ExecuteNonQuery()
+                    cmdMdb1cr.ExecuteNonQuery()
                     'MsgBox("Registro, Grabado Correctamente")
                 Catch ex As Exception
                     MsgBox("Error al Grabar el Registro, Verificar que la Fecha es Correcta y el Importe no tiene Letras ..." & vbCrLf & "Error: " & ex.ToString, vbExclamation, "Error al Grabar")
@@ -453,9 +453,9 @@ Public Class IntroApuntes
                 vAñadirSql = "INSERT INTO apuntes "
                 vAñadirSql += "(FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) "
                 vAñadirSql += "VALUES (#" & vDate3.ToString("yyyy/MM/dd") & "#,'" & vConcepto & "','" & vDescripcionAPU & "','" & vImporteAPU & "','" & vAñoEjercicio & "','" & vNotasAPU & "','" & vCuentaAPU & "')"
-                cmdMySql1cr.CommandText = vAñadirSql
+                cmdMdb1cr.CommandText = vAñadirSql
                 Try
-                    cmdMySql1cr.ExecuteNonQuery()
+                    cmdMdb1cr.ExecuteNonQuery()
                     'MsgBox("Registro, Grabado Correctamente")
                 Catch ex As Exception
                     MsgBox("Error al Grabar el Registro, Verificar que la Fecha es Correcta y el Importe no tiene Letras ..." & vbCrLf & "Error: " & ex.ToString, vbExclamation, "Error al Grabar")
@@ -535,9 +535,9 @@ Public Class IntroApuntes
                 vAñadirSql = "INSERT INTO apuntes "
                 vAñadirSql += "(FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) "
                 vAñadirSql += "VALUES (#" & vDate3.ToString("yyyy/MM/dd") & "#,'" & vConcepto & "','" & vDescripcionAPU & "','" & vImporteAPU & "','" & vAñoEjercicio & "','" & vNotasAPU & "','" & vCuentaAPU & "')"
-                cmdMySql1cr.CommandText = vAñadirSql
+                cmdMdb1cr.CommandText = vAñadirSql
                 Try
-                    cmdMySql1cr.ExecuteNonQuery()
+                    cmdMdb1cr.ExecuteNonQuery()
                     'MsgBox("Registro, Grabado Correctamente")
                 Catch ex As Exception
                     MsgBox("Error al Grabar el Registro, Verificar que la Fecha es Correcta y el Importe no tiene Letras ..." & vbCrLf & "Error: " & ex.ToString, vbExclamation, "Error al Grabar")
@@ -574,9 +574,9 @@ Public Class IntroApuntes
                 vAñadirSql = "INSERT INTO apuntes "
                 vAñadirSql += "(FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) "
                 vAñadirSql += "VALUES (#" & vDate3.ToString("yyyy/MM/dd") & "#,'" & vConcepto & "','" & vDescripcionAPU & "','" & vImporteAPU & "','" & vAñoEjercicio & "','" & vNotasAPU & "','" & vCuentaAPU & "')"
-                cmdMySql1cr.CommandText = vAñadirSql
+                cmdMdb1cr.CommandText = vAñadirSql
                 Try
-                    cmdMySql1cr.ExecuteNonQuery()
+                    cmdMdb1cr.ExecuteNonQuery()
                     'MsgBox("Registro, Grabado Correctamente")
                 Catch ex As Exception
                     MsgBox("Error al Grabar el Registro, Verificar que la Fecha es Correcta y el Importe no tiene Letras ..." & vbCrLf & "Error: " & ex.ToString, vbExclamation, "Error al Grabar")
@@ -701,13 +701,13 @@ Public Class IntroApuntes
     End Sub
 
     Function LlenarConcepto()
-        cmdMySql1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
+        cmdMdb1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
         Try
-            drMySql1 = cmdMySql1cr.ExecuteReader()
-            If drMySql1.HasRows Then
-                While drMySql1.Read()
-                    If drMySql1.GetValue(0) <> "TRASPASO" Then
-                        CmbConcepto.Items.Add(drMySql1.GetValue(0))
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            If drMdb1.HasRows Then
+                While drMdb1.Read()
+                    If drMdb1.GetValue(0) <> "TRASPASO" Then
+                        CmbConcepto.Items.Add(drMdb1.GetValue(0))
                     End If
                 End While
                 If frmApuntesContables.BtnFiltroConcepto.Enabled = False Then
@@ -720,9 +720,9 @@ Public Class IntroApuntes
                     CmbConcepto.Text = CmbConcepto.Items(0)
                 End If
             Else
-                'MsgBox("No existen registros en " & cmdMySql1cr.CommandText)
+                'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
             End If
-            drMySql1.Close()
+            drMdb1.Close()
         Catch ex As Exception
             MsgBox("Error al Llenar el Combo Concepto, Verificar que la Base de Datos no esta Dañada ..." & vbCrLf & "Error: " & ex.ToString, vbExclamation, "Error al Llenar")
         End Try
@@ -730,20 +730,20 @@ Public Class IntroApuntes
     End Function
 
     Function LlenarDescripcion()
-        cmdMySql1cr.CommandText = "SELECT * FROM apuntes ORDER BY apuntes.DescripcionAPU ASC"
+        cmdMdb1cr.CommandText = "SELECT * FROM apuntes ORDER BY apuntes.DescripcionAPU ASC"
         Try
-            drMySql1 = cmdMySql1cr.ExecuteReader()
-            If drMySql1.HasRows Then
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            If drMdb1.HasRows Then
                 primero = 1
-                While drMySql1.Read()
-                    If Trim(drMySql1.GetValue(3)) <> "Saldo Inicial" Then
+                While drMdb1.Read()
+                    If Trim(drMdb1.GetValue(3)) <> "Saldo Inicial" Then
                         If primero = 1 Then
-                            CmbDescripcion.Items.Add(Trim(drMySql1.GetValue(3)))
+                            CmbDescripcion.Items.Add(Trim(drMdb1.GetValue(3)))
                             primero = 2
                         Else
                             nuevo = 0
                             For i = 0 To CmbDescripcion.Items.Count - 1
-                                If Trim(drMySql1.GetValue(3)) = Trim(CmbDescripcion.Items(i)) Then
+                                If Trim(drMdb1.GetValue(3)) = Trim(CmbDescripcion.Items(i)) Then
                                     nuevo = 0
                                     Exit For
                                 Else
@@ -751,16 +751,16 @@ Public Class IntroApuntes
                                 End If
                             Next
                             If nuevo = 1 Then
-                                CmbDescripcion.Items.Add(Trim(drMySql1.GetValue(3)))
+                                CmbDescripcion.Items.Add(Trim(drMdb1.GetValue(3)))
                                 nuevo = 0
                             End If
                         End If
                     End If
                 End While
             Else
-                'MsgBox("No existen registros en " & cmdMySql1cr.CommandText)
+                'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
             End If
-            drMySql1.Close()
+            drMdb1.Close()
         Catch ex As Exception
             MsgBox("Error al Llenar el Combo Descripción, Verificar que la Base de Datos no esta Dañada ..." & vbCrLf & "Error: " & ex.ToString, vbExclamation, "Error al Llenar")
         End Try

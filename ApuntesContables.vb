@@ -141,58 +141,58 @@ Public Class ApuntesContables
 
         ' Llenar el Combo Concepto y ChekedListBox1
         '******************************************
-        cmdMySql1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.TipoCON ASC, conceptos.CodigoCON ASC"
+        cmdMdb1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.TipoCON ASC, conceptos.CodigoCON ASC"
         Try
-            drMySql1 = cmdMySql1cr.ExecuteReader()
-            If drMySql1.HasRows Then
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            If drMdb1.HasRows Then
                 vTipoConcepto = ""
                 vFila = 0
-                While drMySql1.Read()
-                    If vTipoConcepto <> drMySql1.GetValue(2) Then
+                While drMdb1.Read()
+                    If vTipoConcepto <> drMdb1.GetValue(2) Then
                         If vFila = 0 Then
-                            vTipoConcepto = drMySql1.GetValue(2)
-                            CmbConcepto.Items.Add(drMySql1.GetValue(0))
-                            ListBox1.Items.Add(drMySql1.GetValue(0))
+                            vTipoConcepto = drMdb1.GetValue(2)
+                            CmbConcepto.Items.Add(drMdb1.GetValue(0))
+                            ListBox1.Items.Add(drMdb1.GetValue(0))
                             vFila += 1
                         Else
-                            vTipoConcepto = drMySql1.GetValue(2)
+                            vTipoConcepto = drMdb1.GetValue(2)
                             If vTipoConcepto = "GASTO" Then
                                 ListBox1.Items.Add("** Gastos **")
                             Else
                                 ListBox1.Items.Add("** Ingresos **")
                             End If
-                            CmbConcepto.Items.Add(drMySql1.GetValue(0))
-                            ListBox1.Items.Add(drMySql1.GetValue(0))
+                            CmbConcepto.Items.Add(drMdb1.GetValue(0))
+                            ListBox1.Items.Add(drMdb1.GetValue(0))
                         End If
                     Else
                         vFila += 1
-                        CmbConcepto.Items.Add(drMySql1.GetValue(0))
-                        ListBox1.Items.Add(drMySql1.GetValue(0))
+                        CmbConcepto.Items.Add(drMdb1.GetValue(0))
+                        ListBox1.Items.Add(drMdb1.GetValue(0))
                     End If
                 End While
                 CmbConcepto.Text = CmbConcepto.Items(1)
             Else
                 'MsgBox("No existen registros en " & tipoSql)
             End If
-            drMySql1.Close()
+            drMdb1.Close()
         Catch ex As Exception
             MsgBox(ex.ToString)
         End Try
 
         ' Llenar el Combo Cuenta
         '***********************
-        cmdMySql1cr.CommandText = "SELECT * FROM cuentas ORDER BY cuentas.NombreCUE ASC"
+        cmdMdb1cr.CommandText = "SELECT * FROM cuentas ORDER BY cuentas.NombreCUE ASC"
         Try
-            drMySql1 = cmdMySql1cr.ExecuteReader()
-            If drMySql1.HasRows Then
-                While drMySql1.Read()
-                    CmbCuenta.Items.Add(drMySql1.GetValue(0))
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            If drMdb1.HasRows Then
+                While drMdb1.Read()
+                    CmbCuenta.Items.Add(drMdb1.GetValue(0))
                 End While
                 CmbCuenta.Text = CmbCuenta.Items(0)
             Else
                 'MsgBox("No existen registros en " & tipoSql)
             End If
-            drMySql1.Close()
+            drMdb1.Close()
         Catch ex As Exception
             MsgBox(ex.ToString)
         End Try
@@ -459,47 +459,47 @@ Public Class ApuntesContables
         '******************************************
         CmbConcepto.Items.Clear()
         ListBox1.Items.Clear()
-        cmdMySql1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.TipoCON ASC, conceptos.CodigoCON ASC"
+        cmdMdb1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.TipoCON ASC, conceptos.CodigoCON ASC"
         Try
-            drMySql1 = cmdMySql1cr.ExecuteReader()
-            If drMySql1.HasRows Then
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            If drMdb1.HasRows Then
                 vTipoConcepto = ""
                 vFila = 0
-                While drMySql1.Read()
-                    If vTipoConcepto <> drMySql1.GetValue(2) Then
+                While drMdb1.Read()
+                    If vTipoConcepto <> drMdb1.GetValue(2) Then
                         If vFila = 0 Then
-                            vTipoConcepto = drMySql1.GetValue(2)
-                            CmbConcepto.Items.Add(drMySql1.GetValue(0))
-                            ListBox1.Items.Add(drMySql1.GetValue(0))
+                            vTipoConcepto = drMdb1.GetValue(2)
+                            CmbConcepto.Items.Add(drMdb1.GetValue(0))
+                            ListBox1.Items.Add(drMdb1.GetValue(0))
                             vFila += 1
                         Else
-                            vTipoConcepto = drMySql1.GetValue(2)
+                            vTipoConcepto = drMdb1.GetValue(2)
                             If vTipoConcepto = "GASTO" Then
                                 ListBox1.Items.Add("** Gastos **")
                             Else
                                 ListBox1.Items.Add("** Ingresos **")
                             End If
-                            CmbConcepto.Items.Add(drMySql1.GetValue(0))
-                            ListBox1.Items.Add(drMySql1.GetValue(0))
+                            CmbConcepto.Items.Add(drMdb1.GetValue(0))
+                            ListBox1.Items.Add(drMdb1.GetValue(0))
                         End If
                     Else
                         vFila += 1
-                        CmbConcepto.Items.Add(drMySql1.GetValue(0))
-                        ListBox1.Items.Add(drMySql1.GetValue(0))
+                        CmbConcepto.Items.Add(drMdb1.GetValue(0))
+                        ListBox1.Items.Add(drMdb1.GetValue(0))
                     End If
                 End While
                 CmbConcepto.Text = CmbConcepto.Items(1)
                 vConcepto = CmbConcepto.Text.ToString
-                drMySql1.Close()
-                cmdMySql1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto & "' "
-                drMySql1 = cmdMySql1cr.ExecuteReader()
-                drMySql1.Read()
-                TxtConcepto.Text = drMySql1.GetValue(1)
-                drMySql1.Close()
+                drMdb1.Close()
+                cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto & "' "
+                drMdb1 = cmdMdb1cr.ExecuteReader()
+                drMdb1.Read()
+                TxtConcepto.Text = drMdb1.GetValue(1)
+                drMdb1.Close()
             Else
                 'MsgBox("No existen registros en " & tipoSql)
             End If
-            drMySql1.Close()
+            drMdb1.Close()
         Catch ex As Exception
             MsgBox(ex.ToString)
         End Try
@@ -1061,17 +1061,17 @@ Public Class ApuntesContables
         If BtnFechasClick = "NO" Then
             BtnFechasClick = "SI"
             BtnFechasFondo.Visible = True
-            cmdMySql1cr.CommandText = "SELECT * FROM ejercicios ORDER BY ejercicios.EjercicioEJE DESC"
+            cmdMdb1cr.CommandText = "SELECT * FROM ejercicios ORDER BY ejercicios.EjercicioEJE DESC"
             Try
-                drMySql1 = cmdMySql1cr.ExecuteReader()
-                If drMySql1.HasRows Then
-                    While drMySql1.Read()
-                        vFecha1Enero = Val(drMySql1.GetValue(0))
+                drMdb1 = cmdMdb1cr.ExecuteReader()
+                If drMdb1.HasRows Then
+                    While drMdb1.Read()
+                        vFecha1Enero = Val(drMdb1.GetValue(0))
                     End While
                 Else
-                    'MsgBox("No existen registros en " & cmdMySql1cr.CommandText)
+                    'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
                 End If
-                drMySql1.Close()
+                drMdb1.Close()
             Catch ex As Exception
                 MsgBox(ex.ToString)
             End Try
@@ -2025,12 +2025,12 @@ Public Class ApuntesContables
         '******************************************
         If ListBox1.SelectedItems.Count = 0 Then
             vConcepto = CmbConcepto.Text.ToString
-            drMySql1.Close()
-            cmdMySql1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto & "' "
-            drMySql1 = cmdMySql1cr.ExecuteReader()
-            drMySql1.Read()
-            TxtConcepto.Text = drMySql1.GetValue(1)
-            drMySql1.Close()
+            drMdb1.Close()
+            cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto & "' "
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            drMdb1.Read()
+            TxtConcepto.Text = drMdb1.GetValue(1)
+            drMdb1.Close()
             If BtnFiltroConcepto.Enabled = False Then
                 vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
                 If BtnFechasClick = "SI" Then

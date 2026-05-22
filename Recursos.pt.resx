@@ -393,4 +393,16 @@ então por vários conceitos</value>
   <data name="EliminarPresupuestosError" xml:space="preserve">
     <value>Erro na exclusão de orçamentos relacionados ao item contábil</value>
   </data>
+  <data name="Nombre" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="Numero" xml:space="preserve">
+    <value>Número</value>
+  </data>
+  <data name="Saldo" xml:space="preserve">
+    <value>Equilíbrio</value>
+  </data>
+  <data name="ErrorAlEjecutar" xml:space="preserve">
+    <value>Execução de Erros</value>
+  </data>
 </root>

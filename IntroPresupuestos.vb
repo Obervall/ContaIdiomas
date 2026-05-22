@@ -67,18 +67,18 @@ Public Class IntroPresupuestos
 
         ' Llenar el Combo Concepto
         '*************************
-        cmdMySql1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
+        cmdMdb1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
         Try
-            drMySql1 = cmdMySql1cr.ExecuteReader()
-            If drMySql1.HasRows Then
-                While drMySql1.Read()
-                    CmbConcepto.Items.Add(drMySql1.GetValue(0))
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            If drMdb1.HasRows Then
+                While drMdb1.Read()
+                    CmbConcepto.Items.Add(drMdb1.GetValue(0))
                 End While
                 CmbConcepto.Text = CmbConcepto.Items(0)
             Else
                 'MsgBox("No existen registros en " & tipoSql)
             End If
-            drMySql1.Close()
+            drMdb1.Close()
         Catch ex As Exception
             MsgBox("Error al llenar el Combo Concepto")
             MsgBox(ex.ToString)
@@ -103,13 +103,13 @@ Public Class IntroPresupuestos
         ' Se buscan Conceptos según lo seleccionado
         '******************************************
         vConcepto = CmbConcepto.Text.ToString
-        drMySql1.Close()
-        cmdMySql1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto & "' "
-        drMySql1 = cmdMySql1cr.ExecuteReader()
-        drMySql1.Read()
-        TxtTipoConcepto.Text = drMySql1.GetValue(2)
-        TxtDescripcion.Text = drMySql1.GetValue(1)
-        drMySql1.Close()
+        drMdb1.Close()
+        cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto & "' "
+        drMdb1 = cmdMdb1cr.ExecuteReader()
+        drMdb1.Read()
+        TxtTipoConcepto.Text = drMdb1.GetValue(2)
+        TxtDescripcion.Text = drMdb1.GetValue(1)
+        drMdb1.Close()
         If RdbAnual.Checked = True Then
             TxtAnual.Select()
             TxtAnual.SelectAll()
@@ -141,70 +141,70 @@ Public Class IntroPresupuestos
         vtipoSql += " WHERE "
         vtipoSql += "presupuesto.EjercicioPRE = " & vAñoEjercicio.ToString
         vtipoSql += " And presupuesto.ConceptoPRE = '" & vConcepto & "' "
-        cmdMySql1cr.CommandText = vtipoSql
+        cmdMdb1cr.CommandText = vtipoSql
         Try
-            drMySql1 = cmdMySql1cr.ExecuteReader()
-            If drMySql1.HasRows Then
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            If drMdb1.HasRows Then
                 vSaldoAnualPresupuesto = 0
-                While drMySql1.Read()
-                    vSaldoAnualPresupuesto += drMySql1.GetValue(1)
-                    vFecha = drMySql1.GetValue(2).ToString
+                While drMdb1.Read()
+                    vSaldoAnualPresupuesto += drMdb1.GetValue(1)
+                    vFecha = drMdb1.GetValue(2).ToString
                     vMes = Mid(vFecha, 4, 2).ToString
                     If vMes = "01" Then
-                        vEnero = drMySql1.GetValue(1).ToString
+                        vEnero = drMdb1.GetValue(1).ToString
                         TxtEnero.Text = Format(vEnero, "###,##0.00").ToString
                     End If
                     If vMes = "02" Then
-                        vFebrero = drMySql1.GetValue(1).ToString
+                        vFebrero = drMdb1.GetValue(1).ToString
                         TxtFebrero.Text = Format(vFebrero, "###,##0.00").ToString
                     End If
                     If vMes = "03" Then
-                        vMarzo = drMySql1.GetValue(1).ToString
+                        vMarzo = drMdb1.GetValue(1).ToString
                         TxtMarzo.Text = Format(vMarzo, "###,##0.00").ToString
                     End If
                     If vMes = "04" Then
-                        vAbril = drMySql1.GetValue(1).ToString
+                        vAbril = drMdb1.GetValue(1).ToString
                         TxtAbril.Text = Format(vAbril, "###,##0.00").ToString
                     End If
                     If vMes = "05" Then
-                        vMayo = drMySql1.GetValue(1).ToString
+                        vMayo = drMdb1.GetValue(1).ToString
                         TxtMayo.Text = Format(vMayo, "###,##0.00").ToString
                     End If
                     If vMes = "06" Then
-                        vJunio = drMySql1.GetValue(1).ToString
+                        vJunio = drMdb1.GetValue(1).ToString
                         TxtJunio.Text = Format(vJunio, "###,##0.00").ToString
                     End If
                     If vMes = "07" Then
-                        vJulio = drMySql1.GetValue(1).ToString
+                        vJulio = drMdb1.GetValue(1).ToString
                         TxtJulio.Text = Format(vJulio, "###,##0.00").ToString
                     End If
                     If vMes = "08" Then
-                        vAgosto = drMySql1.GetValue(1).ToString
+                        vAgosto = drMdb1.GetValue(1).ToString
                         TxtAgosto.Text = Format(vAgosto, "###,##0.00").ToString
                     End If
                     If vMes = "09" Then
-                        vSeptiembre = drMySql1.GetValue(1).ToString
+                        vSeptiembre = drMdb1.GetValue(1).ToString
                         TxtSeptiembre.Text = Format(vSeptiembre, "###,##0.00").ToString
                     End If
                     If vMes = "10" Then
-                        vOctubre = drMySql1.GetValue(1).ToString
+                        vOctubre = drMdb1.GetValue(1).ToString
                         TxtOctubre.Text = Format(vOctubre, "###,##0.00").ToString
                     End If
                     If vMes = "11" Then
-                        vNoviembre = drMySql1.GetValue(1).ToString
+                        vNoviembre = drMdb1.GetValue(1).ToString
                         TxtNoviembre.Text = Format(vNoviembre, "###,##0.00").ToString
                     End If
                     If vMes = "12" Then
-                        vDiciembre = drMySql1.GetValue(1).ToString
+                        vDiciembre = drMdb1.GetValue(1).ToString
                         TxtDiciembre.Text = Format(vDiciembre, "###,##0.00").ToString
                     End If
                 End While
                 TxtAnual.Text = Format(vSaldoAnualPresupuesto, "###,##0.00").ToString
                 TxtAnual.SelectAll()
             Else
-                'MsgBox("No existen registros en " & cmdMySql1cr.CommandText)
+                'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
             End If
-            drMySql1.Close()
+            drMdb1.Close()
         Catch ex As Exception
             MsgBox("Error al llenar los TextBox con los datos guardados en presupuesto")
             MsgBox(ex.ToString)
@@ -216,22 +216,22 @@ Public Class IntroPresupuestos
         vConcepto = CmbConcepto.Text
         If TxtAnual.Text <> 0 Then
             ' Comprobamos que el Concepto si esta en presupuesto
-            cmdMySql1cr.CommandText = "SELECT * FROM presupuesto"
-            cmdMySql1cr.CommandText += " WHERE "
-            cmdMySql1cr.CommandText += "presupuesto.EjercicioPRE = " & vAñoEjercicio.ToString
-            cmdMySql1cr.CommandText += " And presupuesto.ConceptoPRE = '" & vConcepto & "' "
+            cmdMdb1cr.CommandText = "SELECT * FROM presupuesto"
+            cmdMdb1cr.CommandText += " WHERE "
+            cmdMdb1cr.CommandText += "presupuesto.EjercicioPRE = " & vAñoEjercicio.ToString
+            cmdMdb1cr.CommandText += " And presupuesto.ConceptoPRE = '" & vConcepto & "' "
             Try
-                drMySql1 = cmdMySql1cr.ExecuteReader()
-                If drMySql1.HasRows Then
+                drMdb1 = cmdMdb1cr.ExecuteReader()
+                If drMdb1.HasRows Then
                     respuesta = MsgBox("Hay datos guardados con este Concepto ¿Se actualizan valores?.", vbQuestion + vbYesNo + vbDefaultButton2, "Eliminar presupuesto")
                     If respuesta = vbYes Then
-                        drMySql1.Close()
+                        drMdb1.Close()
                         ' Eliminar Registros mismo Concepto Apunte
                         vtipoSql = "DELETE FROM presupuesto"
                         vtipoSql += " WHERE presupuesto.ConceptoPRE = '" & vConcepto & "' "
-                        cmdMySql1cr.CommandText = vtipoSql
+                        cmdMdb1cr.CommandText = vtipoSql
                         Try
-                            cmdMySql1cr.ExecuteNonQuery()
+                            cmdMdb1cr.ExecuteNonQuery()
                             MsgBox("Registros en presupuesto, Borrados !!!")
                         Catch ex As Exception
                             MsgBox("Error al Borrar el presupuesto")
@@ -244,7 +244,7 @@ Public Class IntroPresupuestos
                 Else
                     MsgBox("No existen registros en " & vConcepto)
                 End If
-                drMySql1.Close()
+                drMdb1.Close()
             Catch ex As Exception
                 MsgBox("Error al verificar que el Concepto existe en presupuesto")
                 MsgBox(ex.ToString)
@@ -302,9 +302,9 @@ Public Class IntroPresupuestos
                     vAñadirSql = "INSERT INTO presupuesto "
                     vAñadirSql += "(ConceptoPRE, ImportePRE, FDesdePRE, EjercicioPRE) "
                     vAñadirSql += "VALUES ('" & vConcepto & "','" & vImporte & "','" & vFDesde & "','" & vAñoEjercicio & "')"
-                    cmdMySql1cr.CommandText = vAñadirSql
+                    cmdMdb1cr.CommandText = vAñadirSql
                     Try
-                        cmdMySql1cr.ExecuteNonQuery()
+                        cmdMdb1cr.ExecuteNonQuery()
                         If i = 12 Then
                             'MsgBox("Registro, Grabado Correctamente")
                         End If

@@ -58,13 +58,13 @@ Public Class IntroApuntesPeriodicos
 
         ' Llenar el Combo Concepto
         '*************************
-        cmdMySql1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
+        cmdMdb1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
         Try
-            drMySql1 = cmdMySql1cr.ExecuteReader()
-            If drMySql1.HasRows Then
-                While drMySql1.Read()
-                    If drMySql1.GetValue(0) <> "TRASPASO" Then
-                        CmbConcepto.Items.Add(drMySql1.GetValue(0))
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            If drMdb1.HasRows Then
+                While drMdb1.Read()
+                    If drMdb1.GetValue(0) <> "TRASPASO" Then
+                        CmbConcepto.Items.Add(drMdb1.GetValue(0))
                     End If
                 End While
                 If frmApuntesPeriodicos.BtnFiltroConcepto.Enabled = False Then
@@ -75,7 +75,7 @@ Public Class IntroApuntesPeriodicos
             Else
                 'MsgBox("No existen registros en " & tipoSql)
             End If
-            drMySql1.Close()
+            drMdb1.Close()
         Catch ex As Exception
             MsgBox("Error al llenar el Combo Concepto")
             MsgBox(ex.ToString)
@@ -83,20 +83,20 @@ Public Class IntroApuntesPeriodicos
 
         ' Llenar el Combo Descripción
         '****************************
-        cmdMySql1cr.CommandText = "SELECT * FROM apuntes ORDER BY apuntes.DescripcionAPU ASC"
+        cmdMdb1cr.CommandText = "SELECT * FROM apuntes ORDER BY apuntes.DescripcionAPU ASC"
         Try
-            drMySql1 = cmdMySql1cr.ExecuteReader()
-            If drMySql1.HasRows Then
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            If drMdb1.HasRows Then
                 primero = 1
-                While drMySql1.Read()
-                    If Trim(drMySql1.GetValue(3)) <> "Saldo Inicial" Then
+                While drMdb1.Read()
+                    If Trim(drMdb1.GetValue(3)) <> "Saldo Inicial" Then
                         If primero = 1 Then
-                            CmbDescripcion.Items.Add(Trim(drMySql1.GetValue(3)))
+                            CmbDescripcion.Items.Add(Trim(drMdb1.GetValue(3)))
                             primero = 2
                         Else
                             nuevo = 0
                             For i = 0 To CmbDescripcion.Items.Count - 1
-                                If Trim(drMySql1.GetValue(3)) = Trim(CmbDescripcion.Items(i)) Then
+                                If Trim(drMdb1.GetValue(3)) = Trim(CmbDescripcion.Items(i)) Then
                                     nuevo = 0
                                     Exit For
                                 Else
@@ -104,7 +104,7 @@ Public Class IntroApuntesPeriodicos
                                 End If
                             Next
                             If nuevo = 1 Then
-                                CmbDescripcion.Items.Add(Trim(drMySql1.GetValue(3)))
+                                CmbDescripcion.Items.Add(Trim(drMdb1.GetValue(3)))
                                 nuevo = 0
                             End If
                         End If
@@ -113,7 +113,7 @@ Public Class IntroApuntesPeriodicos
             Else
                 'MsgBox("No existen registros en " & tipoSql)
             End If
-            drMySql1.Close()
+            drMdb1.Close()
         Catch ex As Exception
             MsgBox("Error al llenar el Combo Descripción")
             MsgBox(ex.ToString)
@@ -121,18 +121,18 @@ Public Class IntroApuntesPeriodicos
 
         ' Llenar el Combo Cuenta
         '***********************
-        cmdMySql1cr.CommandText = "SELECT * FROM cuentas ORDER BY cuentas.NombreCUE ASC"
+        cmdMdb1cr.CommandText = "SELECT * FROM cuentas ORDER BY cuentas.NombreCUE ASC"
         Try
-            drMySql1 = cmdMySql1cr.ExecuteReader()
-            If drMySql1.HasRows Then
-                While drMySql1.Read()
-                    CmbCuenta.Items.Add(drMySql1.GetValue(0))
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            If drMdb1.HasRows Then
+                While drMdb1.Read()
+                    CmbCuenta.Items.Add(drMdb1.GetValue(0))
                 End While
                 CmbCuenta.Text = CmbCuenta.Items(0)
             Else
                 'MsgBox("No existen registros en " & tipoSql)
             End If
-            drMySql1.Close()
+            drMdb1.Close()
         Catch ex As Exception
             MsgBox("Error al llenar el Combo Cuenta")
             MsgBox(ex.ToString)
@@ -146,12 +146,12 @@ Public Class IntroApuntesPeriodicos
         ' Se buscan Conceptos según lo seleccionado
         '******************************************
         vConcepto = CmbConcepto.Text.ToString
-        drMySql1.Close()
-        cmdMySql1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto & "' "
-        drMySql1 = cmdMySql1cr.ExecuteReader()
-        drMySql1.Read()
-        TxtTipoConcepto.Text = drMySql1.GetValue(2)
-        CmbDescripcion.Text = drMySql1.GetValue(1)
+        drMdb1.Close()
+        cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto & "' "
+        drMdb1 = cmdMdb1cr.ExecuteReader()
+        drMdb1.Read()
+        TxtTipoConcepto.Text = drMdb1.GetValue(2)
+        CmbDescripcion.Text = drMdb1.GetValue(1)
         If TxtTipoConcepto.Text = "GASTO" Then
             LblNumeroPagosCobros.Text = "Nº de Pagos:"
             LblFechaPagoCobro.Text = "1er Pago:"
@@ -159,7 +159,7 @@ Public Class IntroApuntesPeriodicos
             LblNumeroPagosCobros.Text = "Nº de Cobros:"
             LblFechaPagoCobro.Text = "1er Cobro:"
         End If
-        drMySql1.Close()
+        drMdb1.Close()
     End Sub
 
     Private Sub TxtDescripcion_KeyPress(sender As Object, e As KeyPressEventArgs)
@@ -236,9 +236,9 @@ Public Class IntroApuntesPeriodicos
                         vAñadirSql = "INSERT INTO apuper "
                         vAñadirSql += "(FechaAPP, ConceptoAPP, DescripcionAPP, ImporteAPP, EjercicioAPP, NotasAPP, CuentaAPP) "
                         vAñadirSql += "VALUES (#" & vDate3 & "#,'" & vConcepto & "','" & vDescripcionAPU & "','" & vImporteAPU & "','" & vDate3Year & "','" & vNotasAPU & "','" & vCuentaAPU & "')"
-                        cmdMySql1cr.CommandText = vAñadirSql
+                        cmdMdb1cr.CommandText = vAñadirSql
                         Try
-                            cmdMySql1cr.ExecuteNonQuery()
+                            cmdMdb1cr.ExecuteNonQuery()
                             vbOK = "SI"
                         Catch ex As Exception
                             MsgBox("Error al Grabar el Apunte Periódico Nº " & (i + 1).ToString)

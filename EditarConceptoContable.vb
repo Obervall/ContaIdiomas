@@ -67,17 +67,17 @@ Public Class EditarConceptoContable
         '*******************
         vtipoSql = "UPDATE conceptos SET DescripcionCON = '" & vTxtDescripcion & "' , NotasCON = '" & vTxtNotas & "' "
         vtipoSql += " WHERE conceptos.CodigoCON = '" & vTxtNombre & "' "
-        cmdMySql1cr.CommandText = vtipoSql
+        cmdMdb1cr.CommandText = vtipoSql
 
         Try
-            drMySql1 = cmdMySql1cr.ExecuteReader()
+            drMdb1 = cmdMdb1cr.ExecuteReader()
             'MsgBox("Registro, Grabado Correctamente")
             Me.Close()
         Catch ex As Exception
             MsgBox(resManager.GetString("ErrorModificarRegistro"))
             MsgBox(ex.ToString)
         End Try
-        drMySql1.Close()
+        drMdb1.Close()
     End Sub
 
     Private Sub BtnEliminar_Click(sender As Object, e As EventArgs) Handles BtnEliminar.Click
@@ -87,10 +87,10 @@ Public Class EditarConceptoContable
             ' Eliminar Registro Conceptos
             vtipoSql = "DELETE FROM conceptos"
             vtipoSql += " WHERE conceptos.CodigoCON = '" & vTxtNombre & "' "
-            cmdMySql1cr.CommandText = vtipoSql
+            cmdMdb1cr.CommandText = vtipoSql
 
             Try
-                cmdMySql1cr.ExecuteNonQuery()
+                cmdMdb1cr.ExecuteNonQuery()
                 MsgBox(resManager.GetString("EliminarConcepto3"))
             Catch ex As Exception
                 MsgBox(resManager.GetString("EliminarConcepto4"))
@@ -100,9 +100,9 @@ Public Class EditarConceptoContable
             ' Eliminar Registros Apuntes
             vtipoSql = "DELETE FROM apuntes"
             vtipoSql += " WHERE apuntes.ConceptoAPU = '" & vTxtNombre & "' "
-            cmdMySql1cr.CommandText = vtipoSql
+            cmdMdb1cr.CommandText = vtipoSql
             Try
-                cmdMySql1cr.ExecuteNonQuery()
+                cmdMdb1cr.ExecuteNonQuery()
                 MsgBox(resManager.GetString("EliminarApuntes"))
             Catch ex As Exception
                 MsgBox(resManager.GetString("EliminarApuntesError"))
@@ -112,9 +112,9 @@ Public Class EditarConceptoContable
             ' Eliminar Registros Apuntes Periódicos
             vtipoSql = "DELETE FROM apuper"
             vtipoSql += " WHERE apuper.ConceptoAPP = '" & vTxtNombre & "' "
-            cmdMySql1cr.CommandText = vtipoSql
+            cmdMdb1cr.CommandText = vtipoSql
             Try
-                cmdMySql1cr.ExecuteNonQuery()
+                cmdMdb1cr.ExecuteNonQuery()
                 MsgBox(resManager.GetString("EliminarApuntesPeriodicos"))
             Catch ex As Exception
                 MsgBox(resManager.GetString("EliminarApuntesPeriodicosError"))
@@ -124,9 +124,9 @@ Public Class EditarConceptoContable
             ' Eliminar Registros Presupuestos
             vtipoSql = "DELETE FROM presupuesto"
             vtipoSql += " WHERE presupuesto.ConceptoPRE = '" & vTxtNombre & "' "
-            cmdMySql1cr.CommandText = vtipoSql
+            cmdMdb1cr.CommandText = vtipoSql
             Try
-                cmdMySql1cr.ExecuteNonQuery()
+                cmdMdb1cr.ExecuteNonQuery()
                 MsgBox(resManager.GetString("EliminarPresupuestos"))
             Catch ex As Exception
                 MsgBox(resManager.GetString("EliminarPresupuestosError"))

@@ -393,4 +393,16 @@ després per Conceptes Diversos</value>
   <data name="EliminarPresupuestosError" xml:space="preserve">
     <value>Error a l' Eliminar els Pressupostos relacionats amb el Concepte Comptable</value>
   </data>
+  <data name="Nombre" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="Numero" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="Saldo" xml:space="preserve">
+    <value>Saldo</value>
+  </data>
+  <data name="ErrorAlEjecutar" xml:space="preserve">
+    <value>Error en executar</value>
+  </data>
 </root>

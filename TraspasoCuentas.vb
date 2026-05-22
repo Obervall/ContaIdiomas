@@ -43,40 +43,40 @@ Public Class TraspasoCuentas
 
         ' Llenar el Combo Concepto
         '*************************
-        cmdMySql1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
+        cmdMdb1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
         Try
-            drMySql1 = cmdMySql1cr.ExecuteReader()
-            If drMySql1.HasRows Then
-                While drMySql1.Read()
-                    If drMySql1.GetValue(0) = "TRASPASO" Then
-                        CmbConcepto.Items.Add(drMySql1.GetValue(0))
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            If drMdb1.HasRows Then
+                While drMdb1.Read()
+                    If drMdb1.GetValue(0) = "TRASPASO" Then
+                        CmbConcepto.Items.Add(drMdb1.GetValue(0))
                     End If
                 End While
                 CmbConcepto.Text = CmbConcepto.Items(0)
             Else
                 'MsgBox("No existen registros en " & tipoSql)
             End If
-            drMySql1.Close()
+            drMdb1.Close()
         Catch ex As Exception
             MsgBox("Error al cargar el Combo Concepto: " & ex.ToString)
         End Try
 
         ' Llenar el Combo Cuenta
         '***********************
-        cmdMySql1cr.CommandText = "SELECT * FROM cuentas ORDER BY cuentas.NombreCUE ASC"
+        cmdMdb1cr.CommandText = "SELECT * FROM cuentas ORDER BY cuentas.NombreCUE ASC"
         Try
-            drMySql1 = cmdMySql1cr.ExecuteReader()
-            If drMySql1.HasRows Then
-                While drMySql1.Read()
-                    CmbCuentaOrigen.Items.Add(drMySql1.GetValue(0))
-                    CmbCuentaDestino.Items.Add(drMySql1.GetValue(0))
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            If drMdb1.HasRows Then
+                While drMdb1.Read()
+                    CmbCuentaOrigen.Items.Add(drMdb1.GetValue(0))
+                    CmbCuentaDestino.Items.Add(drMdb1.GetValue(0))
                 End While
                 CmbCuentaOrigen.Text = CmbCuentaOrigen.Items(0)
                 CmbCuentaDestino.Text = CmbCuentaOrigen.Items(0)
             Else
                 'MsgBox("No existen registros en " & tipoSql)
             End If
-            drMySql1.Close()
+            drMdb1.Close()
         Catch ex As Exception
             MsgBox("Error al cargar el Combo Cuenta: " & ex.ToString)
         End Try
@@ -87,12 +87,12 @@ Public Class TraspasoCuentas
         ' Se buscan Conceptos según lo seleccionado
         '******************************************
         vConcepto = CmbConcepto.Text.ToString
-        drMySql1.Close()
-        cmdMySql1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto & "' "
-        drMySql1 = cmdMySql1cr.ExecuteReader()
-        drMySql1.Read()
-        TxtTipoConcepto.Text = drMySql1.GetValue(2)
-        drMySql1.Close()
+        drMdb1.Close()
+        cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto & "' "
+        drMdb1 = cmdMdb1cr.ExecuteReader()
+        drMdb1.Read()
+        TxtTipoConcepto.Text = drMdb1.GetValue(2)
+        drMdb1.Close()
     End Sub
 
     Private Sub TxtDescripcion_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtDescripcion.KeyPress
@@ -139,9 +139,9 @@ Public Class TraspasoCuentas
                     vAñadirOrigenSql = "INSERT INTO apuntes "
                     vAñadirOrigenSql += "(FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) "
                     vAñadirOrigenSql += "VALUES (#" & CDate(DtpOrigen.Value).ToString("yyyy/MM/dd") & "#,'" & vConcepto & "','" & vDescripcionAPU & "','" & vImporteAPU & "','" & vAñoEjercicio & "','" & vNotasAPU & "','" & vCuentaOrigenAPU & "')"
-                    cmdMySql1cr.CommandText = vAñadirOrigenSql
+                    cmdMdb1cr.CommandText = vAñadirOrigenSql
                     Try
-                        cmdMySql1cr.ExecuteNonQuery()
+                        cmdMdb1cr.ExecuteNonQuery()
                         MsgBox("Registro Origen, Grabado Correctamente")
                     Catch ex As Exception
                         MsgBox("Error al Grabar el Registro Origen: " & ex.ToString)
@@ -153,9 +153,9 @@ Public Class TraspasoCuentas
                     vAñadirDestinoSql = "INSERT INTO apuntes "
                     vAñadirDestinoSql += "(FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) "
                     vAñadirDestinoSql += "VALUES (#" & CDate(DtpDestino.Value).ToString("yyyy/MM/dd") & "#,'" & vConcepto & "','" & vDescripcionAPU & "','" & vImporteAPU & "','" & vAñoEjercicio & "','" & vNotasAPU & "','" & vCuentaDestinoAPU & "')"
-                    cmdMySql1cr.CommandText = vAñadirDestinoSql
+                    cmdMdb1cr.CommandText = vAñadirDestinoSql
                     Try
-                        cmdMySql1cr.ExecuteNonQuery()
+                        cmdMdb1cr.ExecuteNonQuery()
                         MsgBox("Registro Destino, Grabado Correctamente")
                     Catch ex As Exception
                         MsgBox("Error al Grabar el Registro Destino: " & ex.ToString)

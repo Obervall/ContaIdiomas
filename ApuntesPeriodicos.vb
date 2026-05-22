@@ -63,18 +63,18 @@ Public Class ApuntesPeriodicos
 
         ' Llenar el Combo Concepto
         '*************************
-        cmdMySql1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
+        cmdMdb1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
         Try
-            drMySql1 = cmdMySql1cr.ExecuteReader()
-            If drMySql1.HasRows Then
-                While drMySql1.Read()
-                    CmbConcepto.Items.Add(drMySql1.GetValue(0))
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            If drMdb1.HasRows Then
+                While drMdb1.Read()
+                    CmbConcepto.Items.Add(drMdb1.GetValue(0))
                 End While
                 CmbConcepto.Text = CmbConcepto.Items(0)
             Else
                 'MsgBox("No existen registros en " & tipoSql)
             End If
-            drMySql1.Close()
+            drMdb1.Close()
         Catch ex As Exception
             MsgBox("Error al llenar el Combo Concepto")
             MsgBox(ex.ToString)
@@ -82,18 +82,18 @@ Public Class ApuntesPeriodicos
 
         ' Llenar el Combo Cuenta
         '***********************
-        cmdMySql1cr.CommandText = "SELECT * FROM cuentas ORDER BY cuentas.NombreCUE ASC"
+        cmdMdb1cr.CommandText = "SELECT * FROM cuentas ORDER BY cuentas.NombreCUE ASC"
         Try
-            drMySql1 = cmdMySql1cr.ExecuteReader()
-            If drMySql1.HasRows Then
-                While drMySql1.Read()
-                    CmbCuenta.Items.Add(drMySql1.GetValue(0))
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            If drMdb1.HasRows Then
+                While drMdb1.Read()
+                    CmbCuenta.Items.Add(drMdb1.GetValue(0))
                 End While
                 CmbCuenta.Text = CmbCuenta.Items(0)
             Else
                 'MsgBox("No existen registros en " & tipoSql)
             End If
-            drMySql1.Close()
+            drMdb1.Close()
         Catch ex As Exception
             MsgBox("Error al llenar el Combo Cuenta")
             MsgBox(ex.ToString)
@@ -193,18 +193,18 @@ Public Class ApuntesPeriodicos
     Private Sub BtnSinFiltroConcepto_Click(sender As Object, e As EventArgs) Handles BtnSinFiltroConcepto.Click
         ' Llenar el Combo Concepto
         '*************************
-        cmdMySql1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
+        cmdMdb1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
         Try
-            drMySql1 = cmdMySql1cr.ExecuteReader()
-            If drMySql1.HasRows Then
-                While drMySql1.Read()
-                    CmbConcepto.Items.Add(drMySql1.GetValue(0))
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            If drMdb1.HasRows Then
+                While drMdb1.Read()
+                    CmbConcepto.Items.Add(drMdb1.GetValue(0))
                 End While
                 CmbConcepto.Text = CmbConcepto.Items(0)
             Else
                 'MsgBox("No existen registros en " & tipoSql)
             End If
-            drMySql1.Close()
+            drMdb1.Close()
         Catch ex As Exception
             MsgBox("Error al llenar el Combo Concepto")
             MsgBox(ex.ToString)
@@ -310,12 +310,12 @@ Public Class ApuntesPeriodicos
         ' Se buscan Conceptos según lo seleccionado
         '******************************************
         vConcepto = CmbConcepto.Text.ToString
-        drMySql1.Close()
-        cmdMySql1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto & "' "
-        drMySql1 = cmdMySql1cr.ExecuteReader()
-        drMySql1.Read()
-        TxtConcepto.Text = drMySql1.GetValue(1)
-        drMySql1.Close()
+        drMdb1.Close()
+        cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto & "' "
+        drMdb1 = cmdMdb1cr.ExecuteReader()
+        drMdb1.Read()
+        TxtConcepto.Text = drMdb1.GetValue(1)
+        drMdb1.Close()
         If BtnFiltroConcepto.Enabled = False Then
             vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper"
             vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "

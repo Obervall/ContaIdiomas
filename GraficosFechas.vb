@@ -79,9 +79,9 @@ Public Class GraficosFechas
         'Iniciamos Tabla tmpprint
         '***********************
         vtmpprint = "DELETE FROM tmpprint"
-        cmdMySql1cr.CommandText = vtmpprint
+        cmdMdb1cr.CommandText = vtmpprint
         Try
-            cmdMySql1cr.ExecuteNonQuery()
+            cmdMdb1cr.ExecuteNonQuery()
             'MsgBox("Registros tmpprint, Borrados !!!")
         Catch ex As Exception
             MsgBox("Error al borrar los registros de tmpprint")
@@ -110,9 +110,9 @@ Public Class GraficosFechas
                         vAñadir = "INSERT INTO tmpprint"
                         vAñadir += "(FechaTMP, ConceptoTMP, DescripcionTMP, CuentaTMP, NotasTMP, ImporteTMP, SaldoTMP) "
                         vAñadir += "VALUES ('" & vNombreConcepto & "', '', '', '', '', '" & vImporteConcepto & "', ' 0 ')"
-                        cmdMySql1cr.CommandText = vAñadir
+                        cmdMdb1cr.CommandText = vAñadir
                         Try
-                            cmdMySql1cr.ExecuteNonQuery()
+                            cmdMdb1cr.ExecuteNonQuery()
                         Catch ex As Exception
                             MsgBox("Error al añadir el Concepto a tmpprint")
                             MsgBox(ex.ToString)
@@ -120,29 +120,29 @@ Public Class GraficosFechas
                         vAñadir = "INSERT INTO tmpprint"
                         vAñadir += "(FechaTMP, ConceptoTMP, DescripcionTMP, CuentaTMP, NotasTMP, ImporteTMP, SaldoTMP) "
                         vAñadir += "VALUES ('" & vNombreConcepto & "', '', '', '', '', ' 0 ', ' 0 ')"
-                        cmdMySql1cr.CommandText = vAñadir
+                        cmdMdb1cr.CommandText = vAñadir
                         Try
-                            cmdMySql1cr.ExecuteNonQuery()
+                            cmdMdb1cr.ExecuteNonQuery()
                         Catch ex As Exception
                             MsgBox("Error al añadir el Concepto a tmpprint")
                             MsgBox(ex.ToString)
                         End Try
                     Else ' Si el Concepto existe y hay importe diferente a cero, si es positivo o negativo se suma
-                        cmdMySql1cr.CommandType = CommandType.Text
+                        cmdMdb1cr.CommandType = CommandType.Text
                         If vImporteConcepto > 0 Then
-                            cmdMySql1cr.CommandText = "SELECT * FROM tmpprint WHERE tmpprint.FechaTMP = #" & vNombreConcepto & "#"
-                            cmdMySql1cr.CommandText += " And tmpprint.ImporteTMP > 0 "
+                            cmdMdb1cr.CommandText = "SELECT * FROM tmpprint WHERE tmpprint.FechaTMP = #" & vNombreConcepto & "#"
+                            cmdMdb1cr.CommandText += " And tmpprint.ImporteTMP > 0 "
                         ElseIf vImporteConcepto < 0 Then
-                            cmdMySql1cr.CommandText = "SELECT * FROM tmpprint WHERE tmpprint.FechaTMP = #" & vNombreConcepto & "#"
-                            cmdMySql1cr.CommandText += " And tmpprint.ImporteTMP < 0 "
+                            cmdMdb1cr.CommandText = "SELECT * FROM tmpprint WHERE tmpprint.FechaTMP = #" & vNombreConcepto & "#"
+                            cmdMdb1cr.CommandText += " And tmpprint.ImporteTMP < 0 "
                         End If
                         Try
-                            drMySql1 = cmdMySql1cr.ExecuteReader()
-                            If drMySql1.HasRows Then 'Significa que existe con las condiciones
-                                While drMySql1.Read()
-                                    vExistenteImporteConcepto = drMySql1.GetValue(5)
+                            drMdb1 = cmdMdb1cr.ExecuteReader()
+                            If drMdb1.HasRows Then 'Significa que existe con las condiciones
+                                While drMdb1.Read()
+                                    vExistenteImporteConcepto = drMdb1.GetValue(5)
                                 End While
-                                drMySql1.Close()
+                                drMdb1.Close()
                                 vNewImporteConcepto = vImporteConcepto + vExistenteImporteConcepto.ToString
                                 If vImporteConcepto > 0 Then
                                     vAñadir2 = "UPDATE tmpprint SET ImporteTMP = '" & vNewImporteConcepto & "' "
@@ -153,40 +153,40 @@ Public Class GraficosFechas
                                     vAñadir2 += " WHERE tmpprint.FechaTMP = #" & vNombreConcepto & "#"
                                     vAñadir2 += " And tmpprint.ImporteTMP < 0 "
                                 End If
-                                cmdMySql1cr.CommandText = vAñadir2
+                                cmdMdb1cr.CommandText = vAñadir2
                                 Try
-                                    drMySql1 = cmdMySql1cr.ExecuteReader()
+                                    drMdb1 = cmdMdb1cr.ExecuteReader()
                                 Catch ex As Exception
                                     MsgBox("Error al actualizar el Importe del Concepto en tmpprint")
                                     MsgBox(ex.ToString)
                                 End Try
-                                drMySql1.Close()
+                                drMdb1.Close()
 
                             Else   'NO existe, lo añadimos al cero
-                                'MsgBox("No existen registros en " & cmdMySql1cr.CommandText)
-                                drMySql1.Close()
-                                cmdMySql1cr.CommandText = "SELECT * FROM tmpprint WHERE tmpprint.FechaTMP = #" & vNombreConcepto & "#"
-                                cmdMySql1cr.CommandText += " And tmpprint.ImporteTMP = 0 "
-                                drMySql1 = cmdMySql1cr.ExecuteReader()
-                                If drMySql1.HasRows Then 'Significa que existe con las condiciones
-                                    While drMySql1.Read()
-                                        vExistenteImporteConcepto = drMySql1.GetValue(5)
+                                'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
+                                drMdb1.Close()
+                                cmdMdb1cr.CommandText = "SELECT * FROM tmpprint WHERE tmpprint.FechaTMP = #" & vNombreConcepto & "#"
+                                cmdMdb1cr.CommandText += " And tmpprint.ImporteTMP = 0 "
+                                drMdb1 = cmdMdb1cr.ExecuteReader()
+                                If drMdb1.HasRows Then 'Significa que existe con las condiciones
+                                    While drMdb1.Read()
+                                        vExistenteImporteConcepto = drMdb1.GetValue(5)
                                     End While
-                                    drMySql1.Close()
+                                    drMdb1.Close()
                                     vNewImporteConcepto = vImporteConcepto + vExistenteImporteConcepto.ToString
                                     vAñadir2 = "UPDATE tmpprint SET ImporteTMP = '" & vNewImporteConcepto & "' "
                                     vAñadir2 += " WHERE tmpprint.FechaTMP = #" & vNombreConcepto & "#"
                                     vAñadir2 += " And tmpprint.ImporteTMP = 0 "
-                                    cmdMySql1cr.CommandText = vAñadir2
+                                    cmdMdb1cr.CommandText = vAñadir2
                                     Try
-                                        drMySql1 = cmdMySql1cr.ExecuteReader()
+                                        drMdb1 = cmdMdb1cr.ExecuteReader()
                                     Catch ex As Exception
                                         MsgBox("Error al actualizar el Importe del Concepto en tmpprint")
                                         MsgBox(ex.ToString)
                                     End Try
-                                    drMySql1.Close()
+                                    drMdb1.Close()
                                 End If
-                                drMySql1.Close()
+                                drMdb1.Close()
                             End If
                         Catch ex As Exception
                             MsgBox("Error al verificar que el Concepto existe en tmpprint")
@@ -206,9 +206,9 @@ Public Class GraficosFechas
                         vAñadir = "INSERT INTO tmpprint"
                         vAñadir += "(FechaTMP, ConceptoTMP, DescripcionTMP, CuentaTMP, NotasTMP, ImporteTMP, SaldoTMP) "
                         vAñadir += "VALUES ('" & vNombreConcepto & "', '', '', '', '', '" & vImporteConcepto & "', ' 0 ')"
-                        cmdMySql1cr.CommandText = vAñadir
+                        cmdMdb1cr.CommandText = vAñadir
                         Try
-                            cmdMySql1cr.ExecuteNonQuery()
+                            cmdMdb1cr.ExecuteNonQuery()
                         Catch ex As Exception
                             MsgBox("Error al añadir el Concepto a tmpprint")
                             MsgBox(ex.ToString)
@@ -216,29 +216,29 @@ Public Class GraficosFechas
                         vAñadir = "INSERT INTO tmpprint"
                         vAñadir += "(FechaTMP, ConceptoTMP, DescripcionTMP, CuentaTMP, NotasTMP, ImporteTMP, SaldoTMP) "
                         vAñadir += "VALUES ('" & vNombreConcepto & "', '', '', '', '', ' 0 ', ' 0 ')"
-                        cmdMySql1cr.CommandText = vAñadir
+                        cmdMdb1cr.CommandText = vAñadir
                         Try
-                            cmdMySql1cr.ExecuteNonQuery()
+                            cmdMdb1cr.ExecuteNonQuery()
                         Catch ex As Exception
                             MsgBox("Error al añadir el Concepto a tmpprint")
                             MsgBox(ex.ToString)
                         End Try
                     Else ' Si el Concepto existe y hay importe diferente a cero, si es positivo o negativo se suma
-                        cmdMySql1cr.CommandType = CommandType.Text
+                        cmdMdb1cr.CommandType = CommandType.Text
                         If vImporteConcepto > 0 Then
-                            cmdMySql1cr.CommandText = "SELECT * FROM tmpprint WHERE tmpprint.FechaTMP = #" & vNombreConcepto & "#"
-                            cmdMySql1cr.CommandText += " And tmpprint.ImporteTMP > 0 "
+                            cmdMdb1cr.CommandText = "SELECT * FROM tmpprint WHERE tmpprint.FechaTMP = #" & vNombreConcepto & "#"
+                            cmdMdb1cr.CommandText += " And tmpprint.ImporteTMP > 0 "
                         ElseIf vImporteConcepto < 0 Then
-                            cmdMySql1cr.CommandText = "SELECT * FROM tmpprint WHERE tmpprint.FechaTMP = #" & vNombreConcepto & "#"
-                            cmdMySql1cr.CommandText += " And tmpprint.ImporteTMP < 0 "
+                            cmdMdb1cr.CommandText = "SELECT * FROM tmpprint WHERE tmpprint.FechaTMP = #" & vNombreConcepto & "#"
+                            cmdMdb1cr.CommandText += " And tmpprint.ImporteTMP < 0 "
                         End If
                         Try
-                            drMySql1 = cmdMySql1cr.ExecuteReader()
-                            If drMySql1.HasRows Then 'Significa que existe con las condiciones
-                                While drMySql1.Read()
-                                    vExistenteImporteConcepto = drMySql1.GetValue(5)
+                            drMdb1 = cmdMdb1cr.ExecuteReader()
+                            If drMdb1.HasRows Then 'Significa que existe con las condiciones
+                                While drMdb1.Read()
+                                    vExistenteImporteConcepto = drMdb1.GetValue(5)
                                 End While
-                                drMySql1.Close()
+                                drMdb1.Close()
                                 vNewImporteConcepto = vImporteConcepto + vExistenteImporteConcepto.ToString
                                 If vImporteConcepto > 0 Then
                                     vAñadir2 = "UPDATE tmpprint SET ImporteTMP = '" & vNewImporteConcepto & "' "
@@ -249,40 +249,40 @@ Public Class GraficosFechas
                                     vAñadir2 += " WHERE tmpprint.FechaTMP = #" & vNombreConcepto & "#"
                                     vAñadir2 += " And tmpprint.ImporteTMP < 0 "
                                 End If
-                                cmdMySql1cr.CommandText = vAñadir2
+                                cmdMdb1cr.CommandText = vAñadir2
                                 Try
-                                    drMySql1 = cmdMySql1cr.ExecuteReader()
+                                    drMdb1 = cmdMdb1cr.ExecuteReader()
                                 Catch ex As Exception
                                     MsgBox("Error al actualizar el Importe del Concepto en tmpprint")
                                     MsgBox(ex.ToString)
                                 End Try
-                                drMySql1.Close()
+                                drMdb1.Close()
 
                             Else   'NO existe, lo añadimos al cero
-                                'MsgBox("No existen registros en " & cmdMySql1cr.CommandText)
-                                drMySql1.Close()
-                                cmdMySql1cr.CommandText = "SELECT * FROM tmpprint WHERE tmpprint.FechaTMP = #" & vNombreConcepto & "#"
-                                cmdMySql1cr.CommandText += " And tmpprint.ImporteTMP = 0 "
-                                drMySql1 = cmdMySql1cr.ExecuteReader()
-                                If drMySql1.HasRows Then 'Significa que existe con las condiciones
-                                    While drMySql1.Read()
-                                        vExistenteImporteConcepto = drMySql1.GetValue(5)
+                                'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
+                                drMdb1.Close()
+                                cmdMdb1cr.CommandText = "SELECT * FROM tmpprint WHERE tmpprint.FechaTMP = #" & vNombreConcepto & "#"
+                                cmdMdb1cr.CommandText += " And tmpprint.ImporteTMP = 0 "
+                                drMdb1 = cmdMdb1cr.ExecuteReader()
+                                If drMdb1.HasRows Then 'Significa que existe con las condiciones
+                                    While drMdb1.Read()
+                                        vExistenteImporteConcepto = drMdb1.GetValue(5)
                                     End While
-                                    drMySql1.Close()
+                                    drMdb1.Close()
                                     vNewImporteConcepto = vImporteConcepto + vExistenteImporteConcepto.ToString
                                     vAñadir2 = "UPDATE tmpprint SET ImporteTMP = '" & vNewImporteConcepto & "' "
                                     vAñadir2 += " WHERE tmpprint.FechaTMP = #" & vNombreConcepto & "#"
                                     vAñadir2 += " And tmpprint.ImporteTMP = 0 "
-                                    cmdMySql1cr.CommandText = vAñadir2
+                                    cmdMdb1cr.CommandText = vAñadir2
                                     Try
-                                        drMySql1 = cmdMySql1cr.ExecuteReader()
+                                        drMdb1 = cmdMdb1cr.ExecuteReader()
                                     Catch ex As Exception
                                         MsgBox("Error al actualizar el Importe del Concepto en tmpprint")
                                         MsgBox(ex.ToString)
                                     End Try
-                                    drMySql1.Close()
+                                    drMdb1.Close()
                                 End If
-                                drMySql1.Close()
+                                drMdb1.Close()
                             End If
                         Catch ex As Exception
                             MsgBox("Error al verificar que el Concepto existe en tmpprint")

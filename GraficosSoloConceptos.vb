@@ -79,9 +79,9 @@ Public Class GraficosSoloConceptos
         'Iniciamos Tabla Tempapu
         '***********************
         vTempapu = "DELETE FROM tempapu"
-        cmdMySql1cr.CommandText = vTempapu
+        cmdMdb1cr.CommandText = vTempapu
         Try
-            cmdMySql1cr.ExecuteNonQuery()
+            cmdMdb1cr.ExecuteNonQuery()
             'MsgBox("Registros Tempapu, Borrados !!!")
         Catch ex As Exception
             MsgBox("Error al limpiar la tabla Tempapu")
@@ -100,27 +100,27 @@ Public Class GraficosSoloConceptos
                 vAñadir = "INSERT INTO tempapu"
                 vAñadir += "(ConceptoAPU, SumaImporteAPU) "
                 vAñadir += "VALUES ('" & vNombreConcepto & "','" & vImporteConcepto & "')"
-                cmdMySql1cr.CommandText = vAñadir
+                cmdMdb1cr.CommandText = vAñadir
                 Try
-                    cmdMySql1cr.ExecuteNonQuery()
+                    cmdMdb1cr.ExecuteNonQuery()
                     'MsgBox("Registro1, Grabado Correctamente")
                 Catch ex As Exception
                     MsgBox("Error al Grabar el Concepto en Tempapu")
                     MsgBox(ex.ToString)
                 End Try
             Else
-                cmdMySql1cr.CommandType = CommandType.Text
-                cmdMySql1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+                cmdMdb1cr.CommandType = CommandType.Text
+                cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
                 Try
-                    drMySql1 = cmdMySql1cr.ExecuteReader()
-                    If drMySql1.HasRows Then
-                        While drMySql1.Read()
-                            vExistenteImporteConcepto = drMySql1.GetValue(1)
+                    drMdb1 = cmdMdb1cr.ExecuteReader()
+                    If drMdb1.HasRows Then
+                        While drMdb1.Read()
+                            vExistenteImporteConcepto = drMdb1.GetValue(1)
                         End While
                     Else
-                        'MsgBox("No existen registros en " & cmdMySql1cr.CommandText)
+                        'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
                     End If
-                    drMySql1.Close()
+                    drMdb1.Close()
                 Catch ex As Exception
                     MsgBox("Error al verificar el Concepto en Tempapu")
                     MsgBox(ex.ToString)
@@ -128,15 +128,15 @@ Public Class GraficosSoloConceptos
                 vNewImporteConcepto = vImporteConcepto + vExistenteImporteConcepto
                 vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
                 vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                cmdMySql1cr.CommandText = vAñadir2
+                cmdMdb1cr.CommandText = vAñadir2
                 Try
-                    drMySql1 = cmdMySql1cr.ExecuteReader()
+                    drMdb1 = cmdMdb1cr.ExecuteReader()
                     'MsgBox("Registro2, Grabado Correctamente")
                 Catch ex As Exception
                     MsgBox("Error al actualizar el Importe del Concepto en Tempapu")
                     MsgBox(ex.ToString)
                 End Try
-                drMySql1.Close()
+                drMdb1.Close()
             End If
         Next
 
