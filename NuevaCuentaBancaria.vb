@@ -7,41 +7,104 @@ Imports MySqlConnector
 Public Class NuevaCuentaBancaria
 
     Public vtipoSql, vtipoGrid, vTxtNombre, vTxtNumero, vTxtTipo, vTxtNotas As String
+    Public TL(4) As ToolTip
+    Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
+
 
     Private Sub NuevaCuentaBancaria_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ActualizarTextosFormulario(Me)
 
         Dim TL(4) As ToolTip
         TL(0) = New ToolTip
-        TL(0).SetToolTip(Me.BtnAceptar, "Aceptar y Salir")
+        TL(0).SetToolTip(Me.BtnAceptar, resManager.GetString("ToolTipAceptar"))
         TL(1) = New ToolTip
-        TL(1).SetToolTip(Me.BtnCancelar, "Cancelar la introducción del Apunte")
+        TL(1).SetToolTip(Me.BtnCancelar, resManager.GetString("ToolTipCancelar"))
         TL(2) = New ToolTip
-        TL(2).SetToolTip(Me.CmbTipoCuenta, "Seleccionar el Tipo de Cuenta")
+        TL(2).SetToolTip(Me.CmbTipoCuenta, resManager.GetString("ToolTipTipoCuenta"))
         TL(3) = New ToolTip
-        TL(3).SetToolTip(Me.TxtNumero, "Introducir Número de Cuenta o IBAN")
+        TL(3).SetToolTip(Me.TxtNumero, resManager.GetString("ToolTipIBAN"))
         TL(4) = New ToolTip
-        TL(4).SetToolTip(Me.TxtNombre, "Introducir Nombre de la Cuenta")
+        TL(4).SetToolTip(Me.TxtNombre, resManager.GetString("ToolTipNombre"))
 
-        ' Llenar el Combo Tipo Cuenta
-        '****************************
-        cmdMdb1cr.CommandText = "SELECT tipocuentas.CodigoTIP FROM tipocuentas"
-        cmdMdb1cr.CommandText += " ORDER BY tipocuentas.CodigoTIP ASC"
-        Try
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-            If drMdb1.HasRows Then
-                While drMdb1.Read()
-                    CmbTipoCuenta.Items.Add(drMdb1.GetValue(0))
-                End While
-                CmbTipoCuenta.Text = CmbTipoCuenta.Items(0)
-            Else
-                MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
-            End If
-            drMdb1.Close()
-        Catch ex As Exception
-            MsgBox("Error al llenar el Combo Tipo Cuenta")
-            MsgBox(ex.ToString)
-        End Try
+        ' Aunque el combo se llame diferente en este formulario, funcionará igual:
+        CargarComboTipoCuentaGlobal(Me.CmbTipoCuenta)
+
+        '' Llenar el Combo Tipo Cuenta desde Access (Modelo Híbrido)
+        ''********************************************************
+        'cmdMdb1cr.CommandText = "SELECT tipocuentas.CodigoTIP FROM tipocuentas"
+        'cmdMdb1cr.CommandText += " ORDER BY tipocuentas.CodigoTIP ASC"
+
+        'Try
+        '    ' 1. Guardamos la posición seleccionada actual para que no salte el combo
+        '    Dim indiceSeleccionado As Integer = CmbTipoCuenta.SelectedIndex
+
+        '    ' 2. Limpiamos los ítems viejos para evitar duplicados
+        '    CmbTipoCuenta.Items.Clear()
+
+        '    ' 3. Ejecutamos el lector de Access
+        '    drMdb1 = cmdMdb1cr.ExecuteReader()
+
+        '    If drMdb1.HasRows Then
+        '        While drMdb1.Read()
+        '            ' Obtenemos el texto guardado en Access (quitando espacios en blanco extras)
+        '            Dim valorBD As String = drMdb1.GetValue(0).ToString().Trim()
+
+        '            ' Buscamos si tú programaste una traducción para este valor en el .resx
+        '            Dim textoTraducido As String = rmse.GetString(valorBD)
+
+        '            ' PROTECCIÓN: Si no hay traducción (porque lo creó el usuario), 
+        '            ' se usa el valor original de la base de datos de Access
+        '            If String.IsNullOrEmpty(textoTraducido) Then
+        '                textoTraducido = valorBD
+        '            End If
+
+        '            ' Añadimos el ítem definitivo al ComboBox
+        '            CmbTipoCuenta.Items.Add(textoTraducido)
+        '        End While
+
+        '        ' 4. Restauramos la selección del usuario o dejamos el primer ítem por defecto
+        '        If indiceSeleccionado >= 0 AndAlso indiceSeleccionado < CmbTipoCuenta.Items.Count Then
+        '            CmbTipoCuenta.SelectedIndex = indiceSeleccionado
+        '        ElseIf CmbTipoCuenta.Items.Count > 0 Then
+        '            CmbTipoCuenta.SelectedIndex = 0
+        '        End If
+        '    Else
+        '        MsgBox(resManager.GetString("NoExistenRegistros") & " " & cmdMdb1cr.CommandText)
+        '    End If
+
+        '    drMdb1.Close()
+
+        'Catch ex As Exception
+        '    MsgBox(rmse.GetString("ErrorAlLlenarComboTipoCuenta"))
+        '    MsgBox(ex.ToString)
+        'Finally
+        '    ' Bloque de seguridad: cerramos el reader por si ocurre algún fallo en el bucle
+        '    If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then
+        '        drMdb1.Close()
+        '    End If
+        'End Try
+
+
+
+        '' Llenar el Combo Tipo Cuenta
+        ''****************************
+        'cmdMdb1cr.CommandText = "SELECT tipocuentas.CodigoTIP FROM tipocuentas"
+        'cmdMdb1cr.CommandText += " ORDER BY tipocuentas.CodigoTIP ASC"
+        'Try
+        '    drMdb1 = cmdMdb1cr.ExecuteReader()
+        '    If drMdb1.HasRows Then
+        '        While drMdb1.Read()
+        '            CmbTipoCuenta.Items.Add(drMdb1.GetValue(0))
+        '        End While
+        '        CmbTipoCuenta.Text = CmbTipoCuenta.Items(0)
+        '    Else
+        '        MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
+        '    End If
+        '    drMdb1.Close()
+        'Catch ex As Exception
+        '    MsgBox("Error al llenar el Combo Tipo Cuenta")
+        '    MsgBox(ex.ToString)
+        'End Try
 
         CmbTipoCuenta.DropDownStyle = ComboBoxStyle.DropDownList
         CmbTipoCuenta.SelectedIndex = 0

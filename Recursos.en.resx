@@ -405,4 +405,13 @@ then by Various Concepts</value>
   <data name="ErrorAlEjecutar" xml:space="preserve">
     <value>Error Running</value>
   </data>
+  <data name="ToolTipTipoCuenta" xml:space="preserve">
+    <value>Select Account Type</value>
+  </data>
+  <data name="ToolTipIBAN" xml:space="preserve">
+    <value>Enter Account Number or IBAN</value>
+  </data>
+  <data name="ToolTipNombre" xml:space="preserve">
+    <value>Enter Account Name</value>
+  </data>
 </root>

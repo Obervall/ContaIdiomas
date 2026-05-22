@@ -405,4 +405,13 @@ puis par Divers Concepts</value>
   <data name="ErrorAlEjecutar" xml:space="preserve">
     <value>Exécution par erreur</value>
   </data>
+  <data name="ToolTipTipoCuenta" xml:space="preserve">
+    <value>Sélectionner le type de compte</value>
+  </data>
+  <data name="ToolTipIBAN" xml:space="preserve">
+    <value>Saisir le numéro de compte ou IBAN</value>
+  </data>
+  <data name="ToolTipNombre" xml:space="preserve">
+    <value>Saisissez le nom du compte</value>
+  </data>
 </root>

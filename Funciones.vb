@@ -1132,6 +1132,107 @@ Module Funciones
     'En el MsgBox han observado & NL &, bien, en un módulo con funciones públicas para toda la solución va esto
     Friend NL As String = Environment.NewLine '(Me hace un salto de línea, es muy práctico).
 
+    ''' <summary>
+    ''' Traduce las columnas de cualquier Grid usando el traductor específico de cada formulario
+    ''' </summary>
+    ''' <param name="grid">El DataGridView a procesar</param>
+    ''' <param name="manejadorRecursos">El objeto rmse propio del formulario</param>
+    Public Sub TraducirColumnasGridCuentas(ByVal grid As DataGridView, ByVal manejadorRecursos As System.Resources.ResourceManager)
+        Try
+            If grid IsNot Nothing AndAlso grid.Rows.Count > 0 Then
+
+                For Each fila As DataGridViewRow In grid.Rows
+                    If Not fila.IsNewRow Then
+
+                        ' --- COLUMNA (0): TipoCUE (Mixto) ---
+                        If grid.Columns.Count > 0 AndAlso fila.Cells(0).Value IsNot Nothing Then
+                            Dim valorTipo As String = fila.Cells(0).Value.ToString().Trim()
+                            ' Usamos el parámetro interno, que será el 'rmse' que envíes
+                            Dim tradTipo As String = manejadorRecursos.GetString(valorTipo)
+
+                            If Not String.IsNullOrEmpty(tradTipo) Then
+                                fila.Cells(0).Value = tradTipo
+                            End If
+                        End If
+
+                        ' --- COLUMNA (1): NombreCUE (Mayúsculas) ---
+                        If grid.Columns.Count > 1 AndAlso fila.Cells(1).Value IsNot Nothing Then
+                            Dim valorNombre As String = fila.Cells(1).Value.ToString().Trim().ToUpper()
+                            ' Usamos el parámetro interno
+                            Dim tradNombre As String = manejadorRecursos.GetString(valorNombre)
+
+                            If Not String.IsNullOrEmpty(tradNombre) Then
+                                fila.Cells(1).Value = tradNombre
+                            End If
+                        End If
+
+                    End If
+                Next
+
+            End If
+        Catch ex As Exception
+            MsgBox(resManager.GetString("ErrorAlEjecutar") & ex.Message, MsgBoxStyle.Exclamation, manejadorRecursos.GetString("$this.Text"))
+        End Try
+    End Sub
+
+    ''' <summary>
+    ''' Rellena de forma híbrida y multidioma cualquier ComboBox con los tipos de cuenta desde Access
+    ''' </summary>
+    ''' <param name="combo">El control ComboBox que se quiere rellenar</param>
+    Public Sub CargarComboTipoCuentaGlobal(ByVal combo As ComboBox)
+        ' Aseguramos que existan las variables de conexión en el contexto o pásalas si es necesario.
+        ' Aquí asumimos que cmdMdb1cr y drMdb1 son accesibles o se pueden instanciar de forma global.
+
+        Dim cmdLocal As New OleDb.OleDbCommand("SELECT tipocuentas.CodigoTIP FROM tipocuentas ORDER BY tipocuentas.CodigoTIP ASC", conexionMdb)
+        Dim drLocal As OleDb.OleDbDataReader = Nothing
+
+        Try
+            ' 1. Guardamos la posición seleccionada actual para no perder el foco del usuario
+            Dim indiceSeleccionado As Integer = combo.SelectedIndex
+
+            ' 2. Limpiamos los ítems anteriores
+            combo.Items.Clear()
+
+            ' 3. Abrimos el lector
+            drLocal = cmdLocal.ExecuteReader()
+
+            If drLocal.HasRows Then
+                While drLocal.Read()
+                    Dim valorBD As String = drLocal.GetValue(0).ToString().Trim()
+
+                    ' Buscamos la traducción en el recurso GLOBAL (resManager)
+                    Dim textoTraducido As String = resManager.GetString(valorBD)
+
+                    ' Si no existe traducción en el .resx, dejamos el texto original de Access
+                    If String.IsNullOrEmpty(textoTraducido) Then
+                        textoTraducido = valorBD
+                    End If
+
+                    combo.Items.Add(textoTraducido)
+                End While
+
+                ' 4. Restauramos la selección previa o seleccionamos el primero por defecto
+                If indiceSeleccionado >= 0 AndAlso indiceSeleccionado < combo.Items.Count Then
+                    combo.SelectedIndex = indiceSeleccionado
+                ElseIf combo.Items.Count > 0 Then
+                    combo.SelectedIndex = 0
+                End If
+            End If
+
+            drLocal.Close()
+
+        Catch ex As Exception
+            MsgBox("Error al cargar combo de tipos de cuenta: " & ex.Message)
+        Finally
+            If drLocal IsNot Nothing AndAlso Not drLocal.IsClosed Then
+                drLocal.Close()
+            End If
+        End Try
+    End Sub
+
+
+
+
     'Public Function ReadINIkey(file As String, section As String, key As String) As String
     '    Dim lret As Long, i As Long
     '    Dim ret As String, newstr As String = "", c As Char

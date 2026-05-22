@@ -183,4 +183,16 @@
   <data name="Cuenta Corriente" xml:space="preserve">
     <value>Cuenta Corriente</value>
   </data>
+  <data name="BBVA" xml:space="preserve">
+    <value>BBVA</value>
+  </data>
+  <data name="CAJA EFECTIVO" xml:space="preserve">
+    <value>CAJA EFECTIVO</value>
+  </data>
+  <data name="OPENBANK" xml:space="preserve">
+    <value>OPENBANK</value>
+  </data>
+  <data name="PLAN PENSIONES" xml:space="preserve">
+    <value>PLAN PENSIONES</value>
+  </data>
 </root>

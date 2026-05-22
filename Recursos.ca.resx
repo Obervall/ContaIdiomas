@@ -405,4 +405,13 @@ després per Conceptes Diversos</value>
   <data name="ErrorAlEjecutar" xml:space="preserve">
     <value>Error en executar</value>
   </data>
+  <data name="ToolTipTipoCuenta" xml:space="preserve">
+    <value>Seleccionar el Tipus de Compte</value>
+  </data>
+  <data name="ToolTipIBAN" xml:space="preserve">
+    <value>Introduir Número de Compte o IBAN</value>
+  </data>
+  <data name="ToolTipNombre" xml:space="preserve">
+    <value>Introduir Nom del Compte</value>
+  </data>
 </root>

@@ -48,60 +48,62 @@ Public Class CuentasBancarias
         AddHandler Me.GroupBox3.MouseMove, AddressOf VerificarFiltrosDesactivados
         AddHandler Me.GroupBox4.MouseMove, AddressOf VerificarFiltrosDesactivados
 
-        ' Llenar el Combo Tipo Cuenta desde Access (Modelo Híbrido)
-        '********************************************************
-        cmdMdb1cr.CommandText = "SELECT tipocuentas.CodigoTIP FROM tipocuentas"
-        cmdMdb1cr.CommandText += " ORDER BY tipocuentas.CodigoTIP ASC"
+        CargarComboTipoCuentaGlobal(Me.CmbTipoCuenta)
 
-        Try
-            ' 1. Guardamos la posición seleccionada actual para que no salte el combo
-            Dim indiceSeleccionado As Integer = CmbTipoCuenta.SelectedIndex
+        '' Llenar el Combo Tipo Cuenta desde Access (Modelo Híbrido)
+        ''********************************************************
+        'cmdMdb1cr.CommandText = "SELECT tipocuentas.CodigoTIP FROM tipocuentas"
+        'cmdMdb1cr.CommandText += " ORDER BY tipocuentas.CodigoTIP ASC"
 
-            ' 2. Limpiamos los ítems viejos para evitar duplicados
-            CmbTipoCuenta.Items.Clear()
+        'Try
+        '    ' 1. Guardamos la posición seleccionada actual para que no salte el combo
+        '    Dim indiceSeleccionado As Integer = CmbTipoCuenta.SelectedIndex
 
-            ' 3. Ejecutamos el lector de Access
-            drMdb1 = cmdMdb1cr.ExecuteReader()
+        '    ' 2. Limpiamos los ítems viejos para evitar duplicados
+        '    CmbTipoCuenta.Items.Clear()
 
-            If drMdb1.HasRows Then
-                While drMdb1.Read()
-                    ' Obtenemos el texto guardado en Access (quitando espacios en blanco extras)
-                    Dim valorBD As String = drMdb1.GetValue(0).ToString().Trim()
+        '    ' 3. Ejecutamos el lector de Access
+        '    drMdb1 = cmdMdb1cr.ExecuteReader()
 
-                    ' Buscamos si tú programaste una traducción para este valor en el .resx
-                    Dim textoTraducido As String = rmse.GetString(valorBD)
+        '    If drMdb1.HasRows Then
+        '        While drMdb1.Read()
+        '            ' Obtenemos el texto guardado en Access (quitando espacios en blanco extras)
+        '            Dim valorBD As String = drMdb1.GetValue(0).ToString().Trim()
 
-                    ' PROTECCIÓN: Si no hay traducción (porque lo creó el usuario), 
-                    ' se usa el valor original de la base de datos de Access
-                    If String.IsNullOrEmpty(textoTraducido) Then
-                        textoTraducido = valorBD
-                    End If
+        '            ' Buscamos si tú programaste una traducción para este valor en el .resx
+        '            Dim textoTraducido As String = rmse.GetString(valorBD)
 
-                    ' Añadimos el ítem definitivo al ComboBox
-                    CmbTipoCuenta.Items.Add(textoTraducido)
-                End While
+        '            ' PROTECCIÓN: Si no hay traducción (porque lo creó el usuario), 
+        '            ' se usa el valor original de la base de datos de Access
+        '            If String.IsNullOrEmpty(textoTraducido) Then
+        '                textoTraducido = valorBD
+        '            End If
 
-                ' 4. Restauramos la selección del usuario o dejamos el primer ítem por defecto
-                If indiceSeleccionado >= 0 AndAlso indiceSeleccionado < CmbTipoCuenta.Items.Count Then
-                    CmbTipoCuenta.SelectedIndex = indiceSeleccionado
-                ElseIf CmbTipoCuenta.Items.Count > 0 Then
-                    CmbTipoCuenta.SelectedIndex = 0
-                End If
-            Else
-                MsgBox(resManager.GetString("NoExistenRegistros") & " " & cmdMdb1cr.CommandText)
-            End If
+        '            ' Añadimos el ítem definitivo al ComboBox
+        '            CmbTipoCuenta.Items.Add(textoTraducido)
+        '        End While
 
-            drMdb1.Close()
+        '        ' 4. Restauramos la selección del usuario o dejamos el primer ítem por defecto
+        '        If indiceSeleccionado >= 0 AndAlso indiceSeleccionado < CmbTipoCuenta.Items.Count Then
+        '            CmbTipoCuenta.SelectedIndex = indiceSeleccionado
+        '        ElseIf CmbTipoCuenta.Items.Count > 0 Then
+        '            CmbTipoCuenta.SelectedIndex = 0
+        '        End If
+        '    Else
+        '        MsgBox(resManager.GetString("NoExistenRegistros") & " " & cmdMdb1cr.CommandText)
+        '    End If
 
-        Catch ex As Exception
-            MsgBox(rmse.GetString("ErrorAlLlenarComboTipoCuenta"))
-            MsgBox(ex.ToString)
-        Finally
-            ' Bloque de seguridad: cerramos el reader por si ocurre algún fallo en el bucle
-            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then
-                drMdb1.Close()
-            End If
-        End Try
+        '    drMdb1.Close()
+
+        'Catch ex As Exception
+        '    MsgBox(rmse.GetString("ErrorAlLlenarComboTipoCuenta"))
+        '    MsgBox(ex.ToString)
+        'Finally
+        '    ' Bloque de seguridad: cerramos el reader por si ocurre algún fallo en el bucle
+        '    If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then
+        '        drMdb1.Close()
+        '    End If
+        'End Try
 
         CmbTipoCuenta.DropDownStyle = ComboBoxStyle.DropDownList
         CmbTipoCuenta.SelectedIndex = 0
@@ -112,6 +114,7 @@ Public Class CuentasBancarias
         vtipoSql += " ORDER BY cuentas.NombreCUE ASC"
         vtipoGrid = "CUENTAS_BANCARIAS"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
+        TraducirColumnasGridCuentas(DgvCuentas, rmse)
 
         ' Llenar el Combo Campos
         '***********************
@@ -127,12 +130,33 @@ Public Class CuentasBancarias
     Private Sub BtnFiltroTipoCuenta_Click(sender As Object, e As EventArgs) Handles BtnFiltroTipoCuenta.Click
         BtnFiltroTipoCuenta.Enabled = False
         BtnSinFiltroTipoCuenta.Enabled = True
+
+        ' 1. Por defecto, asumimos que el valor a buscar es el texto visible del combo
+        Dim valorOriginalBD As String = CmbTipoCuenta.Text
+
+        ' 2. ¡Truco de inversión! Buscamos en el historial de recursos cuál era el código original de fábrica
+        ' Recorremos todas las claves del archivo de recursos para ver cuál coincide con la traducción actual
+        Dim recursos As System.Resources.ResourceSet = rmse.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
+        If recursos IsNot Nothing Then
+            For Each elemento As System.Collections.DictionaryEntry In recursos
+                ' Si el valor traducido en el .resx coincide con lo que el usuario ve en el combo...
+                If elemento.Value.ToString() = CmbTipoCuenta.Text Then
+                    ' ¡Encontramos el código original de la base de datos! (ej: "CAJA EFECTIVO")
+                    valorOriginalBD = elemento.Key.ToString()
+                    Exit For
+                End If
+            Next
+        End If
+
+        ' 3. Armamos la consulta SQL usando el valor original que Access sí entiende
         vtipoSql = "SELECT cuentas.TipoCUE, cuentas.NombreCUE, cuentas.NumeroCUE, cuentas.NotasCUE, cuentas.NotasCUE FROM cuentas"
         vtipoSql += " WHERE "
-        vtipoSql += "cuentas.TipoCUE = '" & CmbTipoCuenta.Text & "' "
+        vtipoSql += "cuentas.TipoCUE = '" & valorOriginalBD & "' "
         vtipoSql += " ORDER BY cuentas.NombreCUE ASC"
         vtipoGrid = "CUENTAS_BANCARIAS"
+        ' 4. Ejecutamos tu función para llenar el Grid
         LlenarGrid(vtipoSql, vtipoGrid, "1")
+        TraducirColumnasGridCuentas(DgvCuentas, rmse)
     End Sub
 
     Private Sub BtnSinFiltroTipoCuenta_Click(sender As Object, e As EventArgs) Handles BtnSinFiltroTipoCuenta.Click
@@ -144,6 +168,11 @@ Public Class CuentasBancarias
         vtipoSql += " ORDER BY cuentas.NombreCUE ASC"
         vtipoGrid = "CUENTAS_BANCARIAS"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
+        TraducirColumnasGridCuentas(DgvCuentas, rmse)
+        ' Si quieres que al quitar el filtro el combo vuelva a su posición inicial o se limpie:
+        If CmbTipoCuenta.Items.Count > 0 Then
+            CmbTipoCuenta.SelectedIndex = 0 ' O pon -1 si prefieres que se quede en blanco
+        End If
     End Sub
 
     Private Sub BtnBuscarRegistro_Click(sender As Object, e As EventArgs) Handles BtnBuscarRegistro.Click
@@ -509,13 +538,10 @@ Public Class CuentasBancarias
     End Sub
 
     Private Sub CmbTipoCuenta_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbTipoCuenta.SelectedIndexChanged
+        ' Si el botón de filtro está deshabilitado (significa que el filtro está actualmente activo)
         If BtnFiltroTipoCuenta.Enabled = False Then
-            vtipoSql = "SELECT cuentas.TipoCUE, cuentas.NombreCUE, cuentas.NumeroCUE, cuentas.NotasCUE, cuentas.NotasCUE FROM cuentas"
-            vtipoSql += " WHERE "
-            vtipoSql += "cuentas.TipoCUE = '" & CmbTipoCuenta.Text & "' "
-            vtipoSql += " ORDER BY  cuentas.NombreCUE ASC"
-            vtipoGrid = "CUENTAS_BANCARIAS"
-            LlenarGrid(vtipoSql, vtipoGrid, "1")
+            ' Refrescamos el grid automáticamente con el nuevo tipo seleccionado
+            EjecutarFiltroTipoCuenta()
         End If
     End Sub
 
@@ -537,6 +563,7 @@ Public Class CuentasBancarias
         vtipoSql += " ORDER BY cuentas.NombreCUE ASC"
         vtipoGrid = "CUENTAS_BANCARIAS"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
+        TraducirColumnasGridCuentas(DgvCuentas, rmse)
     End Sub
 
     Private Sub BtnEliminarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEliminarRegistro.Click
@@ -559,6 +586,7 @@ Public Class CuentasBancarias
         vtipoSql += " ORDER BY  cuentas.NombreCUE ASC"
         vtipoGrid = "CUENTAS_BANCARIAS"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
+        TraducirColumnasGridCuentas(DgvCuentas, rmse)
     End Sub
 
     Private Sub BtnEliminaSeleccion_Click(sender As Object, e As EventArgs) Handles BtnEliminaSeleccion.Click
@@ -613,6 +641,8 @@ Public Class CuentasBancarias
             vtipoSql += " ORDER BY  cuentas.NombreCUE ASC"
             vtipoGrid = "CUENTAS_BANCARIAS"
             LlenarGrid(vtipoSql, vtipoGrid, "1")
+            TraducirColumnasGridCuentas(DgvCuentas, rmse)
+
             BtnFiltroTipoCuenta.Enabled = True
             BtnSinFiltroTipoCuenta.Enabled = False
         End If
@@ -777,6 +807,8 @@ Public Class CuentasBancarias
         vtipoSql += " ORDER BY  cuentas.NombreCUE ASC"
         vtipoGrid = "CUENTAS_BANCARIAS"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
+        TraducirColumnasGridCuentas(DgvCuentas, rmse)
+
         DgvCuentas.CurrentCell = DgvCuentas.Rows(filaActual).Cells(0)
         DgvCuentas.Rows(filaActual).Selected = True
     End Sub
@@ -871,6 +903,36 @@ Public Class CuentasBancarias
         ' Si el ratón no está sobre ningún botón bloqueado, ocultamos los tres
         TL(1).Hide(Me)
         TL(6).Hide(Me)
+    End Sub
+
+    Private Sub EjecutarFiltroTipoCuenta()
+        ' 1. Evitamos ejecutar si el combo está vacío o no hay selección válida
+        If CmbTipoCuenta.SelectedIndex = -1 Then Exit Sub
+
+        ' 2. Buscamos el valor original en Access usando la traducción inversa
+        Dim valorOriginalBD As String = CmbTipoCuenta.Text
+        Dim recursos As System.Resources.ResourceSet = rmse.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
+
+        If recursos IsNot Nothing Then
+            For Each elemento As System.Collections.DictionaryEntry In recursos
+                If elemento.Value.ToString() = CmbTipoCuenta.Text Then
+                    valorOriginalBD = elemento.Key.ToString()
+                    Exit For
+                End If
+            Next
+        End If
+
+        ' 3. Armamos la consulta SQL con el valor original
+        vtipoSql = "SELECT cuentas.TipoCUE, cuentas.NombreCUE, cuentas.NumeroCUE, cuentas.NotasCUE, cuentas.NotasCUE FROM cuentas"
+        vtipoSql += " WHERE "
+        vtipoSql += "cuentas.TipoCUE = '" & valorOriginalBD & "' "
+        vtipoSql += " ORDER BY cuentas.NombreCUE ASC"
+
+        vtipoGrid = "CUENTAS_BANCARIAS"
+
+        ' 4. Llenamos el Grid y ejecutamos tu función universal de traducción
+        LlenarGrid(vtipoSql, vtipoGrid, "1")
+        TraducirColumnasGridCuentas(DgvCuentas, rmse)
     End Sub
 
 End Class

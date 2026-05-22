@@ -183,4 +183,16 @@
   <data name="Tarjeta de Crédito" xml:space="preserve">
     <value>Targeta de Crèdit</value>
   </data>
+  <data name="BBVA" xml:space="preserve">
+    <value>BBVA</value>
+  </data>
+  <data name="CAJA EFECTIVO" xml:space="preserve">
+    <value>CAIXA EFECTIU</value>
+  </data>
+  <data name="OPENBANK" xml:space="preserve">
+    <value>OPENBANK</value>
+  </data>
+  <data name="PLAN PENSIONES" xml:space="preserve">
+    <value>PLA PENSIONS</value>
+  </data>
 </root>

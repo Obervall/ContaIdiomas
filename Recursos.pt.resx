@@ -405,4 +405,13 @@ então por vários conceitos</value>
   <data name="ErrorAlEjecutar" xml:space="preserve">
     <value>Execução de Erros</value>
   </data>
+  <data name="ToolTipTipoCuenta" xml:space="preserve">
+    <value>Selecionar Tipo de Conta</value>
+  </data>
+  <data name="ToolTipIBAN" xml:space="preserve">
+    <value>Insira Número da Conta ou IBAN</value>
+  </data>
+  <data name="ToolTipNombre" xml:space="preserve">
+    <value>Insira o Nome da Conta</value>
+  </data>
 </root>
