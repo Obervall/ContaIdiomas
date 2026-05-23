@@ -1,8 +1,4 @@
-﻿Imports System.Data
-Imports System.Diagnostics
-Imports System.Security.Cryptography
-Imports System.Windows.Forms
-Imports MySqlConnector
+﻿Imports System.Windows.Forms
 
 Public Class NuevaCuentaBancaria
 
@@ -27,7 +23,7 @@ Public Class NuevaCuentaBancaria
         TL(4).SetToolTip(Me.TxtNombre, resManager.GetString("ToolTipNombre"))
 
         ' Aunque el combo se llame diferente en este formulario, funcionará igual:
-        CargarComboTipoCuentaGlobal(Me.CmbTipoCuenta, rmse)
+        CargarComboTipoCuentaGlobal(Me.CmbTipoCuenta, frmCuentasBancarias.rmse)
     End Sub
 
     Private Sub TxtNombre_TextChanged(sender As Object, e As EventArgs) Handles TxtNombre.TextChanged
@@ -77,8 +73,18 @@ Public Class NuevaCuentaBancaria
     Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click
         vTxtNombre = TxtNombre.Text
         vTxtNumero = TxtNumero.Text
-        vTxtTipo = CmbTipoCuenta.Text
         vTxtNotas = TxtNota.Text
+
+        ' =========================================================================
+        ' EL CAMBIO CLAVE: Extraemos el valor original de Access desde el objeto oculto
+        ' =========================================================================
+        If CmbTipoCuenta.SelectedItem IsNot Nothing Then
+            Dim itemSeleccionado As ElementoCombo = CType(CmbTipoCuenta.SelectedItem, ElementoCombo)
+            vTxtTipo = itemSeleccionado.ValorInterno ' Esto guardará "AHORRO", "CORRIENTE", etc. sin importar el idioma
+        Else
+            vTxtTipo = "" ' Por si no hay nada seleccionado
+        End If
+        ' =========================================================================
 
         ' Verificar que no se repite Nombre/Código en Cuentas Bancarias
         '**************************************************************
@@ -89,7 +95,7 @@ Public Class NuevaCuentaBancaria
             drMdb1 = cmdMdb1cr.ExecuteReader()
             If drMdb1.HasRows Then
                 drMdb1.Close()
-                MsgBox("El Nombre: " & vTxtNombre & ", ya existe en Cuentas Bancarias", vbOKOnly, "Cuenta Existente")
+                'MsgBox(resManager.GetString("Nombre") & ": " & vTxtNombre & ", " & resManager.GetString("YaExisteEnCuentasBancarias"), vbOKOnly, resManager.GetString(rmse.GetString("$this.Text")))
                 TxtNombre.Select()
             Else
                 drMdb1.Close()
@@ -103,12 +109,10 @@ Public Class NuevaCuentaBancaria
                     'MsgBox("Registro, Grabado Correctamente")
                     Me.Close()
                 Catch ex As Exception
-                    MsgBox("Error al Grabar la Nueva Cuenta Bancaria")
                     MsgBox(ex.ToString)
                 End Try
             End If
         Catch ex As Exception
-            MsgBox("Error al verificar que el Nombre no se repite en Cuentas Bancarias")
             MsgBox(ex.ToString)
         End Try
     End Sub

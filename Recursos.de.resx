@@ -357,18 +357,6 @@ dann von Different Concepts</value>
   <data name="ErrorModificarRegistro" xml:space="preserve">
     <value>Fehler bei der Änderung des Registers</value>
   </data>
-  <data name="EliminarConcepto2" xml:space="preserve">
-    <value>und all seine Notizen zu allen Übungen?.</value>
-  </data>
-  <data name="EliminarConcepto" xml:space="preserve">
-    <value>Sind Sie sicher, dass Sie das Buchhaltungskonzept eliminieren</value>
-  </data>
-  <data name="EliminarConcepto3" xml:space="preserve">
-    <value>Buchhaltungskonzeptregistrierung, Löschung !!</value>
-  </data>
-  <data name="EliminarConcepto4" xml:space="preserve">
-    <value>Fehler beim Löschen des Buchhaltungsposten-Datensatzes</value>
-  </data>
   <data name="EliminarApuntes" xml:space="preserve">
     <value>Anmerkungen, Löschungen!!</value>
   </data>
@@ -422,5 +410,8 @@ dann von Different Concepts</value>
   </data>
   <data name="FinalTabla" xml:space="preserve">
     <value>Hat es ganz unten in der Tabelle geschafft</value>
+  </data>
+  <data name="YaExisteEnCuentasBancarias" xml:space="preserve">
+    <value>bereits auf Bankkonten existiert</value>
   </data>
 </root>

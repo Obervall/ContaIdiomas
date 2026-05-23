@@ -1,66 +1,57 @@
-﻿Imports System.Data
-Imports System.Diagnostics
-Imports System.Security.Cryptography
-Imports System.Windows.Forms
-Imports MySqlConnector
+﻿Imports System.Windows.Forms
 
 Public Class EditarCuentaBancaria
 
     Public vtipoSql, vTxtNombre, vTxtNumero, vTxtTipo, vTxtNotas As String
     Public filaActual As Integer
+    Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub EditarConceptoContable_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ActualizarTextosFormulario(Me)
 
         Dim TL(4) As ToolTip
         TL(0) = New ToolTip
-        TL(0).SetToolTip(Me.BtnAceptar, "Aceptar y Salir")
+        TL(0).SetToolTip(Me.BtnAceptar, resManager.GetString("ToolTipAceptar"))
         TL(1) = New ToolTip
-        TL(1).SetToolTip(Me.BtnCancelar, "Cancelar la introducción del Apunte")
+        TL(1).SetToolTip(Me.BtnCancelar, resManager.GetString("ToolTipCancelar"))
         TL(2) = New ToolTip
-        TL(2).SetToolTip(Me.CmbTipoCuenta, "Seleccionar el Tipo de Cuenta")
+        TL(2).SetToolTip(Me.CmbTipoCuenta, resManager.GetString("ToolTipTipoCuenta"))
         TL(3) = New ToolTip
-        TL(3).SetToolTip(Me.TxtNumero, "Introducir Número de Cuenta o IBAN")
+        TL(3).SetToolTip(Me.TxtNumero, resManager.GetString("ToolTipIBAN"))
         TL(4) = New ToolTip
-        TL(4).SetToolTip(Me.TxtNombre, "Introducir Nombre de la Cuenta")
+        TL(4).SetToolTip(Me.TxtNombre, resManager.GetString("ToolTipNombre"))
 
-        ' Llenar el Combo Tipo Cuenta
-        '****************************
-        cmdMdb1cr.CommandText = "SELECT tipocuentas.CodigoTIP FROM tipocuentas"
-        cmdMdb1cr.CommandText += " ORDER BY tipocuentas.CodigoTIP ASC"
-        Try
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-            If drMdb1.HasRows Then
-                While drMdb1.Read()
-                    CmbTipoCuenta.Items.Add(drMdb1.GetValue(0))
-                End While
-                CmbTipoCuenta.Text = CmbTipoCuenta.Items(0)
-            Else
-                MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
-            End If
-            drMdb1.Close()
-        Catch ex As Exception
-            MsgBox("Error al llenar el Combo Tipo Cuenta")
-            MsgBox(ex.ToString)
-        End Try
-
+        ' 1. LLENAR EL COMBO USANDO LA FUNCIÓN GLOBAL MULTIDIOMA
+        ' ******************************************************
         CmbTipoCuenta.DropDownStyle = ComboBoxStyle.DropDownList
-        CmbTipoCuenta.SelectedIndex = 0
-
+        CargarComboTipoCuentaGlobal(CmbTipoCuenta, frmCuentasBancarias.rmse)
+        ' 2. RECUPERAR LOS DATOS DE LA FILA SELECCIONADA
+        ' ******************************************************
         filaActual = frmCuentasBancarias.DgvCuentas.CurrentRow.Index
-        CmbTipoCuenta.Text = frmCuentasBancarias.DgvCuentas.Rows(filaActual).Cells(0).Value.ToString
+        ' El DataGridView muestra el tipo TRADUCIDO. Necesitamos buscar qué elemento 
+        ' del ComboBox tiene ese mismo "TextoMostrar" para dejarlo preseleccionado.
+        Dim tipoTraducidoEnGrid As String = frmCuentasBancarias.DgvCuentas.Rows(filaActual).Cells(0).Value.ToString
+        For Each item As Object In CmbTipoCuenta.Items
+            Dim elemento As ElementoCombo = CType(item, ElementoCombo)
+            If elemento.TextoMostrar = tipoTraducidoEnGrid Then
+                CmbTipoCuenta.SelectedItem = item
+                Exit For
+            End If
+        Next
+
         TxtNombre.Text = frmCuentasBancarias.DgvCuentas.Rows(filaActual).Cells(1).Value.ToString
         TxtNumero.Text = frmCuentasBancarias.DgvCuentas.Rows(filaActual).Cells(2).Value.ToString
         TxtNota.Text = frmCuentasBancarias.DgvCuentas.Rows(filaActual).Cells(4).Value.ToString
-
+        ' 3. CONFIGURAR SEGÚN MODO EDITAR O MODO ELIMINAR
+        ' ******************************************************
         If vEditar = "SI" Then
-            LblEditando.Text = "EDITANDO CUENTA BANCARIA"
+            'LblEditando.Text = Por defecto creado en el diseño del formulario, se le asigna el texto de Editando
             CmbTipoCuenta.Enabled = True
             TxtNombre.Enabled = False
             TxtNumero.Select()
             BtnEliminar.Enabled = False
         Else
-            LblEditando.Text = "¡¡ ELIMINAR CUENTA BANCARIA !!"
+            LblEditando.Text = rmse.GetString("LblEliminando")
             CmbTipoCuenta.Enabled = False
             TxtNombre.Enabled = False
             TxtNumero.Enabled = False
@@ -75,18 +66,22 @@ Public Class EditarCuentaBancaria
             TxtNota.Select()
         End If
     End Sub
-
     Private Sub TxtNota_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtNota.KeyPress
         If e.KeyChar = ChrW(Keys.Enter) Then
-            BtnAceptar.Select()
+            If BtnAceptar.Enabled Then BtnAceptar.Select()
         End If
     End Sub
-
     Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click
         vTxtNombre = TxtNombre.Text
         vTxtNumero = TxtNumero.Text
-        vTxtTipo = CmbTipoCuenta.Text
         vTxtNotas = TxtNota.Text
+        ' EXTRAEMOS EL VALOR INTERNO ORIGINAL PARA LA BASE DE DATOS
+        If CmbTipoCuenta.SelectedItem IsNot Nothing Then
+            Dim itemSeleccionado As ElementoCombo = CType(CmbTipoCuenta.SelectedItem, ElementoCombo)
+            vTxtTipo = itemSeleccionado.ValorInterno
+        Else
+            vTxtTipo = ""
+        End If
 
         ' Modificar Registro
         '*******************
@@ -95,54 +90,49 @@ Public Class EditarCuentaBancaria
         cmdMdb1cr.CommandText = vtipoSql
 
         Try
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-            'MsgBox("Registro, Grabado Correctamente")
+            ' CORRECCIÓN: Para comandos UPDATE se usa ExecuteNonQuery, no ExecuteReader
+            cmdMdb1cr.ExecuteNonQuery()
             Me.Close()
         Catch ex As Exception
-            MsgBox("Error al Modificar el Registro")
+            MsgBox(resManager.GetString("ErrorModificarRegistro"))
             MsgBox(ex.ToString)
         End Try
-        drMdb1.Close()
     End Sub
 
     Private Sub BtnEliminar_Click(sender As Object, e As EventArgs) Handles BtnEliminar.Click
         vTxtNombre = TxtNombre.Text
-        respuesta = MsgBox("¿Estas seguro de Eliminar la Cuenta Bancaria '" & vTxtNombre & "' y todos sus Apuntes de Todos los Ejercicios?.", vbQuestion + vbYesNo + vbDefaultButton2, "Eliminar Cuenta Bancaria")
+        respuesta = MsgBox(rmse.GetString("EliminarCuenta") & " " & vTxtNombre & " " & rmse.GetString("EliminarCuenta2"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("LblEliminando"))
         If respuesta = vbYes Then
+            ' Nota: Tus consultas DELETE son seguras porque filtran por "NombreCUE",
+            ' la cual es una cadena de texto propia del usuario y libre de traducciones.
             ' Eliminar Registro Cuentas
-            vtipoSql = "DELETE FROM cuentas"
-            vtipoSql += " WHERE cuentas.NombreCUE = '" & vTxtNombre & "' "
+            vtipoSql = "DELETE FROM cuentas WHERE cuentas.NombreCUE = '" & vTxtNombre & "' "
             cmdMdb1cr.CommandText = vtipoSql
             Try
                 cmdMdb1cr.ExecuteNonQuery()
-                MsgBox("Registro Cuenta Bancaria, Borrada !!!")
+                MsgBox(rmse.GetString("EliminarCuenta3"))
             Catch ex As Exception
-                MsgBox("Error al Eliminar el Registro de la Cuenta Bancaria")
-                MsgBox(ex.ToString)
+                MsgBox(rmse.GetString("EliminarCuenta4") & vbNewLine & ex.Message)
+                Exit Sub ' Si no se pudo eliminar la cuenta, no intentamos eliminar los apuntes relacionados
             End Try
-
             ' Eliminar Registros Apuntes
-            vtipoSql = "DELETE FROM apuntes"
-            vtipoSql += " WHERE apuntes.CuentaAPU = '" & vTxtNombre & "' "
+            vtipoSql = "DELETE FROM apuntes WHERE apuntes.CuentaAPU = '" & vTxtNombre & "' "
             cmdMdb1cr.CommandText = vtipoSql
             Try
                 cmdMdb1cr.ExecuteNonQuery()
-                MsgBox("Apuntes, Borrados !!!")
+                MsgBox(resManager.GetString("EliminarApuntes"))
             Catch ex As Exception
-                MsgBox("Error al Eliminar los Apuntes de la Cuenta Bancaria")
-                MsgBox(ex.ToString)
+                MsgBox(resManager.GetString("EliminarApuntesError") & vbNewLine & ex.Message)
             End Try
 
             ' Eliminar Registros Apuntes Periódicos
-            vtipoSql = "DELETE FROM apuper"
-            vtipoSql += " WHERE apuper.CuentaAPP = '" & vTxtNombre & "' "
+            vtipoSql = "DELETE FROM apuper WHERE apuper.CuentaAPP = '" & vTxtNombre & "' "
             cmdMdb1cr.CommandText = vtipoSql
             Try
                 cmdMdb1cr.ExecuteNonQuery()
-                MsgBox("Apuntes Periodicos, Borrados !!!")
+                MsgBox(resManager.GetString("EliminarApuntesPeriodicos"))
             Catch ex As Exception
-                MsgBox("Error al Eliminar los Apuntes Periódicos de la Cuenta Bancaria")
-                MsgBox(ex.ToString)
+                MsgBox(resManager.GetString("EliminarApuntesPeriodicosError") & vbNewLine & ex.Message)
             End Try
         End If
         Me.Close()
@@ -151,12 +141,9 @@ Public Class EditarCuentaBancaria
     Private Sub BtnCancelar_Click(sender As Object, e As EventArgs) Handles BtnCancelar.Click
         Me.Close()
     End Sub
-
     Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
-        ' Se verifica si la razón para cerrar es la 3, es decir, el botón X.
         If e.CloseReason = 3 Then
-            e.Cancel = False ' NO Se cancela la solicitud de cerrar
+            e.Cancel = False
         End If
     End Sub
-
 End Class

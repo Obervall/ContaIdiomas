@@ -88,7 +88,16 @@ Module Funciones
     'Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
     Public vDate1, vDate2, vDate3, vFechaTemp, vFechaTemp2 As DateTime
     Public vfechaHoy As DateTime = DateTime.Today
-    'Public resManager As ResourceManager
+
+    Public Structure ElementoCombo
+        Public Property TextoMostrar As String  ' Lo que ve el usuario (ej: "Ausgaben")
+        Public Property ValorInterno As String  ' Lo que va a la BD (ej: "GASTO")
+
+        ' Esto es vital para que el ComboBox sepa qué texto pintar en pantalla
+        Public Overrides Function ToString() As String
+            Return TextoMostrar
+        End Function
+    End Structure
 
     Public Sub CambiarIdiomaGlobal(ByVal codIdioma As String)
         ' Configuramos el idioma (ej: "es", "ca", "en")
@@ -733,7 +742,7 @@ Module Funciones
                 .DefaultCellStyle.SelectionBackColor = Color.Black
                 'arreglamos columnas
                 '*******************
-                .Columns(0).HeaderText = "Nombres Existentes"
+                .Columns(0).HeaderText = resManager.GetString("Nombre") ' My.Resources.Recursos.NombresExistentes
                 .Columns(0).Width = 230
             End With
 
@@ -750,7 +759,7 @@ Module Funciones
                 .DefaultCellStyle.SelectionBackColor = Color.Black
                 'arreglamos columnas
                 '*******************
-                .Columns(0).HeaderText = "Nombres Existentes"
+                .Columns(0).HeaderText = resManager.GetString("Nombre") ' My.Resources.Recursos.NombresExistentes
                 .Columns(0).Width = 230
             End With
 
@@ -767,7 +776,7 @@ Module Funciones
                 .DefaultCellStyle.SelectionBackColor = Color.Black
                 'arreglamos columnas
                 '*******************
-                .Columns(0).HeaderText = "Nombres Existentes"
+                .Columns(0).HeaderText = resManager.GetString("Nombre") ' My.Resources.Recursos.NombresExistentes
                 .Columns(0).Width = 230
             End With
         End If
@@ -1066,24 +1075,34 @@ Module Funciones
         cmdMdb1cr.CommandText = "SELECT tipocuentas.CodigoTIP FROM tipocuentas ORDER BY tipocuentas.CodigoTIP ASC"
         Try
             Dim indiceSeleccionado As Integer = combo.SelectedIndex
-            ' 1. Crea una variable para acumular el texto arriba de tu bucle While
             Dim historialSeguimiento As String = "--- HISTORIAL DE TRADUCCIONES ---" & vbNewLine
             combo.Items.Clear()
             drMdb1 = cmdMdb1cr.ExecuteReader()
             If drMdb1.HasRows Then
                 While drMdb1.Read()
                     Dim valorBD As String = drMdb1.GetValue(0).ToString().Trim()
-                    ' BUSQUEDA DIRECTA: Ya no importa si es global o local, usa el que le pases
+
                     textoTraducido = rm.GetString(valorBD)
                     If String.IsNullOrEmpty(textoTraducido) Then
                         textoTraducido = valorBD
                     End If
-                    combo.Items.Add(textoTraducido)
-                    ' 2. En lugar de MsgBox, vas acumulando las líneas aquí
+
+                    ' ===================================================================
+                    ' EL ÚNICO CAMBIO: En vez de combo.Items.Add(textoTraducido)
+                    ' Guardamos el objeto híbrido con su valor original de Access
+                    ' ===================================================================
+                    Dim elemento As New ElementoCombo With {
+                    .TextoMostrar = textoTraducido,
+                    .ValorInterno = valorBD
+                }
+                    combo.Items.Add(elemento)
+                    ' ===================================================================
+
                     historialSeguimiento &= $"BD: {valorBD} -> Trad: {textoTraducido}" & vbNewLine
                 End While
-                ' 3. Muestras un ÚNICO MsgBox con todo el resumen al terminar el bucle
+
                 'MsgBox(historialSeguimiento, MsgBoxStyle.Information, "Resumen de Carga")
+
                 If indiceSeleccionado >= 0 AndAlso indiceSeleccionado < combo.Items.Count Then
                     combo.SelectedIndex = indiceSeleccionado
                 ElseIf combo.Items.Count > 0 Then

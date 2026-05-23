@@ -356,18 +356,6 @@ después por Conceptos Varios</value>
   <data name="ErrorModificarRegistro" xml:space="preserve">
     <value>Error al Modificar el Registro</value>
   </data>
-  <data name="EliminarConcepto" xml:space="preserve">
-    <value>¿Estás seguro de Eliminar el Concepto Contable</value>
-  </data>
-  <data name="EliminarConcepto2" xml:space="preserve">
-    <value>y todos sus Apuntes de Todos los Ejercicios?.</value>
-  </data>
-  <data name="EliminarConcepto3" xml:space="preserve">
-    <value>Registro Concepto Contable, Borrado !!</value>
-  </data>
-  <data name="EliminarConcepto4" xml:space="preserve">
-    <value>Error al Eliminar el Registro del Concepto Contable</value>
-  </data>
   <data name="EliminarApuntes" xml:space="preserve">
     <value>Apuntes, Borrados !!</value>
   </data>
@@ -421,5 +409,8 @@ después por Conceptos Varios</value>
   </data>
   <data name="FinalTabla" xml:space="preserve">
     <value>Ha llegado al final de la tabla</value>
+  </data>
+  <data name="YaExisteEnCuentasBancarias" xml:space="preserve">
+    <value>ya Existe en Cuentas Bancarias</value>
   </data>
 </root>

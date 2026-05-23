@@ -156,4 +156,16 @@
   <data name="LblEliminando" xml:space="preserve">
     <value>ELIMINATE ACCOUNTING CONCEPT !!</value>
   </data>
+  <data name="EliminarConcepto" xml:space="preserve">
+    <value>Are You Sure to Eliminate the Accounting Concept</value>
+  </data>
+  <data name="EliminarConcepto2" xml:space="preserve">
+    <value>and all his Notes of All the Exercises?.</value>
+  </data>
+  <data name="EliminarConcepto3" xml:space="preserve">
+    <value>Accounting Concept Registration, Deletion !!</value>
+  </data>
+  <data name="EliminarConcepto4" xml:space="preserve">
+    <value>Error in Deleting the Accounting Item Record</value>
+  </data>
 </root>

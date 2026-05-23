@@ -357,18 +357,6 @@ then by Various Concepts</value>
   <data name="ErrorModificarRegistro" xml:space="preserve">
     <value>Error Modifying the Registry</value>
   </data>
-  <data name="EliminarConcepto2" xml:space="preserve">
-    <value>and all his Notes of All the Exercises?.</value>
-  </data>
-  <data name="EliminarConcepto" xml:space="preserve">
-    <value>Are You Sure to Eliminate the Accounting Concept</value>
-  </data>
-  <data name="EliminarConcepto3" xml:space="preserve">
-    <value>Accounting Concept Registration, Deletion !!</value>
-  </data>
-  <data name="EliminarConcepto4" xml:space="preserve">
-    <value>Error in Deleting the Accounting Item Record</value>
-  </data>
   <data name="EliminarApuntes" xml:space="preserve">
     <value>Notes, Deletions !!</value>
   </data>
@@ -422,5 +410,8 @@ then by Various Concepts</value>
   </data>
   <data name="FinalTabla" xml:space="preserve">
     <value>Has reached the bottom of the table</value>
+  </data>
+  <data name="YaExisteEnCuentasBancarias" xml:space="preserve">
+    <value>already exists in Bank Accounts</value>
   </data>
 </root>

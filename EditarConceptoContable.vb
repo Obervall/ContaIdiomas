@@ -82,7 +82,7 @@ Public Class EditarConceptoContable
 
     Private Sub BtnEliminar_Click(sender As Object, e As EventArgs) Handles BtnEliminar.Click
         vTxtNombre = TxtNombre.Text
-        respuesta = MsgBox(resManager.GetString("EliminarConcepto") & " " & vTxtNombre & " " & resManager.GetString("EliminarConcepto2"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("LblEliminando"))
+        respuesta = MsgBox(rmse.GetString("EliminarConcepto") & " " & vTxtNombre & " " & rmse.GetString("EliminarConcepto2"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("LblEliminando"))
         If respuesta = vbYes Then
             ' Eliminar Registro Conceptos
             vtipoSql = "DELETE FROM conceptos"
@@ -91,10 +91,10 @@ Public Class EditarConceptoContable
 
             Try
                 cmdMdb1cr.ExecuteNonQuery()
-                MsgBox(resManager.GetString("EliminarConcepto3"))
+                MsgBox(rmse.GetString("EliminarConcepto3"))
             Catch ex As Exception
-                MsgBox(resManager.GetString("EliminarConcepto4"))
-                MsgBox(ex.ToString)
+                MsgBox(rmse.GetString("EliminarConcepto4") & vbNewLine & ex.Message)
+                Exit Sub ' Si no se pudo eliminar la cuenta, no intentamos eliminar los apuntes relacionados
             End Try
 
             ' Eliminar Registros Apuntes
@@ -105,8 +105,7 @@ Public Class EditarConceptoContable
                 cmdMdb1cr.ExecuteNonQuery()
                 MsgBox(resManager.GetString("EliminarApuntes"))
             Catch ex As Exception
-                MsgBox(resManager.GetString("EliminarApuntesError"))
-                MsgBox(ex.ToString)
+                MsgBox(resManager.GetString("EliminarApuntesError") & vbNewLine & ex.Message)
             End Try
 
             ' Eliminar Registros Apuntes Periódicos
@@ -117,8 +116,7 @@ Public Class EditarConceptoContable
                 cmdMdb1cr.ExecuteNonQuery()
                 MsgBox(resManager.GetString("EliminarApuntesPeriodicos"))
             Catch ex As Exception
-                MsgBox(resManager.GetString("EliminarApuntesPeriodicosError"))
-                MsgBox(ex.ToString)
+                MsgBox(resManager.GetString("EliminarApuntesPeriodicosError") & vbNewLine & ex.Message)
             End Try
 
             ' Eliminar Registros Presupuestos

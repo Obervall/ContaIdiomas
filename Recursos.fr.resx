@@ -357,18 +357,6 @@ puis par Divers Concepts</value>
   <data name="ErrorModificarRegistro" xml:space="preserve">
     <value>Erreur de modification du registre</value>
   </data>
-  <data name="EliminarConcepto2" xml:space="preserve">
-    <value>et toutes ses Notes de tous les exercices ?.</value>
-  </data>
-  <data name="EliminarConcepto" xml:space="preserve">
-    <value>Êtes-vous sûr d’éliminer le concept comptable</value>
-  </data>
-  <data name="EliminarConcepto3" xml:space="preserve">
-    <value>Enregistrement du concept comptable et suppression !!</value>
-  </data>
-  <data name="EliminarConcepto4" xml:space="preserve">
-    <value>Erreur lors de la suppression de l’enregistrement de l’élément comptable</value>
-  </data>
   <data name="EliminarApuntes" xml:space="preserve">
     <value>Notes, suppressions !!</value>
   </data>
@@ -422,5 +410,8 @@ puis par Divers Concepts</value>
   </data>
   <data name="FinalTabla" xml:space="preserve">
     <value>Est arrivé en bas du classement</value>
+  </data>
+  <data name="YaExisteEnCuentasBancarias" xml:space="preserve">
+    <value>existe déjà dans les comptes bancaires</value>
   </data>
 </root>

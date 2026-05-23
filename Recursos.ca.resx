@@ -357,18 +357,6 @@ després per Conceptes Diversos</value>
   <data name="ErrorModificarRegistro" xml:space="preserve">
     <value>Error en Modificar el Registre</value>
   </data>
-  <data name="EliminarConcepto2" xml:space="preserve">
-    <value>i tots els seus Apunts de Tots els Exercicis?.</value>
-  </data>
-  <data name="EliminarConcepto" xml:space="preserve">
-    <value>Estàs segur d'Eliminar el Concepte Comptable</value>
-  </data>
-  <data name="EliminarConcepto3" xml:space="preserve">
-    <value>Registre Concepte Comptable, Esborrat !!</value>
-  </data>
-  <data name="EliminarConcepto4" xml:space="preserve">
-    <value>Error a l' Eliminar el Registre del Concepte Comptable</value>
-  </data>
   <data name="EliminarApuntes" xml:space="preserve">
     <value>Apunts, Esborrats !!</value>
   </data>
@@ -422,5 +410,8 @@ després per Conceptes Diversos</value>
   </data>
   <data name="FinalTabla" xml:space="preserve">
     <value>Ha arribat al final de la taula</value>
+  </data>
+  <data name="YaExisteEnCuentasBancarias" xml:space="preserve">
+    <value>ja Existeix en Comptes Bancaris</value>
   </data>
 </root>

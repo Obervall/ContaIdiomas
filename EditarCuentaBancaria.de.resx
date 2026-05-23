@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="LblEditando.Text" xml:space="preserve">
-    <value>Bankkonto bearbeiten</value>
+    <value>BANKKONTO BEARBEITEN</value>
   </data>
   <data name="Label6.Text" xml:space="preserve">
     <value>Notiz:</value>
@@ -146,5 +146,20 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Bankkonto bearbeiten</value>
+  </data>
+  <data name="LblEliminando" xml:space="preserve">
+    <value>BANKKONTO LÖSCHEN!!</value>
+  </data>
+  <data name="EliminarCuenta" xml:space="preserve">
+    <value>Bist du sicher, dass du das Bankkonto löschst</value>
+  </data>
+  <data name="EliminarCuenta2" xml:space="preserve">
+    <value>und all seine Notizen zu allen Übungen?.</value>
+  </data>
+  <data name="EliminarCuenta3" xml:space="preserve">
+    <value>Bankkontoregistrierung, gelöscht!!</value>
+  </data>
+  <data name="EliminarCuenta4" xml:space="preserve">
+    <value>Fehler Löschung der Bankkontoregistrierung</value>
   </data>
 </root>

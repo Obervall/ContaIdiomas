@@ -156,4 +156,16 @@
   <data name="LblEliminando" xml:space="preserve">
     <value>ELIMINE O CONCEITO DE CONTABILIDADE!!</value>
   </data>
+  <data name="EliminarConcepto" xml:space="preserve">
+    <value>Você tem certeza de que vai eliminar o conceito contábil</value>
+  </data>
+  <data name="EliminarConcepto2" xml:space="preserve">
+    <value>e todas as suas Notas de Todos os Exercícios?.</value>
+  </data>
+  <data name="EliminarConcepto3" xml:space="preserve">
+    <value>Registro e Exclusão do Conceito de Contabilidade!!</value>
+  </data>
+  <data name="EliminarConcepto4" xml:space="preserve">
+    <value>Erro na exclusão do registro do item contábil</value>
+  </data>
 </root>

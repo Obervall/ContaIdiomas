@@ -357,18 +357,6 @@ então por vários conceitos</value>
   <data name="ErrorModificarRegistro" xml:space="preserve">
     <value>Erro na modificação do registro</value>
   </data>
-  <data name="EliminarConcepto2" xml:space="preserve">
-    <value>e todas as suas Notas de Todos os Exercícios?.</value>
-  </data>
-  <data name="EliminarConcepto" xml:space="preserve">
-    <value>Você tem certeza de que vai eliminar o conceito contábil</value>
-  </data>
-  <data name="EliminarConcepto3" xml:space="preserve">
-    <value>Registro e Exclusão do Conceito de Contabilidade!!</value>
-  </data>
-  <data name="EliminarConcepto4" xml:space="preserve">
-    <value>Erro na exclusão do registro do item contábil</value>
-  </data>
   <data name="EliminarApuntes" xml:space="preserve">
     <value>Notas, deleções!!</value>
   </data>
@@ -422,5 +410,8 @@ então por vários conceitos</value>
   </data>
   <data name="FinalTabla" xml:space="preserve">
     <value>Chegou ao fundo da tabela</value>
+  </data>
+  <data name="YaExisteEnCuentasBancarias" xml:space="preserve">
+    <value>já existe nas contas bancárias</value>
   </data>
 </root>

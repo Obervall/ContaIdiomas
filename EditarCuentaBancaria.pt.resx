@@ -147,4 +147,19 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Editar conta bancária</value>
   </data>
+  <data name="LblEliminando" xml:space="preserve">
+    <value>EXCLUA CONTA BANCÁRIA!!</value>
+  </data>
+  <data name="EliminarCuenta" xml:space="preserve">
+    <value>Você tem certeza de que vai deletar a conta bancária</value>
+  </data>
+  <data name="EliminarCuenta2" xml:space="preserve">
+    <value>e todas as suas Notas de Todos os Exercícios?.</value>
+  </data>
+  <data name="EliminarCuenta3" xml:space="preserve">
+    <value>Registro da conta bancária, excluído!!</value>
+  </data>
+  <data name="EliminarCuenta4" xml:space="preserve">
+    <value>Erro ao excluir o registro da conta bancária</value>
+  </data>
 </root>

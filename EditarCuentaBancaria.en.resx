@@ -147,4 +147,19 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Edit Bank Account</value>
   </data>
+  <data name="LblEliminando" xml:space="preserve">
+    <value>DELETE BANK ACCOUNT !!</value>
+  </data>
+  <data name="EliminarCuenta" xml:space="preserve">
+    <value>Are you sure to delete the bank account</value>
+  </data>
+  <data name="EliminarCuenta2" xml:space="preserve">
+    <value>and all his Notes of All the Exercises?.</value>
+  </data>
+  <data name="EliminarCuenta3" xml:space="preserve">
+    <value>Bank Account Registration, Deleted!!</value>
+  </data>
+  <data name="EliminarCuenta4" xml:space="preserve">
+    <value>Error Deleting Bank Account Registration</value>
+  </data>
 </root>

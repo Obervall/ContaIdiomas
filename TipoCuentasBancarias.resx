@@ -492,13 +492,13 @@
     <value>MiddleLeft</value>
   </data>
   <data name="BtnSalir.Location" type="System.Drawing.Point, System.Drawing">
-    <value>520, 32</value>
+    <value>458, 32</value>
   </data>
   <data name="BtnSalir.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 4, 4, 4</value>
   </data>
   <data name="BtnSalir.Size" type="System.Drawing.Size, System.Drawing">
-    <value>112, 37</value>
+    <value>174, 37</value>
   </data>
   <data name="BtnSalir.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
