@@ -183,4 +183,10 @@
   <data name="Cuenta Corriente" xml:space="preserve">
     <value>Cuenta Corriente</value>
   </data>
+  <data name="ListadoCuentasBancariasFiltrado" xml:space="preserve">
+    <value>Listado de Cuentas Bancarias. Filtrado por:</value>
+  </data>
+  <data name="ListadoCuentasBancarias" xml:space="preserve">
+    <value>Listado de Cuentas Bancarias</value>
+  </data>
 </root>

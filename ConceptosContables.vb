@@ -350,7 +350,31 @@ Public Class ConceptosContables
                 e.HasMorePages = True
                 Exit Do
             End If
-            e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(2).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
+
+            Dim tipoOriginal As String = ""
+            If frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(2).Value IsNot Nothing Then
+                tipoOriginal = frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(2).Value.ToString().Trim()
+            End If
+
+            ' Construimos la clave del archivo .resx según el valor de la BD
+            Dim claveRecurso As String = ""
+            Select Case tipoOriginal.ToUpper()
+                Case "GASTO" : claveRecurso = "Tipo_Gasto"
+                Case "INGRESO" : claveRecurso = "Tipo_Ingreso"
+                Case "ESPECIAL" : claveRecurso = "Tipo_Especial"
+                Case Else : claveRecurso = tipoOriginal ' Por si añades otros en el futuro
+            End Select
+
+            ' Buscamos la traducción en tu resManager (o rmse según uses global o local)
+            Dim tipoTraducido As String = resManager.GetString(claveRecurso)
+
+            ' Si no se encuentra traducción en los .resx, dejamos el texto original
+            If String.IsNullOrEmpty(tipoTraducido) Then
+                tipoTraducido = tipoOriginal
+            End If
+
+            ' Imprimimos la variable traducida en lugar del valor directo del Grid
+            e.Graphics.DrawString(tipoTraducido, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
             e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(0).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto2.Left, startY)
             e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(1).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto3.Left, startY)
             startY += frmImprimirForm.LblFecha.Height
@@ -365,15 +389,25 @@ Public Class ConceptosContables
             End While
 
             ' 3. Recortar a un máximo de 120 caracteres si es necesario
-            If textoNotas.Length > 120 Then
-                textoNotas = textoNotas.Substring(0, 115) & "..."
+            If textoNotas.Length > 100 Then
+                textoNotas = textoNotas.Substring(0, 95) & "..."
             End If
 
-            ' 4. Imprimir la etiqueta "Notas:"
-            e.Graphics.DrawString(resManager.GetString("Notas") & ":  ", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
+            ' 4. Preparar el prefijo de notas y medir su tamaño en píxeles
+            Dim etiquetaNotas As String = resManager.GetString("Notas") & ": "
 
-            ' 5. Imprimir el texto limpio y limitado en la misma línea
-            e.Graphics.DrawString(textoNotas, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left + 50, startY)
+            ' Medimos cuánto mide la palabra con la fuente específica que va a usar
+            Dim tamañoEtiqueta As SizeF = e.Graphics.MeasureString(etiquetaNotas, FuenteSubrayada)
+
+            ' Calculamos la posición X exacta agregando un margen de seguridad de 10 píxeles
+            Dim posicionXTexto As Integer = frmImprimirForm.Punto1.Left + CInt(tamañoEtiqueta.Width) + 10
+
+            ' 5. Imprimir la etiqueta "Notas:"
+            e.Graphics.DrawString(etiquetaNotas, FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
+
+            ' 6. Imprimir el texto limpio usando la coordenada dinámica calculada (ya no se montará)
+            e.Graphics.DrawString(textoNotas, FuenteDetalles, Brushes.Black, posicionXTexto, startY)
+
 
             'Aqui estoy usando un tipo de letras mas grande
             'LabelCodigo' mas grande que 'Punto1' para crear mas espacio entre filas

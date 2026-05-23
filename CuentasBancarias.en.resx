@@ -183,4 +183,10 @@
   <data name="Tarjeta de Crédito" xml:space="preserve">
     <value>Credit Card</value>
   </data>
+  <data name="ListadoCuentasBancariasFiltrado" xml:space="preserve">
+    <value>List of Bank Accounts. Filtered by:</value>
+  </data>
+  <data name="ListadoCuentasBancarias" xml:space="preserve">
+    <value>List of Bank Accounts</value>
+  </data>
 </root>

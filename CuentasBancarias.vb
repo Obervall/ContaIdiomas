@@ -334,14 +334,155 @@ Public Class CuentasBancarias
         End If
     End Sub
 
-    Private Sub BtnImprimir_Click(sender As Object, e As EventArgs) Handles BtnImprimir.Click
+    'Private Sub BtnImprimir_Click(sender As Object, e As EventArgs) Handles BtnImprimir.Click
 
+    '    'Llenamos la tabla de ImprimirForm con los cálculos realizados
+    '    '*************************************************************
+    '    vValor = 0
+    '    frmImprimirForm.LblTotal.Text = "Total: 0,00 " & vMoneda
+    '    For Each fila As DataGridViewRow In frmCuentasBancarias.DgvCuentas.Rows
+    '        vValor += fila.Cells(3).Value
+    '        frmImprimirForm.LblTotal.Text = "Total:  " & Format(vValor, "###,##0.00 ").ToString & vMoneda
+    '    Next
+
+    '    frmImprimirForm.LblFecha.Text = Date.Today.ToLongDateString
+
+    '    PrintLine = 0
+    '    Contador = 0
+    '    frmImprimirForm.LblNumeroPagina.Text = "0"
+
+    '    'Para ver la plantilla de impresión
+    '    'frmImprimirForm.Show()
+
+    '    If My.Settings.Previsualizar = True Then
+    '        'Te deja ver un preview del reporte antes de imprimir
+    '        PrintPreviewDialog1.Document = PrintDocument1
+    '        PrintPreviewDialog1.WindowState = FormWindowState.Maximized
+    '        PrintPreviewDialog1.ShowDialog()
+    '    End If
+
+    '    If My.Settings.ElegirImpresora = True Then
+    '        'Te deja elegir la impresora
+    '        PrintDialog1.Document = PrintDocument1
+    '        PrintDialog1.PrinterSettings = PrintDocument1.PrinterSettings
+    '        PrintDialog1.AllowSomePages = True
+    '        If PrintDialog1.ShowDialog = DialogResult.OK Then
+    '            PrintDocument1.PrinterSettings = PrintDialog1.PrinterSettings
+    '            PrintDocument1.Print()
+    '        End If
+    '    End If
+
+    '    If My.Settings.DirectoImpresora = True Then
+    '        'Imprime en la impresora por defecto
+    '        PrintDocument1.Print()
+    '    End If
+    'End Sub
+
+    'Private Sub PrintDocument1_PrintPage(sender As Object, e As PrintPageEventArgs) Handles PrintDocument1.PrintPage
+    '    'Cualquier variable que desees que conserve su valor debes declararla fuera del Printdocument
+    '    'Todas las variable declaradas dentro de printdocument pierden su valor al cambiar de pagina
+    '    'Definimos los tipos de letras a utilizar en el reporte
+    '    '******************************************************
+    '    Dim FuenteTitulo As New Font("Microsoft Sans Serif", 15)
+    '    Dim FuenteSubtitulo As New Font("Microsoft Sans Serif", 16)
+    '    Dim FuenteNegrita As New Font("Microsoft Sans Serif", 9, FontStyle.Bold)
+    '    Dim FuenteDetalles As New Font("Microsoft Sans Serif", 9)
+    '    Dim FuenteSubrayada As New Font("Microsoft Sans Serif", 9, FontStyle.Underline Xor FontStyle.Bold)
+    '    Dim sf As New StringFormat With {.Alignment = StringAlignment.Far}
+
+    '    If BtnSinFiltroTipoCuenta.Enabled = True Then
+    '        frmImprimirForm.LblTitulo.Text = "Listado de Cuentas Bancarias. Filtrado por: " & CmbTipoCuenta.Text
+    '    Else
+    '        frmImprimirForm.LblTitulo.Text = "Listado de Cuentas Bancarias"
+    '    End If
+
+    '    'Imprimimos el encabezado los datos que están antes del datagridview
+    '    '*******************************************************************
+    '    'e.Graphics.DrawString(frmImprimirForm.LblUsuario.Text, FuenteNegrita, Brushes.Black, frmImprimirForm.LblUsuario.Left, frmImprimirForm.LblUsuario.Top)
+    '    e.Graphics.DrawString(frmImprimirForm.LblFecha.Text, FuenteNegrita, Brushes.Black, frmImprimirForm.LblFecha.Right, frmImprimirForm.LblFecha.Top)
+    '    e.Graphics.DrawString(frmImprimirForm.LblTitulo.Text, FuenteTitulo, Brushes.Black, frmImprimirForm.LblTitulo.Left, frmImprimirForm.LblTitulo.Top)
+    '    Dim newImage As Image = frmImprimirForm.PictureBox1.Image : e.Graphics.DrawImage(newImage, frmImprimirForm.PictureBox1.Left, frmImprimirForm.PictureBox1.Top, frmImprimirForm.PictureBox1.Width, frmImprimirForm.PictureBox1.Height)
+
+    '    'Imprimimos el encabezado o titulo de la lista de materias por encima de los puntos definidos
+    '    '********************************************************************************************
+    '    e.Graphics.DrawString("Tipo:", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
+    '    e.Graphics.DrawString("Nombre Cuenta:", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto2.Left, frmImprimirForm.Punto2.Top - 30)
+    '    e.Graphics.DrawString("Número Cuenta:", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
+    '    e.Graphics.DrawString("Saldo(" & vMoneda & "):", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto5.Left, frmImprimirForm.Punto5.Top - 30)
+
+    '    'imprimimos la linea debajo de los encabezados
+    '    '*********************************************
+    '    e.Graphics.DrawString(frmImprimirForm.LineaTop.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.LineaTop.Left, frmImprimirForm.LineaTop.Top)
+
+    '    'Imprimimos los detalles del reporte, es decir el listado de Apuntes
+    '    '*******************************************************************
+    '    Dim startX As Integer = frmImprimirForm.Punto1.Left 'Tomamos la posicion horinzontal de la letra 'Punto1'
+    '    Dim startY As Integer = frmImprimirForm.Punto1.Top 'Tomamos la posicion vertical de la letra 'Punto1'
+    '    Do While PrintLine < frmCuentasBancarias.DgvCuentas.Rows.Count
+    '        If startY + frmImprimirForm.Punto1.Height > e.MarginBounds.Bottom Then
+    '            'Esta parte se activa solo si 'startY' que es la posicion vertical almacenada supera el borde inferior de la pagina
+    '            'Este se reinicia con cada pagina necesitada
+    '            e.HasMorePages = True
+    '            Exit Do
+    '        End If
+    '        e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(0).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
+    '        e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(1).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto2.Left, startY)
+    '        e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(2).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto3.Left, startY)
+    '        e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(3).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto5.Right + 40, startY, sf)
+    '        startY += frmImprimirForm.LblFecha.Height
+    '        e.Graphics.DrawString("Notas:  ", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, startY)  ' frmImprimirForm.Punto1.Top - 30)
+    '        e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(4).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left + 50, startY)
+    '        'Aqui estoy usando un tipo de letras mas grande
+    '        'LabelCodigo' mas grande que 'Punto1' para crear mas espacio entre filas
+
+    '        'Con el contador solamente imprimimos la parte final del reporte si ha alcanzado el total de registros
+    '        'Si deseamos repetir la parte final del reporte en cada pagina, debemos quitar en contador
+    '        ''Imprimimos los valores que salen despues del datagridview al final del reporte
+    '        startY += frmImprimirForm.LblFecha.Height
+    '        PrintLine += 1
+    '        Contador += 1
+    '    Loop
+    '    'Con el contador solamente imprimimos la parte final del reporte si ha alcanzado el total de registros
+    '    'Si deseamos repetir la parte final del reporte en cada pagina, debemos quitar en contador
+    '    'Imprimimos los valores que salen despues del datagridview al final del reporte
+    '    If Contador >= frmCuentasBancarias.DgvCuentas.Rows.Count Then
+    '        e.Graphics.DrawString(frmImprimirForm.LineaFondo.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.LineaFondo.Left, startY)
+    '        e.Graphics.DrawString(frmImprimirForm.LblTotal.Text, FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto5.Right + 40, startY + 15, sf)
+    '        'e.Graphics.DrawString(vValor, FuenteNegrita, Brushes.Black, frmImprimirForm.Punto4.Left, startY + 15)
+    '        'e.Graphics.DrawString(frmImprimirForm.LblTotal.Text, FuenteNegrita, Brushes.Black, frmImprimirForm.Punto4.Left - 50, startY + 15)
+    '        'e.Graphics.DrawString(frmImprimirForm.lbCursadas.Text, FuenteDetalles, Brushes.Black, ImprimirForm.lbCursadas.Left, startY + 15)
+    '        'e.Graphics.DrawString(frmImprimirForm.lbPromedio.Text, FuenteDetalles, Brushes.Black, ImprimirForm.lbPromedio.Left, startY + 30)
+
+    '        'Para volver a dejar a 0, cuando se imprime desde la Vista Previa
+    '        PrintLine = 0
+    '        Contador = 0
+    '    End If
+
+    '    'Si deseamos poner un contador de páginas
+    '    'Esta parte siempre va a salir en todas las paginas
+    '    frmImprimirForm.LblNumeroPagina.Text = CInt(frmImprimirForm.LblNumeroPagina.Text) + 1
+    '    e.Graphics.DrawString(frmImprimirForm.Label2.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.Label2.Left, e.MarginBounds.Bottom)
+    '    e.Graphics.DrawString(frmImprimirForm.LblNumeroPagina.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.LblNumeroPagina.Left, e.MarginBounds.Bottom)
+
+    '    'Para volver a dejar a 0 las páginas, cuando se imprime desde la Vista Previa
+    '    If Contador = 0 Then
+    '        frmImprimirForm.LblNumeroPagina.Text = "0"
+    '    End If
+    'End Sub
+
+    Private Sub BtnImprimir_Click(sender As Object, e As EventArgs) Handles BtnImprimir.Click
         'Llenamos la tabla de ImprimirForm con los cálculos realizados
         '*************************************************************
         vValor = 0
         frmImprimirForm.LblTotal.Text = "Total: 0,00 " & vMoneda
         For Each fila As DataGridViewRow In frmCuentasBancarias.DgvCuentas.Rows
-            vValor += fila.Cells(3).Value
+            ' Saltamos la fila vacía automática si existiera al final
+            If fila.IsNewRow Then Continue For
+
+            ' Protección si el valor de la celda de saldo está vacío
+            If fila.Cells(3).Value IsNot Nothing AndAlso IsNumeric(fila.Cells(3).Value) Then
+                vValor += Convert.ToDouble(fila.Cells(3).Value)
+            End If
             frmImprimirForm.LblTotal.Text = "Total:  " & Format(vValor, "###,##0.00 ").ToString & vMoneda
         Next
 
@@ -351,18 +492,13 @@ Public Class CuentasBancarias
         Contador = 0
         frmImprimirForm.LblNumeroPagina.Text = "0"
 
-        'Para ver la plantilla de impresión
-        'frmImprimirForm.Show()
-
         If My.Settings.Previsualizar = True Then
-            'Te deja ver un preview del reporte antes de imprimir
             PrintPreviewDialog1.Document = PrintDocument1
             PrintPreviewDialog1.WindowState = FormWindowState.Maximized
             PrintPreviewDialog1.ShowDialog()
         End If
 
         If My.Settings.ElegirImpresora = True Then
-            'Te deja elegir la impresora
             PrintDialog1.Document = PrintDocument1
             PrintDialog1.PrinterSettings = PrintDocument1.PrinterSettings
             PrintDialog1.AllowSomePages = True
@@ -373,16 +509,11 @@ Public Class CuentasBancarias
         End If
 
         If My.Settings.DirectoImpresora = True Then
-            'Imprime en la impresora por defecto
             PrintDocument1.Print()
         End If
     End Sub
 
     Private Sub PrintDocument1_PrintPage(sender As Object, e As PrintPageEventArgs) Handles PrintDocument1.PrintPage
-        'Cualquier variable que desees que conserve su valor debes declararla fuera del Printdocument
-        'Todas las variable declaradas dentro de printdocument pierden su valor al cambiar de pagina
-        'Definimos los tipos de letras a utilizar en el reporte
-        '******************************************************
         Dim FuenteTitulo As New Font("Microsoft Sans Serif", 15)
         Dim FuenteSubtitulo As New Font("Microsoft Sans Serif", 16)
         Dim FuenteNegrita As New Font("Microsoft Sans Serif", 9, FontStyle.Bold)
@@ -391,83 +522,88 @@ Public Class CuentasBancarias
         Dim sf As New StringFormat With {.Alignment = StringAlignment.Far}
 
         If BtnSinFiltroTipoCuenta.Enabled = True Then
-            frmImprimirForm.LblTitulo.Text = "Listado de Cuentas Bancarias. Filtrado por: " & CmbTipoCuenta.Text
+            frmImprimirForm.LblTitulo.Text = rmse.GetString("ListadoCuentasBancariasFiltrado") & " " & CmbTipoCuenta.Text
         Else
-            frmImprimirForm.LblTitulo.Text = "Listado de Cuentas Bancarias"
+            frmImprimirForm.LblTitulo.Text = rmse.GetString("ListadoCuentasBancarias")
         End If
 
-        'Imprimimos el encabezado los datos que están antes del datagridview
-        '*******************************************************************
-        'e.Graphics.DrawString(frmImprimirForm.LblUsuario.Text, FuenteNegrita, Brushes.Black, frmImprimirForm.LblUsuario.Left, frmImprimirForm.LblUsuario.Top)
+        'Imprimimos el encabezado
         e.Graphics.DrawString(frmImprimirForm.LblFecha.Text, FuenteNegrita, Brushes.Black, frmImprimirForm.LblFecha.Right, frmImprimirForm.LblFecha.Top)
         e.Graphics.DrawString(frmImprimirForm.LblTitulo.Text, FuenteTitulo, Brushes.Black, frmImprimirForm.LblTitulo.Left, frmImprimirForm.LblTitulo.Top)
         Dim newImage As Image = frmImprimirForm.PictureBox1.Image : e.Graphics.DrawImage(newImage, frmImprimirForm.PictureBox1.Left, frmImprimirForm.PictureBox1.Top, frmImprimirForm.PictureBox1.Width, frmImprimirForm.PictureBox1.Height)
+        'Imprimimos los títulos de columnas
+        e.Graphics.DrawString(resManager.GetString("Tipo") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
+        e.Graphics.DrawString(resManager.GetString("Nombre") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto2.Left, frmImprimirForm.Punto2.Top - 30)
+        e.Graphics.DrawString(resManager.GetString("Numer") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
+        e.Graphics.DrawString(resManager.GetString("Saldo") & "(" & vMoneda & "):", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto5.Left, frmImprimirForm.Punto5.Top - 30)
 
-        'Imprimimos el encabezado o titulo de la lista de materias por encima de los puntos definidos
-        '********************************************************************************************
-        e.Graphics.DrawString("Tipo:", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
-        e.Graphics.DrawString("Nombre Cuenta:", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto2.Left, frmImprimirForm.Punto2.Top - 30)
-        e.Graphics.DrawString("Número Cuenta:", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
-        e.Graphics.DrawString("Saldo(" & vMoneda & "):", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto5.Left, frmImprimirForm.Punto5.Top - 30)
-
-        'imprimimos la linea debajo de los encabezados
-        '*********************************************
         e.Graphics.DrawString(frmImprimirForm.LineaTop.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.LineaTop.Left, frmImprimirForm.LineaTop.Top)
 
-        'Imprimimos los detalles del reporte, es decir el listado de Apuntes
-        '*******************************************************************
-        Dim startX As Integer = frmImprimirForm.Punto1.Left 'Tomamos la posicion horinzontal de la letra 'Punto1'
-        Dim startY As Integer = frmImprimirForm.Punto1.Top 'Tomamos la posicion vertical de la letra 'Punto1'
+        Dim startX As Integer = frmImprimirForm.Punto1.Left
+        Dim startY As Integer = frmImprimirForm.Punto1.Top
+
         Do While PrintLine < frmCuentasBancarias.DgvCuentas.Rows.Count
+            ' Evitamos procesar la fila vacía automática si existe al final
+            If frmCuentasBancarias.DgvCuentas.Rows(PrintLine).IsNewRow Then
+                PrintLine += 1
+                Contador += 1
+                Continue Do
+            End If
+
             If startY + frmImprimirForm.Punto1.Height > e.MarginBounds.Bottom Then
-                'Esta parte se activa solo si 'startY' que es la posicion vertical almacenada supera el borde inferior de la pagina
-                'Este se reinicia con cada pagina necesitada
                 e.HasMorePages = True
                 Exit Do
             End If
+
+            ' Imprimimos los datos de las columnas principales
             e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(0).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
             e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(1).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto2.Left, startY)
             e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(2).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto3.Left, startY)
             e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(3).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto5.Right + 40, startY, sf)
-            startY += frmImprimirForm.LblFecha.Height
-            e.Graphics.DrawString("Notas:  ", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, startY)  ' frmImprimirForm.Punto1.Top - 30)
-            e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(4).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left + 50, startY)
-            'Aqui estoy usando un tipo de letras mas grande
-            'LabelCodigo' mas grande que 'Punto1' para crear mas espacio entre filas
 
-            'Con el contador solamente imprimimos la parte final del reporte si ha alcanzado el total de registros
-            'Si deseamos repetir la parte final del reporte en cada pagina, debemos quitar en contador
-            ''Imprimimos los valores que salen despues del datagridview al final del reporte
+            ' Avanzamos la coordenada vertical para pintar la fila de Notas
+            startY += frmImprimirForm.LblFecha.Height
+
+            ' 1. Obtener y limpiar el texto de Notas
+            Dim textoNotas As String = ""
+            If frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(4).Value IsNot Nothing Then
+                textoNotas = frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(4).Value.ToString()
+            End If
+            textoNotas = textoNotas.Replace(ControlChars.Cr, " ").Replace(ControlChars.Lf, " ")
+
+            While textoNotas.Contains("  ")
+                textoNotas = textoNotas.Replace("  ", " ")
+            End While
+
+            ' 2. Ajuste estricto a un máximo de 100 caracteres
+            If textoNotas.Length > 100 Then
+                textoNotas = textoNotas.Substring(0, 95) & "..."
+            End If
+
+            ' 3. Cálculo dinámico de coordenadas para evitar solapamientos
+            Dim etiquetaNotas As String = "Notas: "
+            Dim tamañoEtiqueta As SizeF = e.Graphics.MeasureString(etiquetaNotas, FuenteSubrayada)
+            Dim posicionXTexto As Integer = frmImprimirForm.Punto1.Left + CInt(tamañoEtiqueta.Width) + 10
+
+            ' 4. Imprimir la fila de Notas
+            e.Graphics.DrawString(etiquetaNotas, FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
+            e.Graphics.DrawString(textoNotas, FuenteDetalles, Brushes.Black, posicionXTexto, startY)
+
+            ' Avanzamos espacio vertical para la siguiente iteración de fila
             startY += frmImprimirForm.LblFecha.Height
             PrintLine += 1
             Contador += 1
         Loop
-        'Con el contador solamente imprimimos la parte final del reporte si ha alcanzado el total de registros
-        'Si deseamos repetir la parte final del reporte en cada pagina, debemos quitar en contador
-        'Imprimimos los valores que salen despues del datagridview al final del reporte
+
         If Contador >= frmCuentasBancarias.DgvCuentas.Rows.Count Then
             e.Graphics.DrawString(frmImprimirForm.LineaFondo.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.LineaFondo.Left, startY)
             e.Graphics.DrawString(frmImprimirForm.LblTotal.Text, FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto5.Right + 40, startY + 15, sf)
-            'e.Graphics.DrawString(vValor, FuenteNegrita, Brushes.Black, frmImprimirForm.Punto4.Left, startY + 15)
-            'e.Graphics.DrawString(frmImprimirForm.LblTotal.Text, FuenteNegrita, Brushes.Black, frmImprimirForm.Punto4.Left - 50, startY + 15)
-            'e.Graphics.DrawString(frmImprimirForm.lbCursadas.Text, FuenteDetalles, Brushes.Black, ImprimirForm.lbCursadas.Left, startY + 15)
-            'e.Graphics.DrawString(frmImprimirForm.lbPromedio.Text, FuenteDetalles, Brushes.Black, ImprimirForm.lbPromedio.Left, startY + 30)
-
-            'Para volver a dejar a 0, cuando se imprime desde la Vista Previa
-            PrintLine = 0
-            Contador = 0
         End If
 
-        'Si deseamos poner un contador de páginas
-        'Esta parte siempre va a salir en todas las paginas
-        frmImprimirForm.LblNumeroPagina.Text = CInt(frmImprimirForm.LblNumeroPagina.Text) + 1
+        ' Contador de páginas
+        frmImprimirForm.LblNumeroPagina.Text = (CInt(frmImprimirForm.LblNumeroPagina.Text) + 1).ToString()
         e.Graphics.DrawString(frmImprimirForm.Label2.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.Label2.Left, e.MarginBounds.Bottom)
         e.Graphics.DrawString(frmImprimirForm.LblNumeroPagina.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.LblNumeroPagina.Left, e.MarginBounds.Bottom)
-
-        'Para volver a dejar a 0 las páginas, cuando se imprime desde la Vista Previa
-        If Contador = 0 Then
-            frmImprimirForm.LblNumeroPagina.Text = "0"
-        End If
     End Sub
 
 
@@ -517,7 +653,7 @@ Public Class CuentasBancarias
     Private Sub BtnPrimero_Click(sender As Object, e As EventArgs) Handles BtnPrimero.Click
         vFilaActual = DgvCuentas.CurrentRow.Index
         If vFilaActual = 0 Then
-            MsgBox("Fila Primera Seleccionada")
+            MsgBox(resManager.GetString("MsgFila1"))
         Else
             vFila = 0
             DgvCuentas.Rows(vFila).Selected = True
@@ -528,7 +664,7 @@ Public Class CuentasBancarias
     Private Sub BtnAnterior_Click(sender As Object, e As EventArgs) Handles BtnAnterior.Click
         vFilaActual = DgvCuentas.CurrentRow.Index
         If vFilaActual = 0 Then
-            MsgBox("Fila Primera Seleccionada")
+            MsgBox(resManager.GetString("MsgFila1"))
         Else
             vFila = vFilaActual - 1
             DgvCuentas.Rows(vFila).Selected = True
@@ -539,7 +675,7 @@ Public Class CuentasBancarias
     Private Sub BtnSiguiente_Click(sender As Object, e As EventArgs) Handles BtnSiguiente.Click
         vFilaActual = DgvCuentas.CurrentRow.Index
         If vFilaActual = DgvCuentas.RowCount - 1 Then
-            MsgBox("Fila Ultima Seleccionada")
+            MsgBox(resManager.GetString("MsgFila2"))
         Else
             vFila = vFilaActual + 1
             DgvCuentas.Rows(vFila).Selected = True
@@ -550,7 +686,7 @@ Public Class CuentasBancarias
     Private Sub BtnUltimo_Click(sender As Object, e As EventArgs) Handles BtnUltimo.Click
         vFilaActual = DgvCuentas.CurrentRow.Index
         If vFilaActual = DgvCuentas.RowCount - 1 Then
-            MsgBox("Fila Ultima Seleccionada")
+            MsgBox(resManager.GetString("MsgFila2"))
         Else
             vFila = DgvCuentas.RowCount - 1
             DgvCuentas.Rows(vFila).Selected = True
@@ -613,12 +749,10 @@ Public Class CuentasBancarias
         vtipoSql += " WHERE "
         vtipoSql += "cuentas.TipoCUE = '" & valorOriginalBD & "' "
         vtipoSql += " ORDER BY cuentas.NombreCUE ASC"
-
         vtipoGrid = "CUENTAS_BANCARIAS"
 
         ' 4. Llenamos el Grid y ejecutamos tu función universal de traducción
         LlenarGrid(vtipoSql, vtipoGrid, "1")
         TraducirColumnasGridCuentas(DgvCuentas, rmse)
     End Sub
-
 End Class

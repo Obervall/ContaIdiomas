@@ -879,22 +879,6 @@ Module Funciones
         Return vValor
     End Function
 
-    ''Función para cambiar la fecha de orden a yyyy/MM/dd
-    ''***************************************************
-    'Public Function CambiarFecha(ByVal tipoFecha As String)
-    '    Dim NuevaFecha As String
-    '    NuevaFecha = Mid(tipoFecha, 7, 4) & "/" & Mid(tipoFecha, 4, 2) & "/" & Mid(tipoFecha, 1, 2).ToString
-    '    Return NuevaFecha
-    'End Function
-
-    ''Función para cambiar la fecha de orden a MM/dd/yyyy
-    ''***************************************************
-    'Public Function CambiarFecha2(ByVal tipoFecha As String)
-    '    Dim NuevaFecha2 As String
-    '    NuevaFecha2 = Mid(tipoFecha, 4, 2) & "/" & Mid(tipoFecha, 1, 2) & "/" & Mid(tipoFecha, 7, 4).ToString
-    '    Return NuevaFecha2
-    'End Function
-
     'Funcion para que solo permite el ingreso de caracteres tipo numerico y punto
     '****************************************************************************
     Public Sub SoloNumerosConPunto(ByRef e As System.Windows.Forms.KeyPressEventArgs)
@@ -943,24 +927,6 @@ Module Funciones
                     Dim vNewVersion As String = MyHtmlEnLineas(3)
                     vNewVersion = Mid(vNewVersion, 10)
                     vNewVersion = Trim(vNewVersion)
-
-                    'vCalculoVersion1 = Val(Mid(vNewVersion, 5, 1)) + 1
-                    'If vCalculoVersion1 < 10 Then
-                    '    vNumeroVersion = Mid(vNewVersion, 1, 4) & vCalculoVersion1.ToString
-                    'Else
-                    '    vCalculoVersion2 = Val(Mid(vNewVersion, 3, 1)) + 1
-                    '    If vCalculoVersion2 < 10 Then
-                    '        vNumeroVersion = Mid(vNewVersion, 1, 2) & vCalculoVersion2.ToString & ".0"
-                    '    Else
-                    '        vCalculoVersion3 = Val(Mid(vNewVersion, 1, 1)) + 1
-                    '        If vCalculoVersion3 < 10 Then
-                    '            vNumeroVersion = vCalculoVersion3 & ".0.0"
-                    '        Else
-                    '            MsgBox("Error en el cálculo de la nueva versión, revise el formato de la versión")
-                    '        End If
-                    '    End If
-                    'End If
-                    'MsgBox("Versión Instalada: " & My.Settings.Version & vbNewLine & "Versión Disponible: " & vNumeroVersion, MsgBoxStyle.Information, "Comprobar Nueva Versión")
 
                     If My.Settings.Version < vNewVersion Then
                         MsgBox("Versión Instalada: " & My.Settings.Version & vbNewLine & "Versión Disponible: " & vNewVersion, MsgBoxStyle.Information, "Comprobar Nueva Versión")
