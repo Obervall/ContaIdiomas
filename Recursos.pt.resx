@@ -309,12 +309,6 @@ então por vários conceitos</value>
   <data name="NoHayMasCoincidencias" xml:space="preserve">
     <value>Não há mais registros que correspondam aos dados inseridos</value>
   </data>
-  <data name="ListadoConceptosContablesFiltrado" xml:space="preserve">
-    <value>Lista de conceitos contábeis. Filtrado por:</value>
-  </data>
-  <data name="ListadoConceptosContables" xml:space="preserve">
-    <value>Lista de conceitos contábeis.</value>
-  </data>
   <data name="Tipo" xml:space="preserve">
     <value>Tipo</value>
   </data>
@@ -413,5 +407,20 @@ então por vários conceitos</value>
   </data>
   <data name="ToolTipNombre" xml:space="preserve">
     <value>Insira o Nome da Conta</value>
+  </data>
+  <data name="CAJA EFECTIVO" xml:space="preserve">
+    <value>CAIXA DE DINHEIRO</value>
+  </data>
+  <data name="BBVA" xml:space="preserve">
+    <value>BBVA</value>
+  </data>
+  <data name="OPENBANK" xml:space="preserve">
+    <value>OPENBANK</value>
+  </data>
+  <data name="PLAN PENSIONES" xml:space="preserve">
+    <value>PLANO DE PENSÃO</value>
+  </data>
+  <data name="FinalTabla" xml:space="preserve">
+    <value>Chegou ao fundo da tabela</value>
   </data>
 </root>

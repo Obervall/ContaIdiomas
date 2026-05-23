@@ -309,12 +309,6 @@ després per Conceptes Diversos</value>
   <data name="NoHayMasCoincidencias" xml:space="preserve">
     <value>No hi ha més Registres que Coincideixen amb les dades Introduïdes</value>
   </data>
-  <data name="ListadoConceptosContablesFiltrado" xml:space="preserve">
-    <value>Llistat de Conceptes Comptables. Filtrat per:</value>
-  </data>
-  <data name="ListadoConceptosContables" xml:space="preserve">
-    <value>Llistat de Conceptes Comptables.</value>
-  </data>
   <data name="Tipo" xml:space="preserve">
     <value>Tipus</value>
   </data>
@@ -413,5 +407,20 @@ després per Conceptes Diversos</value>
   </data>
   <data name="ToolTipNombre" xml:space="preserve">
     <value>Introduir Nom del Compte</value>
+  </data>
+  <data name="CAJA EFECTIVO" xml:space="preserve">
+    <value>CAIXA EFECTIU</value>
+  </data>
+  <data name="BBVA" xml:space="preserve">
+    <value>BBVA</value>
+  </data>
+  <data name="OPENBANK" xml:space="preserve">
+    <value>OPENBANK</value>
+  </data>
+  <data name="PLAN PENSIONES" xml:space="preserve">
+    <value>PLA PENSIONS</value>
+  </data>
+  <data name="FinalTabla" xml:space="preserve">
+    <value>Ha arribat al final de la taula</value>
   </data>
 </root>

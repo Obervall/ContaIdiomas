@@ -309,12 +309,6 @@ puis par Divers Concepts</value>
   <data name="NoHayMasCoincidencias" xml:space="preserve">
     <value>Plus aucun enregistrement correspondant aux données saisies</value>
   </data>
-  <data name="ListadoConceptosContablesFiltrado" xml:space="preserve">
-    <value>Liste des concepts comptables. Filtré par :</value>
-  </data>
-  <data name="ListadoConceptosContables" xml:space="preserve">
-    <value>Liste des concepts comptables.</value>
-  </data>
   <data name="Tipo" xml:space="preserve">
     <value>Type</value>
   </data>
@@ -413,5 +407,20 @@ puis par Divers Concepts</value>
   </data>
   <data name="ToolTipNombre" xml:space="preserve">
     <value>Saisissez le nom du compte</value>
+  </data>
+  <data name="CAJA EFECTIVO" xml:space="preserve">
+    <value>CAISSE À CAISSES</value>
+  </data>
+  <data name="BBVA" xml:space="preserve">
+    <value>BBVA</value>
+  </data>
+  <data name="OPENBANK" xml:space="preserve">
+    <value>OPENBANK</value>
+  </data>
+  <data name="PLAN PENSIONES" xml:space="preserve">
+    <value>PLAN DE RETRAITE</value>
+  </data>
+  <data name="FinalTabla" xml:space="preserve">
+    <value>Est arrivé en bas du classement</value>
   </data>
 </root>

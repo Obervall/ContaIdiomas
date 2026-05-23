@@ -474,13 +474,13 @@ Module Funciones
                 .Columns(1).DefaultCellStyle.ForeColor = Color.DarkBlue
                 .Columns(2).DefaultCellStyle.ForeColor = Color.DarkBlue
                 .Columns(3).DefaultCellStyle.ForeColor = Color.DarkBlue
-                .Columns(0).Width = 75
+                .Columns(0).Width = 95
                 .Columns(0).HeaderText = resManager.GetString("Tipo") ' My.Resources.Recursos.Tipo
                 .Columns(1).Width = 150
                 .Columns(1).HeaderText = resManager.GetString("Codigo") ' My.Resources.Recursos.Codigo
                 .Columns(2).Width = 150
                 .Columns(2).HeaderText = resManager.GetString("Descripcion") ' My.Resources.Recursos.Descripcion
-                .Columns(3).Width = 205
+                .Columns(3).Width = 180
                 .Columns(3).HeaderText = resManager.GetString("Notas") ' My.Resources.Recursos.Notas
                 Dim vNumRegistros As String = frmConceptosContables.DgvConceptos.Rows.Count.ToString
                 frmConceptosContables.TxtNumRegistros.Text = vNumRegistros
@@ -1033,91 +1033,6 @@ Module Funciones
         End If
     End Function
 
-    ' Añadimos "ByVal f As Form" para saber qué formulario actualizar
-    'Public Sub ActualizarTextosFormulario(ByVal formulario As Form)
-    'Dim recursos As New ComponentResourceManager(formulario.GetType())
-    'Dim recursos As New System.ComponentModel.ComponentResourceManager(formulario.GetType())
-    'Dim recursos As New System.Resources.ResourceManager("ContaHogar.Recursos", GetType(Form).Assembly) ' Substituye "ContaHogar.Recursos" por el espacio de nombres y el nombre de tu archivo de recursos sin la extensión .resx
-
-    '' Aplicar recursos al formulario (Título)
-    'recursos = New ComponentResourceManager(formulario.GetType())
-    'recursos.ApplyResources(formulario, "$this") ' Aplica el recurso al formulario, incluyendo el título (Text) y otros recursos asociados al formulario
-
-    '' Aplicar a cada control dentro del formulario
-    'For Each ctrl As Control In formulario.Controls
-    '    RecorrerControles(ctrl, recursos)
-    '    If TypeOf ctrl Is ToolStrip Then
-    '        Dim barra As ToolStrip = DirectCast(ctrl, ToolStrip)
-    '        For Each item As ToolStripItem In barra.Items
-    '            TraducirElementosToolStrip(item, recursos)
-    '        Next
-    '    End If
-    'Next
-
-    '' TRADUCIR MENÚS (Especial para el Form Principal)
-    'For Each mnu As MenuStrip In formulario.Controls.OfType(Of MenuStrip)()
-    '    For Each itm As ToolStripItem In mnu.Items
-    '        If TypeOf itm Is ToolStripMenuItem Then
-    '            TraducirMenuItems(DirectCast(itm, ToolStripMenuItem), recursos)
-    '        ElseIf TypeOf itm Is ToolStripTextBox Then
-    '            recursos.ApplyResources(itm, itm.Name) ' traducir texto del textbox si existe recurso
-    '        Else
-    '            ' ignorar separadores u otros elementos o aplicar recursos según sea necesario
-    '        End If
-    '    Next
-    'Next
-
-    '' 3. TRADUCCIÓ DINÀMICA DEL TÍTOL (Aquí és on va la línia!)
-    '' Comprovem si és el formulari principal per aplicar el format especial
-    'If formulario.Name = "Principal" Then ' Substitueix "FormPrincipal" pel nom real del teu formulari
-    '    ' Busquem les paraules traduïdes dins del fitxer de recursos
-    '    ' NOTA: "recursos" aquí és el ComponentResourceManager que ja has creat a dalt
-    '    Dim txtTitol As String = recursos.GetString("TitolApp") ' My.Resources.Recursos.TitolApp
-    '    Dim txtVersio As String = recursos.GetString("Versio") ' My.Resources.Recursos.Versio
-    '    Dim txtExercici As String = recursos.GetString("Exercici") ' My.Resources.Recursos.Exercici
-    '    'MsgBox("Títol: " & txtTitol & vbNewLine & "Versió: " & txtVersio & vbNewLine & "Exercici: " & txtExercici, MsgBoxStyle.Information, "Comprovar Traducció Títol Principal")
-    '    formulario.Text = String.Format("{0}  -  {1}: {2}  -  {3}: {4}",
-    '                                    txtTitol,
-    '                                    txtVersio,
-    '                                    My.Settings.Version,
-    '                                    txtExercici,
-    '                                    vAñoEjercicio.ToString())
-    'End If
-    ' End Sub
-
-    'Private Sub TraducirElementosToolStrip(ByVal item As ToolStripItem, ByVal recursos As System.ComponentModel.ComponentResourceManager)
-    '    ' Aplicar el recurso al item (esto cambia el Text y el ToolTipText)
-    '    recursos.ApplyResources(item, item.Name)
-
-    '    ' Si el item tiene sub-elementos (como un menú desplegable), los recorremos
-    '    If TypeOf item Is ToolStripDropDownItem Then
-    '        Dim dropDownItem As ToolStripDropDownItem = DirectCast(item, ToolStripDropDownItem)
-    '        For Each subItem As ToolStripItem In dropDownItem.DropDownItems
-    '            TraducirElementosToolStrip(subItem, recursos)
-    '        Next
-    '    End If
-    'End Sub
-
-
-    'Private Sub TraducirMenuItems(ByVal item As ToolStripMenuItem, ByVal recursos As ComponentResourceManager)
-    '    recursos.ApplyResources(item, item.Name)
-    '    For Each subItem As ToolStripItem In item.DropDownItems
-    '        If TypeOf subItem Is ToolStripMenuItem Then
-    '            TraducirMenuItems(DirectCast(subItem, ToolStripMenuItem), recursos)
-    '        Else
-    '            recursos.ApplyResources(subItem, subItem.Name)
-    '        End If
-    '    Next
-    'End Sub
-
-    '' Método auxiliar para controles anidados (paneles, groupbox, etc.)
-    'Private Sub RecorrerControles(ByVal control As Control, ByVal recursos As ComponentResourceManager)
-    '    recursos.ApplyResources(control, control.Name)
-    '    For Each hijo As Control In control.Controls
-    '        RecorrerControles(hijo, recursos)
-    '    Next
-    'End Sub
-
     ' Función recursiva para recorrer todos los controles (paneles, groupbox, etc.)
     Public Function AplicarRecursosAControles(parent As Control, res As ComponentResourceManager)
         For Each c As Control In parent.Controls
@@ -1179,57 +1094,44 @@ Module Funciones
     ''' Rellena de forma híbrida y multidioma cualquier ComboBox con los tipos de cuenta desde Access
     ''' </summary>
     ''' <param name="combo">El control ComboBox que se quiere rellenar</param>
-    Public Sub CargarComboTipoCuentaGlobal(ByVal combo As ComboBox)
-        ' Aseguramos que existan las variables de conexión en el contexto o pásalas si es necesario.
-        ' Aquí asumimos que cmdMdb1cr y drMdb1 son accesibles o se pueden instanciar de forma global.
-
-        Dim cmdLocal As New OleDb.OleDbCommand("SELECT tipocuentas.CodigoTIP FROM tipocuentas ORDER BY tipocuentas.CodigoTIP ASC", conexionMdb)
-        Dim drLocal As OleDb.OleDbDataReader = Nothing
-
+    ''' <param name="rm">El administrador de recursos (resManager o rmse) del formulario que llama</param>
+    Public Sub CargarComboTipoCuentaGlobal(ByVal combo As ComboBox, ByVal rm As System.ComponentModel.ComponentResourceManager)
+        Dim textoTraducido As String = ""
+        cmdMdb1cr.CommandText = "SELECT tipocuentas.CodigoTIP FROM tipocuentas ORDER BY tipocuentas.CodigoTIP ASC"
         Try
-            ' 1. Guardamos la posición seleccionada actual para no perder el foco del usuario
             Dim indiceSeleccionado As Integer = combo.SelectedIndex
-
-            ' 2. Limpiamos los ítems anteriores
+            ' 1. Crea una variable para acumular el texto arriba de tu bucle While
+            Dim historialSeguimiento As String = "--- HISTORIAL DE TRADUCCIONES ---" & vbNewLine
             combo.Items.Clear()
-
-            ' 3. Abrimos el lector
-            drLocal = cmdLocal.ExecuteReader()
-
-            If drLocal.HasRows Then
-                While drLocal.Read()
-                    Dim valorBD As String = drLocal.GetValue(0).ToString().Trim()
-
-                    ' Buscamos la traducción en el recurso GLOBAL (resManager)
-                    Dim textoTraducido As String = resManager.GetString(valorBD)
-
-                    ' Si no existe traducción en el .resx, dejamos el texto original de Access
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            If drMdb1.HasRows Then
+                While drMdb1.Read()
+                    Dim valorBD As String = drMdb1.GetValue(0).ToString().Trim()
+                    ' BUSQUEDA DIRECTA: Ya no importa si es global o local, usa el que le pases
+                    textoTraducido = rm.GetString(valorBD)
                     If String.IsNullOrEmpty(textoTraducido) Then
                         textoTraducido = valorBD
                     End If
-
                     combo.Items.Add(textoTraducido)
+                    ' 2. En lugar de MsgBox, vas acumulando las líneas aquí
+                    historialSeguimiento &= $"BD: {valorBD} -> Trad: {textoTraducido}" & vbNewLine
                 End While
-
-                ' 4. Restauramos la selección previa o seleccionamos el primero por defecto
+                ' 3. Muestras un ÚNICO MsgBox con todo el resumen al terminar el bucle
+                'MsgBox(historialSeguimiento, MsgBoxStyle.Information, "Resumen de Carga")
                 If indiceSeleccionado >= 0 AndAlso indiceSeleccionado < combo.Items.Count Then
                     combo.SelectedIndex = indiceSeleccionado
                 ElseIf combo.Items.Count > 0 Then
                     combo.SelectedIndex = 0
                 End If
             End If
-
-            drLocal.Close()
-
         Catch ex As Exception
-            MsgBox("Error al cargar combo de tipos de cuenta: " & ex.Message)
+            MsgBox(resManager.GetString("ErrorAlEjecutar") & ex.Message)
         Finally
-            If drLocal IsNot Nothing AndAlso Not drLocal.IsClosed Then
-                drLocal.Close()
+            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then
+                drMdb1.Close()
             End If
         End Try
     End Sub
-
 
 
 

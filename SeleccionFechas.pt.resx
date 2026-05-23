@@ -129,4 +129,7 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Selecione datas</value>
   </data>
+  <data name="BtnCancelar.Text" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
 </root>

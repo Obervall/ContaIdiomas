@@ -135,155 +135,120 @@ Public Class ConceptosContables
         BtnSinFiltroTipoConcepto.Enabled = False
     End Sub
 
+    ' BOTÓN BUSCAR: Abre la ventana de configuración y busca
     Private Sub BtnBuscarRegistro_Click(sender As Object, e As EventArgs) Handles BtnBuscarRegistro.Click
         ' Llamamos al formulario de manera modal.
         frmBuscar.ShowDialog()
         BtnSeguirBuscando.Enabled = True
 
-        ' 1. Configuración de variables iniciales
+        ' Ejecutamos la búsqueda respetando si el usuario marcó "Desde el primer registro"
+        EjecutarBusquedaConceptos(forzarDesdeInicio:=True)
+    End Sub
+
+    ' BOTÓN SEGUIR BUSCANDO: Busca la siguiente coincidencia directamente
+    Private Sub BtnSeguirBuscando_Click(sender As Object, e As EventArgs) Handles BtnSeguirBuscando.Click
+        EjecutarBusquedaConceptos(forzarDesdeInicio:=False)
+    End Sub
+
+    ' EVENTO DE TECLADO: Captura la tecla F3 para seguir buscando
+    Private Sub ConceptosContables_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+        If BtnSeguirBuscando.Enabled AndAlso e.KeyCode = Keys.F3 Then
+            EjecutarBusquedaConceptos(forzarDesdeInicio:=False)
+        End If
+    End Sub
+
+    ' EL MOTOR UNIFICADO DE BÚSQUEDA (El estilo limpio de hoy)
+    Private Sub EjecutarBusquedaConceptos(ByVal forzarDesdeInicio As Boolean)
         vBuscar = frmBuscar.CmbTextoBuscar.Text
         vCampo = frmBuscar.CmbCampos.SelectedIndex
 
         Dim buscarTexto As String = vBuscar.ToLower()
         Dim exacta As Boolean = frmBuscar.ChkExacta.Checked
-        vRow = -1 ' Valor por defecto si no encuentra nada
+        Dim desdePrimerRegistro As Boolean = frmBuscar.ChkPrimerRegistro.Checked
 
-        ' 2. Calcular dinámicamente desde qué fila empezar a buscar
+        ' 1. Calcular dinámicamente desde qué fila empezar a buscar
         Dim filaInicio As Integer = 0
-        If Not frmBuscar.ChkPrimerRegistro.Checked AndAlso frmConceptosContables.DgvConceptos.CurrentRow IsNot Nothing Then
-            filaInicio = frmConceptosContables.DgvConceptos.CurrentRow.Index + 1
+        If Not forzarDesdeInicio OrElse Not desdePrimerRegistro Then
+            ' Si ya tenemos una fila guardada en vRow, empezamos desde la siguiente
+            If vRow >= 0 AndAlso vRow < DgvConceptos.Rows.Count Then
+                filaInicio = vRow + 1
+            ElseIf DgvConceptos.CurrentRow IsNot Nothing Then
+                filaInicio = DgvConceptos.CurrentRow.Index + 1
+            End If
         End If
 
-        ' 3. Bucle de búsqueda unificado utilizando el índice de inicio calculado
+        ' Si el punto de partida supera las filas actuales, avisamos que terminó
+        If filaInicio >= DgvConceptos.Rows.Count Then
+            MsgBox(resManager.GetString("NoHayMasCoincidencias"))
+            BtnSeguirBuscando.Enabled = False
+            Exit Sub
+        End If
+
+        ' 2. Mapear las celdas a evaluar según el ComboBox vCampo
+        Dim celdasAEvaluar As Integer()
+        If vCampo = 0 Then
+            celdasAEvaluar = {0, 1, 2, 3} ' Todos los campos
+        Else
+            celdasAEvaluar = {vCampo - 1} ' Campos individuales (1->0, 2->1, etc.)
+        End If
+
+        Dim encontrado As Boolean = False
+
+        ' 3. Bucle de búsqueda
         For i As Integer = filaInicio To DgvConceptos.Rows.Count - 1
             Dim row As DataGridViewRow = DgvConceptos.Rows(i)
+
+            ' Saltamos la fila vacía automática si existe al final del grid
+            If row.IsNewRow Then Continue For
+
             Dim coincide As Boolean = False
 
-            ' 4. Mapear las celdas a evaluar según el ComboBox vCampo
-            Dim celdasAEvaluar As New List(Of Integer)
-            If vCampo = 0 Then
-                celdasAEvaluar.AddRange({0, 1, 2, 3}) ' Todos los campos
-            Else
-                celdasAEvaluar.Add(vCampo - 1) ' Campos individuales (1->0, 2->1, etc.)
-            End If
-
-            ' 5. Evaluar coincidencias en las celdas asignadas
+            ' Evaluar coincidencias en las celdas asignadas
             For Each idx As Integer In celdasAEvaluar
-                Dim valorCelda As String = CStr(row.Cells(idx).Value).ToLower()
-
-                If (exacta AndAlso valorCelda = buscarTexto) OrElse (Not exacta AndAlso valorCelda.Contains(buscarTexto)) Then
-                    coincide = True
-                    Exit For
+                ' Protección contra celdas con valores nulos (Nothing)
+                Dim valorCelda As String = ""
+                If row.Cells(idx).Value IsNot Nothing Then
+                    valorCelda = row.Cells(idx).Value.ToString().ToLower()
                 End If
+
+                If exacta Then
+                    coincide = (valorCelda = buscarTexto)
+                Else
+                    coincide = valorCelda.Contains(buscarTexto)
+                End If
+
+                If coincide Then Exit For ' Si coincide en una celda, saltamos a la fila
             Next
 
-            ' 6. Si hay coincidencia, seleccionar, actualizar vRow y salir del bucle
+            ' 4. Si encontramos coincidencia, aplicamos la selección visual y guardamos la posición
             If coincide Then
+                DgvConceptos.ClearSelection()
                 row.Selected = True
-                vRow = row.Index
+
+                ' Foco inteligente: Si busca en "Todos", va a la celda 0. Si no, va a su celda correspondiente.
+                Dim celdaFoco As Integer = If(vCampo = 0, 0, vCampo - 1)
+
+                Try
+                    DgvConceptos.CurrentCell = row.Cells(celdaFoco)
+                Catch
+                    DgvConceptos.CurrentCell = row.Cells(0)
+                End Try
+
+                vRow = row.Index ' Guardamos la fila global para la siguiente llamada de F3
+                encontrado = True
                 Exit For
             End If
         Next
 
-        If vRow = -1 Then
-            MsgBox(resManager.GetString("NoHayCoincidencia"))
-            BtnSeguirBuscando.Enabled = False
-        Else
-            If vCampo = 0 Then
-                DgvConceptos.Rows(vRow).Selected = True
-                DgvConceptos.CurrentCell = DgvConceptos.Rows(vRow).Cells(0)
-            ElseIf vCampo = 1 Then
-                DgvConceptos.Rows(vRow).Selected = True
-                DgvConceptos.CurrentCell = DgvConceptos.Rows(vRow).Cells(0)
-            ElseIf vCampo = 2 Then
-                DgvConceptos.Rows(vRow).Selected = True
-                DgvConceptos.CurrentCell = DgvConceptos.Rows(vRow).Cells(1)
-            ElseIf vCampo = 3 Then
-                DgvConceptos.Rows(vRow).Selected = True
-                DgvConceptos.CurrentCell = DgvConceptos.Rows(vRow).Cells(2)
-            ElseIf vCampo = 4 Then
-                DgvConceptos.Rows(vRow).Selected = True
-                DgvConceptos.CurrentCell = DgvConceptos.Rows(vRow).Cells(3)
-            End If
-        End If
-    End Sub
-
-    Private Sub BtnSeguirBuscando_Click(sender As Object, e As EventArgs) Handles BtnSeguirBuscando.Click
-        SeguirF3()
-    End Sub
-
-    Private Sub ConceptosContables_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
-        If BtnSeguirBuscando.Enabled = True Then
-            If e.KeyCode = Keys.F3 Then
-                SeguirF3()
-            End If
-        End If
-    End Sub
-
-    Private Sub SeguirF3()
-        vCantidadFilas = DgvConceptos.RowCount
-        If vRow + 1 = vCantidadFilas Then
-            MsgBox(resManager.GetString("NoHayMasCoincidencias"))
-            BtnSeguirBuscando.Enabled = False
-        Else
-            vRowSeguir = -1
-            Dim buscarTexto As String = vBuscar.ToLower()
-            Dim exacta As Boolean = frmBuscar.ChkExacta.Checked
-
-            ' 1. Filtrar directamente las filas con un bucle For usando tu variable de inicio vRow
-            For i As Integer = vRow + 1 To DgvConceptos.Rows.Count - 1
-                Dim row As DataGridViewRow = DgvConceptos.Rows(i)
-                Dim coincide As Boolean = False
-
-                ' 2. Determinar qué celdas evaluar según el campo seleccionado
-                Dim celdasAEvaluar As New List(Of Integer)
-                If vCampo = 0 Then
-                    celdasAEvaluar.AddRange({0, 1, 2, 3}) ' Todos los campos
-                Else
-                    celdasAEvaluar.Add(vCampo - 1) ' Campos específicos (1->0, 2->1, etc.)
-                End If
-
-                ' 3. Verificar si el texto coincide en alguna de las celdas asignadas
-                For Each idx As Integer In celdasAEvaluar
-                    Dim valorCelda As String = CStr(row.Cells(idx).Value).ToLower()
-
-                    If (exacta AndAlso valorCelda = buscarTexto) OrElse (Not exacta AndAlso valorCelda.Contains(buscarTexto)) Then
-                        coincide = True
-                        Exit For
-                    End If
-                Next
-
-                ' 4. Si hay coincidencia, seleccionar la fila y salir del bucle principal
-                If coincide Then
-                    row.Selected = True
-                    vRowSeguir = row.Index
-                    Exit For
-                End If
-            Next
-
-            If vRowSeguir = -1 Then
-                MsgBox(resManager.GetString("NoHayMasCoincidencias"))
-                BtnSeguirBuscando.Enabled = False
+        ' 5. Gestión del resultado final si no hubo éxito
+        If Not encontrado Then
+            If forzarDesdeInicio Then
+                MsgBox(resManager.GetString("NoHayCoincidencia"))
             Else
-                vRow = vRowSeguir
-                If vCampo = 0 Then
-                    DgvConceptos.Rows(vRow).Selected = True
-                    DgvConceptos.CurrentCell = DgvConceptos.Rows(vRow).Cells(0)
-                ElseIf vCampo = 1 Then
-                    DgvConceptos.Rows(vRow).Selected = True
-                    DgvConceptos.CurrentCell = DgvConceptos.Rows(vRow).Cells(0)
-                ElseIf vCampo = 2 Then
-                    DgvConceptos.Rows(vRow).Selected = True
-                    DgvConceptos.CurrentCell = DgvConceptos.Rows(vRow).Cells(1)
-                ElseIf vCampo = 3 Then
-                    DgvConceptos.Rows(vRow).Selected = True
-                    DgvConceptos.CurrentCell = DgvConceptos.Rows(vRow).Cells(2)
-                ElseIf vCampo = 4 Then
-                    DgvConceptos.Rows(vRow).Selected = True
-                    DgvConceptos.CurrentCell = DgvConceptos.Rows(vRow).Cells(3)
-                End If
-                vRowSeguir = 0
+                MsgBox(resManager.GetString("NoHayMasCoincidencias"))
             End If
+            BtnSeguirBuscando.Enabled = False
+            vRow = -1 ' Reseteamos la posición
         End If
     End Sub
 
@@ -351,9 +316,9 @@ Public Class ConceptosContables
         Dim FuenteDetalles As New Font("Microsoft Sans Serif", 9)
         Dim FuenteSubrayada As New Font("Microsoft Sans Serif", 9, FontStyle.Underline Xor FontStyle.Bold)
         If BtnFiltroTipoConcepto.Enabled = False Then
-            frmImprimirForm.LblTitulo.Text = resManager.GetString("ListadoConceptosContablesFiltrado") & " " & CmbTipoConcepto.Text
+            frmImprimirForm.LblTitulo.Text = rmse.GetString("ListadoConceptosContablesFiltrado") & " " & CmbTipoConcepto.Text
         Else
-            frmImprimirForm.LblTitulo.Text = resManager.GetString("ListadoConceptosContables")
+            frmImprimirForm.LblTitulo.Text = rmse.GetString("ListadoConceptosContables")
         End If
 
         'Imprimimos el encabezado los datos que están antes del datagridview

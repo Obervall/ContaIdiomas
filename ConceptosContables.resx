@@ -1180,4 +1180,10 @@
   <data name="CmbTipoConcepto.Items" xml:space="preserve">
     <value>GASTO</value>
   </data>
+  <data name="ListadoConceptosContablesFiltrado" xml:space="preserve">
+    <value>Listado de Conceptos Contables. Filtrado por:</value>
+  </data>
+  <data name="ListadoConceptosContables" xml:space="preserve">
+    <value>Listado de Conceptos Contables.</value>
+  </data>
 </root>

@@ -159,4 +159,10 @@
   <data name="LblConceptos.Text" xml:space="preserve">
     <value>KONZEPTE</value>
   </data>
+  <data name="ListadoConceptosContablesFiltrado" xml:space="preserve">
+    <value>Liste der Buchhaltungskonzepte. Gefiltert nach:</value>
+  </data>
+  <data name="ListadoConceptosContables" xml:space="preserve">
+    <value>Liste der Buchhaltungskonzepte.</value>
+  </data>
 </root>

@@ -27,7 +27,7 @@ Public Class NuevaCuentaBancaria
         TL(4).SetToolTip(Me.TxtNombre, resManager.GetString("ToolTipNombre"))
 
         ' Aunque el combo se llame diferente en este formulario, funcionará igual:
-        CargarComboTipoCuentaGlobal(Me.CmbTipoCuenta)
+        CargarComboTipoCuentaGlobal(Me.CmbTipoCuenta, rmse)
 
         '' Llenar el Combo Tipo Cuenta desde Access (Modelo Híbrido)
         ''********************************************************

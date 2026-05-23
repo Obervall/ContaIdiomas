@@ -159,4 +159,10 @@
   <data name="LblConceptos.Text" xml:space="preserve">
     <value>CONCEPTES</value>
   </data>
+  <data name="ListadoConceptosContablesFiltrado" xml:space="preserve">
+    <value>Llistat de Conceptes Comptables. Filtrat per:</value>
+  </data>
+  <data name="ListadoConceptosContables" xml:space="preserve">
+    <value>Llistat de Conceptes Comptables.</value>
+  </data>
 </root>

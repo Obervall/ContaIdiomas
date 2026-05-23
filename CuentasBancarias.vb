@@ -48,62 +48,7 @@ Public Class CuentasBancarias
         AddHandler Me.GroupBox3.MouseMove, AddressOf VerificarFiltrosDesactivados
         AddHandler Me.GroupBox4.MouseMove, AddressOf VerificarFiltrosDesactivados
 
-        CargarComboTipoCuentaGlobal(Me.CmbTipoCuenta)
-
-        '' Llenar el Combo Tipo Cuenta desde Access (Modelo Híbrido)
-        ''********************************************************
-        'cmdMdb1cr.CommandText = "SELECT tipocuentas.CodigoTIP FROM tipocuentas"
-        'cmdMdb1cr.CommandText += " ORDER BY tipocuentas.CodigoTIP ASC"
-
-        'Try
-        '    ' 1. Guardamos la posición seleccionada actual para que no salte el combo
-        '    Dim indiceSeleccionado As Integer = CmbTipoCuenta.SelectedIndex
-
-        '    ' 2. Limpiamos los ítems viejos para evitar duplicados
-        '    CmbTipoCuenta.Items.Clear()
-
-        '    ' 3. Ejecutamos el lector de Access
-        '    drMdb1 = cmdMdb1cr.ExecuteReader()
-
-        '    If drMdb1.HasRows Then
-        '        While drMdb1.Read()
-        '            ' Obtenemos el texto guardado en Access (quitando espacios en blanco extras)
-        '            Dim valorBD As String = drMdb1.GetValue(0).ToString().Trim()
-
-        '            ' Buscamos si tú programaste una traducción para este valor en el .resx
-        '            Dim textoTraducido As String = rmse.GetString(valorBD)
-
-        '            ' PROTECCIÓN: Si no hay traducción (porque lo creó el usuario), 
-        '            ' se usa el valor original de la base de datos de Access
-        '            If String.IsNullOrEmpty(textoTraducido) Then
-        '                textoTraducido = valorBD
-        '            End If
-
-        '            ' Añadimos el ítem definitivo al ComboBox
-        '            CmbTipoCuenta.Items.Add(textoTraducido)
-        '        End While
-
-        '        ' 4. Restauramos la selección del usuario o dejamos el primer ítem por defecto
-        '        If indiceSeleccionado >= 0 AndAlso indiceSeleccionado < CmbTipoCuenta.Items.Count Then
-        '            CmbTipoCuenta.SelectedIndex = indiceSeleccionado
-        '        ElseIf CmbTipoCuenta.Items.Count > 0 Then
-        '            CmbTipoCuenta.SelectedIndex = 0
-        '        End If
-        '    Else
-        '        MsgBox(resManager.GetString("NoExistenRegistros") & " " & cmdMdb1cr.CommandText)
-        '    End If
-
-        '    drMdb1.Close()
-
-        'Catch ex As Exception
-        '    MsgBox(rmse.GetString("ErrorAlLlenarComboTipoCuenta"))
-        '    MsgBox(ex.ToString)
-        'Finally
-        '    ' Bloque de seguridad: cerramos el reader por si ocurre algún fallo en el bucle
-        '    If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then
-        '        drMdb1.Close()
-        '    End If
-        'End Try
+        CargarComboTipoCuentaGlobal(Me.CmbTipoCuenta, rmse)
 
         CmbTipoCuenta.DropDownStyle = ComboBoxStyle.DropDownList
         CmbTipoCuenta.SelectedIndex = 0
@@ -175,365 +120,106 @@ Public Class CuentasBancarias
         End If
     End Sub
 
+    ' BOTÓN BUSCAR: Abre la ventana para configurar los parámetros y busca desde el principio
     Private Sub BtnBuscarRegistro_Click(sender As Object, e As EventArgs) Handles BtnBuscarRegistro.Click
-        ' Llamamos al formulario de manera modal.
         frmBuscar.ShowDialog()
         BtnSeguirBuscando.Enabled = True
 
-        vBuscar = frmBuscar.CmbTextoBuscar.Text
-        vCampo = frmBuscar.CmbCampos.SelectedIndex
-        vRow = 0
-        For Each row As DataGridViewRow In DgvCuentas.Rows
-            If frmBuscar.ChkPrimerRegistro.Checked = True Then 'Desde el primer registro
-                If vCampo = 0 Then
-                    If frmBuscar.ChkExacta.Checked = False Then
-                        If CStr(row.Cells(0).Value).ToLower.Contains(vBuscar.ToLower) Or CStr(row.Cells(1).Value).ToLower.Contains(vBuscar.ToLower) Or CStr(row.Cells(2).Value).ToLower.Contains(vBuscar.ToLower) Or CStr(row.Cells(4).Value).ToLower.Contains(vBuscar.ToLower) Then
-                            row.Selected = True
-                            vRow = row.Index
-                            Exit For
-                        Else
-                            vRow = -1
-                        End If
-                    Else
-                        If CStr(row.Cells(0).Value).ToLower = vBuscar.ToLower Or CStr(row.Cells(1).Value).ToLower = vBuscar.ToLower Or CStr(row.Cells(2).Value).ToLower = vBuscar.ToLower Or CStr(row.Cells(4).Value).ToLower = vBuscar.ToLower Then
-                            row.Selected = True
-                            vRow = row.Index
-                            Exit For
-                        Else
-                            vRow = -1
-                        End If
-                    End If
-                ElseIf vCampo = 1 Then
-                    If frmBuscar.ChkExacta.Checked = False Then
-                        If CStr(row.Cells(0).Value).ToLower.Contains(vBuscar.ToLower) Then
-                            row.Selected = True
-                            vRow = row.Index
-                            Exit For
-                        Else
-                            vRow = -1
-                        End If
-                    Else
-                        If CStr(row.Cells(0).Value).ToLower = vBuscar.ToLower Then
-                            row.Selected = True
-                            vRow = row.Index
-                            Exit For
-                        Else
-                            vRow = -1
-                        End If
-                    End If
-                ElseIf vCampo = 2 Then
-                    If frmBuscar.ChkExacta.Checked = False Then
-                        If CStr(row.Cells(1).Value).ToLower.Contains(vBuscar.ToLower) Then
-                            row.Selected = True
-                            vRow = row.Index
-                            Exit For
-                        Else
-                            vRow = -1
-                        End If
-                    Else
-                        If CStr(row.Cells(1).Value).ToLower = vBuscar.ToLower Then
-                            row.Selected = True
-                            vRow = row.Index
-                            Exit For
-                        Else
-                            vRow = -1
-                        End If
-                    End If
-                ElseIf vCampo = 3 Then
-                    If frmBuscar.ChkExacta.Checked = False Then
-                        If CStr(row.Cells(2).Value).ToLower.Contains(vBuscar.ToLower) Then
-                            row.Selected = True
-                            vRow = row.Index
-                            Exit For
-                        Else
-                            vRow = -1
-                        End If
-                    Else
-                        If CStr(row.Cells(2).Value).ToLower = vBuscar.ToLower Then
-                            row.Selected = True
-                            vRow = row.Index
-                            Exit For
-                        Else
-                            vRow = -1
-                        End If
-                    End If
-                ElseIf vCampo = 4 Then
-                    If frmBuscar.ChkExacta.Checked = False Then
-                        If CStr(row.Cells(4).Value).ToLower.Contains(vBuscar.ToLower) Then
-                            row.Selected = True
-                            vRow = row.Index
-                            Exit For
-                        Else
-                            vRow = -1
-                        End If
-                    Else
-                        If CStr(row.Cells(4).Value).ToLower = vBuscar.ToLower Then
-                            row.Selected = True
-                            vRow = row.Index
-                            Exit For
-                        Else
-                            vRow = -1
-                        End If
-                    End If
-                End If
-            Else ' desde donde está la fila seleccionada
-                vRow = frmCuentasBancarias.DgvCuentas.CurrentRow.Index
-                If row.Index > vRow Then
-                    If vCampo = 0 Then
-                        If frmBuscar.ChkExacta.Checked = False Then
-                            If CStr(row.Cells(0).Value).ToLower.Contains(vBuscar.ToLower) Or CStr(row.Cells(1).Value).ToLower.Contains(vBuscar.ToLower) Or CStr(row.Cells(2).Value).ToLower.Contains(vBuscar.ToLower) Or CStr(row.Cells(4).Value).ToLower.Contains(vBuscar.ToLower) Then
-                                row.Selected = True
-                                vRow = row.Index
-                                Exit For
-                            Else
-                                vRow = -1
-                            End If
-                        Else
-                            If CStr(row.Cells(0).Value).ToLower = vBuscar.ToLower Or CStr(row.Cells(1).Value).ToLower = vBuscar.ToLower Or CStr(row.Cells(2).Value).ToLower = vBuscar.ToLower Or CStr(row.Cells(4).Value).ToLower = vBuscar.ToLower Then
-                                row.Selected = True
-                                vRow = row.Index
-                                Exit For
-                            Else
-                                vRow = -1
-                            End If
-                        End If
-                    ElseIf vCampo = 1 Then
-                        If frmBuscar.ChkExacta.Checked = False Then
-                            If CStr(row.Cells(0).Value).ToLower.Contains(vBuscar.ToLower) Then
-                                row.Selected = True
-                                vRow = row.Index
-                                Exit For
-                            Else
-                                vRow = -1
-                            End If
-                        Else
-                            If CStr(row.Cells(0).Value).ToLower = vBuscar.ToLower Then
-                                row.Selected = True
-                                vRow = row.Index
-                                Exit For
-                            Else
-                                vRow = -1
-                            End If
-                        End If
-                    ElseIf vCampo = 2 Then
-                        If frmBuscar.ChkExacta.Checked = False Then
-                            If CStr(row.Cells(1).Value).ToLower.Contains(vBuscar.ToLower) Then
-                                row.Selected = True
-                                vRow = row.Index
-                                Exit For
-                            Else
-                                vRow = -1
-                            End If
-                        Else
-                            If CStr(row.Cells(1).Value).ToLower = vBuscar.ToLower Then
-                                row.Selected = True
-                                vRow = row.Index
-                                Exit For
-                            Else
-                                vRow = -1
-                            End If
-                        End If
-                    ElseIf vCampo = 3 Then
-                        If frmBuscar.ChkExacta.Checked = False Then
-                            If CStr(row.Cells(2).Value).ToLower.Contains(vBuscar.ToLower) Then
-                                row.Selected = True
-                                vRow = row.Index
-                                Exit For
-                            Else
-                                vRow = -1
-                            End If
-                        Else
-                            If CStr(row.Cells(2).Value).ToLower = vBuscar.ToLower Then
-                                row.Selected = True
-                                vRow = row.Index
-                                Exit For
-                            Else
-                                vRow = -1
-                            End If
-                        End If
-                    ElseIf vCampo = 4 Then
-                        If frmBuscar.ChkExacta.Checked = False Then
-                            If CStr(row.Cells(4).Value).ToLower.Contains(vBuscar.ToLower) Then
-                                row.Selected = True
-                                vRow = row.Index
-                                Exit For
-                            Else
-                                vRow = -1
-                            End If
-                        Else
-                            If CStr(row.Cells(4).Value).ToLower = vBuscar.ToLower Then
-                                row.Selected = True
-                                vRow = row.Index
-                                Exit For
-                            Else
-                                vRow = -1
-                            End If
-                        End If
-                    End If
-                End If
-            End If
-        Next
-        If vRow = -1 Then
-            MsgBox("No hay ninguna Coincidencia con los datos Introducidos")
-            BtnSeguirBuscando.Enabled = False
-        Else
-            If vCampo = 0 Then
-                DgvCuentas.Rows(vRow).Selected = True
-                DgvCuentas.CurrentCell = DgvCuentas.Rows(vRow).Cells(0)
-            ElseIf vCampo = 1 Then
-                DgvCuentas.Rows(vRow).Selected = True
-                DgvCuentas.CurrentCell = DgvCuentas.Rows(vRow).Cells(0)
-            ElseIf vCampo = 2 Then
-                DgvCuentas.Rows(vRow).Selected = True
-                DgvCuentas.CurrentCell = DgvCuentas.Rows(vRow).Cells(1)
-            ElseIf vCampo = 3 Then
-                DgvCuentas.Rows(vRow).Selected = True
-                DgvCuentas.CurrentCell = DgvCuentas.Rows(vRow).Cells(2)
-            ElseIf vCampo = 4 Then
-                DgvCuentas.Rows(vRow).Selected = True
-                DgvCuentas.CurrentCell = DgvCuentas.Rows(vRow).Cells(4)
-            End If
-        End If
+        ' Llamamos al motor pasándole True para que respete si el usuario marcó "Desde el primer registro"
+        EjecutarBusqueda(forzarDesdeInicio:=True)
     End Sub
 
+    ' BOTÓN SEGUIR BUSCANDO: No abre ventana, busca directamente la siguiente coincidencia
     Private Sub BtnSeguirBuscando_Click(sender As Object, e As EventArgs) Handles BtnSeguirBuscando.Click
-        SeguirF3()
+        ' Llamamos al motor pasándole False para obligarle a saltar a la siguiente fila desde donde esté parado
+        EjecutarBusqueda(forzarDesdeInicio:=False)
     End Sub
 
     Private Sub ApuntesContables_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If BtnSeguirBuscando.Enabled = True Then
             If e.KeyCode = Keys.F3 Then
-                SeguirF3()
+                EjecutarBusqueda(forzarDesdeInicio:=False)
             End If
         End If
     End Sub
 
-    Private Sub SeguirF3()
-        vCantidadFilas = DgvCuentas.RowCount
-        If vRow + 1 = vCantidadFilas Then
-            MsgBox("No hay más Registros que Coincidencian con los datos Introducidos")
-            BtnSeguirBuscando.Enabled = False
-        Else
-            vContador = -1
-            For Each row As DataGridViewRow In DgvCuentas.Rows
-                vContador += 1
-                If vContador > vRow Then
-                    If vCampo = 0 Then
-                        If frmBuscar.ChkExacta.Checked = False Then
-                            If CStr(row.Cells(0).Value).ToLower.Contains(vBuscar.ToLower) Or CStr(row.Cells(1).Value).ToLower.Contains(vBuscar.ToLower) Or CStr(row.Cells(2).Value).ToLower.Contains(vBuscar.ToLower) Or CStr(row.Cells(4).Value).ToLower.Contains(vBuscar.ToLower) Then
-                                row.Selected = True
-                                vRowSeguir = row.Index
-                                Exit For
-                            Else
-                                vRowSeguir = -1
-                            End If
-                        Else
-                            If CStr(row.Cells(0).Value).ToLower = vBuscar.ToLower Or CStr(row.Cells(1).Value).ToLower = vBuscar.ToLower Or CStr(row.Cells(2).Value).ToLower = vBuscar.ToLower Or CStr(row.Cells(4).Value).ToLower = vBuscar.ToLower Then
-                                row.Selected = True
-                                vRowSeguir = row.Index
-                                Exit For
-                            Else
-                                vRowSeguir = -1
-                            End If
-                        End If
-                    ElseIf vCampo = 1 Then
-                        If frmBuscar.ChkExacta.Checked = False Then
-                            If CStr(row.Cells(0).Value).ToLower.Contains(vBuscar.ToLower) Then
-                                row.Selected = True
-                                vRowSeguir = row.Index
-                                Exit For
-                            Else
-                                vRowSeguir = -1
-                            End If
-                        Else
-                            If CStr(row.Cells(0).Value).ToLower = vBuscar.ToLower Then
-                                row.Selected = True
-                                vRowSeguir = row.Index
-                                Exit For
-                            Else
-                                vRowSeguir = -1
-                            End If
-                        End If
-                    ElseIf vCampo = 2 Then
-                        If frmBuscar.ChkExacta.Checked = False Then
-                            If CStr(row.Cells(1).Value).ToLower.Contains(vBuscar.ToLower) Then
-                                row.Selected = True
-                                vRowSeguir = row.Index
-                                Exit For
-                            Else
-                                vRowSeguir = -1
-                            End If
-                        Else
-                            If CStr(row.Cells(1).Value).ToLower = vBuscar.ToLower Then
-                                row.Selected = True
-                                vRowSeguir = row.Index
-                                Exit For
-                            Else
-                                vRowSeguir = -1
-                            End If
-                        End If
-                    ElseIf vCampo = 3 Then
-                        If frmBuscar.ChkExacta.Checked = False Then
-                            If CStr(row.Cells(2).Value).ToLower.Contains(vBuscar.ToLower) Then
-                                row.Selected = True
-                                vRowSeguir = row.Index
-                                Exit For
-                            Else
-                                vRowSeguir = -1
-                            End If
-                        Else
-                            If CStr(row.Cells(2).Value).ToLower = vBuscar.ToLower Then
-                                row.Selected = True
-                                vRowSeguir = row.Index
-                                Exit For
-                            Else
-                                vRowSeguir = -1
-                            End If
-                        End If
-                    ElseIf vCampo = 4 Then
-                        If frmBuscar.ChkExacta.Checked = False Then
-                            If CStr(row.Cells(4).Value).ToLower.Contains(vBuscar.ToLower) Then
-                                row.Selected = True
-                                vRowSeguir = row.Index
-                                Exit For
-                            Else
-                                vRowSeguir = -1
-                            End If
-                        Else
-                            If CStr(row.Cells(4).Value).ToLower = vBuscar.ToLower Then
-                                row.Selected = True
-                                vRowSeguir = row.Index
-                                Exit For
-                            Else
-                                vRowSeguir = -1
-                            End If
-                        End If
-                    End If
+    Private Sub EjecutarBusqueda(ByVal forzarDesdeInicio As Boolean)
+        vBuscar = frmBuscar.CmbTextoBuscar.Text.ToLower()
+        vCampo = frmBuscar.CmbCampos.SelectedIndex
+        Dim buscarExacto As Boolean = frmBuscar.ChkExacta.Checked
+        Dim desdePrimerRegistro As Boolean = frmBuscar.ChkPrimerRegistro.Checked
+
+        ' CORRECCIÓN AQUÍ: Determinamos el punto de inicio real combinando los estados
+        Dim filaInicio As Integer = 0
+
+        ' Si se pulsa "Seguir Buscando" O si el usuario NO quiere empezar desde el primer registro
+        If (Not forzarDesdeInicio OrElse Not desdePrimerRegistro) AndAlso DgvCuentas.CurrentRow IsNot Nothing Then
+            filaInicio = DgvCuentas.CurrentRow.Index + 1
+        End If
+
+        ' Si al avanzar nos salimos del total de filas, avisamos y salimos
+        If filaInicio >= DgvCuentas.Rows.Count Then
+            MsgBox(resManager.GetString("FinalTabla"), MsgBoxStyle.Information, rmse.GetString("$this.Text"))
+            Exit Sub
+        End If
+
+        ' Mapeamos los índices de las celdas
+        Dim columnasEvaluar As Integer()
+        Select Case vCampo
+            Case 0 : columnasEvaluar = {0, 1, 2, 4}
+            Case 1 : columnasEvaluar = {0}
+            Case 2 : columnasEvaluar = {1}
+            Case 3 : columnasEvaluar = {2}
+            Case 4 : columnasEvaluar = {4}
+            Case Else : columnasEvaluar = {}
+        End Select
+
+        vRow = -1
+
+        ' Busqueda en el DataGridView
+        For i As Integer = filaInicio To DgvCuentas.Rows.Count - 1
+            Dim row As DataGridViewRow = DgvCuentas.Rows(i)
+
+            ' Evitamos evaluar la fila nueva vacía que añade DataGridView al final de forma automática
+            If row.IsNewRow Then Continue For
+
+            Dim coincide As Boolean = False
+
+            For Each colIdx As Integer In columnasEvaluar
+                ' Protección extra por si alguna celda está vacía (Nothing)
+                Dim valorCelda As String = ""
+                If row.Cells(colIdx).Value IsNot Nothing Then
+                    valorCelda = row.Cells(colIdx).Value.ToString().ToLower()
                 End If
+
+                If buscarExacto Then
+                    coincide = (valorCelda = vBuscar)
+                Else
+                    coincide = valorCelda.Contains(vBuscar)
+                End If
+
+                If coincide Then Exit For
             Next
-            If vRowSeguir = -1 Then
-                MsgBox("No hay más Registros que Coincidencian con los datos Introducidos")
-                BtnSeguirBuscando.Enabled = False
-            Else
-                vRow = vRowSeguir
-                If vCampo = 0 Then
-                    DgvCuentas.Rows(vRow).Selected = True
-                    DgvCuentas.CurrentCell = DgvCuentas.Rows(vRow).Cells(0)
-                ElseIf vCampo = 1 Then
-                    DgvCuentas.Rows(vRow).Selected = True
-                    DgvCuentas.CurrentCell = DgvCuentas.Rows(vRow).Cells(0)
-                ElseIf vCampo = 2 Then
-                    DgvCuentas.Rows(vRow).Selected = True
-                    DgvCuentas.CurrentCell = DgvCuentas.Rows(vRow).Cells(1)
-                ElseIf vCampo = 3 Then
-                    DgvCuentas.Rows(vRow).Selected = True
-                    DgvCuentas.CurrentCell = DgvCuentas.Rows(vRow).Cells(2)
-                ElseIf vCampo = 4 Then
-                    DgvCuentas.Rows(vRow).Selected = True
-                    DgvCuentas.CurrentCell = DgvCuentas.Rows(vRow).Cells(4)
-                End If
-                vRowSeguir = 0
+
+            If coincide Then
+                DgvCuentas.ClearSelection()
+                row.Selected = True
+
+                ' Intentamos enfocar la celda para que la cuadrícula se mueva (scrolleé) automáticamente
+                Try
+                    DgvCuentas.CurrentCell = row.Cells(columnasEvaluar(0))
+                Catch
+                    DgvCuentas.CurrentCell = row.Cells(0)
+                End Try
+
+                vRow = row.Index
+                Exit For
             End If
+        Next
+
+        ' Avisar al usuario si no encontró nada en todo el recorrido
+        If vRow = -1 Then
+            MsgBox(resManager.GetString("MsgDatos2"), MsgBoxStyle.Information, rmse.GetString("$this.Text"))
         End If
     End Sub
 
