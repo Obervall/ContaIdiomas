@@ -1,4 +1,6 @@
-﻿Imports System.Drawing
+﻿Imports System.Collections.Generic
+Imports System.Data
+Imports System.Drawing
 Imports System.Drawing.Printing
 Imports System.Windows.Forms
 Imports ToolTip = System.Windows.Forms.ToolTip
@@ -15,27 +17,31 @@ Public Class TipoCuentaBancaria
 
         Me.KeyPreview = True
         TL(0) = New ToolTip
-        TL(0).SetToolTip(Me.BtnAñadirRegistro, "Añadir Registro")
+        TL(0).SetToolTip(Me.BtnAñadirRegistro, resManager.GetString("ToolTipAñadir"))
         TL(1) = New ToolTip
-        TL(1).SetToolTip(Me.BtnEditarRegistro, "Editar Registro")
+        TL(1).SetToolTip(Me.BtnEditarRegistro, resManager.GetString("ToolTipEditar"))
         TL(2) = New ToolTip
-        TL(2).SetToolTip(Me.BtnEliminarRegistro, "Eliminar Registro")
+        TL(2).SetToolTip(Me.BtnEliminarRegistro, resManager.GetString("ToolTipEliminar"))
         TL(3) = New ToolTip
-        TL(3).SetToolTip(Me.BtnBuscarRegistro, "Buscar")
+        TL(3).SetToolTip(Me.BtnBuscarRegistro, resManager.GetString("ToolTipBuscar"))
         TL(4) = New ToolTip
-        TL(4).SetToolTip(Me.BtnSeguirBuscando, "Pulsar para Seguir Buscando o F3")
+        TL(4).SetToolTip(Me.BtnSeguirBuscando, resManager.GetString("ToolTipSeguirBuscando"))
         TL(5) = New ToolTip
-        TL(5).SetToolTip(Me.BtnImprimir, "Imprimir")
+        TL(5).SetToolTip(Me.BtnImprimir, resManager.GetString("ToolTipImprimir"))
         TL(6) = New ToolTip
-        TL(6).SetToolTip(Me.BtnSalir, "Salir de Apuntes Contables")
+        TL(6).SetToolTip(Me.BtnSalir, resManager.GetString("ToolTipSalir"))
         TL(7) = New ToolTip
-        TL(7).SetToolTip(Me.BtnPrimero, "Ir al Primer Registro")
+        TL(7).SetToolTip(Me.BtnPrimero, resManager.GetString("ToolTipPrimero"))
         TL(8) = New ToolTip
-        TL(8).SetToolTip(Me.BtnAnterior, "Ir al Anterior Registro")
+        TL(8).SetToolTip(Me.BtnAnterior, resManager.GetString("ToolTipAnterior"))
         TL(9) = New ToolTip
-        TL(9).SetToolTip(Me.BtnSiguiente, "Ir al Siguiente Registro")
+        TL(9).SetToolTip(Me.BtnSiguiente, resManager.GetString("ToolTipSiguiente"))
         TL(10) = New ToolTip
-        TL(10).SetToolTip(Me.BtnUltimo, "Ir al Ultimo Registro")
+        TL(10).SetToolTip(Me.BtnUltimo, resManager.GetString("ToolTipUltimo"))
+
+        ' Añade una línea por cada GroupBox donde tengas estos botones:
+        AddHandler Me.GroupBox2.MouseMove, AddressOf VerificarFiltrosDesactivados
+        AddHandler Me.GroupBox3.MouseMove, AddressOf VerificarFiltrosDesactivados
 
         ' Llenar Grid de TIPO CUENTAS BANCARIAS
         '**************************************
@@ -64,284 +70,141 @@ Public Class TipoCuentaBancaria
         End If
     End Sub
 
+
+
+
+    ''' <summary>
+    ''' Función auxiliar que centraliza las reglas lógicas de comparación de texto.
+    ''' </summary>
+    Private Function EvaluarCoincidencia(celda0 As String, celda1 As String, buscar As String, campo As Integer, exacta As Boolean) As Boolean
+        Select Case campo
+            Case 0 ' Todos los campos (Celda 0 o Celda 1)
+                If exacta Then
+                    Return celda0 = buscar OrElse celda1 = buscar
+                Else
+                    Return celda0.Contains(buscar) OrElse celda1.Contains(buscar)
+                End If
+
+            Case 1 ' Solo Nombre / Código (Celda 0)
+                If exacta Then Return celda0 = buscar Else Return celda0.Contains(buscar)
+
+            Case 2 ' Solo Descripción (Celda 1)
+                If exacta Then Return celda1 = buscar Else Return celda1.Contains(buscar)
+
+            Case Else
+                Return False
+        End Select
+    End Function
+    ' BOTÓN BUSCAR: Abre la ventana de parámetros y busca desde el principio si el Check lo pide
     Private Sub BtnBuscarRegistro_Click(sender As Object, e As EventArgs) Handles BtnBuscarRegistro.Click
-        ' Llamamos al formulario de manera modal.
         frmBuscar.ShowDialog()
         BtnSeguirBuscando.Enabled = True
 
-        vBuscar = frmBuscar.CmbTextoBuscar.Text
-        vCampo = frmBuscar.CmbCampos.SelectedIndex
-        vRow = 0
-        For Each row As DataGridViewRow In DgvTipoCuentasBancarias.Rows
-            If frmBuscar.ChkPrimerRegistro.Checked = True Then 'Desde el primer registro
-                If vCampo = 0 Then
-                    If frmBuscar.ChkExacta.Checked = False Then
-                        If CStr(row.Cells(0).Value).ToLower.Contains(vBuscar.ToLower) Or CStr(row.Cells(1).Value).ToLower.Contains(vBuscar.ToLower) Then
-                            row.Selected = True
-                            vRow = row.Index
-                            Exit For
-                        Else
-                            vRow = -1
-                        End If
-                    Else
-                        If CStr(row.Cells(0).Value).ToLower = vBuscar.ToLower Or CStr(row.Cells(1).Value).ToLower = vBuscar.ToLower Then
-                            row.Selected = True
-                            vRow = row.Index
-                            Exit For
-                        Else
-                            vRow = -1
-                        End If
-                    End If
-                ElseIf vCampo = 1 Then
-                    If frmBuscar.ChkExacta.Checked = False Then
-                        If CStr(row.Cells(0).Value).ToLower.Contains(vBuscar.ToLower) Then
-                            row.Selected = True
-                            vRow = row.Index
-                            Exit For
-                        Else
-                            vRow = -1
-                        End If
-                    Else
-                        If CStr(row.Cells(0).Value).ToLower = vBuscar.ToLower Then
-                            row.Selected = True
-                            vRow = row.Index
-                            Exit For
-                        Else
-                            vRow = -1
-                        End If
-                    End If
-                ElseIf vCampo = 2 Then
-                    If frmBuscar.ChkExacta.Checked = False Then
-                        If CStr(row.Cells(1).Value).ToLower.Contains(vBuscar.ToLower) Then
-                            row.Selected = True
-                            vRow = row.Index
-                            Exit For
-                        Else
-                            vRow = -1
-                        End If
-                    Else
-                        If CStr(row.Cells(1).Value).ToLower = vBuscar.ToLower Then
-                            row.Selected = True
-                            vRow = row.Index
-                            Exit For
-                        Else
-                            vRow = -1
-                        End If
-                    End If
-                End If
-            Else ' desde donde está la fila seleccionada
-                vRow = frmTipoCuentaBancaria.DgvTipoCuentasBancarias.CurrentRow.Index
-                If row.Index > vRow Then
-                    If vCampo = 0 Then
-                        If frmBuscar.ChkExacta.Checked = False Then
-                            If CStr(row.Cells(0).Value).ToLower.Contains(vBuscar.ToLower) Or CStr(row.Cells(1).Value).ToLower.Contains(vBuscar.ToLower) Then
-                                row.Selected = True
-                                vRow = row.Index
-                                Exit For
-                            Else
-                                vRow = -1
-                            End If
-                        Else
-                            If CStr(row.Cells(0).Value).ToLower = vBuscar.ToLower Or CStr(row.Cells(1).Value).ToLower = vBuscar.ToLower Then
-                                row.Selected = True
-                                vRow = row.Index
-                                Exit For
-                            Else
-                                vRow = -1
-                            End If
-                        End If
-                    ElseIf vCampo = 1 Then
-                        If frmBuscar.ChkExacta.Checked = False Then
-                            If CStr(row.Cells(0).Value).ToLower.Contains(vBuscar.ToLower) Then
-                                row.Selected = True
-                                vRow = row.Index
-                                Exit For
-                            Else
-                                vRow = -1
-                            End If
-                        Else
-                            If CStr(row.Cells(0).Value).ToLower = vBuscar.ToLower Then
-                                row.Selected = True
-                                vRow = row.Index
-                                Exit For
-                            Else
-                                vRow = -1
-                            End If
-                        End If
-                    ElseIf vCampo = 2 Then
-                        If frmBuscar.ChkExacta.Checked = False Then
-                            If CStr(row.Cells(1).Value).ToLower.Contains(vBuscar.ToLower) Then
-                                row.Selected = True
-                                vRow = row.Index
-                                Exit For
-                            Else
-                                vRow = -1
-                            End If
-                        Else
-                            If CStr(row.Cells(1).Value).ToLower = vBuscar.ToLower Then
-                                row.Selected = True
-                                vRow = row.Index
-                                Exit For
-                            Else
-                                vRow = -1
-                            End If
-                        End If
-                    End If
-                End If
-            End If
-        Next
-        If vRow = -1 Then
-            MsgBox("No hay ninguna Coincidencia con los datos Introducidos")
-            BtnSeguirBuscando.Enabled = False
-        Else
-            If vCampo = 0 Then
-                DgvTipoCuentasBancarias.Rows(vRow).Selected = True
-                DgvTipoCuentasBancarias.CurrentCell = DgvTipoCuentasBancarias.Rows(vRow).Cells(0)
-            ElseIf vCampo = 1 Then
-                DgvTipoCuentasBancarias.Rows(vRow).Selected = True
-                DgvTipoCuentasBancarias.CurrentCell = DgvTipoCuentasBancarias.Rows(vRow).Cells(0)
-            ElseIf vCampo = 2 Then
-                DgvTipoCuentasBancarias.Rows(vRow).Selected = True
-                DgvTipoCuentasBancarias.CurrentCell = DgvTipoCuentasBancarias.Rows(vRow).Cells(1)
-            End If
-        End If
+        ' Llamamos al motor pasándole True para que respete el estado inicial del formulario de búsqueda
+        EjecutarBusquedaTipos(forzarDesdeInicio:=True)
     End Sub
 
+    ' BOTÓN SEGUIR BUSCANDO: No abre ventana, busca directamente la siguiente coincidencia
     Private Sub BtnSeguirBuscando_Click(sender As Object, e As EventArgs) Handles BtnSeguirBuscando.Click
-        SeguirF3()
+        ' Llamamos al motor pasándole False para obligarle a saltar a la siguiente fila
+        EjecutarBusquedaTipos(forzarDesdeInicio:=False)
     End Sub
 
-    Private Sub ApuntesContables_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+    ' DETECTAR TECLA F3 EN EL FORMULARIO
+    Private Sub frmTipoCuentaBancaria_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If BtnSeguirBuscando.Enabled = True Then
             If e.KeyCode = Keys.F3 Then
-                SeguirF3()
+                EjecutarBusquedaTipos(forzarDesdeInicio:=False)
             End If
         End If
     End Sub
 
-    Private Sub SeguirF3()
-        vCantidadFilas = DgvTipoCuentasBancarias.RowCount
-        If vRow + 1 = vCantidadFilas Then
-            MsgBox("No hay más Registros que Coincidencian con los datos Introducidos")
+    Private Sub EjecutarBusquedaTipos(ByVal forzarDesdeInicio As Boolean)
+        ' Protegemos el código capturando el texto de búsqueda de forma segura
+        vBuscar = If(frmBuscar.CmbTextoBuscar.Text, "").ToLower().Trim()
+        vCampo = frmBuscar.CmbCampos.SelectedIndex
+        Dim buscarExacto As Boolean = frmBuscar.ChkExacta.Checked
+        Dim desdePrimerRegistro As Boolean = frmBuscar.ChkPrimerRegistro.Checked
+
+        ' Si no hay nada que buscar, cancelamos
+        If String.IsNullOrEmpty(vBuscar) Then Exit Sub
+
+        ' Determinamos el punto de inicio real en la tabla
+        Dim filaInicio As Integer = 0
+
+        ' Si se pulsa "Seguir Buscando" O si el usuario NO marcó empezar desde el primer registro
+        If (Not forzarDesdeInicio OrElse Not desdePrimerRegistro) AndAlso DgvTipoCuentasBancarias.CurrentRow IsNot Nothing Then
+            filaInicio = DgvTipoCuentasBancarias.CurrentRow.Index + 1
+        End If
+
+        ' Si al intentar avanzar nos salimos del límite del Grid, avisamos y salimos
+        If filaInicio >= DgvTipoCuentasBancarias.Rows.Count Then
+            MsgBox("No hay más registros que coincidan con los datos introducidos.", MsgBoxStyle.Information, Me.Text)
             BtnSeguirBuscando.Enabled = False
-        Else
-            vContador = -1
-            For Each row As DataGridViewRow In DgvTipoCuentasBancarias.Rows
-                vContador += 1
-                If vContador > vRow Then
-                    If vCampo = 0 Then
-                        If frmBuscar.ChkExacta.Checked = False Then
-                            If CStr(row.Cells(0).Value).ToLower.Contains(vBuscar.ToLower) Or CStr(row.Cells(1).Value).ToLower.Contains(vBuscar.ToLower) Then
-                                row.Selected = True
-                                vRowSeguir = row.Index
-                                Exit For
-                            Else
-                                vRowSeguir = -1
-                            End If
-                        Else
-                            If CStr(row.Cells(0).Value).ToLower = vBuscar.ToLower Or CStr(row.Cells(1).Value).ToLower = vBuscar.ToLower Then
-                                row.Selected = True
-                                vRowSeguir = row.Index
-                                Exit For
-                            Else
-                                vRowSeguir = -1
-                            End If
-                        End If
-                    ElseIf vCampo = 1 Then
-                        If frmBuscar.ChkExacta.Checked = False Then
-                            If CStr(row.Cells(0).Value).ToLower.Contains(vBuscar.ToLower) Then
-                                row.Selected = True
-                                vRowSeguir = row.Index
-                                Exit For
-                            Else
-                                vRowSeguir = -1
-                            End If
-                        Else
-                            If CStr(row.Cells(0).Value).ToLower = vBuscar.ToLower Then
-                                row.Selected = True
-                                vRowSeguir = row.Index
-                                Exit For
-                            Else
-                                vRowSeguir = -1
-                            End If
-                        End If
-                    ElseIf vCampo = 2 Then
-                        If frmBuscar.ChkExacta.Checked = False Then
-                            If CStr(row.Cells(1).Value).ToLower.Contains(vBuscar.ToLower) Then
-                                row.Selected = True
-                                vRowSeguir = row.Index
-                                Exit For
-                            Else
-                                vRowSeguir = -1
-                            End If
-                        Else
-                            If CStr(row.Cells(1).Value).ToLower = vBuscar.ToLower Then
-                                row.Selected = True
-                                vRowSeguir = row.Index
-                                Exit For
-                            Else
-                                vRowSeguir = -1
-                            End If
-                        End If
-                    End If
+            Exit Sub
+        End If
+
+        ' Mapeamos los índices de las columnas para Tipo de Cuentas (0 = Nombre/Código, 1 = Descripción)
+        Dim columnasEvaluar As Integer()
+        Select Case vCampo
+            Case 0 : columnasEvaluar = {0, 1} ' Ambos campos
+            Case 1 : columnasEvaluar = {0}    ' Solo el Nombre/Código del Tipo
+            Case 2 : columnasEvaluar = {1}    ' Solo la Descripción del Tipo
+            Case Else : columnasEvaluar = {}
+        End Select
+
+        vRow = -1
+
+        ' Bucle de búsqueda en el DataGridView de tipos de cuentas
+        For i As Integer = filaInicio To DgvTipoCuentasBancarias.Rows.Count - 1
+            Dim row As DataGridViewRow = DgvTipoCuentasBancarias.Rows(i)
+
+            ' Evitamos evaluar la fila nueva vacía automática del final
+            If row.IsNewRow Then Continue For
+
+            Dim coincide As Boolean = False
+
+            For Each colIdx As Integer In columnasEvaluar
+                ' Protección contra celdas vacías (Nothing)
+                Dim valorCelda As String = ""
+                If row.Cells(colIdx).Value IsNot Nothing Then
+                    valorCelda = row.Cells(colIdx).Value.ToString().ToLower().Trim()
                 End If
+
+                ' Evaluamos según el checkbox de coincidencia exacta
+                If buscarExacto Then
+                    coincide = (valorCelda = vBuscar)
+                Else
+                    coincide = valorCelda.Contains(vBuscar)
+                End If
+
+                If coincide Then Exit For
             Next
-            If vRowSeguir = -1 Then
-                MsgBox("No hay más Registros que Coincidencian con los datos Introducidos")
-                BtnSeguirBuscando.Enabled = False
-            Else
-                vRow = vRowSeguir
-                If vCampo = 0 Then
-                    DgvTipoCuentasBancarias.Rows(vRow).Selected = True
-                    DgvTipoCuentasBancarias.CurrentCell = DgvTipoCuentasBancarias.Rows(vRow).Cells(0)
-                ElseIf vCampo = 1 Then
-                    DgvTipoCuentasBancarias.Rows(vRow).Selected = True
-                    DgvTipoCuentasBancarias.CurrentCell = DgvTipoCuentasBancarias.Rows(vRow).Cells(0)
-                ElseIf vCampo = 2 Then
-                    DgvTipoCuentasBancarias.Rows(vRow).Selected = True
-                    DgvTipoCuentasBancarias.CurrentCell = DgvTipoCuentasBancarias.Rows(vRow).Cells(1)
-                    vRowSeguir = 0
-                End If
+
+            ' Si encontramos la coincidencia, movemos el foco visual de la pantalla
+            If coincide Then
+                DgvTipoCuentasBancarias.ClearSelection()
+                row.Selected = True
+
+                Try
+                    ' Selecciona la celda del campo por el que buscó para forzar el scroll visual
+                    DgvTipoCuentasBancarias.CurrentCell = row.Cells(columnasEvaluar(0))
+                Catch
+                    DgvTipoCuentasBancarias.CurrentCell = row.Cells(0)
+                End Try
+
+                ' Sincronizamos el scroll automático
+                DgvTipoCuentasBancarias.FirstDisplayedScrollingRowIndex = row.Index
+
+                vRow = row.Index
+                Exit For
             End If
-        End If
-    End Sub
+        Next
 
-    Private Sub BtnImprimir_Click(sender As Object, e As EventArgs) Handles BtnImprimir.Click
-
-        vtipoSql = "SELECT * FROM tipocuentas"
-        vtipoSql += " ORDER BY tipocuentas.CodigoTIP ASC"
-
-        LlenarGrid(vtipoSql, "PRINT_TIPO_CUENTAS", 1)
-        frmImprimirForm.LblFecha.Text = Date.Today.ToLongDateString
-
-        PrintLine = 0
-        Contador = 0
-        frmImprimirForm.LblNumeroPagina.Text = "0"
-
-        'Para ver la plantilla de impresión
-        'frmImprimirForm.Show()
-
-        If My.Settings.Previsualizar = True Then
-            'Te deja ver un preview del reporte antes de imprimir
-            PrintPreviewDialog1.Document = PrintDocument1
-            PrintPreviewDialog1.WindowState = FormWindowState.Maximized
-            PrintPreviewDialog1.ShowDialog()
-        End If
-
-        If My.Settings.ElegirImpresora = True Then
-            'Te deja elegir la impresora
-            PrintDialog1.Document = PrintDocument1
-            PrintDialog1.PrinterSettings = PrintDocument1.PrinterSettings
-            PrintDialog1.AllowSomePages = True
-            If PrintDialog1.ShowDialog = DialogResult.OK Then
-                PrintDocument1.PrinterSettings = PrintDialog1.PrinterSettings
-                PrintDocument1.Print()
-            End If
-        End If
-
-        If My.Settings.DirectoImpresora = True Then
-            'Imprime en la impresora por defecto
-            PrintDocument1.Print()
+        ' Avisar al usuario si no encontró absolutamente nada en todo el recorrido
+        If vRow = -1 Then
+            MsgBox("No hay ninguna coincidencia con los datos introducidos.", MsgBoxStyle.Information, Me.Text)
+            BtnSeguirBuscando.Enabled = False
         End If
     End Sub
 
@@ -439,28 +302,70 @@ Public Class TipoCuentaBancaria
     End Sub
 
     Private Sub BtnEliminarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEliminarRegistro.Click
-        MsgBox("No se pueden Eliminar Tipos de Cuentas Bancarias")
+        ' 1. Verificar si hay alguna fila seleccionada en el Grid
+        If frmTipoCuentaBancaria.DgvTipoCuentasBancarias.CurrentRow Is Nothing Then
+            MsgBox("Por favor, seleccione un tipo de cuenta de la lista.", vbExclamation, "Atención")
+            Exit Sub
+        End If
 
-        ' DEJO EL TEXTO POR SI SE TIENE QUE USAR ALGUNA VEZ, FALTARIA EL VOLVER A LLENAR EL GRID ACTUALIZADO
-        '***************************************************************************************************
-        'filaActual = frmTipoCuentaBancaria.DgvTipoCuentasBancarias.CurrentRow.Index
-        'vTxtNombre = frmTipoCuentaBancaria.DgvTipoCuentasBancarias.Rows(filaActual).Cells(0).Value.ToString
+        ' 2. Obtener el nombre/código del tipo de cuenta de la celda (0)
+        Dim filaActual As Integer = frmTipoCuentaBancaria.DgvTipoCuentasBancarias.CurrentRow.Index
+        Dim vTxtNombre As String = frmTipoCuentaBancaria.DgvTipoCuentasBancarias.Rows(filaActual).Cells(0).Value.ToString()
 
-        'respuesta = MsgBox("¿Estas seguro de Eliminar el Tipo Cuenta Bancaria '" & vTxtNombre & "' ", vbQuestion & vbYesNo & vbDefaultButton2, "Eliminar Tipo Cuenta Bancaria")
-        'If respuesta = vbYes Then
-        '    ' Eliminar Registro Tipo Cuentas
-        '    vtipoSql = "DELETE FROM tipocuentas"
-        '    vtipoSql += " WHERE tipocuentas.CodigoTIP = '" & vTxtNombre & "' "
-        '    cmdMdb1cr.CommandText = vtipoSql
+        ' 3. VALIDACIÓN: Comprobar si este Tipo de Cuenta está en uso en la tabla 'cuentas'
+        Dim vSqlVerificar As String = "SELECT COUNT(*) FROM cuentas WHERE TipoCUE = '" & vTxtNombre & "'"
 
-        '    Try
-        '        cmdMdb1cr.ExecuteNonQuery()
-        '        MsgBox("Registro Tipo Cuenta Bancaria, Borrada !!!")
-        '    Catch ex As Exception
-        '        MsgBox(ex.ToString)
-        '    End Try
-        'End If
+        ' Reutilizamos tu comando por defecto asignándole la consulta de verificación
+        cmdMdb1cr.CommandText = vSqlVerificar
+        Dim cuentasAsociadas As Integer
 
+        Try
+            ' Ejecutamos el conteo sobre tu comando de siempre
+            cuentasAsociadas = Convert.ToInt32(cmdMdb1cr.ExecuteScalar())
+        Catch ex As Exception
+            MsgBox("Error al verificar la integridad de los datos: " & ex.Message, vbCritical, "Error")
+            Exit Sub
+        End Try
+
+        ' 4. Bloquear el borrado si está asignado a alguna cuenta
+        If cuentasAsociadas > 0 Then
+            MsgBox("No se puede eliminar el tipo '" & vTxtNombre & "' porque está asignado a " & cuentasAsociadas & " cuenta(s) bancaria(s).", vbExclamation, "Acción Cancelada")
+            Exit Sub
+        End If
+
+        ' 5. Confirmación de borrado seguro
+        If MsgBox("¿Está seguro de eliminar el Tipo de Cuenta Bancaria '" & vTxtNombre & "'?", vbQuestion + vbYesNo + vbDefaultButton2, "Confirmar Borrado") = vbYes Then
+            ' Limpiamos cualquier rastro de la consulta anterior en el comando
+            cmdMdb1cr.Parameters.Clear()
+
+            ' Asignamos la nueva sentencia de borrado
+            Dim vtipoSql As String = "DELETE FROM tipocuentas WHERE CodigoTIP = '" & vTxtNombre & "'"
+            cmdMdb1cr.CommandText = vtipoSql
+            MsgBox(vtipoSql) ' Solo para depuración, puedes eliminar esta línea después de verificar que la consulta es correcta)
+            Try
+                ' Ejecutamos el borrado físico
+                Dim filasAfectadas As Integer = cmdMdb1cr.ExecuteNonQuery()
+
+                ' Validamos si realmente la base de datos eliminó algo
+                If filasAfectadas > 0 Then
+                    MsgBox("¡El registro ha sido borrado correctamente!", vbInformation, "Registro Eliminado")
+                Else
+                    MsgBox("El registro no se pudo borrar. Verifique si el nombre '" & vTxtNombre & "' coincide exactamente en la base de datos.", vbExclamation, "Atención")
+                End If
+
+                ' 6. Recarga automática del Grid con tu método exacto
+                '*****************************************************
+                vtipoSql = "SELECT tipocuentas.CodigoTIP, tipocuentas.DescripcionTIP FROM tipocuentas"
+                vtipoSql += " ORDER BY tipocuentas.CodigoTIP ASC"
+                vtipoGrid = "TIPO_CUENTAS_BANCARIAS"
+                LlenarGrid(vtipoSql, vtipoGrid, "1")
+
+            Catch ex As Exception
+                MsgBox("Error al intentar eliminar el registro: " & ex.Message, vbCritical, "Error")
+            End Try
+        Else
+            MsgBox("Eliminación cancelada. El tipo de cuenta '" & vTxtNombre & "' no ha sido eliminado.", vbInformation, "Acción Cancelada")
+        End If
     End Sub
 
     Private Sub BtnAñadirRegistro_Click(sender As Object, e As EventArgs) Handles BtnAñadirRegistro.Click
@@ -522,4 +427,38 @@ Public Class TipoCuentaBancaria
             DgvTipoCuentasBancarias.CurrentCell = DgvTipoCuentasBancarias.Rows(vFila).Cells(0)
         End If
     End Sub
+
+    Private Sub VerificarFiltrosDesactivados(sender As Object, e As MouseEventArgs)
+        ' Diccionario con tus botones deshabilitados y sus ToolTips correspondientes
+        Dim botonesBloqueados As New Dictionary(Of Button, ToolTip) From {
+            {Me.BtnEliminarRegistro, TL(2)},
+            {Me.BtnSeguirBuscando, TL(4)}
+        }
+
+        For Each par In botonesBloqueados
+            Dim boton As Button = par.Key
+            Dim tool As ToolTip = par.Value
+
+            If Not boton.Enabled Then
+                ' Traducimos la posición del ratón al contenedor nativo del botón (su GroupBox)
+                Dim posRatonRelativaAlBoton As Point = boton.Parent.PointToClient(Cursor.Position)
+
+                ' Si el ratón está sobre el botón desactivado
+                If boton.Bounds.Contains(posRatonRelativaAlBoton) Then
+                    ' Calculamos la posición respecto al formulario para dibujar el cartelito en el lugar correcto
+                    Dim posRatonRelativaAlForm As Point = Me.PointToClient(Cursor.Position)
+                    'tool.Show(resManager.GetString("ToolTipEliminar"), Me, posRatonRelativaAlForm.X + 15, posRatonRelativaAlForm.Y + 15)
+                    ' Cargamos dinámicamente su texto correspondiente desde tu recurso
+                    Dim textoKey As String = If(boton Is Me.BtnSeguirBuscando, "ToolTipSeguirBuscando", "ToolTipEliminar")
+                    tool.Show(resManager.GetString(textoKey), Me, posRatonRelativaAlForm.X + 15, posRatonRelativaAlForm.Y + 15)
+                    Exit Sub
+                End If
+            End If
+        Next
+
+        ' Si el ratón no está sobre ningún botón bloqueado, ocultamos los tres
+        TL(2).Hide(Me)
+        TL(4).Hide(Me)
+    End Sub
+
 End Class
