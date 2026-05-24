@@ -1,5 +1,4 @@
-﻿Imports System.Collections.Generic
-Imports System.Data
+﻿Imports System.Data
 Imports System.Data.OleDb
 Imports System.Diagnostics
 Imports System.Drawing
@@ -64,7 +63,7 @@ Public Class Principal
         Next
         ' 4. Refresca la barra de inmediato para aplicar los cambios visuales
         BarraDeHerramientas.Refresh()
-        Dim textoLimpio As String = My.Resources.ResourceManager.GetString("LblAvisoActivacion.Text")
+        Dim textoLimpio As String = rmse.GetString("LblAvisoActivacion")
 
         If Not String.IsNullOrEmpty(textoLimpio) Then
             LblNotificacion.Text = textoLimpio
@@ -235,7 +234,7 @@ Public Class Principal
                 End While
                 'MsgBox("Ya Existe registro del " & vAñoActual.ToString)
             Else
-                MsgBox(resManager.GetString("NoExistenRegistros") & " " & vAñoActual.ToString & ", " & resManager.GetString("SeCrearaEjercicio"))
+                MsgBox(resManager.GetString("NoExistenRegistros") & " " & vAñoActual.ToString & ", " & rmse.GetString("SeCrearaEjercicio"))
                 drMdb1.Close()
                 tipoSql = "INSERT INTO ejercicios "
                 tipoSql += "(EjercicioEJE) "
@@ -244,7 +243,7 @@ Public Class Principal
                 Try
                     cmdMdb1cr.ExecuteNonQuery()
                     vAñoEjercicio = vAñoActual
-                    MsgBox(resManager.GetString("Exercici") & " " & vAñoActual.ToString & " " & resManager.GetString("CreadoCorrectamente"))
+                    MsgBox(resManager.GetString("Exercici") & " " & vAñoActual.ToString & " " & rmse.GetString("CreadoCorrectamente"))
                 Catch ex As Exception
                     MsgBox(resManager.GetString("ErrorAlCrearEjercicio") & " " & vAñoActual.ToString)
                     MsgBox(ex.ToString)
@@ -269,7 +268,7 @@ Public Class Principal
         Me.BarraDeEstado.SuspendLayout()
 
         ' Mostramos el mensaje de "En Espera..." en la barra de estado mientras se carga todo
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
 
         ' Alineamos a la derecha el día y la hora, y mostramos el día actual
         TsLabelDia.Alignment = ToolStripItemAlignment.Right
@@ -358,7 +357,7 @@ Public Class Principal
                             cmdMdb1cr.CommandText = vtipoSql
                             Try
                                 cmdMdb1cr.ExecuteNonQuery()
-                                MsgBox(resManager.GetString("RegistroApuntePeriódicoBorrado"))
+                                MsgBox(frmEditarApuntesPeriodicos.rmse.GetString("RegistroApuntePeriódicoBorrado"))
                             Catch ex As Exception
                                 MsgBox("Error al eliminar el Apunte Periódico con fecha: " & vDate1 & " y concepto: " & vConcepto & " del Ejercicio " & vAñoEjercicio.ToString & vbCrLf & ex.ToString)
                             End Try
@@ -390,7 +389,7 @@ Public Class Principal
     End Sub
 
     Private Sub VerApuntesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles VerApuntesToolStripMenuItem.Click
-        TsLabelFormulario.Text = resManager.GetString("VerApuntes")
+        TsLabelFormulario.Text = rmse.GetString("VerApuntesToolStripMenuItem.Text")
         ' Comprobamos si existe un identificador asociado.
         If ((frmApuntesContables Is Nothing) OrElse (Not frmApuntesContables.IsHandleCreated)) Then
             frmApuntesContables = New ApuntesContables
@@ -400,7 +399,7 @@ Public Class Principal
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
         frmApuntesContables.Dispose()
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
         Return
     End Sub
 
@@ -409,7 +408,7 @@ Public Class Principal
     End Sub
 
     Private Sub IntroducirApuntesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles IntroducirApuntesToolStripMenuItem.Click
-        TsLabelFormulario.Text = resManager.GetString("IntroducirApuntes")
+        TsLabelFormulario.Text = rmse.GetString("IntroducirApuntesToolStripMenuItem.Text")
         ' Comprobamos si existe un identificador asociado.
         If ((frmIntroApuntes Is Nothing) OrElse (Not frmIntroApuntes.IsHandleCreated)) Then
             frmIntroApuntes = New IntroApuntes
@@ -419,7 +418,7 @@ Public Class Principal
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
         frmIntroApuntes.Dispose()
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
         Return
     End Sub
 
@@ -428,7 +427,7 @@ Public Class Principal
     End Sub
 
     Private Sub IntroducirTraspasosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles IntroducirTraspasosToolStripMenuItem.Click
-        TsLabelFormulario.Text = resManager.GetString("TraspasoCuentas")
+        TsLabelFormulario.Text = rmse.GetString("IntroducirTraspasosToolStripMenuItem.Text")
         ' Comprobamos si existe un identificador asociado.
         If ((frmTraspasoCuentas Is Nothing) OrElse (Not frmTraspasoCuentas.IsHandleCreated)) Then
             frmTraspasoCuentas = New TraspasoCuentas
@@ -438,7 +437,7 @@ Public Class Principal
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
         frmTraspasoCuentas.Dispose()
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub BtnApuntesPeriodicos_Click(sender As Object, e As EventArgs) Handles BtnApuntesPeriodicos.Click
@@ -446,7 +445,7 @@ Public Class Principal
     End Sub
 
     Private Sub ApuntesPeriodicosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ApuntesPeriodicosToolStripMenuItem.Click
-        TsLabelFormulario.Text = resManager.GetString("ApuntesPeriodicos")
+        TsLabelFormulario.Text = rmse.GetString("ApuntesPeriodicosToolStripMenuItem.Text")
         ' Comprobamos si existe un identificador asociado.
         If ((frmApuntesPeriodicos Is Nothing) OrElse (Not frmApuntesPeriodicos.IsHandleCreated)) Then
             frmApuntesPeriodicos = New ApuntesPeriodicos
@@ -456,9 +455,7 @@ Public Class Principal
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
         frmApuntesPeriodicos.Dispose()
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
-
-        Return
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub BtnConceptos_Click(sender As Object, e As EventArgs) Handles BtnConceptos.Click
@@ -466,7 +463,7 @@ Public Class Principal
     End Sub
 
     Private Sub ConceptosContablesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ConceptosContablesToolStripMenuItem.Click
-        TsLabelFormulario.Text = "Conceptos Contables"
+        TsLabelFormulario.Text = rmse.GetString("ConceptosContablesToolStripMenuItem.Text")
         ' Comprobamos si existe un identificador asociado.
         If ((frmConceptosContables Is Nothing) OrElse (Not frmConceptosContables.IsHandleCreated)) Then
             frmConceptosContables = New ConceptosContables
@@ -476,7 +473,7 @@ Public Class Principal
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
         frmConceptosContables.Dispose()
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub BtnCuentasBancarias_Click(sender As Object, e As EventArgs) Handles BtnCuentasBancarias.Click
@@ -484,7 +481,7 @@ Public Class Principal
     End Sub
 
     Private Sub CuentasToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CuentasToolStripMenuItem.Click
-        TsLabelFormulario.Text = "Cuentas Bancarias"
+        TsLabelFormulario.Text = rmse.GetString("CuentasToolStripMenuItem.Text")
         ' Comprobamos si existe un identificador asociado.
         If ((frmCuentasBancarias Is Nothing) OrElse (Not frmCuentasBancarias.IsHandleCreated)) Then
             frmCuentasBancarias = New CuentasBancarias
@@ -494,7 +491,7 @@ Public Class Principal
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
         frmCuentasBancarias.Dispose()
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub BtnTipoCuentas_Click(sender As Object, e As EventArgs) Handles BtnTipoCuentas.Click
@@ -502,7 +499,7 @@ Public Class Principal
     End Sub
 
     Private Sub TiposDeCuentasToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TiposDeCuentasToolStripMenuItem.Click
-        TsLabelFormulario.Text = "Tipo Cuentas Bancarias"
+        TsLabelFormulario.Text = rmse.GetString("TiposDeCuentasToolStripMenuItem.Text")
         ' Comprobamos si existe un identificador asociado.
         If ((frmTipoCuentaBancaria Is Nothing) OrElse (Not frmTipoCuentaBancaria.IsHandleCreated)) Then
             frmTipoCuentaBancaria = New TipoCuentaBancaria
@@ -512,11 +509,15 @@ Public Class Principal
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
         frmTipoCuentaBancaria.Dispose()
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+    End Sub
+
+    Private Sub BtnPresupuestos_Click(sender As Object, e As EventArgs) Handles BtnPresupuestos.Click
+        IntroducirDaToolStripMenuItem.PerformClick()
     End Sub
 
     Private Sub IntroducirDaToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles IntroducirDaToolStripMenuItem.Click
-        TsLabelFormulario.Text = "Introducción de Presupuestos"
+        TsLabelFormulario.Text = rmse.GetString("IntroducirDaToolStripMenuItem.Text")
         ' Comprobamos si existe un identificador asociado.
         If ((frmIntroPresupuestos Is Nothing) OrElse (Not frmIntroPresupuestos.IsHandleCreated)) Then
             frmIntroPresupuestos = New IntroPresupuestos
@@ -524,21 +525,7 @@ Public Class Principal
         ' Llamamos al formulario de manera NO modal.
         frmIntroPresupuestos.ShowDialog()
         'MessageBox.Show("Se ha cerrado el formulario.")
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
-    End Sub
-
-    Private Sub BtnPresupuestos_Click(sender As Object, e As EventArgs) Handles BtnPresupuestos.Click
-        TsLabelFormulario.Text = "Introducción de Presupuestos"
-        ' Comprobamos si existe un identificador asociado.
-        If ((frmIntroPresupuestos Is Nothing) OrElse (Not frmIntroPresupuestos.IsHandleCreated)) Then
-            frmIntroPresupuestos = New IntroPresupuestos
-        End If
-        ' Llamamos al formulario de manera modal.
-        frmIntroPresupuestos.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
-        frmIntroPresupuestos.Dispose()
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub BtnDesviacionPresupuestos_Click(sender As Object, e As EventArgs) Handles BtnDesviacionPresupuestos.Click
@@ -546,7 +533,7 @@ Public Class Principal
     End Sub
 
     Private Sub VerDesviaciónPresupuestosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles VerDesviaciónPresupuestosToolStripMenuItem.Click
-        TsLabelFormulario.Text = "Desviación de Presupuestos"
+        TsLabelFormulario.Text = rmse.GetString("VerDesviaciónPresupuestosToolStripMenuItem.Text")
         ' Comprobamos si existe un identificador asociado.
         If ((frmPresupuestos Is Nothing) OrElse (Not frmPresupuestos.IsHandleCreated)) Then
             frmPresupuestos = New Presupuestos
@@ -556,7 +543,7 @@ Public Class Principal
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
         frmPresupuestos.Dispose()
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub OrdenadoPorFechasToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OrdenadoPorFechasToolStripMenuItem.Click
@@ -573,7 +560,7 @@ Public Class Principal
         ' Destruimos el formulario.
         frmSeleccionFechas.Dispose()
         vOrdenadoPorFechasAPU = 0
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub OrdenadoPorConceptosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OrdenadoPorConceptosToolStripMenuItem.Click
@@ -590,7 +577,7 @@ Public Class Principal
         ' Destruimos el formulario.
         frmSeleccionFechas.Dispose()
         vOrdenadoPorConceptosAPU = 0
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub OrdenadoporImportesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OrdenadoporImportesToolStripMenuItem.Click
@@ -607,7 +594,7 @@ Public Class Principal
         ' Destruimos el formulario.
         frmSeleccionFechas.Dispose()
         vOrdenadoPorImportesAPU = 0
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub SoloIngresosOrdenadoPorFechasToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SoloIngresosOrdenadoPorFechasToolStripMenuItem.Click
@@ -626,7 +613,7 @@ Public Class Principal
         frmSeleccionFechas.Dispose()
         vSoloIngresosAPU = 0
         vOrdenadoPorFechasAPU = 0
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub SoloIngresosOrdenadoPorConceptosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SoloIngresosOrdenadoPorConceptosToolStripMenuItem.Click
@@ -645,7 +632,7 @@ Public Class Principal
         frmSeleccionFechas.Dispose()
         vSoloIngresosAPU = 0
         vOrdenadoPorConceptosAPU = 0
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub SoloIngresosOrdenadoPorImportesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SoloIngresosOrdenadoPorImportesToolStripMenuItem.Click
@@ -664,7 +651,7 @@ Public Class Principal
         frmSeleccionFechas.Dispose()
         vSoloIngresosAPU = 0
         vOrdenadoPorImportesAPU = 0
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub SoloGastosOrdenadoPorFechasToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SoloGastosOrdenadoPorFechasToolStripMenuItem.Click
@@ -683,7 +670,7 @@ Public Class Principal
         frmSeleccionFechas.Dispose()
         vSoloIngresosAPU = 0
         vOrdenadoPorFechasAPU = 0
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub SoloGastosOrdenadoPorConceptosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SoloGastosOrdenadoPorConceptosToolStripMenuItem.Click
@@ -702,7 +689,7 @@ Public Class Principal
         frmSeleccionFechas.Dispose()
         vSoloIngresosAPU = 0
         vOrdenadoPorConceptosAPU = 0
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub SoloGastosOrdenadoPorImportesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SoloGastosOrdenadoPorImportesToolStripMenuItem.Click
@@ -721,7 +708,7 @@ Public Class Principal
         frmSeleccionFechas.Dispose()
         vSoloIngresosAPU = 0
         vOrdenadoPorImportesAPU = 0
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub OrdenadoPorFechasToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles OrdenadoPorFechasToolStripMenuItem1.Click
@@ -738,7 +725,7 @@ Public Class Principal
         ' Destruimos el formulario.
         frmSeleccionFechas.Dispose()
         vOrdenadoPorFechasAPP = 0
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub OrdenadoPorConceptosToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles OrdenadoPorConceptosToolStripMenuItem1.Click
@@ -755,7 +742,7 @@ Public Class Principal
         ' Destruimos el formulario.
         frmSeleccionFechas.Dispose()
         vOrdenadoPorConceptosAPP = 0
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub OrdenadoPorImportesToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles OrdenadoPorImportesToolStripMenuItem2.Click
@@ -772,7 +759,7 @@ Public Class Principal
         ' Destruimos el formulario.
         frmSeleccionFechas.Dispose()
         vOrdenadoPorImportesAPP = 0
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub GráficosDeIngresosPorConceptoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GráficosDeIngresosPorConceptoToolStripMenuItem.Click
@@ -786,7 +773,7 @@ Public Class Principal
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
         frmSeleccionarDatosIngresos.Dispose()
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub GráficosDeGastosPorConceptoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GráficosDeGastosPorConceptoToolStripMenuItem.Click
@@ -800,7 +787,7 @@ Public Class Principal
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
         frmSeleccionarDatosGastos.Dispose()
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub SoloIngresosOrdenadoPorFechasToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SoloIngresosOrdenadoPorFechasToolStripMenuItem1.Click
@@ -819,7 +806,7 @@ Public Class Principal
         frmSeleccionFechas.Dispose()
         vSoloIngresosAPP = 0
         vOrdenadoPorFechasAPP = 0
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub BtnCompactarBaseDatos_Click(sender As Object, e As EventArgs) Handles BtnCompactarBaseDatos.Click
@@ -868,7 +855,7 @@ Public Class Principal
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
         frmActivarSoftware.Dispose()
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
         If vActivado Then
             LblNotificacion.Visible = False
         End If
@@ -891,7 +878,7 @@ Public Class Principal
         frmSeleccionFechas.Dispose()
         vSoloIngresosAPP = 0
         vOrdenadoPorConceptosAPP = 0
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub SoloIngresosOrdenadoPorImportesToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SoloIngresosOrdenadoPorImportesToolStripMenuItem1.Click
@@ -910,7 +897,7 @@ Public Class Principal
         frmSeleccionFechas.Dispose()
         vSoloIngresosAPP = 0
         vOrdenadoPorImportesAPP = 0
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub SoloGastosOrdenadoPorFechasToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SoloGastosOrdenadoPorFechasToolStripMenuItem1.Click
@@ -929,7 +916,7 @@ Public Class Principal
         frmSeleccionFechas.Dispose()
         vSoloIngresosAPP = 0
         vOrdenadoPorFechasAPP = 0
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub SoloGastosOrdenadoPorConceptosToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SoloGastosOrdenadoPorConceptosToolStripMenuItem1.Click
@@ -948,7 +935,7 @@ Public Class Principal
         frmSeleccionFechas.Dispose()
         vSoloIngresosAPP = 0
         vOrdenadoPorConceptosAPP = 0
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub SoloGastosOrdenadoPorImportesToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SoloGastosOrdenadoPorImportesToolStripMenuItem1.Click
@@ -967,7 +954,7 @@ Public Class Principal
         frmSeleccionFechas.Dispose()
         vSoloIngresosAPP = 0
         vOrdenadoPorImportesAPP = 0
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub BtnImportarContaHogar_Click(sender As Object, e As EventArgs) Handles BtnImportarContaHogar.Click
@@ -999,7 +986,7 @@ Public Class Principal
         Else
             If MsgBox("¿Desea continuar sin realizar una copia de seguridad? Se recomienda realizarla para evitar pérdidas de datos. Esta acción no se puede deshacer.", vbExclamation + vbYesNo + vbDefaultButton2, "Advertencia") = vbNo Then
                 TsLabelFormulario.ForeColor = Color.Black
-                Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+                Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
                 Exit Sub
             End If
         End If
@@ -1374,7 +1361,7 @@ Public Class Principal
             End Try
         End Using
         TsLabelFormulario.ForeColor = Color.Black
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub BtnCambiarEjercicioActivo_Click(sender As Object, e As EventArgs) Handles BtnCambiarEjercicioActivo.Click
@@ -1382,7 +1369,7 @@ Public Class Principal
     End Sub
 
     Private Sub CambiarEjercicioActivoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CambiarEjercicioActivoToolStripMenuItem.Click
-        TsLabelFormulario.Text = "Selección de Ejercicio"
+        TsLabelFormulario.Text = rmse.GetString("CambiarEjercicioActivoToolStripMenuItem.Text")
         ' Comprobamos si existe un identificador asociado.
         If ((frmSeleccionEjercicio Is Nothing) OrElse (Not frmSeleccionEjercicio.IsHandleCreated)) Then
             frmSeleccionEjercicio = New SeleccionEjercicio
@@ -1392,7 +1379,7 @@ Public Class Principal
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
         frmSeleccionEjercicio.Dispose()
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub BtnAcercade_Click(sender As Object, e As EventArgs) Handles BtnAcercade.Click
@@ -1400,7 +1387,7 @@ Public Class Principal
     End Sub
 
     Private Sub AcercaDeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AcercaDeToolStripMenuItem.Click
-        TsLabelFormulario.Text = "Acerca de ContaHogar 3.0"
+        TsLabelFormulario.Text = rmse.GetString("AcercaDeToolStripMenuItem.ToolTipText")
         ' Comprobamos si existe un identificador asociado.
         If ((frmAcercaDe Is Nothing) OrElse (Not frmAcercaDe.IsHandleCreated)) Then
             frmAcercaDe = New AcercaDe
@@ -1410,7 +1397,7 @@ Public Class Principal
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
         frmAcercaDe.Dispose()
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub BtnPreferencias_Click(sender As Object, e As EventArgs) Handles BtnPreferencias.Click
@@ -1418,7 +1405,7 @@ Public Class Principal
     End Sub
 
     Private Sub PreferenciasToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PreferenciasToolStripMenuItem.Click
-        TsLabelFormulario.Text = "Preferencias"
+        TsLabelFormulario.Text = rmse.GetString("PreferenciasToolStripMenuItem.Text")
         ' Comprobamos si existe un identificador asociado.
         If ((frmPreferencias Is Nothing) OrElse (Not frmPreferencias.IsHandleCreated)) Then
             frmPreferencias = New Preferencias
@@ -1428,7 +1415,7 @@ Public Class Principal
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
         frmPreferencias.Dispose()
-        Me.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
         If My.Settings.Codigo = "Codigo Activación: Sin Activar" Then
             Me.LblNotificacion.Visible = True
         Else

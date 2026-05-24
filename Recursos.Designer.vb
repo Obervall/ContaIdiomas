@@ -181,42 +181,6 @@ Friend Class Recursos
     End Property
     
     '''<summary>
-    '''  Busca una cadena traducida similar a ¿Estás seguro de Eliminar el Concepto Contable.
-    '''</summary>
-    Friend Shared ReadOnly Property EliminarConcepto() As String
-        Get
-            Return ResourceManager.GetString("EliminarConcepto", resourceCulture)
-        End Get
-    End Property
-    
-    '''<summary>
-    '''  Busca una cadena traducida similar a y todos sus Apuntes de Todos los Ejercicios?..
-    '''</summary>
-    Friend Shared ReadOnly Property EliminarConcepto2() As String
-        Get
-            Return ResourceManager.GetString("EliminarConcepto2", resourceCulture)
-        End Get
-    End Property
-    
-    '''<summary>
-    '''  Busca una cadena traducida similar a Registro Concepto Contable, Borrado !!.
-    '''</summary>
-    Friend Shared ReadOnly Property EliminarConcepto3() As String
-        Get
-            Return ResourceManager.GetString("EliminarConcepto3", resourceCulture)
-        End Get
-    End Property
-    
-    '''<summary>
-    '''  Busca una cadena traducida similar a Error al Eliminar el Registro del Concepto Contable.
-    '''</summary>
-    Friend Shared ReadOnly Property EliminarConcepto4() As String
-        Get
-            Return ResourceManager.GetString("EliminarConcepto4", resourceCulture)
-        End Get
-    End Property
-    
-    '''<summary>
     '''  Busca una cadena traducida similar a Presupuestos, Borrados !!.
     '''</summary>
     Friend Shared ReadOnly Property EliminarPresupuestos() As String
@@ -512,15 +476,6 @@ Friend Class Recursos
     Friend Shared ReadOnly Property PLAN_PENSIONES() As String
         Get
             Return ResourceManager.GetString("PLAN PENSIONES", resourceCulture)
-        End Get
-    End Property
-    
-    '''<summary>
-    '''  Busca una cadena traducida similar a Registro Apunte Periódico, Borrado !!!.
-    '''</summary>
-    Friend Shared ReadOnly Property RegistroApuntePeriódicoBorrado() As String
-        Get
-            Return ResourceManager.GetString("RegistroApuntePeriódicoBorrado", resourceCulture)
         End Get
     End Property
     

@@ -189,4 +189,13 @@
   <data name="ListadoCuentasBancarias" xml:space="preserve">
     <value>Liste der Bankkonten</value>
   </data>
+  <data name="ToolTipTipoCuenta" xml:space="preserve">
+    <value>Kontotyp auswählen</value>
+  </data>
+  <data name="ToolTipIBAN" xml:space="preserve">
+    <value>Geben Sie Kontonummer oder IBAN ein</value>
+  </data>
+  <data name="ToolTipNombre" xml:space="preserve">
+    <value>Kontoname eingeben</value>
+  </data>
 </root>

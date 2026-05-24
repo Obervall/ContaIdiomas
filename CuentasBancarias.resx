@@ -1741,4 +1741,13 @@
   <data name="ListadoCuentasBancarias" xml:space="preserve">
     <value>Listado de Cuentas Bancarias</value>
   </data>
+  <data name="ToolTipTipoCuenta" xml:space="preserve">
+    <value>Seleccionar el Tipo de Cuenta</value>
+  </data>
+  <data name="ToolTipIBAN" xml:space="preserve">
+    <value>Introducir Número de Cuenta o IBAN</value>
+  </data>
+  <data name="ToolTipNombre" xml:space="preserve">
+    <value>Introducir Nombre de la Cuenta</value>
+  </data>
 </root>

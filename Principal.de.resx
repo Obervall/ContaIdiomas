@@ -284,7 +284,7 @@
     <value>250, 26</value>
   </data>
   <data name="ConceptosContablesToolStripMenuItem.Text" xml:space="preserve">
-    <value>Buchhaltungskonzepte...</value>
+    <value>Buchhaltungskonzepte</value>
   </data>
   <data name="ConceptosContablesToolStripMenuItem.ToolTipText" xml:space="preserve">
     <value>Buchhaltungskonzepte hinzufügen, bearbeiten, löschen oder einsehen</value>
@@ -302,9 +302,6 @@
   </data>
   <data name="CuentasToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>250, 26</value>
-  </data>
-  <data name="CuentasToolStripMenuItem.Text" xml:space="preserve">
-    <value>Konten...</value>
   </data>
   <data name="CuentasToolStripMenuItem.ToolTipText" xml:space="preserve">
     <value>Hinzufügen, Bearbeiten, Löschen oder Bankkonten</value>
@@ -7789,5 +7786,23 @@
   </data>
   <data name="LblNotificacion.Text" xml:space="preserve">
     <value>"Software im Demo-Modus. Bitte aktivieren Sie die App, um diese Warnung zu entfernen."</value>
+  </data>
+  <data name="LblAvisoActivacion" xml:space="preserve">
+    <value>"Software im Demomodus. Bitte aktivieren Sie die Software, um diese Warnung zu entfernen.“</value>
+  </data>
+  <data name="SeCrearaEjercicio" xml:space="preserve">
+    <value>wird die Übung erstellt</value>
+  </data>
+  <data name="CreadoCorrectamente" xml:space="preserve">
+    <value>Korrekt erstellt</value>
+  </data>
+  <data name="TraspasoCuentas" xml:space="preserve">
+    <value>Übertragung zwischen Konten</value>
+  </data>
+  <data name="MsgEspera" xml:space="preserve">
+    <value>Warten...</value>
+  </data>
+  <data name="CuentasToolStripMenuItem.Text" xml:space="preserve">
+    <value>Bankkonten</value>
   </data>
 </root>

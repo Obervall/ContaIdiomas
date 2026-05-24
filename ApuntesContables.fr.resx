@@ -174,4 +174,59 @@
   <data name="Label6.Text" xml:space="preserve">
     <value>Jusqu'à:</value>
   </data>
+  <data name="EliminarApuntes" xml:space="preserve">
+    <value>Notes, suppressions !!</value>
+  </data>
+  <data name="EliminarApuntesError" xml:space="preserve">
+    <value>Erreur lors de la suppression des entrées liées au concept comptable</value>
+  </data>
+  <data name="ToolTipLabelApuntes" xml:space="preserve">
+    <value>Avec la touche Suppr : supprimer les lignes sélectionnées
+Avec F5 : Filtrer par Description
+Avec F6 : Actualiser les notes du gril et supprimer les filtres</value>
+  </data>
+  <data name="ToolTipListBox" xml:space="preserve">
+    <value>Avec la touche Échap : Fermer la liste</value>
+  </data>
+  <data name="ToolTipChekedList" xml:space="preserve">
+    <value>Ouvrir la liste des concepts pour une sélection multiple</value>
+  </data>
+  <data name="ToolTipFechas" xml:space="preserve">
+    <value>Activer ou désactiver l'accès aux dates antérieures à l'exercice en cours</value>
+  </data>
+  <data name="ToolTipExcel" xml:space="preserve">
+    <value>Exporter des notes vers Excel</value>
+  </data>
+  <data name="ToolTipAumentar" xml:space="preserve">
+    <value>Augmenter la taille de la police</value>
+  </data>
+  <data name="ToolTipNormal" xml:space="preserve">
+    <value>Restaurer la taille de la police</value>
+  </data>
+  <data name="ToolTipF5" xml:space="preserve">
+    <value>Filtrer par description</value>
+  </data>
+  <data name="ToolTipF6" xml:space="preserve">
+    <value>Actualiser les notes du gril et supprimer les filtres</value>
+  </data>
+  <data name="ToolTipTraspasar" xml:space="preserve">
+    <value>Transfert d'un compte à un autre</value>
+  </data>
+  <data name="MsgText3" xml:space="preserve">
+    <value>Divers concepts sélectionnés</value>
+  </data>
+  <data name="MsgText4" xml:space="preserve">
+    <value>DIVERS CONCEPTS</value>
+  </data>
+  <data name="MsgText2" xml:space="preserve">
+    <value>Introduction des notes</value>
+  </data>
+  <data name="MsgText1" xml:space="preserve">
+    <value>Avis de filtre</value>
+  </data>
+  <data name="MsgAviso1" xml:space="preserve">
+    <value>Il existe divers concepts sélectionnés.
+Filtrez d'abord par comptes et dates,
+puis par Divers Concepts</value>
+  </data>
 </root>

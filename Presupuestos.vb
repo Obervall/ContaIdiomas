@@ -10,6 +10,8 @@ Public Class Presupuestos
     Public vTmpprint As String
     Public vSaldoAnualPresupuesto, vImporteConcepto, vImporteConcepto2, vExistenteImporteConcepto, vNewImporteConcepto As Double
     Public PrintLine, Contador As Integer
+    Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
+
 
     Private Sub Presupuestos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ActualizarTextosFormulario(Me)

@@ -168,4 +168,7 @@
   <data name="EliminarConcepto4" xml:space="preserve">
     <value>Fehler beim Löschen des Buchhaltungsposten-Datensatzes</value>
   </data>
+  <data name="ToolTipDescripcion" xml:space="preserve">
+    <value>Beschreibung des Konzepts</value>
+  </data>
 </root>

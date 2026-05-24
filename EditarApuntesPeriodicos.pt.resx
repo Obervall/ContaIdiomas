@@ -156,4 +156,7 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Editar notas periódicas</value>
   </data>
+  <data name="RegistroApuntePeriódicoBorrado" xml:space="preserve">
+    <value>Registro de Nota Periódica, Excluído!!!</value>
+  </data>
 </root>

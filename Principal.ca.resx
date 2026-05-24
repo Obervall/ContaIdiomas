@@ -239,7 +239,7 @@
     <value>258, 26</value>
   </data>
   <data name="ConceptosContablesToolStripMenuItem.Text" xml:space="preserve">
-    <value>Conceptes Comptables ...</value>
+    <value>Conceptes Comptables</value>
   </data>
   <data name="ConceptosContablesToolStripMenuItem.ToolTipText" xml:space="preserve">
     <value>Afegeix, Edita, Borra o Consulta Conceptes Comptables</value>
@@ -257,9 +257,6 @@
   </data>
   <data name="CuentasToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>258, 26</value>
-  </data>
-  <data name="CuentasToolStripMenuItem.Text" xml:space="preserve">
-    <value>Comptes ...</value>
   </data>
   <data name="CuentasToolStripMenuItem.ToolTipText" xml:space="preserve">
     <value>Afegeix, Edita, Borra o Comptes Bancaris</value>
@@ -7786,5 +7783,23 @@
   </data>
   <data name="LblNotificacion.Text" xml:space="preserve">
     <value>"Software en Mode Demo. Si us plau, activi l'aplicació per treure aquesta advertència."</value>
+  </data>
+  <data name="LblAvisoActivacion" xml:space="preserve">
+    <value>"Software en mode demo. Per favor activi el programari per treure aquesta advertència."</value>
+  </data>
+  <data name="SeCrearaEjercicio" xml:space="preserve">
+    <value>es crearà exercici</value>
+  </data>
+  <data name="CreadoCorrectamente" xml:space="preserve">
+    <value>creat correctament</value>
+  </data>
+  <data name="TraspasoCuentas" xml:space="preserve">
+    <value>Traspàs entre Comptes</value>
+  </data>
+  <data name="MsgEspera" xml:space="preserve">
+    <value>A Espera ...</value>
+  </data>
+  <data name="CuentasToolStripMenuItem.Text" xml:space="preserve">
+    <value>Comptes Bancaris</value>
   </data>
 </root>

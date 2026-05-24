@@ -120,9 +120,6 @@
   <data name="Exercici" xml:space="preserve">
     <value>Ano Fiscal</value>
   </data>
-  <data name="RegistroApuntePeriódicoBorrado" xml:space="preserve">
-    <value>Registro de Nota Periódica, Excluído!!!</value>
-  </data>
   <data name="TitolApp" xml:space="preserve">
     <value>As minhas Contas com a ContaHogar 3.0</value>
   </data>
@@ -143,9 +140,6 @@
   </data>
   <data name="ToolTipEliminar" xml:space="preserve">
     <value>Excluir registro</value>
-  </data>
-  <data name="ToolTipTraspasar" xml:space="preserve">
-    <value>Transferir de uma conta para outra</value>
   </data>
   <data name="ToolTipBuscar" xml:space="preserve">
     <value>Pesquisar registro</value>
@@ -181,54 +175,8 @@
     <value>Excluir linhas selecionadas da grade
 Eles não são removidos do banco de dados</value>
   </data>
-  <data name="ToolTipChekedList" xml:space="preserve">
-    <value>Abrir lista de conceitos para seleção múltipla</value>
-  </data>
-  <data name="ToolTipLabelApuntes" xml:space="preserve">
-    <value>Com a tecla Delete: exclui as linhas selecionadas
-Com F5: Filtrar por Descrição
-Com F6: atualize as notas da grelha e remova os filtros</value>
-  </data>
-  <data name="ToolTipListBox" xml:space="preserve">
-    <value>Com a tecla Esc: Fechar lista</value>
-  </data>
-  <data name="ToolTipFechas" xml:space="preserve">
-    <value>Ativar ou desativar o acesso a datas anteriores ao ano fiscal atual</value>
-  </data>
-  <data name="ToolTipF5" xml:space="preserve">
-    <value>Filtrar por descrição</value>
-  </data>
-  <data name="ToolTipF6" xml:space="preserve">
-    <value>Atualizar notas da grelha e remover filtros</value>
-  </data>
-  <data name="ToolTipExcel" xml:space="preserve">
-    <value>Exportar notas para Excel</value>
-  </data>
-  <data name="ToolTipAumentar" xml:space="preserve">
-    <value>Aumentar o tamanho da fonte</value>
-  </data>
-  <data name="ToolTipNormal" xml:space="preserve">
-    <value>Restaurar tamanho da fonte</value>
-  </data>
   <data name="MsgErrorFecha" xml:space="preserve">
     <value>Formato de data inválido</value>
-  </data>
-  <data name="MsgAviso1" xml:space="preserve">
-    <value>Existem vários conceitos selecionados.
-Filtre primeiro por contas e datas,
-então por vários conceitos</value>
-  </data>
-  <data name="MsgText1" xml:space="preserve">
-    <value>Aviso de filtro</value>
-  </data>
-  <data name="MsgSaldos1" xml:space="preserve">
-    <value>Os saldos iniciais NÃO PODEM SER EXCLUÍDOS</value>
-  </data>
-  <data name="MsgEspera" xml:space="preserve">
-    <value>Esperando...</value>
-  </data>
-  <data name="MsgSaldos2" xml:space="preserve">
-    <value>Os saldos iniciais NÃO PODEM ser editados</value>
   </data>
   <data name="MsgDatos1" xml:space="preserve">
     <value>Não há correspondência com os dados inseridos</value>
@@ -242,26 +190,8 @@ então por vários conceitos</value>
   <data name="MsgFila2" xml:space="preserve">
     <value>Última linha selecionada</value>
   </data>
-  <data name="MsgText2" xml:space="preserve">
-    <value>Introdução de Notas</value>
-  </data>
-  <data name="MsgText3" xml:space="preserve">
-    <value>Vários conceitos selecionados</value>
-  </data>
-  <data name="MsgText4" xml:space="preserve">
-    <value>VÁRIOS CONCEITOS</value>
-  </data>
-  <data name="LblAvisoActivacion" xml:space="preserve">
-    <value>"Demo de Software en Modo. Por favor, active el software para quitar esta advertência."</value>
-  </data>
-  <data name="SeCrearaEjercicio" xml:space="preserve">
-    <value>exercício será criado</value>
-  </data>
   <data name="NoExistenRegistros" xml:space="preserve">
     <value>Não há registros do</value>
-  </data>
-  <data name="CreadoCorrectamente" xml:space="preserve">
-    <value>Criado corretamente</value>
   </data>
   <data name="ErrorAlCrearEjercicio" xml:space="preserve">
     <value>Exercício de criação de erros</value>
@@ -278,27 +208,12 @@ então por vários conceitos</value>
   <data name="ErrorAlEliminarSaldo" xml:space="preserve">
     <value>Erro ao excluir registros de SALDO do Ano Fiscal</value>
   </data>
-  <data name="VerApuntes" xml:space="preserve">
-    <value>Ver Notas</value>
-  </data>
-  <data name="IntroducirApuntes" xml:space="preserve">
-    <value>Introdução de Notas</value>
-  </data>
-  <data name="TraspasoCuentas" xml:space="preserve">
-    <value>Transferência entre Contas</value>
-  </data>
-  <data name="ApuntesPeriodicos" xml:space="preserve">
-    <value>Notas periódicas</value>
-  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="Filtrado" xml:space="preserve">
     <value>(Filtrado)</value>
   </data>
   <data name="SinFiltrar" xml:space="preserve">
     <value>(Sem filtro)</value>
-  </data>
-  <data name="TodosLosCampos" xml:space="preserve">
-    <value>Todos os campos</value>
   </data>
   <data name="CON" xml:space="preserve">
     <value>COM</value>
@@ -330,14 +245,8 @@ então por vários conceitos</value>
   <data name="Tipo_Especial" xml:space="preserve">
     <value>ESPECIAL</value>
   </data>
-  <data name="Concepto_No_Editable" xml:space="preserve">
-    <value>Esse conceito não é editável, ele pertence ao sistema</value>
-  </data>
   <data name="Tipo_Traspaso" xml:space="preserve">
     <value>TRANSFERÊNCIA</value>
-  </data>
-  <data name="Concepto_Contable" xml:space="preserve">
-    <value>Conceito de Contabilidade</value>
   </data>
   <data name="Todos_Los_Campos" xml:space="preserve">
     <value>Todos os campos</value>
@@ -348,32 +257,8 @@ então por vários conceitos</value>
   <data name="ToolTipCancelar" xml:space="preserve">
     <value>Cancelar</value>
   </data>
-  <data name="ToolTipTipoConcepto" xml:space="preserve">
-    <value>Selecione o Tipo de Conceito</value>
-  </data>
-  <data name="ToolTipDescripcion" xml:space="preserve">
-    <value>Descrição do Conceito</value>
-  </data>
   <data name="ErrorModificarRegistro" xml:space="preserve">
     <value>Erro na modificação do registro</value>
-  </data>
-  <data name="EliminarApuntes" xml:space="preserve">
-    <value>Notas, deleções!!</value>
-  </data>
-  <data name="EliminarApuntesError" xml:space="preserve">
-    <value>Erro na exclusão de entradas relacionadas ao conceito contábil</value>
-  </data>
-  <data name="EliminarApuntesPeriodicos" xml:space="preserve">
-    <value>Notas periódicas, apagadas!!</value>
-  </data>
-  <data name="EliminarApuntesPeriodicosError" xml:space="preserve">
-    <value>Erro na exclusão de entradas periódicas relacionadas ao item contábil</value>
-  </data>
-  <data name="EliminarPresupuestos" xml:space="preserve">
-    <value>Orçamentos, Exclusões!!</value>
-  </data>
-  <data name="EliminarPresupuestosError" xml:space="preserve">
-    <value>Erro na exclusão de orçamentos relacionados ao item contábil</value>
   </data>
   <data name="Nombre" xml:space="preserve">
     <value>Nome</value>
@@ -386,15 +271,6 @@ então por vários conceitos</value>
   </data>
   <data name="ErrorAlEjecutar" xml:space="preserve">
     <value>Execução de Erros</value>
-  </data>
-  <data name="ToolTipTipoCuenta" xml:space="preserve">
-    <value>Selecionar Tipo de Conta</value>
-  </data>
-  <data name="ToolTipIBAN" xml:space="preserve">
-    <value>Insira Número da Conta ou IBAN</value>
-  </data>
-  <data name="ToolTipNombre" xml:space="preserve">
-    <value>Insira o Nome da Conta</value>
   </data>
   <data name="CAJA EFECTIVO" xml:space="preserve">
     <value>CAIXA DE DINHEIRO</value>
@@ -410,8 +286,5 @@ então por vários conceitos</value>
   </data>
   <data name="FinalTabla" xml:space="preserve">
     <value>Chegou ao fundo da tabela</value>
-  </data>
-  <data name="YaExisteEnCuentasBancarias" xml:space="preserve">
-    <value>já existe nas contas bancárias</value>
   </data>
 </root>

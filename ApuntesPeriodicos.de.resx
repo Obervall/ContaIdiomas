@@ -177,4 +177,16 @@
   <data name="LblApuntes.Text" xml:space="preserve">
     <value>REGELMÄSSIGE ANMERKUNGEN</value>
   </data>
+  <data name="EliminarApuntesPeriodicos" xml:space="preserve">
+    <value>Periodische Notizen, gelöscht!!</value>
+  </data>
+  <data name="EliminarApuntesPeriodicosError" xml:space="preserve">
+    <value>Fehler beim Löschen periodischer Einträge im Zusammenhang mit dem Buchhaltungsposten</value>
+  </data>
+  <data name="MsgSaldos1" xml:space="preserve">
+    <value>Anfangsguthaben können nicht gelöscht werden</value>
+  </data>
+  <data name="MsgSaldos2" xml:space="preserve">
+    <value>Anfangssalden können NICHT bearbeitet werden</value>
+  </data>
 </root>

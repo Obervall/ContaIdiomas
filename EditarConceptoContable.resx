@@ -588,4 +588,7 @@
   <data name="EliminarConcepto4" xml:space="preserve">
     <value>Error al Eliminar el Registro del Concepto Contable</value>
   </data>
+  <data name="ToolTipDescripcion" xml:space="preserve">
+    <value>Descripción del Concepto</value>
+  </data>
 </root>

@@ -168,4 +168,7 @@
   <data name="EliminarConcepto4" xml:space="preserve">
     <value>Erro na exclusão do registro do item contábil</value>
   </data>
+  <data name="ToolTipDescripcion" xml:space="preserve">
+    <value>Descrição do Conceito</value>
+  </data>
 </root>

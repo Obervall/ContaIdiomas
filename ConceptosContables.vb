@@ -331,7 +331,7 @@ Public Class ConceptosContables
         'Imprimimos el encabezado o titulo de la lista de materias por encima de los puntos definidos
         '********************************************************************************************
         e.Graphics.DrawString(resManager.GetString("Tipo") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
-        e.Graphics.DrawString(resManager.GetString("Concepto_Contable") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto2.Left, frmImprimirForm.Punto2.Top - 30)
+        e.Graphics.DrawString(frmConceptosContables.rmse.GetString("Concepto_Contable") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto2.Left, frmImprimirForm.Punto2.Top - 30)
         e.Graphics.DrawString(resManager.GetString("Descripcion") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
         'e.Graphics.DrawString(resManager.GetString("Notas") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto5.Left, frmImprimirForm.Punto1.Top - 30)
 
@@ -444,7 +444,7 @@ Public Class ConceptosContables
         vTxtNombre = frmConceptosContables.DgvConceptos.Rows(filaActual).Cells(1).Value.ToString
 
         If CmbTipoConcepto.Text = resManager.GetString("Tipo_Especial") Or vTxtNombre = resManager.GetString("Tipo_Traspaso") Then
-            MsgBox(resManager.GetString("Concepto_No_Editable"), vbCritical)
+            MsgBox(frmConceptosContables.rmse.GetString("Concepto_No_Editable"), vbCritical)
         Else
             ' Comprobamos si existe un identificador asociado.
             If ((frmEditarConceptoContable Is Nothing) OrElse (Not frmEditarConceptoContable.IsHandleCreated)) Then

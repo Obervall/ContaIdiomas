@@ -177,4 +177,16 @@
   <data name="LblApuntes.Text" xml:space="preserve">
     <value>APUNTS PERIODICS</value>
   </data>
+  <data name="EliminarApuntesPeriodicos" xml:space="preserve">
+    <value>Apunts Periòdics, Esborrats !!</value>
+  </data>
+  <data name="EliminarApuntesPeriodicosError" xml:space="preserve">
+    <value>Error a l'Eliminar els Apunts Periòdics relacionats amb el Concepte Comptable</value>
+  </data>
+  <data name="MsgSaldos1" xml:space="preserve">
+    <value>Els Saldos inicials, NO es poden Esborrar</value>
+  </data>
+  <data name="MsgSaldos2" xml:space="preserve">
+    <value>Els Saldos inicials, NO es poden Editar</value>
+  </data>
 </root>

@@ -174,4 +174,59 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Apunts Comptables</value>
   </data>
+  <data name="EliminarApuntes" xml:space="preserve">
+    <value>Apunts, Esborrats !!</value>
+  </data>
+  <data name="EliminarApuntesError" xml:space="preserve">
+    <value>Error en Eliminar els Apunts relacionats amb el Concepte Comptable</value>
+  </data>
+  <data name="ToolTipLabelApuntes" xml:space="preserve">
+    <value>Amb Tecla Suprimir: Elimina files seleccionades
+Amb F5: Filtra per Descripció
+Amb F6: Refresca la Parrilla Apunts i Quita Filtres</value>
+  </data>
+  <data name="ToolTipListBox" xml:space="preserve">
+    <value>Amb Tecla Esc: Tancar Llistat</value>
+  </data>
+  <data name="ToolTipChekedList" xml:space="preserve">
+    <value>Obrir llistat de Conceptes per a múltiple selecció</value>
+  </data>
+  <data name="ToolTipFechas" xml:space="preserve">
+    <value>Activar o Desactivar Accés a Dates anteriors a l'Exercici Actual</value>
+  </data>
+  <data name="ToolTipExcel" xml:space="preserve">
+    <value>Exportar Apunts a Excel</value>
+  </data>
+  <data name="ToolTipAumentar" xml:space="preserve">
+    <value>Augmentar mida de font</value>
+  </data>
+  <data name="ToolTipNormal" xml:space="preserve">
+    <value>Restaurar mida de font</value>
+  </data>
+  <data name="ToolTipF5" xml:space="preserve">
+    <value>Filtra per Descripció</value>
+  </data>
+  <data name="ToolTipF6" xml:space="preserve">
+    <value>Refrescar la Parrilla Apunts i Treure Filtres</value>
+  </data>
+  <data name="ToolTipTraspasar" xml:space="preserve">
+    <value>Traspassar d'un Compte a Una altra</value>
+  </data>
+  <data name="MsgText3" xml:space="preserve">
+    <value>Diversos Conceptes Seleccionats</value>
+  </data>
+  <data name="MsgText4" xml:space="preserve">
+    <value>DIVERSOS CONCEPTES</value>
+  </data>
+  <data name="MsgText2" xml:space="preserve">
+    <value>Introducció d'Apunts</value>
+  </data>
+  <data name="MsgText1" xml:space="preserve">
+    <value>Avís de Filtres</value>
+  </data>
+  <data name="MsgAviso1" xml:space="preserve">
+    <value>Hi ha Conceptes Diversos, Seleccionats.
+Filtrar Primer per Comptes i Dates,
+després per Conceptes Diversos</value>
+  </data>
 </root>

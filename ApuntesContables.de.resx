@@ -174,4 +174,59 @@
   <data name="Label6.Text" xml:space="preserve">
     <value>Bis:</value>
   </data>
+  <data name="EliminarApuntes" xml:space="preserve">
+    <value>Anmerkungen, Löschungen!!</value>
+  </data>
+  <data name="EliminarApuntesError" xml:space="preserve">
+    <value>Fehler beim Löschen von Einträgen im Zusammenhang mit dem Buchhaltungskonzept</value>
+  </data>
+  <data name="ToolTipLabelApuntes" xml:space="preserve">
+    <value>Mit Entf-Taste: Ausgewählte Zeilen löschen
+Mit F5: Nach Beschreibung filtern
+Mit F6: Grillnotizen aktualisieren und Filter entfernen</value>
+  </data>
+  <data name="ToolTipListBox" xml:space="preserve">
+    <value>Mit Esc-Taste: Liste schließen</value>
+  </data>
+  <data name="ToolTipChekedList" xml:space="preserve">
+    <value>Liste der Konzepte zur Mehrfachauswahl öffnen</value>
+  </data>
+  <data name="ToolTipFechas" xml:space="preserve">
+    <value>Aktivieren oder deaktivieren Sie den Zugriff auf Daten vor dem aktuellen Geschäftsjahr</value>
+  </data>
+  <data name="ToolTipExcel" xml:space="preserve">
+    <value>Notizen nach Excel exportieren</value>
+  </data>
+  <data name="ToolTipAumentar" xml:space="preserve">
+    <value>Schriftgröße erhöhen</value>
+  </data>
+  <data name="ToolTipNormal" xml:space="preserve">
+    <value>Schriftgröße wiederherstellen</value>
+  </data>
+  <data name="ToolTipF5" xml:space="preserve">
+    <value>Nach Beschreibung filtern</value>
+  </data>
+  <data name="ToolTipF6" xml:space="preserve">
+    <value>Grillnotizen aktualisieren und Filter entfernen</value>
+  </data>
+  <data name="ToolTipTraspasar" xml:space="preserve">
+    <value>Von einem Konto auf ein anderes übertragen</value>
+  </data>
+  <data name="MsgText3" xml:space="preserve">
+    <value>Verschiedene ausgewählte Konzepte</value>
+  </data>
+  <data name="MsgText4" xml:space="preserve">
+    <value>VERSCHIEDENE KONZEPTE</value>
+  </data>
+  <data name="MsgText2" xml:space="preserve">
+    <value>Einführung von Notizen</value>
+  </data>
+  <data name="MsgText1" xml:space="preserve">
+    <value>Filterhinweis</value>
+  </data>
+  <data name="MsgAviso1" xml:space="preserve">
+    <value>Es gibt verschiedene, ausgewählte Konzepte.
+Filtern Sie zuerst nach Konten und Daten.
+dann von Different Concepts</value>
+  </data>
 </root>

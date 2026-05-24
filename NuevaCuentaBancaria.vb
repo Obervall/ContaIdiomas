@@ -16,9 +16,9 @@ Public Class NuevaCuentaBancaria
         TL(1) = New ToolTip
         TL(1).SetToolTip(Me.BtnCancelar, resManager.GetString("ToolTipCancelar"))
         TL(2) = New ToolTip
-        TL(2).SetToolTip(Me.CmbTipoCuenta, resManager.GetString("ToolTipTipoCuenta"))
+        TL(2).SetToolTip(Me.CmbTipoCuenta, frmCuentasBancarias.rmse.GetString("ToolTipTipoCuenta"))
         TL(3) = New ToolTip
-        TL(3).SetToolTip(Me.TxtNumero, resManager.GetString("ToolTipIBAN"))
+        TL(3).SetToolTip(Me.TxtNumero, frmCuentasBancarias.rmse.GetString("ToolTipIBAN"))
         TL(4) = New ToolTip
         TL(4).SetToolTip(Me.TxtNombre, resManager.GetString("ToolTipNombre"))
 
@@ -95,7 +95,6 @@ Public Class NuevaCuentaBancaria
             drMdb1 = cmdMdb1cr.ExecuteReader()
             If drMdb1.HasRows Then
                 drMdb1.Close()
-                'MsgBox(resManager.GetString("Nombre") & ": " & vTxtNombre & ", " & resManager.GetString("YaExisteEnCuentasBancarias"), vbOKOnly, resManager.GetString(rmse.GetString("$this.Text")))
                 TxtNombre.Select()
             Else
                 drMdb1.Close()

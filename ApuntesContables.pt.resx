@@ -174,4 +174,59 @@
   <data name="Label6.Text" xml:space="preserve">
     <value>Até:</value>
   </data>
+  <data name="EliminarApuntes" xml:space="preserve">
+    <value>Notas, deleções!!</value>
+  </data>
+  <data name="EliminarApuntesError" xml:space="preserve">
+    <value>Erro na exclusão de entradas relacionadas ao conceito contábil</value>
+  </data>
+  <data name="ToolTipLabelApuntes" xml:space="preserve">
+    <value>Com a tecla Delete: exclui as linhas selecionadas
+Com F5: Filtrar por Descrição
+Com F6: atualize as notas da grelha e remova os filtros</value>
+  </data>
+  <data name="ToolTipListBox" xml:space="preserve">
+    <value>Com a tecla Esc: Fechar lista</value>
+  </data>
+  <data name="ToolTipChekedList" xml:space="preserve">
+    <value>Abrir lista de conceitos para seleção múltipla</value>
+  </data>
+  <data name="ToolTipFechas" xml:space="preserve">
+    <value>Ativar ou desativar o acesso a datas anteriores ao ano fiscal atual</value>
+  </data>
+  <data name="ToolTipExcel" xml:space="preserve">
+    <value>Exportar notas para Excel</value>
+  </data>
+  <data name="ToolTipAumentar" xml:space="preserve">
+    <value>Aumentar o tamanho da fonte</value>
+  </data>
+  <data name="ToolTipNormal" xml:space="preserve">
+    <value>Restaurar tamanho da fonte</value>
+  </data>
+  <data name="ToolTipF5" xml:space="preserve">
+    <value>Filtrar por descrição</value>
+  </data>
+  <data name="ToolTipF6" xml:space="preserve">
+    <value>Atualizar notas da grelha e remover filtros</value>
+  </data>
+  <data name="ToolTipTraspasar" xml:space="preserve">
+    <value>Transferir de uma conta para outra</value>
+  </data>
+  <data name="MsgText3" xml:space="preserve">
+    <value>Vários conceitos selecionados</value>
+  </data>
+  <data name="MsgText4" xml:space="preserve">
+    <value>VÁRIOS CONCEITOS</value>
+  </data>
+  <data name="MsgText2" xml:space="preserve">
+    <value>Introdução de Notas</value>
+  </data>
+  <data name="MsgText1" xml:space="preserve">
+    <value>Aviso de filtro</value>
+  </data>
+  <data name="MsgAviso1" xml:space="preserve">
+    <value>Existem vários conceitos selecionados.
+Filtre primeiro por contas e datas,
+então por vários conceitos</value>
+  </data>
 </root>

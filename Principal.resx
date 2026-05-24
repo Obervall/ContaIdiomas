@@ -139,84 +139,8 @@
   <data name="MantenimientosToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Mantenimientos</value>
   </data>
-  <data name="VerApuntesToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
-        cQAAEnEB89x6jgAAAIJJREFUOE+dkAEOgCAMA3n6nsbPMCCFpoMhNjYBpbdKSvcq3b9USn0CQPTxHC4e
-        gP23MB16Q1B/35Z+yAyjAQ5qGOIhDlLXOWc95AD8u66BejVZ78Q1gHegsIGZNe9E0KFtAzUB1mEILVZN
-        FNAgp8lhA56s4iawAgbk0lNWb/7CnH0AOp2OwsRhaU0AAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="VerApuntesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>224, 26</value>
-  </data>
-  <data name="VerApuntesToolStripMenuItem.Text" xml:space="preserve">
-    <value>Ver Apuntes</value>
-  </data>
-  <data name="VerApuntesToolStripMenuItem.ToolTipText" xml:space="preserve">
-    <value>Añade, Edita, Borra o Consulta Apuntes</value>
-  </data>
-  <data name="IntroducirApuntesToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
-        cQAAEnEB89x6jgAAAHJJREFUOE/NklEOwCAIQz06R/NmLJrgulpG5teaNGiAF6K0tsuFP8l7725mMwpY
-        CubkgqgoASMZZljiuxmNIGUJCDGs8A6o9DvAgnBdKgWYBy7AOyryuAtMLE1bWv8778CIjwm46M0xQTQf
-        AbD56A2w+QJU8Ovj09On8AAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="IntroducirApuntesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>224, 26</value>
-  </data>
-  <data name="IntroducirApuntesToolStripMenuItem.Text" xml:space="preserve">
-    <value>Introducir Apuntes</value>
-  </data>
-  <data name="IntroducirApuntesToolStripMenuItem.ToolTipText" xml:space="preserve">
-    <value>Introducir varios Apuntes Contables seguidos</value>
-  </data>
-  <data name="IntroducirTraspasosToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
-        cQAAEnEB89x6jgAAAMBJREFUWEftjkEKxDAMA/P/V+VnuwTWYIaoOHLZUwRGKJTpjHFzg8w5P+vGGK9d
-        MH/c52SB1SudbgkQ5nRLgDB2RbIlQBi7KmkLEBbv6tT3toCCVfdKS2AHO9mZYwkoWHWHlC2wgz3tXbcE
-        FEztXbcECIt3dep7W4AwNn/KvdISIIxNSe7MsQQUrLpDyhbYwU525lgCClbdIWULEBbv6tT3tgBhbPXT
-        3C0BwtgnkpYAYU63BAhzuiXw1h0J3Nz8O1+DKEa3nNAkNgAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="IntroducirTraspasosToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>224, 26</value>
-  </data>
-  <data name="IntroducirTraspasosToolStripMenuItem.Text" xml:space="preserve">
-    <value>Introducir Traspasos</value>
-  </data>
-  <data name="IntroducirTraspasosToolStripMenuItem.ToolTipText" xml:space="preserve">
-    <value>Introducir Traspasos entre Cuentas</value>
-  </data>
-  <data name="ToolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>221, 6</value>
-  </data>
-  <data name="ApuntesPeriodicosToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
-        cQAAEnEB89x6jgAAAWNJREFUWEe9lAuOwyAMRHN0jpabsTLg4Iw/NSGbkdxpgHieqdTj8FWN+kz1KEXX
-        RxA6+GMIHcpV64cAFFan2nN8A9HesvT0fnhbZ1znzCNxM1lqf95Pd+PcI/VGevqrZCj6LsQMHOGtrVi3
-        QqXvANwn5u8SYHzHUPSnEP61A4wV+sbPMEMkiAwfYFYo+iqEnnS04rbyZjDM8ixAO1jKUc/zvENYlQxf
-        gWjhXBeEU1ZI5BkA0hWOvhLKQ+B6BuJ2A9I7gG4qfQbb+xkAkguBTTnMm9jyDMTVMAon4cR4DvfJMwAk
-        1Qwn39nPQJhN5ES/9vlZ7j+CsF5Gt2DQEU5AuDDmS+y85+3jOVyX7gGQ1MtWKD/Ldeuc5VE4KTUBwsjz
-        EcSvcFbYhD07MXn0u1tqh7PNI18NlhoQpf0xWc0j3wmWko1uZYW2z5eCpdotzKAe0m/l/Yk9teYMQo43
-        gi/8lzB0K/gPqH7+7tui1CsAAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="ApuntesPeriodicosToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>224, 26</value>
-  </data>
-  <data name="ApuntesPeriodicosToolStripMenuItem.Text" xml:space="preserve">
-    <value>Apuntes Periódicos</value>
-  </data>
-  <data name="ApuntesPeriodicosToolStripMenuItem.ToolTipText" xml:space="preserve">
-    <value>Añade, Edita, Borra o Consulta Apuntes Periódicos</value>
-  </data>
   <data name="ApuntesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>77, 24</value>
+    <value>77, 27</value>
   </data>
   <data name="ApuntesToolStripMenuItem.Text" xml:space="preserve">
     <value>Apuntes</value>
@@ -400,7 +324,7 @@
     <value>245, 26</value>
   </data>
   <data name="ConceptosContablesToolStripMenuItem.Text" xml:space="preserve">
-    <value>Conceptos Contables ...</value>
+    <value>Conceptos Contables</value>
   </data>
   <data name="ConceptosContablesToolStripMenuItem.ToolTipText" xml:space="preserve">
     <value>Añade, Edita, Borra o Consulta Conceptos Contables</value>
@@ -420,7 +344,7 @@
     <value>245, 26</value>
   </data>
   <data name="CuentasToolStripMenuItem.Text" xml:space="preserve">
-    <value>Cuentas ...</value>
+    <value>Cuentas</value>
   </data>
   <data name="CuentasToolStripMenuItem.ToolTipText" xml:space="preserve">
     <value>Añade, Edita, Borra o Cuentas Bancarias</value>
@@ -437,6 +361,82 @@
   </data>
   <data name="TiposDeCuentasToolStripMenuItem.Text" xml:space="preserve">
     <value>Tipos de Cuentas</value>
+  </data>
+  <data name="VerApuntesToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
+        cQAAEnEB89x6jgAAAIJJREFUOE+dkAEOgCAMA3n6nsbPMCCFpoMhNjYBpbdKSvcq3b9USn0CQPTxHC4e
+        gP23MB16Q1B/35Z+yAyjAQ5qGOIhDlLXOWc95AD8u66BejVZ78Q1gHegsIGZNe9E0KFtAzUB1mEILVZN
+        FNAgp8lhA56s4iawAgbk0lNWb/7CnH0AOp2OwsRhaU0AAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="VerApuntesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>224, 26</value>
+  </data>
+  <data name="VerApuntesToolStripMenuItem.Text" xml:space="preserve">
+    <value>Ver Apuntes</value>
+  </data>
+  <data name="VerApuntesToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Añade, Edita, Borra o Consulta Apuntes</value>
+  </data>
+  <data name="IntroducirApuntesToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
+        cQAAEnEB89x6jgAAAHJJREFUOE/NklEOwCAIQz06R/NmLJrgulpG5teaNGiAF6K0tsuFP8l7725mMwpY
+        CubkgqgoASMZZljiuxmNIGUJCDGs8A6o9DvAgnBdKgWYBy7AOyryuAtMLE1bWv8778CIjwm46M0xQTQf
+        AbD56A2w+QJU8Ovj09On8AAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="IntroducirApuntesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>224, 26</value>
+  </data>
+  <data name="IntroducirApuntesToolStripMenuItem.Text" xml:space="preserve">
+    <value>Introducir Apuntes</value>
+  </data>
+  <data name="IntroducirApuntesToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Introducir varios Apuntes Contables seguidos</value>
+  </data>
+  <data name="IntroducirTraspasosToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
+        cQAAEnEB89x6jgAAAMBJREFUWEftjkEKxDAMA/P/V+VnuwTWYIaoOHLZUwRGKJTpjHFzg8w5P+vGGK9d
+        MH/c52SB1SudbgkQ5nRLgDB2RbIlQBi7KmkLEBbv6tT3toCCVfdKS2AHO9mZYwkoWHWHlC2wgz3tXbcE
+        FEztXbcECIt3dep7W4AwNn/KvdISIIxNSe7MsQQUrLpDyhbYwU525lgCClbdIWULEBbv6tT3tgBhbPXT
+        3C0BwtgnkpYAYU63BAhzuiXw1h0J3Nz8O1+DKEa3nNAkNgAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="IntroducirTraspasosToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>224, 26</value>
+  </data>
+  <data name="IntroducirTraspasosToolStripMenuItem.Text" xml:space="preserve">
+    <value>Introducir Traspasos</value>
+  </data>
+  <data name="IntroducirTraspasosToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Introducir Traspasos entre Cuentas</value>
+  </data>
+  <data name="ToolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 6</value>
+  </data>
+  <data name="ApuntesPeriodicosToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
+        cQAAEnEB89x6jgAAAWNJREFUWEe9lAuOwyAMRHN0jpabsTLg4Iw/NSGbkdxpgHieqdTj8FWN+kz1KEXX
+        RxA6+GMIHcpV64cAFFan2nN8A9HesvT0fnhbZ1znzCNxM1lqf95Pd+PcI/VGevqrZCj6LsQMHOGtrVi3
+        QqXvANwn5u8SYHzHUPSnEP61A4wV+sbPMEMkiAwfYFYo+iqEnnS04rbyZjDM8ixAO1jKUc/zvENYlQxf
+        gWjhXBeEU1ZI5BkA0hWOvhLKQ+B6BuJ2A9I7gG4qfQbb+xkAkguBTTnMm9jyDMTVMAon4cR4DvfJMwAk
+        1Qwn39nPQJhN5ES/9vlZ7j+CsF5Gt2DQEU5AuDDmS+y85+3jOVyX7gGQ1MtWKD/Ldeuc5VE4KTUBwsjz
+        EcSvcFbYhD07MXn0u1tqh7PNI18NlhoQpf0xWc0j3wmWko1uZYW2z5eCpdotzKAe0m/l/Yk9teYMQo43
+        gi/8lzB0K/gPqH7+7tui1CsAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="ApuntesPeriodicosToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>224, 26</value>
+  </data>
+  <data name="ApuntesPeriodicosToolStripMenuItem.Text" xml:space="preserve">
+    <value>Apuntes Periódicos</value>
+  </data>
+  <data name="ApuntesPeriodicosToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Añade, Edita, Borra o Consulta Apuntes Periódicos</value>
   </data>
   <data name="IntroducirDaToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -8958,5 +8958,20 @@
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="LblAvisoActivacion" xml:space="preserve">
+    <value>"Software en modo demo. Por favor active el software para quitar esta advertencia."</value>
+  </data>
+  <data name="MsgEspera" xml:space="preserve">
+    <value>En Espera ...</value>
+  </data>
+  <data name="CreadoCorrectamente" xml:space="preserve">
+    <value>creado correctamente</value>
+  </data>
+  <data name="SeCrearaEjercicio" xml:space="preserve">
+    <value>se creará ejercicio</value>
+  </data>
+  <data name="TraspasoCuentas" xml:space="preserve">
+    <value>Traspaso entre Cuentas</value>
   </data>
 </root>

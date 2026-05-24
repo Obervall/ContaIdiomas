@@ -70,7 +70,7 @@ Public Class ApuntesContables
         TL(8) = New ToolTip
         TL(8).SetToolTip(Me.BtnEliminarRegistro, resManager.GetString("ToolTipEliminar"))
         TL(9) = New ToolTip
-        TL(9).SetToolTip(Me.BtnTraspasarRegistro, resManager.GetString("ToolTipTraspasar"))
+        TL(9).SetToolTip(Me.BtnTraspasarRegistro, rmse.GetString("ToolTipTraspasar"))
         TL(10) = New ToolTip
         TL(10).SetToolTip(Me.BtnBuscarRegistro, resManager.GetString("ToolTipBuscar"))
         TL(11) = New ToolTip
@@ -94,23 +94,23 @@ Public Class ApuntesContables
         TL(20) = New ToolTip
         TL(20).SetToolTip(Me.BtnEliminaSeleccion, resManager.GetString("ToolTipEliminaSeleccion"))
         TL(21) = New ToolTip
-        TL(21).SetToolTip(Me.BtnFiltroChekedList, resManager.GetString("ToolTipChekedList"))
+        TL(21).SetToolTip(Me.BtnFiltroChekedList, rmse.GetString("ToolTipChekedList"))
         TL(22) = New ToolTip
-        TL(22).SetToolTip(Me.LblApuntes, resManager.GetString("ToolTipLabelApuntes"))
+        TL(22).SetToolTip(Me.LblApuntes, rmse.GetString("ToolTipLabelApuntes"))
         TL(23) = New ToolTip
-        TL(23).SetToolTip(Me.ListBox1, resManager.GetString("ToolTipListBox"))
+        TL(23).SetToolTip(Me.ListBox1, rmse.GetString("ToolTipListBox"))
         TL(24) = New ToolTip
-        TL(24).SetToolTip(Me.BtnFechas, resManager.GetString("ToolTipFechas"))
+        TL(24).SetToolTip(Me.BtnFechas, rmse.GetString("ToolTipFechas"))
         TL(25) = New ToolTip
-        TL(25).SetToolTip(Me.BtnFiltroF5, resManager.GetString("ToolTipF5"))
+        TL(25).SetToolTip(Me.BtnFiltroF5, rmse.GetString("ToolTipF5"))
         TL(26) = New ToolTip
-        TL(26).SetToolTip(Me.BtnF6, resManager.GetString("ToolTipF6"))
+        TL(26).SetToolTip(Me.BtnF6, rmse.GetString("ToolTipF6"))
         TL(27) = New ToolTip
-        TL(27).SetToolTip(Me.BtnExcel, resManager.GetString("ToolTipExcel"))
+        TL(27).SetToolTip(Me.BtnExcel, rmse.GetString("ToolTipExcel"))
         TL(28) = New ToolTip
-        TL(28).SetToolTip(Me.BtnAumentar, resManager.GetString("ToolTipAumentar"))
+        TL(28).SetToolTip(Me.BtnAumentar, rmse.GetString("ToolTipAumentar"))
         TL(29) = New ToolTip
-        TL(29).SetToolTip(Me.BtnNormal, resManager.GetString("ToolTipNormal"))
+        TL(29).SetToolTip(Me.BtnNormal, rmse.GetString("ToolTipNormal"))
 
         ' Añade una línea por cada GroupBox donde tengas estos botones:
         AddHandler Me.GroupBox3.MouseMove, AddressOf VerificarFiltrosDesactivados
@@ -1301,10 +1301,10 @@ Public Class ApuntesContables
         If My.Settings.PathExportar = "" Then
             Dim path As String = "C:\ContaHogar3.0\Excel"
             If Directory.Exists(path) Then
-                'MsgBox("Ya existe la Ruta C:\ContaHogar3.0\Excel.")
+                MsgBox("Ya existe la Ruta C:\ContaHogar3.0\Excel.")
             Else
                 Directory.CreateDirectory(path)
-                'MsgBox("Ruta C:\ContaHogar3.0\Excel, Creada.")
+                MsgBox("Ruta C:\ContaHogar3.0\Excel, Creada.")
             End If
             My.Settings.PathExportar = path
             My.Settings.Save()

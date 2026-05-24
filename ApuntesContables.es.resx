@@ -543,4 +543,59 @@
   <data name="GroupBox4.Text" xml:space="preserve">
     <value>Cuentas</value>
   </data>
+  <data name="EliminarApuntes" xml:space="preserve">
+    <value>Apuntes, Borrados !!</value>
+  </data>
+  <data name="EliminarApuntesError" xml:space="preserve">
+    <value>Error al Eliminar los Apuntes relacionados con el Concepto Contable</value>
+  </data>
+  <data name="ToolTipLabelApuntes" xml:space="preserve">
+    <value>Con Tecla Suprimir: Elimina filas seleccionadas
+Con F5: Filtra por Descripción
+Con F6: Refresca la Parrilla Apuntes y Quita Filtros</value>
+  </data>
+  <data name="ToolTipListBox" xml:space="preserve">
+    <value>Con Tecla Esc: Cerrar Listado</value>
+  </data>
+  <data name="ToolTipChekedList" xml:space="preserve">
+    <value>Abrir listado de Conceptos para múltiple selección</value>
+  </data>
+  <data name="ToolTipFechas" xml:space="preserve">
+    <value>Activar o Desactivar Acceso a Fechas anteriores al Ejercicio Actual</value>
+  </data>
+  <data name="ToolTipExcel" xml:space="preserve">
+    <value>Exportar Apuntes a Excel</value>
+  </data>
+  <data name="ToolTipAumentar" xml:space="preserve">
+    <value>Aumentar tamaño de fuente</value>
+  </data>
+  <data name="ToolTipNormal" xml:space="preserve">
+    <value>Restaurar tamaño de fuente</value>
+  </data>
+  <data name="ToolTipF5" xml:space="preserve">
+    <value>Filtra por Descripción</value>
+  </data>
+  <data name="ToolTipF6" xml:space="preserve">
+    <value>Refrescar la Parrilla Apuntes y Quitar Filtros</value>
+  </data>
+  <data name="ToolTipTraspasar" xml:space="preserve">
+    <value>Traspasar de una Cuenta a Otra</value>
+  </data>
+  <data name="MsgText3" xml:space="preserve">
+    <value>Varios Conceptos Seleccionados</value>
+  </data>
+  <data name="MsgText4" xml:space="preserve">
+    <value>VARIOS CONCEPTOS</value>
+  </data>
+  <data name="MsgText2" xml:space="preserve">
+    <value>Introducción de Apuntes</value>
+  </data>
+  <data name="MsgText1" xml:space="preserve">
+    <value>Aviso de Filtros</value>
+  </data>
+  <data name="MsgAviso1" xml:space="preserve">
+    <value>Hay Conceptos Varios, Seleccionados.
+Filtrar Primero por Cuentas y Fechas,
+después por Conceptos Varios</value>
+  </data>
 </root>

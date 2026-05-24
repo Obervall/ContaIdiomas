@@ -165,4 +165,10 @@
   <data name="ListadoConceptosContables" xml:space="preserve">
     <value>Liste des concepts comptables.</value>
   </data>
+  <data name="Concepto_Contable" xml:space="preserve">
+    <value>Concept comptable</value>
+  </data>
+  <data name="Concepto_No_Editable" xml:space="preserve">
+    <value>Ce concept n’est pas modifiable, il appartient au système</value>
+  </data>
 </root>

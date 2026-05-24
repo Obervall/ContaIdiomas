@@ -1146,4 +1146,10 @@
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="EliminarPresupuestos" xml:space="preserve">
+    <value>Presupuestos, Borrados !!</value>
+  </data>
+  <data name="EliminarPresupuestosError" xml:space="preserve">
+    <value>Error al Eliminar los Presupuestos relacionados con el Concepto Contable</value>
+  </data>
 </root>

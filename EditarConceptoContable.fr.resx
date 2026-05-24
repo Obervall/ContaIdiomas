@@ -168,4 +168,7 @@
   <data name="EliminarConcepto4" xml:space="preserve">
     <value>Erreur lors de la suppression de l’enregistrement de l’élément comptable</value>
   </data>
+  <data name="ToolTipDescripcion" xml:space="preserve">
+    <value>Description du concept</value>
+  </data>
 </root>

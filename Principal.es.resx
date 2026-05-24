@@ -7317,13 +7317,13 @@
     <value>Ocultar/Ver Colores en Barra y Menu</value>
   </data>
   <data name="ConceptosContablesToolStripMenuItem.Text" xml:space="preserve">
-    <value>Conceptos Contables ...</value>
+    <value>Conceptos Contables</value>
   </data>
   <data name="ConceptosContablesToolStripMenuItem.ToolTipText" xml:space="preserve">
     <value>Añade, Edita, Borra o Consulta Conceptos Contables</value>
   </data>
   <data name="CuentasToolStripMenuItem.Text" xml:space="preserve">
-    <value>Cuentas ...</value>
+    <value>Cuentas Bancarias</value>
   </data>
   <data name="CuentasToolStripMenuItem.ToolTipText" xml:space="preserve">
     <value>Añade, Edita, Borra o Cuentas Bancarias</value>
@@ -7582,5 +7582,20 @@
   </data>
   <data name="LblNotificacion.Text" xml:space="preserve">
     <value>"Software en Modo Demo. Por favor, active la aplicación para quitar esta advertencia."</value>
+  </data>
+  <data name="LblAvisoActivacion" xml:space="preserve">
+    <value>"Software en modo demo. Por favor active el software para quitar esta advertencia."</value>
+  </data>
+  <data name="SeCrearaEjercicio" xml:space="preserve">
+    <value>se creará ejercicio</value>
+  </data>
+  <data name="CreadoCorrectamente" xml:space="preserve">
+    <value>creado correctamente</value>
+  </data>
+  <data name="TraspasoCuentas" xml:space="preserve">
+    <value>Traspaso entre Cuentas</value>
+  </data>
+  <data name="MsgEspera" xml:space="preserve">
+    <value>En Espera ...</value>
   </data>
 </root>

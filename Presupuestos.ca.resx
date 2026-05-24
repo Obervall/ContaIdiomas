@@ -153,4 +153,10 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Pressupostos</value>
   </data>
+  <data name="EliminarPresupuestos" xml:space="preserve">
+    <value>Pressupostos, Esborrats !!</value>
+  </data>
+  <data name="EliminarPresupuestosError" xml:space="preserve">
+    <value>Error a l' Eliminar els Pressupostos relacionats amb el Concepte Comptable</value>
+  </data>
 </root>

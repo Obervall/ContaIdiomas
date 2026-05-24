@@ -174,4 +174,59 @@
   <data name="Label6.Text" xml:space="preserve">
     <value>Until:</value>
   </data>
+  <data name="EliminarApuntes" xml:space="preserve">
+    <value>Notes, Deletions !!</value>
+  </data>
+  <data name="EliminarApuntesError" xml:space="preserve">
+    <value>Error in Deleting Entries Related to the Accounting Concept</value>
+  </data>
+  <data name="ToolTipLabelApuntes" xml:space="preserve">
+    <value>With Delete Key: Delete selected rows
+With F5: Filter by Description
+With F6: Refresh the Grill Notes and Remove Filters</value>
+  </data>
+  <data name="ToolTipListBox" xml:space="preserve">
+    <value>With Esc Key: Close List</value>
+  </data>
+  <data name="ToolTipChekedList" xml:space="preserve">
+    <value>Open list of Concepts for multiple selection</value>
+  </data>
+  <data name="ToolTipFechas" xml:space="preserve">
+    <value>Activate or Deactivate Access to Dates prior to the Current Fiscal Year</value>
+  </data>
+  <data name="ToolTipExcel" xml:space="preserve">
+    <value>Export Notes to Excel</value>
+  </data>
+  <data name="ToolTipAumentar" xml:space="preserve">
+    <value>Increase font size</value>
+  </data>
+  <data name="ToolTipNormal" xml:space="preserve">
+    <value>Restore font size</value>
+  </data>
+  <data name="ToolTipF5" xml:space="preserve">
+    <value>Filter by Description</value>
+  </data>
+  <data name="ToolTipF6" xml:space="preserve">
+    <value>Refresh Grill Notes and Remove Filters</value>
+  </data>
+  <data name="ToolTipTraspasar" xml:space="preserve">
+    <value>Transfer from one account to another</value>
+  </data>
+  <data name="MsgText3" xml:space="preserve">
+    <value>Various Selected Concepts</value>
+  </data>
+  <data name="MsgText4" xml:space="preserve">
+    <value>VARIOUS CONCEPTS</value>
+  </data>
+  <data name="MsgText2" xml:space="preserve">
+    <value>Introduction of Notes</value>
+  </data>
+  <data name="MsgText1" xml:space="preserve">
+    <value>Filter Notice</value>
+  </data>
+  <data name="MsgAviso1" xml:space="preserve">
+    <value>There are Various, Selected Concepts.
+Filter First by Accounts and Dates,
+then by Various Concepts</value>
+  </data>
 </root>

@@ -16,7 +16,7 @@ Public Class EditarConceptoContable
         TL(1) = New ToolTip
         TL(1).SetToolTip(Me.BtnCancelar, resManager.GetString("ToolTipCancelar"))
         TL(2) = New ToolTip
-        TL(2).SetToolTip(Me.TxtDescripcion, resManager.GetString("ToolTipDescripcion"))
+        TL(2).SetToolTip(Me.TxtDescripcion, rmse.GetString("ToolTipDescripcion"))
 
         CmbTipoConcepto.DropDownStyle = ComboBoxStyle.DropDownList
         CmbTipoConcepto.SelectedIndex = 0
@@ -103,9 +103,9 @@ Public Class EditarConceptoContable
             cmdMdb1cr.CommandText = vtipoSql
             Try
                 cmdMdb1cr.ExecuteNonQuery()
-                MsgBox(resManager.GetString("EliminarApuntes"))
+                MsgBox(frmApuntesContables.rmse.GetString("EliminarApuntes"))
             Catch ex As Exception
-                MsgBox(resManager.GetString("EliminarApuntesError") & vbNewLine & ex.Message)
+                MsgBox(frmApuntesContables.rmse.GetString("EliminarApuntesError") & vbNewLine & ex.Message)
             End Try
 
             ' Eliminar Registros Apuntes Periódicos
@@ -114,9 +114,9 @@ Public Class EditarConceptoContable
             cmdMdb1cr.CommandText = vtipoSql
             Try
                 cmdMdb1cr.ExecuteNonQuery()
-                MsgBox(resManager.GetString("EliminarApuntesPeriodicos"))
+                MsgBox(frmApuntesPeriodicos.rmse.GetString("EliminarApuntesPeriodicos"))
             Catch ex As Exception
-                MsgBox(resManager.GetString("EliminarApuntesPeriodicosError") & vbNewLine & ex.Message)
+                MsgBox(frmApuntesPeriodicos.rmse.GetString("EliminarApuntesPeriodicosError") & vbNewLine & ex.Message)
             End Try
 
             ' Eliminar Registros Presupuestos
@@ -125,9 +125,9 @@ Public Class EditarConceptoContable
             cmdMdb1cr.CommandText = vtipoSql
             Try
                 cmdMdb1cr.ExecuteNonQuery()
-                MsgBox(resManager.GetString("EliminarPresupuestos"))
+                MsgBox(frmPresupuestos.rmse.GetString("EliminarPresupuestos"))
             Catch ex As Exception
-                MsgBox(resManager.GetString("EliminarPresupuestosError"))
+                MsgBox(frmPresupuestos.rmse.GetString("EliminarPresupuestosError"))
                 MsgBox(ex.ToString)
             End Try
         End If

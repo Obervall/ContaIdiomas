@@ -15,11 +15,11 @@ Public Class EditarCuentaBancaria
         TL(1) = New ToolTip
         TL(1).SetToolTip(Me.BtnCancelar, resManager.GetString("ToolTipCancelar"))
         TL(2) = New ToolTip
-        TL(2).SetToolTip(Me.CmbTipoCuenta, resManager.GetString("ToolTipTipoCuenta"))
+        TL(2).SetToolTip(Me.CmbTipoCuenta, frmCuentasBancarias.rmse.GetString("ToolTipTipoCuenta"))
         TL(3) = New ToolTip
-        TL(3).SetToolTip(Me.TxtNumero, resManager.GetString("ToolTipIBAN"))
+        TL(3).SetToolTip(Me.TxtNumero, frmCuentasBancarias.rmse.GetString("ToolTipIBAN"))
         TL(4) = New ToolTip
-        TL(4).SetToolTip(Me.TxtNombre, resManager.GetString("ToolTipNombre"))
+        TL(4).SetToolTip(Me.TxtNombre, frmCuentasBancarias.rmse.GetString("ToolTipNombre"))
 
         ' 1. LLENAR EL COMBO USANDO LA FUNCIÓN GLOBAL MULTIDIOMA
         ' ******************************************************
@@ -120,9 +120,9 @@ Public Class EditarCuentaBancaria
             cmdMdb1cr.CommandText = vtipoSql
             Try
                 cmdMdb1cr.ExecuteNonQuery()
-                MsgBox(resManager.GetString("EliminarApuntes"))
+                MsgBox(frmApuntesContables.rmse.GetString("EliminarApuntes"))
             Catch ex As Exception
-                MsgBox(resManager.GetString("EliminarApuntesError") & vbNewLine & ex.Message)
+                MsgBox(frmApuntesContables.rmse.GetString("EliminarApuntesError") & vbNewLine & ex.Message)
             End Try
 
             ' Eliminar Registros Apuntes Periódicos
@@ -130,9 +130,9 @@ Public Class EditarCuentaBancaria
             cmdMdb1cr.CommandText = vtipoSql
             Try
                 cmdMdb1cr.ExecuteNonQuery()
-                MsgBox(resManager.GetString("EliminarApuntesPeriodicos"))
+                MsgBox(frmApuntesPeriodicos.rmse.GetString("EliminarApuntesPeriodicos"))
             Catch ex As Exception
-                MsgBox(resManager.GetString("EliminarApuntesPeriodicosError") & vbNewLine & ex.Message)
+                MsgBox(frmApuntesPeriodicos.rmse.GetString("EliminarApuntesPeriodicosError") & vbNewLine & ex.Message)
             End Try
         End If
         Me.Close()

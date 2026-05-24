@@ -165,4 +165,10 @@
   <data name="ListadoConceptosContables" xml:space="preserve">
     <value>Listado de Conceptos Contables.</value>
   </data>
+  <data name="Concepto_Contable" xml:space="preserve">
+    <value>Concepto Contable</value>
+  </data>
+  <data name="Concepto_No_Editable" xml:space="preserve">
+    <value>Este Concepto No es Editable, pertenece al Sistema</value>
+  </data>
 </root>

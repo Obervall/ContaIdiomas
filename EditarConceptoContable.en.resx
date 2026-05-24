@@ -168,4 +168,7 @@
   <data name="EliminarConcepto4" xml:space="preserve">
     <value>Error in Deleting the Accounting Item Record</value>
   </data>
+  <data name="ToolTipDescripcion" xml:space="preserve">
+    <value>Description of the Concept</value>
+  </data>
 </root>

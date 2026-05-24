@@ -177,4 +177,16 @@
   <data name="LblApuntes.Text" xml:space="preserve">
     <value>PERIODIC NOTES</value>
   </data>
+  <data name="EliminarApuntesPeriodicos" xml:space="preserve">
+    <value>Periodic Notes, Erased !!</value>
+  </data>
+  <data name="EliminarApuntesPeriodicosError" xml:space="preserve">
+    <value>Error in Deleting Periodic Entries Related to the Accounting Item</value>
+  </data>
+  <data name="MsgSaldos1" xml:space="preserve">
+    <value>Initial Balances CANNOT BE DELETED</value>
+  </data>
+  <data name="MsgSaldos2" xml:space="preserve">
+    <value>Initial Balances CANNOT be Edited</value>
+  </data>
 </root>

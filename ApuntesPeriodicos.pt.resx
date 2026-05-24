@@ -177,4 +177,16 @@
   <data name="LblApuntes.Text" xml:space="preserve">
     <value>NOTAS PERIÓDICAS</value>
   </data>
+  <data name="EliminarApuntesPeriodicos" xml:space="preserve">
+    <value>Notas periódicas, apagadas!!</value>
+  </data>
+  <data name="EliminarApuntesPeriodicosError" xml:space="preserve">
+    <value>Erro na exclusão de entradas periódicas relacionadas ao item contábil</value>
+  </data>
+  <data name="MsgSaldos1" xml:space="preserve">
+    <value>Os saldos iniciais NÃO PODEM SER EXCLUÍDOS</value>
+  </data>
+  <data name="MsgSaldos2" xml:space="preserve">
+    <value>Os saldos iniciais NÃO PODEM ser editados</value>
+  </data>
 </root>

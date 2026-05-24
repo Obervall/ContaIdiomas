@@ -156,4 +156,7 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Editar Apunts Periòdics</value>
   </data>
+  <data name="RegistroApuntePeriódicoBorrado" xml:space="preserve">
+    <value>Registre Apunt Periòdic, Esborrat!!!</value>
+  </data>
 </root>
