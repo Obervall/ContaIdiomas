@@ -287,4 +287,7 @@ Sie werden nicht aus der Datenbank entfernt</value>
   <data name="FinalTabla" xml:space="preserve">
     <value>Hat es ganz unten in der Tabelle geschafft</value>
   </data>
+  <data name="Existe" xml:space="preserve">
+    <value>existiert bereits in</value>
+  </data>
 </root>

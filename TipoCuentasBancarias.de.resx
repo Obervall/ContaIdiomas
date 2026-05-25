@@ -153,4 +153,43 @@
   <data name="$this.Text" xml:space="preserve">
     <value>KONTOVERBINDUNG</value>
   </data>
+  <data name="TituloReporte" xml:space="preserve">
+    <value>Liste der Art von Bankkonten</value>
+  </data>
+  <data name="Cuenta_Corriente" xml:space="preserve">
+    <value>Leistungsbilanz</value>
+  </data>
+  <data name="Cuenta_Vivienda" xml:space="preserve">
+    <value>Wohnungskonto</value>
+  </data>
+  <data name="Efectivo" xml:space="preserve">
+    <value>Bargeld</value>
+  </data>
+  <data name="Fondo_de_Inversión" xml:space="preserve">
+    <value>Investmentfonds</value>
+  </data>
+  <data name="Plan_de_Pensiones" xml:space="preserve">
+    <value>Pensionsplan</value>
+  </data>
+  <data name="Tarjeta_de_Crédito" xml:space="preserve">
+    <value>Kreditkarte</value>
+  </data>
+  <data name="Desc_Cuenta_Corriente" xml:space="preserve">
+    <value>Bankgirokonto</value>
+  </data>
+  <data name="Desc_Cuenta_Vivienda" xml:space="preserve">
+    <value>Hauptwohnsitzkonto</value>
+  </data>
+  <data name="Desc_Efectivo" xml:space="preserve">
+    <value>Bargeld</value>
+  </data>
+  <data name="Desc_Plan_de_Pensiones" xml:space="preserve">
+    <value>Bank-Pensionsplan</value>
+  </data>
+  <data name="Desc_Tarjeta_de_Crédito" xml:space="preserve">
+    <value>VISA-Kreditkarte</value>
+  </data>
+  <data name="Desc_Fondo_de_Inversión" xml:space="preserve">
+    <value>Investmentfondsbank</value>
+  </data>
 </root>

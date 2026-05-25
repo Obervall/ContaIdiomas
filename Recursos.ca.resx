@@ -287,4 +287,7 @@ No s' Eliminen de la Base de Dades</value>
   <data name="FinalTabla" xml:space="preserve">
     <value>Ha arribat al final de la taula</value>
   </data>
+  <data name="Existe" xml:space="preserve">
+    <value>ja existeix en</value>
+  </data>
 </root>

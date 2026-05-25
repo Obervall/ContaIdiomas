@@ -357,7 +357,7 @@ Public Class ConceptosContables
             End If
 
             ' Construimos la clave del archivo .resx según el valor de la BD
-            Dim claveRecurso As String = ""
+            Dim claveRecurso As String
             Select Case tipoOriginal.ToUpper()
                 Case "GASTO" : claveRecurso = "Tipo_Gasto"
                 Case "INGRESO" : claveRecurso = "Tipo_Ingreso"

@@ -153,4 +153,43 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Bank Account Type</value>
   </data>
+  <data name="TituloReporte" xml:space="preserve">
+    <value>List Type of Bank Accounts</value>
+  </data>
+  <data name="Cuenta_Corriente" xml:space="preserve">
+    <value>Current Account</value>
+  </data>
+  <data name="Cuenta_Vivienda" xml:space="preserve">
+    <value>Housing Account</value>
+  </data>
+  <data name="Efectivo" xml:space="preserve">
+    <value>Cash</value>
+  </data>
+  <data name="Fondo_de_Inversión" xml:space="preserve">
+    <value>Investment Fund</value>
+  </data>
+  <data name="Plan_de_Pensiones" xml:space="preserve">
+    <value>Pension Plan</value>
+  </data>
+  <data name="Tarjeta_de_Crédito" xml:space="preserve">
+    <value>Credit Card</value>
+  </data>
+  <data name="Desc_Cuenta_Corriente" xml:space="preserve">
+    <value>Bank Checking Account</value>
+  </data>
+  <data name="Desc_Cuenta_Vivienda" xml:space="preserve">
+    <value>Primary Residence Account</value>
+  </data>
+  <data name="Desc_Efectivo" xml:space="preserve">
+    <value>Cash</value>
+  </data>
+  <data name="Desc_Plan_de_Pensiones" xml:space="preserve">
+    <value>Bank Pension Plan</value>
+  </data>
+  <data name="Desc_Tarjeta_de_Crédito" xml:space="preserve">
+    <value>VISA Credit Card</value>
+  </data>
+  <data name="Desc_Fondo_de_Inversión" xml:space="preserve">
+    <value>Investment Fund Bank</value>
+  </data>
 </root>

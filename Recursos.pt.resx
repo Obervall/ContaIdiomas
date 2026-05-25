@@ -287,4 +287,7 @@ Eles não são removidos do banco de dados</value>
   <data name="FinalTabla" xml:space="preserve">
     <value>Chegou ao fundo da tabela</value>
   </data>
+  <data name="Existe" xml:space="preserve">
+    <value>já existe em</value>
+  </data>
 </root>

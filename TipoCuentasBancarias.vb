@@ -1,5 +1,4 @@
 ﻿Imports System.Collections.Generic
-Imports System.Data
 Imports System.Drawing
 Imports System.Drawing.Printing
 Imports System.Windows.Forms
@@ -49,6 +48,7 @@ Public Class TipoCuentaBancaria
         vtipoSql += " ORDER BY tipocuentas.CodigoTIP ASC"
         vtipoGrid = "TIPO_CUENTAS_BANCARIAS"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
+        TraducirContenidoGridTiposCuenta(DgvTipoCuentasBancarias, rmse)
 
         ' Llenar el Combo Campos
         '***********************
@@ -69,9 +69,6 @@ Public Class TipoCuentaBancaria
             e.Cancel = False ' NO Se cancela la solicitud de cerrar
         End If
     End Sub
-
-
-
 
     ''' <summary>
     ''' Función auxiliar que centraliza las reglas lógicas de comparación de texto.
@@ -95,6 +92,7 @@ Public Class TipoCuentaBancaria
                 Return False
         End Select
     End Function
+
     ' BOTÓN BUSCAR: Abre la ventana de parámetros y busca desde el principio si el Check lo pide
     Private Sub BtnBuscarRegistro_Click(sender As Object, e As EventArgs) Handles BtnBuscarRegistro.Click
         frmBuscar.ShowDialog()
@@ -139,7 +137,7 @@ Public Class TipoCuentaBancaria
 
         ' Si al intentar avanzar nos salimos del límite del Grid, avisamos y salimos
         If filaInicio >= DgvTipoCuentasBancarias.Rows.Count Then
-            MsgBox("No hay más registros que coincidan con los datos introducidos.", MsgBoxStyle.Information, Me.Text)
+            MsgBox(resManager.GetString("MsgDatos2"), MsgBoxStyle.Information, Me.Text)
             BtnSeguirBuscando.Enabled = False
             Exit Sub
         End If
@@ -203,8 +201,48 @@ Public Class TipoCuentaBancaria
 
         ' Avisar al usuario si no encontró absolutamente nada en todo el recorrido
         If vRow = -1 Then
-            MsgBox("No hay ninguna coincidencia con los datos introducidos.", MsgBoxStyle.Information, Me.Text)
+            MsgBox(resManager.GetString("MsgDatos1"), MsgBoxStyle.Information, Me.Text)
             BtnSeguirBuscando.Enabled = False
+        End If
+    End Sub
+
+    Private Sub BtnImprimir_Click(sender As Object, e As EventArgs) Handles BtnImprimir.Click
+        vtipoSql = "SELECT * FROM tipocuentas"
+        vtipoSql += " ORDER BY tipocuentas.CodigoTIP ASC"
+
+        LlenarGrid(vtipoSql, "PRINT_TIPO_CUENTAS", 1)
+        frmImprimirForm.LblFecha.Text = Date.Today.ToLongDateString
+
+        'Para ver la plantilla de impresión
+        'frmImprimirForm.Show()
+
+        ' 1. Reinicia las variables globales antes de empezar a imprimir
+        PrintLine = 0
+        Contador = 0
+        frmImprimirForm.LblNumeroPagina.Text = "0"
+
+        ' 2. Lanza el proceso de impresión (esto activa automáticamente el evento PrintPage)
+        If My.Settings.Previsualizar = True Then
+            'Te deja ver un preview del reporte antes de imprimir
+            PrintPreviewDialog1.Document = PrintDocument1
+            PrintPreviewDialog1.WindowState = FormWindowState.Maximized
+            PrintPreviewDialog1.ShowDialog()
+        End If
+
+        If My.Settings.ElegirImpresora = True Then
+            'Te deja elegir la impresora
+            PrintDialog1.Document = PrintDocument1
+            PrintDialog1.PrinterSettings = PrintDocument1.PrinterSettings
+            PrintDialog1.AllowSomePages = True
+            If PrintDialog1.ShowDialog = DialogResult.OK Then
+                PrintDocument1.PrinterSettings = PrintDialog1.PrinterSettings
+                PrintDocument1.Print()
+            End If
+        End If
+
+        If My.Settings.DirectoImpresora = True Then
+            'Imprime en la impresora por defecto
+            PrintDocument1.Print()
         End If
     End Sub
 
@@ -218,7 +256,7 @@ Public Class TipoCuentaBancaria
         Dim FuenteNegrita As New Font("Microsoft Sans Serif", 9, FontStyle.Bold)
         Dim FuenteDetalles As New Font("Microsoft Sans Serif", 9)
         Dim FuenteSubrayada As New Font("Microsoft Sans Serif", 9, FontStyle.Underline Xor FontStyle.Bold)
-        frmImprimirForm.LblTitulo.Text = "Listado Tipo de Cuentas Bancarias"
+        frmImprimirForm.LblTitulo.Text = rmse.GetString("TituloReporte")
 
         'Imprimimos el encabezado los datos que están antes del datagridview
         '*******************************************************************
@@ -229,8 +267,13 @@ Public Class TipoCuentaBancaria
 
         'Imprimimos el encabezado o titulo de la lista de materias por encima de los puntos definidos
         '********************************************************************************************
-        e.Graphics.DrawString("Tipo Cuenta:", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
-        e.Graphics.DrawString("Descripción:", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto2.Left, frmImprimirForm.Punto2.Top - 30)
+        ' Encabezado Columna 0: Tomamos el texto y lo recortamos si supera los 30 caracteres
+        Dim textoEncabezado0 As String = resManager.GetString("Tipo") & ":"
+        If textoEncabezado0.Length > 30 Then textoEncabezado0 = textoEncabezado0.Substring(0, 30)
+        e.Graphics.DrawString(textoEncabezado0, FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
+
+        ' Encabezado Columna 1: Se queda igual en su posición fija
+        e.Graphics.DrawString(resManager.GetString("Descripcion") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto2.Left, frmImprimirForm.Punto2.Top - 30)
 
         'imprimimos la linea debajo de los encabezados
         '*********************************************
@@ -240,26 +283,53 @@ Public Class TipoCuentaBancaria
         '*******************************************************************
         Dim startX As Integer = frmImprimirForm.Punto1.Left 'Tomamos la posicion horinzontal de la letra 'Punto1'
         Dim startY As Integer = frmImprimirForm.Punto1.Top 'Tomamos la posicion vertical de la letra 'Punto1'
+
         Do While PrintLine < frmImprimirForm.DgvApuntes.Rows.Count
             If startY + frmImprimirForm.Punto1.Height > e.MarginBounds.Bottom Then
-                'Esta parte se activa solo si 'startY' que es la posicion vertical almacenada supera el borde inferior de la pagina
-                'Este se reinicia con cada pagina necesitada
                 e.HasMorePages = True
                 Exit Do
             End If
-            e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(0).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
-            e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(1).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto2.Left, startY)
-            'Aqui estoy usando un tipo de letras mas grande
-            'LabelCodigo' mas grande que 'Punto1' para crear mas espacio entre filas
 
-            'Con el contador solamente imprimimos la parte final del reporte si ha alcanzado el total de registros
-            'Si deseamos repetir la parte final del reporte en cada pagina, debemos quitar en contador
-            ''Imprimimos los valores que salen despues del datagridview al final del reporte
+            ' --- COLUMNA 0 (Tipo de cuenta - Máx 30 caracteres) ---
+            Dim valorBD0 As String = frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(0).Value.ToString()
+            Dim textoCelda0 As String = TraducirDinamico(valorBD0, False) ' Busca "Cuenta_Corriente" o devuelve el texto íntegro
 
+            If textoCelda0.Length > 30 Then
+                textoCelda0 = textoCelda0.Substring(0, 30)
+            End If
+            e.Graphics.DrawString(textoCelda0, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
+
+
+            ' --- COLUMNA 1 (Descripción - Ajuste con ... antes del borde) ---
+            Dim valorBD1 As String = frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(1).Value.ToString()
+
+            ' 1. Tomamos el TIPO (Celda 0) para armar la llave de la descripción (ej: "Cuenta_Corriente")
+            Dim tipoParaLlave As String = frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(0).Value.ToString()
+
+            ' 2. Buscamos en ResX Manager la combinación "Desc_" & "Cuenta_Corriente"
+            Dim textoCelda1 As String = TraducirDinamico(tipoParaLlave, True)
+
+            ' 3. Si la función nos devuelve el mismo nombre del tipo (porque no encontró la clave en ResX),
+            ' significa que es un tipo nuevo del usuario. Por lo tanto, usamos la descripción original de la BD.
+            If textoCelda1 = tipoParaLlave Then
+                textoCelda1 = valorBD1
+            End If
+
+            ' 4. Dibujamos en la hoja (este código se queda igual)
+            Dim anchoDisponibleCol1 As Integer = e.MarginBounds.Right - frmImprimirForm.Punto2.Left
+            Dim formatoCortado As New StringFormat()
+            formatoCortado.Trimming = StringTrimming.EllipsisCharacter
+            formatoCortado.FormatFlags = StringFormatFlags.NoWrap
+
+            Dim rectanguloCelda1 As New RectangleF(frmImprimirForm.Punto2.Left, startY, anchoDisponibleCol1, frmImprimirForm.Punto1.Height)
+            e.Graphics.DrawString(textoCelda1, FuenteDetalles, Brushes.Black, rectanguloCelda1, formatoCortado)
+
+            ' Control de renglones y páginas
             startY += frmImprimirForm.LblFecha.Height
             PrintLine += 1
             Contador += 1
         Loop
+
         'Con el contador solamente imprimimos la parte final del reporte si ha alcanzado el total de registros
         'Si deseamos repetir la parte final del reporte en cada pagina, debemos quitar en contador
         'Imprimimos los valores que salen despues del datagridview al final del reporte
@@ -278,6 +348,30 @@ Public Class TipoCuentaBancaria
         e.Graphics.DrawString(frmImprimirForm.LblNumeroPagina.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.LblNumeroPagina.Left, e.MarginBounds.Bottom)
 
     End Sub
+
+    Private Function TraducirDinamico(textoOriginal As String, esDescripcion As Boolean) As String
+        ' 1. Validamos que no venga vacío
+        If String.IsNullOrEmpty(textoOriginal) Then Return ""
+
+        ' 2. Formateamos el texto para que coincida con la Key de ResX Manager (ej: "Cuenta Corriente" -> "Cuenta_Corriente")
+        Dim llave As String = textoOriginal.Trim().Replace(" ", "_")
+        If esDescripcion Then llave = "Desc_" & llave
+
+        Try
+            ' 3. Buscamos en el gestor de recursos (reemplaza 'resManager' por tu objeto ResourceManager activo)
+            Dim textoTraducido As String = rmse.GetString(llave)
+
+            ' 4. Si existe traducción en el .resx la devolvemos; si no, devolvemos el texto original de la BD
+            If Not String.IsNullOrEmpty(textoTraducido) Then
+                Return textoTraducido
+            Else
+                Return textoOriginal
+            End If
+        Catch ex As Exception
+            ' En caso de cualquier error imprevisto de lectura, no rompemos la app, devolvemos el dato original
+            Return textoOriginal
+        End Try
+    End Function
 
     Private Sub BtnEditarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEditarRegistro.Click
         filaActual = frmTipoCuentaBancaria.DgvTipoCuentasBancarias.CurrentRow.Index

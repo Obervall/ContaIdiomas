@@ -287,4 +287,7 @@ Ils ne sont pas supprimés de la base de données</value>
   <data name="FinalTabla" xml:space="preserve">
     <value>Est arrivé en bas du classement</value>
   </data>
+  <data name="Existe" xml:space="preserve">
+    <value>existe déjà dans</value>
+  </data>
 </root>

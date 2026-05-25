@@ -153,4 +153,43 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Tipo de conta bancária</value>
   </data>
+  <data name="TituloReporte" xml:space="preserve">
+    <value>Tipo de Lista de Contas Bancárias</value>
+  </data>
+  <data name="Cuenta_Corriente" xml:space="preserve">
+    <value>Conta Corrente</value>
+  </data>
+  <data name="Cuenta_Vivienda" xml:space="preserve">
+    <value>Conta de Moradia</value>
+  </data>
+  <data name="Efectivo" xml:space="preserve">
+    <value>Dinheiro</value>
+  </data>
+  <data name="Fondo_de_Inversión" xml:space="preserve">
+    <value>Fundo de Investimento</value>
+  </data>
+  <data name="Plan_de_Pensiones" xml:space="preserve">
+    <value>Plano de Pensão</value>
+  </data>
+  <data name="Tarjeta_de_Crédito" xml:space="preserve">
+    <value>Cartão de Crédito</value>
+  </data>
+  <data name="Desc_Cuenta_Corriente" xml:space="preserve">
+    <value>Conta Corrente Bancária</value>
+  </data>
+  <data name="Desc_Cuenta_Vivienda" xml:space="preserve">
+    <value>Conta de Residência Primária</value>
+  </data>
+  <data name="Desc_Efectivo" xml:space="preserve">
+    <value>Dinheiro</value>
+  </data>
+  <data name="Desc_Plan_de_Pensiones" xml:space="preserve">
+    <value>Plano de Pensão Bancária</value>
+  </data>
+  <data name="Desc_Tarjeta_de_Crédito" xml:space="preserve">
+    <value>Cartão de Crédito VISA</value>
+  </data>
+  <data name="Desc_Fondo_de_Inversión" xml:space="preserve">
+    <value>Banco de Fundos de Investimento</value>
+  </data>
 </root>

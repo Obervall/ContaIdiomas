@@ -153,4 +153,43 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Tipus Comptes Bancaris</value>
   </data>
+  <data name="TituloReporte" xml:space="preserve">
+    <value>Llistat Tipus de Comptes Bancaris</value>
+  </data>
+  <data name="Cuenta_Corriente" xml:space="preserve">
+    <value>Compte Corrent</value>
+  </data>
+  <data name="Cuenta_Vivienda" xml:space="preserve">
+    <value>Compte Habitatge</value>
+  </data>
+  <data name="Efectivo" xml:space="preserve">
+    <value>Efectiu</value>
+  </data>
+  <data name="Fondo_de_Inversión" xml:space="preserve">
+    <value>Fons d' Inversió</value>
+  </data>
+  <data name="Plan_de_Pensiones" xml:space="preserve">
+    <value>Pla de Pensions</value>
+  </data>
+  <data name="Tarjeta_de_Crédito" xml:space="preserve">
+    <value>Targeta de Crèdit</value>
+  </data>
+  <data name="Desc_Cuenta_Corriente" xml:space="preserve">
+    <value>Compte Corrent Banc</value>
+  </data>
+  <data name="Desc_Cuenta_Vivienda" xml:space="preserve">
+    <value>Compte Habitatge Habitual</value>
+  </data>
+  <data name="Desc_Efectivo" xml:space="preserve">
+    <value>Diners en Efectiu</value>
+  </data>
+  <data name="Desc_Plan_de_Pensiones" xml:space="preserve">
+    <value>Pla de Pensions Banc</value>
+  </data>
+  <data name="Desc_Tarjeta_de_Crédito" xml:space="preserve">
+    <value>Targeta de Crèdit VISA</value>
+  </data>
+  <data name="Desc_Fondo_de_Inversión" xml:space="preserve">
+    <value>Fons d' Inversió Banc</value>
+  </data>
 </root>

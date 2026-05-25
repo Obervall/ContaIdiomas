@@ -1,26 +1,22 @@
-﻿Imports System.Data
-Imports System.Diagnostics
-Imports System.Security.Cryptography
-Imports System.Windows.Forms
-Imports MySqlConnector
+﻿Imports System.Windows.Forms
 
 Public Class NuevoTipoCuentaBancaria
 
     Public vtipoSql, vtipoGrid, vTxtNombre, vTxtDescripcion As String
+    Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub NuevaCuentaBancaria_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ActualizarTextosFormulario(Me)
 
         Dim TL(3) As ToolTip
         TL(0) = New ToolTip
-        TL(0).SetToolTip(Me.BtnAceptar, "Aceptar y Salir")
+        TL(0).SetToolTip(Me.BtnAceptar, resManager.GetString("ToolTipAceptar"))
         TL(1) = New ToolTip
-        TL(1).SetToolTip(Me.BtnCancelar, "Cancelar la introducción del Apunte")
+        TL(1).SetToolTip(Me.BtnCancelar, resManager.GetString("ToolTipCancelar"))
         TL(2) = New ToolTip
-        TL(2).SetToolTip(Me.TxtDescripcion, "Introducir Descripción del Tipo de Cuenta Bancaria")
+        TL(2).SetToolTip(Me.TxtDescripcion, resManager.GetString("Descripcion"))
         TL(3) = New ToolTip
-        TL(3).SetToolTip(Me.TxtNombre, "Introducir Nombre del Tipo de Cuenta Bancaria")
-
+        TL(3).SetToolTip(Me.TxtNombre, resManager.GetString("Nombre"))
         TxtNombre.Select()
     End Sub
 
@@ -35,6 +31,7 @@ Public Class NuevoTipoCuentaBancaria
         vtipoSql += "FROM tipocuentas WHERE tipocuentas.CodigoTIP Like '" & vBusca & "%' ORDER BY tipocuentas.CodigoTIP"
         vtipoGrid = "NOMBRESEXISTENTES3"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
+        TraducirContenidoGridTiposCuenta(frmTipoCuentaBancaria.DgvTipoCuentasBancarias, rmse)
     End Sub
 
     Private Sub TxtNombre_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtNombre.KeyPress
@@ -70,7 +67,7 @@ Public Class NuevoTipoCuentaBancaria
                 drMdb1 = cmdMdb1cr.ExecuteReader()
                 If drMdb1.HasRows Then
                     drMdb1.Close()
-                    MsgBox("El Nombre: " & vTxtNombre & ", ya existe en Tipo Cuentas Bancarias", vbOKOnly, "Tipo Cuenta Existente")
+                    MsgBox(resManager.GetString("Nombre") & ": " & vTxtNombre & ", " & resManager.GetString("Existe") & " " & frmTipoCuentaBancaria.rmse.GetString("$this.Text"), vbOKOnly, rmse.GetString("$this.Text"))
                     TxtNombre.Select()
                 Else
                     drMdb1.Close()

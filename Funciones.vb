@@ -715,9 +715,9 @@ Module Funciones
                 .DefaultCellStyle.SelectionBackColor = Color.Black
                 'arreglamos columnas
                 '*******************
-                .Columns(0).HeaderText = "Código"
+                .Columns(0).HeaderText = resManager.GetString("Codigo")
                 .Columns(0).Width = 230
-                .Columns(1).HeaderText = "Descripción"
+                .Columns(1).HeaderText = resManager.GetString("Descripcion")
                 .Columns(1).Width = 230
                 Dim vNumRegistros As String = frmTipoCuentaBancaria.DgvTipoCuentasBancarias.Rows.Count.ToString
                 frmTipoCuentaBancaria.TxtNumRegistros.Text = vNumRegistros
@@ -1058,7 +1058,6 @@ Module Funciones
 
                     End If
                 Next
-
             End If
         Catch ex As Exception
             MsgBox(resManager.GetString("ErrorAlEjecutar") & ex.Message, MsgBoxStyle.Exclamation, manejadorRecursos.GetString("$this.Text"))
@@ -1118,6 +1117,62 @@ Module Funciones
         End Try
     End Sub
 
+    ''' <summary>
+    ''' Traduce las celdas dinámicas de Tipo y Descripción en el Grid de Cuentas Bancarias
+    ''' </summary>
+    ''' <param name="grid">El DataGridView a procesar</param>
+    ''' <param name="manejadorRecursos">El objeto ResourceManager (rmse) propio del formulario</param>
+    Public Sub TraducirContenidoGridTiposCuenta(ByVal grid As DataGridView, ByVal manejadorRecursos As System.Resources.ResourceManager)
+        Try
+            ' Validamos que el grid tenga filas y al menos las 2 columnas necesarias (Tipo y Descripción)
+            If grid IsNot Nothing AndAlso grid.Rows.Count > 0 AndAlso grid.Columns.Count > 1 Then
+
+                For Each fila As DataGridViewRow In grid.Rows
+                    If Not fila.IsNewRow Then
+
+                        ' 1. Obtener los valores originales de la base de datos de esta fila
+                        Dim tipoOriginal As String = If(fila.Cells(0).Value?.ToString().Trim(), "")
+                        Dim descOriginal As String = If(fila.Cells(1).Value?.ToString().Trim(), "")
+
+                        ' Si la celda clave está vacía, saltamos a la siguiente fila
+                        If String.IsNullOrEmpty(tipoOriginal) Then Continue For
+
+                        ' 2. Formatear la clave base reemplazando espacios por guiones bajos (ej: "Cuenta Corriente" -> "Cuenta_Corriente")
+                        Dim llaveBase As String = tipoOriginal.Replace(" ", "_")
+
+                        ' --- TRADUCIR COLUMNA (0): Tipo de Cuenta ---
+                        Dim tradTipo As String = manejadorRecursos.GetString(llaveBase)
+                        If Not String.IsNullOrEmpty(tradTipo) Then
+                            fila.Cells(0).Value = tradTipo
+                        End If
+
+                        ' --- TRADUCIR COLUMNA (1): Descripción del Tipo ---
+                        ' Buscamos usando el prefijo "Desc_" combinado con la llave del tipo
+                        Dim llaveDesc As String = "Desc_" & llaveBase
+                        Dim tradDesc As String = manejadorRecursos.GetString(llaveDesc)
+
+                        If Not String.IsNullOrEmpty(tradDesc) Then
+                            fila.Cells(1).Value = tradDesc
+                        Else
+                            ' Si el usuario creó un tipo personalizado, no existirá en ResX. 
+                            ' Nos aseguramos de mantener el texto original que venía de la BD.
+                            fila.Cells(1).Value = descOriginal
+                        End If
+
+                    End If
+                Next
+            End If
+        Catch ex As Exception
+            ' Muestra el mensaje de error usando los recursos para internacionalizar el aviso
+            Dim tituloError As String = If(manejadorRecursos.GetString("$this.Text"), "Error")
+            Dim msgError As String = "Error: " ' Valor por defecto por si falla resManager global
+            Try
+                msgError = resManager.GetString("ErrorAlEjecutar")
+            Catch
+            End Try
+            MsgBox(msgError & " " & ex.Message, MsgBoxStyle.Exclamation, tituloError)
+        End Try
+    End Sub
 
 
     'Public Function ReadINIkey(file As String, section As String, key As String) As String
