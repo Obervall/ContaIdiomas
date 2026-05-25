@@ -171,4 +171,7 @@
   <data name="Concepto_No_Editable" xml:space="preserve">
     <value>This Concept is Not Editable, It Belongs to the System</value>
   </data>
+  <data name="Nota_TRASPASO" xml:space="preserve">
+    <value>Concept of system for the transfer between bank accounts, used for ATM withdrawals...</value>
+  </data>
 </root>

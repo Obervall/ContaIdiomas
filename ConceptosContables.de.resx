@@ -171,4 +171,7 @@
   <data name="Concepto_No_Editable" xml:space="preserve">
     <value>Dieses Konzept ist nicht bearbeitbar, es gehört dem System</value>
   </data>
+  <data name="Nota_TRASPASO" xml:space="preserve">
+    <value>Konzept des Systems für die Überweisung zwischen Bankkonten, verwendet für Geldautomatenabhebungen...</value>
+  </data>
 </root>

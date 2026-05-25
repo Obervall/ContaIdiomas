@@ -171,4 +171,7 @@
   <data name="Concepto_No_Editable" xml:space="preserve">
     <value>Esse conceito não é editável, ele pertence ao sistema</value>
   </data>
+  <data name="Nota_TRASPASO" xml:space="preserve">
+    <value>Conceito de sistema de transferência entre contas bancárias, usado para saques em caixas eletrônicos...</value>
+  </data>
 </root>
