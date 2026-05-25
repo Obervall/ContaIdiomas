@@ -208,7 +208,6 @@ They are not removed from the database</value>
   <data name="ErrorAlEliminarSaldo" xml:space="preserve">
     <value>Error Deleting Fiscal Year BALANCE Records</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="Filtrado" xml:space="preserve">
     <value>(Filtered)</value>
   </data>
@@ -217,12 +216,6 @@ They are not removed from the database</value>
   </data>
   <data name="CON" xml:space="preserve">
     <value>WITH</value>
-  </data>
-  <data name="NoHayCoincidencia" xml:space="preserve">
-    <value>There is no match with the data entered</value>
-  </data>
-  <data name="NoHayMasCoincidencias" xml:space="preserve">
-    <value>No more records that match the data entered</value>
   </data>
   <data name="Tipo" xml:space="preserve">
     <value>Type</value>
@@ -289,5 +282,26 @@ They are not removed from the database</value>
   </data>
   <data name="Existe" xml:space="preserve">
     <value>already exists in</value>
+  </data>
+  <data name="NoHayDatos" xml:space="preserve">
+    <value>There is NO Data in</value>
+  </data>
+  <data name="RegistroBorrado" xml:space="preserve">
+    <value>The record has been successfully erased</value>
+  </data>
+  <data name="RegistroNoBorradoVerificar" xml:space="preserve">
+    <value>The record could not be deleted. Verify</value>
+  </data>
+  <data name="ErrorEliminarRegistro" xml:space="preserve">
+    <value>Failed to delete the registry</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="AccionCancelada" xml:space="preserve">
+    <value>Action Cancelled</value>
+  </data>
+  <data name="ErrorVerificarIntegridad" xml:space="preserve">
+    <value>Failure to Verify Integrity</value>
   </data>
 </root>

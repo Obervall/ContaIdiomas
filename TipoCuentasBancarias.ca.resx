@@ -192,4 +192,25 @@
   <data name="Desc_Fondo_de_Inversión" xml:space="preserve">
     <value>Fons d' Inversió Banc</value>
   </data>
+  <data name="SeleccionarTipo" xml:space="preserve">
+    <value>Per favor, seleccioni un tipus de compte de la llista.</value>
+  </data>
+  <data name="ErrorVerificarIntegridad" xml:space="preserve">
+    <value>Error en verificar la Integritat de les Dades</value>
+  </data>
+  <data name="NoSePuedeEliminar" xml:space="preserve">
+    <value>No es pot eliminar el tipus</value>
+  </data>
+  <data name="PorqueAsignado" xml:space="preserve">
+    <value>Perquè té Assignat</value>
+  </data>
+  <data name="CuentaBancaria" xml:space="preserve">
+    <value>en Comptes Bancaris</value>
+  </data>
+  <data name="SeguroEliminar" xml:space="preserve">
+    <value>Està segur d'eliminar el Tipus de Compte Bancari</value>
+  </data>
+  <data name="ConfirmarBorrado" xml:space="preserve">
+    <value>Confirmar Esborrat</value>
+  </data>
 </root>

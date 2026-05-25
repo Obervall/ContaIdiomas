@@ -192,4 +192,25 @@
   <data name="Desc_Fondo_de_Inversión" xml:space="preserve">
     <value>Investment Fund Bank</value>
   </data>
+  <data name="SeleccionarTipo" xml:space="preserve">
+    <value>Please select an account type from the list.</value>
+  </data>
+  <data name="ErrorVerificarIntegridad" xml:space="preserve">
+    <value>Error in verifying Data Integrity</value>
+  </data>
+  <data name="NoSePuedeEliminar" xml:space="preserve">
+    <value>Unable to delete type</value>
+  </data>
+  <data name="PorqueAsignado" xml:space="preserve">
+    <value>Because it has been assigned</value>
+  </data>
+  <data name="CuentaBancaria" xml:space="preserve">
+    <value>in Bank Accounts</value>
+  </data>
+  <data name="SeguroEliminar" xml:space="preserve">
+    <value>Are you sure to remove the Bank Account Type</value>
+  </data>
+  <data name="ConfirmarBorrado" xml:space="preserve">
+    <value>Confirm Deletion</value>
+  </data>
 </root>

@@ -1,39 +1,35 @@
-﻿Imports System.Data
-Imports System.Diagnostics
-Imports System.Security.Cryptography
-Imports System.Windows.Forms
-Imports MySqlConnector
+﻿Imports System.Windows.Forms
 
 Public Class EditarTipoCuentaBancaria
 
     Public vtipoSql, vtipoGrid, vTxtNombre, vTxtDescripcion As String
-
     Public filaActual As Integer
+    Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub EditarConceptoContable_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ActualizarTextosFormulario(Me)
 
         Dim TL(3) As ToolTip
         TL(0) = New ToolTip
-        TL(0).SetToolTip(Me.BtnAceptar, "Aceptar y Salir")
+        TL(0).SetToolTip(Me.BtnAceptar, resManager.GetString("ToolTipAceptar"))
         TL(1) = New ToolTip
-        TL(1).SetToolTip(Me.BtnCancelar, "Cancelar la introducción del Apunte")
+        TL(1).SetToolTip(Me.BtnCancelar, resManager.GetString("ToolTipCancelar"))
         TL(2) = New ToolTip
-        TL(2).SetToolTip(Me.TxtDescripcion, "Introducir Descripción del Tipo de Cuenta Bancaria")
+        TL(2).SetToolTip(Me.TxtDescripcion, resManager.GetString("Descripcion"))
         TL(3) = New ToolTip
-        TL(3).SetToolTip(Me.TxtNombre, "Introducir Nombre del Tipo de Cuenta Bancaria")
+        TL(3).SetToolTip(Me.TxtNombre, resManager.GetString("Nombre"))
 
         filaActual = frmTipoCuentaBancaria.DgvTipoCuentasBancarias.CurrentRow.Index
         TxtNombre.Text = frmTipoCuentaBancaria.DgvTipoCuentasBancarias.Rows(filaActual).Cells(0).Value.ToString
         TxtDescripcion.Text = frmTipoCuentaBancaria.DgvTipoCuentasBancarias.Rows(filaActual).Cells(1).Value.ToString
 
         If vEditar = "SI" Then
-            LblEditando.Text = "EDITANDO TIPO CUENTA BANCARIA"
+            'LblEditando.Text = "EDITANDO TIPO CUENTA BANCARIA"
             TxtNombre.Enabled = False
             TxtDescripcion.Select()
             BtnEliminar.Enabled = False
         Else
-            LblEditando.Text = "¡¡ ELIMINAR TIPO CUENTA BANCARIA !!"
+            LblEditando.Text = rmse.GetString("LblEliminando")
             TxtNombre.Enabled = False
             TxtDescripcion.Enabled = False
             BtnAceptar.Enabled = False
@@ -53,7 +49,7 @@ Public Class EditarTipoCuentaBancaria
 
         ' Modificar Registro
         '*******************
-        vtipoSql = "UPDATE tipocuentas SET DescripcionTIP = '" & vTxtDescripcion & "' "
+        vtipoSql = "UPDATE tipocuentas Set DescripcionTIP = '" & vTxtDescripcion & "' "
         vtipoSql += " WHERE tipocuentas.CodigoTIP = '" & vTxtNombre & "' "
         cmdMdb1cr.CommandText = vtipoSql
 
@@ -62,7 +58,6 @@ Public Class EditarTipoCuentaBancaria
             'MsgBox("Registro, Grabado Correctamente")
             Me.Close()
         Catch ex As Exception
-            MsgBox("Error al Modificar el Registro")
             MsgBox(ex.ToString)
         End Try
         drMdb1.Close()

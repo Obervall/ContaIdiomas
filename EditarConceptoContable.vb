@@ -7,7 +7,6 @@ Public Class EditarConceptoContable
     Public TL(2) As ToolTip
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
-
     Private Sub EditarConceptoContable_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ActualizarTextosFormulario(Me)
 
@@ -21,26 +20,73 @@ Public Class EditarConceptoContable
         CmbTipoConcepto.DropDownStyle = ComboBoxStyle.DropDownList
         CmbTipoConcepto.SelectedIndex = 0
 
+        ' 1. Capturar datos actuales del Grid
         filaActual = frmConceptosContables.DgvConceptos.CurrentRow.Index
-        CmbTipoConcepto.Text = frmConceptosContables.DgvConceptos.Rows(filaActual).Cells(0).Value.ToString
-        TxtNombre.Text = frmConceptosContables.DgvConceptos.Rows(filaActual).Cells(1).Value.ToString
-        TxtDescripcion.Text = frmConceptosContables.DgvConceptos.Rows(filaActual).Cells(2).Value.ToString
-        TxtNota.Text = frmConceptosContables.DgvConceptos.Rows(filaActual).Cells(3).Value.ToString
 
+        Dim tipoTextoGrid As String = frmConceptosContables.DgvConceptos.Rows(filaActual).Cells(0).Value.ToString().Trim()
+        TxtNombre.Text = frmConceptosContables.DgvConceptos.Rows(filaActual).Cells(1).Value.ToString()
+        TxtDescripcion.Text = frmConceptosContables.DgvConceptos.Rows(filaActual).Cells(2).Value.ToString()
+        TxtNota.Text = frmConceptosContables.DgvConceptos.Rows(filaActual).Cells(3).Value.ToString()
+
+        ' 2. REVERTIR IDIOMA: Averiguar el TipoCON original de la Base de Datos
+        Dim tipoOriginalBD As String = tipoTextoGrid
+        Dim recursos As System.Resources.ResourceSet = rmse.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
+        If recursos IsNot Nothing Then
+            For Each elemento As System.Collections.DictionaryEntry In recursos
+                If elemento.Value.ToString().Trim().ToUpper() = tipoTextoGrid.ToUpper() Then
+                    ' Extraemos la Key original (ej: "Tipo_Especial" o "Tipo_Gasto")
+                    Dim keyEncontrada As String = elemento.Key.ToString().ToUpper()
+
+                    ' Identificamos si mapea con tu regla de negocio de conceptos
+                    If keyEncontrada = "TIPO_GASTO" Then tipoOriginalBD = "GASTO"
+                    If keyEncontrada = "TIPO_INGRESO" Then tipoOriginalBD = "INGRESO"
+                    If keyEncontrada = "TIPO_ESPECIAL" Then tipoOriginalBD = "ESPECIAL"
+                    Exit For
+                End If
+            Next
+        End If
+
+        ' Asignamos el texto traducido al ComboBox para mantener la consistencia visual
+        CmbTipoConcepto.Text = tipoTextoGrid
+
+        ' 3. EVALUAR MODO (Editar o Eliminar) CON EXCEPCIÓN PARA "ESPECIAL"
         If vEditar = "SI" Then
-            'LblEditando.Text = Por defecto creado en el diseño del formulario, se le asigna el texto de Editando
-            CmbTipoConcepto.Enabled = False
-            TxtNombre.Enabled = False
-            TxtDescripcion.Select()
-            BtnEliminar.Enabled = False
+            ' Si es del sistema (ESPECIAL), bloqueamos su edición de raíz
+            If tipoOriginalBD = "ESPECIAL" Then
+                CmbTipoConcepto.Enabled = False
+                TxtNombre.Enabled = False
+                TxtDescripcion.Enabled = False
+                TxtNota.Enabled = False
+                BtnAceptar.Enabled = False
+                BtnEliminar.Enabled = False
+
+                ' Mostramos un aviso visual opcional en el formulario (debes añadir esta Key en ResX Manager)
+                LblEditando.Text = rmse.GetString("ConceptoSistemaProtegido")
+                BtnCancelar.Select()
+            Else
+                ' Flujo normal para conceptos modificables del usuario
+                CmbTipoConcepto.Enabled = False
+                TxtNombre.Enabled = False
+                TxtDescripcion.Select()
+                BtnEliminar.Enabled = False
+            End If
         Else
+            ' MODO ELIMINAR (Muestra los datos bloqueados listos para pulsar Eliminar)
             LblEditando.Text = rmse.GetString("LblEliminando")
             CmbTipoConcepto.Enabled = False
             TxtNombre.Enabled = False
             TxtDescripcion.Enabled = False
             TxtNota.Enabled = False
             BtnAceptar.Enabled = False
-            BtnEliminar.Select()
+
+            ' Si el tipo es ESPECIAL, el botón de eliminar también se apaga por seguridad
+            If tipoOriginalBD = "ESPECIAL" Then
+                BtnEliminar.Enabled = False
+                BtnCancelar.Select()
+            Else
+                BtnEliminar.Select()
+            End If
+
             vEditar = "SI"
         End If
     End Sub
@@ -81,21 +127,48 @@ Public Class EditarConceptoContable
     End Sub
 
     Private Sub BtnEliminar_Click(sender As Object, e As EventArgs) Handles BtnEliminar.Click
-        vTxtNombre = TxtNombre.Text
-        respuesta = MsgBox(rmse.GetString("EliminarConcepto") & " " & vTxtNombre & " " & rmse.GetString("EliminarConcepto2"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("LblEliminando"))
-        If respuesta = vbYes Then
-            ' Eliminar Registro Conceptos
-            vtipoSql = "DELETE FROM conceptos"
-            vtipoSql += " WHERE conceptos.CodigoCON = '" & vTxtNombre & "' "
-            cmdMdb1cr.CommandText = vtipoSql
+        ' 1. Obtener el nombre del concepto que se pretende eliminar
+        vTxtNombre = TxtNombre.Text.Trim()
 
-            Try
-                cmdMdb1cr.ExecuteNonQuery()
-                MsgBox(rmse.GetString("EliminarConcepto3"))
-            Catch ex As Exception
-                MsgBox(rmse.GetString("EliminarConcepto4") & vbNewLine & ex.Message)
-                Exit Sub ' Si no se pudo eliminar la cuenta, no intentamos eliminar los apuntes relacionados
-            End Try
+        ' 2. REVERTIR EL IDIOMA (Búsqueda inversa para obtener el nombre original de la BD)
+        Dim nombreOriginalBD As String = vTxtNombre
+        Dim recursos As System.Resources.ResourceSet = rmse.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
+        If recursos IsNot Nothing Then
+            For Each elemento As System.Collections.DictionaryEntry In recursos
+                If elemento.Value.ToString().Trim().ToUpper() = vTxtNombre.ToUpper() Then
+                    nombreOriginalBD = elemento.Key.ToString().Replace("_", " ")
+                    Exit For
+                End If
+            Next
+        End If
+
+        ' 3. VALIDACIÓN: Verificar si el concepto tiene el tipo original "ESPECIAL"
+        ' Buscamos directamente con el nombre original de la base de datos
+        Dim vSqlVerificarEspecial As String = "SELECT TipoCON FROM conceptos WHERE CodigoCON = '" & nombreOriginalBD & "'"
+        cmdMdb1cr.CommandText = vSqlVerificarEspecial
+
+        Try
+            Dim tipoOrigen As Object = cmdMdb1cr.ExecuteScalar()
+
+            ' Si el resultado no es nulo y es igual a "ESPECIAL", bloqueamos la acción
+            If tipoOrigen IsNot Nothing AndAlso tipoOrigen.ToString().Trim().ToUpper() = "ESPECIAL" Then
+                ' Recuerda dar de alta "ConceptoSistemaNoBorrar" en tu ResX Manager
+                MsgBox(rmse.GetString("ConceptoSistemaNoBorrar"), vbExclamation, resManager.GetString("AccionCancelada"))
+                Exit Sub
+            End If
+        Catch ex As Exception
+            MsgBox(resManager.GetString("ErrorVerificarIntegridad") & ": " & ex.Message, vbCritical, rmse.GetString("$this.Text"))
+            Exit Sub
+        End Try
+
+        ' 4. Mensaje de confirmación (Muestra el nombre traducido para el usuario)
+        respuesta = MsgBox(rmse.GetString("EliminarConcepto") & " " & vTxtNombre & " " & rmse.GetString("EliminarConcepto2"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("LblEliminando"))
+
+        If respuesta = vbYes Then
+            ' 5. Eliminar Registro Conceptos utilizando el nombre real de la BD
+            vtipoSql = "DELETE FROM conceptos"
+            vtipoSql += " WHERE conceptos.CodigoCON = '" & nombreOriginalBD & "' "
+            cmdMdb1cr.CommandText = vtipoSql
 
             ' Eliminar Registros Apuntes
             vtipoSql = "DELETE FROM apuntes"

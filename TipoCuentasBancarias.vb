@@ -391,23 +391,41 @@ Public Class TipoCuentaBancaria
         vtipoSql += " ORDER BY tipocuentas.CodigoTIP ASC"
         vtipoGrid = "TIPO_CUENTAS_BANCARIAS"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
+        TraducirContenidoGridTiposCuenta(DgvTipoCuentasBancarias, rmse)
         DgvTipoCuentasBancarias.CurrentCell = DgvTipoCuentasBancarias.Rows(filaActual).Cells(0)
         DgvTipoCuentasBancarias.Rows(filaActual).Selected = True
     End Sub
 
     Private Sub BtnEliminarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEliminarRegistro.Click
+
         ' 1. Verificar si hay alguna fila seleccionada en el Grid
         If frmTipoCuentaBancaria.DgvTipoCuentasBancarias.CurrentRow Is Nothing Then
-            MsgBox("Por favor, seleccione un tipo de cuenta de la lista.", vbExclamation, "Atención")
+            MsgBox(rmse.GetString("SeleccionarTipo"), vbExclamation, rmse.GetString("$this.Text"))
             Exit Sub
         End If
 
-        ' 2. Obtener el nombre/código del tipo de cuenta de la celda (0)
+        ' 2. Obtener el texto del Grid y REVERTIR el idioma a su valor original de la BD
         Dim filaActual As Integer = frmTipoCuentaBancaria.DgvTipoCuentasBancarias.CurrentRow.Index
-        Dim vTxtNombre As String = frmTipoCuentaBancaria.DgvTipoCuentasBancarias.Rows(filaActual).Cells(0).Value.ToString()
+        Dim textoTraducido As String = frmTipoCuentaBancaria.DgvTipoCuentasBancarias.Rows(filaActual).Cells(0).Value.ToString().Trim()
+
+        ' Variable que contendrá el nombre real en la Base de Datos
+        Dim vTxtNombre As String = textoTraducido
+
+        ' Buscamos de forma inversa en el archivo de recursos (rmse)
+        Dim recursos As System.Resources.ResourceSet = rmse.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
+        If recursos IsNot Nothing Then
+            For Each elemento As System.Collections.DictionaryEntry In recursos
+                ' Si el valor traducido coincide con lo que hay en el Grid...
+                If elemento.Value.ToString().Trim().ToUpper() = textoTraducido.ToUpper() Then
+                    ' La Key encontrada (ej: "Cuenta_Corriente") la volvemos a dejar con espacios ("Cuenta Corriente")
+                    vTxtNombre = elemento.Key.ToString().Replace("_", " ")
+                    Exit For
+                End If
+            Next
+        End If
 
         ' 3. VALIDACIÓN: Comprobar si este Tipo de Cuenta está en uso en la tabla 'cuentas'
-        Dim vSqlVerificar As String = "SELECT COUNT(*) FROM cuentas WHERE TipoCUE = '" & vTxtNombre & "'"
+        Dim vSqlVerificar As String = "Select COUNT(*) FROM cuentas WHERE TipoCUE = '" & vTxtNombre & "'"
 
         ' Reutilizamos tu comando por defecto asignándole la consulta de verificación
         cmdMdb1cr.CommandText = vSqlVerificar
@@ -417,34 +435,34 @@ Public Class TipoCuentaBancaria
             ' Ejecutamos el conteo sobre tu comando de siempre
             cuentasAsociadas = Convert.ToInt32(cmdMdb1cr.ExecuteScalar())
         Catch ex As Exception
-            MsgBox("Error al verificar la integridad de los datos: " & ex.Message, vbCritical, "Error")
+            MsgBox(rmse.GetString("ErrorVerificarIntegridad") & ": " & ex.Message, vbCritical, rmse.GetString("$this.Text"))
             Exit Sub
         End Try
 
         ' 4. Bloquear el borrado si está asignado a alguna cuenta
         If cuentasAsociadas > 0 Then
-            MsgBox("No se puede eliminar el tipo '" & vTxtNombre & "' porque está asignado a " & cuentasAsociadas & " cuenta(s) bancaria(s).", vbExclamation, "Acción Cancelada")
+            MsgBox(rmse.GetString("NoSePuedeEliminar") & " " & textoTraducido & " " & rmse.GetString("PorqueAsignado") & " " & cuentasAsociadas & " " & rmse.GetString("CuentaBancaria"), vbExclamation, rmse.GetString("AccionCancelada"))
             Exit Sub
         End If
 
-        ' 5. Confirmación de borrado seguro
-        If MsgBox("¿Está seguro de eliminar el Tipo de Cuenta Bancaria '" & vTxtNombre & "'?", vbQuestion + vbYesNo + vbDefaultButton2, "Confirmar Borrado") = vbYes Then
+        ' 5. Confirmación de borrado seguro (mostramos el texto traducido para que el usuario lo entienda)
+        If MsgBox(rmse.GetString("SeguroEliminar") & ": " & textoTraducido & "?", vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("ConfirmarBorrado")) = vbYes Then
             ' Limpiamos cualquier rastro de la consulta anterior en el comando
             cmdMdb1cr.Parameters.Clear()
 
-            ' Asignamos la nueva sentencia de borrado
+            ' Asignamos la nueva sentencia de borrado usando el nombre original (vTxtNombre)
             Dim vtipoSql As String = "DELETE FROM tipocuentas WHERE CodigoTIP = '" & vTxtNombre & "'"
             cmdMdb1cr.CommandText = vtipoSql
-            MsgBox(vtipoSql) ' Solo para depuración, puedes eliminar esta línea después de verificar que la consulta es correcta)
+
             Try
                 ' Ejecutamos el borrado físico
                 Dim filasAfectadas As Integer = cmdMdb1cr.ExecuteNonQuery()
 
                 ' Validamos si realmente la base de datos eliminó algo
                 If filasAfectadas > 0 Then
-                    MsgBox("¡El registro ha sido borrado correctamente!", vbInformation, "Registro Eliminado")
+                    MsgBox(resManager.GetString("RegistroBorrado"), vbInformation, resManager.GetString("ToolTipEliminar"))
                 Else
-                    MsgBox("El registro no se pudo borrar. Verifique si el nombre '" & vTxtNombre & "' coincide exactamente en la base de datos.", vbExclamation, "Atención")
+                    MsgBox(resManager.GetString("RegistroNoBorrado") & " " & textoTraducido & vbExclamation, resManager.GetString("ToolTipEliminar"))
                 End If
 
                 ' 6. Recarga automática del Grid con tu método exacto
@@ -453,12 +471,12 @@ Public Class TipoCuentaBancaria
                 vtipoSql += " ORDER BY tipocuentas.CodigoTIP ASC"
                 vtipoGrid = "TIPO_CUENTAS_BANCARIAS"
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
-
+                TraducirContenidoGridTiposCuenta(frmTipoCuentaBancaria.DgvTipoCuentasBancarias, rmse)
             Catch ex As Exception
-                MsgBox("Error al intentar eliminar el registro: " & ex.Message, vbCritical, "Error")
+                MsgBox(resManager.GetString("ErrorEliminarRegistro") & ex.Message, vbCritical, resManager.GetString("Error"))
             End Try
         Else
-            MsgBox("Eliminación cancelada. El tipo de cuenta '" & vTxtNombre & "' no ha sido eliminado.", vbInformation, "Acción Cancelada")
+            MsgBox(resManager.GetString("AccionCancelada"), vbInformation, rmse.GetString("$this.Text"))
         End If
     End Sub
 
@@ -476,6 +494,7 @@ Public Class TipoCuentaBancaria
         vtipoSql += " ORDER BY tipocuentas.CodigoTIP ASC"
         vtipoGrid = "TIPO_CUENTAS_BANCARIAS"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
+        TraducirContenidoGridTiposCuenta(DgvTipoCuentasBancarias, rmse)
     End Sub
 
     Private Sub BtnPrimero_Click(sender As Object, e As EventArgs) Handles BtnPrimero.Click

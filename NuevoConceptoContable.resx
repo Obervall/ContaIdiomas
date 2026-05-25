@@ -216,7 +216,7 @@
     <value>14, 206</value>
   </data>
   <data name="Label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 16</value>
+    <value>120, 20</value>
   </data>
   <data name="Label6.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -243,7 +243,7 @@
     <value>14, 160</value>
   </data>
   <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 16</value>
+    <value>120, 27</value>
   </data>
   <data name="Label4.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -270,7 +270,7 @@
     <value>14, 114</value>
   </data>
   <data name="Label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 16</value>
+    <value>120, 24</value>
   </data>
   <data name="Label3.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -297,7 +297,7 @@
     <value>14, 68</value>
   </data>
   <data name="Label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 16</value>
+    <value>120, 27</value>
   </data>
   <data name="Label2.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>

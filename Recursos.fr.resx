@@ -208,7 +208,6 @@ Ils ne sont pas supprimés de la base de données</value>
   <data name="ErrorAlEliminarSaldo" xml:space="preserve">
     <value>Erreur de suppression des registres de SOLDE de l’exercice fiscal</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="Filtrado" xml:space="preserve">
     <value>(Filtré)</value>
   </data>
@@ -217,12 +216,6 @@ Ils ne sont pas supprimés de la base de données</value>
   </data>
   <data name="CON" xml:space="preserve">
     <value>AVEC</value>
-  </data>
-  <data name="NoHayCoincidencia" xml:space="preserve">
-    <value>Il n'y a aucune correspondance avec les données saisies</value>
-  </data>
-  <data name="NoHayMasCoincidencias" xml:space="preserve">
-    <value>Plus aucun enregistrement correspondant aux données saisies</value>
   </data>
   <data name="Tipo" xml:space="preserve">
     <value>Type</value>
@@ -239,11 +232,11 @@ Ils ne sont pas supprimés de la base de données</value>
   <data name="Tipo_Gasto" xml:space="preserve">
     <value>DÉPENSÉ</value>
   </data>
-  <data name="Tipo_Especial" xml:space="preserve">
-    <value>SPÉCIAL</value>
-  </data>
   <data name="Tipo_Ingreso" xml:space="preserve">
     <value>REVENU</value>
+  </data>
+  <data name="Tipo_Especial" xml:space="preserve">
+    <value>SPÉCIAL</value>
   </data>
   <data name="Tipo_Traspaso" xml:space="preserve">
     <value>TRANSFERT</value>
@@ -289,5 +282,26 @@ Ils ne sont pas supprimés de la base de données</value>
   </data>
   <data name="Existe" xml:space="preserve">
     <value>existe déjà dans</value>
+  </data>
+  <data name="NoHayDatos" xml:space="preserve">
+    <value>Il n’y a AUCUNE donnée dans</value>
+  </data>
+  <data name="RegistroBorrado" xml:space="preserve">
+    <value>Le dossier a été effacé avec succès</value>
+  </data>
+  <data name="RegistroNoBorradoVerificar" xml:space="preserve">
+    <value>Le dossier ne pouvait pas être supprimé. Vérifier</value>
+  </data>
+  <data name="ErrorEliminarRegistro" xml:space="preserve">
+    <value>Échec à supprimer le registre</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Erreur</value>
+  </data>
+  <data name="AccionCancelada" xml:space="preserve">
+    <value>Action annulée</value>
+  </data>
+  <data name="ErrorVerificarIntegridad" xml:space="preserve">
+    <value>Défaut de vérification de l’intégrité</value>
   </data>
 </root>

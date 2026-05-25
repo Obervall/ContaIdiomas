@@ -192,4 +192,25 @@
   <data name="Desc_Fondo_de_Inversión" xml:space="preserve">
     <value>Banco de Fundos de Investimento</value>
   </data>
+  <data name="SeleccionarTipo" xml:space="preserve">
+    <value>Por favor, selecione um tipo de conta da lista.</value>
+  </data>
+  <data name="ErrorVerificarIntegridad" xml:space="preserve">
+    <value>Erro na verificação da integridade dos dados</value>
+  </data>
+  <data name="NoSePuedeEliminar" xml:space="preserve">
+    <value>Não é possível excluir o tipo</value>
+  </data>
+  <data name="PorqueAsignado" xml:space="preserve">
+    <value>Porque foi atribuído</value>
+  </data>
+  <data name="CuentaBancaria" xml:space="preserve">
+    <value>em Contas Bancárias</value>
+  </data>
+  <data name="SeguroEliminar" xml:space="preserve">
+    <value>Você tem certeza de remover o Tipo de Conta Bancária</value>
+  </data>
+  <data name="ConfirmarBorrado" xml:space="preserve">
+    <value>Confirmar Exclusão</value>
+  </data>
 </root>

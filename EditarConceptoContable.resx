@@ -267,10 +267,10 @@
     <value>5</value>
   </data>
   <data name="Label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 160</value>
+    <value>6, 160</value>
   </data>
   <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 27</value>
+    <value>128, 27</value>
   </data>
   <data name="Label4.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -573,9 +573,6 @@
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="LblEliminando" xml:space="preserve">
-    <value>¡¡ ELIMINAR CONCEPTO CONTABLE !!</value>
-  </data>
   <data name="EliminarConcepto" xml:space="preserve">
     <value>¿Estás seguro de Eliminar el Concepto Contable</value>
   </data>
@@ -588,7 +585,13 @@
   <data name="EliminarConcepto4" xml:space="preserve">
     <value>Error al Eliminar el Registro del Concepto Contable</value>
   </data>
+  <data name="LblEliminando" xml:space="preserve">
+    <value>¡¡ ELIMINAR CONCEPTO CONTABLE !!</value>
+  </data>
   <data name="ToolTipDescripcion" xml:space="preserve">
     <value>Descripción del Concepto</value>
+  </data>
+  <data name="ConceptoSistemaNoBorrar" xml:space="preserve">
+    <value>Concepto del Sistema, No se puede Eliminar</value>
   </data>
 </root>

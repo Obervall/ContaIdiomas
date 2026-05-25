@@ -208,7 +208,6 @@ No se Eliminan de la Base de Datos</value>
   <data name="ErrorAlEliminarSaldo" xml:space="preserve">
     <value>Error al eliminar los registros SALDO del Ejercicio</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="Filtrado" xml:space="preserve">
     <value>(Filtrado)</value>
   </data>
@@ -217,12 +216,6 @@ No se Eliminan de la Base de Datos</value>
   </data>
   <data name="CON" xml:space="preserve">
     <value>CON</value>
-  </data>
-  <data name="NoHayCoincidencia" xml:space="preserve">
-    <value>No hay ninguna Coincidencia con los datos Introducidos</value>
-  </data>
-  <data name="NoHayMasCoincidencias" xml:space="preserve">
-    <value>No hay más Registros que Coincidencian con los datos Introducidos</value>
   </data>
   <data name="Tipo" xml:space="preserve">
     <value>Tipo</value>
@@ -289,5 +282,26 @@ No se Eliminan de la Base de Datos</value>
   </data>
   <data name="Existe" xml:space="preserve">
     <value>ya existe en</value>
+  </data>
+  <data name="NoHayDatos" xml:space="preserve">
+    <value>NO hay Datos en</value>
+  </data>
+  <data name="RegistroBorrado" xml:space="preserve">
+    <value>El registro ha sido borrado correctamente</value>
+  </data>
+  <data name="RegistroNoBorradoVerificar" xml:space="preserve">
+    <value>El registro no se pudo borrar. Verifique</value>
+  </data>
+  <data name="ErrorEliminarRegistro" xml:space="preserve">
+    <value>Error al intentar eliminar el registro</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="AccionCancelada" xml:space="preserve">
+    <value>Acción Cancelada</value>
+  </data>
+  <data name="ErrorVerificarIntegridad" xml:space="preserve">
+    <value>Error al Verificar la Integridad</value>
   </data>
 </root>

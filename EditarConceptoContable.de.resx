@@ -171,4 +171,7 @@
   <data name="ToolTipDescripcion" xml:space="preserve">
     <value>Beschreibung des Konzepts</value>
   </data>
+  <data name="ConceptoSistemaNoBorrar" xml:space="preserve">
+    <value>Systemkonzept kann nicht eliminiert werden</value>
+  </data>
 </root>

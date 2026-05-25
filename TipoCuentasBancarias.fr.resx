@@ -192,4 +192,25 @@
   <data name="Desc_Fondo_de_Inversión" xml:space="preserve">
     <value>Banque de fonds d’investissement</value>
   </data>
+  <data name="SeleccionarTipo" xml:space="preserve">
+    <value>Veuillez sélectionner un type de compte dans la liste.</value>
+  </data>
+  <data name="ErrorVerificarIntegridad" xml:space="preserve">
+    <value>Erreur dans la vérification de l’intégrité des données</value>
+  </data>
+  <data name="NoSePuedeEliminar" xml:space="preserve">
+    <value>Impossible de supprimer le type</value>
+  </data>
+  <data name="PorqueAsignado" xml:space="preserve">
+    <value>Parce qu’elle a été assignée</value>
+  </data>
+  <data name="CuentaBancaria" xml:space="preserve">
+    <value>dans les comptes bancaires</value>
+  </data>
+  <data name="SeguroEliminar" xml:space="preserve">
+    <value>Êtes-vous sûr de supprimer le type de compte bancaire</value>
+  </data>
+  <data name="ConfirmarBorrado" xml:space="preserve">
+    <value>Confirmer la suppression</value>
+  </data>
 </root>

@@ -141,4 +141,7 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Bankkontotyp bearbeiten</value>
   </data>
+  <data name="LblEliminando" xml:space="preserve">
+    <value>KONTOTYP LÖSCHEN!!</value>
+  </data>
 </root>

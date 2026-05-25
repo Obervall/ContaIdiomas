@@ -192,4 +192,25 @@
   <data name="Desc_Fondo_de_Inversión" xml:space="preserve">
     <value>Investmentfondsbank</value>
   </data>
+  <data name="SeleccionarTipo" xml:space="preserve">
+    <value>Bitte wählen Sie einen Kontotyp aus der Liste aus.</value>
+  </data>
+  <data name="ErrorVerificarIntegridad" xml:space="preserve">
+    <value>Fehler bei der Überprüfung der Datenintegrität</value>
+  </data>
+  <data name="NoSePuedeEliminar" xml:space="preserve">
+    <value>Typ kann nicht gelöscht werden</value>
+  </data>
+  <data name="PorqueAsignado" xml:space="preserve">
+    <value>Weil es zugewiesen wurde</value>
+  </data>
+  <data name="CuentaBancaria" xml:space="preserve">
+    <value>in Bankkonten</value>
+  </data>
+  <data name="SeguroEliminar" xml:space="preserve">
+    <value>Bist du sicher, dass du den Kontotyp entfernen willst</value>
+  </data>
+  <data name="ConfirmarBorrado" xml:space="preserve">
+    <value>Löschung bestätigen</value>
+  </data>
 </root>

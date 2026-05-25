@@ -81,16 +81,16 @@ Public Class NuevoTipoCuentaBancaria
                         'MsgBox("Registro, Grabado Correctamente")
                         Me.Close()
                     Catch ex As Exception
-                        MsgBox("Error al insertar el nuevo Tipo de Cuenta Bancaria")
+                        'MsgBox("Error al insertar el nuevo Tipo de Cuenta Bancaria")
                         MsgBox(ex.ToString)
                     End Try
                 End If
             Catch ex As Exception
-                MsgBox("Error al verificar que el Nombre no se repite en Tipo Cuentas Bancarias")
+                'MsgBox("Error al verificar que el Nombre no se repite en Tipo Cuentas Bancarias")
                 MsgBox(ex.ToString)
             End Try
         Else
-            MsgBox("NO hay Datos en Nombre ...")
+            MsgBox(resManager.GetString("NoHayDatos") & ": " & resManager.GetString("Nombre"), vbOKOnly, rmse.GetString("$this.Text"))
             TxtNombre.Select()
         End If
     End Sub

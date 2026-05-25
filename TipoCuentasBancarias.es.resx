@@ -192,4 +192,25 @@
   <data name="Desc_Tarjeta_de_Crédito" xml:space="preserve">
     <value>Tarjeta de Crédito VISA</value>
   </data>
+  <data name="SeleccionarTipo" xml:space="preserve">
+    <value>Por favor, seleccione un tipo de cuenta de la lista.</value>
+  </data>
+  <data name="ErrorVerificarIntegridad" xml:space="preserve">
+    <value>Error al verificar la Integridad de los Datos</value>
+  </data>
+  <data name="NoSePuedeEliminar" xml:space="preserve">
+    <value>No se puede eliminar el tipo</value>
+  </data>
+  <data name="PorqueAsignado" xml:space="preserve">
+    <value>Porque tiene Asignado</value>
+  </data>
+  <data name="CuentaBancaria" xml:space="preserve">
+    <value>en Cuentas Bancarias</value>
+  </data>
+  <data name="SeguroEliminar" xml:space="preserve">
+    <value>¿Está seguro de eliminar el Tipo de Cuenta Bancaria</value>
+  </data>
+  <data name="ConfirmarBorrado" xml:space="preserve">
+    <value>Confirmar Borrado</value>
+  </data>
 </root>

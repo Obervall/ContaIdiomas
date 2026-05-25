@@ -141,4 +141,7 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Editar Tipus Compte Bancari</value>
   </data>
+  <data name="LblEliminando" xml:space="preserve">
+    <value>ELIMINAR TIPUS COMPTE BANCARI !!</value>
+  </data>
 </root>
