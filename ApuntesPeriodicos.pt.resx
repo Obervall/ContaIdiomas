@@ -157,7 +157,7 @@
     <value>Datas</value>
   </data>
   <data name="Label9.Text" xml:space="preserve">
-    <value>Equilíbrio:</value>
+    <value>Saldo:</value>
   </data>
   <data name="Label8.Text" xml:space="preserve">
     <value>Contas:</value>
@@ -184,7 +184,7 @@
     <value>Erro na exclusão de entradas periódicas relacionadas ao item contábil</value>
   </data>
   <data name="MsgSaldos1" xml:space="preserve">
-    <value>Os saldos iniciais NÃO PODEM SER EXCLUÍDOS</value>
+    <value>Os saldos iniciais NÃO podem ser eliminados</value>
   </data>
   <data name="MsgSaldos2" xml:space="preserve">
     <value>Os saldos iniciais NÃO PODEM ser editados</value>

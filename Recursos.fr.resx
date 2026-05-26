@@ -205,9 +205,6 @@ Ils ne sont pas supprimés de la base de données</value>
   <data name="VersionDisponible" xml:space="preserve">
     <value>Version disponible :</value>
   </data>
-  <data name="ErrorAlEliminarSaldo" xml:space="preserve">
-    <value>Erreur de suppression des registres de SOLDE de l’exercice fiscal</value>
-  </data>
   <data name="Filtrado" xml:space="preserve">
     <value>(Filtré)</value>
   </data>
@@ -230,7 +227,7 @@ Ils ne sont pas supprimés de la base de données</value>
     <value>Notes</value>
   </data>
   <data name="Tipo_Gasto" xml:space="preserve">
-    <value>DÉPENSÉ</value>
+    <value>DÉPENSE</value>
   </data>
   <data name="Tipo_Ingreso" xml:space="preserve">
     <value>REVENU</value>

@@ -15,19 +15,32 @@ Public Class ConceptosContables
         ActualizarTextosFormulario(Me)
 
         Me.KeyPreview = True
-        TL(0) = New ToolTip : TL(0).SetToolTip(Me.BtnFiltroTipoConcepto, resManager.GetString("ToolTipAplicarFiltro"))
-        TL(1) = New ToolTip : TL(1).SetToolTip(Me.BtnSinFiltroTipoConcepto, resManager.GetString("ToolTipQuitarFiltro"))
-        TL(2) = New ToolTip : TL(2).SetToolTip(Me.BtnAñadirRegistro, resManager.GetString("ToolTipAñadir"))
-        TL(3) = New ToolTip : TL(3).SetToolTip(Me.BtnEditarRegistro, resManager.GetString("ToolTipEditar"))
-        TL(4) = New ToolTip : TL(4).SetToolTip(Me.BtnEliminarRegistro, resManager.GetString("ToolTipEliminar"))
-        TL(5) = New ToolTip : TL(5).SetToolTip(Me.BtnBuscarRegistro, resManager.GetString("ToolTipBuscar"))
-        TL(6) = New ToolTip : TL(6).SetToolTip(Me.BtnSeguirBuscando, resManager.GetString("ToolTipSeguirBuscando"))
-        TL(7) = New ToolTip : TL(7).SetToolTip(Me.BtnImprimir, resManager.GetString("ToolTipImprimir"))
-        TL(8) = New ToolTip : TL(8).SetToolTip(Me.BtnSalir, resManager.GetString("ToolTipSalir"))
-        TL(9) = New ToolTip : TL(9).SetToolTip(Me.BtnPrimero, resManager.GetString("ToolTipPrimero"))
-        TL(10) = New ToolTip : TL(10).SetToolTip(Me.BtnAnterior, resManager.GetString("ToolTipAnterior"))
-        TL(11) = New ToolTip : TL(11).SetToolTip(Me.BtnSiguiente, resManager.GetString("ToolTipSiguiente"))
-        TL(12) = New ToolTip : TL(12).SetToolTip(Me.BtnUltimo, resManager.GetString("ToolTipUltimo"))
+        TL(0) = New ToolTip
+        TL(0).SetToolTip(Me.BtnFiltroTipoConcepto, resManager.GetString("ToolTipAplicarFiltro"))
+        TL(1) = New ToolTip
+        TL(1).SetToolTip(Me.BtnSinFiltroTipoConcepto, resManager.GetString("ToolTipQuitarFiltro"))
+        TL(2) = New ToolTip
+        TL(2).SetToolTip(Me.BtnAñadirRegistro, resManager.GetString("ToolTipAñadir"))
+        TL(3) = New ToolTip
+        TL(3).SetToolTip(Me.BtnEditarRegistro, resManager.GetString("ToolTipEditar"))
+        TL(4) = New ToolTip
+        TL(4).SetToolTip(Me.BtnEliminarRegistro, resManager.GetString("ToolTipEliminar"))
+        TL(5) = New ToolTip
+        TL(5).SetToolTip(Me.BtnBuscarRegistro, resManager.GetString("ToolTipBuscar"))
+        TL(6) = New ToolTip
+        TL(6).SetToolTip(Me.BtnSeguirBuscando, resManager.GetString("ToolTipSeguirBuscando"))
+        TL(7) = New ToolTip
+        TL(7).SetToolTip(Me.BtnImprimir, resManager.GetString("ToolTipImprimir"))
+        TL(8) = New ToolTip
+        TL(8).SetToolTip(Me.BtnSalir, resManager.GetString("ToolTipSalir"))
+        TL(9) = New ToolTip
+        TL(9).SetToolTip(Me.BtnPrimero, resManager.GetString("ToolTipPrimero"))
+        TL(10) = New ToolTip
+        TL(10).SetToolTip(Me.BtnAnterior, resManager.GetString("ToolTipAnterior"))
+        TL(11) = New ToolTip
+        TL(11).SetToolTip(Me.BtnSiguiente, resManager.GetString("ToolTipSiguiente"))
+        TL(12) = New ToolTip
+        TL(12).SetToolTip(Me.BtnUltimo, resManager.GetString("ToolTipUltimo"))
 
         AddHandler Me.GroupBox3.MouseMove, AddressOf VerificarFiltrosDesactivados
         AddHandler Me.GroupBox4.MouseMove, AddressOf VerificarFiltrosDesactivados
@@ -36,7 +49,7 @@ Public Class ConceptosContables
         CmbTipoConcepto.DropDownStyle = ComboBoxStyle.DropDownList
 
         ' 2. LLENAMOS EL COMBO PRIMERO (Así tendrá elementos antes de seleccionar el índice 0)
-        ActualizarIdiomaComboConcepto()
+        ActualizarIdiomaComboConcepto(Me.CmbTipoConcepto, True)
 
         ' 3. Ahora que ya tiene filas, seleccionamos de forma segura la primera
         CmbTipoConcepto.SelectedIndex = 0
@@ -230,33 +243,6 @@ Public Class ConceptosContables
         End If
     End Sub
 
-    ' --- MÉTODOS DE CONTROL PARA CORREGIR LOS ERRORES EN ROJO ---
-
-    ''' <summary>
-    ''' Traduce los elementos fijos del ComboBox al idioma activo
-    ''' </summary>
-    Private Sub ActualizarIdiomaComboConcepto()
-        Try
-            ' Guardamos la posición que tenía seleccionada el usuario
-            Dim posicionActual As Integer = CmbTipoConcepto.SelectedIndex
-
-            ' Limpiamos los elementos e insertamos las traducciones oficiales desde ResX
-            CmbTipoConcepto.Items.Clear()
-            CmbTipoConcepto.Items.Add(resManager.GetString("Tipo_Gasto")) ' Posición 0
-            CmbTipoConcepto.Items.Add(resManager.GetString("Tipo_Ingreso")) ' Posición 1
-            CmbTipoConcepto.Items.Add(resManager.GetString("Tipo_Especial")) ' Posición 2
-
-            ' Restauramos la posición del usuario de forma segura
-            If posicionActual >= 0 AndAlso posicionActual < CmbTipoConcepto.Items.Count Then
-                CmbTipoConcepto.SelectedIndex = posicionActual
-            Else
-                CmbTipoConcepto.SelectedIndex = 0
-            End If
-        Catch ex As Exception
-            ' Evita errores si las Keys aún no están dadas de alta en el diseño del formulario
-        End Try
-    End Sub
-
     ''' <summary>
     ''' Controla de forma visual la activación o desactivación de los botones de filtro
     ''' </summary>
@@ -296,67 +282,162 @@ Public Class ConceptosContables
     ' --- BOTONES DE DESPLAZAMIENTO / NAVEGACIÓN ---
 
     Private Sub BtnPrimero_Click(sender As Object, e As EventArgs) Handles BtnPrimero.Click
-        If DgvConceptos.Rows.Count > 0 Then
-            DgvConceptos.CurrentCell = DgvConceptos.Rows(0).Cells(0)
+        vFilaActual = DgvConceptos.CurrentRow.Index
+        If vFilaActual = 0 Then
+            MsgBox(resManager.GetString("MsgFila1"), vbInformation)
+        Else
+            vFila = 0
+            DgvConceptos.Rows(vFila).Selected = True
+            DgvConceptos.CurrentCell = DgvConceptos.Rows(vFila).Cells(0)
         End If
+
+        'If DgvConceptos.Rows.Count > 0 Then
+        '    DgvConceptos.CurrentCell = DgvConceptos.Rows(0).Cells(0)
+        'End If
     End Sub
 
     Private Sub BtnAnterior_Click(sender As Object, e As EventArgs) Handles BtnAnterior.Click
-        If DgvConceptos.CurrentRow IsNot Nothing Then
-            Dim filaIndex As Integer = DgvConceptos.CurrentRow.Index
-            If filaIndex > 0 Then
-                DgvConceptos.CurrentCell = DgvConceptos.Rows(filaIndex - 1).Cells(0)
-            End If
+        vFilaActual = DgvConceptos.CurrentRow.Index
+        If vFilaActual = 0 Then
+            MsgBox(resManager.GetString("MsgFila1"), vbInformation)
+        Else
+            vFila = vFilaActual - 1
+            DgvConceptos.Rows(vFila).Selected = True
+            DgvConceptos.CurrentCell = DgvConceptos.Rows(vFila).Cells(0)
         End If
+
+        'If DgvConceptos.CurrentRow IsNot Nothing Then
+        '    Dim filaIndex As Integer = DgvConceptos.CurrentRow.Index
+        '    If filaIndex > 0 Then
+        '        DgvConceptos.CurrentCell = DgvConceptos.Rows(filaIndex - 1).Cells(0)
+        '    End If
+        'End If
     End Sub
 
     Private Sub BtnSiguiente_Click(sender As Object, e As EventArgs) Handles BtnSiguiente.Click
-        If DgvConceptos.CurrentRow IsNot Nothing Then
-            Dim filaIndex As Integer = DgvConceptos.CurrentRow.Index
-            ' Restamos 1 o 2 dependiendo de si el Grid tiene activa la fila en blanco de inserción final
-            Dim limite As Integer = If(DgvConceptos.AllowUserToAddRows, DgvConceptos.Rows.Count - 2, DgvConceptos.Rows.Count - 1)
-
-            If filaIndex < limite Then
-                DgvConceptos.CurrentCell = DgvConceptos.Rows(filaIndex + 1).Cells(0)
-            End If
+        vFilaActual = DgvConceptos.CurrentRow.Index
+        If vFilaActual = DgvConceptos.RowCount - 1 Then
+            MsgBox(resManager.GetString("MsgFila2"), vbInformation)
+        Else
+            vFila = vFilaActual + 1
+            DgvConceptos.Rows(vFila).Selected = True
+            DgvConceptos.CurrentCell = DgvConceptos.Rows(vFila).Cells(0)
         End If
+
+        'If DgvConceptos.CurrentRow IsNot Nothing Then
+        '    Dim filaIndex As Integer = DgvConceptos.CurrentRow.Index
+        '    ' Restamos 1 o 2 dependiendo de si el Grid tiene activa la fila en blanco de inserción final
+        '    Dim limite As Integer = If(DgvConceptos.AllowUserToAddRows, DgvConceptos.Rows.Count - 2, DgvConceptos.Rows.Count - 1)
+
+        '    If filaIndex < limite Then
+        '        DgvConceptos.CurrentCell = DgvConceptos.Rows(filaIndex + 1).Cells(0)
+        '    End If
+        'End If
     End Sub
 
     Private Sub BtnUltimo_Click(sender As Object, e As EventArgs) Handles BtnUltimo.Click
-        If DgvConceptos.Rows.Count > 0 Then
-            Dim limite As Integer = If(DgvConceptos.AllowUserToAddRows, DgvConceptos.Rows.Count - 2, DgvConceptos.Rows.Count - 1)
-            If limite >= 0 Then
-                DgvConceptos.CurrentCell = DgvConceptos.Rows(limite).Cells(0)
-            End If
+        vFilaActual = DgvConceptos.CurrentRow.Index
+        If vFilaActual = DgvConceptos.RowCount - 1 Then
+            MsgBox(resManager.GetString("MsgFila2"), vbInformation)
+        Else
+            vFila = DgvConceptos.RowCount - 1
+            DgvConceptos.Rows(vFila).Selected = True
+            DgvConceptos.CurrentCell = DgvConceptos.Rows(vFila).Cells(0)
         End If
+
+        'If DgvConceptos.Rows.Count > 0 Then
+        '    Dim limite As Integer = If(DgvConceptos.AllowUserToAddRows, DgvConceptos.Rows.Count - 2, DgvConceptos.Rows.Count - 1)
+        '    If limite >= 0 Then
+        '        DgvConceptos.CurrentCell = DgvConceptos.Rows(limite).Cells(0)
+        '    End If
+        'End If
     End Sub
 
     ' --- ACCIONES PRINCIPALES DEL MANTENIMIENTO ---
 
     Private Sub BtnAñadirRegistro_Click(sender As Object, e As EventArgs) Handles BtnAñadirRegistro.Click
-        ' Configuramos la variable para indicar que es un registro NUEVO
-        vEditar = "NO"
+        ' Comprobamos si existe un identificador asociado.
+        If ((frmNuevoConceptoContable Is Nothing) OrElse (Not frmNuevoConceptoContable.IsHandleCreated)) Then
+            frmNuevoConceptoContable = New NuevoConceptoContable
+        End If
+        ' Llamamos al formulario de manera modal.
+        frmNuevoConceptoContable.ShowDialog()
+        'MessageBox.Show("Se ha cerrado el formulario.")
+        ' Destruimos el formulario.
+        frmNuevoConceptoContable.Dispose()
+        vtipoSql = "SELECT conceptos.TipoCON, conceptos.CodigoCON, conceptos.DescripcionCON, conceptos.NotasCON FROM conceptos"
+        If BtnFiltroTipoConcepto.Enabled = False Then
+            vtipoSql += " WHERE "
+            vtipoSql += "conceptos.TipoCON = '" & CmbTipoConcepto.Text & "' "
+        End If
+        vtipoSql += " ORDER BY conceptos.CodigoCON ASC"
+        vtipoGrid = "CONCEPTOS_CONTABLES"
+        LlenarGrid(vtipoSql, vtipoGrid, "1")
 
-        ' Abrimos el formulario de edición en modo modal
-        frmEditarConceptoContable.ShowDialog()
+        ' Traduce los textos de las celdas
+        TraducirCeldasDelGrid()
 
-        ' Al regresar, recargamos el Grid completo para ver el nuevo registro traducido
-        CargarYTraducirGridCompleto()
+        '' Configuramos la variable para indicar que es un registro NUEVO
+        'vEditar = "NO"
+
+        '' Abrimos el formulario de edición en modo modal
+        'frmEditarConceptoContable.ShowDialog()
+
+        '' Al regresar, recargamos el Grid completo para ver el nuevo registro traducido
+        'CargarYTraducirGridCompleto()
+    End Sub
+
+    Private Sub DgvConceptos_DoubleClick(sender As Object, e As EventArgs) Handles DgvConceptos.DoubleClick
+        BtnEditarRegistro.PerformClick()
     End Sub
 
     Private Sub BtnEditarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEditarRegistro.Click
-        ' Validamos si hay una fila seleccionada
-        If DgvConceptos.CurrentRow Is Nothing Then
-            MsgBox(resManager.GetString("SeleccionarTipo"), vbExclamation, resManager.GetString("AccionCancelada"))
-            Exit Sub
+        filaActual = frmConceptosContables.DgvConceptos.CurrentRow.Index
+        vTxtNombre = frmConceptosContables.DgvConceptos.Rows(filaActual).Cells(1).Value.ToString
+
+        If CmbTipoConcepto.Text = resManager.GetString("Tipo_Especial") Or vTxtNombre = resManager.GetString("Tipo_Traspaso") Then
+            MsgBox(frmConceptosContables.rmse.GetString("Concepto_No_Editable"), vbCritical)
+        Else
+            ' Comprobamos si existe un identificador asociado.
+            If ((frmEditarConceptoContable Is Nothing) OrElse (Not frmEditarConceptoContable.IsHandleCreated)) Then
+                frmEditarConceptoContable = New EditarConceptoContable
+            End If
+            ' Llamamos al formulario de manera modal.
+            If vEditar = "NO" Then
+                vEditar = "NO"  ' Eliminar
+            Else
+                vEditar = "SI"
+            End If
+            frmEditarConceptoContable.ShowDialog()
+            'MessageBox.Show("Se ha cerrado el formulario.")
+            ' Destruimos el formulario.
+            frmEditarConceptoContable.Dispose()
+            vtipoSql = "SELECT conceptos.TipoCON, conceptos.CodigoCON, conceptos.DescripcionCON, conceptos.NotasCON FROM conceptos"
+            If BtnFiltroTipoConcepto.Enabled = False Then
+                vtipoSql += " WHERE "
+                vtipoSql += "conceptos.TipoCON = '" & CmbTipoConcepto.Text & "' "
+            End If
+            vtipoSql += " ORDER BY conceptos.CodigoCON ASC"
+            vtipoGrid = "CONCEPTOS_CONTABLES"
+            LlenarGrid(vtipoSql, vtipoGrid, "1")
+            TraducirCeldasDelGrid()
+
+            DgvConceptos.CurrentCell = DgvConceptos.Rows(filaActual).Cells(0)
+            DgvConceptos.Rows(filaActual).Selected = True
         End If
 
-        ' Indicamos que vamos a EDITAR un registro existente
-        vEditar = "SI"
-        frmEditarConceptoContable.ShowDialog()
+        '' Validamos si hay una fila seleccionada
+        'If DgvConceptos.CurrentRow Is Nothing Then
+        '    MsgBox(resManager.GetString("SeleccionarTipo"), vbExclamation, resManager.GetString("AccionCancelada"))
+        '    Exit Sub
+        'End If
 
-        ' Refrescamos la pantalla al cerrar el diálogo
-        CargarYTraducirGridCompleto()
+        '' Indicamos que vamos a EDITAR un registro existente
+        'vEditar = "SI"
+        'frmEditarConceptoContable.ShowDialog()
+
+        '' Refrescamos la pantalla al cerrar el diálogo
+        'CargarYTraducirGridCompleto()
     End Sub
 
     Private Sub BtnEliminarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEliminarRegistro.Click
@@ -406,11 +487,32 @@ Public Class ConceptosContables
         PrintLine = 0
         Contador = 0
 
-        ' Suponiendo que tienes un control PrintDocument en el formulario
-        PrintDocument1.Print()
+        'Para ver la plantilla de impresión
+        '    'frmImprimirForm.Show()
 
-        ' O si utilizas tu formulario de reportes personalizado:
-        frmImprimirForm.ShowDialog()
+        ' Suponiendo que tienes un control PrintDocument en el formulario
+        If My.Settings.Previsualizar = True Then
+            'Te deja ver un preview del reporte antes de imprimir
+            PrintPreviewDialog1.Document = PrintDocument1
+            PrintPreviewDialog1.WindowState = FormWindowState.Maximized
+            PrintPreviewDialog1.ShowDialog()
+        End If
+
+        If My.Settings.ElegirImpresora = True Then
+            'Te deja elegir la impresora
+            PrintDialog1.Document = PrintDocument1
+            PrintDialog1.PrinterSettings = PrintDocument1.PrinterSettings
+            PrintDialog1.AllowSomePages = True
+            If PrintDialog1.ShowDialog = DialogResult.OK Then
+                PrintDocument1.PrinterSettings = PrintDialog1.PrinterSettings
+                PrintDocument1.Print()
+            End If
+        End If
+
+        If My.Settings.DirectoImpresora = True Then
+            'Imprime en la impresora por defecto
+            PrintDocument1.Print()
+        End If
     End Sub
     ' --- MÓDULO DE IMPRESIÓN DEL REPORTE (PRINT DOCUMENT) ---
 

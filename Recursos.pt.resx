@@ -205,9 +205,6 @@ Eles não são removidos do banco de dados</value>
   <data name="VersionDisponible" xml:space="preserve">
     <value>Versão disponível:</value>
   </data>
-  <data name="ErrorAlEliminarSaldo" xml:space="preserve">
-    <value>Erro ao excluir registros de SALDO do Ano Fiscal</value>
-  </data>
   <data name="Filtrado" xml:space="preserve">
     <value>(Filtrado)</value>
   </data>
@@ -230,10 +227,10 @@ Eles não são removidos do banco de dados</value>
     <value>Notas</value>
   </data>
   <data name="Tipo_Gasto" xml:space="preserve">
-    <value>GASTO</value>
+    <value>DESPESA</value>
   </data>
   <data name="Tipo_Ingreso" xml:space="preserve">
-    <value>RENDA</value>
+    <value>RECEITA</value>
   </data>
   <data name="Tipo_Especial" xml:space="preserve">
     <value>ESPECIAL</value>
@@ -260,7 +257,7 @@ Eles não são removidos do banco de dados</value>
     <value>Número</value>
   </data>
   <data name="Saldo" xml:space="preserve">
-    <value>Equilíbrio</value>
+    <value>Saldo</value>
   </data>
   <data name="ErrorAlEjecutar" xml:space="preserve">
     <value>Execução de Erros</value>

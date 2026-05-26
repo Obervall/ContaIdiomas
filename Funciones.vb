@@ -1174,6 +1174,31 @@ Module Funciones
         End Try
     End Sub
 
+    ''' <summary>
+    ''' Traduce los elementos fijos del ComboBox al idioma activo
+    ''' </summary>
+    Public Sub ActualizarIdiomaComboConcepto(ByVal combo As ComboBox, ByVal conespecial As Boolean)
+        Try
+            ' Guardamos la posición que tenía seleccionada el usuario
+            Dim posicionActual As Integer = combo.SelectedIndex
+
+            ' Limpiamos los elementos e insertamos las traducciones oficiales desde ResX
+            combo.Items.Clear()
+            combo.Items.Add(resManager.GetString("Tipo_Gasto")) ' Posición 0
+            combo.Items.Add(resManager.GetString("Tipo_Ingreso")) ' Posición 1
+            If conespecial Then
+                combo.Items.Add(resManager.GetString("Tipo_Especial")) ' Posición 2
+            End If
+            ' Restauramos la posición del usuario de forma segura
+            If posicionActual >= 0 AndAlso posicionActual < combo.Items.Count Then
+                combo.SelectedIndex = posicionActual
+            Else
+                combo.SelectedIndex = 0
+            End If
+        Catch ex As Exception
+            ' Evita errores si las Keys aún no están dadas de alta en el diseño del formulario
+        End Try
+    End Sub
 
     'Public Function ReadINIkey(file As String, section As String, key As String) As String
     '    Dim lret As Long, i As Long

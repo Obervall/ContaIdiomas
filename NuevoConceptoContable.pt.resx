@@ -147,4 +147,27 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Novo conceito de contabilidade</value>
   </data>
+  <data name="SeleccionarTipo" xml:space="preserve">
+    <value>Selecione o tipo de conceito contábil</value>
+  </data>
+  <data name="IntroducirDescripcion" xml:space="preserve">
+    <value>Insira uma descrição para o Conceito de Contabilidade</value>
+  </data>
+  <data name="MsgNombre" xml:space="preserve">
+    <value>Insira um Código para identificar o Conceito Contábil.
+Podem ser Números (1,2,3,4..) ou Letras
+(Mais recomendado... Lazer, carro, aluguel, salário,...)</value>
+  </data>
+  <data name="NoNombreSaldo" xml:space="preserve">
+    <value>Não é possível criar um Conceito com o nome SALDO</value>
+  </data>
+  <data name="YaExisteConcepto" xml:space="preserve">
+    <value>já existe em Conceitos de Contabilidade</value>
+  </data>
+  <data name="MsgDatosNombre" xml:space="preserve">
+    <value>NÃO há NENHUM Dado sobre o Nome...</value>
+  </data>
+  <data name="PalabraSaldo" xml:space="preserve">
+    <value>SALDO</value>
+  </data>
 </root>

@@ -532,4 +532,27 @@
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="SeleccionarTipo" xml:space="preserve">
+    <value>Seleccionar el Tipo de Concepto Contable</value>
+  </data>
+  <data name="IntroducirDescripcion" xml:space="preserve">
+    <value>Introducir una descripción para el Concepto Contable</value>
+  </data>
+  <data name="MsgNombre" xml:space="preserve">
+    <value>Introducir un Código para identificar el Concepto Contable.
+Pueden ser Números (1,2,3,4..) o Letras
+(Mas recomendable... Ocio, Coche, Renta, Sueldo,...)</value>
+  </data>
+  <data name="NoNombreSaldo" xml:space="preserve">
+    <value>No se puede crear un Concepto con el Nombre SALDO</value>
+  </data>
+  <data name="YaExisteConcepto" xml:space="preserve">
+    <value>ya existe en Conceptos Contables</value>
+  </data>
+  <data name="MsgDatosNombre" xml:space="preserve">
+    <value>NO hay Datos en Nombre...</value>
+  </data>
+  <data name="PalabraSaldo" xml:space="preserve">
+    <value>SALDO</value>
+  </data>
 </root>

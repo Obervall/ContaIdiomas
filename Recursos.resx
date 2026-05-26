@@ -205,9 +205,6 @@ No se Eliminan de la Base de Datos</value>
   <data name="VersionDisponible" xml:space="preserve">
     <value>Versión disponible:</value>
   </data>
-  <data name="ErrorAlEliminarSaldo" xml:space="preserve">
-    <value>Error al eliminar los registros SALDO del Ejercicio</value>
-  </data>
   <data name="Filtrado" xml:space="preserve">
     <value>(Filtrado)</value>
   </data>

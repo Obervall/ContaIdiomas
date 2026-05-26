@@ -157,7 +157,7 @@
     <value>Termine</value>
   </data>
   <data name="Label9.Text" xml:space="preserve">
-    <value>Gleichgewicht:</value>
+    <value>Saldo:</value>
   </data>
   <data name="Label8.Text" xml:space="preserve">
     <value>Rechnungen:</value>
@@ -184,9 +184,9 @@
     <value>Fehler beim Löschen periodischer Einträge im Zusammenhang mit dem Buchhaltungsposten</value>
   </data>
   <data name="MsgSaldos1" xml:space="preserve">
-    <value>Anfangsguthaben können nicht gelöscht werden</value>
+    <value>Eröffnungssalden können NICHT gelöscht werden</value>
   </data>
   <data name="MsgSaldos2" xml:space="preserve">
-    <value>Anfangssalden können NICHT bearbeitet werden</value>
+    <value>Eröffnungssalden können NICHT bearbeitet werden</value>
   </data>
 </root>

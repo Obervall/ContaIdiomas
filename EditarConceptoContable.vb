@@ -23,33 +23,41 @@ Public Class EditarConceptoContable
         ' 1. Capturar datos actuales del Grid
         filaActual = frmConceptosContables.DgvConceptos.CurrentRow.Index
 
-        Dim tipoTextoGrid As String = frmConceptosContables.DgvConceptos.Rows(filaActual).Cells(0).Value.ToString().Trim()
+        Dim tipoTextoGrid As String = frmConceptosContables.DgvConceptos.Rows(filaActual).Cells(0).Value.ToString().Trim().ToUpper()
         TxtNombre.Text = frmConceptosContables.DgvConceptos.Rows(filaActual).Cells(1).Value.ToString()
         TxtDescripcion.Text = frmConceptosContables.DgvConceptos.Rows(filaActual).Cells(2).Value.ToString()
         TxtNota.Text = frmConceptosContables.DgvConceptos.Rows(filaActual).Cells(3).Value.ToString()
 
-        ' 2. REVERTIR IDIOMA: Averiguar el TipoCON original de la Base de Datos
-        Dim tipoOriginalBD As String = tipoTextoGrid
-        Dim recursos As System.Resources.ResourceSet = rmse.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
-        If recursos IsNot Nothing Then
-            For Each elemento As System.Collections.DictionaryEntry In recursos
-                If elemento.Value.ToString().Trim().ToUpper() = tipoTextoGrid.ToUpper() Then
-                    ' Extraemos la Key original (ej: "Tipo_Especial" o "Tipo_Gasto")
-                    Dim keyEncontrada As String = elemento.Key.ToString().ToUpper()
+        ' ======================================================================
+        ' 2. SINCRONIZAR EL COMBOBOX Y DETERMINAR EL TIPO ORIGINAL (BD)
+        ' ======================================================================
+        Dim tipoOriginalBD As String = ""
 
-                    ' Identificamos si mapea con tu regla de negocio de conceptos
-                    If keyEncontrada = "TIPO_GASTO" Then tipoOriginalBD = "GASTO"
-                    If keyEncontrada = "TIPO_INGRESO" Then tipoOriginalBD = "INGRESO"
-                    If keyEncontrada = "TIPO_ESPECIAL" Then tipoOriginalBD = "ESPECIAL"
-                    Exit For
-                End If
-            Next
+        ' Usamos resManager para leer de tus recursos generales en el idioma actual
+        Dim textoGastoRecurso As String = resManager.GetString("Tipo_Gasto").Trim().ToUpper()
+        Dim textoIngresoRecurso As String = resManager.GetString("Tipo_Ingreso").Trim().ToUpper()
+        Dim textoEspecialRecurso As String = resManager.GetString("Tipo_Especial").Trim().ToUpper()
+
+        ' Evaluamos el tipo de texto que viene del Grid
+        If tipoTextoGrid = textoGastoRecurso Then
+            CmbTipoConcepto.SelectedIndex = 0  ' Selecciona Gasto en el combo
+            tipoOriginalBD = "GASTO"
+        ElseIf tipoTextoGrid = textoIngresoRecurso Then
+            CmbTipoConcepto.SelectedIndex = 1  ' Selecciona Ingreso en el combo
+            tipoOriginalBD = "INGRESO"
+        ElseIf tipoTextoGrid = textoEspecialRecurso Then
+            CmbTipoConcepto.Text = tipoTextoGrid ' Muestra "SPECIAL", "SPÉCIAL", etc.
+            tipoOriginalBD = "ESPECIAL"
+        Else
+            ' Respaldo de seguridad general
+            CmbTipoConcepto.Text = tipoTextoGrid
+            tipoOriginalBD = tipoTextoGrid
         End If
 
-        ' Asignamos el texto traducido al ComboBox para mantener la consistencia visual
-        CmbTipoConcepto.Text = tipoTextoGrid
 
+        ' ======================================================================
         ' 3. EVALUAR MODO (Editar o Eliminar) CON EXCEPCIÓN PARA "ESPECIAL"
+        ' ======================================================================
         If vEditar = "SI" Then
             ' Si es del sistema (ESPECIAL), bloqueamos su edición de raíz
             If tipoOriginalBD = "ESPECIAL" Then
@@ -60,7 +68,7 @@ Public Class EditarConceptoContable
                 BtnAceptar.Enabled = False
                 BtnEliminar.Enabled = False
 
-                ' Mostramos un aviso visual opcional en el formulario (debes añadir esta Key en ResX Manager)
+                ' Mostramos un aviso visual opcional en el formulario
                 LblEditando.Text = rmse.GetString("ConceptoSistemaProtegido")
                 BtnCancelar.Select()
             Else
@@ -89,6 +97,94 @@ Public Class EditarConceptoContable
 
             vEditar = "SI"
         End If
+
+
+        '' 2. SINCRONIZAR EL COMBOBOX CON LAS KEYS CORREGIDAS
+        '' ======================================================================
+        '' Leemos el texto exacto que tus recursos tienen configurado para el idioma actual
+        'Dim textoGastoRecurso As String = rmse.GetString("Tipo_Gasto").Trim().ToUpper()
+        'Dim textoIngresoRecurso As String = rmse.GetString("Tipo_Ingreso").Trim().ToUpper()
+
+        '' Seleccionamos el elemento por su número de índice en lugar de asignar texto directo
+        'If tipoTextoGrid = textoGastoRecurso Then
+        '    CmbTipoConcepto.SelectedIndex = 0  ' Selecciona automáticamente el primer ítem (Gasto / Expense / Ausgabe...)
+        'ElseIf tipoTextoGrid = textoIngresoRecurso Then
+        '    CmbTipoConcepto.SelectedIndex = 1  ' Selecciona automáticamente el segundo ítem (Ingreso / Income / Einnahme...)
+        'Else
+        '    ' Respaldo de seguridad para tipos "ESPECIAL" o imprevistos
+        '    CmbTipoConcepto.Text = tipoTextoGrid
+        'End If
+
+        '' 2. REVERTIR IDIOMA: Averiguar el TipoCON original de la Base de Datos
+        'Dim tipoOriginalBD As String = tipoTextoGrid
+        'Dim recursos As System.Resources.ResourceSet = rmse.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
+        'If recursos IsNot Nothing Then
+        '    For Each elemento As System.Collections.DictionaryEntry In recursos
+        '        If elemento.Value.ToString().Trim().ToUpper() = tipoTextoGrid.ToUpper() Then
+        '            ' Extraemos la Key original (ej: "Tipo_Ingreso" o "Tipo_Gasto")
+        '            Dim keyEncontrada As String = elemento.Key.ToString().ToUpper()
+
+        '            ' Identificamos si mapea con tu regla de negocio de conceptos
+        '            If keyEncontrada = "TIPO_GASTO" Then tipoOriginalBD = "GASTO"
+        '            If keyEncontrada = "TIPO_INGRESO" Then tipoOriginalBD = "INGRESO"
+        '            If keyEncontrada = "TIPO_ESPECIAL" Then tipoOriginalBD = "ESPECIAL"
+        '            Exit For
+        '        End If
+        '    Next
+        'End If
+
+        '' Asignamos el texto traducido al ComboBox para mantener la consistencia visual
+        'If tipoOriginalBD = "GASTO" Then
+        '    CmbTipoConcepto.SelectedIndex = 0  ' Selecciona el primer ítem (Gasto / Expense / etc.)
+        'ElseIf tipoOriginalBD = "INGRESO" Then
+        '    CmbTipoConcepto.SelectedIndex = 1  ' Selecciona el segundo ítem (Ingreso / Income / etc.)
+        'Else
+        '    ' Si es ESPECIAL o cualquier otro caso que no sea un índice fijo, 
+        '    ' usamos el texto del grid como último recurso de seguridad
+        '    CmbTipoConcepto.Text = tipoTextoGrid
+        'End If
+        '' CmbTipoConcepto.Text = tipoTextoGrid
+
+        '' 3. EVALUAR MODO (Editar o Eliminar) CON EXCEPCIÓN PARA "ESPECIAL"
+        'If vEditar = "SI" Then
+        '    ' Si es del sistema (ESPECIAL), bloqueamos su edición de raíz
+        '    If tipoOriginalBD = "ESPECIAL" Then
+        '        CmbTipoConcepto.Enabled = False
+        '        TxtNombre.Enabled = False
+        '        TxtDescripcion.Enabled = False
+        '        TxtNota.Enabled = False
+        '        BtnAceptar.Enabled = False
+        '        BtnEliminar.Enabled = False
+
+        '        ' Mostramos un aviso visual opcional en el formulario (debes añadir esta Key en ResX Manager)
+        '        LblEditando.Text = rmse.GetString("ConceptoSistemaProtegido")
+        '        BtnCancelar.Select()
+        '    Else
+        '        ' Flujo normal para conceptos modificables del usuario
+        '        CmbTipoConcepto.Enabled = False
+        '        TxtNombre.Enabled = False
+        '        TxtDescripcion.Select()
+        '        BtnEliminar.Enabled = False
+        '    End If
+        'Else
+        '    ' MODO ELIMINAR (Muestra los datos bloqueados listos para pulsar Eliminar)
+        '    LblEditando.Text = rmse.GetString("LblEliminando")
+        '    CmbTipoConcepto.Enabled = False
+        '    TxtNombre.Enabled = False
+        '    TxtDescripcion.Enabled = False
+        '    TxtNota.Enabled = False
+        '    BtnAceptar.Enabled = False
+
+        '    ' Si el tipo es ESPECIAL, el botón de eliminar también se apaga por seguridad
+        '    If tipoOriginalBD = "ESPECIAL" Then
+        '        BtnEliminar.Enabled = False
+        '        BtnCancelar.Select()
+        '    Else
+        '        BtnEliminar.Select()
+        '    End If
+
+        '    vEditar = "SI"
+        'End If
     End Sub
 
     Private Sub TxtDescripcion_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtDescripcion.KeyPress

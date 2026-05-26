@@ -147,4 +147,27 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Neues Buchhaltungskonzept</value>
   </data>
+  <data name="SeleccionarTipo" xml:space="preserve">
+    <value>Wählen Sie die Art des Buchhaltungskonzepts aus</value>
+  </data>
+  <data name="IntroducirDescripcion" xml:space="preserve">
+    <value>Geben Sie eine Beschreibung für das Buchhaltungskonzept ein</value>
+  </data>
+  <data name="MsgNombre" xml:space="preserve">
+    <value>Geben Sie einen Code ein, um das Buchhaltungskonzept zu identifizieren.
+Sie können Zahlen (1, 2, 3, 4...) oder Buchstaben sein
+(Mehr empfohlen... Freizeit, Auto, Miete, Gehalt,...)</value>
+  </data>
+  <data name="NoNombreSaldo" xml:space="preserve">
+    <value>Du kannst kein Konzept mit dem Namen BALANCE erstellen</value>
+  </data>
+  <data name="YaExisteConcepto" xml:space="preserve">
+    <value>bereits in Accounting Concepts existiert</value>
+  </data>
+  <data name="MsgDatosNombre" xml:space="preserve">
+    <value>Es gibt KEINE Daten auf Name...</value>
+  </data>
+  <data name="PalabraSaldo" xml:space="preserve">
+    <value>SALDO</value>
+  </data>
 </root>

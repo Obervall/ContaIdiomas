@@ -184,9 +184,9 @@
     <value>Error in Deleting Periodic Entries Related to the Accounting Item</value>
   </data>
   <data name="MsgSaldos1" xml:space="preserve">
-    <value>Initial Balances CANNOT BE DELETED</value>
+    <value>Opening balances CANNOT be deleted</value>
   </data>
   <data name="MsgSaldos2" xml:space="preserve">
-    <value>Initial Balances CANNOT be Edited</value>
+    <value>Opening balances CANNOT be edited</value>
   </data>
 </root>

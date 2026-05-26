@@ -147,4 +147,27 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Nouveau concept comptable</value>
   </data>
+  <data name="SeleccionarTipo" xml:space="preserve">
+    <value>Sélectionnez le type de concept comptable</value>
+  </data>
+  <data name="IntroducirDescripcion" xml:space="preserve">
+    <value>Entrez une description pour le concept comptable</value>
+  </data>
+  <data name="MsgNombre" xml:space="preserve">
+    <value>Entrez un code pour identifier le concept comptable.
+Ils peuvent être des Nombres (1,2,3,4..) ou des Lettres
+(Plus recommandé... Loisirs, voiture, loyer, salaire,...)</value>
+  </data>
+  <data name="NoNombreSaldo" xml:space="preserve">
+    <value>Impossible de créer un Concept avec le nom SOLDE</value>
+  </data>
+  <data name="YaExisteConcepto" xml:space="preserve">
+    <value>existe déjà dans Accounting Concepts</value>
+  </data>
+  <data name="MsgDatosNombre" xml:space="preserve">
+    <value>Il n’y a AUCUNE donnée sur Name...</value>
+  </data>
+  <data name="PalabraSaldo" xml:space="preserve">
+    <value>SOLDE</value>
+  </data>
 </root>

@@ -147,4 +147,27 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Nou Concepte Comptable</value>
   </data>
+  <data name="SeleccionarTipo" xml:space="preserve">
+    <value>Seleccionar el Tipus de Concepte Comptable</value>
+  </data>
+  <data name="IntroducirDescripcion" xml:space="preserve">
+    <value>Introduir una descripció per al Concepte Comptable</value>
+  </data>
+  <data name="MsgNombre" xml:space="preserve">
+    <value>Introduir un Codi per identificar el Concepte Comptable.
+Poden ser Números (1,2,3,4..) o Lletres
+(Mas recomanable... Lleure, Cotxe, Renda, Sou,...)</value>
+  </data>
+  <data name="NoNombreSaldo" xml:space="preserve">
+    <value>No es pot crear un Concepte amb el Nom SALDO</value>
+  </data>
+  <data name="YaExisteConcepto" xml:space="preserve">
+    <value>ja existeix en Conceptes Comptables</value>
+  </data>
+  <data name="MsgDatosNombre" xml:space="preserve">
+    <value>NO hi ha Dades en Nom...</value>
+  </data>
+  <data name="PalabraSaldo" xml:space="preserve">
+    <value>SALDO</value>
+  </data>
 </root>
