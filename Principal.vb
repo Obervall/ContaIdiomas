@@ -267,9 +267,6 @@ Public Class Principal
         Me.SuspendLayout()
         Me.BarraDeEstado.SuspendLayout()
 
-        ' Mostramos el mensaje de "En Espera..." en la barra de estado mientras se carga todo
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
-
         ' Alineamos a la derecha el día y la hora, y mostramos el día actual
         TsLabelDia.Alignment = ToolStripItemAlignment.Right
         TsLabelHora.Alignment = ToolStripItemAlignment.Right
@@ -296,6 +293,13 @@ Public Class Principal
         'Iniciar los Saldos Iniciales del Ejercicio
         IniciarSaldosIniciales(vAñoEjercicio)
         System.Threading.Thread.Sleep(2500)
+
+        ' Mostramos el mensaje de "En Espera..." en la barra de estado mientras se carga todo
+        If vAviso = True Then
+            Me.TsLabelFormulario.Text = resManager.GetString("Aviso") & ": " & resManager.GetString("NoHayDatosHistoricos")
+        Else
+            Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        End If
 
         'Buscamos si hay un Apunte Periódico que tenga fecha igual o anterior a la fecha de hoy y cuento los que hay.
         cmdMdb1cr.CommandText = "SELECT * FROM apuper"

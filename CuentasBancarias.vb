@@ -403,7 +403,7 @@ Public Class CuentasBancarias
         'Imprimimos los títulos de columnas
         e.Graphics.DrawString(resManager.GetString("Tipo") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
         e.Graphics.DrawString(resManager.GetString("Nombre") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto2.Left, frmImprimirForm.Punto2.Top - 30)
-        e.Graphics.DrawString(resManager.GetString("Numer") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
+        e.Graphics.DrawString(resManager.GetString("Numero") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
         e.Graphics.DrawString(resManager.GetString("Saldo") & "(" & vMoneda & "):", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto5.Left, frmImprimirForm.Punto5.Top - 30)
 
         e.Graphics.DrawString(frmImprimirForm.LineaTop.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.LineaTop.Left, frmImprimirForm.LineaTop.Top)
@@ -424,14 +424,41 @@ Public Class CuentasBancarias
                 Exit Do
             End If
 
-            ' Imprimimos los datos de las columnas principales
+            ' ✨ EL ÚNICO TRUCO: Leemos el nombre de la celda (1) y buscamos su traducción Nom_
+            Dim nombreCelda As String = frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(1).Value.ToString().Trim()
+            Dim tradNombre As String = resManager.GetString("Nom_" & nombreCelda.Replace(" ", "_"))
+            Dim nombreFinal As String = If(Not String.IsNullOrEmpty(tradNombre), tradNombre, nombreCelda)
+
+            ' Imprimimos los datos de las columnas principales (Usamos 'nombreFinal' en la celda 1)
             e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(0).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
-            e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(1).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto2.Left, startY)
+            e.Graphics.DrawString(nombreFinal, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto2.Left, startY)
             e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(2).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto3.Left, startY)
             e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(3).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto5.Right + 40, startY, sf)
 
             ' Avanzamos la coordenada vertical para pintar la fila de Notas
             startY += frmImprimirForm.LblFecha.Height
+
+            'Do While PrintLine < frmCuentasBancarias.DgvCuentas.Rows.Count
+            '    ' Evitamos procesar la fila vacía automática si existe al final
+            '    If frmCuentasBancarias.DgvCuentas.Rows(PrintLine).IsNewRow Then
+            '        PrintLine += 1
+            '        Contador += 1
+            '        Continue Do
+            '    End If
+
+            '    If startY + frmImprimirForm.Punto1.Height > e.MarginBounds.Bottom Then
+            '        e.HasMorePages = True
+            '        Exit Do
+            '    End If
+
+            '    ' Imprimimos los datos de las columnas principales
+            '    e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(0).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
+            '    e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(1).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto2.Left, startY)
+            '    e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(2).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto3.Left, startY)
+            '    e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(3).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto5.Right + 40, startY, sf)
+
+            '    ' Avanzamos la coordenada vertical para pintar la fila de Notas
+            '    startY += frmImprimirForm.LblFecha.Height
 
             ' 1. Obtener y limpiar el texto de Notas
             Dim textoNotas As String = ""

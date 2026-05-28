@@ -178,9 +178,6 @@ Sie werden nicht aus der Datenbank entfernt</value>
   <data name="MsgErrorFecha" xml:space="preserve">
     <value>Ungültiges Datumsformat</value>
   </data>
-  <data name="MsgDatos1" xml:space="preserve">
-    <value>Ein Konzept mit dem Namen SALDO kann nicht erstellt werden</value>
-  </data>
   <data name="MsgDatos2" xml:space="preserve">
     <value>Es gibt keine weiteren Datensätze, die mit den eingegebenen Daten übereinstimmen</value>
   </data>
@@ -498,5 +495,29 @@ Sie werden nicht aus der Datenbank entfernt</value>
   </data>
   <data name="Desc_VEHICULOS" xml:space="preserve">
     <value>Auto &amp; Motorrad</value>
+  </data>
+  <data name="NoHayDatosHistoricos" xml:space="preserve">
+    <value>Es gibt keine historischen Daten aus den Vorjahren, um Anfangssalden zu erstellen</value>
+  </data>
+  <data name="Aviso" xml:space="preserve">
+    <value>Hinweis</value>
+  </data>
+  <data name="TituloReporteConceptos" xml:space="preserve">
+    <value>Liste der Buchhaltungskonzepte</value>
+  </data>
+  <data name="MsgDatos1" xml:space="preserve">
+    <value>Es gibt keine Übereinstimmung mit den eingegebenen Daten</value>
+  </data>
+  <data name="Nom_CAJA_EFECTIVO" xml:space="preserve">
+    <value>KASSE</value>
+  </data>
+  <data name="Nom_BBVA" xml:space="preserve">
+    <value>BBVA</value>
+  </data>
+  <data name="Nom_OPENBANK" xml:space="preserve">
+    <value>OPENBANK</value>
+  </data>
+  <data name="Nom_PLAN_PENSIONES" xml:space="preserve">
+    <value>RENTENPLAN</value>
   </data>
 </root>

@@ -76,7 +76,7 @@ Module Funciones
     Public i, vFila1, vFila2, vFila, vFilaActual, filaActual, vregData1, vAñoActual, vAñoEjercicio As Integer
     Public vCerrar, vGrafico, vLetras, vNumeros, vNotas, vPathExportar, vConcepto As String
     Public vDescripcionAPU, vImporteAPU, vNotasAPU, vConceptoAPU As String
-    Public vActualizar, vActivado As Boolean
+    Public vActualizar, vActivado, vAviso As Boolean
 
     Public vOrdenadoPorFechasAPU, vOrdenadoPorConceptosAPU, vOrdenadoPorImportesAPU As Integer
     Public vSoloIngresosAPU, vSoloGastosAPU, centroX, AnchoFrmPrincipal, posX, posY As Integer
@@ -233,7 +233,12 @@ Module Funciones
 
         ' Si no hay saldos que arrastrar del pasado, salimos del proceso de inserción
         If saldosAcumulados.Count = 0 Then
-            MessageBox.Show("No hay datos históricos en años anteriores para generar saldos iniciales.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            ' Cambiamos el texto de "En Espera..." por el aviso en la barra de estado
+            vAviso = True
+            ' Salimos del proceso de forma segura
+            Return
+        Else
+            vAviso = False
         End If
 
         ' 4. Inserción de los Saldos Iniciales en la tabla Apuntes
@@ -498,15 +503,6 @@ Module Funciones
                 Else
                     frmConceptosContables.LblNumRegistros.Text = resManager.GetString("SinFiltrar") ' My.Resources.Recursos.SinFiltrar
                 End If
-                For Each fila As DataGridViewRow In frmConceptosContables.DgvConceptos.Rows
-                    If fila.Cells(0).Value = "GASTO" Then
-                        fila.Cells(0).Style.ForeColor = Color.DarkRed
-                    ElseIf fila.Cells(0).Value = "INGRESO" Then
-                        fila.Cells(0).Style.ForeColor = Color.DarkBlue
-                    ElseIf fila.Cells(0).Value = "ESPECIAL" Then
-                        fila.Cells(0).Style.ForeColor = Color.DarkGreen
-                    End If
-                Next
             End With
 
         ElseIf vgrid = "PRINT_CONCEPTOS" Then

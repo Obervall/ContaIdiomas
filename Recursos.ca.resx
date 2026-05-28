@@ -499,4 +499,25 @@ No s' Eliminen de la Base de Dades</value>
   <data name="Desc_VEHICULOS" xml:space="preserve">
     <value>Cotxe i Moto</value>
   </data>
+  <data name="NoHayDatosHistoricos" xml:space="preserve">
+    <value>No hi ha dades històriques en anys anteriors per generar saldos inicials</value>
+  </data>
+  <data name="Aviso" xml:space="preserve">
+    <value>Avís</value>
+  </data>
+  <data name="TituloReporteConceptos" xml:space="preserve">
+    <value>Llistat de Conceptes Comptables</value>
+  </data>
+  <data name="Nom_CAJA_EFECTIVO" xml:space="preserve">
+    <value>CAIXA EFECTIU</value>
+  </data>
+  <data name="Nom_BBVA" xml:space="preserve">
+    <value>BBVA</value>
+  </data>
+  <data name="Nom_OPENBANK" xml:space="preserve">
+    <value>OPENBANK</value>
+  </data>
+  <data name="Nom_PLAN_PENSIONES" xml:space="preserve">
+    <value>PLA PENSIONS</value>
+  </data>
 </root>

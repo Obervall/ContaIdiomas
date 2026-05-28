@@ -499,4 +499,25 @@ Ils ne sont pas supprimés de la base de données</value>
   <data name="Desc_VEHICULOS" xml:space="preserve">
     <value>Voiture et moto</value>
   </data>
+  <data name="NoHayDatosHistoricos" xml:space="preserve">
+    <value>Il n’existe pas de données historiques des années précédentes permettant de générer des soldes initiaux</value>
+  </data>
+  <data name="Aviso" xml:space="preserve">
+    <value>Avis</value>
+  </data>
+  <data name="TituloReporteConceptos" xml:space="preserve">
+    <value>Liste des concepts comptables</value>
+  </data>
+  <data name="Nom_CAJA_EFECTIVO" xml:space="preserve">
+    <value>CAISSE À CAISSES</value>
+  </data>
+  <data name="Nom_BBVA" xml:space="preserve">
+    <value>BBVA</value>
+  </data>
+  <data name="Nom_OPENBANK" xml:space="preserve">
+    <value>OPENBANK</value>
+  </data>
+  <data name="Nom_PLAN_PENSIONES" xml:space="preserve">
+    <value>PLAN DE RETRAITE</value>
+  </data>
 </root>

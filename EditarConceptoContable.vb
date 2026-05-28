@@ -94,54 +94,78 @@ Public Class EditarConceptoContable
     End Sub
 
     Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click
-        vTxtNombre = TxtNombre.Text
+        vTxtNombre = TxtNombre.Text.Trim()
         vTxtDescripcion = ApostrofePorAcentoAgudo(TxtDescripcion.Text)
         vTxtNotas = TxtNota.Text
 
-        ' Modificar Registro
-        '*******************
+        ' --- TRADUCCIÓN INVERSA: Buscar el código original en la MDB ---
+        Dim codigoOriginalMDB As String = vTxtNombre ' Por si está en español y no cambia
+
+        ' Si el idioma actual no es español, buscamos la llave original en el ResX
+        If My.Settings.CulturaUsuario <> "es" Then
+            ' Obtenemos todos los registros guardados en el archivo de recursos
+            Dim resSet As System.Resources.ResourceSet = resManager.GetResourceSet(System.Globalization.CultureInfo.CurrentCulture, True, True)
+
+            If resSet IsNot Nothing Then
+                ' Recorremos todas las llaves del archivo de recursos
+                For Each dict As System.Collections.DictionaryEntry In resSet
+                    ' Si el valor traducido coincide con lo que hay en el TextBox...
+                    If dict.Value.ToString().Trim().ToUpper() = vTxtNombre.ToUpper() Then
+                        ' ¡Encontramos la llave original! (Ej: "RENT" -> su llave es "ALQUILER")
+                        codigoOriginalMDB = dict.Key.ToString()
+                        Exit For
+                    End If
+                Next
+            End If
+        End If
+
+        ' Modificar Registro usando el código original recuperado
+        ' *******************************************************
         vtipoSql = "UPDATE conceptos SET DescripcionCON = '" & vTxtDescripcion & "' , NotasCON = '" & vTxtNotas & "' "
-        vtipoSql += " WHERE conceptos.CodigoCON = '" & vTxtNombre & "' "
+        vtipoSql += " WHERE conceptos.CodigoCON = '" & codigoOriginalMDB & "' "
         cmdMdb1cr.CommandText = vtipoSql
 
         Try
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-            'MsgBox("Registro, Grabado Correctamente")
+            cmdMdb1cr.ExecuteNonQuery() ' Recomendado cambiar a ExecuteNonQuery
             Me.Close()
         Catch ex As Exception
             MsgBox(resManager.GetString("ErrorModificarRegistro"))
-            MsgBox(ex.ToString)
         End Try
-        drMdb1.Close()
     End Sub
 
     Private Sub BtnEliminar_Click(sender As Object, e As EventArgs) Handles BtnEliminar.Click
-        ' 1. Obtener el nombre del concepto que se pretende eliminar
+        ' 1. Obtener el nombre del concepto visible que se pretende eliminar
         vTxtNombre = TxtNombre.Text.Trim()
 
-        ' 2. REVERTIR EL IDIOMA (Búsqueda inversa para obtener el nombre original de la BD)
+        ' 2. REVERTIR EL IDIOMA (Búsqueda inversa usando tu variable de cultura original)
         Dim nombreOriginalBD As String = vTxtNombre
-        Dim recursos As System.Resources.ResourceSet = rmse.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
-        If recursos IsNot Nothing Then
-            For Each elemento As System.Collections.DictionaryEntry In recursos
-                If elemento.Value.ToString().Trim().ToUpper() = vTxtNombre.ToUpper() Then
-                    nombreOriginalBD = elemento.Key.ToString().Replace("_", " ")
-                    Exit For
-                End If
-            Next
+
+        ' Si la cultura no empieza por español, ejecutamos la traducción inversa precisa
+        If Not My.Settings.CulturaUsuario.StartsWith("es", StringComparison.OrdinalIgnoreCase) Then
+            Dim cultura As New System.Globalization.CultureInfo(My.Settings.CulturaUsuario)
+            ' Nota: He usado 'resManager' que es tu recurso global de textos contables
+            Dim recursos As System.Resources.ResourceSet = resManager.GetResourceSet(cultura, True, True)
+
+            If recursos IsNot Nothing Then
+                For Each elemento As System.Collections.DictionaryEntry In recursos
+                    If elemento.Value.ToString().Trim().ToUpper() = vTxtNombre.ToUpper() Then
+                        ' Restauramos el código original revirtiendo los guiones bajos por espacios
+                        nombreOriginalBD = elemento.Key.ToString().Replace("_", " ")
+                        Exit For
+                    End If
+                Next
+            End If
         End If
 
         ' 3. VALIDACIÓN: Verificar si el concepto tiene el tipo original "ESPECIAL"
-        ' Buscamos directamente con el nombre original de la base de datos
         Dim vSqlVerificarEspecial As String = "SELECT TipoCON FROM conceptos WHERE CodigoCON = '" & nombreOriginalBD & "'"
         cmdMdb1cr.CommandText = vSqlVerificarEspecial
 
         Try
             Dim tipoOrigen As Object = cmdMdb1cr.ExecuteScalar()
 
-            ' Si el resultado no es nulo y es igual a "ESPECIAL", bloqueamos la acción
+            ' Si el resultado coincide con "ESPECIAL", bloqueamos la acción por completo
             If tipoOrigen IsNot Nothing AndAlso tipoOrigen.ToString().Trim().ToUpper() = "ESPECIAL" Then
-                ' Recuerda dar de alta "ConceptoSistemaNoBorrar" en tu ResX Manager
                 MsgBox(rmse.GetString("ConceptoSistemaNoBorrar"), vbExclamation, resManager.GetString("AccionCancelada"))
                 Exit Sub
             End If
@@ -150,18 +174,24 @@ Public Class EditarConceptoContable
             Exit Sub
         End Try
 
-        ' 4. Mensaje de confirmación (Muestra el nombre traducido para el usuario)
-        respuesta = MsgBox(rmse.GetString("EliminarConcepto") & " " & nombreOriginalBD & " " & rmse.GetString("EliminarConcepto2"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("LblEliminando"))
+        ' 4. Mensaje de confirmación (Muestra vTxtNombre que es el texto traducido que el usuario entiende)
+        respuesta = MsgBox(rmse.GetString("EliminarConcepto") & " " & vTxtNombre & " " & rmse.GetString("EliminarConcepto2"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("LblEliminando"))
 
         If respuesta = vbYes Then
-            ' 5. Eliminar Registro Conceptos utilizando el nombre real de la BD
-            vtipoSql = "DELETE FROM conceptos"
-            vtipoSql += " WHERE conceptos.CodigoCON = '" & nombreOriginalBD & "' "
-            cmdMdb1cr.CommandText = vtipoSql
 
-            ' Eliminar Registros Apuntes
-            vtipoSql = "DELETE FROM apuntes"
-            vtipoSql += " WHERE apuntes.ConceptoAPU = '" & nombreOriginalBD & "' "
+            ' 5. EJECUCIÓN EN CASCADA CORREGIDA: Se asigna Y SE EJECUTA cada tabla por separado
+
+            ' A. Eliminar de la tabla 'conceptos' (¡Aquí se ejecutaba mal en tu código antiguo!)
+            vtipoSql = "DELETE FROM conceptos WHERE CodigoCON = '" & nombreOriginalBD & "'"
+            cmdMdb1cr.CommandText = vtipoSql
+            Try
+                cmdMdb1cr.ExecuteNonQuery()
+            Catch ex As Exception
+                MsgBox("Error al eliminar el concepto base: " & ex.Message)
+            End Try
+
+            ' B. Eliminar Registros Apuntes
+            vtipoSql = "DELETE FROM apuntes WHERE ConceptoAPU = '" & nombreOriginalBD & "'"
             cmdMdb1cr.CommandText = vtipoSql
             Try
                 cmdMdb1cr.ExecuteNonQuery()
@@ -170,9 +200,11 @@ Public Class EditarConceptoContable
                 MsgBox(frmApuntesContables.rmse.GetString("EliminarApuntesError") & vbNewLine & ex.Message)
             End Try
 
-            ' Eliminar Registros Apuntes Periódicos
+            ' C. Eliminar Registros Apuntes Periódicos
             vtipoSql = "DELETE FROM apuper"
-            vtipoSql += " WHERE apuper.ConceptoAPP = '" & nombreOriginalBD & "' "
+            cmdMdb1cr.CommandText = vtipoSql
+            ' (Mantenemos tu lógica original para mapear la query de apuper)
+            vtipoSql = "DELETE FROM apuper WHERE apuper.ConceptoAPP = '" & nombreOriginalBD & "'"
             cmdMdb1cr.CommandText = vtipoSql
             Try
                 cmdMdb1cr.ExecuteNonQuery()
@@ -181,20 +213,100 @@ Public Class EditarConceptoContable
                 MsgBox(frmApuntesPeriodicos.rmse.GetString("EliminarApuntesPeriodicosError") & vbNewLine & ex.Message)
             End Try
 
-            ' Eliminar Registros Presupuestos
-            vtipoSql = "DELETE FROM presupuesto"
-            vtipoSql += " WHERE presupuesto.ConceptoPRE = '" & nombreOriginalBD & "' "
+            ' D. Eliminar Registros Presupuestos
+            vtipoSql = "DELETE FROM presupuesto WHERE presupuesto.ConceptoPRE = '" & nombreOriginalBD & "'"
             cmdMdb1cr.CommandText = vtipoSql
             Try
                 cmdMdb1cr.ExecuteNonQuery()
                 MsgBox(frmPresupuestos.rmse.GetString("EliminarPresupuestos"))
             Catch ex As Exception
-                MsgBox(frmPresupuestos.rmse.GetString("EliminarPresupuestosError"))
-                MsgBox(ex.ToString)
+                MsgBox(frmPresupuestos.rmse.GetString("EliminarPresupuestosError") & vbNewLine & ex.Message)
             End Try
+
         End If
         Me.Close()
     End Sub
+
+    'Private Sub BtnEliminar_Click(sender As Object, e As EventArgs) Handles BtnEliminar.Click
+    '    ' 1. Obtener el nombre del concepto que se pretende eliminar
+    '    vTxtNombre = TxtNombre.Text.Trim()
+
+    '    ' 2. REVERTIR EL IDIOMA (Búsqueda inversa para obtener el nombre original de la BD)
+    '    Dim nombreOriginalBD As String = vTxtNombre
+    '    Dim recursos As System.Resources.ResourceSet = rmse.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
+    '    If recursos IsNot Nothing Then
+    '        For Each elemento As System.Collections.DictionaryEntry In recursos
+    '            If elemento.Value.ToString().Trim().ToUpper() = vTxtNombre.ToUpper() Then
+    '                nombreOriginalBD = elemento.Key.ToString().Replace("_", " ")
+    '                Exit For
+    '            End If
+    '        Next
+    '    End If
+
+    '    ' 3. VALIDACIÓN: Verificar si el concepto tiene el tipo original "ESPECIAL"
+    '    ' Buscamos directamente con el nombre original de la base de datos
+    '    Dim vSqlVerificarEspecial As String = "SELECT TipoCON FROM conceptos WHERE CodigoCON = '" & nombreOriginalBD & "'"
+    '    cmdMdb1cr.CommandText = vSqlVerificarEspecial
+
+    '    Try
+    '        Dim tipoOrigen As Object = cmdMdb1cr.ExecuteScalar()
+
+    '        ' Si el resultado no es nulo y es igual a "ESPECIAL", bloqueamos la acción
+    '        If tipoOrigen IsNot Nothing AndAlso tipoOrigen.ToString().Trim().ToUpper() = "ESPECIAL" Then
+    '            ' Recuerda dar de alta "ConceptoSistemaNoBorrar" en tu ResX Manager
+    '            MsgBox(rmse.GetString("ConceptoSistemaNoBorrar"), vbExclamation, resManager.GetString("AccionCancelada"))
+    '            Exit Sub
+    '        End If
+    '    Catch ex As Exception
+    '        MsgBox(resManager.GetString("ErrorVerificarIntegridad") & ": " & ex.Message, vbCritical, rmse.GetString("$this.Text"))
+    '        Exit Sub
+    '    End Try
+
+    '    ' 4. Mensaje de confirmación (Muestra el nombre traducido para el usuario)
+    '    respuesta = MsgBox(rmse.GetString("EliminarConcepto") & " " & nombreOriginalBD & " " & rmse.GetString("EliminarConcepto2"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("LblEliminando"))
+
+    '    If respuesta = vbYes Then
+    '        ' 5. Eliminar Registro Conceptos utilizando el nombre real de la BD
+    '        vtipoSql = "DELETE FROM conceptos"
+    '        vtipoSql += " WHERE conceptos.CodigoCON = '" & nombreOriginalBD & "' "
+    '        cmdMdb1cr.CommandText = vtipoSql
+
+    '        ' Eliminar Registros Apuntes
+    '        vtipoSql = "DELETE FROM apuntes"
+    '        vtipoSql += " WHERE apuntes.ConceptoAPU = '" & nombreOriginalBD & "' "
+    '        cmdMdb1cr.CommandText = vtipoSql
+    '        Try
+    '            cmdMdb1cr.ExecuteNonQuery()
+    '            MsgBox(frmApuntesContables.rmse.GetString("EliminarApuntes"))
+    '        Catch ex As Exception
+    '            MsgBox(frmApuntesContables.rmse.GetString("EliminarApuntesError") & vbNewLine & ex.Message)
+    '        End Try
+
+    '        ' Eliminar Registros Apuntes Periódicos
+    '        vtipoSql = "DELETE FROM apuper"
+    '        vtipoSql += " WHERE apuper.ConceptoAPP = '" & nombreOriginalBD & "' "
+    '        cmdMdb1cr.CommandText = vtipoSql
+    '        Try
+    '            cmdMdb1cr.ExecuteNonQuery()
+    '            MsgBox(frmApuntesPeriodicos.rmse.GetString("EliminarApuntesPeriodicos"))
+    '        Catch ex As Exception
+    '            MsgBox(frmApuntesPeriodicos.rmse.GetString("EliminarApuntesPeriodicosError") & vbNewLine & ex.Message)
+    '        End Try
+
+    '        ' Eliminar Registros Presupuestos
+    '        vtipoSql = "DELETE FROM presupuesto"
+    '        vtipoSql += " WHERE presupuesto.ConceptoPRE = '" & nombreOriginalBD & "' "
+    '        cmdMdb1cr.CommandText = vtipoSql
+    '        Try
+    '            cmdMdb1cr.ExecuteNonQuery()
+    '            MsgBox(frmPresupuestos.rmse.GetString("EliminarPresupuestos"))
+    '        Catch ex As Exception
+    '            MsgBox(frmPresupuestos.rmse.GetString("EliminarPresupuestosError"))
+    '            MsgBox(ex.ToString)
+    '        End Try
+    '    End If
+    '    Me.Close()
+    'End Sub
 
     Private Sub BtnCancelar_Click(sender As Object, e As EventArgs) Handles BtnCancelar.Click
         Me.Close()

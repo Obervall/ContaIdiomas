@@ -82,6 +82,33 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a AGUA.
+    '''</summary>
+    Friend Shared ReadOnly Property AGUA() As String
+        Get
+            Return ResourceManager.GetString("AGUA", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a ALIMENTACION.
+    '''</summary>
+    Friend Shared ReadOnly Property ALIMENTACION() As String
+        Get
+            Return ResourceManager.GetString("ALIMENTACION", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Aviso.
+    '''</summary>
+    Friend Shared ReadOnly Property Aviso() As String
+        Get
+            Return ResourceManager.GetString("Aviso", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a BBVA.
     '''</summary>
     Friend Shared ReadOnly Property BBVA() As String
@@ -95,7 +122,34 @@ Friend Class Recursos
     '''</summary>
     Friend Shared ReadOnly Property CAJA_EFECTIVO() As String
         Get
-            Return ResourceManager.GetString("CAJA EFECTIVO", resourceCulture)
+            Return ResourceManager.GetString("CAJA_EFECTIVO", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a CANAL+.
+    '''</summary>
+    Friend Shared ReadOnly Property CANAL_() As String
+        Get
+            Return ResourceManager.GetString("CANAL+", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a CASA.
+    '''</summary>
+    Friend Shared ReadOnly Property CASA() As String
+        Get
+            Return ResourceManager.GetString("CASA", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a CLIENTE00.
+    '''</summary>
+    Friend Shared ReadOnly Property CLIENTE00() As String
+        Get
+            Return ResourceManager.GetString("CLIENTE00", resourceCulture)
         End Get
     End Property
     
@@ -109,6 +163,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a COMUNIDAD.
+    '''</summary>
+    Friend Shared ReadOnly Property COMUNIDAD() As String
+        Get
+            Return ResourceManager.GetString("COMUNIDAD", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a CON.
     '''</summary>
     Friend Shared ReadOnly Property CON() As String
@@ -118,11 +181,335 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a DECESOS.
+    '''</summary>
+    Friend Shared ReadOnly Property DECESOS() As String
+        Get
+            Return ResourceManager.GetString("DECESOS", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Agua.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_AGUA() As String
+        Get
+            Return ResourceManager.GetString("Desc_AGUA", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Comida.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_ALIMENTACION() As String
+        Get
+            Return ResourceManager.GetString("Desc_ALIMENTACION", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Canal Plus Digital.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_CANAL_() As String
+        Get
+            Return ResourceManager.GetString("Desc_CANAL+", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Utiles Casa.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_CASA() As String
+        Get
+            Return ResourceManager.GetString("Desc_CASA", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Cliente Vario.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_CLIENTE00() As String
+        Get
+            Return ResourceManager.GetString("Desc_CLIENTE00", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Comunidad Parking.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_COMUNIDAD() As String
+        Get
+            Return ResourceManager.GetString("Desc_COMUNIDAD", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Decesos.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_DECESOS() As String
+        Get
+            Return ResourceManager.GetString("Desc_DECESOS", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a .
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_EL_CORTE_INGLES() As String
+        Get
+            Return ResourceManager.GetString("Desc_EL_CORTE_INGLES", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Estética y Peluquería.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_ESTETICA() As String
+        Get
+            Return ResourceManager.GetString("Desc_ESTETICA", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Farmacia.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_FARMACIA() As String
+        Get
+            Return ResourceManager.GetString("Desc_FARMACIA", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Gas Natural.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_GAS_NATURAL() As String
+        Get
+            Return ResourceManager.GetString("Desc_GAS_NATURAL", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Gasolina o Gas-Oil.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_GASOLINA() As String
+        Get
+            Return ResourceManager.GetString("Desc_GASOLINA", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Gastos Bancarios.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_GASTOS_BANCARIOS() As String
+        Get
+            Return ResourceManager.GetString("Desc_GASTOS_BANCARIOS", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Hacienda Pública.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_HACIENDA() As String
+        Get
+            Return ResourceManager.GetString("Desc_HACIENDA", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Impuesto Basuras.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_IMPUESTO_1() As String
+        Get
+            Return ResourceManager.GetString("Desc_IMPUESTO_1", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Impuesto Ibi.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_IMPUESTO_2() As String
+        Get
+            Return ResourceManager.GetString("Desc_IMPUESTO_2", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Impuesto Vehículo.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_IMPUESTO_3() As String
+        Get
+            Return ResourceManager.GetString("Desc_IMPUESTO_3", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Impuesto Moto.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_IMPUESTO_4() As String
+        Get
+            Return ResourceManager.GetString("Desc_IMPUESTO_4", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Impuesto CO2.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_IMPUESTO_5() As String
+        Get
+            Return ResourceManager.GetString("Desc_IMPUESTO_5", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Intereses Bancarios.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_INTERESES() As String
+        Get
+            Return ResourceManager.GetString("Desc_INTERESES", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Plantas.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_JARDIN() As String
+        Get
+            Return ResourceManager.GetString("Desc_JARDIN", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Compañía Luz.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_LUZ() As String
+        Get
+            Return ResourceManager.GetString("Desc_LUZ", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Diversión y Entretenimiento.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_OCIO() As String
+        Get
+            Return ResourceManager.GetString("Desc_OCIO", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Pensión o Suledo.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_PENSION() As String
+        Get
+            Return ResourceManager.GetString("Desc_PENSION", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Regularización de Ingresos.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_REGULARITZACIO_1() As String
+        Get
+            Return ResourceManager.GetString("Desc_REGULARITZACIO_1", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Regularización de Gastos.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_REGULARITZACIO_2() As String
+        Get
+            Return ResourceManager.GetString("Desc_REGULARITZACIO_2", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Ropa y Zapatos.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_ROPA() As String
+        Get
+            Return ResourceManager.GetString("Desc_ROPA", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Seguro Casa.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_SEGURO_CASA() As String
+        Get
+            Return ResourceManager.GetString("Desc_SEGURO_CASA", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Seguro Coche.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_SEGURO_COCHE() As String
+        Get
+            Return ResourceManager.GetString("Desc_SEGURO_COCHE", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Seguro Moto.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_SEGURO_MOTO() As String
+        Get
+            Return ResourceManager.GetString("Desc_SEGURO_MOTO", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Teléfono.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_TELEFONO() As String
+        Get
+            Return ResourceManager.GetString("Desc_TELEFONO", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Traspaso entre cuentas.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_TRASPASO() As String
+        Get
+            Return ResourceManager.GetString("Desc_TRASPASO", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Varios sin Justificar.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_VARIOS() As String
+        Get
+            Return ResourceManager.GetString("Desc_VARIOS", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Coche y Moto.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_VEHICULOS() As String
+        Get
+            Return ResourceManager.GetString("Desc_VEHICULOS", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Descripción.
     '''</summary>
     Friend Shared ReadOnly Property Descripcion() As String
         Get
             Return ResourceManager.GetString("Descripcion", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a .
+    '''</summary>
+    Friend Shared ReadOnly Property EL_CORTE_INGLES() As String
+        Get
+            Return ResourceManager.GetString("EL_CORTE_INGLES", resourceCulture)
         End Get
     End Property
     
@@ -181,6 +568,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a ESTETICA.
+    '''</summary>
+    Friend Shared ReadOnly Property ESTETICA() As String
+        Get
+            Return ResourceManager.GetString("ESTETICA", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Ejercicio.
     '''</summary>
     Friend Shared ReadOnly Property Exercici() As String
@@ -199,6 +595,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a FARMACIA.
+    '''</summary>
+    Friend Shared ReadOnly Property FARMACIA() As String
+        Get
+            Return ResourceManager.GetString("FARMACIA", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a (Filtrado).
     '''</summary>
     Friend Shared ReadOnly Property Filtrado() As String
@@ -213,6 +618,114 @@ Friend Class Recursos
     Friend Shared ReadOnly Property FinalTabla() As String
         Get
             Return ResourceManager.GetString("FinalTabla", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a GAS NATURAL.
+    '''</summary>
+    Friend Shared ReadOnly Property GAS_NATURAL() As String
+        Get
+            Return ResourceManager.GetString("GAS_NATURAL", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a GASOLINA.
+    '''</summary>
+    Friend Shared ReadOnly Property GASOLINA() As String
+        Get
+            Return ResourceManager.GetString("GASOLINA", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a GASTOS BANCARIOS.
+    '''</summary>
+    Friend Shared ReadOnly Property GASTOS_BANCARIOS() As String
+        Get
+            Return ResourceManager.GetString("GASTOS_BANCARIOS", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a HACIENDA.
+    '''</summary>
+    Friend Shared ReadOnly Property HACIENDA() As String
+        Get
+            Return ResourceManager.GetString("HACIENDA", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a IMPUESTO 1.
+    '''</summary>
+    Friend Shared ReadOnly Property IMPUESTO_1() As String
+        Get
+            Return ResourceManager.GetString("IMPUESTO_1", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a IMPUESTO 2.
+    '''</summary>
+    Friend Shared ReadOnly Property IMPUESTO_2() As String
+        Get
+            Return ResourceManager.GetString("IMPUESTO_2", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a IMPUESTO 3.
+    '''</summary>
+    Friend Shared ReadOnly Property IMPUESTO_3() As String
+        Get
+            Return ResourceManager.GetString("IMPUESTO_3", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a IMPUESTO 4.
+    '''</summary>
+    Friend Shared ReadOnly Property IMPUESTO_4() As String
+        Get
+            Return ResourceManager.GetString("IMPUESTO_4", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a IMPUESTO 5.
+    '''</summary>
+    Friend Shared ReadOnly Property IMPUESTO_5() As String
+        Get
+            Return ResourceManager.GetString("IMPUESTO_5", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a INTERESES.
+    '''</summary>
+    Friend Shared ReadOnly Property INTERESES() As String
+        Get
+            Return ResourceManager.GetString("INTERESES", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a JARDIN.
+    '''</summary>
+    Friend Shared ReadOnly Property JARDIN() As String
+        Get
+            Return ResourceManager.GetString("JARDIN", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a LUZ.
+    '''</summary>
+    Friend Shared ReadOnly Property LUZ() As String
+        Get
+            Return ResourceManager.GetString("LUZ", resourceCulture)
         End Get
     End Property
     
@@ -280,6 +793,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a No hay datos históricos en años anteriores para generar saldos iniciales.
+    '''</summary>
+    Friend Shared ReadOnly Property NoHayDatosHistoricos() As String
+        Get
+            Return ResourceManager.GetString("NoHayDatosHistoricos", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Nombre.
     '''</summary>
     Friend Shared ReadOnly Property Nombre() As String
@@ -307,6 +829,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a OCIO.
+    '''</summary>
+    Friend Shared ReadOnly Property OCIO() As String
+        Get
+            Return ResourceManager.GetString("OCIO", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a OPENBANK.
     '''</summary>
     Friend Shared ReadOnly Property OPENBANK() As String
@@ -316,11 +847,20 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a PENSION.
+    '''</summary>
+    Friend Shared ReadOnly Property PENSION() As String
+        Get
+            Return ResourceManager.GetString("PENSION", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a PLAN PENSIONES.
     '''</summary>
     Friend Shared ReadOnly Property PLAN_PENSIONES() As String
         Get
-            Return ResourceManager.GetString("PLAN PENSIONES", resourceCulture)
+            Return ResourceManager.GetString("PLAN_PENSIONES", resourceCulture)
         End Get
     End Property
     
@@ -343,6 +883,33 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a REGULARITZACIO 1.
+    '''</summary>
+    Friend Shared ReadOnly Property REGULARITZACIO_1() As String
+        Get
+            Return ResourceManager.GetString("REGULARITZACIO_1", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a REGULARITZACIO 2.
+    '''</summary>
+    Friend Shared ReadOnly Property REGULARITZACIO_2() As String
+        Get
+            Return ResourceManager.GetString("REGULARITZACIO_2", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a ROPA.
+    '''</summary>
+    Friend Shared ReadOnly Property ROPA() As String
+        Get
+            Return ResourceManager.GetString("ROPA", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Saldo.
     '''</summary>
     Friend Shared ReadOnly Property Saldo() As String
@@ -352,11 +919,47 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a SEGURO CASA.
+    '''</summary>
+    Friend Shared ReadOnly Property SEGURO_CASA() As String
+        Get
+            Return ResourceManager.GetString("SEGURO_CASA", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a SEGURO COCHE.
+    '''</summary>
+    Friend Shared ReadOnly Property SEGURO_COCHE() As String
+        Get
+            Return ResourceManager.GetString("SEGURO_COCHE", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a SEGURO MOTO.
+    '''</summary>
+    Friend Shared ReadOnly Property SEGURO_MOTO() As String
+        Get
+            Return ResourceManager.GetString("SEGURO_MOTO", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a (Sin Filtrar).
     '''</summary>
     Friend Shared ReadOnly Property SinFiltrar() As String
         Get
             Return ResourceManager.GetString("SinFiltrar", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a TELEFONO.
+    '''</summary>
+    Friend Shared ReadOnly Property TELEFONO() As String
+        Get
+            Return ResourceManager.GetString("TELEFONO", resourceCulture)
         End Get
     End Property
     
@@ -583,6 +1186,33 @@ Friend Class Recursos
     Friend Shared ReadOnly Property ToolTipUltimo() As String
         Get
             Return ResourceManager.GetString("ToolTipUltimo", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a TRASPASO.
+    '''</summary>
+    Friend Shared ReadOnly Property TRASPASO() As String
+        Get
+            Return ResourceManager.GetString("TRASPASO", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a VARIOS.
+    '''</summary>
+    Friend Shared ReadOnly Property VARIOS() As String
+        Get
+            Return ResourceManager.GetString("VARIOS", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a VEHICULOS.
+    '''</summary>
+    Friend Shared ReadOnly Property VEHICULOS() As String
+        Get
+            Return ResourceManager.GetString("VEHICULOS", resourceCulture)
         End Get
     End Property
     

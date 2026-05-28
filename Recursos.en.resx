@@ -499,4 +499,25 @@ They are not removed from the database</value>
   <data name="Desc_VEHICULOS" xml:space="preserve">
     <value>Car &amp; Motorbike</value>
   </data>
+  <data name="NoHayDatosHistoricos" xml:space="preserve">
+    <value>There is no historical data in previous years to generate initial balances</value>
+  </data>
+  <data name="Aviso" xml:space="preserve">
+    <value>Notice</value>
+  </data>
+  <data name="TituloReporteConceptos" xml:space="preserve">
+    <value>List of Accounting Concepts</value>
+  </data>
+  <data name="Nom_CAJA_EFECTIVO" xml:space="preserve">
+    <value>CASH BOX</value>
+  </data>
+  <data name="Nom_BBVA" xml:space="preserve">
+    <value>BBVA</value>
+  </data>
+  <data name="Nom_OPENBANK" xml:space="preserve">
+    <value>OPENBANK</value>
+  </data>
+  <data name="Nom_PLAN_PENSIONES" xml:space="preserve">
+    <value>PENSION PLAN</value>
+  </data>
 </root>
