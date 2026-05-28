@@ -1189,9 +1189,6 @@
   <data name="Concepto_Contable" xml:space="preserve">
     <value>Concepto Contable</value>
   </data>
-  <data name="Concepto_No_Editable" xml:space="preserve">
-    <value>Este Concepto No es Editable, pertenece al Sistema</value>
-  </data>
   <data name="Nota_TRASPASO" xml:space="preserve">
     <value>Concepto de sistema para el traspaso entre cuentas bancarias, sirve para disposiciones del cajero...</value>
   </data>

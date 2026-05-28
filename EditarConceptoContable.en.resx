@@ -120,12 +120,6 @@
   <data name="LblEditando.Text" xml:space="preserve">
     <value>EDITING ACCOUNTING CONCEPT</value>
   </data>
-  <data name="CmbTipoConcepto.Items" xml:space="preserve">
-    <value>SPENT</value>
-  </data>
-  <data name="CmbTipoConcepto.Items1" xml:space="preserve">
-    <value>INCOME</value>
-  </data>
   <data name="Label6.Text" xml:space="preserve">
     <value>Note:</value>
   </data>
@@ -173,5 +167,8 @@
   </data>
   <data name="ConceptoSistemaNoBorrar" xml:space="preserve">
     <value>System Concept, Cannot Be Eliminated</value>
+  </data>
+  <data name="Concepto_No_Editable" xml:space="preserve">
+    <value>This Concept is Not Editable, It Belongs to the System</value>
   </data>
 </root>

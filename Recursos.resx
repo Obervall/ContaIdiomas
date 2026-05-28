@@ -262,7 +262,7 @@ No se Eliminan de la Base de Datos</value>
   <data name="ErrorAlEjecutar" xml:space="preserve">
     <value>Error al ejecutar</value>
   </data>
-  <data name="CAJA EFECTIVO" xml:space="preserve">
+  <data name="CAJA_EFECTIVO" xml:space="preserve">
     <value>CAJA EFECTIVO</value>
   </data>
   <data name="BBVA" xml:space="preserve">
@@ -271,7 +271,7 @@ No se Eliminan de la Base de Datos</value>
   <data name="OPENBANK" xml:space="preserve">
     <value>OPENBANK</value>
   </data>
-  <data name="PLAN PENSIONES" xml:space="preserve">
+  <data name="PLAN_PENSIONES" xml:space="preserve">
     <value>PLAN PENSIONES</value>
   </data>
   <data name="FinalTabla" xml:space="preserve">
@@ -300,5 +300,211 @@ No se Eliminan de la Base de Datos</value>
   </data>
   <data name="ErrorVerificarIntegridad" xml:space="preserve">
     <value>Error al Verificar la Integridad</value>
+  </data>
+  <data name="AGUA" xml:space="preserve">
+    <value>AGUA</value>
+  </data>
+  <data name="ALIMENTACION" xml:space="preserve">
+    <value>ALIMENTACION</value>
+  </data>
+  <data name="CANAL+" xml:space="preserve">
+    <value>CANAL+</value>
+  </data>
+  <data name="CASA" xml:space="preserve">
+    <value>CASA</value>
+  </data>
+  <data name="CLIENTE00" xml:space="preserve">
+    <value>CLIENTE00</value>
+  </data>
+  <data name="COMUNIDAD" xml:space="preserve">
+    <value>COMUNIDAD</value>
+  </data>
+  <data name="DECESOS" xml:space="preserve">
+    <value>DECESOS</value>
+  </data>
+  <data name="EL_CORTE_INGLES" xml:space="preserve">
+    <value></value>
+    <comment>@Invariant</comment>
+  </data>
+  <data name="ESTETICA" xml:space="preserve">
+    <value>ESTETICA</value>
+  </data>
+  <data name="FARMACIA" xml:space="preserve">
+    <value>FARMACIA</value>
+  </data>
+  <data name="GAS_NATURAL" xml:space="preserve">
+    <value>GAS NATURAL</value>
+  </data>
+  <data name="GASOLINA" xml:space="preserve">
+    <value>GASOLINA</value>
+  </data>
+  <data name="GASTOS_BANCARIOS" xml:space="preserve">
+    <value>GASTOS BANCARIOS</value>
+  </data>
+  <data name="HACIENDA" xml:space="preserve">
+    <value>HACIENDA</value>
+  </data>
+  <data name="IMPUESTO_1" xml:space="preserve">
+    <value>IMPUESTO 1</value>
+  </data>
+  <data name="IMPUESTO_2" xml:space="preserve">
+    <value>IMPUESTO 2</value>
+  </data>
+  <data name="IMPUESTO_3" xml:space="preserve">
+    <value>IMPUESTO 3</value>
+  </data>
+  <data name="IMPUESTO_4" xml:space="preserve">
+    <value>IMPUESTO 4</value>
+  </data>
+  <data name="IMPUESTO_5" xml:space="preserve">
+    <value>IMPUESTO 5</value>
+  </data>
+  <data name="INTERESES" xml:space="preserve">
+    <value>INTERESES</value>
+  </data>
+  <data name="JARDIN" xml:space="preserve">
+    <value>JARDIN</value>
+  </data>
+  <data name="LUZ" xml:space="preserve">
+    <value>LUZ</value>
+  </data>
+  <data name="OCIO" xml:space="preserve">
+    <value>OCIO</value>
+  </data>
+  <data name="PENSION" xml:space="preserve">
+    <value>PENSION</value>
+  </data>
+  <data name="REGULARITZACIO_1" xml:space="preserve">
+    <value>REGULARITZACIO 1</value>
+  </data>
+  <data name="REGULARITZACIO_2" xml:space="preserve">
+    <value>REGULARITZACIO 2</value>
+  </data>
+  <data name="ROPA" xml:space="preserve">
+    <value>ROPA</value>
+  </data>
+  <data name="SEGURO_CASA" xml:space="preserve">
+    <value>SEGURO CASA</value>
+  </data>
+  <data name="SEGURO_COCHE" xml:space="preserve">
+    <value>SEGURO COCHE</value>
+  </data>
+  <data name="SEGURO_MOTO" xml:space="preserve">
+    <value>SEGURO MOTO</value>
+  </data>
+  <data name="TELEFONO" xml:space="preserve">
+    <value>TELEFONO</value>
+  </data>
+  <data name="TRASPASO" xml:space="preserve">
+    <value>TRASPASO</value>
+  </data>
+  <data name="VARIOS" xml:space="preserve">
+    <value>VARIOS</value>
+  </data>
+  <data name="VEHICULOS" xml:space="preserve">
+    <value>VEHICULOS</value>
+  </data>
+  <data name="Desc_AGUA" xml:space="preserve">
+    <value>Agua</value>
+  </data>
+  <data name="Desc_ALIMENTACION" xml:space="preserve">
+    <value>Comida</value>
+  </data>
+  <data name="Desc_CANAL+" xml:space="preserve">
+    <value>Canal Plus Digital</value>
+  </data>
+  <data name="Desc_CASA" xml:space="preserve">
+    <value>Utiles Casa</value>
+  </data>
+  <data name="Desc_CLIENTE00" xml:space="preserve">
+    <value>Cliente Vario</value>
+  </data>
+  <data name="Desc_COMUNIDAD" xml:space="preserve">
+    <value>Comunidad Parking</value>
+  </data>
+  <data name="Desc_DECESOS" xml:space="preserve">
+    <value>Decesos</value>
+  </data>
+  <data name="Desc_EL_CORTE_INGLES" xml:space="preserve">
+    <value></value>
+    <comment>@Invariant</comment>
+  </data>
+  <data name="Desc_ESTETICA" xml:space="preserve">
+    <value>Estética y Peluquería</value>
+  </data>
+  <data name="Desc_FARMACIA" xml:space="preserve">
+    <value>Farmacia</value>
+  </data>
+  <data name="Desc_GAS_NATURAL" xml:space="preserve">
+    <value>Gas Natural</value>
+  </data>
+  <data name="Desc_GASOLINA" xml:space="preserve">
+    <value>Gasolina o Gas-Oil</value>
+  </data>
+  <data name="Desc_GASTOS_BANCARIOS" xml:space="preserve">
+    <value>Gastos Bancarios</value>
+  </data>
+  <data name="Desc_HACIENDA" xml:space="preserve">
+    <value>Hacienda Pública</value>
+  </data>
+  <data name="Desc_IMPUESTO_1" xml:space="preserve">
+    <value>Impuesto Basuras</value>
+  </data>
+  <data name="Desc_IMPUESTO_2" xml:space="preserve">
+    <value>Impuesto Ibi</value>
+  </data>
+  <data name="Desc_IMPUESTO_3" xml:space="preserve">
+    <value>Impuesto Vehículo</value>
+  </data>
+  <data name="Desc_IMPUESTO_4" xml:space="preserve">
+    <value>Impuesto Moto</value>
+  </data>
+  <data name="Desc_IMPUESTO_5" xml:space="preserve">
+    <value>Impuesto CO2</value>
+  </data>
+  <data name="Desc_INTERESES" xml:space="preserve">
+    <value>Intereses Bancarios</value>
+  </data>
+  <data name="Desc_JARDIN" xml:space="preserve">
+    <value>Plantas</value>
+  </data>
+  <data name="Desc_LUZ" xml:space="preserve">
+    <value>Compañía Luz</value>
+  </data>
+  <data name="Desc_OCIO" xml:space="preserve">
+    <value>Diversión y Entretenimiento</value>
+  </data>
+  <data name="Desc_PENSION" xml:space="preserve">
+    <value>Pensión o Suledo</value>
+  </data>
+  <data name="Desc_REGULARITZACIO_1" xml:space="preserve">
+    <value>Regularización de Ingresos</value>
+  </data>
+  <data name="Desc_REGULARITZACIO_2" xml:space="preserve">
+    <value>Regularización de Gastos</value>
+  </data>
+  <data name="Desc_ROPA" xml:space="preserve">
+    <value>Ropa y Zapatos</value>
+  </data>
+  <data name="Desc_SEGURO_CASA" xml:space="preserve">
+    <value>Seguro Casa</value>
+  </data>
+  <data name="Desc_SEGURO_COCHE" xml:space="preserve">
+    <value>Seguro Coche</value>
+  </data>
+  <data name="Desc_SEGURO_MOTO" xml:space="preserve">
+    <value>Seguro Moto</value>
+  </data>
+  <data name="Desc_TELEFONO" xml:space="preserve">
+    <value>Teléfono</value>
+  </data>
+  <data name="Desc_TRASPASO" xml:space="preserve">
+    <value>Traspaso entre cuentas</value>
+  </data>
+  <data name="Desc_VARIOS" xml:space="preserve">
+    <value>Varios sin Justificar</value>
+  </data>
+  <data name="Desc_VEHICULOS" xml:space="preserve">
+    <value>Coche y Moto</value>
   </data>
 </root>

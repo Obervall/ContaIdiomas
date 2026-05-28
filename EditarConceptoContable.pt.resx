@@ -120,12 +120,6 @@
   <data name="LblEditando.Text" xml:space="preserve">
     <value>EDIÇÃO DO CONCEITO CONTÁBIL</value>
   </data>
-  <data name="CmbTipoConcepto.Items" xml:space="preserve">
-    <value>GASTO</value>
-  </data>
-  <data name="CmbTipoConcepto.Items1" xml:space="preserve">
-    <value>RENDA</value>
-  </data>
   <data name="Label6.Text" xml:space="preserve">
     <value>Observação:</value>
   </data>
@@ -173,5 +167,8 @@
   </data>
   <data name="ConceptoSistemaNoBorrar" xml:space="preserve">
     <value>Conceito do Sistema Não Pode Ser Eliminado</value>
+  </data>
+  <data name="Concepto_No_Editable" xml:space="preserve">
+    <value>Esse conceito não é editável, ele pertence ao sistema</value>
   </data>
 </root>

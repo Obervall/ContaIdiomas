@@ -262,7 +262,7 @@ No s' Eliminen de la Base de Dades</value>
   <data name="ErrorAlEjecutar" xml:space="preserve">
     <value>Error en executar</value>
   </data>
-  <data name="CAJA EFECTIVO" xml:space="preserve">
+  <data name="CAJA_EFECTIVO" xml:space="preserve">
     <value>CAIXA EFECTIU</value>
   </data>
   <data name="BBVA" xml:space="preserve">
@@ -271,7 +271,7 @@ No s' Eliminen de la Base de Dades</value>
   <data name="OPENBANK" xml:space="preserve">
     <value>OPENBANK</value>
   </data>
-  <data name="PLAN PENSIONES" xml:space="preserve">
+  <data name="PLAN_PENSIONES" xml:space="preserve">
     <value>PLA PENSIONS</value>
   </data>
   <data name="FinalTabla" xml:space="preserve">
@@ -300,5 +300,203 @@ No s' Eliminen de la Base de Dades</value>
   </data>
   <data name="ErrorVerificarIntegridad" xml:space="preserve">
     <value>Error en Verificar la Integritat</value>
+  </data>
+  <data name="AGUA" xml:space="preserve">
+    <value>AIGUA</value>
+  </data>
+  <data name="ALIMENTACION" xml:space="preserve">
+    <value>ALIMENTACIÓ</value>
+  </data>
+  <data name="CANAL+" xml:space="preserve">
+    <value>CANAL +</value>
+  </data>
+  <data name="CASA" xml:space="preserve">
+    <value>CASA</value>
+  </data>
+  <data name="CLIENTE00" xml:space="preserve">
+    <value>CLIENTE00</value>
+  </data>
+  <data name="COMUNIDAD" xml:space="preserve">
+    <value>COMUNITAT</value>
+  </data>
+  <data name="DECESOS" xml:space="preserve">
+    <value>DECESSOS</value>
+  </data>
+  <data name="ESTETICA" xml:space="preserve">
+    <value>ESTETICA</value>
+  </data>
+  <data name="FARMACIA" xml:space="preserve">
+    <value>FARMÀCIA</value>
+  </data>
+  <data name="GAS_NATURAL" xml:space="preserve">
+    <value>GAS NATURAL</value>
+  </data>
+  <data name="GASOLINA" xml:space="preserve">
+    <value>GASOLINA</value>
+  </data>
+  <data name="GASTOS_BANCARIOS" xml:space="preserve">
+    <value>DESPESES BANCÀRIES</value>
+  </data>
+  <data name="HACIENDA" xml:space="preserve">
+    <value>HISENDA</value>
+  </data>
+  <data name="IMPUESTO_1" xml:space="preserve">
+    <value>IMPOST 1</value>
+  </data>
+  <data name="IMPUESTO_2" xml:space="preserve">
+    <value>IMPOST 2</value>
+  </data>
+  <data name="IMPUESTO_3" xml:space="preserve">
+    <value>IMPOST 3</value>
+  </data>
+  <data name="IMPUESTO_4" xml:space="preserve">
+    <value>IMPOST 4</value>
+  </data>
+  <data name="IMPUESTO_5" xml:space="preserve">
+    <value>IMPOST 5</value>
+  </data>
+  <data name="INTERESES" xml:space="preserve">
+    <value>INTERESSOS</value>
+  </data>
+  <data name="JARDIN" xml:space="preserve">
+    <value>JARDIN</value>
+  </data>
+  <data name="LUZ" xml:space="preserve">
+    <value>LLUM</value>
+  </data>
+  <data name="OCIO" xml:space="preserve">
+    <value>LLEURE</value>
+  </data>
+  <data name="PENSION" xml:space="preserve">
+    <value>PENSION</value>
+  </data>
+  <data name="REGULARITZACIO_1" xml:space="preserve">
+    <value>REGULARITZACIO 1</value>
+  </data>
+  <data name="REGULARITZACIO_2" xml:space="preserve">
+    <value>REGULARITZACIO 2</value>
+  </data>
+  <data name="ROPA" xml:space="preserve">
+    <value>ROBA</value>
+  </data>
+  <data name="SEGURO_CASA" xml:space="preserve">
+    <value>ASSEGURANÇA CASA</value>
+  </data>
+  <data name="SEGURO_COCHE" xml:space="preserve">
+    <value>ASSEGURANÇA COTXE</value>
+  </data>
+  <data name="SEGURO_MOTO" xml:space="preserve">
+    <value>ASSEGURANÇA MOTO</value>
+  </data>
+  <data name="TELEFONO" xml:space="preserve">
+    <value>TELEFON</value>
+  </data>
+  <data name="TRASPASO" xml:space="preserve">
+    <value>TRASPÀS</value>
+  </data>
+  <data name="VARIOS" xml:space="preserve">
+    <value>DIVERSOS</value>
+  </data>
+  <data name="VEHICULOS" xml:space="preserve">
+    <value>VEHICLES</value>
+  </data>
+  <data name="Desc_AGUA" xml:space="preserve">
+    <value>Aigua</value>
+  </data>
+  <data name="Desc_ALIMENTACION" xml:space="preserve">
+    <value>Dinar</value>
+  </data>
+  <data name="Desc_CANAL+" xml:space="preserve">
+    <value>Canal Plus Digital</value>
+  </data>
+  <data name="Desc_CASA" xml:space="preserve">
+    <value>Utils Casa</value>
+  </data>
+  <data name="Desc_CLIENTE00" xml:space="preserve">
+    <value>Client Vario</value>
+  </data>
+  <data name="Desc_COMUNIDAD" xml:space="preserve">
+    <value>Comunitat Pàrquing</value>
+  </data>
+  <data name="Desc_DECESOS" xml:space="preserve">
+    <value>Decessos</value>
+  </data>
+  <data name="Desc_ESTETICA" xml:space="preserve">
+    <value>Estètica i Perruqueria</value>
+  </data>
+  <data name="Desc_FARMACIA" xml:space="preserve">
+    <value>Farmàcia</value>
+  </data>
+  <data name="Desc_GAS_NATURAL" xml:space="preserve">
+    <value>Gas Natural</value>
+  </data>
+  <data name="Desc_GASOLINA" xml:space="preserve">
+    <value>Gasolina o Gas-Oil</value>
+  </data>
+  <data name="Desc_GASTOS_BANCARIOS" xml:space="preserve">
+    <value>Despeses Bancàries</value>
+  </data>
+  <data name="Desc_HACIENDA" xml:space="preserve">
+    <value>Hisenda Pública</value>
+  </data>
+  <data name="Desc_IMPUESTO_1" xml:space="preserve">
+    <value>Impost Escombraries</value>
+  </data>
+  <data name="Desc_IMPUESTO_2" xml:space="preserve">
+    <value>Impost Ibi</value>
+  </data>
+  <data name="Desc_IMPUESTO_3" xml:space="preserve">
+    <value>Impost Vehicle</value>
+  </data>
+  <data name="Desc_IMPUESTO_4" xml:space="preserve">
+    <value>Impost Moto</value>
+  </data>
+  <data name="Desc_IMPUESTO_5" xml:space="preserve">
+    <value>Impost CO2</value>
+  </data>
+  <data name="Desc_INTERESES" xml:space="preserve">
+    <value>Interessos Bancaris</value>
+  </data>
+  <data name="Desc_JARDIN" xml:space="preserve">
+    <value>Plantes</value>
+  </data>
+  <data name="Desc_LUZ" xml:space="preserve">
+    <value>Companyia Llum</value>
+  </data>
+  <data name="Desc_OCIO" xml:space="preserve">
+    <value>Diversió i Entreteniment</value>
+  </data>
+  <data name="Desc_PENSION" xml:space="preserve">
+    <value>Pensió o Suledo</value>
+  </data>
+  <data name="Desc_REGULARITZACIO_1" xml:space="preserve">
+    <value>Regularització d' Ingressos</value>
+  </data>
+  <data name="Desc_REGULARITZACIO_2" xml:space="preserve">
+    <value>Regularització de Despeses</value>
+  </data>
+  <data name="Desc_ROPA" xml:space="preserve">
+    <value>Roba i Sabates</value>
+  </data>
+  <data name="Desc_SEGURO_CASA" xml:space="preserve">
+    <value>Assegurança Casa</value>
+  </data>
+  <data name="Desc_SEGURO_COCHE" xml:space="preserve">
+    <value>Assegurança Cotxe</value>
+  </data>
+  <data name="Desc_SEGURO_MOTO" xml:space="preserve">
+    <value>Assegurança Moto</value>
+  </data>
+  <data name="Desc_TELEFONO" xml:space="preserve">
+    <value>Telèfon</value>
+  </data>
+  <data name="Desc_TRASPASO" xml:space="preserve">
+    <value>Traspàs entre comptes</value>
+  </data>
+  <data name="Desc_VARIOS" xml:space="preserve">
+    <value>Diversos sense Justificar</value>
+  </data>
+  <data name="Desc_VEHICULOS" xml:space="preserve">
+    <value>Cotxe i Moto</value>
   </data>
 </root>

@@ -64,6 +64,24 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Error.
+    '''</summary>
+    Friend Shared ReadOnly Property _Error() As String
+        Get
+            Return ResourceManager.GetString("Error", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Acción Cancelada.
+    '''</summary>
+    Friend Shared ReadOnly Property AccionCancelada() As String
+        Get
+            Return ResourceManager.GetString("AccionCancelada", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a BBVA.
     '''</summary>
     Friend Shared ReadOnly Property BBVA() As String
@@ -136,11 +154,11 @@ Friend Class Recursos
     End Property
     
     '''<summary>
-    '''  Busca una cadena traducida similar a Error al eliminar los registros SALDO del Ejercicio.
+    '''  Busca una cadena traducida similar a Error al intentar eliminar el registro.
     '''</summary>
-    Friend Shared ReadOnly Property ErrorAlEliminarSaldo() As String
+    Friend Shared ReadOnly Property ErrorEliminarRegistro() As String
         Get
-            Return ResourceManager.GetString("ErrorAlEliminarSaldo", resourceCulture)
+            Return ResourceManager.GetString("ErrorEliminarRegistro", resourceCulture)
         End Get
     End Property
     
@@ -150,6 +168,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property ErrorModificarRegistro() As String
         Get
             Return ResourceManager.GetString("ErrorModificarRegistro", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Error al Verificar la Integridad.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorVerificarIntegridad() As String
+        Get
+            Return ResourceManager.GetString("ErrorVerificarIntegridad", resourceCulture)
         End Get
     End Property
     
@@ -244,6 +271,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a NO hay Datos en.
+    '''</summary>
+    Friend Shared ReadOnly Property NoHayDatos() As String
+        Get
+            Return ResourceManager.GetString("NoHayDatos", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Nombre.
     '''</summary>
     Friend Shared ReadOnly Property Nombre() As String
@@ -285,6 +321,24 @@ Friend Class Recursos
     Friend Shared ReadOnly Property PLAN_PENSIONES() As String
         Get
             Return ResourceManager.GetString("PLAN PENSIONES", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a El registro ha sido borrado correctamente.
+    '''</summary>
+    Friend Shared ReadOnly Property RegistroBorrado() As String
+        Get
+            Return ResourceManager.GetString("RegistroBorrado", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a El registro no se pudo borrar. Verifique.
+    '''</summary>
+    Friend Shared ReadOnly Property RegistroNoBorradoVerificar() As String
+        Get
+            Return ResourceManager.GetString("RegistroNoBorradoVerificar", resourceCulture)
         End Get
     End Property
     

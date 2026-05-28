@@ -125,6 +125,12 @@ Public Class ConceptosContables
                             Dim tradCodigo As String = resManager.GetString(llaveBase)
                             If Not String.IsNullOrEmpty(tradCodigo) Then fila.Cells(1).Value = tradCodigo
 
+                            ' --- TRADUCIR COLUMNA (2): DescripcionCON ---
+                            Dim llaveDesc As String = "Desc_" & llaveBase
+                            Dim tradDesc As String = resManager.GetString(llaveDesc)
+                            If Not String.IsNullOrEmpty(tradDesc) Then fila.Cells(2).Value = tradDesc
+
+
                             ' --- TRADUCIR COLUMNA (3): NotasCON (Solo si el origen es ESPECIAL) ---
                             If tipoOriginal = "ESPECIAL" AndAlso fila.Cells(3).Value IsNot Nothing Then
                                 Dim llaveNota As String = "Nota_" & llaveBase
@@ -135,11 +141,12 @@ Public Class ConceptosContables
 
                                 If Not String.IsNullOrEmpty(tradNota) Then fila.Cells(3).Value = tradNota
                             End If
-
                         End If
-
                     End If
                 Next
+                ' Ordena la columna (1): CodigoCON de forma Ascendente utilizando la ordenación automática del Grid
+                DgvConceptos.Sort(DgvConceptos.Columns(1), System.ComponentModel.ListSortDirection.Ascending)
+
             End If
         Catch ex As Exception
             ' Evita cuelgues visuales si el volcado está incompleto
@@ -395,36 +402,31 @@ Public Class ConceptosContables
         filaActual = frmConceptosContables.DgvConceptos.CurrentRow.Index
         vTxtNombre = frmConceptosContables.DgvConceptos.Rows(filaActual).Cells(1).Value.ToString
 
-        If CmbTipoConcepto.Text = resManager.GetString("Tipo_Especial") Or vTxtNombre = resManager.GetString("Tipo_Traspaso") Then
-            MsgBox(frmConceptosContables.rmse.GetString("Concepto_No_Editable"), vbCritical)
-        Else
-            ' Comprobamos si existe un identificador asociado.
-            If ((frmEditarConceptoContable Is Nothing) OrElse (Not frmEditarConceptoContable.IsHandleCreated)) Then
-                frmEditarConceptoContable = New EditarConceptoContable
-            End If
-            ' Llamamos al formulario de manera modal.
-            If vEditar = "NO" Then
-                vEditar = "NO"  ' Eliminar
-            Else
-                vEditar = "SI"
-            End If
-            frmEditarConceptoContable.ShowDialog()
-            'MessageBox.Show("Se ha cerrado el formulario.")
-            ' Destruimos el formulario.
-            frmEditarConceptoContable.Dispose()
-            vtipoSql = "SELECT conceptos.TipoCON, conceptos.CodigoCON, conceptos.DescripcionCON, conceptos.NotasCON FROM conceptos"
-            If BtnFiltroTipoConcepto.Enabled = False Then
-                vtipoSql += " WHERE "
-                vtipoSql += "conceptos.TipoCON = '" & CmbTipoConcepto.Text & "' "
-            End If
-            vtipoSql += " ORDER BY conceptos.CodigoCON ASC"
-            vtipoGrid = "CONCEPTOS_CONTABLES"
-            LlenarGrid(vtipoSql, vtipoGrid, "1")
-            TraducirCeldasDelGrid()
-
-            DgvConceptos.CurrentCell = DgvConceptos.Rows(filaActual).Cells(0)
-            DgvConceptos.Rows(filaActual).Selected = True
+        ' Comprobamos si existe un identificador asociado.
+        If ((frmEditarConceptoContable Is Nothing) OrElse (Not frmEditarConceptoContable.IsHandleCreated)) Then
+            frmEditarConceptoContable = New EditarConceptoContable
         End If
+        ' Llamamos al formulario de manera modal.
+        If vEditar = "NO" Then
+            vEditar = "SI"  ' Editar
+        Else
+            vEditar = "SI"
+        End If
+        frmEditarConceptoContable.ShowDialog()
+        'MessageBox.Show("Se ha cerrado el formulario.")
+        ' Destruimos el formulario.
+        frmEditarConceptoContable.Dispose()
+        vtipoSql = "SELECT conceptos.TipoCON, conceptos.CodigoCON, conceptos.DescripcionCON, conceptos.NotasCON FROM conceptos"
+        If BtnFiltroTipoConcepto.Enabled = False Then
+            vtipoSql += " WHERE "
+            vtipoSql += "conceptos.TipoCON = '" & CmbTipoConcepto.Text & "' "
+        End If
+        vtipoSql += " ORDER BY conceptos.CodigoCON ASC"
+        vtipoGrid = "CONCEPTOS_CONTABLES"
+        LlenarGrid(vtipoSql, vtipoGrid, "1")
+        TraducirCeldasDelGrid()
+        DgvConceptos.CurrentCell = DgvConceptos.Rows(filaActual).Cells(0)
+        DgvConceptos.Rows(filaActual).Selected = True
 
         '' Validamos si hay una fila seleccionada
         'If DgvConceptos.CurrentRow Is Nothing Then
@@ -441,45 +443,74 @@ Public Class ConceptosContables
     End Sub
 
     Private Sub BtnEliminarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEliminarRegistro.Click
-        ' 1. Validar fila seleccionada
-        If DgvConceptos.CurrentRow Is Nothing Then
-            MsgBox(resManager.GetString("SeleccionarTipo"), vbExclamation, resManager.GetString("AccionCancelada"))
-            Exit Sub
+        filaActual = frmConceptosContables.DgvConceptos.CurrentRow.Index
+        vTxtNombre = frmConceptosContables.DgvConceptos.Rows(filaActual).Cells(1).Value.ToString
+
+        ' Comprobamos si existe un identificador asociado.
+        If ((frmEditarConceptoContable Is Nothing) OrElse (Not frmEditarConceptoContable.IsHandleCreated)) Then
+            frmEditarConceptoContable = New EditarConceptoContable
         End If
-
-        ' 2. Capturamos los datos de la fila actual del Grid
-        filaActual = DgvConceptos.CurrentRow.Index
-        vTxtNombre = DgvConceptos.Rows(filaActual).Cells(1).Value.ToString().Trim() ' Código del concepto (ej: TRASPASO)
-
-        ' 3. EXCEPCIÓN CRÍTICA: Bloquear si intentan borrar el concepto de sistema "ESPECIAL"
-        ' Realizamos una búsqueda inversa rápida por si el texto de la celda 0 viene traducido
-        Dim tipoCelda As String = DgvConceptos.Rows(filaActual).Cells(0).Value.ToString().Trim().ToUpper()
-        Dim esEspecial As Boolean = (tipoCelda = "ESPECIAL" OrElse tipoCelda = resManager.GetString("Tipo_Especial").ToUpper())
-
-        If esEspecial Then
-            MsgBox(resManager.GetString("ConceptoSistemaNoBorrar"), vbExclamation, resManager.GetString("AccionCancelada"))
-            Exit Sub
+        ' Llamamos al formulario de manera modal.
+        If vEditar = "NO" Then
+            vEditar = "NO"  ' Eliminar
+        Else
+            vEditar = "NO"
         End If
-
-        ' 4. Mensaje de confirmación en el idioma correcto
-        Dim mensaje As String = resManager.GetString("EliminarConcepto") & " " & vTxtNombre & " " & resManager.GetString("EliminarConcepto2")
-        If MsgBox(mensaje, vbQuestion + vbYesNo + vbDefaultButton2, resManager.GetString("LblEliminando")) = vbYes Then
-
-            ' 5. Lanzamos el borrado físico usando el código crudo de la BD
-            cmdMdb1cr.Parameters.Clear()
-            vtipoSql = "DELETE FROM conceptos WHERE conceptos.CodigoCON = '" & vTxtNombre & "'"
-            cmdMdb1cr.CommandText = vtipoSql
-
-            Try
-                cmdMdb1cr.ExecuteNonQuery()
-                MsgBox(resManager.GetString("EliminarConcepto3"), vbInformation, resManager.GetString("RegistroBorrado"))
-
-                ' Recarga completa tras borrar
-                CargarYTraducirGridCompleto()
-            Catch ex As Exception
-                MsgBox(resManager.GetString("EliminarConcepto4") & vbNewLine & ex.Message, vbCritical, resManager.GetString("Error"))
-            End Try
+        frmEditarConceptoContable.ShowDialog()
+        'MessageBox.Show("Se ha cerrado el formulario.")
+        ' Destruimos el formulario.
+        frmEditarConceptoContable.Dispose()
+        vtipoSql = "SELECT conceptos.TipoCON, conceptos.CodigoCON, conceptos.DescripcionCON, conceptos.NotasCON FROM conceptos"
+        If BtnFiltroTipoConcepto.Enabled = False Then
+            vtipoSql += " WHERE "
+            vtipoSql += "conceptos.TipoCON = '" & CmbTipoConcepto.Text & "' "
         End If
+        vtipoSql += " ORDER BY conceptos.CodigoCON ASC"
+        vtipoGrid = "CONCEPTOS_CONTABLES"
+        LlenarGrid(vtipoSql, vtipoGrid, "1")
+        TraducirCeldasDelGrid()
+        DgvConceptos.CurrentCell = DgvConceptos.Rows(filaActual).Cells(0)
+        DgvConceptos.Rows(filaActual).Selected = True
+
+        '' 1. Validar fila seleccionada
+        'If DgvConceptos.CurrentRow Is Nothing Then
+        '    MsgBox(resManager.GetString("SeleccionarTipo"), vbExclamation, resManager.GetString("AccionCancelada"))
+        '    Exit Sub
+        'End If
+
+        '' 2. Capturamos los datos de la fila actual del Grid
+        'filaActual = DgvConceptos.CurrentRow.Index
+        'vTxtNombre = DgvConceptos.Rows(filaActual).Cells(1).Value.ToString().Trim() ' Código del concepto (ej: TRASPASO)
+
+        '' 3. EXCEPCIÓN CRÍTICA: Bloquear si intentan borrar el concepto de sistema "ESPECIAL"
+        '' Realizamos una búsqueda inversa rápida por si el texto de la celda 0 viene traducido
+        'Dim tipoCelda As String = DgvConceptos.Rows(filaActual).Cells(0).Value.ToString().Trim().ToUpper()
+        'Dim esEspecial As Boolean = (tipoCelda = "ESPECIAL" OrElse tipoCelda = resManager.GetString("Tipo_Especial").ToUpper())
+
+        'If esEspecial Then
+        '    MsgBox(resManager.GetString("ConceptoSistemaNoBorrar"), vbExclamation, resManager.GetString("AccionCancelada"))
+        '    Exit Sub
+        'End If
+
+        '' 4. Mensaje de confirmación en el idioma correcto
+        'Dim mensaje As String = resManager.GetString("EliminarConcepto") & " " & vTxtNombre & " " & resManager.GetString("EliminarConcepto2")
+        'If MsgBox(mensaje, vbQuestion + vbYesNo + vbDefaultButton2, resManager.GetString("LblEliminando")) = vbYes Then
+
+        '    ' 5. Lanzamos el borrado físico usando el código crudo de la BD
+        '    cmdMdb1cr.Parameters.Clear()
+        '    vtipoSql = "DELETE FROM conceptos WHERE conceptos.CodigoCON = '" & vTxtNombre & "'"
+        '    cmdMdb1cr.CommandText = vtipoSql
+
+        '    Try
+        '        cmdMdb1cr.ExecuteNonQuery()
+        '        MsgBox(resManager.GetString("EliminarConcepto3"), vbInformation, resManager.GetString("RegistroBorrado"))
+
+        '        ' Recarga completa tras borrar
+        '        CargarYTraducirGridCompleto()
+        '    Catch ex As Exception
+        '        MsgBox(resManager.GetString("EliminarConcepto4") & vbNewLine & ex.Message, vbCritical, resManager.GetString("Error"))
+        '    End Try
+        'End If
     End Sub
 
     Private Sub BtnImprimir_Click(sender As Object, e As EventArgs) Handles BtnImprimir.Click

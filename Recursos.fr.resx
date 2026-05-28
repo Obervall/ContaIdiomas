@@ -262,7 +262,7 @@ Ils ne sont pas supprimés de la base de données</value>
   <data name="ErrorAlEjecutar" xml:space="preserve">
     <value>Exécution par erreur</value>
   </data>
-  <data name="CAJA EFECTIVO" xml:space="preserve">
+  <data name="CAJA_EFECTIVO" xml:space="preserve">
     <value>CAISSE À CAISSES</value>
   </data>
   <data name="BBVA" xml:space="preserve">
@@ -271,7 +271,7 @@ Ils ne sont pas supprimés de la base de données</value>
   <data name="OPENBANK" xml:space="preserve">
     <value>OPENBANK</value>
   </data>
-  <data name="PLAN PENSIONES" xml:space="preserve">
+  <data name="PLAN_PENSIONES" xml:space="preserve">
     <value>PLAN DE RETRAITE</value>
   </data>
   <data name="FinalTabla" xml:space="preserve">
@@ -300,5 +300,203 @@ Ils ne sont pas supprimés de la base de données</value>
   </data>
   <data name="ErrorVerificarIntegridad" xml:space="preserve">
     <value>Défaut de vérification de l’intégrité</value>
+  </data>
+  <data name="AGUA" xml:space="preserve">
+    <value>EAU</value>
+  </data>
+  <data name="ALIMENTACION" xml:space="preserve">
+    <value>GASTRONOMIE</value>
+  </data>
+  <data name="CANAL+" xml:space="preserve">
+    <value>CANAL+</value>
+  </data>
+  <data name="CASA" xml:space="preserve">
+    <value>MAISON</value>
+  </data>
+  <data name="CLIENTE00" xml:space="preserve">
+    <value>CLIENTE00</value>
+  </data>
+  <data name="COMUNIDAD" xml:space="preserve">
+    <value>COMMUNAUTÉ</value>
+  </data>
+  <data name="DECESOS" xml:space="preserve">
+    <value>DÉCÈS</value>
+  </data>
+  <data name="ESTETICA" xml:space="preserve">
+    <value>ESTHÉTIQUE</value>
+  </data>
+  <data name="FARMACIA" xml:space="preserve">
+    <value>PHARMACIE</value>
+  </data>
+  <data name="GAS_NATURAL" xml:space="preserve">
+    <value>GAZ NATUREL</value>
+  </data>
+  <data name="GASOLINA" xml:space="preserve">
+    <value>ESSENCE</value>
+  </data>
+  <data name="GASTOS_BANCARIOS" xml:space="preserve">
+    <value>FRAIS BANCAIRES</value>
+  </data>
+  <data name="HACIENDA" xml:space="preserve">
+    <value>TREASURY</value>
+  </data>
+  <data name="IMPUESTO_1" xml:space="preserve">
+    <value>TAX 1</value>
+  </data>
+  <data name="IMPUESTO_2" xml:space="preserve">
+    <value>TAX 2</value>
+  </data>
+  <data name="IMPUESTO_3" xml:space="preserve">
+    <value>TAX 3</value>
+  </data>
+  <data name="IMPUESTO_4" xml:space="preserve">
+    <value>TAX 4</value>
+  </data>
+  <data name="IMPUESTO_5" xml:space="preserve">
+    <value>TAX 5</value>
+  </data>
+  <data name="INTERESES" xml:space="preserve">
+    <value>CENTRES D’INTÉRÊT</value>
+  </data>
+  <data name="JARDIN" xml:space="preserve">
+    <value>JARDIN</value>
+  </data>
+  <data name="LUZ" xml:space="preserve">
+    <value>LUMIÈRE</value>
+  </data>
+  <data name="OCIO" xml:space="preserve">
+    <value>LOISIRS</value>
+  </data>
+  <data name="PENSION" xml:space="preserve">
+    <value>PENSION</value>
+  </data>
+  <data name="REGULARITZACIO_1" xml:space="preserve">
+    <value>REGULARITZACIO 1</value>
+  </data>
+  <data name="REGULARITZACIO_2" xml:space="preserve">
+    <value>REGULARITZACIO 2</value>
+  </data>
+  <data name="ROPA" xml:space="preserve">
+    <value>VÊTEMENTS</value>
+  </data>
+  <data name="SEGURO_CASA" xml:space="preserve">
+    <value>ASSURANCE HABITATION</value>
+  </data>
+  <data name="SEGURO_COCHE" xml:space="preserve">
+    <value>ASSURANCE AUTO</value>
+  </data>
+  <data name="SEGURO_MOTO" xml:space="preserve">
+    <value>ASSURANCE MOTO</value>
+  </data>
+  <data name="TELEFONO" xml:space="preserve">
+    <value>TÉLÉPHONE</value>
+  </data>
+  <data name="TRASPASO" xml:space="preserve">
+    <value>TRANSFERT</value>
+  </data>
+  <data name="VARIOS" xml:space="preserve">
+    <value>DIVERS</value>
+  </data>
+  <data name="VEHICULOS" xml:space="preserve">
+    <value>VÉHICULES</value>
+  </data>
+  <data name="Desc_AGUA" xml:space="preserve">
+    <value>Eau</value>
+  </data>
+  <data name="Desc_ALIMENTACION" xml:space="preserve">
+    <value>Nourriture</value>
+  </data>
+  <data name="Desc_CANAL+" xml:space="preserve">
+    <value>Canal Plus Digital</value>
+  </data>
+  <data name="Desc_CASA" xml:space="preserve">
+    <value>Utilités domestiques</value>
+  </data>
+  <data name="Desc_CLIENTE00" xml:space="preserve">
+    <value>Vario Client</value>
+  </data>
+  <data name="Desc_COMUNIDAD" xml:space="preserve">
+    <value>Parking communautaire</value>
+  </data>
+  <data name="Desc_DECESOS" xml:space="preserve">
+    <value>Décès</value>
+  </data>
+  <data name="Desc_ESTETICA" xml:space="preserve">
+    <value>Esthétique et coiffure</value>
+  </data>
+  <data name="Desc_FARMACIA" xml:space="preserve">
+    <value>Pharmacie</value>
+  </data>
+  <data name="Desc_GAS_NATURAL" xml:space="preserve">
+    <value>Gaz naturel</value>
+  </data>
+  <data name="Desc_GASOLINA" xml:space="preserve">
+    <value>Essence ou gaz-fioul</value>
+  </data>
+  <data name="Desc_GASTOS_BANCARIOS" xml:space="preserve">
+    <value>Frais bancaires</value>
+  </data>
+  <data name="Desc_HACIENDA" xml:space="preserve">
+    <value>Finances publiques</value>
+  </data>
+  <data name="Desc_IMPUESTO_1" xml:space="preserve">
+    <value>Taxe sur les ordures</value>
+  </data>
+  <data name="Desc_IMPUESTO_2" xml:space="preserve">
+    <value>Impôt Ibi</value>
+  </data>
+  <data name="Desc_IMPUESTO_3" xml:space="preserve">
+    <value>Taxe sur les véhicules</value>
+  </data>
+  <data name="Desc_IMPUESTO_4" xml:space="preserve">
+    <value>Taxe sur les motos</value>
+  </data>
+  <data name="Desc_IMPUESTO_5" xml:space="preserve">
+    <value>Taxe CO2</value>
+  </data>
+  <data name="Desc_INTERESES" xml:space="preserve">
+    <value>Intérêts bancaires</value>
+  </data>
+  <data name="Desc_JARDIN" xml:space="preserve">
+    <value>Plantes</value>
+  </data>
+  <data name="Desc_LUZ" xml:space="preserve">
+    <value>Compagnie légère</value>
+  </data>
+  <data name="Desc_OCIO" xml:space="preserve">
+    <value>Divertissement et divertissement</value>
+  </data>
+  <data name="Desc_PENSION" xml:space="preserve">
+    <value>Maison d’hôtes ou Suledo</value>
+  </data>
+  <data name="Desc_REGULARITZACIO_1" xml:space="preserve">
+    <value>Régularisation des revenus</value>
+  </data>
+  <data name="Desc_REGULARITZACIO_2" xml:space="preserve">
+    <value>Régularisation des dépenses</value>
+  </data>
+  <data name="Desc_ROPA" xml:space="preserve">
+    <value>Vêtements et chaussures</value>
+  </data>
+  <data name="Desc_SEGURO_CASA" xml:space="preserve">
+    <value>Assurance habitation</value>
+  </data>
+  <data name="Desc_SEGURO_COCHE" xml:space="preserve">
+    <value>Assurance auto</value>
+  </data>
+  <data name="Desc_SEGURO_MOTO" xml:space="preserve">
+    <value>Assurance moto</value>
+  </data>
+  <data name="Desc_TELEFONO" xml:space="preserve">
+    <value>Téléphone</value>
+  </data>
+  <data name="Desc_TRASPASO" xml:space="preserve">
+    <value>Transfert entre comptes</value>
+  </data>
+  <data name="Desc_VARIOS" xml:space="preserve">
+    <value>Plusieurs injustifiés</value>
+  </data>
+  <data name="Desc_VEHICULOS" xml:space="preserve">
+    <value>Voiture et moto</value>
   </data>
 </root>

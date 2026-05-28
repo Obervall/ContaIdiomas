@@ -168,9 +168,6 @@
   <data name="Concepto_Contable" xml:space="preserve">
     <value>Concepte Comptable</value>
   </data>
-  <data name="Concepto_No_Editable" xml:space="preserve">
-    <value>Aquest Concepte No és Editable, pertany al Sistema</value>
-  </data>
   <data name="Nota_TRASPASO" xml:space="preserve">
     <value>Concepte de sistema per al traspàs entre comptes bancaris, serveix per a disposicions del caixer...</value>
   </data>

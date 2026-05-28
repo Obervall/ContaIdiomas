@@ -24,11 +24,11 @@ Partial Class EditarConceptoContable
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(EditarConceptoContable))
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.TxtTipoConcepto = New System.Windows.Forms.TextBox()
         Me.LblEditando = New System.Windows.Forms.Label()
         Me.TxtDescripcion = New System.Windows.Forms.TextBox()
         Me.TxtNombre = New System.Windows.Forms.TextBox()
         Me.TxtNota = New System.Windows.Forms.TextBox()
-        Me.CmbTipoConcepto = New System.Windows.Forms.ComboBox()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
@@ -41,11 +41,11 @@ Partial Class EditarConceptoContable
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.TxtTipoConcepto)
         Me.GroupBox1.Controls.Add(Me.LblEditando)
         Me.GroupBox1.Controls.Add(Me.TxtDescripcion)
         Me.GroupBox1.Controls.Add(Me.TxtNombre)
         Me.GroupBox1.Controls.Add(Me.TxtNota)
-        Me.GroupBox1.Controls.Add(Me.CmbTipoConcepto)
         Me.GroupBox1.Controls.Add(Me.Label6)
         Me.GroupBox1.Controls.Add(Me.Label4)
         Me.GroupBox1.Controls.Add(Me.Label3)
@@ -53,6 +53,11 @@ Partial Class EditarConceptoContable
         resources.ApplyResources(Me.GroupBox1, "GroupBox1")
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.TabStop = False
+        '
+        'TxtTipoConcepto
+        '
+        resources.ApplyResources(Me.TxtTipoConcepto, "TxtTipoConcepto")
+        Me.TxtTipoConcepto.Name = "TxtTipoConcepto"
         '
         'LblEditando
         '
@@ -74,15 +79,6 @@ Partial Class EditarConceptoContable
         '
         resources.ApplyResources(Me.TxtNota, "TxtNota")
         Me.TxtNota.Name = "TxtNota"
-        '
-        'CmbTipoConcepto
-        '
-        Me.CmbTipoConcepto.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
-        Me.CmbTipoConcepto.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
-        Me.CmbTipoConcepto.FormattingEnabled = True
-        Me.CmbTipoConcepto.Items.AddRange(New Object() {resources.GetString("CmbTipoConcepto.Items"), resources.GetString("CmbTipoConcepto.Items1")})
-        resources.ApplyResources(Me.CmbTipoConcepto, "CmbTipoConcepto")
-        Me.CmbTipoConcepto.Name = "CmbTipoConcepto"
         '
         'Label6
         '
@@ -150,7 +146,7 @@ Partial Class EditarConceptoContable
     Friend WithEvents TxtDescripcion As Windows.Forms.TextBox
     Friend WithEvents TxtNombre As Windows.Forms.TextBox
     Friend WithEvents TxtNota As Windows.Forms.TextBox
-    Friend WithEvents CmbTipoConcepto As Windows.Forms.ComboBox
     Friend WithEvents LblEditando As Windows.Forms.Label
     Friend WithEvents BtnEliminar As Windows.Forms.Button
+    Friend WithEvents TxtTipoConcepto As Windows.Forms.TextBox
 End Class

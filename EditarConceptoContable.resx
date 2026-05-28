@@ -117,14 +117,38 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="TxtTipoConcepto.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="TxtTipoConcepto.Location" type="System.Drawing.Point, System.Drawing">
+    <value>140, 67</value>
+  </data>
+  <data name="TxtTipoConcepto.Size" type="System.Drawing.Size, System.Drawing">
+    <value>252, 27</value>
+  </data>
+  <data name="TxtTipoConcepto.TabIndex" type="System.Int32, mscorlib">
+    <value>118</value>
+  </data>
+  <data name="&gt;&gt;TxtTipoConcepto.Name" xml:space="preserve">
+    <value>TxtTipoConcepto</value>
+  </data>
+  <data name="&gt;&gt;TxtTipoConcepto.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TxtTipoConcepto.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;TxtTipoConcepto.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="LblEditando.Location" type="System.Drawing.Point, System.Drawing">
     <value>18, 37</value>
   </data>
   <data name="LblEditando.Size" type="System.Drawing.Size, System.Drawing">
     <value>537, 27</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="LblEditando.TabIndex" type="System.Int32, mscorlib">
     <value>117</value>
   </data>
@@ -144,7 +168,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;LblEditando.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="TxtDescripcion.Location" type="System.Drawing.Point, System.Drawing">
     <value>140, 160</value>
@@ -165,7 +189,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;TxtDescripcion.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="TxtNombre.Location" type="System.Drawing.Point, System.Drawing">
     <value>140, 111</value>
@@ -186,7 +210,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;TxtNombre.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="TxtNota.Location" type="System.Drawing.Point, System.Drawing">
     <value>140, 203</value>
@@ -210,33 +234,6 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;TxtNota.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="CmbTipoConcepto.Items" xml:space="preserve">
-    <value>GASTO</value>
-  </data>
-  <data name="CmbTipoConcepto.Items1" xml:space="preserve">
-    <value>INGRESO</value>
-  </data>
-  <data name="CmbTipoConcepto.Location" type="System.Drawing.Point, System.Drawing">
-    <value>140, 67</value>
-  </data>
-  <data name="CmbTipoConcepto.Size" type="System.Drawing.Size, System.Drawing">
-    <value>252, 28</value>
-  </data>
-  <data name="CmbTipoConcepto.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;CmbTipoConcepto.Name" xml:space="preserve">
-    <value>CmbTipoConcepto</value>
-  </data>
-  <data name="&gt;&gt;CmbTipoConcepto.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CmbTipoConcepto.Parent" xml:space="preserve">
-    <value>GroupBox1</value>
-  </data>
-  <data name="&gt;&gt;CmbTipoConcepto.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
   <data name="Label6.Location" type="System.Drawing.Point, System.Drawing">
@@ -573,25 +570,28 @@
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="Concepto_No_Editable" xml:space="preserve">
+    <value>Este Concepto No es Editable, pertenece al Sistema</value>
+  </data>
   <data name="EliminarConcepto" xml:space="preserve">
     <value>¿Estás seguro de Eliminar el Concepto Contable</value>
   </data>
   <data name="EliminarConcepto2" xml:space="preserve">
     <value>y todos sus Apuntes de Todos los Ejercicios?.</value>
   </data>
+  <data name="EliminarConcepto4" xml:space="preserve">
+    <value>Error al Eliminar el Registro del Concepto Contable</value>
+  </data>
   <data name="EliminarConcepto3" xml:space="preserve">
     <value>Registro Concepto Contable, Borrado !!</value>
   </data>
-  <data name="EliminarConcepto4" xml:space="preserve">
-    <value>Error al Eliminar el Registro del Concepto Contable</value>
+  <data name="ConceptoSistemaNoBorrar" xml:space="preserve">
+    <value>Concepto del Sistema, No se puede Eliminar</value>
   </data>
   <data name="LblEliminando" xml:space="preserve">
     <value>¡¡ ELIMINAR CONCEPTO CONTABLE !!</value>
   </data>
   <data name="ToolTipDescripcion" xml:space="preserve">
     <value>Descripción del Concepto</value>
-  </data>
-  <data name="ConceptoSistemaNoBorrar" xml:space="preserve">
-    <value>Concepto del Sistema, No se puede Eliminar</value>
   </data>
 </root>

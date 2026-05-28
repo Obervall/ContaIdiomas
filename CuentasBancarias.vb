@@ -259,7 +259,12 @@ Public Class CuentasBancarias
             frmEditarCuentaBancaria = New EditarCuentaBancaria
         End If
         ' Llamamos al formulario de manera modal.
-        vEditar = "NO"  ' Eliminar
+        ' Llamamos al formulario de manera modal.
+        If vEditar = "NO" Then
+            vEditar = "NO"  ' Eliminar
+        Else
+            vEditar = "NO"
+        End If
         frmEditarCuentaBancaria.ShowDialog()
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
@@ -480,7 +485,12 @@ Public Class CuentasBancarias
             frmEditarCuentaBancaria = New EditarCuentaBancaria
         End If
         ' Llamamos al formulario de manera modal.
-        vEditar = "SI"
+        ' Llamamos al formulario de manera modal.
+        If vEditar = "NO" Then
+            vEditar = "SI"  ' EDITAR
+        Else
+            vEditar = "SI"
+        End If
         frmEditarCuentaBancaria.ShowDialog()
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
