@@ -176,25 +176,28 @@ Module Funciones
         End If
     End Sub
 
-    Public Sub IniciarSaldosIniciales(vAny As String)
+    Public Function IniciarSaldosIniciales(vAny As String) As Boolean
         vAñoEjercicio = vAny
         'Quitamos el Concepto SALDO del Ejercicio marcado
         vConceptoAPU = "SALDO"
         vtipoSql = "DELETE FROM apuntes"
         vtipoSql += " WHERE apuntes.ConceptoAPU = '" & vConceptoAPU & "' "
+        vtipoSql += "And apuntes.EjercicioAPU = " & CInt(vAñoEjercicio)
         cmdMdb1cr.CommandText = vtipoSql
         Try
             cmdMdb1cr.ExecuteNonQuery()
             'MsgBox("Registros SALDO, Borrados !!!")
         Catch ex As Exception
             MsgBox(ex.ToString)
+            Return False
         End Try
 
-        ' 1. Consulta SQL: Agrupamos y sumamos SOLO los años ESTRICTAMENTE MENORES al seleccionado
+        ' 1. Consulta SQL CORREGIDA: Excluimos los registros 'SALDO' previos del cálculo acumulativo
+        ' Evita que el sistema sume el saldo inicial del año pasado junto con los movimientos reales
         Dim consulta As String =
         "SELECT A.EjercicioAPU, A.CuentaAPU, SUM(A.ImporteAPU) AS SumaAño " &
         "FROM (Ejercicios AS E INNER JOIN Apuntes AS A ON E.EjercicioEJE = A.EjercicioAPU) " &
-        "WHERE E.EjercicioEJE < ? " &
+        "WHERE E.EjercicioEJE < ? AND A.ConceptoAPU <> 'SALDO' " &
         "GROUP BY A.EjercicioAPU, A.CuentaAPU " &
         "ORDER BY A.EjercicioAPU ASC"
 
@@ -210,8 +213,8 @@ Module Funciones
                         adaptador.Fill(dtMovimientos)
                         'MsgBox("Datos históricos cargados en memoria: " & dtMovimientos.Rows.Count.ToString & " registros encontrados.")
                     Catch ex As Exception
-                        MessageBox.Show("Error al leer históricos: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                        Exit Sub
+                        MessageBox.Show(resManager.GetString("ErrorLeerHistoricos") & ex.Message, resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
+                        Return False
                     End Try
                 End Using
             End Using
@@ -236,7 +239,7 @@ Module Funciones
             ' Cambiamos el texto de "En Espera..." por el aviso en la barra de estado
             vAviso = True
             ' Salimos del proceso de forma segura
-            Return
+            Return False
         Else
             vAviso = False
         End If
@@ -308,11 +311,12 @@ Module Funciones
                     ' Hacemos una micropausa de código limpia (no visual) para asegurar el vaciado del búfer del SO.
                     System.Threading.Thread.Sleep(500)
                 Catch ex As Exception
-                    MessageBox.Show("Error al insertar los saldos iniciales: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    MessageBox.Show(resManager.GetString("ErrorInsertarSaldos") & ex.Message, resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Try
             End Using
         End Using
-    End Sub
+        Return True
+    End Function
 
     Public Sub LlenarGrid(ByRef tipoSql As String, tipoGrid As String, tipoopc As String)
         linSql = tipoSql.ToString

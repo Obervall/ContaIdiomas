@@ -438,28 +438,6 @@ Public Class CuentasBancarias
             ' Avanzamos la coordenada vertical para pintar la fila de Notas
             startY += frmImprimirForm.LblFecha.Height
 
-            'Do While PrintLine < frmCuentasBancarias.DgvCuentas.Rows.Count
-            '    ' Evitamos procesar la fila vacía automática si existe al final
-            '    If frmCuentasBancarias.DgvCuentas.Rows(PrintLine).IsNewRow Then
-            '        PrintLine += 1
-            '        Contador += 1
-            '        Continue Do
-            '    End If
-
-            '    If startY + frmImprimirForm.Punto1.Height > e.MarginBounds.Bottom Then
-            '        e.HasMorePages = True
-            '        Exit Do
-            '    End If
-
-            '    ' Imprimimos los datos de las columnas principales
-            '    e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(0).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
-            '    e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(1).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto2.Left, startY)
-            '    e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(2).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto3.Left, startY)
-            '    e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(3).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto5.Right + 40, startY, sf)
-
-            '    ' Avanzamos la coordenada vertical para pintar la fila de Notas
-            '    startY += frmImprimirForm.LblFecha.Height
-
             ' 1. Obtener y limpiar el texto de Notas
             Dim textoNotas As String = ""
             If frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(4).Value IsNot Nothing Then

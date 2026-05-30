@@ -520,4 +520,16 @@ They are not removed from the database</value>
   <data name="Nom_PLAN_PENSIONES" xml:space="preserve">
     <value>PENSION PLAN</value>
   </data>
+  <data name="SaldosGeneradosExito" xml:space="preserve">
+    <value>Correctly generated and inserted beginning balances</value>
+  </data>
+  <data name="Exito" xml:space="preserve">
+    <value>Success</value>
+  </data>
+  <data name="ErrorLeerHistoricos" xml:space="preserve">
+    <value>Error when reading historical</value>
+  </data>
+  <data name="ErrorInsertarSaldos" xml:space="preserve">
+    <value>Error inserting beginning balances</value>
+  </data>
 </root>

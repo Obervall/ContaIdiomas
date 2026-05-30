@@ -520,4 +520,16 @@ Eles não são removidos do banco de dados</value>
   <data name="Nom_PLAN_PENSIONES" xml:space="preserve">
     <value>PLANO DE PENSÃO</value>
   </data>
+  <data name="SaldosGeneradosExito" xml:space="preserve">
+    <value>Saldos iniciais corretamente gerados e inseridos</value>
+  </data>
+  <data name="Exito" xml:space="preserve">
+    <value>Sucesso</value>
+  </data>
+  <data name="ErrorLeerHistoricos" xml:space="preserve">
+    <value>Erro ao ler histórico</value>
+  </data>
+  <data name="ErrorInsertarSaldos" xml:space="preserve">
+    <value>Erro ao inserir saldos iniciais</value>
+  </data>
 </root>

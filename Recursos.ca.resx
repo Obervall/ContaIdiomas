@@ -520,4 +520,16 @@ No s' Eliminen de la Base de Dades</value>
   <data name="Nom_PLAN_PENSIONES" xml:space="preserve">
     <value>PLA PENSIONS</value>
   </data>
+  <data name="SaldosGeneradosExito" xml:space="preserve">
+    <value>Saldos inicials generats i inserits correctament</value>
+  </data>
+  <data name="Exito" xml:space="preserve">
+    <value>Èxit</value>
+  </data>
+  <data name="ErrorLeerHistoricos" xml:space="preserve">
+    <value>Error en llegir històrics</value>
+  </data>
+  <data name="ErrorInsertarSaldos" xml:space="preserve">
+    <value>Error en inserir els saldos inicials</value>
+  </data>
 </root>

@@ -520,4 +520,16 @@ Sie werden nicht aus der Datenbank entfernt</value>
   <data name="Nom_PLAN_PENSIONES" xml:space="preserve">
     <value>RENTENPLAN</value>
   </data>
+  <data name="SaldosGeneradosExito" xml:space="preserve">
+    <value>Korrekt generierte und eingefügte Anfangssalden</value>
+  </data>
+  <data name="Exito" xml:space="preserve">
+    <value>Erfolg</value>
+  </data>
+  <data name="ErrorLeerHistoricos" xml:space="preserve">
+    <value>Fehler beim Lesen historischer Geschichten</value>
+  </data>
+  <data name="ErrorInsertarSaldos" xml:space="preserve">
+    <value>Fehler beim Einfügen von Anfangssalden</value>
+  </data>
 </root>

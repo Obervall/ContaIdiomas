@@ -528,4 +528,16 @@ No se Eliminan de la Base de Datos</value>
   <data name="Nom_PLAN_PENSIONES" xml:space="preserve">
     <value>PLAN PENSIONES</value>
   </data>
+  <data name="SaldosGeneradosExito" xml:space="preserve">
+    <value>Saldos iniciales generados e insertados correctamente</value>
+  </data>
+  <data name="Exito" xml:space="preserve">
+    <value>Éxito</value>
+  </data>
+  <data name="ErrorLeerHistoricos" xml:space="preserve">
+    <value>Error al leer históricos</value>
+  </data>
+  <data name="ErrorInsertarSaldos" xml:space="preserve">
+    <value>Error al insertar los saldos iniciales</value>
+  </data>
 </root>
