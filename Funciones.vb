@@ -668,14 +668,42 @@ Module Funciones
                 Else
                     frmPresupuestos.LblNumRegistros.Text = resManager.GetString("SinFiltrar") ' My.Resources.Recursos.SinFiltrar
                 End If
+
+                ' Configuramos la cultura del usuario para la traducción de los meses
+                Dim cultura As New System.Globalization.CultureInfo(My.Settings.CulturaUsuario)
+
                 For Each fila As DataGridViewRow In frmPresupuestos.DgvPresupuestos.Rows
-                    vFecha = fila.Cells(4).Value.ToString
-                    vMes = Mid(vFecha, 4, 2).ToString
-                    ' Con TRUE retorna el mes abreviado.
-                    fila.Cells(1).Value = MonthName(vMes, False)
+                    ' 1. SEGURIDAD: Nos saltamos la fila nueva automática para evitar errores de nulos
+                    If fila.IsNewRow Then Continue For
+
+                    ' 2. Verificamos que la celda de la fecha tenga contenido válido
+                    If fila.Cells(4).Value IsNot Nothing AndAlso Not String.IsNullOrEmpty(fila.Cells(4).Value.ToString()) Then
+                        vFecha = fila.Cells(4).Value.ToString()
+
+                        ' Extraemos el mes y lo convertimos OBLIGATORIAMENTE a número entero (Integer)
+                        Dim numeroMes As Integer = 0
+                        If Integer.TryParse(Mid(vFecha, 4, 2), numeroMes) Then
+
+                            ' ✨ TRADUCCIÓN DEL MES EN CALIENTE: 
+                            ' Usamos el formateador de .NET con la cultura del usuario (MMMM = Mes completo, MMM = Abreviado)
+                            Dim fechaAuxiliar As New Date(CInt(vAñoEjercicio), numeroMes, 1)
+                            Dim nombreMesTraducido As String = fechaAuxiliar.ToString("MMMM", cultura)
+
+                            ' Ponemos la primera letra en mayúscula de forma elegante
+                            nombreMesTraducido = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(nombreMesTraducido)
+
+                            ' Asignamos el mes traducido a la celda (1)
+                            fila.Cells(1).Value = nombreMesTraducido
+
+                            ' Guardamos el formato en texto de vMes para tus consultas SQL siguientes
+                            vMes = numeroMes.ToString("00")
+                        End If
+                    End If
+
+                    ' 3. Tu lógica de base de datos e histórico (Se mantiene exactamente igual)
                     vNombreConcepto = fila.Cells(0).Value
                     ' Buscar el Saldo Total de cada Concepto por meses
-                    '*************************************************
+                    ' *************************************************
                     cmdMdb1cr.CommandText = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.ImporteAPU FROM apuntes"
                     cmdMdb1cr.CommandText += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
                     cmdMdb1cr.CommandText += "And apuntes.ConceptoAPU = '" & vNombreConcepto & "' "
@@ -691,8 +719,6 @@ Module Funciones
                                     vSaldoMes += drMdb1.GetValue(2).ToString
                                 End If
                             End While
-                        Else
-                            'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
                         End If
                         drMdb1.Close()
                     Catch ex As Exception
@@ -700,6 +726,39 @@ Module Funciones
                     End Try
                     fila.Cells(2).Value = -vSaldoMes
                 Next
+
+                'For Each fila As DataGridViewRow In frmPresupuestos.DgvPresupuestos.Rows
+                '    vFecha = fila.Cells(4).Value.ToString
+                '    vMes = Mid(vFecha, 4, 2).ToString
+                '    ' Con TRUE retorna el mes abreviado.
+                '    fila.Cells(1).Value = MonthName(vMes, False)
+                '    vNombreConcepto = fila.Cells(0).Value
+                '    ' Buscar el Saldo Total de cada Concepto por meses
+                '    '*************************************************
+                '    cmdMdb1cr.CommandText = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.ImporteAPU FROM apuntes"
+                '    cmdMdb1cr.CommandText += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+                '    cmdMdb1cr.CommandText += "And apuntes.ConceptoAPU = '" & vNombreConcepto & "' "
+                '    Try
+                '        drMdb1 = cmdMdb1cr.ExecuteReader()
+                '        vSaldoMes = 0
+                '        vSaldoAnualReal = 0
+                '        If drMdb1.HasRows Then
+                '            While drMdb1.Read()
+                '                vSaldoAnualReal += -drMdb1.GetValue(2)
+                '                vFechaMes = drMdb1.GetValue(0).ToString
+                '                If Mid(vFechaMes, 4, 2) = vMes Then
+                '                    vSaldoMes += drMdb1.GetValue(2).ToString
+                '                End If
+                '            End While
+                '        Else
+                '            'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
+                '        End If
+                '        drMdb1.Close()
+                '    Catch ex As Exception
+                '        MsgBox("Error al ejecutar: " & cmdMdb1cr.CommandText & " por: " & ex.Message)
+                '    End Try
+                '    fila.Cells(2).Value = -vSaldoMes
+                'Next
             End With
 
         ElseIf vgrid = "TIPO_CUENTAS_BANCARIAS" Then    'Tipo Cuentas Bancarias
