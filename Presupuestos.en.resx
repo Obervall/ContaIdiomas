@@ -120,9 +120,6 @@
   <data name="LblNumRegistros.Text" xml:space="preserve">
     <value>(Unfiltered)</value>
   </data>
-  <data name="Label1.Text" xml:space="preserve">
-    <value>Reg. No.:</value>
-  </data>
   <data name="GroupBox1.Text" xml:space="preserve">
     <value>Records</value>
   </data>
@@ -148,7 +145,7 @@
     <value>Annual Deviation:</value>
   </data>
   <data name="LblObjetivo.Text" xml:space="preserve">
-    <value>Objective achieved!!</value>
+    <value>Objective achieved!</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Budgets</value>
@@ -158,5 +155,47 @@
   </data>
   <data name="EliminarPresupuestosError" xml:space="preserve">
     <value>Error in Deleting Budgets Related to the Accounting Item</value>
+  </data>
+  <data name="Label1.Text" xml:space="preserve">
+    <value>Reg.:</value>
+  </data>
+  <data name="Concepto" xml:space="preserve">
+    <value>Concept</value>
+  </data>
+  <data name="Mes" xml:space="preserve">
+    <value>Month</value>
+  </data>
+  <data name="Real" xml:space="preserve">
+    <value>Real</value>
+  </data>
+  <data name="Presupuesto" xml:space="preserve">
+    <value>Specifications</value>
+  </data>
+  <data name="NoLogrado" xml:space="preserve">
+    <value>Goal NOT achieved!</value>
+  </data>
+  <data name="DesviacionParcial" xml:space="preserve">
+    <value>Partial Deviation:</value>
+  </data>
+  <data name="DesviacionAhorro" xml:space="preserve">
+    <value>Deviation (Savings)</value>
+  </data>
+  <data name="EstrucGastos" xml:space="preserve">
+    <value>2. EXPENSE STRUCTURE</value>
+  </data>
+  <data name="InformeFiltrado" xml:space="preserve">
+    <value>FILTERED BUDGET PERFORMANCE STATUS</value>
+  </data>
+  <data name="InformeSinFiltrar" xml:space="preserve">
+    <value>BUDGET PERFORMANCE STATEMENT</value>
+  </data>
+  <data name="EstrucIngresos" xml:space="preserve">
+    <value>1. INCOME STRUCTURE</value>
+  </data>
+  <data name="Desviacion" xml:space="preserve">
+    <value>Deviation</value>
+  </data>
+  <data name="NoHayIngresos" xml:space="preserve">
+    <value>No revenue movements were recorded</value>
   </data>
 </root>

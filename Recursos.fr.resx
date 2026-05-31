@@ -532,4 +532,7 @@ Ils ne sont pas supprimés de la base de données</value>
   <data name="ErrorInsertarSaldos" xml:space="preserve">
     <value>Erreur d’insertion des soldes de départ</value>
   </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
 </root>

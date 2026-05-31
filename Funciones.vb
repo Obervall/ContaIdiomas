@@ -689,12 +689,26 @@ Module Funciones
                 .DefaultCellStyle.ForeColor = Color.Black
                 .DefaultCellStyle.BackColor = Color.White
 
-                ' Cabeceras con textos de respaldo por si el recurso falla
-                .Columns(0).Width = 175 : .Columns(0).HeaderText = If(resManager.GetString("Concepto"), "Concepto") : .Columns(0).DefaultCellStyle.ForeColor = Color.DarkBlue
-                .Columns(1).Width = 100 : .Columns(1).HeaderText = If(resManager.GetString("Mes"), "Mes") : .Columns(1).DefaultCellStyle.ForeColor = Color.DarkBlue
-                .Columns(2).Width = 97 : .Columns(2).HeaderText = If(resManager.GetString("Real"), "Real") : .Columns(2).DefaultCellStyle.ForeColor = Color.DarkBlue : .Columns(2).DefaultCellStyle.Format = "###,##0.00"
-                .Columns(3).Width = 97 : .Columns(3).HeaderText = If(resManager.GetString("Presupuesto"), "Presupuesto") : .Columns(3).DefaultCellStyle.Format = "###,##0.00"
-                .Columns(4).Width = 0 : .Columns(4).Visible = False
+                ' --- CAMBIO APLICADO: Cabeceras leyendo desde frmPresupuestos.rmse ---
+                .Columns(0).Width = 160
+                .Columns(0).HeaderText = frmPresupuestos.rmse.GetString("Concepto")
+                .Columns(0).DefaultCellStyle.ForeColor = Color.DarkBlue
+
+                .Columns(1).Width = 100
+                .Columns(1).HeaderText = frmPresupuestos.rmse.GetString("Mes")
+                .Columns(1).DefaultCellStyle.ForeColor = Color.DarkBlue
+
+                .Columns(2).Width = 97
+                .Columns(2).HeaderText = frmPresupuestos.rmse.GetString("Real")
+                .Columns(2).DefaultCellStyle.ForeColor = Color.DarkBlue
+                .Columns(2).DefaultCellStyle.Format = "###,##0.00"
+
+                .Columns(3).Width = 97
+                .Columns(3).HeaderText = frmPresupuestos.rmse.GetString("Presupuesto")
+                .Columns(3).DefaultCellStyle.Format = "###,##0.00"
+
+                .Columns(4).Width = 0
+                .Columns(4).Visible = False
 
                 frmPresupuestos.TxtNumRegistros.Text = .Rows.Count.ToString()
                 frmPresupuestos.LblNumRegistros.Text = If(frmPresupuestos.BtnFiltroConcepto.Enabled = False, If(resManager.GetString("Filtrado"), "Filtrado"), If(resManager.GetString("SinFiltrar"), "Sin Filtrar"))
@@ -810,7 +824,7 @@ Module Funciones
                 ' 4. INSERCIÓN DE LA FILA DE TOTALES EN EL GRID (vía DataTable)
                 Try
                     Dim filaTotales As DataRow = Tabla.NewRow()
-                    filaTotales(0) = If(resManager.GetString("Total"), "TOTAL").ToUpper()
+                    filaTotales(0) = "TOTAL"
                     filaTotales(1) = ""
                     filaTotales(2) = vSumaColumnaRealCompleta
                     filaTotales(3) = vSumaColumnaPresuCompleta

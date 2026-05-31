@@ -532,4 +532,7 @@ Sie werden nicht aus der Datenbank entfernt</value>
   <data name="ErrorInsertarSaldos" xml:space="preserve">
     <value>Fehler beim Einfügen von Anfangssalden</value>
   </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
 </root>

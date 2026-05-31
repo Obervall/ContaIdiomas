@@ -120,9 +120,6 @@
   <data name="LblNumRegistros.Text" xml:space="preserve">
     <value>(Sin Filtrar)</value>
   </data>
-  <data name="Label1.Text" xml:space="preserve">
-    <value>Nº de Reg.:</value>
-  </data>
   <data name="GroupBox1.Text" xml:space="preserve">
     <value>Registros</value>
   </data>
@@ -142,7 +139,7 @@
     <value>Desviación Anual:</value>
   </data>
   <data name="LblObjetivo.Text" xml:space="preserve">
-    <value>Objetivo Logrado !!</value>
+    <value>Objetivo Logrado!</value>
   </data>
   <data name="GroupBox8.Text" xml:space="preserve">
     <value>Desplazar</value>
@@ -158,5 +155,47 @@
   </data>
   <data name="EliminarPresupuestosError" xml:space="preserve">
     <value>Error al Eliminar los Presupuestos relacionados con el Concepto Contable</value>
+  </data>
+  <data name="Label1.Text" xml:space="preserve">
+    <value>Reg.:</value>
+  </data>
+  <data name="Concepto" xml:space="preserve">
+    <value>Concepto</value>
+  </data>
+  <data name="Mes" xml:space="preserve">
+    <value>Mes</value>
+  </data>
+  <data name="Real" xml:space="preserve">
+    <value>Real</value>
+  </data>
+  <data name="Presupuesto" xml:space="preserve">
+    <value>Presupuesto</value>
+  </data>
+  <data name="NoLogrado" xml:space="preserve">
+    <value>Objetivo NO Logrado!</value>
+  </data>
+  <data name="DesviacionParcial" xml:space="preserve">
+    <value>Desviación Parcial:</value>
+  </data>
+  <data name="DesviacionAhorro" xml:space="preserve">
+    <value>Desviación (Ahorro)</value>
+  </data>
+  <data name="EstrucGastos" xml:space="preserve">
+    <value>2. ESTRUCTURA DE GASTOS</value>
+  </data>
+  <data name="InformeSinFiltrar" xml:space="preserve">
+    <value>ESTADO DE RENDIMIENTO PRESUPUESTARIO</value>
+  </data>
+  <data name="InformeFiltrado" xml:space="preserve">
+    <value>ESTADO DE RENDIMIENTO PRESUPUESTARIO FILTRADO</value>
+  </data>
+  <data name="EstrucIngresos" xml:space="preserve">
+    <value>1. ESTRUCTURA DE INGRESOS</value>
+  </data>
+  <data name="Desviacion" xml:space="preserve">
+    <value>Desviación</value>
+  </data>
+  <data name="NoHayIngresos" xml:space="preserve">
+    <value>No se registraron movimientos de ingresos</value>
   </data>
 </root>

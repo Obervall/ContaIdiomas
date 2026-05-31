@@ -120,9 +120,6 @@
   <data name="LblNumRegistros.Text" xml:space="preserve">
     <value>(Non filtré)</value>
   </data>
-  <data name="Label1.Text" xml:space="preserve">
-    <value>Rég. Non.:</value>
-  </data>
   <data name="GroupBox1.Text" xml:space="preserve">
     <value>Enregistrements</value>
   </data>
@@ -142,7 +139,7 @@
     <value>Écart annuel :</value>
   </data>
   <data name="LblObjetivo.Text" xml:space="preserve">
-    <value>Objectif atteint !!</value>
+    <value>Objectif atteint!</value>
   </data>
   <data name="GroupBox8.Text" xml:space="preserve">
     <value>Déplacer</value>
@@ -158,5 +155,47 @@
   </data>
   <data name="EliminarPresupuestosError" xml:space="preserve">
     <value>Erreur lors de la suppression des budgets liés à l’élément comptable</value>
+  </data>
+  <data name="Label1.Text" xml:space="preserve">
+    <value>Règ.:</value>
+  </data>
+  <data name="Concepto" xml:space="preserve">
+    <value>Concept</value>
+  </data>
+  <data name="Mes" xml:space="preserve">
+    <value>Mois</value>
+  </data>
+  <data name="Real" xml:space="preserve">
+    <value>Réel</value>
+  </data>
+  <data name="Presupuesto" xml:space="preserve">
+    <value>Caractéristiques techniques</value>
+  </data>
+  <data name="NoLogrado" xml:space="preserve">
+    <value>Objectif NON atteint !</value>
+  </data>
+  <data name="DesviacionParcial" xml:space="preserve">
+    <value>Déviation partielle:</value>
+  </data>
+  <data name="DesviacionAhorro" xml:space="preserve">
+    <value>Déviation (économies)</value>
+  </data>
+  <data name="EstrucGastos" xml:space="preserve">
+    <value>2. STRUCTURE DES DÉPENSES</value>
+  </data>
+  <data name="InformeFiltrado" xml:space="preserve">
+    <value>ÉTAT DE LA PERFORMANCE BUDGÉTAIRE FILTRÉE</value>
+  </data>
+  <data name="InformeSinFiltrar" xml:space="preserve">
+    <value>DÉCLARATION DE PERFORMANCE BUDGÉTAIRE</value>
+  </data>
+  <data name="EstrucIngresos" xml:space="preserve">
+    <value>1. STRUCTURE DES REVENUS</value>
+  </data>
+  <data name="Desviacion" xml:space="preserve">
+    <value>Déviation</value>
+  </data>
+  <data name="NoHayIngresos" xml:space="preserve">
+    <value>Aucun mouvement de revenus n’a été enregistré</value>
   </data>
 </root>

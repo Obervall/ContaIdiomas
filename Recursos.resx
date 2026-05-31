@@ -540,4 +540,7 @@ No se Eliminan de la Base de Datos</value>
   <data name="ErrorInsertarSaldos" xml:space="preserve">
     <value>Error al insertar los saldos iniciales</value>
   </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
 </root>

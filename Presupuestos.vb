@@ -1,4 +1,5 @@
-﻿Imports System.Data
+﻿Imports System.Collections.Generic
+Imports System.Data
 Imports System.Data.OleDb
 Imports System.Drawing
 Imports System.Drawing.Printing
@@ -35,28 +36,6 @@ Public Class Presupuestos
             TL(i).SetToolTip(controlesToolTip(i), resManager.GetString(clavesToolTip(i)))
         Next
 
-        'TL(0) = New ToolTip
-        'TL(0).SetToolTip(Me.BtnGraficos, "Mostrar Gráficos")
-        'TL(1) = New ToolTip
-        'TL(1).SetToolTip(Me.BtnSalir, "Salir de Presupuestos")
-        'TL(2) = New ToolTip
-        'TL(2).SetToolTip(Me.BtnFiltroConcepto, "Aplica el filtro a los Registros")
-        'TL(3) = New ToolTip
-        'TL(3).SetToolTip(Me.BtnSinFiltroConcepto, "Quitar el filtro a los Registros")
-        'TL(4) = New ToolTip
-        'TL(4).SetToolTip(Me.BtnImprimir, "Imprimir")
-        'TL(5) = New ToolTip
-        'TL(5).SetToolTip(Me.BtnPrimero, "Ir al Primer Registro")
-        'TL(6) = New ToolTip
-        'TL(6).SetToolTip(Me.BtnAnterior, "Ir al Anterior Registro")
-        'TL(7) = New ToolTip
-        'TL(7).SetToolTip(Me.BtnSiguiente, "Ir al Siguiente Registro")
-        'TL(8) = New ToolTip
-        'TL(8).SetToolTip(Me.BtnUltimo, "Ir al Ultimo Registro")
-        'TL(9) = New ToolTip
-        'TL(9).SetToolTip(Me.BtnEliminarRegistro, "Eliminar Concepto en Presupuestos")
-
-
         ' Llenar el Combo Concepto
         '*************************
         cmdMdb1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
@@ -72,7 +51,6 @@ Public Class Presupuestos
             End If
             drMdb1.Close()
         Catch ex As Exception
-            MsgBox("No se han podido cargar los Conceptos en el Combo, revise el código !!!")
             MsgBox(ex.ToString)
         End Try
 
@@ -148,7 +126,7 @@ Public Class Presupuestos
                         End If
                     End Using
                 Catch ex As Exception
-                    MsgBox("Error al cargar detalles del concepto: " & ex.Message)
+                    MsgBox(ex.Message)
                 End Try
             End Using
         End Using
@@ -239,11 +217,11 @@ Public Class Presupuestos
             ' Si la desviación es POSITIVA (>= 0), el presupuesto va bien
             If desviacionFinal >= 0 Then
                 LblObjetivo.ForeColor = Color.DarkGreen
-                LblObjetivo.Text = "Objetivo Logrado!"
+                LblObjetivo.Text = rmse.GetString("LblObjetivo.Text")
             Else
                 ' Si es NEGATIVA (< 0), nos hemos desviado del plan
                 LblObjetivo.ForeColor = Color.DarkRed
-                LblObjetivo.Text = "Objetivo NO Logrado!"
+                LblObjetivo.Text = rmse.GetString("NoLogrado")
             End If
         Else
             LblDesviacion.Enabled = False
@@ -282,7 +260,7 @@ Public Class Presupuestos
     Private Sub BtnPrimero_Click(sender As Object, e As EventArgs) Handles BtnPrimero.Click
         vFilaActual = DgvPresupuestos.CurrentRow.Index
         If vFilaActual = 0 Then
-            MsgBox("Fila Primera Seleccionada")
+            MsgBox(resManager.GetString("MsgFila1"))
         Else
             vFila = 0
             DgvPresupuestos.Rows(vFila).Selected = True
@@ -293,9 +271,33 @@ Public Class Presupuestos
     Private Sub BtnAnterior_Click(sender As Object, e As EventArgs) Handles BtnAnterior.Click
         vFilaActual = DgvPresupuestos.CurrentRow.Index
         If vFilaActual = 0 Then
-            MsgBox("Fila Primera Seleccionada")
+            MsgBox(resManager.GetString("MsgFila1"))
+            Return
         Else
             vFila = vFilaActual - 1
+            DgvPresupuestos.Rows(vFila).Selected = True
+            DgvPresupuestos.CurrentCell = DgvPresupuestos.Rows(vFila).Cells(0)
+        End If
+    End Sub
+
+    Private Sub BtnSiguiente_Click(sender As Object, e As EventArgs) Handles BtnSiguiente.Click
+        vFilaActual = DgvPresupuestos.CurrentRow.Index
+        If vFilaActual = DgvPresupuestos.RowCount - 1 Then
+            MsgBox(resManager.GetString("MsgFila2"))
+            Return
+        Else
+            vFila = vFilaActual + 1
+            DgvPresupuestos.Rows(vFila).Selected = True
+            DgvPresupuestos.CurrentCell = DgvPresupuestos.Rows(vFila).Cells(0)
+        End If
+    End Sub
+
+    Private Sub BtnUltimo_Click(sender As Object, e As EventArgs) Handles BtnUltimo.Click
+        vFilaActual = DgvPresupuestos.CurrentRow.Index
+        If vFilaActual = DgvPresupuestos.RowCount - 1 Then
+            MsgBox(resManager.GetString("MsgFila2"))
+        Else
+            vFila = DgvPresupuestos.RowCount - 1
             DgvPresupuestos.Rows(vFila).Selected = True
             DgvPresupuestos.CurrentCell = DgvPresupuestos.Rows(vFila).Cells(0)
         End If
@@ -310,13 +312,40 @@ Public Class Presupuestos
         Try
             cmdMdb1cr.ExecuteNonQuery()
         Catch ex As Exception
-            MsgBox("No se han podido eliminar los registros en tmpprint, revise el código !!!")
+            'MsgBox("No se han podido eliminar los registros en tmpprint, revise el código !!!")
             MsgBox(ex.ToString)
         End Try
 
         ' Ordenamos la columna Concepto, antes de calcular los totales parciales.
         ' ***********************************************************************
         frmPresupuestos.DgvPresupuestos.Sort(frmPresupuestos.DgvPresupuestos.Columns(0), System.ComponentModel.ListSortDirection.Ascending)
+
+        ' =========================================================================
+        ' 1. PASO PREVIO: Cargar el diccionario de conceptos y sus tipos en memoria
+        ' =========================================================================
+        Dim dictTiposConceptos As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
+
+        Dim sqlBuscarTipos As String = "SELECT CodigoCON, TipoCON FROM conceptos"
+        Using conexion As New OleDbConnection(conexion1.ConnectionString)
+            Using cmd As New OleDbCommand(sqlBuscarTipos, conexion)
+                Try
+                    conexion.Open()
+                    Using dr As OleDbDataReader = cmd.ExecuteReader()
+                        While dr.Read()
+                            Dim codigo As String = dr("CodigoCON").ToString().Trim()
+                            Dim tipo As String = dr("TipoCON").ToString().Trim() ' Guardará "G", "I", etc.
+
+                            ' Evitamos duplicados por seguridad
+                            If Not dictTiposConceptos.ContainsKey(codigo) Then
+                                dictTiposConceptos.Add(codigo, tipo)
+                            End If
+                        End While
+                    End Using
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                End Try
+            End Using
+        End Using
 
         ' Llenamos la tabla tmpprint con los Conceptos Agrupados desde DgvPresupuestos
         ' ****************************************************************************
@@ -351,15 +380,15 @@ Public Class Presupuestos
                     End If
                 Next
 
-                '' Guardamos usando formato de punto flotante estándar para SQL
-                'Dim strReal As String = acumuladoReal.ToString("FFFF", System.Globalization.CultureInfo.InvariantCulture)
-                'Dim strPresu As String = vImporteConcepto.ToString("FFFF", System.Globalization.CultureInfo.InvariantCulture)
-
-                ' Determinamos si el concepto actual del Grid es un Gasto o un Ingreso
+                ' Buscamos el tipo real en el diccionario de memoria (devolverá "GASTO" o "INGRESO")
                 Dim tipoConcepto As String = "G" ' Por defecto Gasto
-                ' Si tu lógica determina que el concepto no es gasto (puedes adaptarlo según tus flags o el nombre del concepto)
-                If vNombreConcepto.ToUpper().Contains("INGRESOS") OrElse vNombreConcepto.ToUpper().Contains("INGRESSOS") Then
-                    tipoConcepto = "I"
+
+                If dictTiposConceptos.ContainsKey(vNombreConcepto) Then
+                    Dim tipoCompleto As String = dictTiposConceptos(vNombreConcepto).ToUpper()
+                    ' Si contiene texto, extraemos la primera letra ("G" de GASTO / "I" de INGRESO)
+                    If tipoCompleto.Length > 0 Then
+                        tipoConcepto = tipoCompleto.Substring(0, 1)
+                    End If
                 End If
 
                 vAñadir = "INSERT INTO tmpprint (FechaTMP, ConceptoTMP, DescripcionTMP, CuentaTMP, NotasTMP, ImporteTMP, SaldoTMP) " &
@@ -372,25 +401,11 @@ Public Class Presupuestos
                 cmdMdb1cr.Parameters.AddWithValue("@ImporteTMP", acumuladoReal)
                 cmdMdb1cr.Parameters.AddWithValue("@SaldoTMP", vImporteConcepto)
 
-
-                '' Guardamos usando tipos numéricos puros (Double) mediante parámetros para evitar fallos de formato en la MDB
-                'vAñadir = "INSERT INTO tmpprint (FechaTMP, ConceptoTMP, DescripcionTMP, CuentaTMP, NotasTMP, ImporteTMP, SaldoTMP) " &
-                '          "VALUES (#2023-01-11#, ?, '', '', '', ?, ?)"
-
-                'cmdMdb1cr.CommandText = vAñadir
-                'cmdMdb1cr.Parameters.Clear()
-
-                '' En OleDb para Access, los parámetros se agregan ESTRICTAMENTE en el mismo orden en que aparecen los signos de interrogación '?'
-                'cmdMdb1cr.Parameters.AddWithValue("@ConceptoTMP", vNombreConcepto)
-                'cmdMdb1cr.Parameters.AddWithValue("@ImporteTMP", acumuladoReal)   ' Pasa el número puro (Double), .NET gestiona el signo/separador
-                'cmdMdb1cr.Parameters.AddWithValue("@SaldoTMP", vImporteConcepto) ' Pasa el número puro (Double)
-
                 Try
                     cmdMdb1cr.ExecuteNonQuery()
                 Catch ex As Exception
-                    MsgBox("Error al grabar en tmpprint de la MDB: " & vbCrLf & ex.Message)
+                    MsgBox(ex.Message)
                 End Try
-
             Else
                 Dim vExistenteImporteConcepto As Double = 0
                 cmdMdb1cr.CommandType = CommandType.Text
@@ -411,7 +426,6 @@ Public Class Presupuestos
                     End If
                     drMdb1.Close()
                 Catch ex As Exception
-                    MsgBox("No se ha podido leer el registro en tmpprint, revise el código !!!")
                     MsgBox(ex.ToString)
                     If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
                 End Try
@@ -432,7 +446,6 @@ Public Class Presupuestos
                 Try
                     cmdMdb1cr.ExecuteNonQuery()
                 Catch ex As Exception
-                    MsgBox("No se ha podido actualizar el registro en tmpprint, revise el código !!!")
                     MsgBox(ex.ToString)
                 End Try
             End If
@@ -484,7 +497,7 @@ Public Class Presupuestos
         ' **********************
         e.Graphics.DrawString(frmImprimirForm.LblFecha.Text, FuenteDetalles, Brushes.Gray, 750, 40, sfDerecha)
 
-        Dim tituloReporte As String = If(BtnFiltroConcepto.Enabled = False, "Informe de Presupuestos - Filtrado", "ESTADO DE RENDIMIENTO PRESUPUESTARIO")
+        Dim tituloReporte As String = If(BtnFiltroConcepto.Enabled = False, rmse.GetString("InformeFiltrado"), rmse.GetString("InformeSinFiltrar"))
         e.Graphics.DrawString(tituloReporte, FuenteTitulo, Brushes.DarkBlue, 50, 75)
 
         If frmImprimirForm.PictureBox1.Image IsNot Nothing Then
@@ -505,13 +518,13 @@ Public Class Presupuestos
         ' =========================================================================
         ' BLOQUE 1: INGRESOS
         ' =========================================================================
-        e.Graphics.DrawString("1. ESTRUCTURA DE INGRESOS", FuenteSeccion, Brushes.DarkGreen, colConceptoX, posY)
+        e.Graphics.DrawString(rmse.GetString("EstrucIngresos"), FuenteSeccion, Brushes.DarkGreen, colConceptoX, posY)
         posY += 25
 
-        e.Graphics.DrawString("Concepto:", FuenteNegrita, Brushes.Black, colConceptoX, posY)
-        e.Graphics.DrawString("Real YTD:", FuenteNegrita, Brushes.Black, colRealX, posY, sfDerecha)
-        e.Graphics.DrawString("Presupuesto:", FuenteNegrita, Brushes.Black, colPresuX, posY, sfDerecha)
-        e.Graphics.DrawString("Desviación:", FuenteNegrita, Brushes.Black, colDesvX, posY, sfDerecha)
+        e.Graphics.DrawString(rmse.GetString("Concepto") & ":", FuenteNegrita, Brushes.Black, colConceptoX, posY)
+        e.Graphics.DrawString(rmse.GetString("Real") & " YTD:", FuenteNegrita, Brushes.Black, colRealX, posY, sfDerecha)
+        e.Graphics.DrawString(rmse.GetString("Presupuesto") & ":", FuenteNegrita, Brushes.Black, colPresuX, posY, sfDerecha)
+        e.Graphics.DrawString(rmse.GetString("Desviacion") & ":", FuenteNegrita, Brushes.Black, colDesvX, posY, sfDerecha)
         posY += 20
         e.Graphics.DrawLine(Pens.Gray, colConceptoX, posY, colDesvX, posY)
         posY += 10
@@ -540,7 +553,7 @@ Public Class Presupuestos
         Next
 
         If Not tieneIngresos Then
-            e.Graphics.DrawString("No se registraron movimientos de ingresos.", FuenteDetalles, Brushes.Gray, colConceptoX + 20, posY)
+            e.Graphics.DrawString(rmse.GetString("NoHayIngresos"), FuenteDetalles, Brushes.Gray, colConceptoX + 20, posY)
             posY += 22
         End If
 
@@ -557,13 +570,13 @@ Public Class Presupuestos
         ' =========================================================================
         ' BLOQUE 2: GASTOS
         ' =========================================================================
-        e.Graphics.DrawString("2. ESTRUCTURA DE GASTOS", FuenteSeccion, Brushes.DarkRed, colConceptoX, posY)
+        e.Graphics.DrawString(rmse.GetString("EstrucGastos"), FuenteSeccion, Brushes.DarkRed, colConceptoX, posY)
         posY += 25
 
-        e.Graphics.DrawString("Concepto:", FuenteNegrita, Brushes.Black, colConceptoX, posY)
-        e.Graphics.DrawString("Real YTD:", FuenteNegrita, Brushes.Black, colRealX, posY, sfDerecha)
-        e.Graphics.DrawString("Presupuesto:", FuenteNegrita, Brushes.Black, colPresuX, posY, sfDerecha)
-        e.Graphics.DrawString("Desviación (Ahorro):", FuenteNegrita, Brushes.Black, colDesvX, posY, sfDerecha)
+        e.Graphics.DrawString(rmse.GetString("Concepto") & ":", FuenteNegrita, Brushes.Black, colConceptoX, posY)
+        e.Graphics.DrawString(rmse.GetString("Real") & " YTD:", FuenteNegrita, Brushes.Black, colRealX, posY, sfDerecha)
+        e.Graphics.DrawString(rmse.GetString("Presupuesto") & ":", FuenteNegrita, Brushes.Black, colPresuX, posY, sfDerecha)
+        e.Graphics.DrawString(rmse.GetString("DesviacionAhorro") & ":", FuenteNegrita, Brushes.Black, colDesvX, posY, sfDerecha)
         posY += 20
         e.Graphics.DrawLine(Pens.Gray, colConceptoX, posY, colDesvX, posY)
         posY += 10
@@ -728,28 +741,6 @@ Public Class Presupuestos
         End If
     End Sub
 
-    Private Sub BtnSiguiente_Click(sender As Object, e As EventArgs) Handles BtnSiguiente.Click
-        vFilaActual = DgvPresupuestos.CurrentRow.Index
-        If vFilaActual = DgvPresupuestos.RowCount - 1 Then
-            MsgBox("Fila Ultima Seleccionada")
-        Else
-            vFila = vFilaActual + 1
-            DgvPresupuestos.Rows(vFila).Selected = True
-            DgvPresupuestos.CurrentCell = DgvPresupuestos.Rows(vFila).Cells(0)
-        End If
-    End Sub
-
-    Private Sub BtnUltimo_Click(sender As Object, e As EventArgs) Handles BtnUltimo.Click
-        vFilaActual = DgvPresupuestos.CurrentRow.Index
-        If vFilaActual = DgvPresupuestos.RowCount - 1 Then
-            MsgBox("Fila Ultima Seleccionada")
-        Else
-            vFila = DgvPresupuestos.RowCount - 1
-            DgvPresupuestos.Rows(vFila).Selected = True
-            DgvPresupuestos.CurrentCell = DgvPresupuestos.Rows(vFila).Cells(0)
-        End If
-    End Sub
-
     Private Sub CmbConcepto_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbConcepto.KeyPress
         e.KeyChar = Char.ToUpper(e.KeyChar)
     End Sub
@@ -778,10 +769,10 @@ Public Class Presupuestos
         ' Comprobamos si el ejercicio consultado es el año en curso
         If CInt(vAñoEjercicio) = añoActualCalendario Then
             ' Si es el año actual, la desviación es parcial (YTD)
-            LblDesviacion.Text = If(resManager.GetString("DesviacionParcial"), "Desviación Parcial")
+            LblDesviacion.Text = rmse.GetString("LblDesviacion.Text")
         Else
             ' Si es un año pasado o diferente, es la desviación de todo el año
-            LblDesviacion.Text = If(resManager.GetString("DesviacionAnual"), "Desviación Anual")
+            LblDesviacion.Text = rmse.GetString("DesvacionParcial")
         End If
     End Sub
 
