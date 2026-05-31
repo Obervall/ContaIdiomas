@@ -84,13 +84,13 @@ Partial Class IntroPresupuestos
         '
         'GroupBox1
         '
-        resources.ApplyResources(Me.GroupBox1, "GroupBox1")
         Me.GroupBox1.Controls.Add(Me.BtnConcepto)
         Me.GroupBox1.Controls.Add(Me.TxtTipoConcepto)
         Me.GroupBox1.Controls.Add(Me.TxtDescripcion)
         Me.GroupBox1.Controls.Add(Me.CmbConcepto)
         Me.GroupBox1.Controls.Add(Me.Label3)
         Me.GroupBox1.Controls.Add(Me.Label2)
+        resources.ApplyResources(Me.GroupBox1, "GroupBox1")
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.TabStop = False
         '
@@ -112,10 +112,10 @@ Partial Class IntroPresupuestos
         '
         'CmbConcepto
         '
-        resources.ApplyResources(Me.CmbConcepto, "CmbConcepto")
         Me.CmbConcepto.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
         Me.CmbConcepto.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
         Me.CmbConcepto.FormattingEnabled = True
+        resources.ApplyResources(Me.CmbConcepto, "CmbConcepto")
         Me.CmbConcepto.Name = "CmbConcepto"
         '
         'Label3
@@ -142,9 +142,9 @@ Partial Class IntroPresupuestos
         '
         'GBoxDistribucion
         '
-        resources.ApplyResources(Me.GBoxDistribucion, "GBoxDistribucion")
         Me.GBoxDistribucion.Controls.Add(Me.RdbMensual)
         Me.GBoxDistribucion.Controls.Add(Me.RdbAnual)
+        resources.ApplyResources(Me.GBoxDistribucion, "GBoxDistribucion")
         Me.GBoxDistribucion.Name = "GBoxDistribucion"
         Me.GBoxDistribucion.TabStop = False
         '
@@ -164,10 +164,10 @@ Partial Class IntroPresupuestos
         '
         'GBoxAnual
         '
-        resources.ApplyResources(Me.GBoxAnual, "GBoxAnual")
         Me.GBoxAnual.Controls.Add(Me.Label16)
         Me.GBoxAnual.Controls.Add(Me.Label15)
         Me.GBoxAnual.Controls.Add(Me.TxtAnual)
+        resources.ApplyResources(Me.GBoxAnual, "GBoxAnual")
         Me.GBoxAnual.Name = "GBoxAnual"
         Me.GBoxAnual.TabStop = False
         '
@@ -308,7 +308,6 @@ Partial Class IntroPresupuestos
         '
         'GBoxMensual
         '
-        resources.ApplyResources(Me.GBoxMensual, "GBoxMensual")
         Me.GBoxMensual.Controls.Add(Me.Label28)
         Me.GBoxMensual.Controls.Add(Me.Label27)
         Me.GBoxMensual.Controls.Add(Me.Label26)
@@ -345,6 +344,7 @@ Partial Class IntroPresupuestos
         Me.GBoxMensual.Controls.Add(Me.Label13)
         Me.GBoxMensual.Controls.Add(Me.TxtEnero)
         Me.GBoxMensual.Controls.Add(Me.Label14)
+        resources.ApplyResources(Me.GBoxMensual, "GBoxMensual")
         Me.GBoxMensual.Name = "GBoxMensual"
         Me.GBoxMensual.TabStop = False
         '

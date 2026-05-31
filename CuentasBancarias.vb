@@ -12,7 +12,6 @@ Public Class CuentasBancarias
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub CuentasBancarias_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ActualizarTextosFormulario(Me)
 
         Me.KeyPreview = True
         TL(0) = New ToolTip

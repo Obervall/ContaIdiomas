@@ -35,11 +35,6 @@ Partial Class TipoCuentaBancaria
         Me.BtnSeguirBuscando = New System.Windows.Forms.Button()
         Me.BtnBuscarRegistro = New System.Windows.Forms.Button()
         Me.BtnSalir = New System.Windows.Forms.Button()
-        Me.GroupBox4 = New System.Windows.Forms.GroupBox()
-        Me.BtnSinFiltroTipoConcepto = New System.Windows.Forms.Button()
-        Me.BtnFiltroTipoConcepto = New System.Windows.Forms.Button()
-        Me.CmbTipoConcepto = New System.Windows.Forms.ComboBox()
-        Me.Label3 = New System.Windows.Forms.Label()
         Me.DgvTipoCuentasBancarias = New System.Windows.Forms.DataGridView()
         Me.GroupBox8 = New System.Windows.Forms.GroupBox()
         Me.BtnUltimo = New System.Windows.Forms.Button()
@@ -52,7 +47,6 @@ Partial Class TipoCuentaBancaria
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
-        Me.GroupBox4.SuspendLayout()
         CType(Me.DgvTipoCuentasBancarias, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox8.SuspendLayout()
         Me.SuspendLayout()
@@ -135,41 +129,6 @@ Partial Class TipoCuentaBancaria
         Me.BtnSalir.Name = "BtnSalir"
         Me.BtnSalir.UseVisualStyleBackColor = True
         '
-        'GroupBox4
-        '
-        Me.GroupBox4.Controls.Add(Me.BtnSinFiltroTipoConcepto)
-        Me.GroupBox4.Controls.Add(Me.BtnFiltroTipoConcepto)
-        Me.GroupBox4.Controls.Add(Me.CmbTipoConcepto)
-        Me.GroupBox4.Controls.Add(Me.Label3)
-        resources.ApplyResources(Me.GroupBox4, "GroupBox4")
-        Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.TabStop = False
-        '
-        'BtnSinFiltroTipoConcepto
-        '
-        resources.ApplyResources(Me.BtnSinFiltroTipoConcepto, "BtnSinFiltroTipoConcepto")
-        Me.BtnSinFiltroTipoConcepto.Name = "BtnSinFiltroTipoConcepto"
-        Me.BtnSinFiltroTipoConcepto.UseVisualStyleBackColor = True
-        '
-        'BtnFiltroTipoConcepto
-        '
-        resources.ApplyResources(Me.BtnFiltroTipoConcepto, "BtnFiltroTipoConcepto")
-        Me.BtnFiltroTipoConcepto.Name = "BtnFiltroTipoConcepto"
-        Me.BtnFiltroTipoConcepto.UseVisualStyleBackColor = True
-        '
-        'CmbTipoConcepto
-        '
-        Me.CmbTipoConcepto.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.CmbTipoConcepto.FormattingEnabled = True
-        Me.CmbTipoConcepto.Items.AddRange(New Object() {resources.GetString("CmbTipoConcepto.Items"), resources.GetString("CmbTipoConcepto.Items1"), resources.GetString("CmbTipoConcepto.Items2")})
-        resources.ApplyResources(Me.CmbTipoConcepto, "CmbTipoConcepto")
-        Me.CmbTipoConcepto.Name = "CmbTipoConcepto"
-        '
-        'Label3
-        '
-        resources.ApplyResources(Me.Label3, "Label3")
-        Me.Label3.Name = "Label3"
-        '
         'DgvTipoCuentasBancarias
         '
         Me.DgvTipoCuentasBancarias.AllowUserToAddRows = False
@@ -239,7 +198,6 @@ Partial Class TipoCuentaBancaria
         Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
-        Me.Controls.Add(Me.GroupBox4)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.MaximizeBox = False
         Me.MinimizeBox = False
@@ -248,8 +206,6 @@ Partial Class TipoCuentaBancaria
         Me.GroupBox1.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox3.ResumeLayout(False)
-        Me.GroupBox4.ResumeLayout(False)
-        Me.GroupBox4.PerformLayout()
         CType(Me.DgvTipoCuentasBancarias, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox8.ResumeLayout(False)
         Me.ResumeLayout(False)
@@ -268,11 +224,6 @@ Partial Class TipoCuentaBancaria
     Friend WithEvents BtnSeguirBuscando As Windows.Forms.Button
     Friend WithEvents BtnBuscarRegistro As Windows.Forms.Button
     Friend WithEvents BtnSalir As Windows.Forms.Button
-    Friend WithEvents GroupBox4 As Windows.Forms.GroupBox
-    Friend WithEvents BtnSinFiltroTipoConcepto As Windows.Forms.Button
-    Friend WithEvents BtnFiltroTipoConcepto As Windows.Forms.Button
-    Friend WithEvents CmbTipoConcepto As Windows.Forms.ComboBox
-    Friend WithEvents Label3 As Windows.Forms.Label
     Friend WithEvents DgvTipoCuentasBancarias As Windows.Forms.DataGridView
     Friend WithEvents GroupBox8 As Windows.Forms.GroupBox
     Friend WithEvents BtnUltimo As Windows.Forms.Button

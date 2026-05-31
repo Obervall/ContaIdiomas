@@ -467,16 +467,28 @@ Public Class Principal
     End Sub
 
     Private Sub ConceptosContablesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ConceptosContablesToolStripMenuItem.Click
+        ' 1. Cambiar el texto de la barra de estado
         TsLabelFormulario.Text = rmse.GetString("ConceptosContablesToolStripMenuItem.Text")
-        ' Comprobamos si existe un identificador asociado.
+        ' 2. Controlar la instancia física del formulario de forma tradicional
         If ((frmConceptosContables Is Nothing) OrElse (Not frmConceptosContables.IsHandleCreated)) Then
             frmConceptosContables = New ConceptosContables
         End If
-        ' Llamamos al formulario de manera NO modal.
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmConceptosContables)
+        ' 4. Configurar el posicionamiento manual obligatorio
+        frmConceptosContables.StartPosition = FormStartPosition.Manual
+        ' 5. Calcular las coordenadas definitivas con tu ajuste de +10
+        Dim posX As Integer = Me.Left + (Me.Width - frmConceptosContables.Width) \ 2
+        Dim posY As Integer = Me.Top + 10
+        If posX < 0 Then posX = 0
+        ' 6. Fijar la ubicación calculada y abrir la ventana
+        frmConceptosContables.Location = New System.Drawing.Point(posX, posY)
         frmConceptosContables.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
+        ' 7. Destrucción explícita al cerrar
         frmConceptosContables.Dispose()
+        ' 8. IMPORTANTE: Limpiar la variable manual para evitar el error de objeto destruido
+        frmConceptosContables = Nothing
+        ' 9. Restaurar el texto de espera de la barra
         Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
@@ -485,16 +497,28 @@ Public Class Principal
     End Sub
 
     Private Sub CuentasToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CuentasToolStripMenuItem.Click
+        ' 1. Cambiar el texto de la barra de estado
         TsLabelFormulario.Text = rmse.GetString("CuentasToolStripMenuItem.Text")
-        ' Comprobamos si existe un identificador asociado.
+        ' 2. Controlar la instancia física del formulario de forma tradicional
         If ((frmCuentasBancarias Is Nothing) OrElse (Not frmCuentasBancarias.IsHandleCreated)) Then
             frmCuentasBancarias = New CuentasBancarias
         End If
-        ' Llamamos al formulario de manera NO modal.
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmCuentasBancarias)
+        ' 4. Configurar el posicionamiento manual obligatorio
+        frmCuentasBancarias.StartPosition = FormStartPosition.Manual
+        ' 5. Calcular las coordenadas definitivas con tu ajuste de +10
+        Dim posX As Integer = Me.Left + (Me.Width - frmCuentasBancarias.Width) \ 2
+        Dim posY As Integer = Me.Top + 10
+        If posX < 0 Then posX = 0
+        ' 6. Fijar la ubicación calculada y abrir la ventana
+        frmCuentasBancarias.Location = New System.Drawing.Point(posX, posY)
         frmCuentasBancarias.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
+        ' 7. Destrucción explícita al cerrar
         frmCuentasBancarias.Dispose()
+        ' 8. IMPORTANTE: Limpiar la variable manual para evitar el error de objeto destruido
+        frmCuentasBancarias = Nothing
+        ' 9. Restaurar el texto de espera de la barra
         Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
@@ -503,16 +527,28 @@ Public Class Principal
     End Sub
 
     Private Sub TiposDeCuentasToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TiposDeCuentasToolStripMenuItem.Click
+        ' 1. Cambiar el texto de la barra de estado
         TsLabelFormulario.Text = rmse.GetString("TiposDeCuentasToolStripMenuItem.Text")
-        ' Comprobamos si existe un identificador asociado.
+        ' 2. Controlar la instancia física del formulario de forma tradicional
         If ((frmTipoCuentaBancaria Is Nothing) OrElse (Not frmTipoCuentaBancaria.IsHandleCreated)) Then
             frmTipoCuentaBancaria = New TipoCuentaBancaria
         End If
-        ' Llamamos al formulario de manera NO modal.
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmTipoCuentaBancaria)
+        ' 4. Configurar el posicionamiento manual obligatorio
+        frmTipoCuentaBancaria.StartPosition = FormStartPosition.Manual
+        ' 5. Calcular las coordenadas definitivas con tu ajuste de +10
+        Dim posX As Integer = Me.Left + (Me.Width - frmTipoCuentaBancaria.Width) \ 2
+        Dim posY As Integer = Me.Top + 10
+        If posX < 0 Then posX = 0
+        ' 6. Fijar la ubicación calculada y abrir la ventana
+        frmTipoCuentaBancaria.Location = New System.Drawing.Point(posX, posY)
         frmTipoCuentaBancaria.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
+        ' 7. Destrucción explícita al cerrar
         frmTipoCuentaBancaria.Dispose()
+        ' 8. IMPORTANTE: Limpiar la variable manual para evitar el error de objeto destruido
+        frmTipoCuentaBancaria = Nothing
+        ' 9. Restaurar el texto de espera de la barra
         Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
@@ -521,14 +557,28 @@ Public Class Principal
     End Sub
 
     Private Sub IntroducirDaToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles IntroducirDaToolStripMenuItem.Click
+        ' 1. Cambiar el texto de la barra de estado
         TsLabelFormulario.Text = rmse.GetString("IntroducirDaToolStripMenuItem.Text")
-        ' Comprobamos si existe un identificador asociado.
+        ' 2. Controlar la instancia física del formulario de forma tradicional
         If ((frmIntroPresupuestos Is Nothing) OrElse (Not frmIntroPresupuestos.IsHandleCreated)) Then
             frmIntroPresupuestos = New IntroPresupuestos
         End If
-        ' Llamamos al formulario de manera NO modal.
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmIntroPresupuestos)
+        ' 4. Configurar el posicionamiento manual obligatorio
+        frmIntroPresupuestos.StartPosition = FormStartPosition.Manual
+        ' 5. Calcular las coordenadas definitivas con tu ajuste de +10
+        Dim posX As Integer = Me.Left + (Me.Width - frmIntroPresupuestos.Width) \ 2
+        Dim posY As Integer = Me.Top + 10
+        If posX < 0 Then posX = 0
+        ' 6. Fijar la ubicación calculada y abrir la ventana
+        frmIntroPresupuestos.Location = New System.Drawing.Point(posX, posY)
         frmIntroPresupuestos.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
+        ' 7. Destrucción explícita al cerrar
+        frmIntroPresupuestos.Dispose()
+        ' 8. IMPORTANTE: Limpiar la variable manual para evitar el error de objeto destruido
+        frmIntroPresupuestos = Nothing
+        ' 9. Restaurar el texto de espera de la barra
         Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
@@ -537,16 +587,28 @@ Public Class Principal
     End Sub
 
     Private Sub VerDesviaciónPresupuestosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles VerDesviaciónPresupuestosToolStripMenuItem.Click
+        ' 1. Cambiar el texto de la barra de estado
         TsLabelFormulario.Text = rmse.GetString("VerDesviaciónPresupuestosToolStripMenuItem.Text")
-        ' Comprobamos si existe un identificador asociado.
+        ' 2. Controlar la instancia física del formulario de forma tradicional
         If ((frmPresupuestos Is Nothing) OrElse (Not frmPresupuestos.IsHandleCreated)) Then
             frmPresupuestos = New Presupuestos
         End If
-        ' Llamamos al formulario de manera NO modal.
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmPresupuestos)
+        ' 4. Configurar el posicionamiento manual obligatorio
+        frmPresupuestos.StartPosition = FormStartPosition.Manual
+        ' 5. Calcular las coordenadas definitivas con tu ajuste de +10
+        Dim posX As Integer = Me.Left + (Me.Width - frmPresupuestos.Width) \ 2
+        Dim posY As Integer = Me.Top + 10
+        If posX < 0 Then posX = 0
+        ' 6. Fijar la ubicación calculada y abrir la ventana
+        frmPresupuestos.Location = New System.Drawing.Point(posX, posY)
         frmPresupuestos.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
+        ' 7. Destrucción explícita al cerrar
         frmPresupuestos.Dispose()
+        ' 8. IMPORTANTE: Limpiar la variable manual para evitar el error de objeto destruido
+        frmPresupuestos = Nothing
+        ' 9. Restaurar el texto de espera de la barra
         Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
@@ -1784,4 +1846,5 @@ Public Class Principal
         ' Ejemplo: Mostrar la posición en la barra de título en tiempo real
         'Me.Text = $"Posición X: {posX} | Y: {posY}"
     End Sub
+
 End Class

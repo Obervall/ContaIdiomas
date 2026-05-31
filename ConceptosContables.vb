@@ -12,7 +12,6 @@ Public Class ConceptosContables
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub ConceptosContables_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ActualizarTextosFormulario(Me)
 
         Me.KeyPreview = True
         TL(0) = New ToolTip
@@ -314,10 +313,6 @@ Public Class ConceptosContables
             DgvConceptos.Rows(vFila).Selected = True
             DgvConceptos.CurrentCell = DgvConceptos.Rows(vFila).Cells(0)
         End If
-
-        'If DgvConceptos.Rows.Count > 0 Then
-        '    DgvConceptos.CurrentCell = DgvConceptos.Rows(0).Cells(0)
-        'End If
     End Sub
 
     Private Sub BtnAnterior_Click(sender As Object, e As EventArgs) Handles BtnAnterior.Click
@@ -329,13 +324,6 @@ Public Class ConceptosContables
             DgvConceptos.Rows(vFila).Selected = True
             DgvConceptos.CurrentCell = DgvConceptos.Rows(vFila).Cells(0)
         End If
-
-        'If DgvConceptos.CurrentRow IsNot Nothing Then
-        '    Dim filaIndex As Integer = DgvConceptos.CurrentRow.Index
-        '    If filaIndex > 0 Then
-        '        DgvConceptos.CurrentCell = DgvConceptos.Rows(filaIndex - 1).Cells(0)
-        '    End If
-        'End If
     End Sub
 
     Private Sub BtnSiguiente_Click(sender As Object, e As EventArgs) Handles BtnSiguiente.Click
@@ -347,16 +335,6 @@ Public Class ConceptosContables
             DgvConceptos.Rows(vFila).Selected = True
             DgvConceptos.CurrentCell = DgvConceptos.Rows(vFila).Cells(0)
         End If
-
-        'If DgvConceptos.CurrentRow IsNot Nothing Then
-        '    Dim filaIndex As Integer = DgvConceptos.CurrentRow.Index
-        '    ' Restamos 1 o 2 dependiendo de si el Grid tiene activa la fila en blanco de inserción final
-        '    Dim limite As Integer = If(DgvConceptos.AllowUserToAddRows, DgvConceptos.Rows.Count - 2, DgvConceptos.Rows.Count - 1)
-
-        '    If filaIndex < limite Then
-        '        DgvConceptos.CurrentCell = DgvConceptos.Rows(filaIndex + 1).Cells(0)
-        '    End If
-        'End If
     End Sub
 
     Private Sub BtnUltimo_Click(sender As Object, e As EventArgs) Handles BtnUltimo.Click
@@ -368,13 +346,6 @@ Public Class ConceptosContables
             DgvConceptos.Rows(vFila).Selected = True
             DgvConceptos.CurrentCell = DgvConceptos.Rows(vFila).Cells(0)
         End If
-
-        'If DgvConceptos.Rows.Count > 0 Then
-        '    Dim limite As Integer = If(DgvConceptos.AllowUserToAddRows, DgvConceptos.Rows.Count - 2, DgvConceptos.Rows.Count - 1)
-        '    If limite >= 0 Then
-        '        DgvConceptos.CurrentCell = DgvConceptos.Rows(limite).Cells(0)
-        '    End If
-        'End If
     End Sub
 
     ' --- ACCIONES PRINCIPALES DEL MANTENIMIENTO ---
@@ -400,15 +371,6 @@ Public Class ConceptosContables
 
         ' Traduce los textos de las celdas
         TraducirCeldasDelGrid()
-
-        '' Configuramos la variable para indicar que es un registro NUEVO
-        'vEditar = "NO"
-
-        '' Abrimos el formulario de edición en modo modal
-        'frmEditarConceptoContable.ShowDialog()
-
-        '' Al regresar, recargamos el Grid completo para ver el nuevo registro traducido
-        'CargarYTraducirGridCompleto()
     End Sub
 
     Private Sub DgvConceptos_DoubleClick(sender As Object, e As EventArgs) Handles DgvConceptos.DoubleClick
@@ -701,137 +663,4 @@ Public Class ConceptosContables
         e.Graphics.DrawString(frmImprimirForm.LblNumeroPagina.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.LblNumeroPagina.Left, e.MarginBounds.Bottom)
     End Sub
 
-    ' --- MÓDULO DE IMPRESIÓN DEL REPORTE (PRINT DOCUMENT) ---
-    'Private Sub PrintDocument1_PrintPage(sender As Object, e As System.Drawing.Printing.PrintPageEventArgs) Handles PrintDocument1.PrintPage
-    '    ' 1. CONFIGURACIÓN DE FUENTES Y CULTURA EN CALIENTE
-    '    Dim FuenteTitulo As New Font("Microsoft Sans Serif", 14, FontStyle.Bold)
-    '    Dim FuenteNegrita As New Font("Microsoft Sans Serif", 9, FontStyle.Bold)
-    '    Dim FuenteDetalles As New Font("Microsoft Sans Serif", 9)
-    '    Dim FuenteSubrayada As New Font("Microsoft Sans Serif", 9, FontStyle.Underline Or FontStyle.Bold)
-
-    '    ' Capturamos de forma estricta la cultura guardada por el usuario para el hilo actual
-    '    Dim cultura As New System.Globalization.CultureInfo(My.Settings.CulturaUsuario)
-    '    System.Globalization.CultureInfo.CurrentCulture = cultura
-    '    System.Globalization.CultureInfo.CurrentUICulture = cultura
-
-    '    ' 2. DETERMINAR IDIOMA PARA ENCABEZADOS Y TÍTULOS DESDE EL RESX
-    '    ' Leemos el título limpio directamente desde tu nueva llave del archivo de recursos
-    '    Dim textoTituloFinal As String = resManager.GetString("TituloReporteConceptos", cultura)
-    '    If String.IsNullOrEmpty(textoTituloFinal) Then textoTituloFinal = "Listado de Conceptos Contables"
-
-    '    ' --- SOLUCIÓN A LA FECHA LARGA (ALINEADA A LA DERECHA) ---
-    '    ' 1. Creamos un formato para obligar a que el texto se alinee a la derecha (Far)
-    '    Dim sfFecha As New StringFormat With {.Alignment = StringAlignment.Far}
-
-    '    ' 2. Generamos la fecha larga con la "D" mayúscula
-    '    Dim textoFecha As String = DateTime.Now.ToString("D", cultura)
-
-    '    ' 3. Dibujamos la fecha pegada al margen derecho exacto de la hoja (e.MarginBounds.Right)
-    '    e.Graphics.DrawString(textoFecha, FuenteNegrita, Brushes.Black, e.MarginBounds.Right, e.MarginBounds.Top, sfFecha)
-
-    '    ' B. El Logo en su margen superior seguro
-    '    If frmImprimirForm.PictureBox1.Image IsNot Nothing Then
-    '        e.Graphics.DrawImage(frmImprimirForm.PictureBox1.Image, e.MarginBounds.Left, e.MarginBounds.Top + 10, 40, 40)
-    '    End If
-
-    '    ' C. El Título Grande bajado a Top + 35 y SIN añadidos después del guión
-    '    e.Graphics.DrawString(textoTituloFinal, FuenteTitulo, Brushes.Black, e.MarginBounds.Left + 55, e.MarginBounds.Top + 35)
-
-
-    '    ' 4. REDISEÑO DE COLUMNAS FIJAS Y ALINEACIÓN DE ENCABEZADOS
-    '    Dim encTipo As String = resManager.GetString("Tipo", cultura)
-    '    If String.IsNullOrEmpty(encTipo) Then encTipo = "Tipo"
-
-    '    Dim encCodigo As String = resManager.GetString("Codigo", cultura)
-    '    If String.IsNullOrEmpty(encCodigo) Then encCodigo = "Código"
-
-    '    Dim encDesc As String = resManager.GetString("Descripcion", cultura)
-    '    If String.IsNullOrEmpty(encDesc) Then encDesc = "Descripción"
-
-    '    Dim colTipoLeft As Integer = e.MarginBounds.Left
-    '    Dim colCodigoLeft As Integer = e.MarginBounds.Left + 110
-    '    Dim colDescripcionLeft As Integer = e.MarginBounds.Left + 320
-
-    '    ' Dibujamos las etiquetas de cabecera de las 3 columnas
-    '    e.Graphics.DrawString(encTipo & ":", FuenteSubrayada, Brushes.Black, colTipoLeft, e.MarginBounds.Top + 95)
-    '    e.Graphics.DrawString(encCodigo & ":", FuenteSubrayada, Brushes.Black, colCodigoLeft, e.MarginBounds.Top + 95)
-    '    e.Graphics.DrawString(encDesc & ":", FuenteSubrayada, Brushes.Black, colDescripcionLeft, e.MarginBounds.Top + 95)
-
-    '    ' Línea divisoria debajo de los encabezados
-    '    e.Graphics.DrawString(New String("-"c, 110), FuenteDetalles, Brushes.Black, e.MarginBounds.Left, e.MarginBounds.Top + 115)
-
-    '    ' Posición vertical donde empiezan las filas de los apuntes
-    '    Dim startY As Integer = e.MarginBounds.Top + 135
-    '    Dim altoFila As Integer = 20
-
-    '    Dim formatoCortado As New StringFormat()
-    '    formatoCortado.Trimming = StringTrimming.EllipsisCharacter
-    '    formatoCortado.FormatFlags = StringFormatFlags.NoWrap
-
-    '    ' 5. BUCLE DE IMPRESIÓN DE FILAS (RECORRIDO DEL GRID DE LA PLANTILLA)
-    '    If frmImprimirForm.DgvApuntes IsNot Nothing AndAlso frmImprimirForm.DgvApuntes.Rows.Count > 0 Then
-    '        Do While PrintLine < frmImprimirForm.DgvApuntes.Rows.Count
-    '            ' Control de salto de página automático
-    '            If startY + altoFila > e.MarginBounds.Bottom Then
-    '                e.HasMorePages = True
-    '                Exit Do
-    '            End If
-
-    '            ' Extraemos los valores que el módulo y el botón ya tradujeron en el DataGrid de la plantilla
-    '            Dim tipoActual As String = If(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(0).Value?.ToString().Trim(), "")
-    '            Dim codigoActual As String = If(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(1).Value?.ToString().Trim(), "")
-    '            Dim descActual As String = If(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(2).Value?.ToString().Trim(), "")
-    '            Dim notaActual As String = If(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(3).Value?.ToString().Trim(), "")
-
-    '            ' Manejo especial para notas de sistema si corresponde
-    '            Dim textoCelda2 As String = descActual
-    '            Dim tipoUpper As String = tipoActual.ToUpper()
-
-    '            ' Si el tipo es Especial (o su equivalente traducido), buscamos su nota larga en el recurso
-    '            If tipoUpper = "ESPECIAL" OrElse tipoUpper = resManager.GetString("Tipo_Especial", cultura).ToUpper() Then
-    '                ' Generamos la llave directa usando el código limpio (ej: "Nota_ALQUILER")
-    '                Dim llaveNota As String = "Nota_" & codigoActual.Replace(" ", "_")
-    '                Dim tradNota As String = resManager.GetString(llaveNota, cultura)
-    '                textoCelda2 = If(Not String.IsNullOrEmpty(tradNota), tradNota, notaActual)
-    '            End If
-
-    '            ' Acortamos el texto del código si excede de 30 caracteres para que no pise la descripción
-    '            If codigoActual.Length > 30 Then codigoActual = codigoActual.Substring(0, 30)
-
-    '            ' DIBUJAR LOS DATOS ALINEADOS POR COLUMNAS
-    '            e.Graphics.DrawString(tipoActual, FuenteDetalles, Brushes.Black, colTipoLeft, startY)
-    '            e.Graphics.DrawString(codigoActual, FuenteDetalles, Brushes.Black, colCodigoLeft, startY)
-
-    '            ' Rectángulo de la descripción para evitar que sobresalga de la página
-    '            Dim anchoDisponibleDesc As Integer = e.MarginBounds.Right - colDescripcionLeft
-    '            Dim rectanguloDesc As New RectangleF(colDescripcionLeft, startY, anchoDisponibleDesc, altoFila)
-    '            e.Graphics.DrawString(textoCelda2, FuenteDetalles, Brushes.Black, rectanguloDesc, formatoCortado)
-
-    '            startY += altoFila
-    '            PrintLine += 1
-    '            Contador += 1
-    '        Loop
-    '    End If
-
-    '    ' Línea de fondo al terminar el reporte (Corregida con la misma lógica que el encabezado)
-    '    If Contador >= frmImprimirForm.DgvApuntes.Rows.Count Then
-    '        e.Graphics.DrawString(New String("-"c, 110), FuenteDetalles, Brushes.Black, e.MarginBounds.Left, startY + 5)
-    '    End If
-
-    '    ' 6. CONTADOR DE PÁGINAS DINÁMICO (CORREGIDO)
-    '    Static NumeroPaginaImpresion As Integer = 0
-    '    Dim textoPaginaVisible As String = resManager.GetString("Pagina", cultura)
-    '    If String.IsNullOrEmpty(textoPaginaVisible) Then textoPaginaVisible = "Página"
-
-    '    ' Incrementamos el número de página
-    '    NumeroPaginaImpresion += 1
-
-    '    ' Imprimimos el número de página abajo al centro de la hoja usando la variable correcta
-    '    e.Graphics.DrawString(textoPaginaVisible & " " & NumeroPaginaImpresion, FuenteDetalles, Brushes.Black, e.MarginBounds.Left + (e.MarginBounds.Width / 2) - 30, e.MarginBounds.Bottom + 20)
-
-    '    ' Si terminó el reporte completo, reiniciamos el contador para la próxima vez
-    '    If Contador >= frmImprimirForm.DgvApuntes.Rows.Count Then
-    '        NumeroPaginaImpresion = 0
-    '    End If
-    'End Sub
 End Class

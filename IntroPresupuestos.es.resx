@@ -267,4 +267,29 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Introducción de Presupuesto por Conceptos Contables</value>
   </data>
+  <data name="AñadeEditaBorraCC" xml:space="preserve">
+    <value>Añade, Edita, Borra o Consulta Conceptos Contables</value>
+  </data>
+  <data name="SeleccionarConcepto" xml:space="preserve">
+    <value>Seleccionar el Concepto Contable para definir el Presupuesto</value>
+  </data>
+  <data name="TotalAnual" xml:space="preserve">
+    <value>Introducir el Total Anual Presupuestado, que se repartirá mensualmente</value>
+  </data>
+  <data name="TxtMensual" xml:space="preserve">
+    <value>Introducir la cantidad Presupuestada para este mes</value>
+  </data>
+  <data name="RadioAnual" xml:space="preserve">
+    <value>Con esta selección introducir una cantidad 
+en la casilla Total Anual y se repartirá a partes iguales entre todos los meses</value>
+  </data>
+  <data name="RadioMensual" xml:space="preserve">
+    <value>Con esta selección introducir una cantidad en la casillas de cada mes</value>
+  </data>
+  <data name="SelecionarCC" xml:space="preserve">
+    <value>Por favor, seleccione un concepto contable</value>
+  </data>
+  <data name="PresupuestoGuardado" xml:space="preserve">
+    <value>Presupuesto guardado correctamente</value>
+  </data>
 </root>

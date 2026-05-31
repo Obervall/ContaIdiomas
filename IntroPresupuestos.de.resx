@@ -267,4 +267,29 @@
   <data name="Label27.Text" xml:space="preserve">
     <value>€</value>
   </data>
+  <data name="AñadeEditaBorraCC" xml:space="preserve">
+    <value>Buchhaltungskonzepte hinzufügen, bearbeiten, löschen oder konsultieren</value>
+  </data>
+  <data name="SeleccionarConcepto" xml:space="preserve">
+    <value>Wählen Sie den Buchhaltungsposten aus, um das Budget zu definieren</value>
+  </data>
+  <data name="TotalAnual" xml:space="preserve">
+    <value>Hier kommt die budgetierte Jahressumme ins Spiel, die monatlich ausgezahlt wird</value>
+  </data>
+  <data name="TxtMensual" xml:space="preserve">
+    <value>Geben Sie den budgetierten Betrag für diesen Monat ein</value>
+  </data>
+  <data name="RadioAnual" xml:space="preserve">
+    <value>Mit dieser Auswahl geben Sie eine Menge ein 
+im Jährlichen Gesamtpaket und wird gleichmäßig auf alle Monate verteilt</value>
+  </data>
+  <data name="RadioMensual" xml:space="preserve">
+    <value>Mit dieser Auswahl geben Sie für jeden Monat einen Betrag in die Kästchen ein</value>
+  </data>
+  <data name="SelecionarCC" xml:space="preserve">
+    <value>Bitte wählen Sie einen Buchhaltungsposten aus</value>
+  </data>
+  <data name="PresupuestoGuardado" xml:space="preserve">
+    <value>Budget korrekt gespart</value>
+  </data>
 </root>

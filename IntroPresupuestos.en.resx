@@ -267,4 +267,29 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Introduction of Budget by Accounting Concepts</value>
   </data>
+  <data name="AñadeEditaBorraCC" xml:space="preserve">
+    <value>Add, Edit, Delete or Consult Accounting Concepts</value>
+  </data>
+  <data name="SeleccionarConcepto" xml:space="preserve">
+    <value>Select the Accounting Item to define the Budget</value>
+  </data>
+  <data name="TotalAnual" xml:space="preserve">
+    <value>Enter the Budgeted Annual Total, which will be distributed monthly</value>
+  </data>
+  <data name="TxtMensual" xml:space="preserve">
+    <value>Enter the Budgeted Amount for this month</value>
+  </data>
+  <data name="RadioAnual" xml:space="preserve">
+    <value>With this selection enter a quantity 
+in the Annual Total box and will be distributed equally among all the months</value>
+  </data>
+  <data name="RadioMensual" xml:space="preserve">
+    <value>With this selection enter an amount in the boxes for each month</value>
+  </data>
+  <data name="SelecionarCC" xml:space="preserve">
+    <value>Please select an accounting item</value>
+  </data>
+  <data name="PresupuestoGuardado" xml:space="preserve">
+    <value>Budget saved correctly</value>
+  </data>
 </root>

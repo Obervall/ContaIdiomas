@@ -267,4 +267,29 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Introduction du budget par concepts comptables</value>
   </data>
+  <data name="AñadeEditaBorraCC" xml:space="preserve">
+    <value>Ajouter, modifier, supprimer ou consulter des concepts comptables</value>
+  </data>
+  <data name="SeleccionarConcepto" xml:space="preserve">
+    <value>Sélectionnez l’élément comptable pour définir le budget</value>
+  </data>
+  <data name="TotalAnual" xml:space="preserve">
+    <value>Voici le total annuel budgété, qui sera distribué mensuellement</value>
+  </data>
+  <data name="TxtMensual" xml:space="preserve">
+    <value>Voici le montant budgété pour ce mois-ci</value>
+  </data>
+  <data name="RadioAnual" xml:space="preserve">
+    <value>Avec cette sélection, on saisisse une quantité 
+dans la boîte Total Annuel et sera réparti également entre tous les mois</value>
+  </data>
+  <data name="RadioMensual" xml:space="preserve">
+    <value>Avec cette sélection, entrez un montant dans les cases pour chaque mois</value>
+  </data>
+  <data name="SelecionarCC" xml:space="preserve">
+    <value>Veuillez sélectionner un élément comptable</value>
+  </data>
+  <data name="PresupuestoGuardado" xml:space="preserve">
+    <value>Budget économisé correctement</value>
+  </data>
 </root>

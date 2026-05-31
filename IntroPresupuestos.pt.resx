@@ -267,4 +267,29 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Introdução ao Orçamento por Conceitos Contábeis</value>
   </data>
+  <data name="AñadeEditaBorraCC" xml:space="preserve">
+    <value>Adicionar, Editar, Excluir ou Consultar Conceitos de Contabilidade</value>
+  </data>
+  <data name="SeleccionarConcepto" xml:space="preserve">
+    <value>Selecione o item de Contabilidade para definir o Orçamento</value>
+  </data>
+  <data name="TotalAnual" xml:space="preserve">
+    <value>Apresente o Total Anual Orçamentado, que será distribuído mensalmente</value>
+  </data>
+  <data name="TxtMensual" xml:space="preserve">
+    <value>Insira o Valor Orçado para este mês</value>
+  </data>
+  <data name="RadioAnual" xml:space="preserve">
+    <value>Com essa seleção, insira uma quantidade 
+na caixa do Total Anual e será distribuído igualmente entre todos os meses</value>
+  </data>
+  <data name="RadioMensual" xml:space="preserve">
+    <value>Com essa seleção, insira um valor nas caixas para cada mês</value>
+  </data>
+  <data name="SelecionarCC" xml:space="preserve">
+    <value>Por favor, selecione um item contábil</value>
+  </data>
+  <data name="PresupuestoGuardado" xml:space="preserve">
+    <value>Orçamento economizado corretamente</value>
+  </data>
 </root>

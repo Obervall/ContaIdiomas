@@ -267,4 +267,29 @@
   <data name="Label11.Text" xml:space="preserve">
     <value>Setembre:</value>
   </data>
+  <data name="AñadeEditaBorraCC" xml:space="preserve">
+    <value>Afegeix, Edita, Borra o Consulta Conceptes Comptables</value>
+  </data>
+  <data name="SeleccionarConcepto" xml:space="preserve">
+    <value>Seleccionar el Concepte Comptable per definir el Pressupost</value>
+  </data>
+  <data name="TotalAnual" xml:space="preserve">
+    <value>Introduir el Total Anual Pressupostat, que es repartirà mensualment</value>
+  </data>
+  <data name="TxtMensual" xml:space="preserve">
+    <value>Introduir la quantitat Pressupostada per a aquest mes</value>
+  </data>
+  <data name="RadioAnual" xml:space="preserve">
+    <value>Amb aquesta selecció introduir una quantitat 
+a la casella Total Anual i es repartirà a parts iguals entre tots els mesos</value>
+  </data>
+  <data name="RadioMensual" xml:space="preserve">
+    <value>Amb aquesta selecció introduir una quantitat a les caselles de cada mes</value>
+  </data>
+  <data name="SelecionarCC" xml:space="preserve">
+    <value>Per favor, seleccioni un concepte comptable</value>
+  </data>
+  <data name="PresupuestoGuardado" xml:space="preserve">
+    <value>Pressupost guardat correctament</value>
+  </data>
 </root>

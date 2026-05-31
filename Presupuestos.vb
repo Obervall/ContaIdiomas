@@ -12,33 +12,49 @@ Public Class Presupuestos
     Public vImporteConcepto, vImporteConcepto2, vExistenteImporteConcepto, vNewImporteConcepto As Double
     Public PrintLine, Contador As Integer
     Public vTipoConceptoActual As String = ""
+    Public TL(9) As ToolTip
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
 
     Private Sub Presupuestos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ActualizarTextosFormulario(Me)
+        Me.KeyPreview = True
 
-        Dim TL(9) As ToolTip
-        TL(0) = New ToolTip
-        TL(0).SetToolTip(Me.BtnGraficos, "Mostrar Gráficos")
-        TL(1) = New ToolTip
-        TL(1).SetToolTip(Me.BtnSalir, "Salir de Presupuestos")
-        TL(2) = New ToolTip
-        TL(2).SetToolTip(Me.BtnFiltroConcepto, "Aplica el filtro a los Registros")
-        TL(3) = New ToolTip
-        TL(3).SetToolTip(Me.BtnSinFiltroConcepto, "Quitar el filtro a los Registros")
-        TL(4) = New ToolTip
-        TL(4).SetToolTip(Me.BtnImprimir, "Imprimir")
-        TL(5) = New ToolTip
-        TL(5).SetToolTip(Me.BtnPrimero, "Ir al Primer Registro")
-        TL(6) = New ToolTip
-        TL(6).SetToolTip(Me.BtnAnterior, "Ir al Anterior Registro")
-        TL(7) = New ToolTip
-        TL(7).SetToolTip(Me.BtnSiguiente, "Ir al Siguiente Registro")
-        TL(8) = New ToolTip
-        TL(8).SetToolTip(Me.BtnUltimo, "Ir al Ultimo Registro")
-        TL(9) = New ToolTip
-        TL(9).SetToolTip(Me.BtnEliminarRegistro, "Eliminar Concepto en Presupuestos")
+        ' Inicialización centralizada de ToolTips
+        Dim controlesToolTip As Control() = {
+            BtnGraficos, BtnSalir, BtnFiltroConcepto, BtnSinFiltroConcepto, BtnImprimir,
+            BtnPrimero, BtnAnterior, BtnSiguiente, BtnUltimo, BtnEliminarRegistro
+        }
+
+        Dim clavesToolTip As String() = {
+            "ToolTipGraficos", "ToolTipSalir", "ToolTipAplicarFiltro", "ToolTipQuitarFiltro", "ToolTipImprimir",
+            "ToolTipPrimero", "ToolTipAnterior", "ToolTipSiguiente", "ToolTipUltimo", "ToolTipEliminar"
+        }
+
+        For i As Integer = 0 To TL.Length - 1
+            TL(i) = New ToolTip()
+            TL(i).SetToolTip(controlesToolTip(i), resManager.GetString(clavesToolTip(i)))
+        Next
+
+        'TL(0) = New ToolTip
+        'TL(0).SetToolTip(Me.BtnGraficos, "Mostrar Gráficos")
+        'TL(1) = New ToolTip
+        'TL(1).SetToolTip(Me.BtnSalir, "Salir de Presupuestos")
+        'TL(2) = New ToolTip
+        'TL(2).SetToolTip(Me.BtnFiltroConcepto, "Aplica el filtro a los Registros")
+        'TL(3) = New ToolTip
+        'TL(3).SetToolTip(Me.BtnSinFiltroConcepto, "Quitar el filtro a los Registros")
+        'TL(4) = New ToolTip
+        'TL(4).SetToolTip(Me.BtnImprimir, "Imprimir")
+        'TL(5) = New ToolTip
+        'TL(5).SetToolTip(Me.BtnPrimero, "Ir al Primer Registro")
+        'TL(6) = New ToolTip
+        'TL(6).SetToolTip(Me.BtnAnterior, "Ir al Anterior Registro")
+        'TL(7) = New ToolTip
+        'TL(7).SetToolTip(Me.BtnSiguiente, "Ir al Siguiente Registro")
+        'TL(8) = New ToolTip
+        'TL(8).SetToolTip(Me.BtnUltimo, "Ir al Ultimo Registro")
+        'TL(9) = New ToolTip
+        'TL(9).SetToolTip(Me.BtnEliminarRegistro, "Eliminar Concepto en Presupuestos")
 
 
         ' Llenar el Combo Concepto

@@ -12,7 +12,6 @@ Public Class TipoCuentaBancaria
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub TipoCuentasBancarias_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ActualizarTextosFormulario(Me)
 
         Me.KeyPreview = True
         TL(0) = New ToolTip
@@ -500,7 +499,7 @@ Public Class TipoCuentaBancaria
     Private Sub BtnPrimero_Click(sender As Object, e As EventArgs) Handles BtnPrimero.Click
         vFilaActual = DgvTipoCuentasBancarias.CurrentRow.Index
         If vFilaActual = 0 Then
-            MsgBox("Fila Primera Seleccionada")
+            MsgBox(resManager.GetString("MsgFila1"), vbInformation)
         Else
             vFila = 0
             DgvTipoCuentasBancarias.Rows(vFila).Selected = True
@@ -511,7 +510,7 @@ Public Class TipoCuentaBancaria
     Private Sub BtnAnterior_Click(sender As Object, e As EventArgs) Handles BtnAnterior.Click
         vFilaActual = DgvTipoCuentasBancarias.CurrentRow.Index
         If vFilaActual = 0 Then
-            MsgBox("Fila Primera Seleccionada")
+            MsgBox(resManager.GetString("MsgFila1"), vbInformation)
         Else
             vFila = vFilaActual - 1
             DgvTipoCuentasBancarias.Rows(vFila).Selected = True
@@ -522,7 +521,7 @@ Public Class TipoCuentaBancaria
     Private Sub BtnSiguiente_Click(sender As Object, e As EventArgs) Handles BtnSiguiente.Click
         vFilaActual = DgvTipoCuentasBancarias.CurrentRow.Index
         If vFilaActual = DgvTipoCuentasBancarias.RowCount - 1 Then
-            MsgBox("Fila Ultima Seleccionada")
+            MsgBox(resManager.GetString("MsgFila2"), vbInformation)
         Else
             vFila = vFilaActual + 1
             DgvTipoCuentasBancarias.Rows(vFila).Selected = True
@@ -533,7 +532,7 @@ Public Class TipoCuentaBancaria
     Private Sub BtnUltimo_Click(sender As Object, e As EventArgs) Handles BtnUltimo.Click
         vFilaActual = DgvTipoCuentasBancarias.CurrentRow.Index
         If vFilaActual = DgvTipoCuentasBancarias.RowCount - 1 Then
-            MsgBox("Fila Ultima Seleccionada")
+            MsgBox(resManager.GetString("MsgFila2"), vbInformation)
         Else
             vFila = DgvTipoCuentasBancarias.RowCount - 1
             DgvTipoCuentasBancarias.Rows(vFila).Selected = True

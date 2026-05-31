@@ -522,7 +522,7 @@
 </value>
   </data>
   <data name="BtnSalir.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleRight</value>
+    <value>MiddleLeft</value>
   </data>
   <data name="BtnSalir.Location" type="System.Drawing.Point, System.Drawing">
     <value>679, 29</value>
@@ -540,7 +540,7 @@
     <value>Salir</value>
   </data>
   <data name="BtnSalir.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
+    <value>MiddleRight</value>
   </data>
   <data name="&gt;&gt;BtnSalir.Name" xml:space="preserve">
     <value>BtnSalir</value>
@@ -1171,23 +1171,23 @@
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="CmbTipoConcepto.Items2" xml:space="preserve">
-    <value>ESPECIAL</value>
+  <data name="CmbTipoConcepto.Items" xml:space="preserve">
+    <value>GASTO</value>
   </data>
   <data name="CmbTipoConcepto.Items1" xml:space="preserve">
     <value>INGRESO</value>
   </data>
-  <data name="CmbTipoConcepto.Items" xml:space="preserve">
-    <value>GASTO</value>
+  <data name="CmbTipoConcepto.Items2" xml:space="preserve">
+    <value>ESPECIAL</value>
   </data>
-  <data name="ListadoConceptosContablesFiltrado" xml:space="preserve">
-    <value>Listado de Conceptos Contables. Filtrado por:</value>
+  <data name="Concepto_Contable" xml:space="preserve">
+    <value>Concepto Contable</value>
   </data>
   <data name="ListadoConceptosContables" xml:space="preserve">
     <value>Listado de Conceptos Contables.</value>
   </data>
-  <data name="Concepto_Contable" xml:space="preserve">
-    <value>Concepto Contable</value>
+  <data name="ListadoConceptosContablesFiltrado" xml:space="preserve">
+    <value>Listado de Conceptos Contables. Filtrado por:</value>
   </data>
   <data name="Nota_TRASPASO" xml:space="preserve">
     <value>Concepto de sistema para el traspaso entre cuentas bancarias, sirve para disposiciones del cajero...</value>
