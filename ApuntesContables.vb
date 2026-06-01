@@ -149,9 +149,9 @@ Public Class ApuntesContables
                         Else
                             vTipoConcepto = drMdb1.GetValue(2)
                             If vTipoConcepto = "GASTO" Then
-                                ListBox1.Items.Add("** Gastos **")
+                                ListBox1.Items.Add("** " & rmse.GetString("Label8.Text") & " **")
                             Else
-                                ListBox1.Items.Add("** Ingresos **")
+                                ListBox1.Items.Add("** " & rmse.GetString("Label7.Text") & " **")
                             End If
                             CmbConcepto.Items.Add(drMdb1.GetValue(0))
                             ListBox1.Items.Add(drMdb1.GetValue(0))
@@ -173,7 +173,7 @@ Public Class ApuntesContables
 
         ' Llenar el Combo Cuenta
         '***********************
-        cmdMdb1cr.CommandText = "SELECT * FROM cuentas ORDER BY cuentas.NombreCUE ASC"
+        cmdMdb1cr.CommandText = "Select * FROM cuentas ORDER BY cuentas.NombreCUE ASC"
         Try
             drMdb1 = cmdMdb1cr.ExecuteReader()
             If drMdb1.HasRows Then
@@ -206,10 +206,10 @@ Public Class ApuntesContables
         Else
             BtnFiltroCuenta.Enabled = False
             BtnSinFiltroCuenta.Enabled = True
-            vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
+            vtipoSql = "Select apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
             If BtnFechasClick = "SI" Then
                 vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
-            Else
+                            Else
                 vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
             End If
             vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
@@ -467,10 +467,11 @@ Public Class ApuntesContables
                         Else
                             vTipoConcepto = drMdb1.GetValue(2)
                             If vTipoConcepto = "GASTO" Then
-                                ListBox1.Items.Add("** Gastos **")
+                                ListBox1.Items.Add("** " & rmse.GetString("Label8.Text") & " **")
                             Else
-                                ListBox1.Items.Add("** Ingresos **")
+                                ListBox1.Items.Add("** " & rmse.GetString("Label7.Text") & " **")
                             End If
+
                             CmbConcepto.Items.Add(drMdb1.GetValue(0))
                             ListBox1.Items.Add(drMdb1.GetValue(0))
                         End If
@@ -878,17 +879,44 @@ Public Class ApuntesContables
 
     Private Sub BtnAñadirRegistro_Click(sender As Object, e As EventArgs) Handles BtnAñadirRegistro.Click
         frmPrincipal.TsLabelFormulario.Text = rmse.GetString("MsgText2")
-        ' Comprobamos si existe un identificador asociado.
+
+        ' 1. Controlar la instancia física del formulario de forma tradicional
         If ((frmIntroApuntes Is Nothing) OrElse (Not frmIntroApuntes.IsHandleCreated)) Then
             frmIntroApuntes = New IntroApuntes
         End If
-        ' Llamamos al formulario de manera modal.
-        frmIntroApuntes.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
+
+        ' 2. Forzar la traducción antes de mostrarlo (por consistencia con tus otros formularios)
+        ' Nota: Si tienes el método ActualizarTextosFormulario accesible, puedes llamarlo aquí:
+        ' ActualizarTextosFormulario(frmIntroApuntes)
+
+        ' 3. ¡EL TRUCO!: Decimos que se centre respecto a su contenedor "padre"
+        frmIntroApuntes.StartPosition = FormStartPosition.CenterParent
+
+        ' 4. Abrimos el formulario modal pasando "Me" (este segundo formulario) como dueño
+        frmIntroApuntes.ShowDialog(Me)
+
+        ' 5. Destrucción explícita al cerrar
         frmIntroApuntes.Dispose()
+
+        ' 6. IMPORTANTE: Limpiar la variable manual para evitar el error de objeto destruido
+        frmIntroApuntes = Nothing
+
         frmPrincipal.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
     End Sub
+
+    'Private Sub BtnAñadirRegistro_Click(sender As Object, e As EventArgs) Handles BtnAñadirRegistro.Click
+    '    frmPrincipal.TsLabelFormulario.Text = rmse.GetString("MsgText2")
+    '    ' Comprobamos si existe un identificador asociado.
+    '    If ((frmIntroApuntes Is Nothing) OrElse (Not frmIntroApuntes.IsHandleCreated)) Then
+    '        frmIntroApuntes = New IntroApuntes
+    '    End If
+    '    ' Llamamos al formulario de manera modal.
+    '    frmIntroApuntes.ShowDialog()
+    '    'MessageBox.Show("Se ha cerrado el formulario.")
+    '    ' Destruimos el formulario.
+    '    frmIntroApuntes.Dispose()
+    '    frmPrincipal.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+    'End Sub
 
     Private Sub BtnEliminarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEliminarRegistro.Click
         filaActual = frmApuntesContables.DgvApuntes.CurrentRow.Index
@@ -1288,25 +1316,36 @@ Public Class ApuntesContables
     End Sub
 
     Private Sub BtnExcel_Click(sender As Object, e As EventArgs) Handles BtnExcel.Click
-        'LlenarExcel(DgvApuntes)
-        '' Si no hay PathExportar lo creamos.
-        If My.Settings.PathExportar = "" Then
-            Dim path As String = "C:\ContaHogar3.0\Excel"
-            If Directory.Exists(path) Then
-                MsgBox("Ya existe la Ruta C:\ContaHogar3.0\Excel.")
-            Else
-                Directory.CreateDirectory(path)
-                MsgBox("Ruta C:\ContaHogar3.0\Excel, Creada.")
-            End If
-            My.Settings.PathExportar = path
-            My.Settings.Save()
-            My.Settings.Reload()
+        ' 1. SINCRONIZACIÓN DE LA RUTA
+        ' Si la variable viene vacía o apunta a la raíz por defecto, forzamos la ruta estándar de la app
+        If vPathExportar = "" OrElse vPathExportar = "C:\" OrElse vPathExportar Is Nothing Then
+            vPathExportar = "C:\ContaHogar3.0\Excel"
         End If
+
+        ' Guardamos la ruta definitiva (sea la estándar o la que el usuario cambió en Preferencias)
+        My.Settings.PathExportar = vPathExportar
+        My.Settings.Save()
+        My.Settings.Reload()
+
+        ' 2. VERIFICACIÓN Y CREACIÓN FÍSICA EN EL DISCO
+        Try
+            ' Si la carpeta (personalizada o por defecto) no existe en el disco, la creamos
+            If Not Directory.Exists(My.Settings.PathExportar) Then
+                Directory.CreateDirectory(My.Settings.PathExportar)
+                ' Solo avisamos si la carpeta es nueva
+                MsgBox(rmse.GetString("RutaExcelCreada"), MsgBoxStyle.Information, rmse.GetString("$this.Text"))
+            End If
+        Catch ex As Exception
+            ' Si la ruta de Preferencias apunta a un pendrive desconectado o carpeta sin permisos, detenemos el proceso
+            MessageBox.Show(rmse.GetString("ErrorCrearRuta") & " " & ex.Message, rmse.GetString("$this.Text"), MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Exit Sub
+        End Try
+
         Try
             If ((DgvApuntes.Columns.Count = 0) Or (DgvApuntes.Rows.Count = 0)) Then
                 Exit Sub
             End If
-            Dim vNumRegistros As String = DgvApuntes.Rows.Count
+            Dim vNumRegistros As Integer = DgvApuntes.Rows.Count
             PrbExport.Visible = True
             PrbExport.Minimum = 0
             PrbExport.Maximum = vNumRegistros
@@ -1316,15 +1355,23 @@ Public Class ApuntesContables
             Dim dset As New DataSet
             'Agregar tabla al Dataset
             dset.Tables.Add()
-            'AGregar Columna a la tabla
+
+            ' AGregar Columna a la tabla especificando tipos de datos reales
             For i As Integer = 0 To DgvApuntes.ColumnCount - 2
-                dset.Tables(0).Columns.Add(DgvApuntes.Columns(i).HeaderText)
+                Dim col As New DataColumn(DgvApuntes.Columns(i).HeaderText)
+                ' Si es la columna de Importe (3) o Saldo (4), configuramos su tipo como Double
+                If i = 3 OrElse i = 4 Then
+                    col.DataType = GetType(Double)
+                Else
+                    col.DataType = GetType(String)
+                End If
+                dset.Tables(0).Columns.Add(col)
             Next
+
             'Agregar filas a la tabla
             Dim dr1 As DataRow
             Dim vSuma As Double = 0
-            vLetras = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-            vNumeros = "0123456789"
+
             If DgvApuntes.SelectedRows.Count > 1 Then 'Si hay filas seleccionadas, se exportan solo las filas seleccionadas
                 For i As Integer = 0 To DgvApuntes.RowCount - 1
                     If DgvApuntes.Rows(i).Selected Then
@@ -1333,16 +1380,19 @@ Public Class ApuntesContables
                             If j = 0 Then
                                 dr1(j) = Format(DgvApuntes.Rows(i).Cells(j).Value, "yyyy/MM/dd")
                             ElseIf j = 1 Or j = 2 Or j = 6 Then
-                                dr1(j) = Trim(DgvApuntes.Rows(i).Cells(j).Value.ToString)
+                                dr1(j) = Trim(Convert.ToString(DgvApuntes.Rows(i).Cells(j).Value))
                             ElseIf j = 3 Then
-                                dr1(j) = FormatCurrency(DgvApuntes.Rows(i).Cells(j).Value)
-                                vSuma = vSuma + DgvApuntes.Rows(i).Cells(j).Value
+                                ' Guardamos el valor numérico puro
+                                Dim valNum As Double = Convert.ToDouble(DgvApuntes.Rows(i).Cells(j).Value)
+                                dr1(j) = valNum
+                                vSuma = vSuma + valNum
                             ElseIf j = 4 Then
-                                dr1(j) = FormatCurrency(vSuma)
+                                ' Guardamos el acumulado numérico puro
+                                dr1(j) = vSuma
                             ElseIf j = 5 Then
-                                vNotas = Trim(DgvApuntes.Rows(i).Cells(j).Value)
-                                If String.Compare(vNotas, vLetras) > 0 Or String.Compare(vNotas, vNumeros) > 0 Then
-                                    dr1(j) = Mid("*" & vNotas, 1)
+                                vNotas = Trim(Convert.ToString(DgvApuntes.Rows(i).Cells(j).Value))
+                                If Not String.IsNullOrEmpty(vNotas) Then
+                                    dr1(j) = "*" & vNotas
                                 Else
                                     dr1(j) = ""
                                 End If
@@ -1359,13 +1409,14 @@ Public Class ApuntesContables
                         If j = 0 Then
                             dr1(j) = Format(DgvApuntes.Rows(i).Cells(j).Value, "yyyy/MM/dd")
                         ElseIf j = 1 Or j = 2 Or j = 6 Then
-                            dr1(j) = Trim(DgvApuntes.Rows(i).Cells(j).Value.ToString)
+                            dr1(j) = Trim(Convert.ToString(DgvApuntes.Rows(i).Cells(j).Value))
                         ElseIf j = 3 Or j = 4 Then
-                            dr1(j) = FormatCurrency(DgvApuntes.Rows(i).Cells(j).Value)
+                            ' Guardamos el valor numérico puro de la celda
+                            dr1(j) = Convert.ToDouble(DgvApuntes.Rows(i).Cells(j).Value)
                         ElseIf j = 5 Then
-                            vNotas = Trim(DgvApuntes.Rows(i).Cells(j).Value)
-                            If String.Compare(vNotas, vLetras) > 0 Or String.Compare(vNotas, vNumeros) > 0 Then
-                                dr1(j) = Mid("*" & vNotas, 1)
+                            vNotas = Trim(Convert.ToString(DgvApuntes.Rows(i).Cells(j).Value))
+                            If Not String.IsNullOrEmpty(vNotas) Then
+                                dr1(j) = "*" & vNotas
                             Else
                                 dr1(j) = ""
                             End If
@@ -1403,35 +1454,41 @@ Public Class ApuntesContables
                     aplicacion.Cells(rowIndex + 1, colIndex) = dr(dc.ColumnName)
                 Next
             Next
-            'Configurar la orientacion de la  hoja y el tamaño
-            'wSheet.PageSetup.Orientation = Microsoft.Office.Interop.Excel.XlPageOrientation.xlLandscape
-            'wSheet.PageSetup.PaperSize = Microsoft.Office.Interop.Excel.XlPaperSize.xlPaperLegal
-            'Configurar con negrilla la cabecera y tenga autofit
+
+            ' Configurar con negrilla la cabecera y tenga autofit
             wSheet.Rows.Item(1).Font.Bold = 1
             wSheet.Columns.AutoFit()
 
-            Dim strFileName As String = My.Settings.PathExportar & "\" & vAñoEjercicio & "_Apuntes.xlsx"
+            ' 3. APLICACIÓN DEL FORMATO CONTABLE CON NEGATIVOS EN ROJO DIRECTAMENTE EN EXCEL
+            ' Seleccionamos los rangos desde la fila 2 hasta la última fila escrita para las columnas D (3) y E (4)
+            ' El formato "#,##0.00 €;[Red]-#,##0.00 €" define: Positivos estándar; Negativos en ROJO con signo menos.
+            Dim formatoMonedaRojo As String = "#,##0.00 €;[Red]-#,##0.00 €"
+            wSheet.Range("D2", "D" & (rowIndex + 1)).NumberFormat = formatoMonedaRojo
+            wSheet.Range("E2", "E" & (rowIndex + 1)).NumberFormat = formatoMonedaRojo
+
+            Dim strFileName As String = My.Settings.PathExportar & "\" & vAñoEjercicio & "_" & rmse.GetString("LblApuntes.Text") & ".xlsx"
             Dim blnFileOpen As Boolean = False
             Try
                 Dim fileTemp As System.IO.FileStream = System.IO.File.OpenWrite(strFileName)
                 fileTemp.Close()
             Catch ex As Exception
-                'MessageBox.Show("El documento se encuentra abierto, ciérrelo para exportar.", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1)    
                 blnFileOpen = False
             End Try
 
             If System.IO.File.Exists(strFileName) Then
                 System.IO.File.Delete(strFileName)
             End If
-            'MessageBox.Show("El documento fue exportado correctamente.", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1)
+
             wBook.SaveAs(strFileName)
             aplicacion.Workbooks.Open(strFileName)
             aplicacion.Visible = True
         Catch ex As Exception
-            MessageBox.Show(ex.Message, rmse.GetString("TitolApp"), MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(ex.Message, rmse.GetString("$this.Text"), MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MsgBox(ex.ToString)
         End Try
         PrbExport.Visible = False
     End Sub
+
 
     Private Sub BtnTraspasarRegistro_Click(sender As Object, e As EventArgs) Handles BtnTraspasarRegistro.Click
         ' Comprobamos si existe un identificador asociado.

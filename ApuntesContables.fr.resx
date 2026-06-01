@@ -229,4 +229,10 @@ Avec F6 : Actualiser les notes du gril et supprimer les filtres</value>
 Filtrez d'abord par comptes et dates,
 puis par Divers Concepts</value>
   </data>
+  <data name="RutaExcelExiste" xml:space="preserve">
+    <value>Le chemin C existe déjà :\HomeAccount3.0\Excel</value>
+  </data>
+  <data name="RutaExcelCreada" xml:space="preserve">
+    <value>Chemin C :\HomeAccount3.0\Excel, créé</value>
+  </data>
 </root>

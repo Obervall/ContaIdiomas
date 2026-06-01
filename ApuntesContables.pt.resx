@@ -229,4 +229,10 @@ Com F6: atualize as notas da grelha e remova os filtros</value>
 Filtre primeiro por contas e datas,
 então por vários conceitos</value>
   </data>
+  <data name="RutaExcelExiste" xml:space="preserve">
+    <value>O Caminho C já existe:\HomeAccount3.0\Excel</value>
+  </data>
+  <data name="RutaExcelCreada" xml:space="preserve">
+    <value>Caminho C:\HomeAccount3.0\Excel, Criado</value>
+  </data>
 </root>

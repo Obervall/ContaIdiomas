@@ -229,4 +229,10 @@ Mit F6: Grillnotizen aktualisieren und Filter entfernen</value>
 Filtern Sie zuerst nach Konten und Daten.
 dann von Different Concepts</value>
   </data>
+  <data name="RutaExcelExiste" xml:space="preserve">
+    <value>Pfad C existiert bereits:\HomeAccount3.0\Excel</value>
+  </data>
+  <data name="RutaExcelCreada" xml:space="preserve">
+    <value>Pfad C:\HomeAccount3.0\Excel, erstellt</value>
+  </data>
 </root>

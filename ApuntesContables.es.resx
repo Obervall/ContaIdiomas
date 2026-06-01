@@ -598,4 +598,10 @@ Con F6: Refresca la Parrilla Apuntes y Quita Filtros</value>
 Filtrar Primero por Cuentas y Fechas,
 después por Conceptos Varios</value>
   </data>
+  <data name="RutaExcelExiste" xml:space="preserve">
+    <value>Ya existe la Ruta C:\ContaHogar3.0\Excel</value>
+  </data>
+  <data name="RutaExcelCreada" xml:space="preserve">
+    <value>Ruta C:\ContaHogar3.0\Excel, Creada</value>
+  </data>
 </root>

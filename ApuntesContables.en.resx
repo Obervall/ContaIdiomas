@@ -229,4 +229,10 @@ With F6: Refresh the Grill Notes and Remove Filters</value>
 Filter First by Accounts and Dates,
 then by Various Concepts</value>
   </data>
+  <data name="RutaExcelExiste" xml:space="preserve">
+    <value>Path C already exists:\HomeAccount3.0\Excel</value>
+  </data>
+  <data name="RutaExcelCreada" xml:space="preserve">
+    <value>Path C:\HomeAccount3.0\Excel, Created</value>
+  </data>
 </root>

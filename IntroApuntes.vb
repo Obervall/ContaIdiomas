@@ -12,7 +12,6 @@ Public Class IntroApuntes
 
     Private Sub IntroApuntes_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
-        ActualizarTextosFormulario(Me)
 
         Label7.Text = vMoneda
         vIntro = "NO"
@@ -88,200 +87,81 @@ Public Class IntroApuntes
     End Sub
 
     Private Sub CmbConcepto_KeyDown(sender As Object, e As KeyEventArgs) Handles CmbConcepto.KeyDown
-        ' Verificamos si la tecla presionada es Enter
         If e.KeyCode = Keys.Enter Then
-            ' 1. Evitar el sonido de "beep" al pulsar Enter
             e.SuppressKeyPress = True
+
+            ' 1. Guardamos el texto que ha seleccionado el usuario con las flechas
+            Dim textoSeleccionado As String = CmbConcepto.Text
+
+            ' 2. Apagamos el buscador de arriba para que al borrarlo no active la base de datos
+            RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+            TxtBuscarLetras.Text = ""
+            AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+            TxtBuscarLetras.Enabled = False
+
+            ' 3. Restauramos el texto en el combo por si el borrado de arriba hizo amago de limpiarlo
+            CmbConcepto.Text = textoSeleccionado
+            vConcepto = textoSeleccionado
+
+            ' 4. Cerramos la lista y saltamos
+            If CmbConcepto.DroppedDown Then CmbConcepto.DroppedDown = False
             CmbDescripcion.Select()
         End If
     End Sub
 
+
     Private Sub CmbConcepto_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbConcepto.KeyPress
-        e.KeyChar = Char.ToUpper(e.KeyChar)
-        TxtBuscarLetras.Enabled = True
-        TxtBuscarLetras.Text = e.KeyChar
-        TxtBuscarLetras.Select()
-        TxtBuscarLetras.Select(TxtBuscarLetras.Text.Length, 1)
-        vLetras = TxtBuscarLetras.Text
-        If CmbConcepto.Items.Count >= 1 Then
-            CmbConcepto.Items.Clear()
-        End If
-        CmbConcepto.Text = ""
-        CmbDescripcion.Text = ""
-        vCombo = "concepto"
-    End Sub
-
-    Private Sub CmbDescripcion_KeyDown(sender As Object, e As KeyEventArgs) Handles CmbDescripcion.KeyDown
-        ' Verificamos si la tecla presionada es Enter
-        If e.KeyCode = Keys.Enter Then
-            ' 1. Evitar el sonido de "beep" al pulsar Enter
-            e.SuppressKeyPress = True
-            TxtImporte.Select()
-        End If
-    End Sub
-
-    Private Sub CmbDescripcion_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbDescripcion.KeyPress
-        If vIntro = "NO" Then
-            TxtBuscarLetras.Enabled = True
-            TxtBuscarLetras.Text = e.KeyChar
-            TxtBuscarLetras.Select()
-            TxtBuscarLetras.Select(TxtBuscarLetras.Text.Length, 1)
-            vLetras = TxtBuscarLetras.Text
-            If CmbDescripcion.Items.Count >= 1 Then
-                CmbDescripcion.Items.Clear()
-            End If
-            CmbDescripcion.Text = ""
-            vCombo = "descripcion"
-        End If
-    End Sub
-
-    Private Sub TxtBuscarLetras_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtBuscarLetras.KeyPress
+        ' ¡EL TRUCO!: Si es un Intro, salimos inmediatamente sin borrar nada
         If Asc(e.KeyChar) = 13 Then
-            vIntro = "SI"
-            If vCombo = "concepto" Then
-                MsgBox("Pulsar Tabulador para ir a Concepto", MsgBoxStyle.Exclamation, "Tecla a Pulsar")
-            Else
-                MsgBox("Pulsar Tabulador para ir a Descripción", MsgBoxStyle.Exclamation, "Tecla a Pulsar")
-            End If
-            If vCombo = "concepto" Then
-                If CmbConcepto.Items.Count <> 0 Then
-                    CmbConcepto.DroppedDown = True
-                    CmbConcepto.SelectedIndex = 0
-                End If
-            End If
-            If vCombo = "descripcion" Then
-                If CmbDescripcion.Items.Count <> 0 Then
-                    CmbDescripcion.DroppedDown = True
-                    CmbDescripcion.SelectedIndex = 0
-                End If
-            End If
-        Else
-            vIntro = "NO"
-            If vCombo = "concepto" Then
-                e.KeyChar = Char.ToUpper(e.KeyChar)
-                vLetras = TxtBuscarLetras.Text
-                BuscarLetras(vCombo)
-                If CmbConcepto.Items.Count <> 0 Then
-                    CmbConcepto.DroppedDown = True
-                    CmbConcepto.SelectedIndex = 0
-                End If
-            End If
-            If vCombo = "descripcion" Then
-                vLetras = TxtBuscarLetras.Text
-                BuscarLetras(vCombo)
-                If CmbDescripcion.Items.Count <> 0 Then
-                    CmbDescripcion.DroppedDown = True
-                    CmbDescripcion.SelectedIndex = 0
-                End If
-            End If
+            e.Handled = True
+            Exit Sub
         End If
-    End Sub
 
-    Private Sub TxtBuscarLetras_TextChanged(sender As Object, e As EventArgs) Handles TxtBuscarLetras.TextChanged
-        If vCombo = "concepto" Then
-            CmbConcepto.Text = ""
-            CmbConcepto.TabIndex = 4
-            CmbDescripcion.TabIndex = 5
-            If CmbConcepto.Items.Count <> 0 Then
-                CmbConcepto.DroppedDown = True
-                CmbConcepto.SelectedIndex = 0
-            End If
-        End If
-        If vCombo = "descripcion" Then
-            CmbDescripcion.Text = ""
-            CmbConcepto.TabIndex = 2
-            CmbDescripcion.TabIndex = 4
-            If CmbDescripcion.Items.Count <> 0 Then
-                CmbDescripcion.DroppedDown = True
-                CmbDescripcion.SelectedIndex = 0
-            End If
-        End If
-        vLetras = TxtBuscarLetras.Text
-        BuscarLetras(vCombo)
-    End Sub
-
-    Function BuscarLetras(combo)
-        drMdb1.Close()
-        If combo = "concepto" Then
-            If CmbConcepto.Items.Count <> 0 Then
+        ' 1. Capturamos la letra pulsada en mayúsculas
+        Dim letra As Char = Char.ToUpper(e.KeyChar)
+        ' Permitimos únicamente caracteres válidos (letras, números o espacio) para evitar que salte con Backspace o Enter
+        If Char.IsLetterOrDigit(letra) OrElse letra = " "c Then
+            ' 2. Indicamos al sistema el modo de búsqueda
+            vCombo = "concepto"
+            ' 3. Preparamos el cuadro de búsqueda y le inyectamos la letra directamente
+            TxtBuscarLetras.Enabled = True
+            TxtBuscarLetras.Text = letra.ToString()
+            ' 4. Pasamos el foco al cuadro de búsqueda de forma limpia
+            TxtBuscarLetras.Focus()
+            ' Colocamos el cursor al final del texto en el cuadro de búsqueda
+            TxtBuscarLetras.SelectionStart = TxtBuscarLetras.Text.Length
+            TxtBuscarLetras.SelectionLength = 0
+            ' Guardamos la variable global
+            vLetras = TxtBuscarLetras.Text
+            ' 5. Limpiamos los textos de los combos de forma segura
+            If CmbConcepto.Items.Count > 0 Then
                 CmbConcepto.Items.Clear()
             End If
-            cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON like '%" & vLetras & "%' ORDER BY conceptos.CodigoCON ASC"
-            Try
-                drMdb1 = cmdMdb1cr.ExecuteReader()
-                If drMdb1.HasRows Then
-                    While drMdb1.Read()
-                        If drMdb1.GetValue(0) <> "TRASPASO" Then
-                            CmbConcepto.Items.Add(drMdb1.GetValue(0))
-                        End If
-                    End While
-                    CmbConcepto.DroppedDown = True
-                Else
-                    MsgBox("No existen Conceptos con: " & vLetras)
-                    TxtBuscarLetras.Text = Mid(TxtBuscarLetras.Text, 1, Len(TxtBuscarLetras.Text) - 1)
-                    TxtBuscarLetras.Select(TxtBuscarLetras.Text.Length, 1)
-                End If
-                drMdb1.Close()
-            Catch ex As Exception
-                MsgBox("Error al Buscar Letras en Concepto")
-                MsgBox(ex.ToString)
-            End Try
+            CmbConcepto.Text = ""
+            CmbDescripcion.Text = ""
+            ' 6. ¡EL SECRETO!: Cancelamos la pulsación en el ComboBox original
+            ' Al poner Handled = True, le decimos a Windows que nosotros ya gestionamos la tecla,
+            ' evitando que el combo intente pintarla y se produzcan parpadeos gráficos extraños.
+            e.Handled = True
         End If
-        If combo = "descripcion" And Len(vLetras) > 2 Then
-            If CmbDescripcion.Items.Count <> 0 Then
-                CmbDescripcion.Items.Clear()
-            End If
-            cmdMdb1cr.CommandText = "SELECT * FROM apuntes Where apuntes.DescripcionAPU like '%" & vLetras & "%' "
-            Try
-                drMdb1 = cmdMdb1cr.ExecuteReader()
-                If drMdb1.HasRows Then
-                    primero = 1
-                    While drMdb1.Read()
-                        If Trim(drMdb1.GetValue(3)) <> "Saldo Inicial" Then
-                            If primero = 1 Then
-                                CmbDescripcion.Items.Add(Trim(drMdb1.GetValue(3)))
-                                primero = 2
-                            Else
-                                nuevo = 0
-                                For i = 0 To CmbDescripcion.Items.Count - 1
-                                    If Trim(drMdb1.GetValue(3)) = Trim(CmbDescripcion.Items(i)) Then
-                                        nuevo = 0
-                                        Exit For
-                                    Else
-                                        nuevo = 1
-                                    End If
-                                Next
-                                If nuevo = 1 Then
-                                    CmbDescripcion.Items.Add(Trim(drMdb1.GetValue(3)))
-                                    nuevo = 0
-                                End If
-                            End If
-                        End If
-                    End While
-                    CmbDescripcion.DroppedDown = True
-                Else
-                    respuesta = MsgBox("No existen Descripciones con: -" & vLetras.ToUpper & "-" & vbCrLf & "¿Añadimos la descripción?", vbQuestion + vbYesNo + vbDefaultButton1, "Introducir Apunte")
-                    If respuesta = vbYes Then
-                        'No tiene que hacer nada, se añade la descripción escrita en el desplegable
-                        vIntro = "SI"
-                        CmbDescripcion.Text = vLetras
-                        CmbDescripcion.Select()
-                        CmbDescripcion.Select(CmbDescripcion.Text.Length, 1)
-                        TxtBuscarLetras.Text = ""
-                        TxtBuscarLetras.Enabled = False
-                    Else
-                        TxtBuscarLetras.Text = Mid(TxtBuscarLetras.Text, 1, Len(TxtBuscarLetras.Text) - 1)
-                        TxtBuscarLetras.Select(TxtBuscarLetras.Text.Length, 1)
-                    End If
-                End If
-                drMdb1.Close()
-            Catch ex As Exception
-                MsgBox("Error al Buscar Letras en Descripción")
-                MsgBox(ex.ToString)
-            End Try
+    End Sub
+
+    Private Sub CmbConcepto_MouseClick(sender As Object, e As MouseEventArgs) Handles CmbConcepto.MouseClick
+        TxtBuscarLetras.Enabled = False
+        vIntro = "NO"
+        ' Solo forzamos el despliegue automático si el usuario NO ha pulsado la flecha nativa
+        ' (Nos aseguramos comprobando si la lista ya está abierta o abriéndola suavemente)
+        If CmbConcepto.Items.Count <> 0 AndAlso Not CmbConcepto.DroppedDown Then
+            CmbConcepto.DroppedDown = True
+            CmbConcepto.SelectedIndex = 0
         End If
-        Return ""
-    End Function
+    End Sub
+
+    Private Sub CmbConcepto_GotFocus(sender As Object, e As EventArgs) Handles CmbConcepto.GotFocus
+        TxtBuscarLetras.Enabled = False
+        vIntro = "NO"
+        ' Quitamos el DroppedDown y el SelectedIndex de aquí para evitar el conflicto con la flecha
+    End Sub
 
     Private Sub CmbConcepto_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbConcepto.SelectedIndexChanged
         ' Se buscan Conceptos según lo seleccionado
@@ -300,28 +180,222 @@ Public Class IntroApuntes
         End If
     End Sub
 
+    Private Sub TxtBuscarLetras_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtBuscarLetras.KeyDown
+        ' Si el usuario pulsa FLECHA ABAJO desde el cuadro de búsqueda, saltamos al combo de forma inteligente
+        If e.KeyCode = Keys.Down Then
+            If vCombo = "concepto" AndAlso CmbConcepto.Items.Count > 0 Then
+                e.Handled = True
+                CmbConcepto.Focus()
+                CmbConcepto.SelectedIndex = 0
+            ElseIf vCombo = "descripcion" AndAlso CmbDescripcion.Items.Count > 0 Then
+                e.Handled = True
+                CmbDescripcion.Focus()
+                CmbDescripcion.SelectedIndex = 0
+            End If
+        End If
+    End Sub
+
+    Private Sub TxtBuscarLetras_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtBuscarLetras.KeyPress
+        ' Detectamos si se pulsa ENTER (Ascii 13)
+        If Asc(e.KeyChar) = 13 Then
+            vIntro = "SI"
+            e.Handled = True ' Evita el pitido de Windows
+
+            If vCombo = "concepto" Then
+                MsgBox("Pulsar Tabulador para ir a Concepto", MsgBoxStyle.Exclamation, "Tecla a Pulsar")
+                If CmbConcepto.Items.Count > 0 Then
+                    CmbConcepto.DroppedDown = True
+                    CmbConcepto.Focus()
+                    CmbConcepto.SelectedIndex = 0
+                End If
+            Else
+                MsgBox("Pulsar Tabulador para ir a Descripción", MsgBoxStyle.Exclamation, "Tecla a Pulsar")
+                If CmbDescripcion.Items.Count > 0 Then
+                    CmbDescripcion.DroppedDown = True
+                    CmbDescripcion.Focus()
+                    CmbDescripcion.SelectedIndex = 0
+                End If
+            End If
+        Else
+            ' Si es cualquier otra letra, ponemos vIntro en NO y dejamos que pase limpia.
+            vIntro = "NO"
+        End If
+    End Sub
+
+    Private Sub TxtBuscarLetras_TextChanged(sender As Object, e As EventArgs) Handles TxtBuscarLetras.TextChanged
+        ' 1. Sincronizamos la variable con el texto que el usuario está escribiendo real
+        vLetras = TxtBuscarLetras.Text
+
+        ' Si el usuario ha borrado el buscador por completo, limpiamos los combos y salimos
+        If String.IsNullOrEmpty(vLetras) Then
+            If vCombo = "concepto" Then CmbConcepto.Items.Clear()
+            If vCombo = "descripcion" Then CmbDescripcion.Items.Clear()
+            Exit Sub
+        End If
+
+        ' 2. Ajustamos los TabIndex de forma estática según el modo de trabajo,
+        ' pero ELIMINAMOS las líneas que vaciaban el texto (CmbDescripcion.Text = "") 
+        ' para que no corten la escritura a la cuarta letra.
+        If vCombo = "concepto" Then
+            CmbConcepto.TabIndex = 4
+            CmbDescripcion.TabIndex = 5
+        ElseIf vCombo = "descripcion" Then
+            CmbConcepto.TabIndex = 2
+            CmbDescripcion.TabIndex = 4
+        End If
+
+        ' 3. Lanzamos la búsqueda en la base de datos de manera limpia
+        BuscarLetras(vCombo)
+    End Sub
+
+    Public Function BuscarLetras(combo As String) As String
+        If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then
+            drMdb1.Close()
+        End If
+
+        If String.IsNullOrEmpty(vLetras) Then Return ""
+
+        ' =====================================================================
+        ' MODO: CONCEPTO
+        ' =====================================================================
+        If combo = "concepto" Then
+            If CmbConcepto.Items.Count <> 0 Then CmbConcepto.Items.Clear()
+
+            Dim letrasLimpias As String = vLetras.Replace("'", "''")
+            cmdMdb1cr.CommandText = "SELECT CodigoCON FROM conceptos WHERE CodigoCON LIKE '%" & letrasLimpias & "%' ORDER BY CodigoCON ASC"
+
+            Try
+                drMdb1 = cmdMdb1cr.ExecuteReader()
+                If drMdb1.HasRows Then
+                    While drMdb1.Read()
+                        Dim valor As String = Convert.ToString(drMdb1.GetValue(0))
+                        If valor <> "TRASPASO" Then CmbConcepto.Items.Add(valor)
+                    End While
+                    ' Abrimos el desplegable pero NO cambiamos el foco ni el índice para no cortar la escritura
+                    CmbConcepto.DroppedDown = True
+                Else
+                    CmbConcepto.DroppedDown = False
+                End If
+                drMdb1.Close()
+            Catch ex As Exception
+                MsgBox("Error al Buscar Letras en Concepto: " & ex.Message)
+            End Try
+        End If
+
+        ' =====================================================================
+        ' MODO: DESCRIPCIÓN
+        ' =====================================================================
+        If combo = "descripcion" AndAlso vLetras.Length > 2 Then
+            If CmbDescripcion.Items.Count <> 0 Then CmbDescripcion.Items.Clear()
+
+            Dim letrasLimpias As String = vLetras.Replace("'", "''")
+            cmdMdb1cr.CommandText = "SELECT DISTINCT DescripcionAPU FROM apuntes WHERE DescripcionAPU LIKE '%" & letrasLimpias & "%' AND DescripcionAPU <> 'Saldo Inicial'"
+
+            Try
+                drMdb1 = cmdMdb1cr.ExecuteReader()
+                If drMdb1.HasRows Then
+                    While drMdb1.Read()
+                        Dim desc As String = Convert.ToString(drMdb1.GetValue(0)).Trim()
+                        If Not String.IsNullOrEmpty(desc) Then CmbDescripcion.Items.Add(desc)
+                    End While
+                    ' Abrimos el desplegable en silencio, manteniendo el cursor arriba en el buscador
+                    CmbDescripcion.DroppedDown = True
+                Else
+                    CmbDescripcion.DroppedDown = False
+                End If
+                drMdb1.Close()
+            Catch ex As Exception
+                MsgBox("Error al Buscar Letras en Descripción: " & ex.Message)
+            End Try
+        End If
+
+        Return ""
+    End Function
+
+    Private Sub CmbDescripcion_KeyDown(sender As Object, e As KeyEventArgs) Handles CmbDescripcion.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            e.SuppressKeyPress = True
+
+            ' 1. Guardamos la descripción seleccionada con las flechas
+            Dim textoSeleccionado As String = CmbDescripcion.Text
+
+            ' 2. Apagamos el buscador de arriba de forma controlada
+            RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+            TxtBuscarLetras.Text = ""
+            AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+            TxtBuscarLetras.Enabled = False
+
+            ' 3. Aseguramos el texto en el combo y en tu variable global
+            CmbDescripcion.Text = textoSeleccionado
+            vDescripcion = textoSeleccionado
+
+            ' 4. Cerramos el desplegable y mandamos el cursor al Importe
+            If CmbDescripcion.DroppedDown Then CmbDescripcion.DroppedDown = False
+
+            ' 💡 REEMPLAZA "TxtImporte" por el nombre exacto de tu caja de texto del importe
+            TxtImporte.Select()
+        End If
+    End Sub
+
+
+    Private Sub CmbDescripcion_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbDescripcion.KeyPress
+        ' ¡EL TRUCO!: Si es un Intro, salimos inmediatamente sin borrar nada
+        If Asc(e.KeyChar) = 13 Then
+            e.Handled = True
+            Exit Sub
+        End If
+
+        ' Convertimos la letra a mayúscula
+        Dim letra As Char = Char.ToUpper(e.KeyChar)
+
+        ' Solo actuamos si es una letra, número o espacio válido y no estamos confirmando datos (vIntro)
+        If vIntro = "NO" AndAlso (Char.IsLetterOrDigit(letra) OrElse letra = " "c) Then
+            ' Indicamos el modo de búsqueda
+            vCombo = "descripcion"
+
+            ' Preparamos el cuadro de búsqueda e inyectamos la letra
+            TxtBuscarLetras.Enabled = True
+            TxtBuscarLetras.Text = letra.ToString()
+
+            ' Pasamos el foco de forma limpia utilizando las propiedades nativas de .NET
+            TxtBuscarLetras.Focus()
+            TxtBuscarLetras.SelectionStart = TxtBuscarLetras.Text.Length
+            TxtBuscarLetras.SelectionLength = 0
+
+            vLetras = TxtBuscarLetras.Text
+
+            ' Limpiamos los ítems de forma segura
+            If CmbDescripcion.Items.Count > 0 Then
+                CmbDescripcion.Items.Clear()
+            End If
+            CmbDescripcion.Text = ""
+
+            ' ¡EL SECRETO!: Cancelamos la pulsación en el combo para evitar parpadeos gráficos
+            e.Handled = True
+        End If
+    End Sub
+
     Private Sub CmbDescripcion_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbDescripcion.SelectedIndexChanged
-        ' Se busca Descripción según lo seleccionado
-        '*******************************************
+        ' OPTIMIZACIÓN CRÍTICA: Eliminamos la consulta SQL redundante a la base de datos.
+        ' Cuando el usuario hace clic en un elemento de la lista, el combo ya adquiere ese texto de forma nativa.
+        ' No necesitas abrir drMdb1, ni hacer un SELECT, ni volver a setear el .Text.
+
         If vIntro = "NO" Then
-            vDescripcion = CmbDescripcion.Text.ToString
-            drMdb1.Close()
-            cmdMdb1cr.CommandText = "SELECT * FROM apuntes Where apuntes.DescripcionAPU = '" & vDescripcion & "' ORDER BY apuntes.DescripcionAPU ASC"
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-            drMdb1.Read()
-            CmbDescripcion.Text = drMdb1.GetValue(3)
-            drMdb1.Close()
+            ' Guardamos el valor seleccionado en tu variable global por si la usas en otro sitio
+            vDescripcion = CmbDescripcion.Text.Trim()
         End If
     End Sub
 
     Private Sub CmbDescripcion_GotFocus(sender As Object, e As EventArgs) Handles CmbDescripcion.GotFocus
+        ' Sincronizamos los estados de los combos de forma limpia al ganar el foco
         If vCombo = "concepto" Then
             CmbConcepto.Text = ""
             TxtBuscarLetras.Enabled = False
             CmbConcepto.DroppedDown = False
             CmbConcepto.Text = vConcepto
         End If
-        CmbDescripcion.Select()
+
+        ' Mantenemos vacía la variable de control del buscador hasta que el usuario teclee
         vCombo = ""
     End Sub
 
@@ -329,15 +403,6 @@ Public Class IntroApuntes
         TxtBuscarLetras.Text = ""
         TxtBuscarLetras.Enabled = False
         vCombo = ""
-    End Sub
-
-    Private Sub CmbConcepto_GotFocus(sender As Object, e As EventArgs) Handles CmbConcepto.GotFocus
-        TxtBuscarLetras.Enabled = False
-        vIntro = "NO"
-        If CmbConcepto.Items.Count <> 0 Then
-            CmbConcepto.DroppedDown = True
-            CmbConcepto.SelectedIndex = 0
-        End If
     End Sub
 
     Private Sub BtnConcepto_Click(sender As Object, e As EventArgs) Handles BtnConcepto.Click
@@ -693,10 +758,10 @@ Public Class IntroApuntes
     Private Sub BtnDescripcion_Click(sender As Object, e As EventArgs) Handles BtnDescripcion.Click
         ' Llenar el Combo Descripción
         '****************************
-        If CmbDescripcion.Items.Count <> 0 Then
-            MsgBox("El Combo Descripción ya esta Lleno.", vbExclamation, "Combo Descripción")
-            CmbDescripcion.Items.Clear()
-        End If
+        'If CmbDescripcion.Items.Count <> 0 Then
+        '    MsgBox("El Combo Descripción ya esta Lleno.", vbExclamation, "Combo Descripción")
+        '    CmbDescripcion.Items.Clear()
+        'End If
         LlenarDescripcion()
     End Sub
 

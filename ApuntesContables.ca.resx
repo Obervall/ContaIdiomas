@@ -229,4 +229,10 @@ Amb F6: Refresca la Parrilla Apunts i Quita Filtres</value>
 Filtrar Primer per Comptes i Dates,
 després per Conceptes Diversos</value>
   </data>
+  <data name="RutaExcelExiste" xml:space="preserve">
+    <value>Ja existeix la Ruta C:\ContaHogar3.0\Excel</value>
+  </data>
+  <data name="RutaExcelCreada" xml:space="preserve">
+    <value>Ruta C:\ContaHogar3.0\Excel, Creada</value>
+  </data>
 </root>
