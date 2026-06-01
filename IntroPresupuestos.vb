@@ -10,13 +10,12 @@ Public Class IntroPresupuestos
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub IntroApuntes_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.KeyPreview = True
         ' Optimización: Bucle dinámico para las etiquetas dentro del GroupBox de meses
         For i As Integer = 16 To 28
             Dim lbl() As Control = Me.Controls.Find("Label" & i, True)
             If lbl.Length > 0 Then lbl(0).Text = vMoneda
         Next
-
-        Me.KeyPreview = True
 
         ' Inicialización centralizada de ToolTips
         Dim controlesToolTip As Control() = {

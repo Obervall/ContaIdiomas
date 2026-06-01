@@ -147,4 +147,22 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Activar Programa</value>
   </data>
+  <data name="ModoDemo" xml:space="preserve">
+    <value>Mode Demo</value>
+  </data>
+  <data name="SoftwareActivado" xml:space="preserve">
+    <value>Programari Activat, Gràcies</value>
+  </data>
+  <data name="SoftwareNoActivado" xml:space="preserve">
+    <value>Codi Activació Incorrecte!</value>
+  </data>
+  <data name="ActivaciónCorrecta" xml:space="preserve">
+    <value>Activació Correcta</value>
+  </data>
+  <data name="ErrorActivación" xml:space="preserve">
+    <value>Error Activació</value>
+  </data>
+  <data name="ErrorObtenerID" xml:space="preserve">
+    <value>Error en obtenir l' ID de la màquina</value>
+  </data>
 </root>

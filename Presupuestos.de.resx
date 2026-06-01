@@ -198,4 +198,37 @@
   <data name="NoHayIngresos" xml:space="preserve">
     <value>Es wurden keine Einnahmen verzeichnet</value>
   </data>
+  <data name="TotalIngresos" xml:space="preserve">
+    <value>GESAMTUMSATZ</value>
+  </data>
+  <data name="NoHayGastos" xml:space="preserve">
+    <value>Es wurden keine Ausgabenbewegungen verzeichnet</value>
+  </data>
+  <data name="TotalGastos" xml:space="preserve">
+    <value>GESAMTAUSGABEN</value>
+  </data>
+  <data name="ResultadoNeto" xml:space="preserve">
+    <value>NETTOGEWINN DES Zeitraums (Erträge – Ausgaben)</value>
+  </data>
+  <data name="ResultadoRealNeto" xml:space="preserve">
+    <value>Tatsächlicher Nettogewinn</value>
+  </data>
+  <data name="ResultadoPresupuestadoNeto" xml:space="preserve">
+    <value>Nettobudgetierter Gewinn</value>
+  </data>
+  <data name="DesviacionGlobal" xml:space="preserve">
+    <value>VOLLSTÄNDIGE GLOBALE ABWEICHUNG</value>
+  </data>
+  <data name="PreguntaEliminarPresupuesto" xml:space="preserve">
+    <value>Sind Sie sicher, dass Sie das Budget aus dem ausgewählten Posten für diese Übung entfernen?</value>
+  </data>
+  <data name="TituloEliminarPresupuesto" xml:space="preserve">
+    <value>Budget löschen</value>
+  </data>
+  <data name="PresupuestosBorradosExito" xml:space="preserve">
+    <value>Aufzeichnungen in Budgets erfolgreich gelöscht</value>
+  </data>
+  <data name="ErrorEliminarPresupuestos" xml:space="preserve">
+    <value>Es wurde versäumt, Einträge in den Budgets zu löschen</value>
+  </data>
 </root>

@@ -532,7 +532,22 @@ Ils ne sont pas supprimés de la base de données</value>
   <data name="ErrorInsertarSaldos" xml:space="preserve">
     <value>Erreur d’insertion des soldes de départ</value>
   </data>
-  <data name="Total" xml:space="preserve">
-    <value>Total</value>
+  <data name="Pagina" xml:space="preserve">
+    <value>Page</value>
+  </data>
+  <data name="CerrarApp" xml:space="preserve">
+    <value>Le programme sera fermé à partir de l’exercice fiscal en cours</value>
+  </data>
+  <data name="Cuenta" xml:space="preserve">
+    <value>Compte</value>
+  </data>
+  <data name="Concepto" xml:space="preserve">
+    <value>Concept</value>
+  </data>
+  <data name="Fecha" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Importe" xml:space="preserve">
+    <value>Montant</value>
   </data>
 </root>

@@ -6,6 +6,7 @@ Public Class NuevoTipoCuentaBancaria
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub NuevaCuentaBancaria_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.KeyPreview = True
         ActualizarTextosFormulario(Me)
 
         Dim TL(3) As ToolTip

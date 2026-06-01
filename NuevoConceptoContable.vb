@@ -7,6 +7,7 @@ Public Class NuevoConceptoContable
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub NuevoConceptoContable_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.KeyPreview = True
         ActualizarTextosFormulario(Me)
 
         TL(0) = New ToolTip
@@ -59,21 +60,6 @@ Public Class NuevoConceptoContable
         ' Tu procedimiento se encarga de llenar y traducir la cabecera del Grid
         LlenarGrid(vtipoSql, vtipoGrid, "1")
     End Sub
-
-    'Private Sub TxtNombre_TextChanged(sender As Object, e As EventArgs) Handles TxtNombre.TextChanged
-    '    TxtNombre.Text = TxtNombre.Text.ToUpper
-    '    TxtNombre.SelectionStart = Len(TxtNombre.Text)
-    '    Dim vBusca As String
-    '    vBusca = TxtNombre.Text.ToString
-    '    DgvExistente.Visible = True
-
-    '    ' Llenar Grid de NOMBRES EXISTENTES en CONCEPTOS
-    '    '***********************************************
-    '    vtipoSql = "SELECT conceptos.CodigoCON "
-    '    vtipoSql += "FROM conceptos WHERE conceptos.CodigoCON Like '" & vBusca & "%' ORDER BY conceptos.CodigoCON"
-    '    vtipoGrid = "NOMBRESEXISTENTES"
-    '    LlenarGrid(vtipoSql, vtipoGrid, "1")
-    'End Sub
 
     Private Sub TxtNombre_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtNombre.KeyPress
         If e.KeyChar = ChrW(Keys.Enter) Then
@@ -172,56 +158,6 @@ Public Class NuevoConceptoContable
             TxtNombre.Select()
         End If
     End Sub
-
-
-    'Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click
-    '    If TxtNombre.Text <> "" Then
-    '        If TxtNombre.Text = "SALDO" Then
-    '            MsgBox(rmse.GetString("NoNombreSaldo"), vbCritical, rmse.GetString("$this.Text"))
-    '            TxtNombre.Select()
-    '            TxtNombre.SelectAll()
-    '        Else
-    '            vTxtNombre = TxtNombre.Text
-    '            vTxtDescripcion = ApostrofePorAcentoAgudo(TxtDescripcion.Text)
-    '            vTxtTipo = CmbTipoConcepto.Text
-    '            vTxtNotas = TxtNota.Text
-
-    '            ' Verificar que no se repiten Nombres en Conceptos Contables
-    '            '***********************************************************
-    '            vtipoSql = "SELECT * FROM conceptos WHERE conceptos.CodigoCON = '" & vTxtNombre & "' "
-    '            vtipoGrid = "NOMBRESEXISTENTES"
-    '            cmdMdb1cr.CommandText = vtipoSql
-
-    '            Try
-    '                drMdb1 = cmdMdb1cr.ExecuteReader()
-    '                If drMdb1.HasRows Then
-    '                    drMdb1.Close()
-    '                    MsgBox(resManager.GetString("Nombre") & ":  " & vTxtNombre & ", " & rmse.GetString("YaExisteConcepto"), vbOKOnly, rmse.GetString("$this.Text"))
-    '                    TxtNombre.Select()
-    '                Else
-    '                    drMdb1.Close()
-    '                    vtipoSql = "INSERT INTO conceptos "
-    '                    vtipoSql += "(CodigoCON, DescripcionCON, TipoCON, NotasCON) "
-    '                    vtipoSql += "VALUES ('" & vTxtNombre & "','" & vTxtDescripcion & "','" & vTxtTipo & "','" & vTxtNotas & "')"
-
-    '                    cmdMdb1cr.CommandText = vtipoSql
-    '                    Try
-    '                        cmdMdb1cr.ExecuteNonQuery()
-    '                        'MsgBox("Registro, Grabado Correctamente")
-    '                        Me.Close()
-    '                    Catch ex As Exception
-    '                        MsgBox(ex.ToString)
-    '                    End Try
-    '                End If
-    '            Catch ex As Exception
-    '                MsgBox(ex.ToString)
-    '            End Try
-    '        End If
-    '    Else
-    '        MsgBox(rmse.GetString("MsgDatosNombre"), vbCritical, rmse.GetString("$this.Text"))
-    '        TxtNombre.Select()
-    '    End If
-    'End Sub
 
     Private Sub BtnCancelar_Click(sender As Object, e As EventArgs) Handles BtnCancelar.Click
         Me.Close()

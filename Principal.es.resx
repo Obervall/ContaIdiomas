@@ -7598,4 +7598,52 @@
   <data name="MsgEspera" xml:space="preserve">
     <value>En Espera ...</value>
   </data>
+  <data name="BackupOk" xml:space="preserve">
+    <value>Backup realizado satisfactoriamente</value>
+  </data>
+  <data name="PreguntaBackup" xml:space="preserve">
+    <value>¿Estas seguro de RESTAURAR la Base de Datos?</value>
+  </data>
+  <data name="RestaurarBD" xml:space="preserve">
+    <value>Restaurar Base de Datos</value>
+  </data>
+  <data name="RestaurarOk" xml:space="preserve">
+    <value>Restauración realizada satisfactoriamente</value>
+  </data>
+  <data name="Restaurar" xml:space="preserve">
+    <value>RESTAURAR</value>
+  </data>
+  <data name="CompactacionOk" xml:space="preserve">
+    <value>Compactación realizada satisfactoriamente</value>
+  </data>
+  <data name="Compactar" xml:space="preserve">
+    <value>COMPACTAR</value>
+  </data>
+  <data name="CompactarError" xml:space="preserve">
+    <value>Error al compactar la base de datos</value>
+  </data>
+  <data name="MsgVaciarBD" xml:space="preserve">
+    <value>¿Estas seguro de VACIAR e INICIAR la Base de Datos de APUNTES - APUNTES PERIODICOS y PRESUPUESTOS del Ejercicio</value>
+  </data>
+  <data name="MsgVaciarBD2" xml:space="preserve">
+    <value>Aconsejo hacer una Copia de Seguridad</value>
+  </data>
+  <data name="MsgVaciarBD3" xml:space="preserve">
+    <value>VACIAR Base de Datos</value>
+  </data>
+  <data name="MsgVaciarBD4" xml:space="preserve">
+    <value>Se va a Iniciar el Vaciado de la Base de Datos</value>
+  </data>
+  <data name="MsgNoVaciarBD" xml:space="preserve">
+    <value>No se Eliminan los CONCEPTOS ni las CUENTAS CONTABLES</value>
+  </data>
+  <data name="PresupuestosVaciado" xml:space="preserve">
+    <value>Presupuestos, Vaciado!</value>
+  </data>
+  <data name="ApuntesContablesVaciado" xml:space="preserve">
+    <value>Apuntes Contables, Vaciado!</value>
+  </data>
+  <data name="ApuntesPeriodicosVaciado" xml:space="preserve">
+    <value>Apuntes Periódicos, Vaciado!</value>
+  </data>
 </root>

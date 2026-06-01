@@ -292,7 +292,6 @@ Public Class Principal
 
         'Iniciar los Saldos Iniciales del Ejercicio
         IniciarSaldosIniciales(vAñoEjercicio)
-        System.Threading.Thread.Sleep(2500)
 
         ' Mostramos el mensaje de "En Espera..." en la barra de estado mientras se carga todo
         If vAviso = True Then
@@ -393,18 +392,29 @@ Public Class Principal
     End Sub
 
     Private Sub VerApuntesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles VerApuntesToolStripMenuItem.Click
+        ' 1. Cambiar el texto de la barra de estado
         TsLabelFormulario.Text = rmse.GetString("VerApuntesToolStripMenuItem.Text")
-        ' Comprobamos si existe un identificador asociado.
+        ' 2. Controlar la instancia física del formulario de forma tradicional
         If ((frmApuntesContables Is Nothing) OrElse (Not frmApuntesContables.IsHandleCreated)) Then
             frmApuntesContables = New ApuntesContables
         End If
-        ' Llamamos al formulario de manera modal.
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmApuntesContables)
+        ' 4. Configurar el posicionamiento manual obligatorio
+        frmApuntesContables.StartPosition = FormStartPosition.Manual
+        ' 5. Calcular las coordenadas definitivas con tu ajuste de +10
+        Dim posX As Integer = Me.Left + (Me.Width - frmApuntesContables.Width) \ 2
+        Dim posY As Integer = Me.Top + 10
+        If posX < 0 Then posX = 0
+        ' 6. Fijar la ubicación calculada y abrir la ventana
+        frmApuntesContables.Location = New System.Drawing.Point(posX, posY)
         frmApuntesContables.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
+        ' 7. Destrucción explícita al cerrar
         frmApuntesContables.Dispose()
+        ' 8. IMPORTANTE: Limpiar la variable manual para evitar el error de objeto destruido
+        frmApuntesContables = Nothing
+        ' 9. Restaurar el texto de espera de la barra
         Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
-        Return
     End Sub
 
     Private Sub BtnIntroducirApuntes_Click(sender As Object, e As EventArgs) Handles BtnIntroducirApuntes.Click
@@ -900,9 +910,9 @@ Public Class Principal
             FileCopy(vCompactada, vRuta)
             tipoDsn = "AccessMdb" ' Se conecta a Mdb
             Conectarse(tipoDsn)
-            MessageBox.Show("Compactación realizada satisfactoriamente", "COMPACTAR", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show(rmse.GetString("CompactacionOk"), rmse.GetString("Compactar"), MessageBoxButtons.OK, MessageBoxIcon.Information)
         Catch ex As Exception
-            MsgBox("Error al compactar la base de datos: " & ex.Message, MsgBoxStyle.Critical, "ERROR")
+            MsgBox(rmse.GetString("CompactarError") & ":  " & ex.Message, MsgBoxStyle.Critical, resManager.GetString("Error"))
         End Try
     End Sub
 
@@ -911,21 +921,32 @@ Public Class Principal
     End Sub
 
     Private Sub BtnActivarSoftwareToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BtnActivarSoftwareToolStripMenuItem.Click
-        TsLabelFormulario.Text = "Activar Software"
-        ' Comprobamos si existe un identificador asociado.
+        ' 1. Cambiar el texto de la barra de estado
+        TsLabelFormulario.Text = rmse.GetString("BtnActivarSoftwareToolStripMenuItem.Text")
+        ' 2. Controlar la instancia física del formulario de forma tradicional
         If ((frmActivarSoftware Is Nothing) OrElse (Not frmActivarSoftware.IsHandleCreated)) Then
             frmActivarSoftware = New ActivarSoftware
         End If
-        ' Llamamos al formulario de manera modal.
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmActivarSoftware)
+        ' 4. Configurar el posicionamiento manual obligatorio
+        frmActivarSoftware.StartPosition = FormStartPosition.Manual
+        ' 5. Calcular las coordenadas definitivas con tu ajuste de +10
+        Dim posX As Integer = Me.Left + (Me.Width - frmActivarSoftware.Width) \ 2
+        Dim posY As Integer = Me.Top + 10
+        If posX < 0 Then posX = 0
+        ' 6. Fijar la ubicación calculada y abrir la ventana
+        frmActivarSoftware.Location = New System.Drawing.Point(posX, posY)
         frmActivarSoftware.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
+        ' 7. Destrucción explícita al cerrar
         frmActivarSoftware.Dispose()
+        ' 8. IMPORTANTE: Limpiar la variable manual para evitar el error de objeto destruido
+        frmActivarSoftware = Nothing
+        ' 9. Restaurar el texto de espera de la barra
         Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
         If vActivado Then
             LblNotificacion.Visible = False
         End If
-
     End Sub
 
     Private Sub SoloIngresosOrdenadoPorConceptosToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SoloIngresosOrdenadoPorConceptosToolStripMenuItem1.Click
@@ -1453,16 +1474,28 @@ Public Class Principal
     End Sub
 
     Private Sub AcercaDeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AcercaDeToolStripMenuItem.Click
-        TsLabelFormulario.Text = rmse.GetString("AcercaDeToolStripMenuItem.ToolTipText")
-        ' Comprobamos si existe un identificador asociado.
+        ' 1. Cambiar el texto de la barra de estado
+        TsLabelFormulario.Text = rmse.GetString("AcercaDeToolStripMenuItem.Text")
+        ' 2. Controlar la instancia física del formulario de forma tradicional
         If ((frmAcercaDe Is Nothing) OrElse (Not frmAcercaDe.IsHandleCreated)) Then
             frmAcercaDe = New AcercaDe
         End If
-        ' Llamamos al formulario de manera modal.
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmAcercaDe)
+        ' 4. Configurar el posicionamiento manual obligatorio
+        frmAcercaDe.StartPosition = FormStartPosition.Manual
+        ' 5. Calcular las coordenadas definitivas con tu ajuste de +10
+        Dim posX As Integer = Me.Left + (Me.Width - frmAcercaDe.Width) \ 2
+        Dim posY As Integer = Me.Top + 10
+        If posX < 0 Then posX = 0
+        ' 6. Fijar la ubicación calculada y abrir la ventana
+        frmAcercaDe.Location = New System.Drawing.Point(posX, posY)
         frmAcercaDe.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
+        ' 7. Destrucción explícita al cerrar
         frmAcercaDe.Dispose()
+        ' 8. IMPORTANTE: Limpiar la variable manual para evitar el error de objeto destruido
+        frmAcercaDe = Nothing
+        ' 9. Restaurar el texto de espera de la barra
         Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
@@ -1535,15 +1568,15 @@ Public Class Principal
     End Sub
 
     Private Sub ReiniciarBaseDeDatosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReiniciarBaseDeDatosToolStripMenuItem.Click
-        respuesta = MsgBox("¿Estas seguro de VACIAR e INICIAR la Base de Datos de APUNTES - APUNTES PERIODICOS y PRESUPUESTOS del Ejercicio: " & vAñoEjercicio.ToString & "?. Aconsejo hacer una Copia de Seguridad", vbExclamation + vbYesNo + vbDefaultButton2, "VACIAR Base de Datos: " & vAñoEjercicio.ToString)
+        respuesta = MsgBox(rmse.GetString("MsgVaciarBD") & ": " & vAñoEjercicio.ToString & "?." & NL & rmse.GetString("MsgVaciarBD2") & NL & rmse.GetString("MsgNoVaciarBD"), vbExclamation + vbYesNo + vbDefaultButton2, rmse.GetString("MsgVaciarBD3") & ": " & vAñoEjercicio.ToString)
         If respuesta = vbYes Then
-            respuesta = MsgBox("Se va a Iniciar el Vaciado de la Base de Datos " & vAñoEjercicio.ToString & " ¿Ok?.", vbQuestion + vbYesNo + vbDefaultButton2, "VACIAR Base de Datos: " & vAñoEjercicio.ToString)
+            respuesta = MsgBox(rmse.GetString("MsgVaciarBD4") & ": " & vAñoEjercicio.ToString & " ¿Ok?.", vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("MsgVaciarBD3") & ": " & vAñoEjercicio.ToString)
             If respuesta = vbYes Then
                 ' Eliminar Registro Apuntes Contables
                 cmdMdb1cr.CommandText = "DELETE FROM apuntes WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
                 Try
                     cmdMdb1cr.ExecuteNonQuery()
-                    MsgBox("Apuntes Contables, Vaciado !!!")
+                    MsgBox(rmse.GetString("ApuntesContablesVaciado"))
                 Catch ex As Exception
                     MsgBox(ex.ToString)
                 End Try
@@ -1552,7 +1585,7 @@ Public Class Principal
                 cmdMdb1cr.CommandText = "DELETE FROM apuper WHERE apuper.EjercicioAPP = " & vAñoEjercicio.ToString
                 Try
                     cmdMdb1cr.ExecuteNonQuery()
-                    MsgBox("Apuntes Periódicos, Vaciado !!!")
+                    MsgBox(rmse.GetString("ApuntesPeriodicosVaciado"))
                 Catch ex As Exception
                     MsgBox(ex.ToString)
                 End Try
@@ -1561,7 +1594,7 @@ Public Class Principal
                 cmdMdb1cr.CommandText = "DELETE FROM presupuesto WHERE presupuesto.EjercicioPRE = " & vAñoEjercicio.ToString
                 Try
                     cmdMdb1cr.ExecuteNonQuery()
-                    MsgBox("Presupuestos, Vaciado !!!")
+                    MsgBox(rmse.GetString("PresupuestosVaciado"))
                 Catch ex As Exception
                     MsgBox(ex.ToString)
                 End Try
@@ -1609,7 +1642,7 @@ Public Class Principal
                 cmdMdb1cr.CommandText = vtipoSql
                 Try
                     cmdMdb1cr.ExecuteNonQuery()
-                    MsgBox("Extracto, Vaciado !!!")
+                    'MsgBox("Extracto, Vaciado !!!")
                 Catch ex As Exception
                     MsgBox(ex.ToString)
                 End Try
@@ -1619,7 +1652,7 @@ Public Class Principal
                 cmdMdb1cr.CommandText = vtipoSql
                 Try
                     cmdMdb1cr.ExecuteNonQuery()
-                    MsgBox("TempApu, Vaciado !!!")
+                    'MsgBox("TempApu, Vaciado !!!")
                 Catch ex As Exception
                     MsgBox(ex.ToString)
                 End Try
@@ -1629,7 +1662,7 @@ Public Class Principal
                 cmdMdb1cr.CommandText = vtipoSql
                 Try
                     cmdMdb1cr.ExecuteNonQuery()
-                    MsgBox("TempPre, Vaciado !!!")
+                    'MsgBox("TempPre, Vaciado !!!")
                 Catch ex As Exception
                     MsgBox(ex.ToString)
                 End Try
@@ -1643,7 +1676,7 @@ Public Class Principal
                 Catch ex As Exception
                     MsgBox(ex.ToString)
                 End Try
-                MsgBox("Se cerrará el programa para iniciar el Ejercicio Actual.")
+                MsgBox(resManager.GetString("CerrarApp"))
                 Me.Close()
             End If
         End If
@@ -1677,7 +1710,7 @@ Public Class Principal
         Dim DataBaseFile As String = vRuta
         Dim FileDestino As String = "C:\ContaHogar3.0\Backup\" & NombreBaseDatos
         backup.InitialDirectory = "C:\ContaHogar3.0\Backup\"
-        backup.Title = "Backup Base de Datos Access"
+        backup.Title = "Backup BD Access"
         backup.CheckFileExists = False
         backup.CheckPathExists = False
         backup.DefaultExt = "mdb"
@@ -1687,7 +1720,7 @@ Public Class Principal
         If backup.ShowDialog = Windows.Forms.DialogResult.OK Then
             Try
                 FileCopy(DataBaseFile, FileDestino)
-                MessageBox.Show("Backup realizado satisfactoriamente", "BACKUP", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show(rmse.GetString("BackupOk"), "BACKUP", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Catch ex As Exception
                 MsgBox(ex.ToString)
             End Try
@@ -1699,11 +1732,11 @@ Public Class Principal
     End Sub
 
     Private Sub RestaurarCopiaDeSeguridadToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RestaurarCopiaDeSeguridadToolStripMenuItem.Click
-        respuesta = MsgBox("¿Estas seguro de RESTAURAR la Base de Datos?.", vbQuestion + vbYesNo + vbDefaultButton2, "Restaurar Base de Datos")
+        respuesta = MsgBox(rmse.GetString("PreguntaBackup"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("RestaurarBD"))
         If respuesta = vbYes Then
             Dim RestoreFile As String = vRuta
             restore.InitialDirectory = "C:\ContaHogar3.0\Backup\"
-            restore.Title = "Restaurar Base de Datos"
+            restore.Title = rmse.GetString("RestaurarBD")
             restore.CheckFileExists = False
             restore.CheckPathExists = False
             restore.DefaultExt = "mdb"
@@ -1712,11 +1745,11 @@ Public Class Principal
             If restore.ShowDialog = Windows.Forms.DialogResult.OK Then
                 Try
                     FileCopy(restore.FileName, RestoreFile)
-                    MessageBox.Show("Restauración realizada satisfactoriamente", "RESTAURAR", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBox.Show(rmse.GetString("RestaurarOk"), rmse.GetString("Restaurar"), MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Catch ex As Exception
                     MsgBox(ex.ToString)
                 End Try
-                MsgBox("Se cerrará el programa para iniciar con el Ejercicio Actual.")
+                MsgBox(resManager.GetString("CerrarApp"), vbInformation)
                 Me.Close()
             End If
         End If

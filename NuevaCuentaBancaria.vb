@@ -8,6 +8,7 @@ Public Class NuevaCuentaBancaria
 
 
     Private Sub NuevaCuentaBancaria_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.KeyPreview = True
         ActualizarTextosFormulario(Me)
 
         Dim TL(4) As ToolTip

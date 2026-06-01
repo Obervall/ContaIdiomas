@@ -198,4 +198,37 @@
   <data name="NoHayIngresos" xml:space="preserve">
     <value>No revenue movements were recorded</value>
   </data>
+  <data name="TotalIngresos" xml:space="preserve">
+    <value>TOTAL REVENUE</value>
+  </data>
+  <data name="NoHayGastos" xml:space="preserve">
+    <value>No movements of expenses were recorded</value>
+  </data>
+  <data name="TotalGastos" xml:space="preserve">
+    <value>TOTAL EXPENSES</value>
+  </data>
+  <data name="ResultadoNeto" xml:space="preserve">
+    <value>NET PROFIT FOR THE PERIOD (Income - Expenses)</value>
+  </data>
+  <data name="ResultadoRealNeto" xml:space="preserve">
+    <value>Net Actual Profit</value>
+  </data>
+  <data name="ResultadoPresupuestadoNeto" xml:space="preserve">
+    <value>Net Budgeted Profit</value>
+  </data>
+  <data name="DesviacionGlobal" xml:space="preserve">
+    <value>COMPLETE GLOBAL DEVIATION</value>
+  </data>
+  <data name="PreguntaEliminarPresupuesto" xml:space="preserve">
+    <value>Are you sure to remove the budget from the selected item for this exercise?</value>
+  </data>
+  <data name="TituloEliminarPresupuesto" xml:space="preserve">
+    <value>Delete Budget</value>
+  </data>
+  <data name="PresupuestosBorradosExito" xml:space="preserve">
+    <value>Records in Budgets successfully deleted</value>
+  </data>
+  <data name="ErrorEliminarPresupuestos" xml:space="preserve">
+    <value>Failed to delete records in Budgets</value>
+  </data>
 </root>

@@ -5,6 +5,7 @@ Public Class FiltroF5
     Private BtnAceptarPulsado As Integer
 
     Private Sub FiltroF5_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.KeyPreview = True
         ActualizarTextosFormulario(Me)
 
         ChkOtrosFiltros.Enabled = False

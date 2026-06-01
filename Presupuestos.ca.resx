@@ -198,4 +198,37 @@
   <data name="NoHayIngresos" xml:space="preserve">
     <value>No es van registrar moviments d'ingressos</value>
   </data>
+  <data name="TotalIngresos" xml:space="preserve">
+    <value>TOTAL INGRESSOS</value>
+  </data>
+  <data name="NoHayGastos" xml:space="preserve">
+    <value>No es van registrar moviments de despeses</value>
+  </data>
+  <data name="TotalGastos" xml:space="preserve">
+    <value>TOTAL DESPESES</value>
+  </data>
+  <data name="ResultadoNeto" xml:space="preserve">
+    <value>RESULTAT NET DEL PERÍODE (Ingressos - Despeses)</value>
+  </data>
+  <data name="ResultadoRealNeto" xml:space="preserve">
+    <value>Resultat Real Neto</value>
+  </data>
+  <data name="ResultadoPresupuestadoNeto" xml:space="preserve">
+    <value>Resultat Pressupostat Net</value>
+  </data>
+  <data name="DesviacionGlobal" xml:space="preserve">
+    <value>DESVIACIÓ GLOBAL COMPLETA</value>
+  </data>
+  <data name="PreguntaEliminarPresupuesto" xml:space="preserve">
+    <value>Està segur d'eliminar el pressupost del concepte seleccionat per a aquest exercici?</value>
+  </data>
+  <data name="TituloEliminarPresupuesto" xml:space="preserve">
+    <value>Eliminar pressupost</value>
+  </data>
+  <data name="PresupuestosBorradosExito" xml:space="preserve">
+    <value>Registres en Pressupostos eliminats correctament</value>
+  </data>
+  <data name="ErrorEliminarPresupuestos" xml:space="preserve">
+    <value>No s'han pogut eliminar els registres en Pressupostos</value>
+  </data>
 </root>

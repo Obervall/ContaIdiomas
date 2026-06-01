@@ -7787,4 +7787,52 @@
   <data name="CuentasToolStripMenuItem.Text" xml:space="preserve">
     <value>Bank Accounts</value>
   </data>
+  <data name="BackupOk" xml:space="preserve">
+    <value>Successful backup</value>
+  </data>
+  <data name="PreguntaBackup" xml:space="preserve">
+    <value>Are you sure about RESTORING the Database?</value>
+  </data>
+  <data name="RestaurarBD" xml:space="preserve">
+    <value>Restore Database</value>
+  </data>
+  <data name="RestaurarOk" xml:space="preserve">
+    <value>Restoration successfully completed</value>
+  </data>
+  <data name="Restaurar" xml:space="preserve">
+    <value>RESTORE</value>
+  </data>
+  <data name="CompactacionOk" xml:space="preserve">
+    <value>Compaction carried out successfully</value>
+  </data>
+  <data name="Compactar" xml:space="preserve">
+    <value>COMPACT</value>
+  </data>
+  <data name="CompactarError" xml:space="preserve">
+    <value>Database Compacting Error</value>
+  </data>
+  <data name="MsgVaciarBD" xml:space="preserve">
+    <value>Are you sure to EMPTY and START the Database of NOTES - PERIODIC NOTES and BUDGETS for the Fiscal Year</value>
+  </data>
+  <data name="MsgVaciarBD2" xml:space="preserve">
+    <value>I Advise Making a Backup</value>
+  </data>
+  <data name="MsgVaciarBD3" xml:space="preserve">
+    <value>EMPTY Database</value>
+  </data>
+  <data name="MsgVaciarBD4" xml:space="preserve">
+    <value>Database Flushing Is Going to Start</value>
+  </data>
+  <data name="MsgNoVaciarBD" xml:space="preserve">
+    <value>The ITEMS and ACCOUNTING ACCOUNTS are not eliminated</value>
+  </data>
+  <data name="ApuntesContablesVaciado" xml:space="preserve">
+    <value>Accounting Notes, Emptying!</value>
+  </data>
+  <data name="ApuntesPeriodicosVaciado" xml:space="preserve">
+    <value>Periodic notes, emptying!</value>
+  </data>
+  <data name="PresupuestosVaciado" xml:space="preserve">
+    <value>Budgets, Emptying!</value>
+  </data>
 </root>

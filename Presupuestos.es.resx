@@ -198,4 +198,37 @@
   <data name="NoHayIngresos" xml:space="preserve">
     <value>No se registraron movimientos de ingresos</value>
   </data>
+  <data name="TotalIngresos" xml:space="preserve">
+    <value>TOTAL INGRESOS</value>
+  </data>
+  <data name="NoHayGastos" xml:space="preserve">
+    <value>No se registraron movimientos de gastos</value>
+  </data>
+  <data name="TotalGastos" xml:space="preserve">
+    <value>TOTAL GASTOS</value>
+  </data>
+  <data name="ResultadoNeto" xml:space="preserve">
+    <value>RESULTADO NETO DEL PERIODO (Ingresos - Gastos)</value>
+  </data>
+  <data name="ResultadoRealNeto" xml:space="preserve">
+    <value>Resultado Real Neto</value>
+  </data>
+  <data name="ResultadoPresupuestadoNeto" xml:space="preserve">
+    <value>Resultado Presupuestado Neto</value>
+  </data>
+  <data name="DesviacionGlobal" xml:space="preserve">
+    <value>DESVIACIÓN GLOBAL COMPLETA</value>
+  </data>
+  <data name="PreguntaEliminarPresupuesto" xml:space="preserve">
+    <value>¿Está seguro de eliminar el presupuesto del concepto seleccionado para este ejercicio?</value>
+  </data>
+  <data name="TituloEliminarPresupuesto" xml:space="preserve">
+    <value>Eliminar presupuesto</value>
+  </data>
+  <data name="PresupuestosBorradosExito" xml:space="preserve">
+    <value>Registros en Presupuestos eliminados correctamente</value>
+  </data>
+  <data name="ErrorEliminarPresupuestos" xml:space="preserve">
+    <value>No se han podido eliminar los registros en Presupuestos</value>
+  </data>
 </root>

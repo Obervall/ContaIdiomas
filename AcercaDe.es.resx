@@ -142,4 +142,19 @@ Puedes enviar impresiones y sugerencias a:
   <data name="$this.Text" xml:space="preserve">
     <value>Acerca de ContaHogar 3.0</value>
   </data>
+  <data name="VersionInstalada" xml:space="preserve">
+    <value>Versión Instalada</value>
+  </data>
+  <data name="VersionDisponible" xml:space="preserve">
+    <value>Versión disponible</value>
+  </data>
+  <data name="TextoAutorizaUso" xml:space="preserve">
+    <value>Se autoriza el uso a</value>
+  </data>
+  <data name="TextoCodigoActivacion" xml:space="preserve">
+    <value>Código Activación</value>
+  </data>
+  <data name="SinActivar" xml:space="preserve">
+    <value>Sin Activar</value>
+  </data>
 </root>

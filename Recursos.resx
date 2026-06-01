@@ -540,7 +540,22 @@ No se Eliminan de la Base de Datos</value>
   <data name="ErrorInsertarSaldos" xml:space="preserve">
     <value>Error al insertar los saldos iniciales</value>
   </data>
-  <data name="Total" xml:space="preserve">
-    <value>Total</value>
+  <data name="Pagina" xml:space="preserve">
+    <value>Página</value>
+  </data>
+  <data name="CerrarApp" xml:space="preserve">
+    <value>Se cerrará el programa para iniciar con el Ejercicio Actual</value>
+  </data>
+  <data name="Cuenta" xml:space="preserve">
+    <value>Cuenta</value>
+  </data>
+  <data name="Concepto" xml:space="preserve">
+    <value>Concepto</value>
+  </data>
+  <data name="Fecha" xml:space="preserve">
+    <value>Fecha</value>
+  </data>
+  <data name="Importe" xml:space="preserve">
+    <value>Importe</value>
   </data>
 </root>

@@ -9,6 +9,7 @@ Public Class SeleccionFechas
     Public PosicionSinEncabezado As Integer = frmImprimirForm.Punto1.Top
 
     Private Sub SeleccionFechas_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.KeyPreview = True
         ActualizarTextosFormulario(Me)
 
         vFecha1Enero = Val(vAñoEjercicio)

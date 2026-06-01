@@ -6,9 +6,10 @@ Public Class ActivarSoftware
     Dim CpuInfo As String = String.Empty
     Dim StrMotherBoardId As String = String.Empty
     Public vIdMaquina, vTxtPropietario As String
+    Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub ActivarSoftware_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ActualizarTextosFormulario(Me)
+        Me.KeyPreview = True
 
         TxtPropietario.Text = ""
         Dim query As New SelectQuery("Win32_BaseBoard")
@@ -31,12 +32,12 @@ Public Class ActivarSoftware
                 vIdMaquina = CpuInfo
             End If
         Catch ex As Exception
-            MsgBox("Error al obtener el ID de la máquina: " & NL & ex.Message, MsgBoxStyle.Exclamation, "Error")
+            MsgBox(rmse.GetString("ErrorObtenerID") & ": " & NL & ex.Message, MsgBoxStyle.Exclamation, resManager.GetString("Error"))
         End Try
         vTxtPropietario = My.Settings.Autorizar
         TxtPropietario.Text = Mid(My.Settings.Autorizar, 41)
         If vTxtPropietario = "Se autoriza el uso de ContaHogar 3.0 a: Modo Demo" Then
-            MsgBox("Software en Modo Demo, por favor active el software para quitar esta advertencia.", MsgBoxStyle.Exclamation, "Modo Demo")
+            MsgBox(frmPrincipal.rmse.GetString("LblAvisoActivacion"), MsgBoxStyle.Exclamation, rmse.GetString("ModoDemo"))
             IdMaquina.Text = vIdMaquina
         Else
             TxtPropietario.Text = My.Settings.Autorizar
@@ -66,9 +67,9 @@ Public Class ActivarSoftware
             My.Settings.Save()
             My.Settings.Reload()
             vActivado = True
-            MsgBox("Software Activado, Gracias.", MsgBoxStyle.Information, "Activación Correcta")
+            MsgBox(rmse.GetString("SoftwareActivado"), MsgBoxStyle.Information, rmse.GetString("ActivacionCorrecta"))
         Else
-            MsgBox("Código Activación Incorrecto..", MsgBoxStyle.Exclamation, "Error Activación")
+            MsgBox(rmse.GetString("SoftwareNoActivado"), MsgBoxStyle.Exclamation, rmse.GetString("ErrorActivacion"))
         End If
     End Sub
 

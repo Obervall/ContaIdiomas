@@ -11,10 +11,10 @@ Public Class IntroApuntes
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub IntroApuntes_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.KeyPreview = True
         ActualizarTextosFormulario(Me)
 
         Label7.Text = vMoneda
-
         vIntro = "NO"
         vFecha1Enero = Val(vAñoEjercicio)
         DateTimePicker1.MinDate = New Date(vFecha1Enero, 1, 1)

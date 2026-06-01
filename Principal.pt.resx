@@ -465,4 +465,52 @@
   <data name="CuentasToolStripMenuItem.Text" xml:space="preserve">
     <value>Contas Bancárias</value>
   </data>
+  <data name="BackupOk" xml:space="preserve">
+    <value>Backup bem-sucedido</value>
+  </data>
+  <data name="PreguntaBackup" xml:space="preserve">
+    <value>Você tem certeza sobre RESTAURAR o Banco de Dados?</value>
+  </data>
+  <data name="RestaurarBD" xml:space="preserve">
+    <value>Restaurar Banco de Dados</value>
+  </data>
+  <data name="RestaurarOk" xml:space="preserve">
+    <value>Restauração concluída com sucesso</value>
+  </data>
+  <data name="Restaurar" xml:space="preserve">
+    <value>RESTAURAÇÃO</value>
+  </data>
+  <data name="CompactacionOk" xml:space="preserve">
+    <value>Compactação realizada com sucesso</value>
+  </data>
+  <data name="Compactar" xml:space="preserve">
+    <value>COMPACTO</value>
+  </data>
+  <data name="CompactarError" xml:space="preserve">
+    <value>Erro de Compactação de Banco de Dados</value>
+  </data>
+  <data name="MsgVaciarBD" xml:space="preserve">
+    <value>Você tem certeza de ESVAZIAR e INICIAR o Banco de Dados de NOTAS - NOTAS PERIÓDICAS e ORÇAMENTOS para o Ano Fiscal</value>
+  </data>
+  <data name="MsgVaciarBD2" xml:space="preserve">
+    <value>Aconselho fazer um backup</value>
+  </data>
+  <data name="MsgVaciarBD3" xml:space="preserve">
+    <value>Banco de Dados EMPTY</value>
+  </data>
+  <data name="MsgVaciarBD4" xml:space="preserve">
+    <value>A limpeza do banco de dados vai começar</value>
+  </data>
+  <data name="MsgNoVaciarBD" xml:space="preserve">
+    <value>Os ITENS e CONTAS CONTÁBEIS não são eliminados</value>
+  </data>
+  <data name="ApuntesContablesVaciado" xml:space="preserve">
+    <value>Anotações contábeis, esvaziando!</value>
+  </data>
+  <data name="ApuntesPeriodicosVaciado" xml:space="preserve">
+    <value>Notas periódicas, esvaziando!</value>
+  </data>
+  <data name="PresupuestosVaciado" xml:space="preserve">
+    <value>Orçamentos, esvaziamento!</value>
+  </data>
 </root>

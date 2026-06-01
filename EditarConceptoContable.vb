@@ -8,6 +8,7 @@ Public Class EditarConceptoContable
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub EditarConceptoContable_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.KeyPreview = True
         ActualizarTextosFormulario(Me)
 
         TL(0) = New ToolTip

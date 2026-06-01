@@ -10,10 +10,10 @@ Public Class TraspasoCuentas
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub IntroApuntes_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.KeyPreview = True
         ActualizarTextosFormulario(Me)
 
         Label7.Text = vMoneda
-
         Dim TL(11) As ToolTip
         TL(0) = New ToolTip
         TL(0).SetToolTip(Me.BtnHoyOrigen, "Ir a Hoy Origen")

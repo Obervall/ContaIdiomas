@@ -12,8 +12,8 @@ Public Class ConceptosContables
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub ConceptosContables_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
         Me.KeyPreview = True
+
         TL(0) = New ToolTip
         TL(0).SetToolTip(Me.BtnFiltroTipoConcepto, resManager.GetString("ToolTipAplicarFiltro"))
         TL(1) = New ToolTip

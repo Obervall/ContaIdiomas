@@ -16,7 +16,6 @@ Public Class Presupuestos
     Public TL(9) As ToolTip
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
-
     Private Sub Presupuestos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
 
@@ -546,9 +545,9 @@ Public Class Presupuestos
             Dim brushDesv As Brush = If(desv >= 0, Brushes.Green, Brushes.Red)
 
             e.Graphics.DrawString(concepto, FuenteDetalles, Brushes.Black, colConceptoX, posY)
-            e.Graphics.DrawString(valReal.ToString("###,##0.00") & " €", FuenteDetalles, Brushes.Black, colRealX, posY, sfDerecha)
-            e.Graphics.DrawString(valPresu.ToString("###,##0.00") & " €", FuenteDetalles, Brushes.Black, colPresuX, posY, sfDerecha)
-            e.Graphics.DrawString((If(desv >= 0, "+", "")) & desv.ToString("###,##0.00") & " €", FuenteDetalles, brushDesv, colDesvX, posY, sfDerecha)
+            e.Graphics.DrawString(valReal.ToString("###,##0.00") & " " & vMoneda, FuenteDetalles, Brushes.Black, colRealX, posY, sfDerecha)
+            e.Graphics.DrawString(valPresu.ToString("###,##0.00") & " " & vMoneda, FuenteDetalles, Brushes.Black, colPresuX, posY, sfDerecha)
+            e.Graphics.DrawString((If(desv >= 0, "+", "")) & desv.ToString("###,##0.00") & " " & vMoneda, FuenteDetalles, brushDesv, colDesvX, posY, sfDerecha)
             posY += 22
         Next
 
@@ -559,11 +558,11 @@ Public Class Presupuestos
 
         e.Graphics.DrawLine(Pens.LightGray, colConceptoX, posY, colDesvX, posY)
         posY += 5
-        e.Graphics.DrawString("TOTAL INGRESOS", FuenteNegrita, Brushes.Black, colConceptoX, posY)
-        e.Graphics.DrawString(totalIngresosReal.ToString("###,##0.00") & " €", FuenteNegrita, Brushes.Black, colRealX, posY, sfDerecha)
-        e.Graphics.DrawString(totalIngresosPresu.ToString("###,##0.00") & " €", FuenteNegrita, Brushes.Black, colPresuX, posY, sfDerecha)
+        e.Graphics.DrawString(rmse.GetString("TotalIngresos"), FuenteNegrita, Brushes.Black, colConceptoX, posY)
+        e.Graphics.DrawString(totalIngresosReal.ToString("###,##0.00") & " " & vMoneda, FuenteNegrita, Brushes.Black, colRealX, posY, sfDerecha)
+        e.Graphics.DrawString(totalIngresosPresu.ToString("###,##0.00") & " " & vMoneda, FuenteNegrita, Brushes.Black, colPresuX, posY, sfDerecha)
         Dim desvIngTotal As Double = totalIngresosReal - totalIngresosPresu
-        e.Graphics.DrawString(desvIngTotal.ToString("###,##0.00") & " €", FuenteNegrita, If(desvIngTotal >= 0, Brushes.Green, Brushes.Red), colDesvX, posY, sfDerecha)
+        e.Graphics.DrawString(desvIngTotal.ToString("###,##0.00") & " " & vMoneda, FuenteNegrita, If(desvIngTotal >= 0, Brushes.Green, Brushes.Red), colDesvX, posY, sfDerecha)
 
         posY += 40
 
@@ -598,24 +597,24 @@ Public Class Presupuestos
             Dim brushDesv As Brush = If(desv >= 0, Brushes.Green, Brushes.Red)
 
             e.Graphics.DrawString(concepto, FuenteDetalles, Brushes.Black, colConceptoX, posY)
-            e.Graphics.DrawString(valReal.ToString("###,##0.00") & " €", FuenteDetalles, Brushes.Black, colRealX, posY, sfDerecha)
-            e.Graphics.DrawString(valPresu.ToString("###,##0.00") & " €", FuenteDetalles, Brushes.Black, colPresuX, posY, sfDerecha)
-            e.Graphics.DrawString((If(desv >= 0, "+", "")) & desv.ToString("###,##0.00") & " €", FuenteDetalles, brushDesv, colDesvX, posY, sfDerecha)
+            e.Graphics.DrawString(valReal.ToString("###,##0.00") & " " & vMoneda, FuenteDetalles, Brushes.Black, colRealX, posY, sfDerecha)
+            e.Graphics.DrawString(valPresu.ToString("###,##0.00") & " " & vMoneda, FuenteDetalles, Brushes.Black, colPresuX, posY, sfDerecha)
+            e.Graphics.DrawString((If(desv >= 0, "+", "")) & desv.ToString("###,##0.00") & " " & vMoneda, FuenteDetalles, brushDesv, colDesvX, posY, sfDerecha)
             posY += 22
         Next
 
         If Not tieneGastos Then
-            e.Graphics.DrawString("No se registraron movimientos de gastos.", FuenteDetalles, Brushes.Gray, colConceptoX + 20, posY)
+            e.Graphics.DrawString(rmse.GetString("NoHayGastos"), FuenteDetalles, Brushes.Gray, colConceptoX + 20, posY)
             posY += 22
         End If
 
         e.Graphics.DrawLine(Pens.LightGray, colConceptoX, posY, colDesvX, posY)
         posY += 5
-        e.Graphics.DrawString("TOTAL GASTOS", FuenteNegrita, Brushes.Black, colConceptoX, posY)
-        e.Graphics.DrawString(totalGastosReal.ToString("###,##0.00") & " €", FuenteNegrita, Brushes.Black, colRealX, posY, sfDerecha)
-        e.Graphics.DrawString(totalGastosPresu.ToString("###,##0.00") & " €", FuenteNegrita, Brushes.Black, colPresuX, posY, sfDerecha)
+        e.Graphics.DrawString(rmse.GetString("TotalGastos"), FuenteNegrita, Brushes.Black, colConceptoX, posY)
+        e.Graphics.DrawString(totalGastosReal.ToString("###,##0.00") & " " & vMoneda, FuenteNegrita, Brushes.Black, colRealX, posY, sfDerecha)
+        e.Graphics.DrawString(totalGastosPresu.ToString("###,##0.00") & " " & vMoneda, FuenteNegrita, Brushes.Black, colPresuX, posY, sfDerecha)
         Dim desvGasTotal As Double = totalGastosPresu - totalGastosReal
-        e.Graphics.DrawString(desvGasTotal.ToString("###,##0.00") & " €", FuenteNegrita, If(desvGasTotal >= 0, Brushes.Green, Brushes.Red), colDesvX, posY, sfDerecha)
+        e.Graphics.DrawString(desvGasTotal.ToString("###,##0.00") & " " & vMoneda, FuenteNegrita, If(desvGasTotal >= 0, Brushes.Green, Brushes.Red), colDesvX, posY, sfDerecha)
 
         posY += 50
 
@@ -628,7 +627,7 @@ Public Class Presupuestos
         e.Graphics.DrawRectangle(Pens.SlateGray, fondoResumen)
 
         posY += 15
-        e.Graphics.DrawString("RESULTADO NETO DEL PERIODO (Ingresos - Gastos)", FuenteSeccion, Brushes.Black, colConceptoX + 15, posY)
+        e.Graphics.DrawString(rmse.GetString("ResultadoNeto"), FuenteSeccion, Brushes.Black, colConceptoX + 15, posY)
 
         ' Calculamos los importes netos
         Dim netoReal As Double = totalIngresosReal - totalGastosReal
@@ -637,18 +636,18 @@ Public Class Presupuestos
 
         ' FILA 1: Resultado Real (Bajo su columna correspondiente)
         posY += 25
-        e.Graphics.DrawString("Resultado Real Neto:", FuenteNegrita, Brushes.Black, colConceptoX + 15, posY)
-        e.Graphics.DrawString(netoReal.ToString("###,##0.00") & " €", FuenteNegrita, If(netoReal >= 0, Brushes.DarkGreen, Brushes.DarkRed), colDesvX - 15, posY, sfDerecha)
+        e.Graphics.DrawString(rmse.GetString("ResultadoRealNeto") & ":", FuenteNegrita, Brushes.Black, colConceptoX + 15, posY)
+        e.Graphics.DrawString(netoReal.ToString("###,##0.00") & " " & vMoneda, FuenteNegrita, If(netoReal >= 0, Brushes.DarkGreen, Brushes.DarkRed), colDesvX - 15, posY, sfDerecha)
 
         ' FILA 2: Resultado Presupuestado
         posY += 20
-        e.Graphics.DrawString("Resultado Presupuestado Neto:", FuenteDetalles, Brushes.Black, colConceptoX + 15, posY)
-        e.Graphics.DrawString(netoPresu.ToString("###,##0.00") & " €", FuenteDetalles, Brushes.Black, colDesvX - 15, posY, sfDerecha)
+        e.Graphics.DrawString(rmse.GetString("ResultadoPresupuestadoNeto") & ":", FuenteDetalles, Brushes.Black, colConceptoX + 15, posY)
+        e.Graphics.DrawString(netoPresu.ToString("###,##0.00") & " " & vMoneda, FuenteDetalles, Brushes.Black, colDesvX - 15, posY, sfDerecha)
 
         ' FILA 3: Desviación Global Destacada
         posY += 22
-        e.Graphics.DrawString("DESVIACIÓN GLOBAL COMPLETA:", FuenteNegrita, Brushes.Black, colConceptoX + 15, posY)
-        e.Graphics.DrawString((If(desvNetalGlobal >= 0, "+", "")) & desvNetalGlobal.ToString("###,##0.00") & " €", FuenteSeccion, If(desvNetalGlobal >= 0, Brushes.Green, Brushes.Red), colDesvX - 15, posY - 4, sfDerecha)
+        e.Graphics.DrawString(rmse.GetString("DesviacionGlobal") & ":", FuenteNegrita, Brushes.Black, colConceptoX + 15, posY)
+        e.Graphics.DrawString((If(desvNetalGlobal >= 0, "+", "")) & desvNetalGlobal.ToString("###,##0.00") & " " & vMoneda, FuenteSeccion, If(desvNetalGlobal >= 0, Brushes.Green, Brushes.Red), colDesvX - 15, posY - 4, sfDerecha)
 
         ' =========================================================================
         ' PIE DE PÁGINA: NUMERACIÓN AUTOMÁTICA
@@ -656,7 +655,7 @@ Public Class Presupuestos
         Dim nPagina As Integer = CInt(frmImprimirForm.LblNumeroPagina.Text) + 1
         frmImprimirForm.LblNumeroPagina.Text = nPagina.ToString()
 
-        Dim textoPagina As String = If(resManager.GetString("Pagina"), "Pág.") & " " & nPagina.ToString()
+        Dim textoPagina As String = resManager.GetString("Pagina") & " " & nPagina.ToString()
         e.Graphics.DrawString(textoPagina, FuenteDetalles, Brushes.DimGray, 750, 1050, sfDerecha)
 
         e.HasMorePages = False
@@ -667,12 +666,8 @@ Public Class Presupuestos
         If DgvPresupuestos.CurrentRow Is Nothing Then Exit Sub
 
         ' 2. Mensaje de confirmación traducible (Apunta a tus llaves globales del ResX)
-        Dim msgPregunta As String = resManager.GetString("PreguntaEliminarPresupuesto")
-        If String.IsNullOrEmpty(msgPregunta) Then msgPregunta = "¿Está seguro de eliminar el presupuesto del concepto seleccionado para este ejercicio?"
-
-        Dim titPregunta As String = resManager.GetString("TituloEliminarPresupuesto")
-        If String.IsNullOrEmpty(titPregunta) Then titPregunta = "Eliminar presupuesto"
-
+        Dim msgPregunta As String = rmse.GetString("PreguntaEliminarPresupuesto")
+        Dim titPregunta As String = rmse.GetString("TituloEliminarPresupuesto")
         respuesta = MsgBox(msgPregunta, vbQuestion + vbYesNo + vbDefaultButton2, titPregunta)
 
         If respuesta = vbYes Then
@@ -709,14 +704,10 @@ Public Class Presupuestos
                     Try
                         conexion.Open()
                         cmd.ExecuteNonQuery()
-
                         Dim msgBorrados As String = resManager.GetString("PresupuestosBorradosExito")
-                        If String.IsNullOrEmpty(msgBorrados) Then msgBorrados = "Registros en Presupuestos eliminados correctamente."
                         MsgBox(msgBorrados, vbInformation)
-
                     Catch ex As Exception
                         Dim msgError As String = resManager.GetString("ErrorEliminarPresupuestos")
-                        If String.IsNullOrEmpty(msgError) Then msgError = "No se han podido eliminar los registros en Presupuestos."
                         MsgBox(msgError & vbNewLine & ex.Message, vbCritical)
                     End Try
                 End Using

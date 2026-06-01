@@ -12,10 +12,10 @@ Public Class IntroApuntesPeriodicos
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub IntroApuntesPeriodicos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.KeyPreview = True
         ActualizarTextosFormulario(Me)
 
         Label7.Text = vMoneda
-
         vFecha1Enero = Val(vAñoEjercicio)
         ' si el año del ejercicio es diferente al año actual, se pone como fecha máxima el 31 de diciembre del año del ejercicio + 1,
         ' para que se puedan introducir apuntes periódicos con fecha hasta el 31 de diciembre del año siguiente al ejercicio

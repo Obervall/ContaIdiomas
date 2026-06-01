@@ -142,4 +142,19 @@ celle de ContaHogar, créée par Eugenio Glez.
 Vous pouvez envoyer vos impressions et suggestions à :
 </value>
   </data>
+  <data name="VersionInstalada" xml:space="preserve">
+    <value>Version installée</value>
+  </data>
+  <data name="VersionDisponible" xml:space="preserve">
+    <value>Version disponible</value>
+  </data>
+  <data name="TextoAutorizaUso" xml:space="preserve">
+    <value>L’utilisation est autorisée à</value>
+  </data>
+  <data name="TextoCodigoActivacion" xml:space="preserve">
+    <value>Code d’activation</value>
+  </data>
+  <data name="SinActivar" xml:space="preserve">
+    <value>Non activé</value>
+  </data>
 </root>

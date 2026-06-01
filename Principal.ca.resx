@@ -7802,4 +7802,52 @@
   <data name="CuentasToolStripMenuItem.Text" xml:space="preserve">
     <value>Comptes Bancaris</value>
   </data>
+  <data name="BackupOk" xml:space="preserve">
+    <value>Backup realitzat satisfactòriament</value>
+  </data>
+  <data name="PreguntaBackup" xml:space="preserve">
+    <value>¿Aquestes segur de RESTAURAR la Base de Dades?</value>
+  </data>
+  <data name="RestaurarBD" xml:space="preserve">
+    <value>Restaurar Base de Dades</value>
+  </data>
+  <data name="RestaurarOk" xml:space="preserve">
+    <value>Restauració realitzada satisfactòriament</value>
+  </data>
+  <data name="Restaurar" xml:space="preserve">
+    <value>RESTAURAR</value>
+  </data>
+  <data name="CompactacionOk" xml:space="preserve">
+    <value>Compactació realitzada satisfactòriament</value>
+  </data>
+  <data name="Compactar" xml:space="preserve">
+    <value>COMPACTAR</value>
+  </data>
+  <data name="CompactarError" xml:space="preserve">
+    <value>Error en compactar la base de dades</value>
+  </data>
+  <data name="MsgVaciarBD" xml:space="preserve">
+    <value>¿Aquestes assegurança de BUIDAR i INICIAR la Base de Dades d'APUNTS - APUNTS PERIODICS i PRESSUPOSTOS de l'Exercici</value>
+  </data>
+  <data name="MsgVaciarBD2" xml:space="preserve">
+    <value>Aconsello fer una Còpia de Seguretat</value>
+  </data>
+  <data name="MsgVaciarBD4" xml:space="preserve">
+    <value>S'iniciarà el Buidatge de la Base de Dades</value>
+  </data>
+  <data name="MsgVaciarBD3" xml:space="preserve">
+    <value>VACIAR Base de Dades</value>
+  </data>
+  <data name="MsgNoVaciarBD" xml:space="preserve">
+    <value>No s' Eliminen els CONCEPTES ni els COMPTES COMPTABLES</value>
+  </data>
+  <data name="ApuntesContablesVaciado" xml:space="preserve">
+    <value>Apunts Comptables, Buidatge!</value>
+  </data>
+  <data name="ApuntesPeriodicosVaciado" xml:space="preserve">
+    <value>Apunts Periòdics, Buidat!</value>
+  </data>
+  <data name="PresupuestosVaciado" xml:space="preserve">
+    <value>Pressupostos, Buidatge!</value>
+  </data>
 </root>

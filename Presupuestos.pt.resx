@@ -198,4 +198,37 @@
   <data name="NoHayIngresos" xml:space="preserve">
     <value>Não foram registrados movimentos de receita</value>
   </data>
+  <data name="TotalIngresos" xml:space="preserve">
+    <value>RECEITA TOTAL</value>
+  </data>
+  <data name="NoHayGastos" xml:space="preserve">
+    <value>Nenhum movimento de despesas foi registrado</value>
+  </data>
+  <data name="TotalGastos" xml:space="preserve">
+    <value>DESPESAS TOTAIS</value>
+  </data>
+  <data name="ResultadoNeto" xml:space="preserve">
+    <value>LUCRO LÍQUIDO DO PERÍODO (Renda - Despesas)</value>
+  </data>
+  <data name="ResultadoRealNeto" xml:space="preserve">
+    <value>Lucro Líquido Efetivo</value>
+  </data>
+  <data name="ResultadoPresupuestadoNeto" xml:space="preserve">
+    <value>Lucro Líquido Orçamentado</value>
+  </data>
+  <data name="DesviacionGlobal" xml:space="preserve">
+    <value>DESVIO GLOBAL COMPLETO</value>
+  </data>
+  <data name="PreguntaEliminarPresupuesto" xml:space="preserve">
+    <value>Você tem certeza de que vai remover o orçamento do item selecionado para este exercício?</value>
+  </data>
+  <data name="TituloEliminarPresupuesto" xml:space="preserve">
+    <value>Excluir Orçamento</value>
+  </data>
+  <data name="PresupuestosBorradosExito" xml:space="preserve">
+    <value>Registros em Orçamentos eliminados com sucesso</value>
+  </data>
+  <data name="ErrorEliminarPresupuestos" xml:space="preserve">
+    <value>Não foi possível excluir registros nos Orçamentos</value>
+  </data>
 </root>

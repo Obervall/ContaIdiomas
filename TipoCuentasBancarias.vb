@@ -12,8 +12,8 @@ Public Class TipoCuentaBancaria
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub TipoCuentasBancarias_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
         Me.KeyPreview = True
+
         TL(0) = New ToolTip
         TL(0).SetToolTip(Me.BtnAñadirRegistro, resManager.GetString("ToolTipAñadir"))
         TL(1) = New ToolTip

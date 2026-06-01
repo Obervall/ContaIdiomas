@@ -10,6 +10,7 @@ Public Class ApuntesPeriodicos
     Private Sub ApuntesPeriodicos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ActualizarTextosFormulario(Me)
         Me.KeyPreview = True
+
         vFecha1Enero = Val(vAñoEjercicio)
         DateTimePicker1.MinDate = New Date(vFecha1Enero, 1, 1)
         DateTimePicker2.MinDate = New Date(vFecha1Enero, 1, 1)

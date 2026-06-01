@@ -532,7 +532,22 @@ They are not removed from the database</value>
   <data name="ErrorInsertarSaldos" xml:space="preserve">
     <value>Error inserting beginning balances</value>
   </data>
-  <data name="Total" xml:space="preserve">
-    <value>Total</value>
+  <data name="Pagina" xml:space="preserve">
+    <value>Page</value>
+  </data>
+  <data name="CerrarApp" xml:space="preserve">
+    <value>The program will be closed to start with the Current Fiscal Year</value>
+  </data>
+  <data name="Cuenta" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="Concepto" xml:space="preserve">
+    <value>Concept</value>
+  </data>
+  <data name="Fecha" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Importe" xml:space="preserve">
+    <value>Amount</value>
   </data>
 </root>

@@ -15,7 +15,6 @@ Public Class ApuntesContables
     Public TL(29) As ToolTip
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
-
     ' Método recursivo para actualizar la fuente de todos los controles
     Private Sub CambiarTamañoFuente(ByVal controles As Control.ControlCollection, ByVal nuevoTamaño As Single)
         For Each ctrl As Control In controles
@@ -30,13 +29,6 @@ Public Class ApuntesContables
     End Sub
 
     Private Sub ApuntesContables_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
-        Me.Width = 1040
-        ' 2. Calcular la posición centroX para que quede centrado horizontalmente
-        centroX = (AnchoFrmPrincipal - Me.Width) / 2 ' AnchoFrmPrincipal es el ancho del frmPrincipal, y Me.Width es el ancho del formulario actual (ApuntesContables)
-        ' 4. Aplicar las nuevas coordenadas de posición
-        Me.Location = New Point(posX + centroX, posY) ' posX y posY son las coordenadas originales del frmPrincipal
-        ActualizarTextosFormulario(Me)
         Me.KeyPreview = True
 
         vFecha1Enero = Val(vAñoEjercicio)

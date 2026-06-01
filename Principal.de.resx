@@ -7805,4 +7805,52 @@
   <data name="CuentasToolStripMenuItem.Text" xml:space="preserve">
     <value>Bankkonten</value>
   </data>
+  <data name="BackupOk" xml:space="preserve">
+    <value>Erfolgreiche Sicherung</value>
+  </data>
+  <data name="PreguntaBackup" xml:space="preserve">
+    <value>Bist du dir sicher, dass du die Datenbank wiederherstellen kannst?</value>
+  </data>
+  <data name="RestaurarBD" xml:space="preserve">
+    <value>Datenbank wiederherstellen</value>
+  </data>
+  <data name="RestaurarOk" xml:space="preserve">
+    <value>Restaurierung erfolgreich abgeschlossen</value>
+  </data>
+  <data name="Restaurar" xml:space="preserve">
+    <value>WIEDERHERSTELLEN</value>
+  </data>
+  <data name="CompactacionOk" xml:space="preserve">
+    <value>Die Verdichtung wurde erfolgreich durchgeführt</value>
+  </data>
+  <data name="Compactar" xml:space="preserve">
+    <value>COMPACT</value>
+  </data>
+  <data name="CompactarError" xml:space="preserve">
+    <value>Datenbankkomprimierungsfehler</value>
+  </data>
+  <data name="MsgVaciarBD" xml:space="preserve">
+    <value>Sind Sie sicher, die Datenbank der NOTIZEN – PERIODISCHE NOTIZEN und BUDGETS für das Haushaltsjahr – zu LEEREN und ZU STARTEN</value>
+  </data>
+  <data name="MsgVaciarBD2" xml:space="preserve">
+    <value>Ich empfehle, ein Backup zu machen</value>
+  </data>
+  <data name="MsgVaciarBD3" xml:space="preserve">
+    <value>EMPTY-Datenbank</value>
+  </data>
+  <data name="MsgVaciarBD4" xml:space="preserve">
+    <value>Das Datenbank-Flushing beginnt gleich</value>
+  </data>
+  <data name="MsgNoVaciarBD" xml:space="preserve">
+    <value>Die POSTEN und BUCHHALTUNGSKONTEN werden nicht eliminiert</value>
+  </data>
+  <data name="ApuntesContablesVaciado" xml:space="preserve">
+    <value>Buchhaltungsnotizen, leeren!</value>
+  </data>
+  <data name="ApuntesPeriodicosVaciado" xml:space="preserve">
+    <value>Periodische Noten, Entleerung!</value>
+  </data>
+  <data name="PresupuestosVaciado" xml:space="preserve">
+    <value>Budgets, Empty!</value>
+  </data>
 </root>

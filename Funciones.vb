@@ -218,144 +218,120 @@ Module Funciones
 
     Public Function IniciarSaldosIniciales(vAny As String) As Boolean
         vAñoEjercicio = vAny
-        'Quitamos el Concepto SALDO del Ejercicio marcado
         vConceptoAPU = "SALDO"
-        vtipoSql = "DELETE FROM apuntes"
-        vtipoSql += " WHERE apuntes.ConceptoAPU = '" & vConceptoAPU & "' "
-        vtipoSql += "And apuntes.EjercicioAPU = " & CInt(vAñoEjercicio)
-        cmdMdb1cr.CommandText = vtipoSql
-        Try
-            cmdMdb1cr.ExecuteNonQuery()
-            'MsgBox("Registros SALDO, Borrados !!!")
-        Catch ex As Exception
-            MsgBox(ex.ToString)
-            Return False
-        End Try
 
-        ' 1. Consulta SQL CORREGIDA: Excluimos los registros 'SALDO' previos del cálculo acumulativo
-        ' Evita que el sistema sume el saldo inicial del año pasado junto con los movimientos reales
-        Dim consulta As String =
-        "SELECT A.EjercicioAPU, A.CuentaAPU, SUM(A.ImporteAPU) AS SumaAño " &
-        "FROM (Ejercicios AS E INNER JOIN Apuntes AS A ON E.EjercicioEJE = A.EjercicioAPU) " &
-        "WHERE E.EjercicioEJE < ? AND A.ConceptoAPU <> 'SALDO' " &
-        "GROUP BY A.EjercicioAPU, A.CuentaAPU " &
-        "ORDER BY A.EjercicioAPU ASC"
+        ' Creamos una única estructura de conexión para todo el procedimiento
+        Using conexion As New OleDbConnection(conexion1.ConnectionString) '[1]
+            Try
+                conexion.Open()
 
-        Dim dtMovimientos As New DataTable()
-
-        ' 2. Carga de datos históricos en memoria
-        Using conexion As New OleDbConnection(conexion1.ConnectionString)
-            Using comando As New OleDbCommand(consulta, conexion)
-                comando.Parameters.AddWithValue("@AñoSeleccionado", vAñoEjercicio)
-                Using adaptador As New OleDbDataAdapter(comando)
-                    Try
-                        conexion.Open()
-                        adaptador.Fill(dtMovimientos)
-                        'MsgBox("Datos históricos cargados en memoria: " & dtMovimientos.Rows.Count.ToString & " registros encontrados.")
-                    Catch ex As Exception
-                        MessageBox.Show(resManager.GetString("ErrorLeerHistoricos") & ex.Message, resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
-                        Return False
-                    End Try
+                ' =================================================================
+                ' PASO 1: BORRADO (Usando la misma conexión limpia)
+                ' =================================================================
+                Dim sqlDelete As String = "DELETE FROM apuntes WHERE ConceptoAPU = ? And EjercicioAPU = ?"
+                Using cmdDelete As New OleDbCommand(sqlDelete, conexion)
+                    cmdDelete.Parameters.AddWithValue("@concepto", vConceptoAPU)
+                    cmdDelete.Parameters.AddWithValue("@ejercicio", CInt(vAñoEjercicio))
+                    cmdDelete.ExecuteNonQuery()
                 End Using
-            End Using
-        End Using
 
-        ' 3. Procesamiento en memoria para obtener el saldo final acumulado por cuenta
-        Dim saldosAcumulados As New Dictionary(Of String, Decimal)()
+                ' =================================================================
+                ' PASO 2: CARGA DE DATOS HISTÓRICOS
+                ' =================================================================
+                Dim sqlSelect As String =
+                "SELECT A.EjercicioAPU, A.CuentaAPU, SUM(A.ImporteAPU) AS SumaAño " &
+                "FROM (Ejercicios AS E INNER JOIN Apuntes AS A ON E.EjercicioEJE = A.EjercicioAPU) " &
+                "WHERE E.EjercicioEJE < ? AND A.ConceptoAPU <> 'SALDO' " &
+                "GROUP BY A.EjercicioAPU, A.CuentaAPU " &
+                "ORDER BY A.EjercicioAPU ASC"
 
-        For Each fila As DataRow In dtMovimientos.Rows
-            Dim cuenta As String = fila("CuentaAPU").ToString()
-            Dim importeAño As Decimal = Convert.ToDecimal(fila("SumaAño"))
-
-            If saldosAcumulados.ContainsKey(cuenta) Then
-                saldosAcumulados(cuenta) += importeAño
-            Else
-                saldosAcumulados.Add(cuenta, importeAño)
-            End If
-        Next
-
-        ' Si no hay saldos que arrastrar del pasado, salimos del proceso de inserción
-        If saldosAcumulados.Count = 0 Then
-            ' Cambiamos el texto de "En Espera..." por el aviso en la barra de estado
-            vAviso = True
-            ' Salimos del proceso de forma segura
-            Return False
-        Else
-            vAviso = False
-        End If
-
-        ' 4. Inserción de los Saldos Iniciales en la tabla Apuntes
-        ' Definimos la fecha de inserción fija: 01/01/vAñoEjercicio
-        Dim fechaSaldoInicial As New Date(vAñoEjercicio, 1, 1)
-
-        Dim consultaInsert As String =
-        "INSERT INTO Apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, CuentaAPU) " &
-        "VALUES (?, ?, ?, ?, ?, ?)"
-
-        Using conexion As New OleDbConnection(conexion1.ConnectionString)
-            Using comandoInsert As New OleDbCommand(consultaInsert, conexion)
-
-                ' Declaramos los parámetros en el orden exacto de los signos de interrogación '?'
-                comandoInsert.Parameters.Add("@Fecha", OleDbType.Date)
-                comandoInsert.Parameters.Add("@Concepto", OleDbType.VarWChar)
-                comandoInsert.Parameters.Add("@Descripcion", OleDbType.VarWChar)
-                comandoInsert.Parameters.Add("@Importe", OleDbType.Currency)
-                comandoInsert.Parameters.Add("@Ejercicio", OleDbType.Integer)
-                comandoInsert.Parameters.Add("@Cuenta", OleDbType.VarWChar)
-
-                Try
-                    conexion.Open()
-
-                    ' 1. CONFIGURACIÓN CRÍTICA: Desactivar la escritura diferida en la caché de Access
-                    ' El valor 1 obliga a que cada Commit escriba inmediatamente en el disco duro (.mdb)
-                    Using comandoConfig As New OleDbCommand("SET FORCED COMMIT TRUE", conexion)
-                        Try
-                            comandoConfig.ExecuteNonQuery()
-                        Catch
-                            ' Si el motor de Access rechaza la instrucción SQL directa, configuramos la propiedad ADO.NET:
-                            Try
-                                conexion.GetType().GetProperty("Providers")?.SetValue(conexion, "Jet OLEDB:Transaction Commit Mode=1")
-                            Catch
-                                ' Si falla, pasamos al plan B automático del paso 3
-                            End Try
-                        End Try
+                Dim dtMovimientos As New DataTable()
+                Using cmdSelect As New OleDbCommand(sqlSelect, conexion)
+                    cmdSelect.Parameters.AddWithValue("@AñoSeleccionado", vAñoEjercicio)
+                    Using adaptador As New OleDbDataAdapter(cmdSelect)
+                        adaptador.Fill(dtMovimientos)
                     End Using
+                End Using
 
-                    ' Usamos una transacción para asegurar que se guarden todos los saldos o ninguno
+                ' =================================================================
+                ' PASO 3: PROCESAMIENTO EN MEMORIA
+                ' =================================================================
+                Dim saldosAcumulados As New Dictionary(Of String, Decimal)()
+
+                For Each fila As DataRow In dtMovimientos.Rows
+                    Dim cuenta As String = fila("CuentaAPU").ToString()
+                    Dim importeAño As Decimal = Convert.ToDecimal(fila("SumaAño"))
+
+                    If saldosAcumulados.ContainsKey(cuenta) Then
+                        saldosAcumulados(cuenta) += importeAño
+                    Else
+                        saldosAcumulados.Add(cuenta, importeAño)
+                    End If
+                Next
+
+                ' Si no hay saldos, salimos de la función cerrando la conexión automáticamente [1]
+                If saldosAcumulados.Count = 0 Then
+                    vAviso = True
+                    Return False
+                Else
+                    vAviso = False
+                End If
+
+                ' =================================================================
+                ' PASO 4: INSERCIÓN DE LOS NUEVOS SALDOS INICIALES
+                ' =================================================================
+                Dim fechaSaldoInicial As New Date(CInt(vAñoEjercicio), 1, 1)
+                Dim sqlInsert As String =
+                "INSERT INTO Apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, CuentaAPU) " &
+                "VALUES (?, ?, ?, ?, ?, ?)"
+
+                ' Forzamos confirmación síncrona en el motor Access para evitar búferes retrasados
+                Using comandoConfig As New OleDbCommand("SET FORCED COMMIT TRUE", conexion)
+                    Try : comandoConfig.ExecuteNonQuery() : Catch : End Try
+                End Using
+
+                Using cmdInsert As New OleDbCommand(sqlInsert, conexion)
+                    ' Parámetros configurados con tipos explícitos en orden estricto
+                    cmdInsert.Parameters.Add("@Fecha", OleDbType.Date)
+                    cmdInsert.Parameters.Add("@Concepto", OleDbType.VarWChar)
+                    cmdInsert.Parameters.Add("@Descripcion", OleDbType.VarWChar)
+                    cmdInsert.Parameters.Add("@Importe", OleDbType.Currency)
+                    cmdInsert.Parameters.Add("@Ejercicio", OleDbType.Integer)
+                    cmdInsert.Parameters.Add("@Cuenta", OleDbType.VarWChar)
+
+                    ' Ejecutamos todo bajo una transacción atómica segura
                     Using transaccion As OleDbTransaction = conexion.BeginTransaction()
-                        comandoInsert.Transaction = transaccion
+                        cmdInsert.Transaction = transaccion
 
-                        ' Recorremos cada cuenta calculada e inyectamos su saldo acumulado
                         For Each par In saldosAcumulados
                             Dim cuenta As String = par.Key
                             Dim saldoFinalPasado As Decimal = par.Value
 
-                            ' Omitimos cuentas con saldo acumulado cero si no deseas registros vacíos
                             If saldoFinalPasado <> 0 Then
-                                comandoInsert.Parameters("@Fecha").Value = fechaSaldoInicial
-                                comandoInsert.Parameters("@Concepto").Value = "SALDO"
-                                comandoInsert.Parameters("@Descripcion").Value = "Saldo Inicial"
-                                comandoInsert.Parameters("@Importe").Value = saldoFinalPasado
-                                comandoInsert.Parameters("@Ejercicio").Value = vAñoEjercicio
-                                comandoInsert.Parameters("@Cuenta").Value = cuenta ' Guarda el identificador/nombre de la cuenta
-                                comandoInsert.ExecuteNonQuery()
+                                cmdInsert.Parameters("@Fecha").Value = fechaSaldoInicial
+                                cmdInsert.Parameters("@Concepto").Value = "SALDO"
+                                cmdInsert.Parameters("@Descripcion").Value = "Saldo Inicial"
+                                cmdInsert.Parameters("@Importe").Value = saldoFinalPasado
+                                cmdInsert.Parameters("@Ejercicio").Value = CInt(vAñoEjercicio)
+                                cmdInsert.Parameters("@Cuenta").Value = cuenta
+                                cmdInsert.ExecuteNonQuery()
                             End If
                         Next
 
-                        ' Confirmamos los cambios en la base de datos
+                        ' Confirmamos y volcamos inmediatamente los datos al archivo físico (.mdb)
                         transaccion.Commit()
-                        'MessageBox.Show("Saldos iniciales del año " & vAñoEjercicio & " generados e insertados correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End Using
+                End Using
 
-                    ' 3. PLAN B AUTOMÁTICO (En caso de que el sistema siga reteniendo hilos de caché):
-                    ' Hacemos una micropausa de código limpia (no visual) para asegurar el vaciado del búfer del SO.
-                    System.Threading.Thread.Sleep(500)
-                Catch ex As Exception
-                    MessageBox.Show(resManager.GetString("ErrorInsertarSaldos") & ex.Message, resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
-                End Try
-            End Using
-        End Using
-        Return True
+                ' El proceso se completó de forma totalmente síncrona y real
+                Return True
+
+            Catch ex As Exception
+                MessageBox.Show(resManager.GetString("ErrorInsertarSaldos") & " " & ex.Message,
+                            resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Return False
+            End Try
+        End Using ' [1] <-- Aquí se cierra de golpe cualquier rastro de la conexión, liberando el archivo físico
     End Function
 
     Public Sub LlenarGrid(ByRef tipoSql As String, tipoGrid As String, tipoopc As String)
@@ -379,11 +355,11 @@ Module Funciones
                 .DefaultCellStyle.SelectionBackColor = Color.Blue
                 .ScrollBars = ScrollBars.Both
                 .AllowUserToResizeColumns = True
-                .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None
+                .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
                 'Liberamos las columnas del auto-ajuste estricto para permitir el Scroll manual posterior
-                For Each columna As DataGridViewColumn In .Columns
-                    columna.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-                Next
+                'For Each columna As DataGridViewColumn In .Columns
+                '    columna.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+                'Next
 
                 ' arreglamos columnas
                 '********************
@@ -400,21 +376,21 @@ Module Funciones
                 .Columns(4).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight
                 .Columns(0).DefaultCellStyle.Format = "dd/MM/yyyy"
                 .Columns(0).Width = 100
-                .Columns(0).HeaderText = "Fecha"
+                .Columns(0).HeaderText = resManager.GetString("Fecha") ' "Fecha"
                 .Columns(1).Width = 200
-                .Columns(1).HeaderText = "Concepto"
+                .Columns(1).HeaderText = resManager.GetString("Concepto") ' "Concepto"
                 .Columns(2).Width = 200
-                .Columns(2).HeaderText = "Descripción"
+                .Columns(2).HeaderText = resManager.GetString("Descripcion") ' "Descripción"
                 .Columns(3).Width = 100
-                .Columns(3).HeaderText = "Importe(" & vMoneda & ")"
+                .Columns(3).HeaderText = resManager.GetString("Importe") & " " & vMoneda
                 .Columns(4).Width = 90
-                .Columns(4).HeaderText = "Saldo(" & vMoneda & ")"
+                .Columns(4).HeaderText = resManager.GetString("Saldo") & " " & vMoneda
                 .Columns(5).Width = 140
-                .Columns(5).HeaderText = "Notas"
+                .Columns(5).HeaderText = resManager.GetString("Notas") ' "Notas"
                 .Columns(6).Width = 140
-                .Columns(6).HeaderText = "Cuenta"
+                .Columns(6).HeaderText = resManager.GetString("Cuenta") ' "Cuenta"
                 .Columns(7).Width = 0
-                .Columns(7).HeaderText = "Código"
+                .Columns(7).HeaderText = resManager.GetString("Codigo") ' "Código"
             End With
             If frmApuntesContables.DgvApuntes.ColumnCount > 0 Then
                 frmApuntesContables.DgvApuntes.Columns(frmApuntesContables.DgvApuntes.ColumnCount - 1).Visible = False
@@ -1337,6 +1313,7 @@ Module Funciones
             ' Evita errores si las Keys aún no están dadas de alta en el diseño del formulario
         End Try
     End Sub
+
 
     'Public Function ReadINIkey(file As String, section As String, key As String) As String
     '    Dim lret As Long, i As Long
