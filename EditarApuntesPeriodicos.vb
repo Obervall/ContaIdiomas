@@ -3,7 +3,7 @@ Imports System.Windows.Forms
 
 Public Class EditarApuntesPeriodicos
 
-    Public vConcepto, vtipoSql, vtipoGrid, vAñadirSql As String
+    Public vConcepto, vtipoSql, vtipoGrid As String
     Public vDescripcionAPU, vNotasAPU, vCuentaAPU As String
     Public vCodigoAPU As Integer
     Public vimporteAPU As Double
@@ -139,7 +139,7 @@ Public Class EditarApuntesPeriodicos
     End Sub
 
     Private Sub BtnEliminar_Click(sender As Object, e As EventArgs) Handles BtnEliminar.Click
-        respuesta = MsgBox("¿Estas seguro de Eliminar el Apunte Periódico seleccionado?.", vbQuestion + vbYesNo + vbDefaultButton2, "Eliminar Apunte Periódico")
+        Dim respuesta As MsgBoxResult = MsgBox("¿Estas seguro de Eliminar el Apunte Periódico seleccionado?.", vbQuestion + vbYesNo + vbDefaultButton2, "Eliminar Apunte Periódico")
         If respuesta = vbYes Then
             ' Eliminar Registro Apunte
             vtipoSql = "DELETE FROM apuper"

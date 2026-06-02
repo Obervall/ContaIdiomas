@@ -4,10 +4,11 @@ Imports ToolTip = System.Windows.Forms.ToolTip
 
 Public Class IntroApuntes
 
-    Public vConcepto, vtipoSql, vtipoGrid, vAñadirSql As String
+    Public vConcepto, vtipoSql, vtipoGrid As String
     Public vDescripcionAPU, vNotasAPU, vCuentaAPU, strText, vIntro, vLetras, vCombo, vDescripcion As String
     Public vImporteAPU As Double
     Public i, primero, nuevo As Integer
+    Private TL(12) As ToolTip
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub IntroApuntes_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -25,33 +26,32 @@ Public Class IntroApuntes
             DateTimePicker1.Value = vfechaHoy
         End If
 
-        Dim TL(12) As ToolTip
         TL(0) = New ToolTip
-        TL(0).SetToolTip(Me.BtnHoy, "Ir a Hoy")
+        TL(0).SetToolTip(Me.BtnHoy, resManager.GetString("IrAHoy"))
         TL(1) = New ToolTip
-        TL(1).SetToolTip(Me.BtnAceptarOtro, "Aceptar y Otro")
+        TL(1).SetToolTip(Me.BtnAceptarOtro, rmse.GetString("BtnAceptarOtro.Text"))
         TL(2) = New ToolTip
-        TL(2).SetToolTip(Me.BtnAceptarSalir, "Aceptar y Salir")
+        TL(2).SetToolTip(Me.BtnAceptarSalir, rmse.GetString("BtnAceptarSalir.Text"))
         TL(3) = New ToolTip
-        TL(3).SetToolTip(Me.BtnCancelar, "Cancelar la introducción del Apunte")
+        TL(3).SetToolTip(Me.BtnCancelar, rmse.GetString("BtnCancelar.Text") & " " & rmse.GetString("$this.Text"))
         TL(4) = New ToolTip
-        TL(4).SetToolTip(Me.CmbConcepto, "Seleccionar el Concepto o Escribir para Buscar (2 mínimo)")
+        TL(4).SetToolTip(Me.CmbConcepto, rmse.GetString("SelecConcepto"))
         TL(5) = New ToolTip
-        TL(5).SetToolTip(Me.CmbCuenta, "Seleccionar la Cuenta a la que se refiere la transacción")
+        TL(5).SetToolTip(Me.CmbCuenta, rmse.GetString("SelecCuenta"))
         TL(6) = New ToolTip
-        TL(6).SetToolTip(Me.CmbDescripcion, "Seleccionar la Descripción o Escribir para Buscar (3 mínimo)")
+        TL(6).SetToolTip(Me.CmbDescripcion, rmse.GetString("SelecDescripcion"))
         TL(7) = New ToolTip
-        TL(7).SetToolTip(Me.TxtImporte, "Importe del Asiento")
+        TL(7).SetToolTip(Me.TxtImporte, rmse.GetString("ImporteAsiento"))
         TL(8) = New ToolTip
-        TL(8).SetToolTip(Me.BtnCalculadora, "Activar la Calculadora")
+        TL(8).SetToolTip(Me.BtnCalculadora, rmse.GetString("ToolTipCalculadora"))
         TL(9) = New ToolTip
-        TL(9).SetToolTip(Me.BtnConcepto, "Editar Consulta Conceptos Contables y al salir Rellena Conceptos")
+        TL(9).SetToolTip(Me.BtnConcepto, rmse.GetString("BtnConcepto"))
         TL(10) = New ToolTip
-        TL(10).SetToolTip(Me.BtnCuenta, "Añade, Edita, Borra o Consulta Cuentas Bancarias")
+        TL(10).SetToolTip(Me.BtnCuenta, rmse.GetString("BtnCuenta"))
         TL(11) = New ToolTip
-        TL(11).SetToolTip(Me.BtnDescripcion, "Rellena Descripciones de Apuntes guardados")
+        TL(11).SetToolTip(Me.BtnDescripcion, rmse.GetString("BtnDescripcion"))
         TL(12) = New ToolTip
-        TL(12).SetToolTip(Me.TxtBuscarLetras, "Texto a Buscar")
+        TL(12).SetToolTip(Me.TxtBuscarLetras, rmse.GetString("TxtABuscar"))
 
         ' Llenar el Combo Concepto
         '*************************
@@ -80,7 +80,6 @@ Public Class IntroApuntes
             End If
             drMdb1.Close()
         Catch ex As Exception
-            MsgBox("Error al llenar el Combo Cuenta")
             MsgBox(ex.ToString)
         End Try
         TxtImporte.Text = 0
@@ -136,8 +135,6 @@ Public Class IntroApuntes
             CmbDescripcion.Select()
         End If
     End Sub
-
-
 
     Private Sub CmbConcepto_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbConcepto.KeyPress
         ' ¡EL TRUCO!: Si es un Intro, salimos inmediatamente sin borrar nada
@@ -264,14 +261,14 @@ Public Class IntroApuntes
             e.Handled = True ' Evita el pitido de Windows
 
             If vCombo = "concepto" Then
-                MsgBox("Pulsar Tabulador para ir a Concepto, usar Flechas y finalizar con Enter", MsgBoxStyle.Exclamation, "Tecla a Pulsar")
+                MsgBox(rmse.GetString("MsgTxtBuscarConceptos"), MsgBoxStyle.Exclamation, rmse.GetString("$this.Text"))
                 If CmbConcepto.Items.Count > 0 Then
                     CmbConcepto.DroppedDown = True
                     CmbConcepto.Focus()
                     CmbConcepto.SelectedIndex = 0
                 End If
             Else
-                MsgBox("Pulsar Tabulador para ir a Descripción, usar Flechas y finalizar con Enter", MsgBoxStyle.Exclamation, "Tecla a Pulsar")
+                MsgBox(rmse.GetString("MsgTxtBuscarDescripciones"), MsgBoxStyle.Exclamation, rmse.GetString("$this.Text"))
                 If CmbDescripcion.Items.Count > 0 Then
                     CmbDescripcion.DroppedDown = True
                     CmbDescripcion.Focus()
@@ -353,7 +350,7 @@ Public Class IntroApuntes
                 End If
                 drMdb1.Close()
             Catch ex As Exception
-                MsgBox("Error al Buscar Letras en Concepto: " & ex.Message)
+                MsgBox(rmse.GetString("ErrorBuscarLetrasConcepto") & ": " & ex.Message)
             End Try
         End If
 
@@ -434,7 +431,7 @@ Public Class IntroApuntes
                 If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
 
             Catch ex As Exception
-                MsgBox("Error al Buscar Letras en Descripción: " & ex.Message)
+                MsgBox(rmse.GetString("ErrorBuscarLetrasDescripcion") & ": " & ex.Message)
                 If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
             End Try
         End If
@@ -508,7 +505,6 @@ Public Class IntroApuntes
 
             CmbDescripcion.Text = ""
 
-
             ' ¡EL SECRETO!: Cancelamos la pulsación en el combo para evitar parpadeos gráficos
             e.Handled = True
         End If
@@ -565,20 +561,7 @@ Public Class IntroApuntes
     End Sub
 
     Private Sub BtnConcepto_Click(sender As Object, e As EventArgs) Handles BtnConcepto.Click
-        frmPrincipal.TsLabelFormulario.Text = "Conceptos Contables"
-
-        ' Comprobamos si existe un identificador asociado.
-        If ((frmConceptosContables Is Nothing) OrElse (Not frmConceptosContables.IsHandleCreated)) Then
-            frmConceptosContables = New ConceptosContables
-        End If
-
-        ' Llamamos al formulario de manera modal.
-        frmConceptosContables.ShowDialog()
-
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
-        frmConceptosContables.Dispose()
-        frmPrincipal.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        frmPrincipal.ConceptosContablesToolStripMenuItem.PerformClick()
 
         ' Llenar el Combo Concepto al cerrar
         '***********************************
@@ -606,7 +589,7 @@ Public Class IntroApuntes
 
     Private Sub BtnHoy_Click(sender As Object, e As EventArgs) Handles BtnHoy.Click
         If vAñoEjercicio <> vAñoActual Then
-            MsgBox("El año del ejercicio no coincide con el año actual," & vbCrLf & "se establecerá la fecha del 31 de Diciembre del año del ejercicio", MsgBoxStyle.Information, "Fecha establecida al 31 de Diciembre")
+            MsgBox(rmse.GetString("EjercicioActual"), MsgBoxStyle.Information, rmse.GetString("Fecha31Diciembre"))
             DateTimePicker1.Value = New Date(vAñoEjercicio, 12, 31)
         Else
             DateTimePicker1.Value = vfechaHoy
@@ -638,7 +621,7 @@ Public Class IntroApuntes
                     cmdMdb1cr.ExecuteNonQuery()
                     'MsgBox("Registro, Grabado Correctamente")
                 Catch ex As Exception
-                    MsgBox("Error al Grabar el Registro, Verificar que la Fecha es Correcta y el Importe no tiene Letras ..." & vbCrLf & "Error: " & ex.ToString, vbExclamation, "Error al Grabar")
+                    MsgBox(rmse.GetString("ErrorGrabarRegistro") & ": " & ex.ToString, vbExclamation, rmse.GetString("$this.Text"))
                 End Try
                 vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
                 vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
@@ -659,7 +642,7 @@ Public Class IntroApuntes
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
                 vFilaActual = frmApuntesContables.DgvApuntes.CurrentRow.Index
                 If vFilaActual = frmApuntesContables.DgvApuntes.RowCount - 1 Then
-                    MsgBox("Fila Ultima Seleccionada")
+                    MsgBox(resManager.GetString("MsgFila2"))
                 Else
                     vFila = frmApuntesContables.DgvApuntes.RowCount - 1
                     frmApuntesContables.DgvApuntes.Rows(vFila).Selected = True
@@ -682,7 +665,7 @@ Public Class IntroApuntes
                     cmdMdb1cr.ExecuteNonQuery()
                     'MsgBox("Registro, Grabado Correctamente")
                 Catch ex As Exception
-                    MsgBox("Error al Grabar el Registro, Verificar que la Fecha es Correcta y el Importe no tiene Letras ..." & vbCrLf & "Error: " & ex.ToString, vbExclamation, "Error al Grabar")
+                    MsgBox(rmse.GetString("ErrorGrabarRegistro") & ": " & ex.ToString, vbExclamation, rmse.GetString("$this.Text"))
                 End Try
                 Dim i As Integer
                 vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
@@ -734,7 +717,7 @@ Public Class IntroApuntes
             End If
             Me.Close()
         Else
-            MsgBox("NO hay Cantidad en Importe ...", vbExclamation)
+            MsgBox(rmse.GetString("NoCantidadImporte"), vbExclamation, rmse.GetString("$this.Text"))
             TxtImporte.Select()
         End If
     End Sub
@@ -764,7 +747,7 @@ Public Class IntroApuntes
                     cmdMdb1cr.ExecuteNonQuery()
                     'MsgBox("Registro, Grabado Correctamente")
                 Catch ex As Exception
-                    MsgBox("Error al Grabar el Registro, Verificar que la Fecha es Correcta y el Importe no tiene Letras ..." & vbCrLf & "Error: " & ex.ToString, vbExclamation, "Error al Grabar")
+                    MsgBox(rmse.GetString("ErrorGrabarRegistro") & ": " & ex.ToString, vbExclamation, rmse.GetString("$this.Text"))
                 End Try
                 vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
                 vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
@@ -803,7 +786,7 @@ Public Class IntroApuntes
                     cmdMdb1cr.ExecuteNonQuery()
                     'MsgBox("Registro, Grabado Correctamente")
                 Catch ex As Exception
-                    MsgBox("Error al Grabar el Registro, Verificar que la Fecha es Correcta y el Importe no tiene Letras ..." & vbCrLf & "Error: " & ex.ToString, vbExclamation, "Error al Grabar")
+                    MsgBox(rmse.GetString("ErrorGrabarRegistro") & ": " & ex.ToString, vbExclamation, rmse.GetString("$this.Text"))
                 End Try
                 Dim i As Integer
                 vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
@@ -856,11 +839,96 @@ Public Class IntroApuntes
             TxtImporte.Text = 0
             DateTimePicker1.Select()
         Else
-            MsgBox("NO hay Cantidad en Importe ...", vbExclamation)
+            MsgBox(rmse.GetString("NoCantidadImporte"), vbExclamation, rmse.GetString("$this.Text"))
             TxtImporte.Select()
             TxtImporte.SelectAll()
         End If
     End Sub
+
+    '' =========================================================================
+    '' 1. BOTÓN: ACEPTAR Y SALIR
+    '' =========================================================================
+    'Private Sub BtnAceptarSalir_Click(sender As Object, e As EventArgs) Handles BtnAceptarSalir.Click
+    '    ' Ejecuta todo el proceso de guardado y, si tiene éxito, cierra la ventana
+    '    If GuardarApunteEnBaseDatos() Then
+    '        Me.Close()
+    '    End If
+    'End Sub
+
+    '' =========================================================================
+    '' 2. BOTÓN: ACEPTAR Y OTRO
+    '' =========================================================================
+    'Private Sub BtnAceptarOtro_Click(sender As Object, e As EventArgs) Handles BtnAceptarOtro.Click
+    '    ' Ejecuta todo el proceso de guardado y, si tiene éxito, limpia para el siguiente apunte
+    '    If GuardarApunteEnBaseDatos() Then
+    '        vIntro = "NO"
+    '        CmbConcepto.Text = ""
+    '        CmbDescripcion.Text = ""
+    '        TxtImporte.Text = 0
+
+    '        ' Forzamos a vaciar los combos para el siguiente registro de forma segura
+    '        RemoveHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
+    '        CmbConcepto.Items.Clear()
+    '        AddHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
+
+    '        RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+    '        CmbDescripcion.Items.Clear()
+    '        AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+
+    '        ' Volvemos a llenar los catálogos iniciales
+    '        LlenarConcepto()
+    '        LlenarDescripcion()
+
+    '        ' Mandamos el foco de vuelta al inicio (la fecha)
+    '        DateTimePicker1.Select()
+    '    End If
+    'End Sub
+
+    'Private Function GuardarApunteEnBaseDatos() As Boolean
+    '    ' Cerramos el lector de datos por seguridad si se quedó abierto
+    '    If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+
+    '    ' Captura y formateo de variables de pantalla
+    '    vFechaAPU = Format(DateTimePicker1.Value, "dd/MM/yyyy")
+    '    vConceptoAPU = Trim(CmbConcepto.Text)
+    '    vDescripcionAPU = Trim(CmbDescripcion.Text)
+    '    vNotasAPU = Trim(TxtNotas.Text)
+    '    vCuentaAPU = Trim(CmbCuenta.Text)
+
+    '    ' CORRECCIÓN DE DECIMALES Y SIGNOS
+    '    vImporteAPU = Val(TxtImporte.Text.Replace(",", "."))
+    '    If TxtTipoConcepto.Text = "GASTO" Then
+    '        vImporteAPU = -Math.Abs(vImporteAPU)
+    '    Else
+    '        vImporteAPU = Math.Abs(vImporteAPU)
+    '    End If
+
+    '    ' Construcción de la sentencia SQL de inserción
+    '    vAñadirSql = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) VALUES "
+    '    vAñadirSql += "('" & vFechaAPU & "', '" & vConceptoAPU & "', '" & vDescripcionAPU & "', " & Str(vImporteAPU) & ", " & CInt(vAñoEjercicio) & ", '" & vNotasAPU & "', '" & vCuentaAPU & "')"
+
+    '    cmdMdb1cr.CommandText = vAñadirSql
+
+    '    Try
+    '        ' 1. Ejecutamos la inserción en la base de datos
+    '        cmdMdb1cr.ExecuteNonQuery()
+
+    '        ' 2. ¡EL CAMBIO CLAVE!: Definimos la consulta de lectura
+    '        vtipoSql = "SELECT * FROM apuntes WHERE apuntes.EjercicioAPU = " & CInt(vAñoEjercicio) & " ORDER BY apuntes.FechaAPU ASC"
+
+    '        ' 3. Usamos tu método nativo centralizado para refrescar el grid de la pantalla de atrás
+    '        ' Esto aplica automáticamente las traducciones, alineaciones y anchos proporcionales
+    '        LlenarGrid(vtipoSql, frmApuntesContables.DgvApuntes, "1")
+
+    '        ' Si todo ha ido bien, devolvemos TRUE
+    '        Return True
+
+    '    Catch ex As Exception
+    '        ' Si algo falla, avisamos y devolvemos FALSE
+    '        MsgBox("Error al guardar el apunte: " & ex.Message, MsgBoxStyle.Critical, "Error de Grabación")
+    '        Return False
+    '    End Try
+    'End Function
 
     Private Sub BtnCancelar_Click(sender As Object, e As EventArgs) Handles BtnCancelar.Click
         Me.Close()
@@ -874,20 +942,7 @@ Public Class IntroApuntes
     End Sub
 
     Private Sub BtnCuenta_Click(sender As Object, e As EventArgs) Handles BtnCuenta.Click
-        frmPrincipal.TsLabelFormulario.Text = "Cuentas Bancarias"
-
-        ' Comprobamos si existe un identificador asociado.
-        If ((frmCuentasBancarias Is Nothing) OrElse (Not frmCuentasBancarias.IsHandleCreated)) Then
-            frmCuentasBancarias = New CuentasBancarias
-        End If
-
-        ' Llamamos al formulario de manera modal.
-        frmCuentasBancarias.ShowDialog()
-
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
-        frmCuentasBancarias.Dispose()
-        frmPrincipal.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        frmPrincipal.CuentasToolStripMenuItem.PerformClick()
     End Sub
 
     Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
@@ -924,69 +979,80 @@ Public Class IntroApuntes
         LlenarDescripcion()
     End Sub
 
-    Function LlenarConcepto()
-        cmdMdb1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
+    Public Function LlenarConcepto() As String
+        ' 1. BLINDAJE: Vaciamos el combo de forma segura desactivando eventos
+        RemoveHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
+        CmbConcepto.SelectedIndex = -1
+        CmbConcepto.Items.Clear()
+        AddHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
+
+        ' Forzamos solo la columna que necesitamos
+        cmdMdb1cr.CommandText = "SELECT CodigoCON FROM conceptos ORDER BY CodigoCON ASC"
+
         Try
+            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
             drMdb1 = cmdMdb1cr.ExecuteReader()
+
             If drMdb1.HasRows Then
                 While drMdb1.Read()
-                    If drMdb1.GetValue(0) <> "TRASPASO" Then
-                        CmbConcepto.Items.Add(drMdb1.GetValue(0))
+                    Dim valor As String = Convert.ToString(drMdb1.GetValue(0))
+                    If valor <> "TRASPASO" Then
+                        CmbConcepto.Items.Add(valor)
                     End If
                 End While
-                If frmApuntesContables.BtnFiltroConcepto.Enabled = False Then
-                    If frmApuntesContables.ListBox1.SelectedItems.Count <> 0 Then
-                        CmbConcepto.Text = CmbConcepto.Items(0)
+
+                ' 2. Asignación del concepto inicial por defecto
+                If CmbConcepto.Items.Count > 0 Then
+                    If frmApuntesContables.BtnFiltroConcepto.Enabled = False Then
+                        If frmApuntesContables.ListBox1.SelectedItems.Count <> 0 Then
+                            CmbConcepto.Text = Convert.ToString(CmbConcepto.Items(0))
+                        Else
+                            Dim index As Integer = frmApuntesContables.CmbConcepto.SelectedIndex - 1
+                            If index >= 0 AndAlso index < CmbConcepto.Items.Count Then
+                                CmbConcepto.Text = Convert.ToString(CmbConcepto.Items(index))
+                            Else
+                                CmbConcepto.Text = Convert.ToString(CmbConcepto.Items(0))
+                            End If
+                        End If
                     Else
-                        CmbConcepto.Text = CmbConcepto.Items(frmApuntesContables.CmbConcepto.SelectedIndex - 1)
+                        CmbConcepto.Text = Convert.ToString(CmbConcepto.Items(0))
                     End If
-                Else
-                    CmbConcepto.Text = CmbConcepto.Items(0)
                 End If
-            Else
-                'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
             End If
             drMdb1.Close()
         Catch ex As Exception
-            MsgBox("Error al Llenar el Combo Concepto, Verificar que la Base de Datos no esta Dañada ..." & vbCrLf & "Error: " & ex.ToString, vbExclamation, "Error al Llenar")
+            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+            MsgBox(rmse.GetString("ErrorLlenarDesplegable") & rmse.GetString("Label2.Text") & " " & ex.Message, vbExclamation, rmse.GetString("$this.Text"))
         End Try
         Return ""
     End Function
 
-    Function LlenarDescripcion()
-        cmdMdb1cr.CommandText = "SELECT * FROM apuntes ORDER BY apuntes.DescripcionAPU ASC"
+    Public Function LlenarDescripcion() As String
+        ' 1. BLINDAJE: Vaciamos el combo de forma segura desactivando eventos para evitar errores de índice
+        RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+        CmbDescripcion.SelectedIndex = -1
+        CmbDescripcion.Items.Clear()
+        AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+
+        ' 2. OPTIMIZACIÓN CRÍTICA: Usamos SELECT DISTINCT para que la base de datos filtre los duplicados al vuelo
+        cmdMdb1cr.CommandText = "SELECT DISTINCT DescripcionAPU FROM apuntes WHERE DescripcionAPU <> 'Saldo Inicial' ORDER BY DescripcionAPU ASC"
+
         Try
+            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
             drMdb1 = cmdMdb1cr.ExecuteReader()
+
             If drMdb1.HasRows Then
-                primero = 1
                 While drMdb1.Read()
-                    If Trim(drMdb1.GetValue(3)) <> "Saldo Inicial" Then
-                        If primero = 1 Then
-                            CmbDescripcion.Items.Add(Trim(drMdb1.GetValue(3)))
-                            primero = 2
-                        Else
-                            nuevo = 0
-                            For i = 0 To CmbDescripcion.Items.Count - 1
-                                If Trim(drMdb1.GetValue(3)) = Trim(CmbDescripcion.Items(i)) Then
-                                    nuevo = 0
-                                    Exit For
-                                Else
-                                    nuevo = 1
-                                End If
-                            Next
-                            If nuevo = 1 Then
-                                CmbDescripcion.Items.Add(Trim(drMdb1.GetValue(3)))
-                                nuevo = 0
-                            End If
-                        End If
+                    Dim desc As String = Convert.ToString(drMdb1.GetValue(0)).Trim()
+                    If Not String.IsNullOrEmpty(desc) Then
+                        CmbDescripcion.Items.Add(desc)
                     End If
                 End While
-            Else
-                'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
             End If
             drMdb1.Close()
         Catch ex As Exception
-            MsgBox("Error al Llenar el Combo Descripción, Verificar que la Base de Datos no esta Dañada ..." & vbCrLf & "Error: " & ex.ToString, vbExclamation, "Error al Llenar")
+            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+            MsgBox(rmse.GetString("ErrorLlenarDesplegable") & rmse.GetString("Label3.Text") & " " & ex.Message, vbExclamation, rmse.GetString("$this.Text"))
         End Try
         Return ""
     End Function

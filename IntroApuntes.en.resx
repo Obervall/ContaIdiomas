@@ -156,4 +156,58 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Introduction of Notes</value>
   </data>
+  <data name="SelecConcepto" xml:space="preserve">
+    <value>Select Concept or Type to Search (2 minimum)</value>
+  </data>
+  <data name="SelecCuenta" xml:space="preserve">
+    <value>Select the Account to which the transaction relates</value>
+  </data>
+  <data name="SelecDescripcion" xml:space="preserve">
+    <value>Select Description or Type to Search (3 minimum)</value>
+  </data>
+  <data name="ImporteAsiento" xml:space="preserve">
+    <value>Seat Amount</value>
+  </data>
+  <data name="BtnConcepto" xml:space="preserve">
+    <value>Edit Query Accounting Concepts and when exiting Fill in Concepts</value>
+  </data>
+  <data name="BtnCuenta" xml:space="preserve">
+    <value>Add, Edit, Delete or Consult Bank Accounts</value>
+  </data>
+  <data name="BtnDescripcion" xml:space="preserve">
+    <value>Fill in Saved Notes Descriptions</value>
+  </data>
+  <data name="TxtABuscar" xml:space="preserve">
+    <value>Text to Search</value>
+  </data>
+  <data name="MsgTxtBuscarConceptos" xml:space="preserve">
+    <value>Press Tab to go to Concept, use Arrows, and finish with Enter key</value>
+  </data>
+  <data name="MsgTxtBuscarDescripciones" xml:space="preserve">
+    <value>Press Tab to go to Description, use Arrows, and finish with Enter</value>
+  </data>
+  <data name="ErrorBuscarLetrasConcepto" xml:space="preserve">
+    <value>Mistake Searching for Letters in Concept</value>
+  </data>
+  <data name="ErrorBuscarLetrasDescripcion" xml:space="preserve">
+    <value>Error When Searching for Letters in Description</value>
+  </data>
+  <data name="EjercicioActual" xml:space="preserve">
+    <value>The year of the fiscal year does not coincide with the current year,
+the date of December 31 of the year of the fiscal year shall be established</value>
+  </data>
+  <data name="Fecha31Diciembre" xml:space="preserve">
+    <value>Date set for December 31</value>
+  </data>
+  <data name="ErrorGrabarRegistro" xml:space="preserve">
+    <value>Error Saving the Record, Verifying that the Date is Correct and the Amount Has No Letters ...
+Error</value>
+  </data>
+  <data name="NoCantidadImporte" xml:space="preserve">
+    <value>No Amount</value>
+  </data>
+  <data name="ErrorLlenarDesplegable" xml:space="preserve">
+    <value>Error filling out the drop-down.
+Error</value>
+  </data>
 </root>

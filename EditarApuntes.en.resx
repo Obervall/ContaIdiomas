@@ -123,9 +123,6 @@
   <data name="Label2.Text" xml:space="preserve">
     <value>Concept:</value>
   </data>
-  <data name="LblEditando.Text" xml:space="preserve">
-    <value>ACCOUNTING NOTE</value>
-  </data>
   <data name="Label7.Text" xml:space="preserve">
     <value>€</value>
   </data>
@@ -155,5 +152,38 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Edit Notes</value>
+  </data>
+  <data name="LblEliminando" xml:space="preserve">
+    <value>DELETE ACCOUNTING ENTRY !!</value>
+  </data>
+  <data name="MsgBoxEliminarApunte" xml:space="preserve">
+    <value>Are you sure to Delete the selected Accounting Entry?</value>
+  </data>
+  <data name="MsgBoxRegistroBorrado" xml:space="preserve">
+    <value>Record Accounting Entry, Deletion!!</value>
+  </data>
+  <data name="MsgBoxErrorEliminarRegistro" xml:space="preserve">
+    <value>Error Deleting Accounting Entry Record</value>
+  </data>
+  <data name="MsgBoxNoHayImporte" xml:space="preserve">
+    <value>There is NO Amount in Amount</value>
+  </data>
+  <data name="ToolTipSeleccionarConcepto" xml:space="preserve">
+    <value>Select the Item to which the transaction relates</value>
+  </data>
+  <data name="ToolTipSeleccionarCuenta" xml:space="preserve">
+    <value>Select the Account to which the transaction relates</value>
+  </data>
+  <data name="ToolTipSeleccionarDescripcion" xml:space="preserve">
+    <value>Enter a description for the Seat</value>
+  </data>
+  <data name="ToolTipIngresarImporte" xml:space="preserve">
+    <value>Seat Amount</value>
+  </data>
+  <data name="LblEditando.Text" xml:space="preserve">
+    <value>EDITING ACCOUNTING ENTRY</value>
+  </data>
+  <data name="MsgBoxErrorInsertar" xml:space="preserve">
+    <value>Error processing the entry</value>
   </data>
 </root>

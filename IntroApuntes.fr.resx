@@ -156,4 +156,58 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Introduction des notes</value>
   </data>
+  <data name="SelecConcepto" xml:space="preserve">
+    <value>Sélectionnez le concept ou le type à rechercher (minimum 2)</value>
+  </data>
+  <data name="SelecCuenta" xml:space="preserve">
+    <value>Sélectionnez le compte auquel la transaction est liée</value>
+  </data>
+  <data name="SelecDescripcion" xml:space="preserve">
+    <value>Sélectionnez Description ou Type à Rechercher (minimum 3)</value>
+  </data>
+  <data name="ImporteAsiento" xml:space="preserve">
+    <value>Nombre de sièges</value>
+  </data>
+  <data name="BtnConcepto" xml:space="preserve">
+    <value>Modifier : Requête sur les concepts comptables et lors de la sortie : remplir les concepts</value>
+  </data>
+  <data name="BtnCuenta" xml:space="preserve">
+    <value>Ajouter, modifier, supprimer ou consulter des comptes bancaires</value>
+  </data>
+  <data name="BtnDescripcion" xml:space="preserve">
+    <value>Remplir les descriptions des notes sauvegardées</value>
+  </data>
+  <data name="TxtABuscar" xml:space="preserve">
+    <value>Texte à recherche</value>
+  </data>
+  <data name="MsgTxtBuscarConceptos" xml:space="preserve">
+    <value>Appuyez sur Tab pour aller dans Concept, utilisez Flèches, et terminez avec la touche Entrée</value>
+  </data>
+  <data name="MsgTxtBuscarDescripciones" xml:space="preserve">
+    <value>Appuyez sur Tab pour aller dans la description, utilisez les flèches, et terminez avec Entrée</value>
+  </data>
+  <data name="ErrorBuscarLetrasConcepto" xml:space="preserve">
+    <value>Erreur de recherche de lettres en concept</value>
+  </data>
+  <data name="ErrorBuscarLetrasDescripcion" xml:space="preserve">
+    <value>Erreur lors de la recherche de lettres dans la description</value>
+  </data>
+  <data name="EjercicioActual" xml:space="preserve">
+    <value>L’année de l’exercice ne coïncide pas avec l’année en cours,
+la date du 31 décembre de l’année de l’exercice fiscal sera fixée</value>
+  </data>
+  <data name="Fecha31Diciembre" xml:space="preserve">
+    <value>Date fixée au 31 décembre</value>
+  </data>
+  <data name="ErrorGrabarRegistro" xml:space="preserve">
+    <value>Erreur de sauvegarde du dossier, vérification que la date est correcte et que le montant n’a pas de lettres...
+Erreur</value>
+  </data>
+  <data name="NoCantidadImporte" xml:space="preserve">
+    <value>Pas de montant</value>
+  </data>
+  <data name="ErrorLlenarDesplegable" xml:space="preserve">
+    <value>Erreur en remplissant le menu déroulant.
+Erreur</value>
+  </data>
 </root>

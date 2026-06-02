@@ -156,4 +156,58 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Introducció d' Apunts</value>
   </data>
+  <data name="SelecConcepto" xml:space="preserve">
+    <value>Seleccionar el Concepte o Escriure per Buscar (2 mínim)</value>
+  </data>
+  <data name="SelecCuenta" xml:space="preserve">
+    <value>Seleccionar el Compte a què es refereix la transacció</value>
+  </data>
+  <data name="SelecDescripcion" xml:space="preserve">
+    <value>Seleccionar la Descripció o Escriure per Buscar (3 mínim)</value>
+  </data>
+  <data name="ImporteAsiento" xml:space="preserve">
+    <value>Import de l' Assentament</value>
+  </data>
+  <data name="BtnConcepto" xml:space="preserve">
+    <value>Editar Consulta Conceptes Comptables i en sortir Emplena Conceptes</value>
+  </data>
+  <data name="BtnCuenta" xml:space="preserve">
+    <value>Afegeix, Edita, Borra o Consulta Comptes Bancaris</value>
+  </data>
+  <data name="BtnDescripcion" xml:space="preserve">
+    <value>Omple Descripcions d' Apunts guardats</value>
+  </data>
+  <data name="TxtABuscar" xml:space="preserve">
+    <value>Text a Buscar</value>
+  </data>
+  <data name="MsgTxtBuscarConceptos" xml:space="preserve">
+    <value>Pulsar Tabulador per anar a Concepte, usar Fletxes i finalitzar amb Tecla Entrar</value>
+  </data>
+  <data name="MsgTxtBuscarDescripciones" xml:space="preserve">
+    <value>Pulsar Tabulador per anar a Descripció, usar Fletxes i finalitzar amb Tecla Entrar</value>
+  </data>
+  <data name="ErrorBuscarLetrasConcepto" xml:space="preserve">
+    <value>Error en Buscar Lletres en Concepte</value>
+  </data>
+  <data name="ErrorBuscarLetrasDescripcion" xml:space="preserve">
+    <value>Error en Buscar Lletres en Descripció</value>
+  </data>
+  <data name="EjercicioActual" xml:space="preserve">
+    <value>L' any de l' exercici no coincideix amb l' any actual,
+s' establirà la data del 31 de desembre de l' any de l' exercici</value>
+  </data>
+  <data name="Fecha31Diciembre" xml:space="preserve">
+    <value>Data establerta al 31 de desembre</value>
+  </data>
+  <data name="ErrorGrabarRegistro" xml:space="preserve">
+    <value>Error en Gravar el Registre, Verificar que la Data és Correcta i l'Import no té Lletres ...
+Error</value>
+  </data>
+  <data name="NoCantidadImporte" xml:space="preserve">
+    <value>No hi ha Quantitat en Import</value>
+  </data>
+  <data name="ErrorLlenarDesplegable" xml:space="preserve">
+    <value>Error en omplir el desplegable.
+Error</value>
+  </data>
 </root>

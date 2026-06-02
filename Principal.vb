@@ -9,7 +9,7 @@ Imports System.Windows.Forms
 Public Class Principal
 
     Public x, y, CantPantallas, vPantallas, vCodigo, vContador, vCalculoVersion1, vCalculoVersion2, vCalculoVersion3 As Integer
-    Public tipoDsn, tipoSql, vtipoSql, vAñadirSql, vWidth, vHeigth, vPosicion, respuesta, vNumeroVersion As String
+    Public tipoDsn, tipoSql, vtipoSql, vWidth, vHeigth, vPosicion, respuesta, vNumeroVersion As String
     Public vConcepto, vDescripcion, vNotas, vCuenta, vImporte, vDescripcionAPU As String
     Public vImporteAPU, vNotasAPU, vCuentaAPU, vCompactada, appDataPath, carpetaDB As String
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
@@ -243,7 +243,7 @@ Public Class Principal
                 Try
                     cmdMdb1cr.ExecuteNonQuery()
                     vAñoEjercicio = vAñoActual
-                    MsgBox(resManager.GetString("Exercici") & " " & vAñoActual.ToString & " " & rmse.GetString("CreadoCorrectamente"))
+                    MsgBox(resManager.GetString("Ejercicio") & " " & vAñoActual.ToString & " " & rmse.GetString("CreadoCorrectamente"))
                 Catch ex As Exception
                     MsgBox(resManager.GetString("ErrorAlCrearEjercicio") & " " & vAñoActual.ToString)
                     MsgBox(ex.ToString)
@@ -1067,7 +1067,7 @@ Public Class Principal
 
         TsLabelFormulario.ForeColor = Color.Red
         TsLabelFormulario.Text = "Importando de Contahogar, los APUNTES, Espere unos Segundos..."
-        respuesta = MsgBox("¿Desea realizar una copia de seguridad de la base de datos antes de importar los apuntes?", vbQuestion + vbYesNo + vbDefaultButton2, "Copia de Seguridad")
+        Dim respuesta As MsgBoxResult = MsgBox("¿Desea realizar una copia de seguridad de la base de datos antes de importar los apuntes?", vbQuestion + vbYesNo + vbDefaultButton2, "Copia de Seguridad")
         If respuesta = vbYes Then
             BtnCopiaSeguridad.PerformClick()
         Else
@@ -1568,10 +1568,10 @@ Public Class Principal
     End Sub
 
     Private Sub ReiniciarBaseDeDatosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReiniciarBaseDeDatosToolStripMenuItem.Click
-        respuesta = MsgBox(rmse.GetString("MsgVaciarBD") & ": " & vAñoEjercicio.ToString & "?." & NL & rmse.GetString("MsgVaciarBD2") & NL & rmse.GetString("MsgNoVaciarBD"), vbExclamation + vbYesNo + vbDefaultButton2, rmse.GetString("MsgVaciarBD3") & ": " & vAñoEjercicio.ToString)
+        Dim respuesta As MsgBoxResult = MsgBox(rmse.GetString("MsgVaciarBD") & ": " & vAñoEjercicio.ToString & "?." & NL & rmse.GetString("MsgVaciarBD2") & NL & rmse.GetString("MsgNoVaciarBD"), vbExclamation + vbYesNo + vbDefaultButton2, rmse.GetString("MsgVaciarBD3") & ": " & vAñoEjercicio.ToString)
         If respuesta = vbYes Then
-            respuesta = MsgBox(rmse.GetString("MsgVaciarBD4") & ": " & vAñoEjercicio.ToString & " ¿Ok?.", vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("MsgVaciarBD3") & ": " & vAñoEjercicio.ToString)
-            If respuesta = vbYes Then
+            Dim respuesta2 As MsgBoxResult = MsgBox(rmse.GetString("MsgVaciarBD4") & ": " & vAñoEjercicio.ToString & " ¿Ok?.", vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("MsgVaciarBD3") & ": " & vAñoEjercicio.ToString)
+            If respuesta2 = vbYes Then
                 ' Eliminar Registro Apuntes Contables
                 cmdMdb1cr.CommandText = "DELETE FROM apuntes WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
                 Try
@@ -1732,7 +1732,7 @@ Public Class Principal
     End Sub
 
     Private Sub RestaurarCopiaDeSeguridadToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RestaurarCopiaDeSeguridadToolStripMenuItem.Click
-        respuesta = MsgBox(rmse.GetString("PreguntaBackup"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("RestaurarBD"))
+        Dim respuesta As MsgBoxResult = MsgBox(rmse.GetString("PreguntaBackup"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("RestaurarBD"))
         If respuesta = vbYes Then
             Dim RestoreFile As String = vRuta
             restore.InitialDirectory = "C:\ContaHogar3.0\Backup\"

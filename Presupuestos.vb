@@ -668,7 +668,7 @@ Public Class Presupuestos
         ' 2. Mensaje de confirmación traducible (Apunta a tus llaves globales del ResX)
         Dim msgPregunta As String = rmse.GetString("PreguntaEliminarPresupuesto")
         Dim titPregunta As String = rmse.GetString("TituloEliminarPresupuesto")
-        respuesta = MsgBox(msgPregunta, vbQuestion + vbYesNo + vbDefaultButton2, titPregunta)
+        Dim respuesta As MsgBoxResult = MsgBox(msgPregunta, vbQuestion + vbYesNo + vbDefaultButton2, titPregunta)
 
         If respuesta = vbYes Then
             filaActual = DgvPresupuestos.CurrentRow.Index

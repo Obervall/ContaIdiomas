@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="LblEditando.Text" xml:space="preserve">
-    <value>APUNTE CONTABLE</value>
+    <value>EDITANDO APUNTE CONTABLE</value>
   </data>
   <data name="Label7.Text" xml:space="preserve">
     <value>€</value>
@@ -155,5 +155,35 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Editar Apuntes</value>
+  </data>
+  <data name="LblEliminando" xml:space="preserve">
+    <value>¡¡ ELIMINAR APUNTE CONTABLE !!</value>
+  </data>
+  <data name="MsgBoxEliminarApunte" xml:space="preserve">
+    <value>¿Estas seguro de Eliminar el Apunte Contable seleccionado?</value>
+  </data>
+  <data name="MsgBoxRegistroBorrado" xml:space="preserve">
+    <value>Registro Apunte Contable, Borrado!!</value>
+  </data>
+  <data name="MsgBoxErrorEliminarRegistro" xml:space="preserve">
+    <value>Error al Eliminar Registro Apunte Contable</value>
+  </data>
+  <data name="MsgBoxNoHayImporte" xml:space="preserve">
+    <value>NO hay Cantidad en Importe</value>
+  </data>
+  <data name="MsgBoxErrorInsertar" xml:space="preserve">
+    <value>Error al procesar el apunte</value>
+  </data>
+  <data name="ToolTipSeleccionarConcepto" xml:space="preserve">
+    <value>Seleccionar el Concepto a la que se refiere la transacción</value>
+  </data>
+  <data name="ToolTipSeleccionarCuenta" xml:space="preserve">
+    <value>Seleccionar la Cuenta a la que se refiere la transacción</value>
+  </data>
+  <data name="ToolTipSeleccionarDescripcion" xml:space="preserve">
+    <value>Introducir una descripción para el Asiento</value>
+  </data>
+  <data name="ToolTipIngresarImporte" xml:space="preserve">
+    <value>Importe del Asiento</value>
   </data>
 </root>

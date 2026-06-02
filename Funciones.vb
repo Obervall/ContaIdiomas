@@ -71,7 +71,7 @@ Module Funciones
     Public drMdb1 As OleDbDataReader
 
     Public vgrid, linSql, opcion, vTipoEstados, vNombreCuenta, vNombreConcepto, vFecha, vFechaMes As String
-    Public vtipoSql, vAñadirSql, vtipoGrid, vMes, vEditar, respuesta, vBuscar, vTituloInforme, vtipoSqlChk As String
+    Public vtipoSql, vAñadirSql, vtipoGrid, vMes, vEditar, vBuscar, vTituloInforme, vtipoSqlChk As String
     Public vValor, vIngresos, vGastos, vSaldo, vSaldoCuentas, vSaldoMes, vSaldoAnualReal, vSaldoAnualPresupuesto As Double
     Public i, vFila1, vFila2, vFila, vFilaActual, filaActual, vregData1, vAñoActual, vAñoEjercicio As Integer
     Public vCerrar, vGrafico, vLetras, vNumeros, vNotas, vPathExportar, vConcepto As String
@@ -111,47 +111,6 @@ Module Funciones
         Next
     End Sub
 
-    'Public Sub ActualizarTextosFormulario(ByVal f As Form)
-    '    ' 1. Traducir el Título del Formulario
-    '    Dim titol As String = resManager.GetString("$this")
-    '    If titol IsNot Nothing Then
-    '        f.Text = titol
-    '    End If
-    '    ' 2. Traducir los controles (Labels, Buttons, etc.)
-    '    ' Este bucle busca en el .resx una llave que se llame igual que el NAME del control
-    '    For Each ctrl As Control In f.Controls
-    '        Dim texto As String = resManager.GetString(ctrl.Name)
-    '        If texto IsNot Nothing Then
-    '            ctrl.Text = texto
-    '        End If
-    '        ' Si usas Panels o GroupBox, hay que mirar dentro de ellos también:
-    '        If ctrl.HasChildren Then
-    '            For Each child As Control In ctrl.Controls
-    '                Dim textoChild As String = resManager.GetString(child.Name)
-    '                If textoChild IsNot Nothing Then
-    '                    child.Text = textoChild
-    '                End If
-    '            Next
-    '        End If
-    '    Next
-    '    ' 3. TRADUCCIÓ DINÀMICA DEL TÍTOL (Aquí és on va la línia!)
-    '    ' Comprovem si és el formulari principal per aplicar el format especial
-    '    If f.Name = "Principal" Then ' Substitueix "FormPrincipal" pel nom real del teu formulari
-    '        ' Busquem les paraules traduïdes dins del fitxer de recursos
-    '        ' NOTA: "recursos" aquí és el ComponentResourceManager que ja has creat a dalt
-    '        Dim txtTitol As String = resManager.GetString("TitolApp") ' My.Resources.Recursos.TitolApp
-    '        Dim txtVersio As String = resManager.GetString("Versio") ' My.Resources.Recursos.Versio
-    '        Dim txtExercici As String = resManager.GetString("Exercici") ' My.Resources.Recursos.Exercici
-    '        'MsgBox("Títol: " & txtTitol & vbNewLine & "Versió: " & txtVersio & vbNewLine & "Exercici: " & txtExercici, MsgBoxStyle.Information, "Comprovar Traducció Títol Principal")
-    '        f.Text = String.Format("{0}  -  {1}: {2}  -  {3}: {4}",
-    '                                        txtTitol,
-    '                                        txtVersio,
-    '                                        My.Settings.Version,
-    '                                        txtExercici,
-    '                                        vAñoEjercicio.ToString())
-    '    End If
-    'End Sub
-
     Public Sub ActualizarTextosFormulario(ByVal f As Form)
         ' 1. Crear el ComponentResourceManager
         Dim rmse As New System.ComponentModel.ComponentResourceManager(f.GetType())
@@ -166,7 +125,7 @@ Module Funciones
         If f.Name = "Principal" Then
             Dim txtTitol As String = resManager.GetString("TitolApp")
             Dim txtVersio As String = resManager.GetString("Versio")
-            Dim txtExercici As String = resManager.GetString("Exercici")
+            Dim txtExercici As String = resManager.GetString("Ejercicio")
 
             If txtTitol IsNot Nothing AndAlso txtVersio IsNot Nothing AndAlso txtExercici IsNot Nothing Then
                 f.Text = String.Format("{0}  -  {1}: {2}  -  {3}: {4}",
@@ -1055,10 +1014,10 @@ Module Funciones
                         MsgBox("Versión Instalada: " & My.Settings.Version & vbNewLine & "Versión Disponible: " & vNewVersion, MsgBoxStyle.Information, "Comprobar Nueva Versión")
                         vNuevaVersion = vNewVersion
                         vHayNuevaVersion = "SI"
-                        respuesta = MsgBox("¿Quieres actualizar a la Versión: " & vNewVersion & " ?", vbQuestion + vbYesNo + vbDefaultButton1, "Versión ContaHogar 3.0")
+                        Dim respuesta As MsgBoxResult = MsgBox("¿Quieres actualizar a la Versión: " & vNewVersion & " ?", vbQuestion + vbYesNo + vbDefaultButton1, "Versión ContaHogar 3.0")
                         If respuesta = vbYes Then
-                            respuesta = MsgBox("Quieres guardar una Copia de Seguridad de la Base de Datos.", vbQuestion + vbYesNo + vbDefaultButton1, "Actualizar Software")
-                            If respuesta = vbYes Then
+                            Dim respuesta2 As MsgBoxResult = MsgBox("Quieres guardar una Copia de Seguridad de la Base de Datos.", vbQuestion + vbYesNo + vbDefaultButton1, "Actualizar Software")
+                            If respuesta2 = vbYes Then
                                 ' Si no existe la carpeta de BackUp la creamos.
                                 Dim path As String = "C:\ContaHogar3.0\Backup"
                                 If Directory.Exists(path) Then
@@ -1313,6 +1272,34 @@ Module Funciones
             ' Evita errores si las Keys aún no están dadas de alta en el diseño del formulario
         End Try
     End Sub
+
+    Public Function ObtenerClaveNeutral(textoTraducido As String, rm As System.Resources.ResourceManager) As String
+        ' 1. Evitamos buscar si el texto viene vacío o nulo
+        If String.IsNullOrEmpty(textoTraducido) OrElse rm Is Nothing Then Return ""
+
+        Try
+            ' 2. Obtenemos el conjunto de recursos para el idioma/cultura activo en este momento
+            Dim recursosActuales As System.Resources.ResourceSet =
+            rm.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
+
+            If recursosActuales IsNot Nothing Then
+                ' 3. Recorremos todos los elementos guardados en el archivo de recursos
+                Dim de As System.Collections.DictionaryEntry
+                For Each de In recursosActuales
+                    ' 4. Comparamos el valor traducido de forma limpia (sin importar espacios ni mayúsculas)
+                    If Convert.ToString(de.Value).Trim().ToUpper() = textoTraducido.Trim().ToUpper() Then
+                        Return Convert.ToString(de.Key) ' ¡Éxito! Devolvemos el nombre de la clave original
+                    End If
+                Next
+            End If
+        Catch ex As Exception
+            ' Si ocurre algún error en la lectura, devolvemos un texto vacío para no colgar la app
+            Return ""
+        End Try
+
+        ' Si recorre todo el archivo y no encuentra coincidencia, devuelve vacío
+        Return ""
+    End Function
 
 
     'Public Function ReadINIkey(file As String, section As String, key As String) As String

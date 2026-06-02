@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="LblEditando.Text" xml:space="preserve">
-    <value>NOTA CONTABILÍSTICA</value>
-  </data>
   <data name="Label7.Text" xml:space="preserve">
     <value>€</value>
   </data>
@@ -155,5 +152,38 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Editar notas</value>
+  </data>
+  <data name="LblEliminando" xml:space="preserve">
+    <value>EXCLUA A ENTRADA CONTÁBIL!!</value>
+  </data>
+  <data name="MsgBoxEliminarApunte" xml:space="preserve">
+    <value>Você tem certeza de que vai deletar a entrada de contabilidade selecionada?</value>
+  </data>
+  <data name="MsgBoxRegistroBorrado" xml:space="preserve">
+    <value>Registro de Registro Contabilístico, Exclusão!!</value>
+  </data>
+  <data name="MsgBoxErrorEliminarRegistro" xml:space="preserve">
+    <value>Erro ao excluir o registro de registro de registro contábil</value>
+  </data>
+  <data name="MsgBoxNoHayImporte" xml:space="preserve">
+    <value>Não existe NENHUM valor no valor</value>
+  </data>
+  <data name="ToolTipSeleccionarConcepto" xml:space="preserve">
+    <value>Selecione o Item ao qual a transação se relaciona</value>
+  </data>
+  <data name="ToolTipSeleccionarCuenta" xml:space="preserve">
+    <value>Selecione a Conta à qual a transação se relaciona</value>
+  </data>
+  <data name="ToolTipSeleccionarDescripcion" xml:space="preserve">
+    <value>Insira uma descrição para o Assento</value>
+  </data>
+  <data name="ToolTipIngresarImporte" xml:space="preserve">
+    <value>Número de assentos</value>
+  </data>
+  <data name="LblEditando.Text" xml:space="preserve">
+    <value>EDITANDO ENTRADA CONTÁBIL</value>
+  </data>
+  <data name="MsgBoxErrorInsertar" xml:space="preserve">
+    <value>Processamento de erros da entrada</value>
   </data>
 </root>

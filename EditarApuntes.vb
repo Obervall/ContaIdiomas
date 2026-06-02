@@ -1,14 +1,14 @@
-﻿Imports System.Data
-Imports System.Diagnostics
+﻿Imports System.Diagnostics
 Imports System.Windows.Forms
 
 Public Class EditarApuntes
 
-    Public vConcepto, vtipoSql, vtipoGrid, vAñadirSql As String
+    Public vConcepto, vtipoSql, vtipoGrid As String
     Public vDescripcionAPU, vNotasAPU, vCuentaAPU As String
     Public vCodigoAPU As Integer
     Public vimporteAPU As Double
     Public i, primero, nuevo As Integer
+    Private TL(8) As ToolTip
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub EditarApuntes_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -16,25 +16,24 @@ Public Class EditarApuntes
         ActualizarTextosFormulario(Me)
 
         Label7.Text = vMoneda
-        Dim TL(8) As ToolTip
         TL(0) = New ToolTip
-        TL(0).SetToolTip(Me.BtnHoy, "Ir a Hoy")
+        TL(0).SetToolTip(Me.BtnHoy, resManager.GetString("IrAHoy"))
         TL(1) = New ToolTip
-        TL(1).SetToolTip(Me.BtnEliminar, "Eliminar Registro")
+        TL(1).SetToolTip(Me.BtnEliminar, resManager.GetString("ToolTipEliminar"))
         TL(2) = New ToolTip
-        TL(2).SetToolTip(Me.BtnAceptar, "Aceptar")
+        TL(2).SetToolTip(Me.BtnAceptar, resManager.GetString("ToolTipAceptar"))
         TL(3) = New ToolTip
-        TL(3).SetToolTip(Me.BtnCancelar, "Cancelar la introducción del Apunte")
+        TL(3).SetToolTip(Me.BtnCancelar, resManager.GetString("ToolTipCancelar"))
         TL(4) = New ToolTip
-        TL(4).SetToolTip(Me.CmbConcepto, "Seleccionar el Concepto a la que se refiere la transacción")
+        TL(4).SetToolTip(Me.CmbConcepto, rmse.GetString("ToolTipSeleccionarConcepto"))
         TL(5) = New ToolTip
-        TL(5).SetToolTip(Me.CmbCuenta, "Seleccionar la Cuenta a la que se refiere la transacción")
+        TL(5).SetToolTip(Me.CmbCuenta, rmse.GetString("ToolTipSeleccionarCuenta"))
         TL(6) = New ToolTip
-        TL(6).SetToolTip(Me.CmbDescripcion, "Introducir una descripción para el Asiento")
+        TL(6).SetToolTip(Me.CmbDescripcion, rmse.GetString("ToolTipSeleccionarDescripcion"))
         TL(7) = New ToolTip
-        TL(7).SetToolTip(Me.TxtImporte, "Importe del Asiento")
+        TL(7).SetToolTip(Me.TxtImporte, rmse.GetString("ToolTipIngresarImporte"))
         TL(8) = New ToolTip
-        TL(8).SetToolTip(Me.BtnCalculadora, "Activar la Calculadora")
+        TL(8).SetToolTip(Me.BtnCalculadora, resManager.GetString("ToolTipCalculadora"))
 
         ' Llenar el Combo Concepto
         '*************************
@@ -47,11 +46,11 @@ Public Class EditarApuntes
                 End While
                 CmbConcepto.Text = CmbConcepto.Items(0)
             Else
-                'MsgBox("No existen registros en " & tipoSql)
+                'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
             End If
             drMdb1.Close()
         Catch ex As Exception
-            MsgBox("Error al llenar el Combo Concepto")
+            'MsgBox("Error al llenar el Combo Concepto")
             MsgBox(ex.ToString)
         End Try
 
@@ -85,11 +84,11 @@ Public Class EditarApuntes
                     End If
                 End While
             Else
-                'MsgBox("No existen registros en " & tipoSql)
+                'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
             End If
             drMdb1.Close()
         Catch ex As Exception
-            MsgBox("Error al llenar el Combo Descripción")
+            'MsgBox("Error al llenar el Combo Descripción")
             MsgBox(ex.ToString)
         End Try
 
@@ -108,7 +107,7 @@ Public Class EditarApuntes
             End If
             drMdb1.Close()
         Catch ex As Exception
-            MsgBox("Error al llenar el Combo Cuenta")
+            'MsgBox("Error al llenar el Combo Cuenta")
             MsgBox(ex.ToString)
         End Try
 
@@ -123,10 +122,12 @@ Public Class EditarApuntes
         vCodigoAPU = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(7).Value
 
         If vEditar = "SI" Then
-            LblEditando.Text = "EDITANDO APUNTE CONTABLE"
+            'LblEditando.Text = "EDITANDO APUNTE CONTABLE"
             BtnEliminar.Enabled = False
         Else
-            LblEditando.Text = "¡¡ ELIMINAR APUNTE CONTABLE !!"
+            LblEditando.Text = rmse.GetString("LblEliminando")
+            BtnHoy.Enabled = False
+            BtnCalculadora.Enabled = False
             DateTimePicker1.Enabled = False
             CmbConcepto.Enabled = False
             CmbDescripcion.Enabled = False
@@ -136,32 +137,61 @@ Public Class EditarApuntes
             BtnAceptar.Enabled = False
             BtnEliminar.Select()
         End If
+    End Sub
 
+    Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click
+        ' 1. Sincronizar y limpiar las variables de texto
+        vDate3 = DateTimePicker1.Value
+        vConceptoAPU = Trim(CmbConcepto.Text)
+        vDescripcionAPU = Trim(CmbDescripcion.Text)
+        vNotasAPU = Trim(TxtNota.Text)
+        vCuentaAPU = Trim(CmbCuenta.Text)
+
+        ' 2. Formatear el importe numérico puro (Evita fallos por comas decimales)
+        vimporteAPU = Val(TxtImporte.Text.Replace(",", "."))
+        If TxtTipoConcepto.Text = "GASTO" Then
+            vimporteAPU = -Math.Abs(vimporteAPU)
+        Else
+            vimporteAPU = Math.Abs(vimporteAPU)
+        End If
+
+        vtipoSql = "UPDATE apuntes SET "
+        vtipoSql += "FechaAPU = #" & vDate3.ToString("yyyy/MM/dd") & "#, "
+        vtipoSql += "ConceptoAPU = '" & vConceptoAPU & "', "
+        vtipoSql += "DescripcionAPU = '" & vDescripcionAPU & "', "
+        vtipoSql += "ImporteAPU = " & Str(vimporteAPU) & ", "
+        vtipoSql += "NotasAPU = '" & vNotasAPU & "', "
+        vtipoSql += "CuentaAPU = '" & vCuentaAPU & "' "
+        vtipoSql += "WHERE CodigoAPU = " & CInt(vCodigoAPU) ' Aseguramos que solo modifique esta fila exacta
+        cmdMdb1cr.CommandText = vtipoSql
+        Try
+            ' Ejecutamos la consulta en Access
+            cmdMdb1cr.ExecuteNonQuery()
+            ' Cerramos la ventana de edición al terminar con éxito
+            Me.Close()
+        Catch ex As Exception
+            MsgBox(rmse.GetString("MsgBoxErrorInsertar") & ": " & ex.Message, MsgBoxStyle.Critical, rmse.GetString("$this.Text"))
+        End Try
     End Sub
 
     Private Sub BtnEliminar_Click(sender As Object, e As EventArgs) Handles BtnEliminar.Click
-        respuesta = MsgBox("¿Estas seguro de Eliminar el Apunte Contable seleccionado?.", vbQuestion & vbYesNo & vbDefaultButton2, "Eliminar Apunte Periódico")
+        ' Lanzamos la pregunta de confirmación contable de seguridad
+        Dim respuesta As MsgBoxResult = MsgBox(rmse.GetString("MsgBoxEliminarApunte"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("$this.Text"))
         If respuesta = vbYes Then
-            ' Eliminar Registro Apunte
-            vtipoSql = "DELETE FROM apuntes"
-            vtipoSql += " WHERE apuntes.CodigoAPU = " & vCodigoAPU.ToString
+            ' Ejecutamos el borrado físico usando el identificador único del registro actual
+            vtipoSql = "DELETE FROM apuntes WHERE apuntes.CodigoAPU = " & CInt(vCodigoAPU)
             cmdMdb1cr.CommandText = vtipoSql
             Try
                 cmdMdb1cr.ExecuteNonQuery()
-                MsgBox("Registro Apunte Contable, Borrado !!!")
+                ' Cerramos la ventana tras borrar
+                Me.Close()
             Catch ex As Exception
-                MsgBox("Error al Eliminar el Registro Apunte Contable")
-                MsgBox(ex.ToString)
+                MsgBox(rmse.GetString("MsgBoxErrorEliminarRegistro") & ": " & ex.Message, MsgBoxStyle.Critical, rmse.GetString("$this.Text"))
             End Try
-        Else
-            frmApuntesContables.DgvApuntes.Rows(filaActual).Selected = True
-            frmApuntesContables.DgvApuntes.CurrentCell = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(0)
         End If
-        Me.Close()
     End Sub
 
     Private Sub CmbConcepto_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbConcepto.SelectedIndexChanged
-
         ' Se buscan Conceptos según lo seleccionado
         '******************************************
         vConcepto = CmbConcepto.Text.ToString
@@ -201,58 +231,6 @@ Public Class EditarApuntes
         End If
     End Sub
 
-    Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click
-        If TxtImporte.Text = "" Then
-            TxtImporte.Text = 0
-        End If
-        If TxtImporte.Text <> "0" Then
-
-            ' Modificar Registro
-            '*******************
-            vDate3 = DateTimePicker1.Value
-            vimporteAPU = TxtImporte.Text
-            If TxtTipoConcepto.Text = "GASTO" Then
-                vimporteAPU = "-" + vimporteAPU.ToString
-            End If
-            vDescripcionAPU = ApostrofePorAcentoAgudo(CmbDescripcion.Text)
-
-            Dim query As String = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) " &
-                     "VALUES (?, ?, ?, ?, ?, ?, ?)"
-            Using cmd As New OleDb.OleDbCommand(query, conexion1)
-                cmd.Parameters.Add("@FechaAPU", OleDb.OleDbType.Date).Value = vDate3 'es importante usar el tipo de dato correcto para la fecha
-                cmd.Parameters.AddWithValue("?", CmbConcepto.Text)
-                cmd.Parameters.AddWithValue("?", vDescripcionAPU)
-                cmd.Parameters.Add("@ImporteAPU", OleDb.OleDbType.Currency).Value = vimporteAPU 'es importante usar el tipo de dato correcto para el importe
-                cmd.Parameters.AddWithValue("?", vAñoEjercicio)
-                cmd.Parameters.AddWithValue("?", TxtNota.Text)
-                cmd.Parameters.AddWithValue("?", CmbCuenta.Text)
-                Try
-                    cmd.ExecuteNonQuery()
-                    'MsgBox("Registro, Grabado Correctamente")
-                Catch ex As Exception
-                    MsgBox("Error al insertar el Apunte de Saldo Inicial de la Cuenta: " & vNombreCuenta & " del Ejercicio " & vAñoEjercicio.ToString & vbCrLf & ex.ToString)
-                End Try
-            End Using
-            vtipoSql = "UPDATE apuntes SET  FechaAPU =?, ConceptoAPU = '" & CmbConcepto.Text & "' , DescripcionAPU = '" & vDescripcionAPU & "' , ImporteAPU = '" & vimporteAPU & "' , CuentaAPU = '" & CmbCuenta.Text & "' , NotasAPU = '" & TxtNota.Text & "' "
-            vtipoSql += " WHERE apuntes.CodigoAPU = " & vCodigoAPU.ToString
-            cmdMdb1cr.CommandText = vtipoSql
-            cmdMdb1cr.Parameters.Clear()
-            cmdMdb1cr.Parameters.Add("@fec", OleDb.OleDbType.Date).Value = vDate3
-            Try
-                drMdb1 = cmdMdb1cr.ExecuteReader()
-                'MsgBox("Registro, Grabado Correctamente")
-            Catch ex As Exception
-                MsgBox("Error al Grabar el Registro Apunte Contable")
-                MsgBox(ex.ToString)
-            End Try
-            drMdb1.Close()
-        Else
-            MsgBox("NO hay Cantidad en Importe ...", vbExclamation)
-            TxtImporte.Select()
-        End If
-        Me.Close()
-    End Sub
-
     Private Sub BtnCancelar_Click(sender As Object, e As EventArgs) Handles BtnCancelar.Click
         Me.Close()
     End Sub
@@ -265,37 +243,11 @@ Public Class EditarApuntes
     End Sub
 
     Private Sub BtnConcepto_Click(sender As Object, e As EventArgs)
-        frmPrincipal.TsLabelFormulario.Text = "Conceptos Contables"
-
-        ' Comprobamos si existe un identificador asociado.
-        If ((frmConceptosContables Is Nothing) OrElse (Not frmConceptosContables.IsHandleCreated)) Then
-            frmConceptosContables = New ConceptosContables
-        End If
-
-        ' Llamamos al formulario de manera modal.
-        frmConceptosContables.ShowDialog()
-
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
-        frmConceptosContables.Dispose()
-        frmPrincipal.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        frmPrincipal.ConceptosContablesToolStripMenuItem.PerformClick()
     End Sub
 
     Private Sub BtnCuenta_Click(sender As Object, e As EventArgs)
-        frmPrincipal.TsLabelFormulario.Text = "Cuentas Bancarias"
-
-        ' Comprobamos si existe un identificador asociado.
-        If ((frmCuentasBancarias Is Nothing) OrElse (Not frmCuentasBancarias.IsHandleCreated)) Then
-            frmCuentasBancarias = New CuentasBancarias
-        End If
-
-        ' Llamamos al formulario de manera modal.
-        frmCuentasBancarias.ShowDialog()
-
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
-        frmCuentasBancarias.Dispose()
-        frmPrincipal.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        frmPrincipal.CuentasToolStripMenuItem.PerformClick()
     End Sub
 
     Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing

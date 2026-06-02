@@ -3,7 +3,7 @@ Imports System.Windows.Forms
 
 Public Class IntroPresupuestos
 
-    Public vConcepto, vtipoSql, vAñadirSql, vFDesde, vBorrarPresu As String
+    Public vConcepto, vtipoSql, vFDesde, vBorrarPresu As String
     Public vMensual, vAnual, vEnero, vFebrero, vMarzo, vAbril, vMayo, vJunio, vSaldoAnualPresupuesto, vImporte As Double
     Public vJulio, vAgosto, vSeptiembre, vOctubre, vNoviembre, vDiciembre As Double
     Public TL(18) As ToolTip

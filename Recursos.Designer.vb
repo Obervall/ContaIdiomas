@@ -532,6 +532,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Ejercicio.
+    '''</summary>
+    Friend Shared ReadOnly Property Ejercicio() As String
+        Get
+            Return ResourceManager.GetString("Ejercicio", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a .
     '''</summary>
     Friend Shared ReadOnly Property EL_CORTE_INGLES() As String
@@ -618,15 +627,6 @@ Friend Class Recursos
     Friend Shared ReadOnly Property ESTETICA() As String
         Get
             Return ResourceManager.GetString("ESTETICA", resourceCulture)
-        End Get
-    End Property
-    
-    '''<summary>
-    '''  Busca una cadena traducida similar a Ejercicio.
-    '''</summary>
-    Friend Shared ReadOnly Property Exercici() As String
-        Get
-            Return ResourceManager.GetString("Exercici", resourceCulture)
         End Get
     End Property
     
@@ -780,6 +780,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property INTERESES() As String
         Get
             Return ResourceManager.GetString("INTERESES", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Ir a Hoy.
+    '''</summary>
+    Friend Shared ReadOnly Property IrAHoy() As String
+        Get
+            Return ResourceManager.GetString("IrAHoy", resourceCulture)
         End Get
     End Property
     

@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Exercici" xml:space="preserve">
+  <data name="Ejercicio" xml:space="preserve">
     <value>Exercici</value>
   </data>
   <data name="TitolApp" xml:space="preserve">
@@ -549,5 +549,8 @@ No s' Eliminen de la Base de Dades</value>
   </data>
   <data name="Importe" xml:space="preserve">
     <value>Import</value>
+  </data>
+  <data name="IrAHoy" xml:space="preserve">
+    <value>Anar a Hoy</value>
   </data>
 </root>

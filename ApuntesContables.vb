@@ -142,9 +142,11 @@ Public Class ApuntesContables
                 While drMdb1.Read()
                     If vTipoConcepto <> drMdb1.GetValue(2) Then
                         If vFila = 0 Then
-                            vTipoConcepto = drMdb1.GetValue(2)
-                            CmbConcepto.Items.Add(drMdb1.GetValue(0))
-                            ListBox1.Items.Add(drMdb1.GetValue(0))
+                            If drMdb1.GetValue(0) = "TRASPASO" Then
+                                ListBox1.Items.Add(resManager.GetString("TRASPASO"))
+                                CmbConcepto.Items.Add(resManager.GetString("TRASPASO"))
+                            End If
+                            'vTipoConcepto = drMdb1.GetValue(2)
                             vFila += 1
                         Else
                             vTipoConcepto = drMdb1.GetValue(2)
@@ -253,6 +255,13 @@ Public Class ApuntesContables
     End Sub
 
     Private Sub BtnFiltroConcepto_Click(sender As Object, e As EventArgs) Handles BtnFiltroConcepto.Click
+        '' Ejemplo de prueba para revertir o inversa :
+        'MsgBox(CmbConcepto.Items(0))
+        'Dim claveOriginal As String = ObtenerClaveNeutral(CmbConcepto.Items(0), resManager)
+
+        '' Muestra en pantalla el nombre de la clave interna (ej: "BtnEliminar.Text" o "Eliminar")
+        'MsgBox("La clave neutra en la base de recursos es: " & claveOriginal)
+
         If ListBox1.SelectedItems.Count <> 0 Then
             TxtConcepto.Text = rmse.GetString("MsgText3")
             CmbConcepto.Items.Clear()
@@ -268,7 +277,44 @@ Public Class ApuntesContables
                 vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
             End If
             For i = 0 To ListBox1.SelectedItems.Count - 1
-                vConcepto = ListBox1.SelectedItems(i).ToString
+                'Dim textoConcepto As String = Convert.ToString(ListBox1.SelectedItems(i))
+                '' 1. Buscamos la clave neutral en el resManager
+                'Dim claveObtenida As String = ObtenerClaveNeutral(textoConcepto, resManager)
+                '' 2. ¡EL FILTRO INTELIGENTE!: Si por error la función nos devuelve la clave de la descripción 
+                '' (porque empieza por "Desc_"), limpiamos la variable para quedarnos solo con el concepto puro.
+                'If claveObtenida.StartsWith("Desc_", StringComparison.OrdinalIgnoreCase) Then
+                '    vConcepto = ""
+                'Else
+                '    vConcepto = claveObtenida
+                'End If
+                '' 3. Si hemos obtenido un concepto válido en mayúsculas, mostramos el aviso
+                'If Not String.IsNullOrEmpty(vConcepto) Then
+                '    'MsgBox("Concepto neutro de origen detectado: " & vConcepto)
+
+                '    ' 💡 Aquí puedes meter tu lógica para insertar el registro traducido en la base de datos local del usuario...
+                '    ' Ejemplo: InsertarConceptoEnDB(vConcepto, textoConcepto)
+
+
+                ' 1. Capturamos el texto tal cual sale del ListBox de la Base de Datos
+                Dim textoOriginal As String = Convert.ToString(ListBox1.SelectedItems(i))
+
+                ' 2. Intentamos buscar si es uno de los 34 conceptos de fábrica
+                Dim claveObtenida As String = ObtenerClaveNeutral(textoOriginal, resManager)
+
+                ' 3. Filtramos para asegurarnos de que no se confunda con una descripción ("Desc_")
+                If claveObtenida.StartsWith("Desc_", StringComparison.OrdinalIgnoreCase) Then
+                    claveObtenida = ""
+                End If
+
+                ' 4. ¡EL CAMBIO CLAVE (LOGICA INVERSA)!: 
+                ' Si la clave obtenida NO está vacía, es de fábrica -> Usamos la clave neutra.
+                ' Si está vacía, es un concepto nuevo del usuario -> Usamos su texto original en su idioma.
+                If Not String.IsNullOrEmpty(claveObtenida) Then
+                    vConcepto = claveObtenida
+                Else
+                    vConcepto = textoOriginal
+                End If
+
                 If i = 0 Then
                     vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
                     If BtnFiltroCuenta.Enabled = False Then
@@ -301,8 +347,8 @@ Public Class ApuntesContables
             Next
         Else
             BtnFiltroConcepto.Enabled = False
-            BtnSinFiltroConcepto.Enabled = True
-            vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
+        BtnSinFiltroConcepto.Enabled = True
+        vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
             If BtnFechasClick = "SI" Then
                 vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' Andapuntes.EjercicioAPU <> 0 "
             Else
@@ -460,9 +506,11 @@ Public Class ApuntesContables
                 While drMdb1.Read()
                     If vTipoConcepto <> drMdb1.GetValue(2) Then
                         If vFila = 0 Then
-                            vTipoConcepto = drMdb1.GetValue(2)
-                            CmbConcepto.Items.Add(drMdb1.GetValue(0))
-                            ListBox1.Items.Add(drMdb1.GetValue(0))
+                            If drMdb1.GetValue(0) = "TRASPASO" Then
+                                ListBox1.Items.Add(resManager.GetString("TRASPASO"))
+                                CmbConcepto.Items.Add(resManager.GetString("TRASPASO"))
+                            End If
+                            'vTipoConcepto = drMdb1.GetValue(2)
                             vFila += 1
                         Else
                             vTipoConcepto = drMdb1.GetValue(2)
@@ -879,47 +927,25 @@ Public Class ApuntesContables
 
     Private Sub BtnAñadirRegistro_Click(sender As Object, e As EventArgs) Handles BtnAñadirRegistro.Click
         frmPrincipal.TsLabelFormulario.Text = rmse.GetString("MsgText2")
-
         ' 1. Controlar la instancia física del formulario de forma tradicional
         If ((frmIntroApuntes Is Nothing) OrElse (Not frmIntroApuntes.IsHandleCreated)) Then
             frmIntroApuntes = New IntroApuntes
         End If
-
         ' 2. Forzar la traducción antes de mostrarlo (por consistencia con tus otros formularios)
         ' Nota: Si tienes el método ActualizarTextosFormulario accesible, puedes llamarlo aquí:
         ' ActualizarTextosFormulario(frmIntroApuntes)
-
         ' 3. ¡EL TRUCO!: Decimos que se centre respecto a su contenedor "padre"
         frmIntroApuntes.StartPosition = FormStartPosition.CenterParent
-
         ' ¡LA PROTECCIÓN CRÍTICA!: Procesamos todos los mensajes visuales pendientes en Windows
         Application.DoEvents()
-
         ' 4. Abrimos el formulario modal pasando "Me" (este segundo formulario) como dueño
         frmIntroApuntes.ShowDialog(Me)
-
         ' 5. Destrucción explícita al cerrar
         frmIntroApuntes.Dispose()
-
         ' 6. IMPORTANTE: Limpiar la variable manual para evitar el error de objeto destruido
         frmIntroApuntes = Nothing
-
         frmPrincipal.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
     End Sub
-
-    'Private Sub BtnAñadirRegistro_Click(sender As Object, e As EventArgs) Handles BtnAñadirRegistro.Click
-    '    frmPrincipal.TsLabelFormulario.Text = rmse.GetString("MsgText2")
-    '    ' Comprobamos si existe un identificador asociado.
-    '    If ((frmIntroApuntes Is Nothing) OrElse (Not frmIntroApuntes.IsHandleCreated)) Then
-    '        frmIntroApuntes = New IntroApuntes
-    '    End If
-    '    ' Llamamos al formulario de manera modal.
-    '    frmIntroApuntes.ShowDialog()
-    '    'MessageBox.Show("Se ha cerrado el formulario.")
-    '    ' Destruimos el formulario.
-    '    frmIntroApuntes.Dispose()
-    '    frmPrincipal.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
-    'End Sub
 
     Private Sub BtnEliminarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEliminarRegistro.Click
         filaActual = frmApuntesContables.DgvApuntes.CurrentRow.Index
@@ -1491,7 +1517,6 @@ Public Class ApuntesContables
         End Try
         PrbExport.Visible = False
     End Sub
-
 
     Private Sub BtnTraspasarRegistro_Click(sender As Object, e As EventArgs) Handles BtnTraspasarRegistro.Click
         ' Comprobamos si existe un identificador asociado.

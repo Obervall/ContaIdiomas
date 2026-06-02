@@ -4,7 +4,7 @@ Imports ToolTip = System.Windows.Forms.ToolTip
 
 Public Class IntroApuntesPeriodicos
 
-    Public vConcepto, vtipoSql, vtipoGrid, vAñadirSql As String
+    Public vConcepto, vtipoSql, vtipoGrid As String
     Public vDescripcionAPU, vNotasAPU, vCuentaAPU, vAnexo, vbOK As String
     Public vNumeroPagos, vDate3Year As Integer
     Public vImporteAPU As Double

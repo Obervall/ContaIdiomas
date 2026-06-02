@@ -102,7 +102,7 @@ Public Class EditarCuentaBancaria
 
     Private Sub BtnEliminar_Click(sender As Object, e As EventArgs) Handles BtnEliminar.Click
         vTxtNombre = TxtNombre.Text
-        respuesta = MsgBox(rmse.GetString("EliminarCuenta") & " " & vTxtNombre & " " & rmse.GetString("EliminarCuenta2"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("LblEliminando"))
+        Dim respuesta As MsgBoxResult = MsgBox(rmse.GetString("EliminarCuenta") & " " & vTxtNombre & " " & rmse.GetString("EliminarCuenta2"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("LblEliminando"))
         If respuesta = vbYes Then
             ' Nota: Tus consultas DELETE son seguras porque filtran por "NombreCUE",
             ' la cual es una cadena de texto propia del usuario y libre de traducciones.

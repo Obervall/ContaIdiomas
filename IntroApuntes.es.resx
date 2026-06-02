@@ -156,4 +156,58 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Introducción de Apuntes</value>
   </data>
+  <data name="SelecConcepto" xml:space="preserve">
+    <value>Seleccionar el Concepto o Escribir para Buscar (2 mínimo)</value>
+  </data>
+  <data name="SelecCuenta" xml:space="preserve">
+    <value>Seleccionar la Cuenta a la que se refiere la transacción</value>
+  </data>
+  <data name="SelecDescripcion" xml:space="preserve">
+    <value>Seleccionar la Descripción o Escribir para Buscar (3 mínimo)</value>
+  </data>
+  <data name="ImporteAsiento" xml:space="preserve">
+    <value>Importe del Asiento</value>
+  </data>
+  <data name="BtnConcepto" xml:space="preserve">
+    <value>Editar Consulta Conceptos Contables y al salir Rellena Conceptos</value>
+  </data>
+  <data name="BtnCuenta" xml:space="preserve">
+    <value>Añade, Edita, Borra o Consulta Cuentas Bancarias</value>
+  </data>
+  <data name="BtnDescripcion" xml:space="preserve">
+    <value>Rellena Descripciones de Apuntes guardados</value>
+  </data>
+  <data name="TxtABuscar" xml:space="preserve">
+    <value>Texto a Buscar</value>
+  </data>
+  <data name="MsgTxtBuscarConceptos" xml:space="preserve">
+    <value>Pulsar Tabulador para ir a Concepto, usar Flechas y finalizar con Tecla Entrar</value>
+  </data>
+  <data name="MsgTxtBuscarDescripciones" xml:space="preserve">
+    <value>Pulsar Tabulador para ir a Descripción, usar Flechas y finalizar con Tecla Entrar</value>
+  </data>
+  <data name="ErrorBuscarLetrasDescripcion" xml:space="preserve">
+    <value>Error al Buscar Letras en Descripción</value>
+  </data>
+  <data name="ErrorBuscarLetrasConcepto" xml:space="preserve">
+    <value>Error al Buscar Letras en Concepto</value>
+  </data>
+  <data name="EjercicioActual" xml:space="preserve">
+    <value>El año del ejercicio no coincide con el año actual,
+se establecerá la fecha del 31 de Diciembre del año del ejercicio</value>
+  </data>
+  <data name="Fecha31Diciembre" xml:space="preserve">
+    <value>Fecha establecida al 31 de Diciembre</value>
+  </data>
+  <data name="ErrorGrabarRegistro" xml:space="preserve">
+    <value>Error al Grabar el Registro, Verificar que la Fecha es Correcta y el Importe no tiene Letras ...
+Error</value>
+  </data>
+  <data name="NoCantidadImporte" xml:space="preserve">
+    <value>No hay Cantidad en Importe</value>
+  </data>
+  <data name="ErrorLlenarDesplegable" xml:space="preserve">
+    <value>Error al llenar el desplegable.
+Error</value>
+  </data>
 </root>

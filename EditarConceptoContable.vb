@@ -176,7 +176,7 @@ Public Class EditarConceptoContable
         End Try
 
         ' 4. Mensaje de confirmación (Muestra vTxtNombre que es el texto traducido que el usuario entiende)
-        respuesta = MsgBox(rmse.GetString("EliminarConcepto") & " " & vTxtNombre & " " & rmse.GetString("EliminarConcepto2"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("LblEliminando"))
+        Dim respuesta As MsgBoxResult = MsgBox(rmse.GetString("EliminarConcepto") & " " & vTxtNombre & " " & rmse.GetString("EliminarConcepto2"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("LblEliminando"))
 
         If respuesta = vbYes Then
 
