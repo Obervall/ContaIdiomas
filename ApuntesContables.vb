@@ -892,6 +892,9 @@ Public Class ApuntesContables
         ' 3. ¡EL TRUCO!: Decimos que se centre respecto a su contenedor "padre"
         frmIntroApuntes.StartPosition = FormStartPosition.CenterParent
 
+        ' ¡LA PROTECCIÓN CRÍTICA!: Procesamos todos los mensajes visuales pendientes en Windows
+        Application.DoEvents()
+
         ' 4. Abrimos el formulario modal pasando "Me" (este segundo formulario) como dueño
         frmIntroApuntes.ShowDialog(Me)
 
