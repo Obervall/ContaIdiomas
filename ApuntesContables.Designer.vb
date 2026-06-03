@@ -96,10 +96,10 @@ Partial Class ApuntesContables
         '
         'GroupBox1
         '
+        resources.ApplyResources(Me.GroupBox1, "GroupBox1")
         Me.GroupBox1.Controls.Add(Me.TxtNumRegistros)
         Me.GroupBox1.Controls.Add(Me.LblNumRegistros)
         Me.GroupBox1.Controls.Add(Me.Label1)
-        resources.ApplyResources(Me.GroupBox1, "GroupBox1")
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.TabStop = False
         '
@@ -120,6 +120,7 @@ Partial Class ApuntesContables
         '
         'GroupBox2
         '
+        resources.ApplyResources(Me.GroupBox2, "GroupBox2")
         Me.GroupBox2.Controls.Add(Me.BtnF6)
         Me.GroupBox2.Controls.Add(Me.BtnFiltroF5)
         Me.GroupBox2.Controls.Add(Me.BtnEliminaSeleccion)
@@ -128,7 +129,6 @@ Partial Class ApuntesContables
         Me.GroupBox2.Controls.Add(Me.BtnEditarRegistro)
         Me.GroupBox2.Controls.Add(Me.BtnEliminarRegistro)
         Me.GroupBox2.Controls.Add(Me.BtnAñadirRegistro)
-        resources.ApplyResources(Me.GroupBox2, "GroupBox2")
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.TabStop = False
         '
@@ -188,11 +188,11 @@ Partial Class ApuntesContables
         '
         'GroupBox3
         '
+        resources.ApplyResources(Me.GroupBox3, "GroupBox3")
         Me.GroupBox3.Controls.Add(Me.BtnGraficos)
         Me.GroupBox3.Controls.Add(Me.BtnImprimir)
         Me.GroupBox3.Controls.Add(Me.BtnSeguirBuscando)
         Me.GroupBox3.Controls.Add(Me.BtnBuscarRegistro)
-        resources.ApplyResources(Me.GroupBox3, "GroupBox3")
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.TabStop = False
         '
@@ -222,18 +222,18 @@ Partial Class ApuntesContables
         '
         'BtnSalir
         '
-        Me.BtnSalir.FlatAppearance.BorderColor = System.Drawing.Color.Red
         resources.ApplyResources(Me.BtnSalir, "BtnSalir")
+        Me.BtnSalir.FlatAppearance.BorderColor = System.Drawing.Color.Red
         Me.BtnSalir.Name = "BtnSalir"
         Me.BtnSalir.UseVisualStyleBackColor = True
         '
         'GroupBox4
         '
+        resources.ApplyResources(Me.GroupBox4, "GroupBox4")
         Me.GroupBox4.Controls.Add(Me.BtnSinFiltroCuenta)
         Me.GroupBox4.Controls.Add(Me.BtnFiltroCuenta)
         Me.GroupBox4.Controls.Add(Me.CmbCuenta)
         Me.GroupBox4.Controls.Add(Me.Label3)
-        resources.ApplyResources(Me.GroupBox4, "GroupBox4")
         Me.GroupBox4.Name = "GroupBox4"
         Me.GroupBox4.TabStop = False
         '
@@ -251,10 +251,10 @@ Partial Class ApuntesContables
         '
         'CmbCuenta
         '
+        resources.ApplyResources(Me.CmbCuenta, "CmbCuenta")
         Me.CmbCuenta.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
         Me.CmbCuenta.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
         Me.CmbCuenta.FormattingEnabled = True
-        resources.ApplyResources(Me.CmbCuenta, "CmbCuenta")
         Me.CmbCuenta.Name = "CmbCuenta"
         '
         'Label3
@@ -264,6 +264,7 @@ Partial Class ApuntesContables
         '
         'GroupBox5
         '
+        resources.ApplyResources(Me.GroupBox5, "GroupBox5")
         Me.GroupBox5.Controls.Add(Me.PrbExport)
         Me.GroupBox5.Controls.Add(Me.BtnExcel)
         Me.GroupBox5.Controls.Add(Me.BtnFiltroChekedList)
@@ -272,7 +273,6 @@ Partial Class ApuntesContables
         Me.GroupBox5.Controls.Add(Me.TxtConcepto)
         Me.GroupBox5.Controls.Add(Me.Label4)
         Me.GroupBox5.Controls.Add(Me.CmbConcepto)
-        resources.ApplyResources(Me.GroupBox5, "GroupBox5")
         Me.GroupBox5.Name = "GroupBox5"
         Me.GroupBox5.TabStop = False
         '
@@ -317,14 +317,15 @@ Partial Class ApuntesContables
         '
         'CmbConcepto
         '
+        resources.ApplyResources(Me.CmbConcepto, "CmbConcepto")
         Me.CmbConcepto.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
         Me.CmbConcepto.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
         Me.CmbConcepto.FormattingEnabled = True
-        resources.ApplyResources(Me.CmbConcepto, "CmbConcepto")
         Me.CmbConcepto.Name = "CmbConcepto"
         '
         'GroupBox6
         '
+        resources.ApplyResources(Me.GroupBox6, "GroupBox6")
         Me.GroupBox6.Controls.Add(Me.BtnFechas)
         Me.GroupBox6.Controls.Add(Me.DateTimePicker2)
         Me.GroupBox6.Controls.Add(Me.BtnFechasFondo)
@@ -333,27 +334,26 @@ Partial Class ApuntesContables
         Me.GroupBox6.Controls.Add(Me.BtnFiltroFecha)
         Me.GroupBox6.Controls.Add(Me.Label6)
         Me.GroupBox6.Controls.Add(Me.Label5)
-        resources.ApplyResources(Me.GroupBox6, "GroupBox6")
         Me.GroupBox6.Name = "GroupBox6"
         Me.GroupBox6.TabStop = False
         '
         'DateTimePicker2
         '
-        Me.DateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
         resources.ApplyResources(Me.DateTimePicker2, "DateTimePicker2")
+        Me.DateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
         Me.DateTimePicker2.Name = "DateTimePicker2"
         '
         'BtnFechasFondo
         '
-        Me.BtnFechasFondo.BackColor = System.Drawing.Color.Red
         resources.ApplyResources(Me.BtnFechasFondo, "BtnFechasFondo")
+        Me.BtnFechasFondo.BackColor = System.Drawing.Color.Red
         Me.BtnFechasFondo.Name = "BtnFechasFondo"
         Me.BtnFechasFondo.UseVisualStyleBackColor = False
         '
         'DateTimePicker1
         '
-        Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
         resources.ApplyResources(Me.DateTimePicker1, "DateTimePicker1")
+        Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
         Me.DateTimePicker1.Name = "DateTimePicker1"
         '
         'BtnSinFiltroFecha
@@ -380,13 +380,13 @@ Partial Class ApuntesContables
         '
         'GroupBox7
         '
+        resources.ApplyResources(Me.GroupBox7, "GroupBox7")
         Me.GroupBox7.Controls.Add(Me.TxtSaldo)
         Me.GroupBox7.Controls.Add(Me.TxtGastos)
         Me.GroupBox7.Controls.Add(Me.TxtIngresos)
         Me.GroupBox7.Controls.Add(Me.Label9)
         Me.GroupBox7.Controls.Add(Me.Label8)
         Me.GroupBox7.Controls.Add(Me.Label7)
-        resources.ApplyResources(Me.GroupBox7, "GroupBox7")
         Me.GroupBox7.Name = "GroupBox7"
         Me.GroupBox7.TabStop = False
         '
@@ -422,10 +422,10 @@ Partial Class ApuntesContables
         '
         'DgvApuntes
         '
+        resources.ApplyResources(Me.DgvApuntes, "DgvApuntes")
         Me.DgvApuntes.AllowUserToAddRows = False
         Me.DgvApuntes.AllowUserToDeleteRows = False
         Me.DgvApuntes.AllowUserToResizeRows = False
-        resources.ApplyResources(Me.DgvApuntes, "DgvApuntes")
         Me.DgvApuntes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DgvApuntes.Name = "DgvApuntes"
         Me.DgvApuntes.ReadOnly = True
@@ -436,11 +436,11 @@ Partial Class ApuntesContables
         '
         'GroupBox8
         '
+        resources.ApplyResources(Me.GroupBox8, "GroupBox8")
         Me.GroupBox8.Controls.Add(Me.BtnUltimo)
         Me.GroupBox8.Controls.Add(Me.BtnSiguiente)
         Me.GroupBox8.Controls.Add(Me.BtnAnterior)
         Me.GroupBox8.Controls.Add(Me.BtnPrimero)
-        resources.ApplyResources(Me.GroupBox8, "GroupBox8")
         Me.GroupBox8.Name = "GroupBox8"
         Me.GroupBox8.TabStop = False
         '
@@ -475,8 +475,8 @@ Partial Class ApuntesContables
         '
         'ListBox1
         '
-        Me.ListBox1.FormattingEnabled = True
         resources.ApplyResources(Me.ListBox1, "ListBox1")
+        Me.ListBox1.FormattingEnabled = True
         Me.ListBox1.Name = "ListBox1"
         Me.ListBox1.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
         '
