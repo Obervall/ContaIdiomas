@@ -123,9 +123,6 @@
   <data name="Label2.Text" xml:space="preserve">
     <value>Concept:</value>
   </data>
-  <data name="LblBuscarLetras.Text" xml:space="preserve">
-    <value>Search by Lyrics: </value>
-  </data>
   <data name="Label7.Text" xml:space="preserve">
     <value>€</value>
   </data>
@@ -209,5 +206,8 @@ Error</value>
   <data name="ErrorLlenarDesplegable" xml:space="preserve">
     <value>Error filling out the drop-down.
 Error</value>
+  </data>
+  <data name="Label8.Text" xml:space="preserve">
+    <value>Suggestion:</value>
   </data>
 </root>

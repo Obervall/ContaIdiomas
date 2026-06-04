@@ -53,9 +53,13 @@ Public Class IntroApuntes
         TL(12) = New ToolTip
         TL(12).SetToolTip(Me.TxtBuscarLetras, rmse.GetString("TxtABuscar"))
 
+        CmbConcepto.DropDownStyle = ComboBoxStyle.DropDownList
+
         ' Llenar el Combo Concepto
         '*************************
         LlenarConcepto()
+        ' 3. Ahora que ya tiene filas, seleccionamos de forma segura la primera
+        'CmbConcepto.SelectedIndex = 0
 
         ' Llenar el Combo Descripción
         '****************************
@@ -63,6 +67,7 @@ Public Class IntroApuntes
 
         ' Llenar el Combo Cuenta
         '***********************
+        drMdb1.Close()
         cmdMdb1cr.CommandText = "SELECT * FROM cuentas ORDER BY cuentas.NombreCUE ASC"
         Try
             drMdb1 = cmdMdb1cr.ExecuteReader()
@@ -85,164 +90,6 @@ Public Class IntroApuntes
         TxtImporte.Text = 0
     End Sub
 
-    'sin traducción inversa ni carga de descripción traducida
-    Private Sub CmbConcepto_KeyDown(sender As Object, e As KeyEventArgs) Handles CmbConcepto.KeyDown
-        If e.KeyCode = Keys.Enter Then
-            e.SuppressKeyPress = True
-
-            ' 1. Guardamos el texto que ha seleccionado el usuario con las flechas
-            Dim textoSeleccionado As String = CmbConcepto.Text
-            vConcepto = textoSeleccionado
-
-            ' 2. Apagamos el buscador de arriba para que al borrarlo no active la base de datos
-            RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-            TxtBuscarLetras.Text = ""
-            AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-            TxtBuscarLetras.Enabled = False
-
-            ' 3. Restauramos el texto en el combo por si el borrado de arriba hizo amago de limpiarlo
-            CmbConcepto.Text = textoSeleccionado
-
-            ' =====================================================================
-            ' 🛠️ NUEVO: CARGAR LA DESCRIPCIÓN POR DEFECTO DEL CONCEPTO SELECCIONADO
-            ' =====================================================================
-            If Not String.IsNullOrEmpty(vConcepto) Then
-                Try
-                    ' Cerramos el lector si estuviera abierto por seguridad
-                    If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-
-                    ' Consultamos la tabla de conceptos para traer su tipo y descripción asociada
-                    cmdMdb1cr.CommandText = "SELECT * FROM conceptos WHERE CodigoCON = '" & vConcepto.Replace("'", "''") & "' ORDER BY CodigoCON ASC"
-                    drMdb1 = cmdMdb1cr.ExecuteReader()
-
-                    If drMdb1.Read() Then
-                        ' Rellenamos el tipo de concepto
-                        TxtTipoConcepto.Text = Convert.ToString(drMdb1.GetValue(2))
-
-                        ' Rellenamos el combo de descripciones con la descripción por defecto de la base de datos
-                        CmbDescripcion.Text = Convert.ToString(drMdb1.GetValue(1))
-                        vDescripcion = CmbDescripcion.Text
-                    End If
-                    drMdb1.Close()
-                Catch ex As Exception
-                    ' Manejo silencioso o registro de error para no romper el flujo
-                    If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-                End Try
-            End If
-            ' =====================================================================
-
-            ' 4. Cerramos la lista y saltamos limpiamente al combo de descripción
-            If CmbConcepto.DroppedDown Then CmbConcepto.DroppedDown = False
-            CmbDescripcion.Select()
-        End If
-    End Sub
-
-    '' con traducción inversa y carga de descripción traducida
-    'Private Sub CmbConcepto_KeyDown(sender As Object, e As KeyEventArgs) Handles CmbConcepto.KeyDown
-    '    If e.KeyCode = Keys.Enter Then
-    '        e.SuppressKeyPress = True
-
-    '        Dim textoSeleccionado As String = CmbConcepto.Text
-
-    '        RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-    '        TxtBuscarLetras.Text = ""
-    '        AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-    '        TxtBuscarLetras.Enabled = False
-
-    '        CmbConcepto.Text = textoSeleccionado
-
-    '        ' TRADUCCIÓN INVERSA: Buscamos la clave neutra original
-    '        vConcepto = ObtenerClaveNeutral(textoSeleccionado, resManager)
-    '        If String.IsNullOrEmpty(vConcepto) Then vConcepto = textoSeleccionado
-
-    '        ' Cargar descripción por defecto traducida
-    '        If Not String.IsNullOrEmpty(vConcepto) Then
-    '            Try
-    '                If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-    '                cmdMdb1cr.CommandText = "SELECT * FROM conceptos WHERE CodigoCON = '" & vConcepto.Replace("'", "''") & "' ORDER BY CodigoCON ASC"
-    '                drMdb1 = cmdMdb1cr.ExecuteReader()
-
-    '                If drMdb1.Read() Then
-    '                    TxtTipoConcepto.Text = Convert.ToString(drMdb1.GetValue(2))
-    '                    Dim keyDesc As String = "Desc_" & vConcepto
-    '                    Dim descTraducida As String = resManager.GetString(keyDesc)
-
-    '                    If Not String.IsNullOrEmpty(descTraducida) Then
-    '                        CmbDescripcion.Text = descTraducida
-    '                    Else
-    '                        CmbDescripcion.Text = Convert.ToString(drMdb1.GetValue(1))
-    '                    End If
-    '                    vDescripcion = CmbDescripcion.Text
-    '                End If
-    '                drMdb1.Close()
-    '            Catch ex As Exception
-    '                If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-    '            End Try
-    '        End If
-
-    '        If CmbConcepto.DroppedDown Then CmbConcepto.DroppedDown = False
-    '        CmbDescripcion.Select()
-    '    End If
-    'End Sub
-
-
-    Private Sub CmbConcepto_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbConcepto.KeyPress
-        ' ¡EL TRUCO!: Si es un Intro, salimos inmediatamente sin borrar nada
-        If Asc(e.KeyChar) = 13 Then
-            e.Handled = True
-            Exit Sub
-        End If
-
-        ' 1. Capturamos la letra pulsada en mayúsculas
-        Dim letra As Char = e.KeyChar
-
-        ' Permitimos únicamente caracteres válidos (letras, números o espacio) para evitar que salte con Backspace o Enter
-        If Char.IsLetterOrDigit(letra) OrElse letra = " "c Then
-            ' 2. Indicamos al sistema el modo de búsqueda
-            vCombo = "concepto"
-
-            ' 3. Preparamos el cuadro de búsqueda y le inyectamos la letra directamente
-            TxtBuscarLetras.Enabled = True
-            TxtBuscarLetras.Text += letra.ToString()
-
-            ' 4. Pasamos el foco al cuadro de búsqueda de forma limpia
-            TxtBuscarLetras.Focus()
-
-            ' Colocamos el cursor al final del texto en el cuadro de búsqueda
-            TxtBuscarLetras.SelectionStart = TxtBuscarLetras.Text.Length
-            TxtBuscarLetras.SelectionLength = 0
-
-            ' Guardamos la variable global
-            vLetras = TxtBuscarLetras.Text
-
-            ' =================================================================
-            ' 5. LIMPIEZA DE COMBOS TOTALMENTE BLINDADA
-            ' =================================================================
-            ' Desconectamos el evento para que no intente ejecutar consultas SQL ni leer índices vacíos
-            RemoveHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
-
-            ' Forzamos el cierre de la persiana gráfica y reseteamos el índice para liberar el puntero de Windows
-            CmbConcepto.DroppedDown = False
-            CmbConcepto.SelectedIndex = -1
-
-            ' Ahora el vaciado de la colección es 100% seguro
-            If CmbConcepto.Items.Count > 0 Then
-                CmbConcepto.Items.Clear()
-            End If
-
-            ' Volvemos a conectar el evento una vez que el control está vacío y en un estado neutro
-            AddHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
-
-            ' Limpiamos los textos visuales
-            CmbConcepto.Text = ""
-            CmbDescripcion.Text = ""
-
-            ' =================================================================
-            ' 6. ¡EL SECRETO!: Cancelamos la pulsación en el ComboBox original
-            e.Handled = True
-        End If
-    End Sub
-
     Private Sub CmbConcepto_MouseClick(sender As Object, e As MouseEventArgs) Handles CmbConcepto.MouseClick
         TxtBuscarLetras.Enabled = False
         vIntro = "NO"
@@ -253,24 +100,6 @@ Public Class IntroApuntes
             CmbConcepto.SelectedIndex = 0
         End If
     End Sub
-
-    Private Sub CmbConcepto_GotFocus(sender As Object, e As EventArgs) Handles CmbConcepto.GotFocus
-        ' Preparamos las variables de control en un estado neutro
-        TxtBuscarLetras.Enabled = False
-        vIntro = "NO"
-        vCombo = "concepto"
-
-        ' Forzamos a que el cuadro de búsqueda convierta todo a MAYÚSCULAS automáticamente
-        TxtBuscarLetras.CharacterCasing = CharacterCasing.Upper
-
-        ' 🛠️ BLINDAJE: Vaciamos el texto visual para que el combo esté totalmente limpio
-        ' y no tenga ningún concepto viejo seleccionado que interfiera con tu primera letra.
-        RemoveHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
-        CmbConcepto.SelectedIndex = -1
-        CmbConcepto.Text = ""
-        AddHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
-    End Sub
-
 
     Private Sub CmbConcepto_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbConcepto.SelectedIndexChanged
         ' Se buscan Conceptos según lo seleccionado
@@ -284,6 +113,7 @@ Public Class IntroApuntes
             If drMdb1.HasRows Then
                 TxtTipoConcepto.Text = drMdb1.GetValue(2)
                 CmbDescripcion.Text = drMdb1.GetValue(1)
+                TxtDescripcion.Text = drMdb1.GetValue(1)
                 drMdb1.Close()
             End If
         End If
@@ -292,11 +122,11 @@ Public Class IntroApuntes
     Private Sub TxtBuscarLetras_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtBuscarLetras.KeyDown
         ' Si el usuario pulsa FLECHA ABAJO desde el cuadro de búsqueda, saltamos al combo de forma inteligente
         If e.KeyCode = Keys.Down Then
-            If vCombo = "concepto" AndAlso CmbConcepto.Items.Count > 0 Then
-                e.Handled = True
-                CmbConcepto.Focus()
-                CmbConcepto.SelectedIndex = 0
-            ElseIf vCombo = "descripcion" AndAlso CmbDescripcion.Items.Count > 0 Then
+            'If vCombo = "concepto" AndAlso CmbConcepto.Items.Count > 0 Then
+            '    e.Handled = True
+            '    CmbConcepto.Focus()
+            '    CmbConcepto.SelectedIndex = 0
+            If vCombo = "descripcion" AndAlso CmbDescripcion.Items.Count > 0 Then
                 e.Handled = True
                 CmbDescripcion.Focus()
                 CmbDescripcion.SelectedIndex = 0
@@ -307,273 +137,65 @@ Public Class IntroApuntes
     Private Sub TxtBuscarLetras_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtBuscarLetras.KeyPress
         ' Detectamos si se pulsa ENTER (Ascii 13)
         If Asc(e.KeyChar) = 13 Then
-            vIntro = "SI"
-            e.Handled = True ' Evita el pitido de Windows
+            e.Handled = True ' Evita el molesto pitido de Windows
 
-            If vCombo = "concepto" Then
-                MsgBox(rmse.GetString("MsgTxtBuscarConceptos"), MsgBoxStyle.Exclamation, rmse.GetString("$this.Text"))
-                If CmbConcepto.Items.Count > 0 Then
-                    CmbConcepto.DroppedDown = True
-                    CmbConcepto.Focus()
-                    CmbConcepto.SelectedIndex = 0
+            ' 🛠️ CORRECCIÓN DE ANIDACIÓN: Cambiado a un IF limpio y directo para corregir el teclado
+            If vCombo = "descripcion_vacia" Then
+                ' Bloque de alta de descripción nueva
+                Dim respuesta As MsgBoxResult = MsgBox("No existen Descripciones con: -" & TxtBuscarLetras.Text.ToUpper() & "-" & vbCrLf & "¿Añadimos la descripción?", vbQuestion + vbYesNo + vbDefaultButton1, "Introducir Apunte")
+
+                If respuesta = vbYes Then
+                    vIntro = "SI"
+                    CmbDescripcion.Text = TxtBuscarLetras.Text
+                    vDescripcion = TxtBuscarLetras.Text
+
+                    RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+                    TxtBuscarLetras.Text = ""
+                    AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+
+                    TxtBuscarLetras.Enabled = True
+                    vLetras = ""
+
+                    CmbDescripcion.Focus()
+                    CmbDescripcion.SelectionStart = CmbDescripcion.Text.Length
+                    CmbDescripcion.SelectionLength = 0
+                Else
+                    RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+                    If TxtBuscarLetras.Text.Length > 0 Then
+                        TxtBuscarLetras.Text = TxtBuscarLetras.Text.Substring(0, TxtBuscarLetras.Text.Length - 1)
+                    End If
+                    AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+
+                    TxtBuscarLetras.Focus()
+                    TxtBuscarLetras.SelectionStart = TxtBuscarLetras.Text.Length
+                    vLetras = TxtBuscarLetras.Text
+                    vCombo = "descripcion"
+                    BuscarLetras(vCombo)
                 End If
             Else
-                MsgBox(rmse.GetString("MsgTxtBuscarDescripciones"), MsgBoxStyle.Exclamation, rmse.GetString("$this.Text"))
+                ' 🛠️ CORRECCIÓN: Si vCombo es "descripcion" normal (sí hay registros en el desplegable)
+                ' Eliminamos el MsgBox molesto para que al pulsar Enter baje directamente al combo,
+                ' despliegue las opciones y seleccione el primer elemento para moverte con las flechas.
                 If CmbDescripcion.Items.Count > 0 Then
-                    CmbDescripcion.DroppedDown = True
                     CmbDescripcion.Focus()
+                    CmbDescripcion.DroppedDown = True
                     CmbDescripcion.SelectedIndex = 0
                 End If
             End If
         Else
-            ' Si es cualquier otra letra, ponemos vIntro en NO y dejamos que pase limpia.
+            ' Si es cualquier otra letra (Mayúscula, minúscula, espacio, etc.), 
+            ' indicamos de forma limpia que estamos en proceso de escritura ordinaria
             vIntro = "NO"
         End If
     End Sub
 
     Private Sub TxtBuscarLetras_TextChanged(sender As Object, e As EventArgs) Handles TxtBuscarLetras.TextChanged
-        ' 1. Sincronizamos la variable con el texto que el usuario está escribiendo real
+        ' Sincronizamos la variable global con lo que el usuario escribe o borra arriba
         vLetras = TxtBuscarLetras.Text
 
-        ' Si el usuario ha borrado el buscador por completo, limpiamos los combos y salimos
-        If String.IsNullOrEmpty(vLetras) Then
-            If vCombo = "concepto" Then CmbConcepto.Items.Clear()
-            If vCombo = "descripcion" Then CmbDescripcion.Items.Clear()
-            Exit Sub
-        End If
-
-        ' 2. Ajustamos los TabIndex de forma estática según el modo de trabajo,
-        ' pero ELIMINAMOS las líneas que vaciaban el texto (CmbDescripcion.Text = "") 
-        ' para que no corten la escritura a la cuarta letra.
-        If vCombo = "concepto" Then
-            CmbConcepto.TabIndex = 4
-            CmbDescripcion.TabIndex = 5
-        ElseIf vCombo = "descripcion" Then
-            CmbConcepto.TabIndex = 2
-            CmbDescripcion.TabIndex = 4
-        End If
-
-        ' 3. Lanzamos la búsqueda en la base de datos de manera limpia
+        ' Ejecutamos la búsqueda siempre, sin importar quién tenga el foco gráfico
         BuscarLetras(vCombo)
     End Sub
-
-    ' sin traducción inversa ni control de nueva descripción
-    Public Function BuscarLetras(combo As String) As String
-        ' Cerramos cualquier lector abierto preventivamente
-        If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then
-            drMdb1.Close()
-        End If
-
-        ' =====================================================================
-        ' MODO: CONCEPTO
-        ' =====================================================================
-        If combo = "concepto" Then
-            ' 1. Desconectamos temporalmente el evento para evitar disparos accidentales
-            RemoveHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
-
-            ' 2. ¡EL SECRETO!: Forzamos el cierre de la persiana y reseteamos el índice.
-            ' Esto destruye el puntero gráfico interno de Windows sobre la fila '0'.
-            CmbConcepto.DroppedDown = False
-            CmbConcepto.SelectedIndex = -1
-
-            ' 3. Ahora el vaciado es totalmente seguro y no lanzará excepciones
-            If CmbConcepto.Items.Count > 0 Then
-                CmbConcepto.Items.Clear()
-            End If
-
-            ' 4. Volvemos a conectar el evento de forma limpia
-            AddHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
-
-            ' Lanzamos la SQL limpia
-            Dim letrasLimpias As String = vLetras.Replace("'", "''")
-            cmdMdb1cr.CommandText = "SELECT CodigoCON FROM conceptos WHERE CodigoCON LIKE '%" & letrasLimpias & "%' ORDER BY CodigoCON ASC"
-
-            Try
-                drMdb1 = cmdMdb1cr.ExecuteReader()
-                If drMdb1.HasRows Then
-                    While drMdb1.Read()
-                        Dim valor As String = Convert.ToString(drMdb1.GetValue(0))
-                        If valor <> "TRASPASO" Then CmbConcepto.Items.Add(valor)
-                    End While
-                    CmbConcepto.DroppedDown = True
-                Else
-                    CmbConcepto.DroppedDown = False
-                End If
-                drMdb1.Close()
-            Catch ex As Exception
-                MsgBox(rmse.GetString("ErrorBuscarLetrasConcepto") & ": " & ex.Message)
-            End Try
-        End If
-
-        ' =====================================================================
-        ' MODO: DESCRIPCIÓN
-        ' =====================================================================
-        If combo = "descripcion" AndAlso vLetras.Length > 2 Then
-            ' 1. Desconectamos el evento por seguridad
-            RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-
-            ' 2. ¡EL SECRETO!: Cerramos la persiana y limpiamos el índice para proteger el borrado
-            CmbDescripcion.DroppedDown = False
-            CmbDescripcion.SelectedIndex = -1
-
-            ' 3. Vaciamos de forma segura
-            If CmbDescripcion.Items.Count > 0 Then
-                CmbDescripcion.Items.Clear()
-            End If
-
-            ' 4. Volvemos a conectar el evento
-            AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-
-            Dim letrasLimpias As String = vLetras.Replace("'", "''")
-            cmdMdb1cr.CommandText = "SELECT DISTINCT DescripcionAPU FROM apuntes WHERE DescripcionAPU LIKE '%" & letrasLimpias & "%' AND DescripcionAPU <> 'Saldo Inicial'"
-
-            Try
-                drMdb1 = cmdMdb1cr.ExecuteReader()
-                If drMdb1.HasRows Then
-                    While drMdb1.Read()
-                        Dim desc As String = Convert.ToString(drMdb1.GetValue(0)).Trim()
-                        If Not String.IsNullOrEmpty(desc) Then CmbDescripcion.Items.Add(desc)
-                    End While
-                    CmbDescripcion.DroppedDown = True
-                    vCombo = "descripcion" ' Mantenemos la variable de control
-                Else
-                    ' =====================================================================
-                    ' 🛠️ MODIFICACIÓN: CONTROL PARA AÑADIR NUEVA DESCRIPCIÓN
-                    ' =====================================================================
-                    ' Cerramos el lector inmediatamente antes del MsgBox para liberar la BD
-                    drMdb1.Close()
-                    CmbDescripcion.DroppedDown = False
-
-                    Dim respuesta As MsgBoxResult = MsgBox("No existen Descripciones con: -" & vLetras.ToUpper() & "-" & vbCrLf & "¿Añadimos la descripción?", vbQuestion + vbYesNo + vbDefaultButton1, "Introducir Apunte")
-
-                    If respuesta = vbYes Then
-                        vIntro = "SI"
-
-                        ' Fijamos el texto que ha redactado el usuario en el combo
-                        CmbDescripcion.Text = vLetras
-                        vDescripcion = vLetras
-
-                        ' Apagamos el cuadro de búsqueda superior sin disparar eventos en cadena
-                        RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-                        TxtBuscarLetras.Text = ""
-                        AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-                        TxtBuscarLetras.Enabled = False
-
-                        ' Saltamos de forma limpia al importe seleccionando su contenido
-                        TxtImporte.Focus()
-                        TxtImporte.SelectAll()
-                    Else
-                        ' Si dice que NO, retiramos con cuidado la última letra que provocó el fallo
-                        RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-                        If TxtBuscarLetras.Text.Length > 0 Then
-                            TxtBuscarLetras.Text = TxtBuscarLetras.Text.Substring(0, TxtBuscarLetras.Text.Length - 1)
-                        End If
-                        AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-
-                        ' Reubicamos el cursor al final de las letras restantes en el buscador
-                        TxtBuscarLetras.Focus()
-                        TxtBuscarLetras.SelectionStart = TxtBuscarLetras.Text.Length
-                        vLetras = TxtBuscarLetras.Text
-                    End If
-                    ' =====================================================================
-                End If
-
-                ' Doble comprobación de seguridad para asegurar el cierre del lector
-                If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-
-            Catch ex As Exception
-                MsgBox(rmse.GetString("ErrorBuscarLetrasDescripcion") & ": " & ex.Message)
-                If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-            End Try
-        End If
-
-        Return ""
-    End Function
-
-    '' Versión optimizada y comentada de tu función BuscarLetras, con traducción inversa y control de descripción nueva
-    'Public Function BuscarLetras(combo As String) As String
-    '    If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-
-    '    If combo = "concepto" Then
-    '        RemoveHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
-    '        CmbConcepto.DroppedDown = False : CmbConcepto.SelectedIndex = -1
-    '        If CmbConcepto.Items.Count > 0 Then CmbConcepto.Items.Clear()
-    '        AddHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
-
-    '        Dim letrasLimpias As String = vLetras.Replace("'", "''")
-    '        cmdMdb1cr.CommandText = "SELECT CodigoCON FROM conceptos WHERE CodigoCON LIKE '%" & letrasLimpias & "%' ORDER BY CodigoCON ASC"
-    '        Try
-    '            drMdb1 = cmdMdb1cr.ExecuteReader()
-    '            If drMdb1.HasRows Then
-    '                While drMdb1.Read()
-    '                    Dim valor As String = Convert.ToString(drMdb1.GetValue(0))
-    '                    If valor <> "TRASPASO" Then
-    '                        Dim trans As String = resManager.GetString(valor)
-    '                        CmbConcepto.Items.Add(If(String.IsNullOrEmpty(trans), valor, trans).ToUpper())
-    '                    End If
-    '                End While
-    '                CmbConcepto.DroppedDown = True
-    '            Else
-    '                CmbConcepto.DroppedDown = False
-    '            End If
-    '            drMdb1.Close()
-    '        Catch ex As Exception
-    '            MsgBox("Error en búsqueda Concepto: " & ex.Message)
-    '        End Try
-    '    End If
-
-    '    If combo = "descripcion" AndAlso vLetras.Length > 2 Then
-    '        RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-    '        CmbDescripcion.DroppedDown = False : CmbDescripcion.SelectedIndex = -1
-    '        If CmbDescripcion.Items.Count > 0 Then CmbDescripcion.Items.Clear()
-    '        AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-
-    '        Dim letrasLimpias As String = vLetras.Replace("'", "''")
-    '        cmdMdb1cr.CommandText = "SELECT DISTINCT ConceptoAPU FROM apuntes WHERE ConceptoAPU LIKE '%" & letrasLimpias & "%' AND ConceptoAPU <> 'SALDO'"
-    '        Try
-    '            drMdb1 = cmdMdb1cr.ExecuteReader()
-    '            Dim huboFilas As Boolean = False
-
-    '            While drMdb1.Read()
-    '                Dim valor As String = Convert.ToString(drMdb1.GetValue(0))
-    '                Dim trans As String = resManager.GetString("Desc_" & valor)
-    '                If Not String.IsNullOrEmpty(trans) Then
-    '                    CmbDescripcion.Items.Add(trans.Trim())
-    '                    huboFilas = True
-    '                End If
-    '            End While
-    '            drMdb1.Close()
-
-    '            If huboFilas Then
-    '                CmbDescripcion.DroppedDown = True
-    '                vCombo = "descripcion"
-    '            Else
-    '                CmbDescripcion.DroppedDown = False
-    '                Dim respuesta As MsgBoxResult = MsgBox("No existen Descripciones con: -" & vLetras.ToUpper() & "-" & vbCrLf & "¿Añadimos la descripción?", vbQuestion + vbYesNo + vbDefaultButton1, "Introducir Apunte")
-
-    '                If respuesta = vbYes Then
-    '                    vIntro = "SI"
-    '                    CmbDescripcion.Text = vLetras : vDescripcion = vLetras
-    '                    RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-    '                    TxtBuscarLetras.Text = ""
-    '                    AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-    '                    TxtBuscarLetras.Enabled = False
-    '                    TxtImporte.Focus() : TxtImporte.SelectAll()
-    '                Else
-    '                    RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-    '                    If TxtBuscarLetras.Text.Length > 0 Then TxtBuscarLetras.Text = TxtBuscarLetras.Text.Substring(0, TxtBuscarLetras.Text.Length - 1)
-    '                    AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-    '                    TxtBuscarLetras.Focus() : TxtBuscarLetras.SelectionStart = TxtBuscarLetras.Text.Length
-    '                    vLetras = TxtBuscarLetras.Text
-    '                End If
-    '            End If
-    '        Catch ex As Exception
-    '            MsgBox("Error en búsqueda Descripción: " & ex.Message)
-    '            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-    '        End Try
-    '    End If
-    '    Return ""
-    'End Function
 
     Private Function GuardarApunteEnBaseDatos() As Boolean
         If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
@@ -604,8 +226,9 @@ Public Class IntroApuntes
         Try
             cmdMdb1cr.ExecuteNonQuery()
 
-            ' Refresco automático usando tu método LlenarGrid centralizado
-            vtipoSql = "SELECT * FROM apuntes WHERE apuntes.EjercicioAPU = " & CInt(vAñoEjercicio) & " ORDER BY apuntes.FechaAPU ASC"
+            vtipoSql = "Select apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
+            vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+            vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
             vtipoGrid = "APUNTES_CONTABLES"
             LlenarGrid(vtipoSql, vtipoGrid, "1")
 
@@ -642,34 +265,43 @@ Public Class IntroApuntes
     End Sub
 
     Private Sub CmbDescripcion_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbDescripcion.KeyPress
-        ' ¡EL TRUCO!: Si es un Intro, salimos inmediatamente sin borrar nada
+        ' Si es un Intro, salimos inmediatamente
         If Asc(e.KeyChar) = 13 Then
             e.Handled = True
             Exit Sub
         End If
 
-        ' Convertimos la letra a mayúscula
+        ' 🛠️ BLINDAJE ABSOLUTO MANTENIDO: Si vIntro es "SI", el usuario edita libremente
+        If vIntro = "SI" Then
+            ' Sincronizamos la variable de forma segura reteniendo mayúsculas/minúsculas nativas
+            BeginInvoke(Sub() vDescripcion = CmbDescripcion.Text)
+            Exit Sub
+        End If
+
+        ' 🛠️ NUEVA MEJORA EN CALIENTE: Si el usuario borra todo el texto a mano, 
+        ' liberamos el combo para poder escribir una descripción nueva desde cero.
+        If String.IsNullOrEmpty(CmbDescripcion.Text) Then
+            vIntro = "SI"
+            vDescripcion = ""
+            Exit Sub
+        End If
+
         Dim letra As Char = e.KeyChar
 
-        ' Solo actuamos si es una letra, número o espacio válido y no estamos confirmando datos (vIntro)
-        If vIntro = "NO" AndAlso (Char.IsLetterOrDigit(letra) OrElse letra = " "c) Then
-            ' Indicamos el modo de búsqueda
+        ' Flujo por defecto si sólo está buscando palabras existentes
+        If Char.IsLetterOrDigit(letra) OrElse letra = " "c Then
             vCombo = "descripcion"
 
-            ' Preparamos el cuadro de búsqueda e inyectamos la letra
             TxtBuscarLetras.Enabled = True
             TxtBuscarLetras.Text += letra.ToString()
 
-            ' Pasamos el foco de forma limpia utilizando las propiedades nativas de .NET
             TxtBuscarLetras.Focus()
             TxtBuscarLetras.SelectionStart = TxtBuscarLetras.Text.Length
             TxtBuscarLetras.SelectionLength = 0
 
             vLetras = TxtBuscarLetras.Text
 
-            ' Desconectamos el evento para proteger el vaciado en Descripciones
             RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-
             CmbDescripcion.DroppedDown = False
             CmbDescripcion.SelectedIndex = -1
 
@@ -678,10 +310,7 @@ Public Class IntroApuntes
             End If
 
             AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-
             CmbDescripcion.Text = ""
-
-            ' ¡EL SECRETO!: Cancelamos la pulsación en el combo para evitar parpadeos gráficos
             e.Handled = True
         End If
     End Sub
@@ -706,14 +335,15 @@ Public Class IntroApuntes
         End If
 
         ' Preparamos el entorno para la descripción
-        vIntro = "NO"
+        ' 🛠️ AJUSTE: Solo ponemos vIntro en "NO" si no estábamos ya editando una descripción nueva ("SI")
+        If vIntro <> "SI" Then vIntro = "NO"
         vCombo = "descripcion"
 
-        ' Configuramos el cuadro de búsqueda superior en minúsculas
-        TxtBuscarLetras.CharacterCasing = CharacterCasing.Lower
+        ' 🛠️ CORRECCIÓN ABSOLUTA: Cambiamos Lower por Normal para liberar las Mayúsculas/Minúsculas
+        TxtBuscarLetras.CharacterCasing = CharacterCasing.Normal
 
         ' =====================================================================
-        ' 🛠️ CONTROL INTELIGENTE DE BORRADO
+        ' 🛠️ CONTROL INTELIGENTE DE BORRADO (MANTENIDO)
         ' =====================================================================
         ' SI EL COMBO YA TIENE TEXTO (porque el concepto le ha metido la descripción por defecto),
         ' NO lo borramos. Solo seleccionamos el texto para que el usuario pueda escribir encima si quiere.
@@ -727,11 +357,21 @@ Public Class IntroApuntes
             CmbDescripcion.SelectionStart = CmbDescripcion.Text.Length
             CmbDescripcion.SelectionLength = 0
         End If
+
+        ' 🛠️ MEJORA DE NAVEGACIÓN: Si estamos en modo de alta nueva, controlamos el cursor parpadeante
+        If vIntro = "SI" Then
+            CmbDescripcion.SelectionStart = CmbDescripcion.Text.Length
+            CmbDescripcion.SelectionLength = 0
+        End If
     End Sub
 
-
     Private Sub TxtImporte_GotFocus(sender As Object, e As EventArgs) Handles TxtImporte.GotFocus
+        ' Limpiamos el texto del buscador de forma segura
+        RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
         TxtBuscarLetras.Text = ""
+        AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+
+        ' Lo dejamos deshabilitado momentáneamente mientras se introduce el dinero
         TxtBuscarLetras.Enabled = False
         vCombo = ""
     End Sub
@@ -898,137 +538,168 @@ Public Class IntroApuntes
         End If
     End Sub
 
-    'Private Sub BtnAceptarOtro_Click(sender As Object, e As EventArgs) Handles BtnAceptarOtro.Click
-    '    If frmApuntesContables.DgvApuntes.RowCount >= 25 And My.Settings.Autorizar = "Se autoriza el uso de ContaHogar 3.0 a: Modo Demo" Then
-    '        'MsgBox("Software No Activado, Máximo 25 Apuntes", MsgBoxStyle.Critical, "Falta Activación")
-    '        'Close()
-    '    Else
-
-    '    End If
-    '    If TxtImporte.Text <> "0" Then
-    '        If frmApuntesContables.ListBox1.SelectedItems.Count = 0 Then
-    '            vDate3 = DateTimePicker1.Value
-    '            vDescripcionAPU = ApostrofePorAcentoAgudo(CmbDescripcion.Text)
-    '            vImporteAPU = TxtImporte.Text
-    '            If TxtTipoConcepto.Text = "GASTO" Then
-    '                vImporteAPU = "-" & vImporteAPU.ToString
-    '            End If
-    '            vNotasAPU = TxtNota.Text
-    '            vCuentaAPU = CmbCuenta.Text.ToString
-    '            vAñadirSql = "INSERT INTO apuntes "
-    '            vAñadirSql += "(FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) "
-    '            vAñadirSql += "VALUES (#" & vDate3.ToString("yyyy/MM/dd") & "#,'" & vConcepto & "','" & vDescripcionAPU & "','" & vImporteAPU & "','" & vAñoEjercicio & "','" & vNotasAPU & "','" & vCuentaAPU & "')"
-    '            cmdMdb1cr.CommandText = vAñadirSql
-    '            Try
-    '                cmdMdb1cr.ExecuteNonQuery()
-    '                'MsgBox("Registro, Grabado Correctamente")
-    '            Catch ex As Exception
-    '                MsgBox(rmse.GetString("ErrorGrabarRegistro") & ": " & ex.ToString, vbExclamation, rmse.GetString("$this.Text"))
-    '            End Try
-    '            vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
-    '            vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-    '            If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
-    '                vtipoSql += " And apuntes.CuentaAPU = '" & frmApuntesContables.CmbCuenta.Text & "' "
-    '            End If
-    '            If frmApuntesContables.BtnFiltroConcepto.Enabled = False Then
-    '                vtipoSql += " And apuntes.ConceptoAPU = '" & frmApuntesContables.CmbConcepto.Text & "' "
-    '            End If
-    '            If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
-    '                vDate1 = Format(frmApuntesContables.DateTimePicker1.Value, "yyyy/MM/dd")
-    '                vDate2 = Format(frmApuntesContables.DateTimePicker2.Value, "yyyy/MM/dd")
-    '                vtipoSql += " And apuntes.FechaAPU >= ?"
-    '                vtipoSql += " And apuntes.FechaAPU <= ?"
-    '            End If
-    '            vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
-    '            vtipoGrid = "APUNTES_CONTABLES"
-    '            LlenarGrid(vtipoSql, vtipoGrid, "1")
-    '            vFila = frmApuntesContables.DgvApuntes.RowCount - 1
-    '            frmApuntesContables.DgvApuntes.Rows(vFila).Selected = True
-    '            frmApuntesContables.DgvApuntes.CurrentCell = frmApuntesContables.DgvApuntes.Rows(vFila).Cells(0)
-    '        Else
-    '            vDate3 = DateTimePicker1.Value
-    '            vDescripcionAPU = ApostrofePorAcentoAgudo(CmbDescripcion.Text)
-    '            vImporteAPU = TxtImporte.Text
-    '            If TxtTipoConcepto.Text = "GASTO" Then
-    '                vImporteAPU = "-" & vImporteAPU.ToString
-    '            End If
-    '            vNotasAPU = TxtNota.Text
-    '            vCuentaAPU = CmbCuenta.Text.ToString
-    '            vAñadirSql = "INSERT INTO apuntes "
-    '            vAñadirSql += "(FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) "
-    '            vAñadirSql += "VALUES (#" & vDate3.ToString("yyyy/MM/dd") & "#,'" & vConcepto & "','" & vDescripcionAPU & "','" & vImporteAPU & "','" & vAñoEjercicio & "','" & vNotasAPU & "','" & vCuentaAPU & "')"
-    '            cmdMdb1cr.CommandText = vAñadirSql
-    '            Try
-    '                cmdMdb1cr.ExecuteNonQuery()
-    '                'MsgBox("Registro, Grabado Correctamente")
-    '            Catch ex As Exception
-    '                MsgBox(rmse.GetString("ErrorGrabarRegistro") & ": " & ex.ToString, vbExclamation, rmse.GetString("$this.Text"))
-    '            End Try
-    '            Dim i As Integer
-    '            vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
-    '            If frmApuntesContables.BtnFechasClick = "SI" Then
-    '                vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
-    '            Else
-    '                vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-    '            End If
-    '            For i = 0 To frmApuntesContables.ListBox1.SelectedItems.Count - 1
-    '                vConcepto = frmApuntesContables.ListBox1.SelectedItems(i).ToString
-    '                If i = 0 Then
-    '                    vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
-    '                    If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
-    '                        vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
-    '                    End If
-    '                    If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
-    '                        vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
-    '                        vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
-    '                        vtipoSql += " And apuntes.FechaAPU >= #" & vDate1 & "#"
-    '                        vtipoSql += " And apuntes.FechaAPU <= #" & vDate2 & "#"
-    '                    End If
-    '                Else
-    '                    vtipoSql += " Or "
-    '                    If frmApuntesContables.BtnFechasClick = "SI" Then
-    '                        vtipoSql += "apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
-    '                    Else
-    '                        vtipoSql += "apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-    '                    End If
-    '                    vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
-    '                    If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
-    '                        vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
-    '                    End If
-    '                    If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
-    '                        vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
-    '                        vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
-    '                        vtipoSql += " And apuntes.FechaAPU >= ?"
-    '                        vtipoSql += " And apuntes.FechaAPU <= ?"
-    '                    End If
-    '                End If
-    '            Next
-    '            vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
-    '            vtipoGrid = "APUNTES_CONTABLES"
-    '            LlenarGrid(vtipoSql, vtipoGrid, "1")
-    '            If frmApuntesContables.DgvApuntes.RowCount - 1 >= 0 Then
-    '                vFila = frmApuntesContables.DgvApuntes.RowCount - 1
-    '                frmApuntesContables.DgvApuntes.Rows(vFila).Selected = True
-    '                frmApuntesContables.DgvApuntes.CurrentCell = frmApuntesContables.DgvApuntes.Rows(vFila).Cells(0)
-    '            End If
-    '        End If
-    '        TxtImporte.Text = 0
-    '        TxtNota.Text = ""
-    '        DateTimePicker1.Select()
-    '    Else
-    '        MsgBox(rmse.GetString("NoCantidadImporte"), vbExclamation, rmse.GetString("$this.Text"))
-    '        TxtImporte.Select()
-    '        TxtImporte.SelectAll()
-    '    End If
-    'End Sub
-
     Private Sub BtnAceptarOtro_Click(sender As Object, e As EventArgs) Handles BtnAceptarOtro.Click
-        If GuardarApunteEnBaseDatos() Then
-            vIntro = "NO" : TxtImporte.Text = "0" : CmbConcepto.Text = "" : CmbDescripcion.Text = ""
+        If frmApuntesContables.DgvApuntes.RowCount >= 25 And My.Settings.Autorizar = "Se autoriza el uso de ContaHogar 3.0 a: Modo Demo" Then
+            'MsgBox("Software No Activado, Máximo 25 Apuntes", MsgBoxStyle.Critical, "Falta Activación")
+            'Close()
+        Else
 
-            LlenarConcepto()
-            LlenarDescripcion()
-            DateTimePicker1.Select()
+        End If
+
+        If TxtImporte.Text <> "0" Then
+            If frmApuntesContables.ListBox1.SelectedItems.Count = 0 Then
+                vDate3 = DateTimePicker1.Value
+                vDescripcionAPU = ApostrofePorAcentoAgudo(CmbDescripcion.Text)
+                vImporteAPU = TxtImporte.Text
+                If TxtTipoConcepto.Text = "GASTO" Then
+                    vImporteAPU = "-" & vImporteAPU.ToString
+                End If
+                vNotasAPU = TxtNota.Text
+                vCuentaAPU = CmbCuenta.Text.ToString
+
+                ' Sincronizamos vConcepto con el texto actual en pantalla antes de guardar
+                vConcepto = Trim(CmbConcepto.Text)
+
+                vAñadirSql = "INSERT INTO apuntes "
+                vAñadirSql += "(FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) "
+                vAñadirSql += "VALUES (#" & vDate3.ToString("yyyy/MM/dd") & "#,'" & vConcepto & "','" & vDescripcionAPU & "','" & vImporteAPU & "','" & vAñoEjercicio & "','" & vNotasAPU & "','" & vCuentaAPU & "')"
+                cmdMdb1cr.CommandText = vAñadirSql
+                Try
+                    cmdMdb1cr.ExecuteNonQuery()
+                Catch ex As Exception
+                    MsgBox(rmse.GetString("ErrorGrabarRegistro") & ": " & ex.ToString, vbExclamation, rmse.GetString("$this.Text"))
+                End Try
+
+                vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
+                vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+                If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
+                    vtipoSql += " And apuntes.CuentaAPU = '" & frmApuntesContables.CmbCuenta.Text & "' "
+                End If
+                If frmApuntesContables.BtnFiltroConcepto.Enabled = False Then
+                    vtipoSql += " And apuntes.ConceptoAPU = '" & frmApuntesContables.CmbConcepto.Text & "' "
+                End If
+                If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
+                    vDate1 = Format(frmApuntesContables.DateTimePicker1.Value, "yyyy/MM/dd")
+                    vDate2 = Format(frmApuntesContables.DateTimePicker2.Value, "yyyy/MM/dd")
+                    vtipoSql += " And apuntes.FechaAPU >= #" & vDate1 & "#"
+                    vtipoSql += " And apuntes.FechaAPU <= #" & vDate2 & "#"
+                End If
+                vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
+                vtipoGrid = "APUNTES_CONTABLES"
+                LlenarGrid(vtipoSql, vtipoGrid, "1")
+
+                ' Enfoque seguro al último registro añadido
+                frmApuntesContables.DgvApuntes.Refresh()
+                vFila = frmApuntesContables.DgvApuntes.RowCount - 1
+                If vFila >= 0 Then
+                    frmApuntesContables.DgvApuntes.ClearSelection()
+                    frmApuntesContables.DgvApuntes.Rows(vFila).Selected = True
+                    frmApuntesContables.DgvApuntes.CurrentCell = frmApuntesContables.DgvApuntes.Rows(vFila).Cells(0)
+                End If
+            Else
+                vDate3 = DateTimePicker1.Value
+                vDescripcionAPU = ApostrofePorAcentoAgudo(CmbDescripcion.Text)
+                vImporteAPU = TxtImporte.Text
+                If TxtTipoConcepto.Text = "GASTO" Then
+                    vImporteAPU = "-" & vImporteAPU.ToString
+                End If
+                vNotasAPU = TxtNota.Text
+                vCuentaAPU = CmbCuenta.Text.ToString
+
+                ' Sincronizamos vConcepto con el texto actual en pantalla antes de guardar
+                vConcepto = Trim(CmbConcepto.Text)
+
+                vAñadirSql = "INSERT INTO apuntes "
+                vAñadirSql += "(FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) "
+                vAñadirSql += "VALUES (#" & vDate3.ToString("yyyy/MM/dd") & "#,'" & vConcepto & "','" & vDescripcionAPU & "','" & vImporteAPU & "','" & vAñoEjercicio & "','" & vNotasAPU & "','" & vCuentaAPU & "')"
+                cmdMdb1cr.CommandText = vAñadirSql
+                Try
+                    cmdMdb1cr.ExecuteNonQuery()
+                Catch ex As Exception
+                    MsgBox(rmse.GetString("ErrorGrabarRegistro") & ": " & ex.ToString, vbExclamation, rmse.GetString("$this.Text"))
+                End Try
+
+                Dim i As Integer
+                vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
+                If frmApuntesContables.BtnFechasClick = "SI" Then
+                    vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
+                Else
+                    vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+                End If
+
+                For i = 0 To frmApuntesContables.ListBox1.SelectedItems.Count - 1
+                    vConcepto = frmApuntesContables.ListBox1.SelectedItems(i).ToString()
+                    If i = 0 Then
+                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
+                        If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
+                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                        End If
+                        If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
+                            vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
+                            vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
+                            vtipoSql += " And apuntes.FechaAPU >= #" & vDate1 & "#"
+                            vtipoSql += " And apuntes.FechaAPU <= #" & vDate2 & "#"
+                        End If
+                    Else
+                        vtipoSql += " Or "
+                        If frmApuntesContables.BtnFechasClick = "SI" Then
+                            vtipoSql += "apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
+                        Else
+                            vtipoSql += "apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+                        End If
+                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
+                        If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
+                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                        End If
+                        If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
+                            vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
+                            vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
+                            vtipoSql += " And apuntes.FechaAPU >= #" & vDate1 & "#"
+                            vtipoSql += " And apuntes.FechaAPU <= #" & vDate2 & "#"
+                        End If
+                    End If
+                Next
+
+                vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
+                vtipoGrid = "APUNTES_CONTABLES"
+                LlenarGrid(vtipoSql, vtipoGrid, "1")
+
+                ' Enfoque seguro al último registro añadido en modo ListBox
+                frmApuntesContables.DgvApuntes.Refresh()
+                vFila = frmApuntesContables.DgvApuntes.RowCount - 1
+                If vFila >= 0 Then
+                    frmApuntesContables.DgvApuntes.ClearSelection()
+                    frmApuntesContables.DgvApuntes.Rows(vFila).Selected = True
+                    frmApuntesContables.DgvApuntes.CurrentCell = frmApuntesContables.DgvApuntes.Rows(vFila).Cells(0)
+                End If
+            End If
+
+            ' =====================================================================
+            ' 🛠️ REINICIO ASISTIDO DE PASOS PARA INTRODUCIR OTRO APUNTE
+            ' =====================================================================
+            ' 1. Apagamos el TextChanged superior para evitar llamadas falsas a la BD al limpiar
+            RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+            TxtBuscarLetras.Text = ""
+            AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+
+            ' 2. Reestablecemos el estado inicial del buscador de descripciones
+            TxtBuscarLetras.Enabled = True
+            vLetras = ""
+            vIntro = "NO"
+
+            ' 3. Vaciamos las cajas de texto numéricas y complementarias
+            TxtImporte.Text = "0"
+            TxtNota.Text = ""
+            TxtDescripcion.Text = ""
+            CmbConcepto.Text = ""
+            CmbDescripcion.Text = ""
+
+            ' 4. Regresamos el cursor a la Fecha para arrancar de nuevo el flujo de introducción
+            DateTimePicker1.Focus()
+        Else
+            MsgBox(rmse.GetString("NoCantidadImporte"), vbExclamation, rmse.GetString("$this.Text"))
+            TxtImporte.Select()
+            TxtImporte.SelectAll()
         End If
     End Sub
 
@@ -1074,16 +745,187 @@ Public Class IntroApuntes
     Private Sub BtnDescripcion_Click(sender As Object, e As EventArgs) Handles BtnDescripcion.Click
         ' Llenar el Combo Descripción
         '****************************
-        'If CmbDescripcion.Items.Count <> 0 Then
-        '    MsgBox("El Combo Descripción ya esta Lleno.", vbExclamation, "Combo Descripción")
-        '    CmbDescripcion.Items.Clear()
-        'End If
         LlenarDescripcion()
     End Sub
 
+    Private Sub DateTimePicker1_LostFocus(sender As Object, e As EventArgs) Handles DateTimePicker1.LostFocus
+        BtnCalculadora.TabIndex = 0
+        BtnConcepto.TabIndex = 0
+        BtnDescripcion.TabIndex = 0
+        BtnHoy.TabIndex = 0
+        BtnCuenta.TabIndex = 0
+    End Sub
 
-    'sin traducción de claves neutras a texto visible
-    ' si quieres mostrar el código tal cual está en la base de datos sin traducirlo, esta es la función optimizada y blindada para llenar el combo de conceptos:
+    Private Sub CmbConcepto_Click(sender As Object, e As EventArgs) Handles CmbConcepto.Click
+        CmbConcepto.DroppedDown = True
+    End Sub
+
+    Private Sub CmbDescripcion_Click(sender As Object, e As EventArgs) Handles CmbDescripcion.Click
+        CmbDescripcion.DroppedDown = True
+    End Sub
+
+    Private Sub DateTimePicker1_KeyDown(sender As Object, e As KeyEventArgs) Handles DateTimePicker1.KeyDown
+        ' Verificamos si la tecla presionada es Enter
+        If e.KeyCode = Keys.Enter Then
+            ' 1. Evitar el sonido de "beep" al pulsar Enter
+            e.SuppressKeyPress = True
+            CmbConcepto.Select()
+            ' Opcional: Ejecutar una búsqueda o guardar valor
+            'BtnHoy.PerformClick()
+        End If
+    End Sub
+
+    Public Function LlenarDescripcion() As String
+        ' 1. BLINDAJE: Vaciamos el combo de forma segura desactivando eventos para evitar errores de índice
+        RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+        CmbDescripcion.SelectedIndex = -1
+        CmbDescripcion.Items.Clear()
+        AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+
+        ' 2. OPTIMIZACIÓN CRÍTICA: Usamos SELECT DISTINCT para que la base de datos filtre los duplicados al vuelo
+        cmdMdb1cr.CommandText = "SELECT DISTINCT DescripcionAPU FROM apuntes WHERE DescripcionAPU <> 'Saldo Inicial' ORDER BY DescripcionAPU ASC"
+
+        Try
+            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+
+            If drMdb1.HasRows Then
+                While drMdb1.Read()
+                    Dim desc As String = Convert.ToString(drMdb1.GetValue(0)).Trim()
+                    If Not String.IsNullOrEmpty(desc) Then
+                        CmbDescripcion.Items.Add(desc)
+                    End If
+                End While
+            End If
+            drMdb1.Close()
+        Catch ex As Exception
+            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+            MsgBox(rmse.GetString("ErrorLlenarDesplegable") & rmse.GetString("Label3.Text") & " " & ex.Message, vbExclamation, rmse.GetString("$this.Text"))
+        End Try
+        Return ""
+    End Function
+
+    Private Sub CmbConcepto_KeyDown(sender As Object, e As KeyEventArgs) Handles CmbConcepto.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            e.SuppressKeyPress = True
+
+            ' 1. Guardamos el texto que ha seleccionado el usuario con las flechas
+            Dim textoSeleccionado As String = CmbConcepto.Text
+            vConcepto = textoSeleccionado
+
+            ' 2. Apagamos el buscador de arriba para que al borrarlo no active la base de datos
+            RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+            TxtBuscarLetras.Text = ""
+            AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+
+            ' 🛠️ AJUSTE AQUÍ: Lo dejamos habilitado y configuramos vCombo en "descripcion"
+            ' para que cuando el usuario empiece a buscar descripciones, el sistema sepa dónde está.
+            TxtBuscarLetras.Enabled = True
+            vCombo = "descripcion"
+
+            ' 3. Restauramos el texto en el combo por si el borrado de arriba hizo amago de limpiarlo
+            CmbConcepto.Text = textoSeleccionado
+
+            ' =====================================================================
+            ' 🛠️ MANTENIDO: CARGAR LA DESCRIPCIÓN POR DEFECTO DEL CONCEPTO SELECCIONADO
+            ' =====================================================================
+            If Not String.IsNullOrEmpty(vConcepto) Then
+                Try
+                    ' Cerramos el lector si estuviera abierto por seguridad
+                    If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+
+                    ' Consultamos la tabla de conceptos para traer su tipo y descripción asociada
+                    cmdMdb1cr.CommandText = "SELECT * FROM conceptos WHERE CodigoCON = '" & vConcepto.Replace("'", "''") & "' ORDER BY CodigoCON ASC"
+                    drMdb1 = cmdMdb1cr.ExecuteReader()
+
+                    If drMdb1.Read() Then
+                        ' Rellenamos el tipo de concepto
+                        TxtTipoConcepto.Text = Convert.ToString(drMdb1.GetValue(2))
+
+                        ' Rellenamos el combo de descripciones con la descripción por defecto de la base de datos
+                        CmbDescripcion.Text = Convert.ToString(drMdb1.GetValue(1))
+                        vDescripcion = CmbDescripcion.Text
+                    End If
+                    drMdb1.Close()
+                Catch ex As Exception
+                    ' Manejo silencioso o registro de error para no romper el flujo
+                    If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+                End Try
+            End If
+            ' =====================================================================
+
+            ' 4. Cerramos la lista y saltamos limpiamente al combo de descripción o al buscador
+            If CmbConcepto.DroppedDown Then CmbConcepto.DroppedDown = False
+
+            ' Si el concepto ya traía una descripción automática por defecto, saltas al importe.
+            ' Si venía vacío, puedes saltar directamente a CmbDescripcion para empezar a buscar letras.
+            CmbDescripcion.Select()
+        End If
+    End Sub
+
+    Public Function BuscarLetras(combo As String) As String
+        ' Cerramos cualquier lector abierto preventivamente
+        If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then
+            drMdb1.Close()
+        End If
+
+        ' =====================================================================
+        ' MODO: DESCRIPCIÓN
+        ' =====================================================================
+        If combo = "descripcion" AndAlso vLetras.Length > 2 Then
+            ' 1. Desconectamos el evento por seguridad
+            RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+
+            ' 2. Cerramos la persiana de forma controlada
+            CmbDescripcion.DroppedDown = False
+
+            Dim letrasLimpias As String = vLetras.Replace("'", "''")
+            'cmdMdb1cr.CommandText = "SELECT DISTINCT DescripcionAPU FROM apuntes WHERE DescripcionAPU LIKE '%" & letrasLimpias & "%' AND DescripcionAPU <> 'Saldo Inicial'"
+            ' Cambia la línea original del CommandText por esta:
+            cmdMdb1cr.CommandText = "SELECT DISTINCT DescripcionAPU FROM apuntes WHERE UCase(DescripcionAPU) LIKE '%" & letrasLimpias.ToUpper() & "%' AND DescripcionAPU <> 'Saldo Inicial'"
+
+            Try
+                drMdb1 = cmdMdb1cr.ExecuteReader()
+                If drMdb1.HasRows Then
+                    ' Si hay registros, limpiamos y llenamos las sugerencias
+                    CmbDescripcion.SelectedIndex = -1
+                    If CmbDescripcion.Items.Count > 0 Then CmbDescripcion.Items.Clear()
+
+                    While drMdb1.Read()
+                        Dim desc As String = Convert.ToString(drMdb1.GetValue(0)).Trim()
+                        If Not String.IsNullOrEmpty(desc) Then CmbDescripcion.Items.Add(desc)
+                    End While
+                    CmbDescripcion.DroppedDown = True
+                    vCombo = "descripcion" ' Estado de búsqueda normal con éxito
+                Else
+                    ' =====================================================================
+                    ' 🛠️ CORRECCIÓN CRÍTICA: NO VACIAMOS EL COMBO
+                    ' =====================================================================
+                    drMdb1.Close()
+
+                    ' El secreto: Forzamos a que el Combo pinte en tiempo real lo que escribe 
+                    ' el usuario en el buscador de arriba para que no se quede en blanco.
+                    CmbDescripcion.Text = vLetras
+
+                    ' Guardamos el estado especial de que esta descripción es NUEVA
+                    vCombo = "descripcion_vacia"
+                End If
+
+                ' Doble comprobación de seguridad para asegurar el cierre del lector
+                If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+
+            Catch ex As Exception
+                MsgBox(rmse.GetString("ErrorBuscarLetrasDescripcion") & ": " & ex.Message)
+                If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+            End Try
+
+            ' Volvemos a conectar el evento limpiamente
+            AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+        End If
+
+        Return ""
+    End Function
+
     Public Function LlenarConcepto() As String
         ' 1. BLINDAJE: Vaciamos el combo de forma segura desactivando eventos
         RemoveHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
@@ -1131,188 +973,394 @@ Public Class IntroApuntes
         End Try
         Return ""
     End Function
-
-    '' con traducción de claves neutras a texto visible
-    'Public Function LlenarConcepto() As String
-    '    RemoveHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
-    '    CmbConcepto.SelectedIndex = -1 : CmbConcepto.Items.Clear()
-    '    AddHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
-
-    '    cmdMdb1cr.CommandText = "SELECT CodigoCON FROM conceptos ORDER BY CodigoCON ASC"
-    '    Try
-    '        If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-    '        drMdb1 = cmdMdb1cr.ExecuteReader()
-    '        If drMdb1.HasRows Then
-    '            While drMdb1.Read()
-    '                Dim claveNeutro As String = Convert.ToString(drMdb1.GetValue(0)).Trim()
-    '                If claveNeutro <> "TRASPASO" AndAlso Not String.IsNullOrEmpty(claveNeutro) Then
-    '                    Dim textoTraducido As String = resManager.GetString(claveNeutro)
-    '                    If String.IsNullOrEmpty(textoTraducido) Then textoTraducido = claveNeutro
-    '                    CmbConcepto.Items.Add(textoTraducido.ToUpper())
-    '                End If
-    '            End While
-    '            If CmbConcepto.Items.Count > 0 Then CmbConcepto.Text = Convert.ToString(CmbConcepto.Items(0))
-    '        End If
-    '        drMdb1.Close()
-    '    Catch ex As Exception
-    '        If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-    '        MsgBox("Error al cargar Conceptos: " & ex.Message)
-    '    End Try
-    '    Return ""
-    'End Function
-
-
-    'esta función llena el combo de descripción con las claves neutras traducidas a texto visible, tomando como referencia la tabla apuntes para obtener las claves únicas de descripción, y luego traducirlas usando el ResourceManager. Se ha optimizado para evitar duplicados y se ha blindado con manejo de excepciones y cierre adecuado del DataReader.
-    Public Function LlenarDescripcion() As String
-        ' 1. BLINDAJE: Vaciamos el combo de forma segura desactivando eventos para evitar errores de índice
-        RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-        CmbDescripcion.SelectedIndex = -1
-        CmbDescripcion.Items.Clear()
-        AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-
-        ' 2. OPTIMIZACIÓN CRÍTICA: Usamos SELECT DISTINCT para que la base de datos filtre los duplicados al vuelo
-        cmdMdb1cr.CommandText = "SELECT DISTINCT DescripcionAPU FROM apuntes WHERE DescripcionAPU <> 'Saldo Inicial' ORDER BY DescripcionAPU ASC"
-
-        Try
-            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-
-            If drMdb1.HasRows Then
-                While drMdb1.Read()
-                    Dim desc As String = Convert.ToString(drMdb1.GetValue(0)).Trim()
-                    If Not String.IsNullOrEmpty(desc) Then
-                        CmbDescripcion.Items.Add(desc)
-                    End If
-                End While
-            End If
-            drMdb1.Close()
-        Catch ex As Exception
-            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-            MsgBox(rmse.GetString("ErrorLlenarDesplegable") & rmse.GetString("Label3.Text") & " " & ex.Message, vbExclamation, rmse.GetString("$this.Text"))
-        End Try
-        Return ""
-    End Function
-
-    ''esta función llena el combo de descripción con las claves neutras traducidas a texto visible, tomando como referencia la tabla apuntes para obtener las claves únicas de descripción, y luego traducirlas usando el ResourceManager. Se ha optimizado para evitar duplicados y se ha blindado con manejo de excepciones y cierre adecuado del DataReader.
-    'Public Function LlenarDescripcion() As String
-    '    RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-    '    CmbDescripcion.SelectedIndex = -1 : CmbDescripcion.Items.Clear()
-    '    AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-
-    '    cmdMdb1cr.CommandText = "SELECT DISTINCT ConceptoAPU FROM apuntes WHERE ConceptoAPU <> 'SALDO' ORDER BY ConceptoAPU ASC"
-    '    Try
-    '        If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-    '        drMdb1 = cmdMdb1cr.ExecuteReader()
-    '        If drMdb1.HasRows Then
-    '            While drMdb1.Read()
-    '                Dim claveNeutro As String = Convert.ToString(drMdb1.GetValue(0)).Trim()
-    '                If Not String.IsNullOrEmpty(claveNeutro) Then
-    '                    Dim textoTraducido As String = resManager.GetString("Desc_" & claveNeutro)
-    '                    If Not String.IsNullOrEmpty(textoTraducido) Then CmbDescripcion.Items.Add(textoTraducido.Trim())
-    '                End If
-    '            End While
-    '        End If
-    '        drMdb1.Close()
-    '    Catch ex As Exception
-    '        If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-    '        MsgBox("Error al cargar Descripciones: " & ex.Message)
-    '    End Try
-    '    Return ""
-    'End Function
-
-    ''con traducción de claves neutras a texto visible y doble intento de carga (primero desde apuntes, si no hay nada, desde conceptos)
-    'Public Function LlenarDescripcion() As String
-    '    ' 1. Desvincular eventos y limpiar el ComboBox
-    '    RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-    '    CmbDescripcion.SelectedIndex = -1 : CmbDescripcion.Items.Clear()
-    '    AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-
-    '    Try
-    '        Dim cargoDesdeApuntes As Boolean = False
-
-    '        ' INTERVENTOR 1: Intentar cargar desde la tabla 'apuntes' (Flujo normal)
-    '        cmdMdb1cr.CommandText = "SELECT DISTINCT ConceptoAPU FROM apuntes WHERE ConceptoAPU <> 'SALDO' ORDER BY ConceptoAPU ASC"
-
-    '        If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-    '        drMdb1 = cmdMdb1cr.ExecuteReader()
-
-    '        If drMdb1.HasRows Then
-    '            cargoDesdeApuntes = True
-    '            While drMdb1.Read()
-    '                Dim claveNeutro As String = Convert.ToString(drMdb1.GetValue(0)).Trim()
-    '                If Not String.IsNullOrEmpty(claveNeutro) Then
-    '                    Dim textoTraducido As String = resManager.GetString("Desc_" & claveNeutro)
-    '                    If Not String.IsNullOrEmpty(textoTraducido) Then
-    '                        CmbDescripcion.Items.Add(textoTraducido.Trim())
-    '                    End If
-    '                End If
-    '            End While
-    '        End If
-    '        drMdb1.Close()
-
-    '        ' INTERVENTOR 2: Si 'apuntes' estaba vacía, cargamos basándonos en la tabla 'conceptos'
-    '        If Not cargoDesdeApuntes Then
-    '            cmdMdb1cr.CommandText = "SELECT CodigoCON FROM conceptos ORDER BY CodigoCON ASC"
-
-    '            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-    '            drMdb1 = cmdMdb1cr.ExecuteReader()
-
-    '            If drMdb1.HasRows Then
-    '                While drMdb1.Read()
-    '                    Dim claveNeutro As String = Convert.ToString(drMdb1.GetValue(0)).Trim()
-    '                    ' Excluimos TRASPASO igual que haces en LlenarConcepto si es necesario
-    '                    If claveNeutro <> "TRASPASO" AndAlso Not String.IsNullOrEmpty(claveNeutro) Then
-    '                        ' Buscamos la descripción asociada al concepto base
-    '                        Dim textoTraducido As String = resManager.GetString("Desc_" & claveNeutro)
-
-    '                        ' Si existe la traducción "Desc_CONCEPTO", la añadimos al combo
-    '                        If Not String.IsNullOrEmpty(textoTraducido) Then
-    '                            CmbDescripcion.Items.Add(textoTraducido.Trim())
-    '                        End If
-    '                    End If
-    '                End While
-    '            End If
-    '            drMdb1.Close()
-    '        End If
-
-    '        ' Seleccionar el primer elemento por defecto si se llenó algo
-    '        If CmbDescripcion.Items.Count > 0 Then
-    '            CmbDescripcion.Text = Convert.ToString(CmbDescripcion.Items(0))
-    '        End If
-
-    '    Catch ex As Exception
-    '        If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-    '        MsgBox("Error al cargar Descripciones: " & ex.Message)
-    '    End Try
-
-    '    Return ""
-    'End Function
-
-
-    Private Sub DateTimePicker1_LostFocus(sender As Object, e As EventArgs) Handles DateTimePicker1.LostFocus
-        BtnCalculadora.TabIndex = 0
-        BtnConcepto.TabIndex = 0
-        BtnDescripcion.TabIndex = 0
-        BtnHoy.TabIndex = 0
-        BtnCuenta.TabIndex = 0
-    End Sub
-
-    Private Sub CmbConcepto_Click(sender As Object, e As EventArgs) Handles CmbConcepto.Click
-        CmbConcepto.DroppedDown = True
-    End Sub
-
-    Private Sub CmbDescripcion_Click(sender As Object, e As EventArgs) Handles CmbDescripcion.Click
-        CmbDescripcion.DroppedDown = True
-    End Sub
-
-    Private Sub DateTimePicker1_KeyDown(sender As Object, e As KeyEventArgs) Handles DateTimePicker1.KeyDown
-        ' Verificamos si la tecla presionada es Enter
-        If e.KeyCode = Keys.Enter Then
-            ' 1. Evitar el sonido de "beep" al pulsar Enter
-            e.SuppressKeyPress = True
-            CmbConcepto.Select()
-            ' Opcional: Ejecutar una búsqueda o guardar valor
-            'BtnHoy.PerformClick()
-        End If
-    End Sub
 End Class
+
+
+
+
+'======================================================================================================
+
+''esta función llena el combo de descripción con las claves neutras traducidas a texto visible, tomando como referencia la tabla apuntes para obtener las claves únicas de descripción, y luego traducirlas usando el ResourceManager. Se ha optimizado para evitar duplicados y se ha blindado con manejo de excepciones y cierre adecuado del DataReader.
+'Public Function LlenarDescripcion() As String
+'    RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+'    CmbDescripcion.SelectedIndex = -1 : CmbDescripcion.Items.Clear()
+'    AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+
+'    cmdMdb1cr.CommandText = "SELECT DISTINCT ConceptoAPU FROM apuntes WHERE ConceptoAPU <> 'SALDO' ORDER BY ConceptoAPU ASC"
+'    Try
+'        If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+'        drMdb1 = cmdMdb1cr.ExecuteReader()
+'        If drMdb1.HasRows Then
+'            While drMdb1.Read()
+'                Dim claveNeutro As String = Convert.ToString(drMdb1.GetValue(0)).Trim()
+'                If Not String.IsNullOrEmpty(claveNeutro) Then
+'                    Dim textoTraducido As String = resManager.GetString("Desc_" & claveNeutro)
+'                    If Not String.IsNullOrEmpty(textoTraducido) Then CmbDescripcion.Items.Add(textoTraducido.Trim())
+'                End If
+'            End While
+'        End If
+'        drMdb1.Close()
+'    Catch ex As Exception
+'        If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+'        MsgBox("Error al cargar Descripciones: " & ex.Message)
+'    End Try
+'    Return ""
+'End Function
+
+
+'' con traducción inversa y carga de descripción traducida
+'Private Sub CmbConcepto_KeyDown(sender As Object, e As KeyEventArgs) Handles CmbConcepto.KeyDown
+'    If e.KeyCode = Keys.Enter Then
+'        e.SuppressKeyPress = True
+
+'        Dim textoSeleccionado As String = CmbConcepto.Text
+
+'        RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+'        TxtBuscarLetras.Text = ""
+'        AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+'        TxtBuscarLetras.Enabled = False
+
+'        CmbConcepto.Text = textoSeleccionado
+
+'        ' TRADUCCIÓN INVERSA: Buscamos la clave neutra original
+'        vConcepto = ObtenerClaveNeutral(textoSeleccionado, resManager)
+'        If String.IsNullOrEmpty(vConcepto) Then vConcepto = textoSeleccionado
+
+'        ' Cargar descripción por defecto traducida
+'        If Not String.IsNullOrEmpty(vConcepto) Then
+'            Try
+'                If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+'                cmdMdb1cr.CommandText = "SELECT * FROM conceptos WHERE CodigoCON = '" & vConcepto.Replace("'", "''") & "' ORDER BY CodigoCON ASC"
+'                drMdb1 = cmdMdb1cr.ExecuteReader()
+
+'                If drMdb1.Read() Then
+'                    TxtTipoConcepto.Text = Convert.ToString(drMdb1.GetValue(2))
+'                    Dim keyDesc As String = "Desc_" & vConcepto
+'                    Dim descTraducida As String = resManager.GetString(keyDesc)
+
+'                    If Not String.IsNullOrEmpty(descTraducida) Then
+'                        CmbDescripcion.Text = descTraducida
+'                    Else
+'                        CmbDescripcion.Text = Convert.ToString(drMdb1.GetValue(1))
+'                    End If
+'                    vDescripcion = CmbDescripcion.Text
+'                    MsgBox("CmbConcepto_KeyDown" & vDescripcion)
+'                End If
+'                drMdb1.Close()
+'            Catch ex As Exception
+'                If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+'            End Try
+'        End If
+
+'        If CmbConcepto.DroppedDown Then CmbConcepto.DroppedDown = False
+'        CmbDescripcion.Select()
+'    End If
+'End Sub
+
+'' Versión optimizada y comentada de tu función BuscarLetras, con traducción inversa y control de descripción nueva
+'Public Function BuscarLetras(combo As String) As String
+'    If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+
+'    If combo = "concepto" Then
+'        RemoveHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
+'        CmbConcepto.DroppedDown = False : CmbConcepto.SelectedIndex = -1
+'        If CmbConcepto.Items.Count > 0 Then CmbConcepto.Items.Clear()
+'        AddHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
+
+'        Dim letrasLimpias As String = vLetras.Replace("'", "''")
+'        cmdMdb1cr.CommandText = "SELECT CodigoCON FROM conceptos WHERE CodigoCON LIKE '%" & letrasLimpias & "%' ORDER BY CodigoCON ASC"
+'        Try
+'            drMdb1 = cmdMdb1cr.ExecuteReader()
+'            If drMdb1.HasRows Then
+'                While drMdb1.Read()
+'                    Dim valor As String = Convert.ToString(drMdb1.GetValue(0))
+'                    If valor <> "TRASPASO" Then
+'                        Dim trans As String = resManager.GetString(valor)
+'                        CmbConcepto.Items.Add(If(String.IsNullOrEmpty(trans), valor, trans).ToUpper())
+'                    End If
+'                End While
+'                CmbConcepto.DroppedDown = True
+'            Else
+'                CmbConcepto.DroppedDown = False
+'            End If
+'            drMdb1.Close()
+'        Catch ex As Exception
+'            MsgBox("Error en búsqueda Concepto: " & ex.Message)
+'        End Try
+'    End If
+
+'    If combo = "descripcion" AndAlso vLetras.Length > 2 Then
+'        RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+'        CmbDescripcion.DroppedDown = False : CmbDescripcion.SelectedIndex = -1
+'        If CmbDescripcion.Items.Count > 0 Then CmbDescripcion.Items.Clear()
+'        AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+
+'        Dim letrasLimpias As String = vLetras.Replace("'", "''")
+'        cmdMdb1cr.CommandText = "SELECT DISTINCT ConceptoAPU FROM apuntes WHERE ConceptoAPU LIKE '%" & letrasLimpias & "%' AND ConceptoAPU <> 'SALDO'"
+'        Try
+'            drMdb1 = cmdMdb1cr.ExecuteReader()
+'            Dim huboFilas As Boolean = False
+
+'            While drMdb1.Read()
+'                Dim valor As String = Convert.ToString(drMdb1.GetValue(0))
+'                Dim trans As String = resManager.GetString("Desc_" & valor)
+'                If Not String.IsNullOrEmpty(trans) Then
+'                    CmbDescripcion.Items.Add(trans.Trim())
+'                    huboFilas = True
+'                End If
+'            End While
+'            drMdb1.Close()
+
+'            If huboFilas Then
+'                CmbDescripcion.DroppedDown = True
+'                vCombo = "descripcion"
+'            Else
+'                CmbDescripcion.DroppedDown = False
+'                Dim respuesta As MsgBoxResult = MsgBox("No existen Descripciones con: -" & vLetras.ToUpper() & "-" & vbCrLf & "¿Añadimos la descripción?", vbQuestion + vbYesNo + vbDefaultButton1, "Introducir Apunte")
+
+'                If respuesta = vbYes Then
+'                    vIntro = "SI"
+'                    CmbDescripcion.Text = vLetras : vDescripcion = vLetras
+'                    RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+'                    TxtBuscarLetras.Text = ""
+'                    AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+'                    TxtBuscarLetras.Enabled = False
+'                    TxtImporte.Focus() : TxtImporte.SelectAll()
+'                Else
+'                    RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+'                    If TxtBuscarLetras.Text.Length > 0 Then TxtBuscarLetras.Text = TxtBuscarLetras.Text.Substring(0, TxtBuscarLetras.Text.Length - 1)
+'                    AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+'                    TxtBuscarLetras.Focus() : TxtBuscarLetras.SelectionStart = TxtBuscarLetras.Text.Length
+'                    vLetras = TxtBuscarLetras.Text
+'                End If
+'            End If
+'        Catch ex As Exception
+'            MsgBox("Error en búsqueda Descripción: " & ex.Message)
+'            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+'        End Try
+'    End If
+'    Return ""
+'End Function
+
+'' con traducción de claves neutras a texto visible
+'Public Function LlenarConcepto() As String
+'    RemoveHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
+'    CmbConcepto.SelectedIndex = -1 : CmbConcepto.Items.Clear()
+'    AddHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
+
+'    cmdMdb1cr.CommandText = "SELECT CodigoCON FROM conceptos ORDER BY CodigoCON ASC"
+'    Try
+'        If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+'        drMdb1 = cmdMdb1cr.ExecuteReader()
+'        If drMdb1.HasRows Then
+'            While drMdb1.Read()
+'                Dim claveNeutro As String = Convert.ToString(drMdb1.GetValue(0)).Trim()
+'                If claveNeutro <> "TRASPASO" AndAlso Not String.IsNullOrEmpty(claveNeutro) Then
+'                    Dim textoTraducido As String = resManager.GetString(claveNeutro)
+'                    If String.IsNullOrEmpty(textoTraducido) Then textoTraducido = claveNeutro
+'                    CmbConcepto.Items.Add(textoTraducido.ToUpper())
+'                End If
+'            End While
+'            'If CmbConcepto.Items.Count > 0 Then CmbConcepto.Text = Convert.ToString(CmbConcepto.Items(0))
+'            If CmbConcepto.Items.Count > 0 Then TxtDescripcion.Text = Convert.ToString(CmbConcepto.Items(0))
+'        End If
+'        'drMdb1.Close()
+'    Catch ex As Exception
+'        If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+'        MsgBox("Error al cargar Conceptos: " & ex.Message)
+'    End Try
+'    drMdb1.Close()
+'    Return ""
+'End Function
+
+''con traducción de claves neutras a texto visible y doble intento de carga (primero desde apuntes, si no hay nada, desde conceptos)
+'Public Function LlenarDescripcion() As String
+'    ' 1. Desvincular eventos y limpiar el ComboBox
+'    RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+'    CmbDescripcion.SelectedIndex = -1 : CmbDescripcion.Items.Clear()
+'    AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+
+'    Try
+'        Dim cargoDesdeApuntes As Boolean = False
+
+'        ' INTERVENTOR 1: Intentar cargar desde la tabla 'apuntes' (Flujo normal)
+'        cmdMdb1cr.CommandText = "SELECT DISTINCT ConceptoAPU FROM apuntes WHERE ConceptoAPU <> 'SALDO' ORDER BY ConceptoAPU ASC"
+
+'        If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+'        drMdb1 = cmdMdb1cr.ExecuteReader()
+
+'        If drMdb1.HasRows Then
+'            cargoDesdeApuntes = True
+'            While drMdb1.Read()
+'                Dim claveNeutro As String = Convert.ToString(drMdb1.GetValue(0)).Trim()
+'                If Not String.IsNullOrEmpty(claveNeutro) Then
+'                    Dim textoTraducido As String = resManager.GetString("Desc_" & claveNeutro)
+'                    If Not String.IsNullOrEmpty(textoTraducido) Then
+'                        CmbDescripcion.Items.Add(textoTraducido.Trim())
+'                    End If
+'                End If
+'            End While
+'        End If
+'        drMdb1.Close()
+
+'        ' INTERVENTOR 2: Si 'apuntes' estaba vacía, cargamos basándonos en la tabla 'conceptos'
+'        If Not cargoDesdeApuntes Then
+'            cmdMdb1cr.CommandText = "SELECT CodigoCON FROM conceptos ORDER BY CodigoCON ASC"
+
+'            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+'            drMdb1 = cmdMdb1cr.ExecuteReader()
+
+'            If drMdb1.HasRows Then
+'                While drMdb1.Read()
+'                    Dim claveNeutro As String = Convert.ToString(drMdb1.GetValue(0)).Trim()
+'                    ' Excluimos TRASPASO igual que haces en LlenarConcepto si es necesario
+'                    If claveNeutro <> "TRASPASO" AndAlso Not String.IsNullOrEmpty(claveNeutro) Then
+'                        ' Buscamos la descripción asociada al concepto base
+'                        Dim textoTraducido As String = resManager.GetString("Desc_" & claveNeutro)
+
+'                        ' Si existe la traducción "Desc_CONCEPTO", la añadimos al combo
+'                        If Not String.IsNullOrEmpty(textoTraducido) Then
+'                            CmbDescripcion.Items.Add(textoTraducido.Trim())
+'                        End If
+'                    End If
+'                End While
+'            End If
+'            drMdb1.Close()
+'        End If
+
+'        ' Seleccionar el primer elemento por defecto si se llenó algo
+'        If CmbDescripcion.Items.Count > 0 Then
+'            CmbDescripcion.Text = Convert.ToString(CmbDescripcion.Items(0))
+'        End If
+
+'    Catch ex As Exception
+'        If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+'        MsgBox("Error al cargar Descripciones: " & ex.Message)
+'    End Try
+
+'    Return ""
+'End Function
+
+'Private Sub BtnAceptarOtro_Click(sender As Object, e As EventArgs) Handles BtnAceptarOtro.Click
+'    If frmApuntesContables.DgvApuntes.RowCount >= 25 And My.Settings.Autorizar = "Se autoriza el uso de ContaHogar 3.0 a: Modo Demo" Then
+'        'MsgBox("Software No Activado, Máximo 25 Apuntes", MsgBoxStyle.Critical, "Falta Activación")
+'        'Close()
+'    Else
+
+'    End If
+'    If TxtImporte.Text <> "0" Then
+'        If frmApuntesContables.ListBox1.SelectedItems.Count = 0 Then
+'            vDate3 = DateTimePicker1.Value
+'            vDescripcionAPU = ApostrofePorAcentoAgudo(CmbDescripcion.Text)
+'            vImporteAPU = TxtImporte.Text
+'            If TxtTipoConcepto.Text = "GASTO" Then
+'                vImporteAPU = "-" & vImporteAPU.ToString
+'            End If
+'            vNotasAPU = TxtNota.Text
+'            vCuentaAPU = CmbCuenta.Text.ToString
+'            vAñadirSql = "INSERT INTO apuntes "
+'            vAñadirSql += "(FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) "
+'            vAñadirSql += "VALUES (#" & vDate3.ToString("yyyy/MM/dd") & "#,'" & vConcepto & "','" & vDescripcionAPU & "','" & vImporteAPU & "','" & vAñoEjercicio & "','" & vNotasAPU & "','" & vCuentaAPU & "')"
+'            cmdMdb1cr.CommandText = vAñadirSql
+'            Try
+'                cmdMdb1cr.ExecuteNonQuery()
+'                'MsgBox("Registro, Grabado Correctamente")
+'            Catch ex As Exception
+'                MsgBox(rmse.GetString("ErrorGrabarRegistro") & ": " & ex.ToString, vbExclamation, rmse.GetString("$this.Text"))
+'            End Try
+'            vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
+'            vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+'            If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
+'                vtipoSql += " And apuntes.CuentaAPU = '" & frmApuntesContables.CmbCuenta.Text & "' "
+'            End If
+'            If frmApuntesContables.BtnFiltroConcepto.Enabled = False Then
+'                vtipoSql += " And apuntes.ConceptoAPU = '" & frmApuntesContables.CmbConcepto.Text & "' "
+'            End If
+'            If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
+'                vDate1 = Format(frmApuntesContables.DateTimePicker1.Value, "yyyy/MM/dd")
+'                vDate2 = Format(frmApuntesContables.DateTimePicker2.Value, "yyyy/MM/dd")
+'                vtipoSql += " And apuntes.FechaAPU >= ?"
+'                vtipoSql += " And apuntes.FechaAPU <= ?"
+'            End If
+'            vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
+'            vtipoGrid = "APUNTES_CONTABLES"
+'            LlenarGrid(vtipoSql, vtipoGrid, "1")
+'            vFila = frmApuntesContables.DgvApuntes.RowCount - 1
+'            frmApuntesContables.DgvApuntes.Rows(vFila).Selected = True
+'            frmApuntesContables.DgvApuntes.CurrentCell = frmApuntesContables.DgvApuntes.Rows(vFila).Cells(0)
+'        Else
+'            vDate3 = DateTimePicker1.Value
+'            vDescripcionAPU = ApostrofePorAcentoAgudo(CmbDescripcion.Text)
+'            vImporteAPU = TxtImporte.Text
+'            If TxtTipoConcepto.Text = "GASTO" Then
+'                vImporteAPU = "-" & vImporteAPU.ToString
+'            End If
+'            vNotasAPU = TxtNota.Text
+'            vCuentaAPU = CmbCuenta.Text.ToString
+'            vAñadirSql = "INSERT INTO apuntes "
+'            vAñadirSql += "(FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) "
+'            vAñadirSql += "VALUES (#" & vDate3.ToString("yyyy/MM/dd") & "#,'" & vConcepto & "','" & vDescripcionAPU & "','" & vImporteAPU & "','" & vAñoEjercicio & "','" & vNotasAPU & "','" & vCuentaAPU & "')"
+'            cmdMdb1cr.CommandText = vAñadirSql
+'            Try
+'                cmdMdb1cr.ExecuteNonQuery()
+'                'MsgBox("Registro, Grabado Correctamente")
+'            Catch ex As Exception
+'                MsgBox(rmse.GetString("ErrorGrabarRegistro") & ": " & ex.ToString, vbExclamation, rmse.GetString("$this.Text"))
+'            End Try
+'            Dim i As Integer
+'            vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
+'            If frmApuntesContables.BtnFechasClick = "SI" Then
+'                vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
+'            Else
+'                vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+'            End If
+'            For i = 0 To frmApuntesContables.ListBox1.SelectedItems.Count - 1
+'                vConcepto = frmApuntesContables.ListBox1.SelectedItems(i).ToString
+'                If i = 0 Then
+'                    vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
+'                    If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
+'                        vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+'                    End If
+'                    If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
+'                        vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
+'                        vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
+'                        vtipoSql += " And apuntes.FechaAPU >= #" & vDate1 & "#"
+'                        vtipoSql += " And apuntes.FechaAPU <= #" & vDate2 & "#"
+'                    End If
+'                Else
+'                    vtipoSql += " Or "
+'                    If frmApuntesContables.BtnFechasClick = "SI" Then
+'                        vtipoSql += "apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
+'                    Else
+'                        vtipoSql += "apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+'                    End If
+'                    vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
+'                    If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
+'                        vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+'                    End If
+'                    If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
+'                        vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
+'                        vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
+'                        vtipoSql += " And apuntes.FechaAPU >= ?"
+'                        vtipoSql += " And apuntes.FechaAPU <= ?"
+'                    End If
+'                End If
+'            Next
+'            vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
+'            vtipoGrid = "APUNTES_CONTABLES"
+'            LlenarGrid(vtipoSql, vtipoGrid, "1")
+'            If frmApuntesContables.DgvApuntes.RowCount - 1 >= 0 Then
+'                vFila = frmApuntesContables.DgvApuntes.RowCount - 1
+'                frmApuntesContables.DgvApuntes.Rows(vFila).Selected = True
+'                frmApuntesContables.DgvApuntes.CurrentCell = frmApuntesContables.DgvApuntes.Rows(vFila).Cells(0)
+'            End If
+'        End If
+'        TxtImporte.Text = 0
+'        TxtNota.Text = ""
+'        DateTimePicker1.Select()
+'    Else
+'        MsgBox(rmse.GetString("NoCantidadImporte"), vbExclamation, rmse.GetString("$this.Text"))
+'        TxtImporte.Select()
+'        TxtImporte.SelectAll()
+'    End If
+'End Sub

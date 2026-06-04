@@ -24,8 +24,10 @@ Partial Class IntroApuntes
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(IntroApuntes))
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.LblBuscarLetras = New System.Windows.Forms.Label()
         Me.TxtBuscarLetras = New System.Windows.Forms.TextBox()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.TxtDescripcion = New System.Windows.Forms.TextBox()
+        Me.LblBuscarLetras = New System.Windows.Forms.Label()
         Me.BtnDescripcion = New System.Windows.Forms.Button()
         Me.CmbDescripcion = New System.Windows.Forms.ComboBox()
         Me.BtnCuenta = New System.Windows.Forms.Button()
@@ -53,8 +55,10 @@ Partial Class IntroApuntes
         '
         'GroupBox1
         '
-        Me.GroupBox1.Controls.Add(Me.LblBuscarLetras)
         Me.GroupBox1.Controls.Add(Me.TxtBuscarLetras)
+        Me.GroupBox1.Controls.Add(Me.Label8)
+        Me.GroupBox1.Controls.Add(Me.TxtDescripcion)
+        Me.GroupBox1.Controls.Add(Me.LblBuscarLetras)
         Me.GroupBox1.Controls.Add(Me.BtnDescripcion)
         Me.GroupBox1.Controls.Add(Me.CmbDescripcion)
         Me.GroupBox1.Controls.Add(Me.BtnCuenta)
@@ -78,15 +82,25 @@ Partial Class IntroApuntes
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.TabStop = False
         '
-        'LblBuscarLetras
-        '
-        resources.ApplyResources(Me.LblBuscarLetras, "LblBuscarLetras")
-        Me.LblBuscarLetras.Name = "LblBuscarLetras"
-        '
         'TxtBuscarLetras
         '
         resources.ApplyResources(Me.TxtBuscarLetras, "TxtBuscarLetras")
         Me.TxtBuscarLetras.Name = "TxtBuscarLetras"
+        '
+        'Label8
+        '
+        resources.ApplyResources(Me.Label8, "Label8")
+        Me.Label8.Name = "Label8"
+        '
+        'TxtDescripcion
+        '
+        resources.ApplyResources(Me.TxtDescripcion, "TxtDescripcion")
+        Me.TxtDescripcion.Name = "TxtDescripcion"
+        '
+        'LblBuscarLetras
+        '
+        resources.ApplyResources(Me.LblBuscarLetras, "LblBuscarLetras")
+        Me.LblBuscarLetras.Name = "LblBuscarLetras"
         '
         'BtnDescripcion
         '
@@ -96,8 +110,6 @@ Partial Class IntroApuntes
         '
         'CmbDescripcion
         '
-        Me.CmbDescripcion.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
-        Me.CmbDescripcion.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
         Me.CmbDescripcion.FormattingEnabled = True
         resources.ApplyResources(Me.CmbDescripcion, "CmbDescripcion")
         Me.CmbDescripcion.Name = "CmbDescripcion"
@@ -258,5 +270,7 @@ Partial Class IntroApuntes
     Friend WithEvents CmbDescripcion As Windows.Forms.ComboBox
     Friend WithEvents BtnDescripcion As Windows.Forms.Button
     Friend WithEvents LblBuscarLetras As Windows.Forms.Label
+    Friend WithEvents Label8 As Windows.Forms.Label
+    Friend WithEvents TxtDescripcion As Windows.Forms.TextBox
     Friend WithEvents TxtBuscarLetras As Windows.Forms.TextBox
 End Class

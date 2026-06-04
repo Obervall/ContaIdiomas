@@ -175,7 +175,7 @@
     <value>Apunts Comptables</value>
   </data>
   <data name="EliminarApuntes" xml:space="preserve">
-    <value>Apunts, Esborrats !!</value>
+    <value>Apunts, Esborrats!!</value>
   </data>
   <data name="EliminarApuntesError" xml:space="preserve">
     <value>Error en Eliminar els Apunts relacionats amb el Concepte Comptable</value>

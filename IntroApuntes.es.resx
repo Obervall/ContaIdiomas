@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="LblBuscarLetras.Text" xml:space="preserve">
-    <value>Buscar por Letras: </value>
+    <value>Buscar Sugerencia:</value>
   </data>
   <data name="Label7.Text" xml:space="preserve">
     <value>€</value>
@@ -209,5 +209,8 @@ Error</value>
   <data name="ErrorLlenarDesplegable" xml:space="preserve">
     <value>Error al llenar el desplegable.
 Error</value>
+  </data>
+  <data name="Label8.Text" xml:space="preserve">
+    <value>Sugerencia:</value>
   </data>
 </root>

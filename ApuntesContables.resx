@@ -1999,4 +1999,15 @@
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="EliminarApuntes" xml:space="preserve">
+    <value>Apuntes Borrados!!</value>
+  </data>
+  <data name="ToolTipLabelApuntes" xml:space="preserve">
+    <value>Con Tecla Suprimir: Elimina filas seleccionadas
+Con F5: Filtra por Descripción
+Con F6: Refresca la Parrilla Apuntes y Quita Filtros</value>
+  </data>
+  <data name="EliminarApuntesError" xml:space="preserve">
+    <value>Error al Eliminar los Apuntes relacionados con el Concepto Contable</value>
+  </data>
 </root>
