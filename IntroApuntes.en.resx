@@ -132,9 +132,6 @@
   <data name="Label4.Text" xml:space="preserve">
     <value>Amount:</value>
   </data>
-  <data name="Label3.Text" xml:space="preserve">
-    <value>Description:</value>
-  </data>
   <data name="Label1.Text" xml:space="preserve">
     <value>Date:</value>
   </data>
@@ -152,9 +149,6 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Introduction of Notes</value>
-  </data>
-  <data name="SelecConcepto" xml:space="preserve">
-    <value>Select Concept or Type to Search (2 minimum)</value>
   </data>
   <data name="SelecCuenta" xml:space="preserve">
     <value>Select the Account to which the transaction relates</value>
@@ -177,15 +171,6 @@
   <data name="TxtABuscar" xml:space="preserve">
     <value>Text to Search</value>
   </data>
-  <data name="MsgTxtBuscarConceptos" xml:space="preserve">
-    <value>Press Tab to go to Concept, use Arrows, and finish with Enter key</value>
-  </data>
-  <data name="MsgTxtBuscarDescripciones" xml:space="preserve">
-    <value>Press Tab to go to Description, use Arrows, and finish with Enter</value>
-  </data>
-  <data name="ErrorBuscarLetrasConcepto" xml:space="preserve">
-    <value>Mistake Searching for Letters in Concept</value>
-  </data>
   <data name="ErrorBuscarLetrasDescripcion" xml:space="preserve">
     <value>Error When Searching for Letters in Description</value>
   </data>
@@ -206,8 +191,5 @@ Error</value>
   <data name="ErrorLlenarDesplegable" xml:space="preserve">
     <value>Error filling out the drop-down.
 Error</value>
-  </data>
-  <data name="Label8.Text" xml:space="preserve">
-    <value>Suggestion:</value>
   </data>
 </root>

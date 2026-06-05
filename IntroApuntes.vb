@@ -1,5 +1,7 @@
 ﻿Imports System.Diagnostics
+Imports System.Linq
 Imports System.Windows.Forms
+Imports System.Drawing
 Imports ToolTip = System.Windows.Forms.ToolTip
 
 Public Class IntroApuntes
@@ -193,8 +195,18 @@ Public Class IntroApuntes
         ' Sincronizamos la variable global con lo que el usuario escribe o borra arriba
         vLetras = TxtBuscarLetras.Text
 
-        ' Ejecutamos la búsqueda siempre, sin importar quién tenga el foco gráfico
-        BuscarLetras(vCombo)
+        ' Evitamos ejecutar la base de datos si el cuadro superior se limpia de forma automática
+        If String.IsNullOrEmpty(vLetras) Then
+            RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+            CmbDescripcion.SelectedIndex = -1
+            CmbDescripcion.Text = ""
+            If CmbDescripcion.Items.Count > 0 Then CmbDescripcion.Items.Clear()
+            AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+            Exit Sub
+        End If
+
+        ' Forzamos a evaluar el bloque de consulta SQL de descripción siempre
+        BuscarLetras("descripcion")
     End Sub
 
     Private Function GuardarApunteEnBaseDatos() As Boolean
@@ -725,9 +737,30 @@ Public Class IntroApuntes
         End If
     End Sub
 
-    Private Sub TxtImporte_Click(sender As Object, e As EventArgs) Handles TxtImporte.Click
-        TxtImporte.SelectAll()
+    Private Sub BtnAyuda_Click(sender As Object, e As EventArgs) Handles BtnAyuda.Click
+        ' 🛠️ CONTROL DE VENTANA FLOTANTE INDEPENDIENTE
+        ' Comprobamos si la ventana de ayuda ya está abierta en pantalla
+        Dim frmExistente As AyudaApuntes = Application.OpenForms.OfType(Of AyudaApuntes)().FirstOrDefault()
+
+        If frmExistente IsNot Nothing Then
+            ' Si ya estaba abierta, la cerramos (actúa como un interruptor)
+            frmExistente.Close()
+        Else
+            ' Si no existe, creamos una instancia nueva de la ventana de ayuda
+            Dim frmAyuda As New AyudaApuntes()
+
+            ' CÁLCULO DE POSICIÓN: Colocamos la ayuda pegada al borde derecho de tu formulario actual
+            Dim x As Integer = Me.Location.X + Me.Width
+            Dim y As Integer = Me.Location.Y
+
+            frmAyuda.Location = New Point(x, y)
+
+            ' La mostramos en modo "Show" (no ShowDialog) para que el usuario pueda seguir 
+            ' escribiendo apuntes en la pantalla principal sin que la ayuda le bloquee el teclado.
+            frmAyuda.Show(Me)
+        End If
     End Sub
+
 
     Private Sub CmbCuenta_KeyDown(sender As Object, e As KeyEventArgs) Handles CmbCuenta.KeyDown
         ' Verificamos si la tecla presionada es Enter
@@ -872,16 +905,23 @@ Public Class IntroApuntes
         ' =====================================================================
         ' MODO: DESCRIPCIÓN
         ' =====================================================================
-        If combo = "descripcion" AndAlso vLetras.Length > 2 Then
+        If combo = "descripcion" Then
             ' 1. Desconectamos el evento por seguridad
             RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
 
-            ' 2. Cerramos la persiana de forma controlada
-            CmbDescripcion.DroppedDown = False
+            ' 🛠️ CONTROL DE TEXTO CORTO: Si borras y queda en 2 letras o menos, limpiamos la lista
+            If vLetras.Length <= 2 Then
+                CmbDescripcion.DroppedDown = False
+                CmbDescripcion.SelectedIndex = -1
+                If CmbDescripcion.Items.Count > 0 Then CmbDescripcion.Items.Clear()
+                vCombo = "descripcion"
+
+                ' Volvemos a conectar el evento y salimos de la función de forma limpia
+                AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+                Return ""
+            End If
 
             Dim letrasLimpias As String = vLetras.Replace("'", "''")
-            'cmdMdb1cr.CommandText = "SELECT DISTINCT DescripcionAPU FROM apuntes WHERE DescripcionAPU LIKE '%" & letrasLimpias & "%' AND DescripcionAPU <> 'Saldo Inicial'"
-            ' Cambia la línea original del CommandText por esta:
             cmdMdb1cr.CommandText = "SELECT DISTINCT DescripcionAPU FROM apuntes WHERE UCase(DescripcionAPU) LIKE '%" & letrasLimpias.ToUpper() & "%' AND DescripcionAPU <> 'Saldo Inicial'"
 
             Try
@@ -895,17 +935,20 @@ Public Class IntroApuntes
                         Dim desc As String = Convert.ToString(drMdb1.GetValue(0)).Trim()
                         If Not String.IsNullOrEmpty(desc) Then CmbDescripcion.Items.Add(desc)
                     End While
+
+                    ' Desplegamos la persiana gráfica con los resultados
                     CmbDescripcion.DroppedDown = True
-                    vCombo = "descripcion" ' Estado de búsqueda normal con éxito
+                    vCombo = "descripcion"
                 Else
                     ' =====================================================================
-                    ' 🛠️ CORRECCIÓN CRÍTICA: NO VACIAMOS EL COMBO
+                    ' 🛠️ CONTROL DE BÚSQUEDA VACÍA SANEADO
                     ' =====================================================================
                     drMdb1.Close()
 
-                    ' El secreto: Forzamos a que el Combo pinte en tiempo real lo que escribe 
-                    ' el usuario en el buscador de arriba para que no se quede en blanco.
-                    CmbDescripcion.Text = vLetras
+                    ' Cerramos la persiana y vaciamos la lista vieja para que no muestre datos erróneos
+                    CmbDescripcion.DroppedDown = False
+                    CmbDescripcion.SelectedIndex = -1
+                    If CmbDescripcion.Items.Count > 0 Then CmbDescripcion.Items.Clear()
 
                     ' Guardamos el estado especial de que esta descripción es NUEVA
                     vCombo = "descripcion_vacia"
@@ -919,7 +962,7 @@ Public Class IntroApuntes
                 If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
             End Try
 
-            ' Volvemos a conectar el evento limpiamente
+            ' Volvemos a conectar el evento limpiamente al finalizar
             AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
         End If
 

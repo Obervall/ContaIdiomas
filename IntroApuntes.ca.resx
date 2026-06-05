@@ -129,9 +129,6 @@
   <data name="Label4.Text" xml:space="preserve">
     <value>Import:</value>
   </data>
-  <data name="Label3.Text" xml:space="preserve">
-    <value>Descripció:</value>
-  </data>
   <data name="Label2.Text" xml:space="preserve">
     <value>Concepte:</value>
   </data>
@@ -154,7 +151,7 @@
     <value>Introducció d' Apunts</value>
   </data>
   <data name="SelecConcepto" xml:space="preserve">
-    <value>Seleccionar el Concepte o Escriure per Buscar (2 mínim)</value>
+    <value>Seleccionar el Concepte</value>
   </data>
   <data name="SelecCuenta" xml:space="preserve">
     <value>Seleccionar el Compte a què es refereix la transacció</value>
@@ -177,15 +174,6 @@
   <data name="TxtABuscar" xml:space="preserve">
     <value>Text a Buscar</value>
   </data>
-  <data name="MsgTxtBuscarConceptos" xml:space="preserve">
-    <value>Pulsar Tabulador per anar a Concepte, usar Fletxes i finalitzar amb Tecla Entrar</value>
-  </data>
-  <data name="MsgTxtBuscarDescripciones" xml:space="preserve">
-    <value>Pulsar Tabulador per anar a Descripció, usar Fletxes i finalitzar amb Tecla Entrar</value>
-  </data>
-  <data name="ErrorBuscarLetrasConcepto" xml:space="preserve">
-    <value>Error en Buscar Lletres en Concepte</value>
-  </data>
   <data name="ErrorBuscarLetrasDescripcion" xml:space="preserve">
     <value>Error en Buscar Lletres en Descripció</value>
   </data>
@@ -206,8 +194,5 @@ Error</value>
   <data name="ErrorLlenarDesplegable" xml:space="preserve">
     <value>Error en omplir el desplegable.
 Error</value>
-  </data>
-  <data name="Label8.Text" xml:space="preserve">
-    <value>Suggeriment:</value>
   </data>
 </root>

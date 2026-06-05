@@ -129,9 +129,6 @@
   <data name="Label4.Text" xml:space="preserve">
     <value>Quantia:</value>
   </data>
-  <data name="Label3.Text" xml:space="preserve">
-    <value>Descrição:</value>
-  </data>
   <data name="Label2.Text" xml:space="preserve">
     <value>Conceito:</value>
   </data>
@@ -152,9 +149,6 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Introdução de Notas</value>
-  </data>
-  <data name="SelecConcepto" xml:space="preserve">
-    <value>Selecione conceito ou tipo para pesquisar (mínimo 2)</value>
   </data>
   <data name="SelecCuenta" xml:space="preserve">
     <value>Selecione a Conta à qual a transação se relaciona</value>
@@ -177,15 +171,6 @@
   <data name="TxtABuscar" xml:space="preserve">
     <value>Texto para Busca</value>
   </data>
-  <data name="MsgTxtBuscarConceptos" xml:space="preserve">
-    <value>Pressione Tab para ir até o Conceito, use Setas e termine com a tecla Enter</value>
-  </data>
-  <data name="MsgTxtBuscarDescripciones" xml:space="preserve">
-    <value>Pressione Tab para ir até Descrição, use Setas e termine com Enter</value>
-  </data>
-  <data name="ErrorBuscarLetrasConcepto" xml:space="preserve">
-    <value>Erro ao Buscar Letras em Conceito</value>
-  </data>
   <data name="ErrorBuscarLetrasDescripcion" xml:space="preserve">
     <value>Erro ao procurar letras na descrição</value>
   </data>
@@ -206,8 +191,5 @@ Erro</value>
   <data name="ErrorLlenarDesplegable" xml:space="preserve">
     <value>Erro ao preencher o menu suspenso.
 Erro</value>
-  </data>
-  <data name="Label8.Text" xml:space="preserve">
-    <value>Sugestão:</value>
   </data>
 </root>

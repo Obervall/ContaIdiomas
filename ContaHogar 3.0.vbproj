@@ -163,6 +163,12 @@
     <Compile Include="ApuntesContables.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="AyudaApuntes.Designer.vb">
+      <DependentUpon>AyudaApuntes.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AyudaApuntes.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Buscar.Designer.vb">
       <DependentUpon>Buscar.vb</DependentUpon>
     </Compile>
@@ -727,6 +733,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ApuntesContables.resx">
       <DependentUpon>ApuntesContables.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AyudaApuntes.resx">
+      <DependentUpon>AyudaApuntes.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Buscar.ca.resx">
       <DependentUpon>Buscar.vb</DependentUpon>

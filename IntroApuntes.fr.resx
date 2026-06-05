@@ -129,9 +129,6 @@
   <data name="Label4.Text" xml:space="preserve">
     <value>Montant:</value>
   </data>
-  <data name="Label3.Text" xml:space="preserve">
-    <value>Description:</value>
-  </data>
   <data name="Label2.Text" xml:space="preserve">
     <value>Concept:</value>
   </data>
@@ -152,9 +149,6 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Introduction des notes</value>
-  </data>
-  <data name="SelecConcepto" xml:space="preserve">
-    <value>Sélectionnez le concept ou le type à rechercher (minimum 2)</value>
   </data>
   <data name="SelecCuenta" xml:space="preserve">
     <value>Sélectionnez le compte auquel la transaction est liée</value>
@@ -177,15 +171,6 @@
   <data name="TxtABuscar" xml:space="preserve">
     <value>Texte à recherche</value>
   </data>
-  <data name="MsgTxtBuscarConceptos" xml:space="preserve">
-    <value>Appuyez sur Tab pour aller dans Concept, utilisez Flèches, et terminez avec la touche Entrée</value>
-  </data>
-  <data name="MsgTxtBuscarDescripciones" xml:space="preserve">
-    <value>Appuyez sur Tab pour aller dans la description, utilisez les flèches, et terminez avec Entrée</value>
-  </data>
-  <data name="ErrorBuscarLetrasConcepto" xml:space="preserve">
-    <value>Erreur de recherche de lettres en concept</value>
-  </data>
   <data name="ErrorBuscarLetrasDescripcion" xml:space="preserve">
     <value>Erreur lors de la recherche de lettres dans la description</value>
   </data>
@@ -206,8 +191,5 @@ Erreur</value>
   <data name="ErrorLlenarDesplegable" xml:space="preserve">
     <value>Erreur en remplissant le menu déroulant.
 Erreur</value>
-  </data>
-  <data name="Label8.Text" xml:space="preserve">
-    <value>Suggestion :</value>
   </data>
 </root>

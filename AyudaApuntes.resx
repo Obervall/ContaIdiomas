@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,79 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Label7.Text" xml:space="preserve">
-    <value>€</value>
-  </data>
-  <data name="Label6.Text" xml:space="preserve">
-    <value>Notiz:</value>
-  </data>
-  <data name="Label5.Text" xml:space="preserve">
-    <value>Konto:</value>
-  </data>
-  <data name="Label4.Text" xml:space="preserve">
-    <value>Menge:</value>
-  </data>
-  <data name="Label2.Text" xml:space="preserve">
-    <value>Konzept:</value>
-  </data>
   <data name="Label1.Text" xml:space="preserve">
-    <value>Datum:</value>
-  </data>
-  <data name="GroupBox1.Text" xml:space="preserve">
-    <value>Hinweisdaten: </value>
-  </data>
-  <data name="BtnCancelar.Text" xml:space="preserve">
-    <value>Stornieren</value>
-  </data>
-  <data name="BtnAceptarSalir.Text" xml:space="preserve">
-    <value>Akzeptieren und beenden</value>
-  </data>
-  <data name="BtnAceptarOtro.Text" xml:space="preserve">
-    <value>Akzeptieren und Andere</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Einführung von Notizen</value>
-  </data>
-  <data name="SelecCuenta" xml:space="preserve">
-    <value>Wählen Sie das Konto aus, auf das sich die Transaktion bezieht</value>
-  </data>
-  <data name="SelecDescripcion" xml:space="preserve">
-    <value>Wähle Beschreibung oder Typ zum Suchen (mindestens 3)</value>
-  </data>
-  <data name="ImporteAsiento" xml:space="preserve">
-    <value>Sitzanzahl</value>
-  </data>
-  <data name="BtnConcepto" xml:space="preserve">
-    <value>Buchhaltungskonzepte bearbeiten, Abfragen und beim Verlassen von Füllkonzepten</value>
-  </data>
-  <data name="BtnCuenta" xml:space="preserve">
-    <value>Bankkonten hinzufügen, bearbeiten, löschen oder einsehen</value>
-  </data>
-  <data name="BtnDescripcion" xml:space="preserve">
-    <value>Speichern Sie die Beschreibungen der gespeicherten Notizen</value>
-  </data>
-  <data name="TxtABuscar" xml:space="preserve">
-    <value>Text zur Suche</value>
-  </data>
-  <data name="ErrorBuscarLetrasDescripcion" xml:space="preserve">
-    <value>Fehler bei der Suche nach Buchstaben in der Beschreibung</value>
-  </data>
-  <data name="EjercicioActual" xml:space="preserve">
-    <value>Das Jahr des Haushaltsjahres fällt nicht mit dem aktuellen Jahr überein,
-das Datum des 31. Dezember des Haushaltsjahres wird festgelegt</value>
-  </data>
-  <data name="Fecha31Diciembre" xml:space="preserve">
-    <value>Termin ist auf den 31. Dezember festgelegt</value>
-  </data>
-  <data name="ErrorGrabarRegistro" xml:space="preserve">
-    <value>Fehler Speichern des Datensatzes, Überprüfung des Datums und der Betrag ohne Buchstaben ...
-Fehler</value>
-  </data>
-  <data name="NoCantidadImporte" xml:space="preserve">
-    <value>Kein Betrag</value>
-  </data>
-  <data name="ErrorLlenarDesplegable" xml:space="preserve">
-    <value>Fehler beim Ausfüllen des Dropdown-Menüs.
-Fehler</value>
+    <value>Paso 1: 
+Seleccionar un Concepto, verás en  las Descripciones 1 y 2, la que hay por defecto.
+
+Paso 2:
+Si la Descripción 2 del Concepto, no es la deseada, escribe en el propìo desplegable, pasarás el texto a "Buscar Descripción:" escribe mínimo tres letras y se abrirá la Descripción 2:, con las palabras que contienen las letras del "Buscar Descripción:".
+Para pasar al desplegable, pulsar Intro y con las Flechas moverse por el desplegable y terminar pulsando Intro para saltar al Importe.
+
+Nota:
+Puedes retroceder para modificar lo escrito.
+En el caso de que quieras guardar una nueva descripción que no existe, sigue escribiendo y como no encontrará ningúna coincidencia, te preguntará si quieres añadir ese Texto, una vez pasa el Texto a Descripción 2:, puedes completarlo.</value>
   </data>
 </root>

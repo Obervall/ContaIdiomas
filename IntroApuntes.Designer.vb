@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class IntroApuntes
     Inherits System.Windows.Forms.Form
 
     'Form reemplaza a Dispose para limpiar la lista de componentes.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,10 +20,11 @@ Partial Class IntroApuntes
     'NOTA: el Diseñador de Windows Forms necesita el siguiente procedimiento
     'Se puede modificar usando el Diseñador de Windows Forms.  
     'No lo modifique con el editor de código.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(IntroApuntes))
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.BtnAyuda = New System.Windows.Forms.Button()
         Me.TxtBuscarLetras = New System.Windows.Forms.TextBox()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.TxtDescripcion = New System.Windows.Forms.TextBox()
@@ -55,6 +56,8 @@ Partial Class IntroApuntes
         '
         'GroupBox1
         '
+        resources.ApplyResources(Me.GroupBox1, "GroupBox1")
+        Me.GroupBox1.Controls.Add(Me.BtnAyuda)
         Me.GroupBox1.Controls.Add(Me.TxtBuscarLetras)
         Me.GroupBox1.Controls.Add(Me.Label8)
         Me.GroupBox1.Controls.Add(Me.TxtDescripcion)
@@ -78,9 +81,14 @@ Partial Class IntroApuntes
         Me.GroupBox1.Controls.Add(Me.Label3)
         Me.GroupBox1.Controls.Add(Me.Label2)
         Me.GroupBox1.Controls.Add(Me.Label1)
-        resources.ApplyResources(Me.GroupBox1, "GroupBox1")
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.TabStop = False
+        '
+        'BtnAyuda
+        '
+        resources.ApplyResources(Me.BtnAyuda, "BtnAyuda")
+        Me.BtnAyuda.Name = "BtnAyuda"
+        Me.BtnAyuda.UseVisualStyleBackColor = True
         '
         'TxtBuscarLetras
         '
@@ -110,8 +118,8 @@ Partial Class IntroApuntes
         '
         'CmbDescripcion
         '
-        Me.CmbDescripcion.FormattingEnabled = True
         resources.ApplyResources(Me.CmbDescripcion, "CmbDescripcion")
+        Me.CmbDescripcion.FormattingEnabled = True
         Me.CmbDescripcion.Name = "CmbDescripcion"
         '
         'BtnCuenta
@@ -155,24 +163,24 @@ Partial Class IntroApuntes
         '
         'CmbCuenta
         '
+        resources.ApplyResources(Me.CmbCuenta, "CmbCuenta")
         Me.CmbCuenta.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
         Me.CmbCuenta.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
         Me.CmbCuenta.FormattingEnabled = True
-        resources.ApplyResources(Me.CmbCuenta, "CmbCuenta")
         Me.CmbCuenta.Name = "CmbCuenta"
         '
         'CmbConcepto
         '
+        resources.ApplyResources(Me.CmbConcepto, "CmbConcepto")
         Me.CmbConcepto.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
         Me.CmbConcepto.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
         Me.CmbConcepto.FormattingEnabled = True
-        resources.ApplyResources(Me.CmbConcepto, "CmbConcepto")
         Me.CmbConcepto.Name = "CmbConcepto"
         '
         'DateTimePicker1
         '
-        Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
         resources.ApplyResources(Me.DateTimePicker1, "DateTimePicker1")
+        Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
         Me.DateTimePicker1.Name = "DateTimePicker1"
         '
         'Label7
@@ -273,4 +281,5 @@ Partial Class IntroApuntes
     Friend WithEvents Label8 As Windows.Forms.Label
     Friend WithEvents TxtDescripcion As Windows.Forms.TextBox
     Friend WithEvents TxtBuscarLetras As Windows.Forms.TextBox
+    Friend WithEvents BtnAyuda As Windows.Forms.Button
 End Class

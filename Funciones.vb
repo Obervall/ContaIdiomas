@@ -62,6 +62,7 @@ Module Funciones
     Public frmGraficosSoloConceptos3D As New GraficosSoloConceptos3D
     Public frmActivarSoftware As New ActivarSoftware
     Public frmAportacionBizum As New AportacionBizum
+    'Public frmAyudaApuntes As New AyudaApuntes
 
     Public backup As New SaveFileDialog
     Public restore As New OpenFileDialog
