@@ -561,4 +561,10 @@ No se Eliminan de la Base de Datos</value>
   <data name="IrAHoy" xml:space="preserve">
     <value>Ir a Hoy</value>
   </data>
+  <data name="BtnCuenta" xml:space="preserve">
+    <value>Añade, Edita, Borra o Consulta Cuentas Bancarias</value>
+  </data>
+  <data name="BtnConcepto" xml:space="preserve">
+    <value>Añade, Edita, Borra o Consulta Conceptos</value>
+  </data>
 </root>

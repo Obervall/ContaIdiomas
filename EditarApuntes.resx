@@ -839,15 +839,15 @@
     <value>Error al procesar el apunte</value>
   </data>
   <data name="ToolTipSeleccionarConcepto" xml:space="preserve">
-    <value>Seleccionar el Concepto a la que se refiere la transacción</value>
+    <value>Seleccionar el Concepto al que se refiere el Apunte</value>
   </data>
   <data name="ToolTipSeleccionarCuenta" xml:space="preserve">
-    <value>Seleccionar la Cuenta a la que se refiere la transacción</value>
+    <value>Seleccionar la Cuenta a la que se refiere el Apunte</value>
   </data>
   <data name="ToolTipSeleccionarDescripcion" xml:space="preserve">
-    <value>Introducir una descripción para el Asiento</value>
+    <value>Introducir una descripción para el Apunte</value>
   </data>
   <data name="ToolTipIngresarImporte" xml:space="preserve">
-    <value>Importe del Asiento</value>
+    <value>Importe del Apunte</value>
   </data>
 </root>

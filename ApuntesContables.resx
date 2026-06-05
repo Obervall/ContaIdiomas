@@ -2010,4 +2010,54 @@ Con F6: Refresca la Parrilla Apuntes y Quita Filtros</value>
   <data name="EliminarApuntesError" xml:space="preserve">
     <value>Error al Eliminar los Apuntes relacionados con el Concepto Contable</value>
   </data>
+  <data name="ToolTipListBox" xml:space="preserve">
+    <value>Con Tecla Esc: Cierra Listado</value>
+  </data>
+  <data name="ToolTipChekedList" xml:space="preserve">
+    <value>Abre Listado de Conceptos para múltiple selecció</value>
+  </data>
+  <data name="ToolTipFechas" xml:space="preserve">
+    <value>Activar o Desactivar Acceso a Datos anteriores al Ejercicio Actual</value>
+  </data>
+  <data name="ToolTipExcel" xml:space="preserve">
+    <value>Exportar Apuntes a Excel</value>
+  </data>
+  <data name="ToolTipAumentar" xml:space="preserve">
+    <value>Aumentar medida del Font</value>
+  </data>
+  <data name="ToolTipNormal" xml:space="preserve">
+    <value>Restaurar medida del Fomt</value>
+  </data>
+  <data name="ToolTipF5" xml:space="preserve">
+    <value>Filtra por Descripción</value>
+  </data>
+  <data name="ToolTipF6" xml:space="preserve">
+    <value>Refrescar la Parrilla Apuntes y Quitar Filtros</value>
+  </data>
+  <data name="ToolTipTraspasar" xml:space="preserve">
+    <value>Traspasar de una Cuenta a otra</value>
+  </data>
+  <data name="MsgText3" xml:space="preserve">
+    <value>Diversos Conceptos Seleccionados</value>
+  </data>
+  <data name="MsgText4" xml:space="preserve">
+    <value>DIVERSOS CONCEPTOS</value>
+  </data>
+  <data name="MsgText2" xml:space="preserve">
+    <value>Introducción de Apuntes</value>
+  </data>
+  <data name="MsgText1" xml:space="preserve">
+    <value>Aviso de Filtros</value>
+  </data>
+  <data name="MsgAviso1" xml:space="preserve">
+    <value>Hay Diversos Conceptos Seleccionados.
+Filtrar Primer per Comptes i Dates,
+després per Conceptes Diversos</value>
+  </data>
+  <data name="RutaExcelExiste" xml:space="preserve">
+    <value>Ya existe la Ruta C:\ContaHogar3.0\Excel</value>
+  </data>
+  <data name="RutaExcelCreada" xml:space="preserve">
+    <value>Ruta C:\ContaHogar3.0\Excel, Creada</value>
+  </data>
 </root>

@@ -734,6 +734,24 @@
     <EmbeddedResource Include="ApuntesContables.resx">
       <DependentUpon>ApuntesContables.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AyudaApuntes.ca.resx">
+      <DependentUpon>AyudaApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AyudaApuntes.de.resx">
+      <DependentUpon>AyudaApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AyudaApuntes.en.resx">
+      <DependentUpon>AyudaApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AyudaApuntes.es.resx">
+      <DependentUpon>AyudaApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AyudaApuntes.fr.resx">
+      <DependentUpon>AyudaApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AyudaApuntes.pt.resx">
+      <DependentUpon>AyudaApuntes.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AyudaApuntes.resx">
       <DependentUpon>AyudaApuntes.vb</DependentUpon>
     </EmbeddedResource>

@@ -150,23 +150,30 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Introdução de Notas</value>
   </data>
-  <data name="SelecCuenta" xml:space="preserve">
-    <value>Selecione a Conta à qual a transação se relaciona</value>
+  <data name="ErrorLlenarDesplegable" xml:space="preserve">
+    <value>Erro ao preencher o menu suspenso.
+Erro</value>
+  </data>
+  <data name="Label8.Text" xml:space="preserve">
+    <value>Descrição 2:</value>
+  </data>
+  <data name="LblBuscarLetras.Text" xml:space="preserve">
+    <value>Descrição da Busca:</value>
+  </data>
+  <data name="Label3.Text" xml:space="preserve">
+    <value>Descrição 1:</value>
+  </data>
+  <data name="SelecConcepto" xml:space="preserve">
+    <value>Selecione o Conceito</value>
   </data>
   <data name="SelecDescripcion" xml:space="preserve">
-    <value>Selecione Descrição ou Tipo para Pesquisar (mínimo 3)</value>
+    <value>Selecione Descrição ou Tipo para Pesquisar (3 min)</value>
   </data>
   <data name="ImporteAsiento" xml:space="preserve">
-    <value>Número de assentos</value>
-  </data>
-  <data name="BtnConcepto" xml:space="preserve">
-    <value>Editar Consultar Conceitos de Contabilidade e ao sair Preencher Conceitos</value>
-  </data>
-  <data name="BtnCuenta" xml:space="preserve">
-    <value>Añade, Edita, Borra ou Consulta Cuentas Bancarias</value>
+    <value>Valor da Inscrição</value>
   </data>
   <data name="BtnDescripcion" xml:space="preserve">
-    <value>Preencha as descrições das notas salvas</value>
+    <value>Descrições de Preenchimento, a partir de Notas Salvas</value>
   </data>
   <data name="TxtABuscar" xml:space="preserve">
     <value>Texto para Busca</value>
@@ -175,21 +182,32 @@
     <value>Erro ao procurar letras na descrição</value>
   </data>
   <data name="EjercicioActual" xml:space="preserve">
-    <value>O ano do ano fiscal não coincide com o ano atual,
-a data de 31 de dezembro do ano do ano fiscal será estabelecida</value>
+    <value>O ano do Ano Fiscal não coincide com o Ano Atual,
+A data de 31 de dezembro do ano do Ano Fiscal é estabelecida</value>
   </data>
   <data name="Fecha31Diciembre" xml:space="preserve">
     <value>Data marcada para 31 de dezembro</value>
   </data>
   <data name="ErrorGrabarRegistro" xml:space="preserve">
-    <value>erro ao salvar o registro, verificar se a data está correta e o valor não tem letras...
+    <value>Erro ao salvar o registro, verificar se a data está correta e o valor não tem letras...
 Erro</value>
   </data>
   <data name="NoCantidadImporte" xml:space="preserve">
     <value>Sem Valor</value>
   </data>
-  <data name="ErrorLlenarDesplegable" xml:space="preserve">
-    <value>Erro ao preencher o menu suspenso.
-Erro</value>
+  <data name="BtnAyuda.Text" xml:space="preserve">
+    <value>Ajuda (?)</value>
+  </data>
+  <data name="NoExistenDescripciones" xml:space="preserve">
+    <value>Não há descrições com</value>
+  </data>
+  <data name="AñadirDescripcion" xml:space="preserve">
+    <value>Adicionamos a descrição</value>
+  </data>
+  <data name="BtnAyuda" xml:space="preserve">
+    <value>Veja a Ajuda para Inserir Notas</value>
+  </data>
+  <data name="SelecCuenta" xml:space="preserve">
+    <value>Selecione a Conta à qual a Entrada se refere</value>
   </data>
 </root>

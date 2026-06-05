@@ -186,37 +186,37 @@ Avec F5 : Filtrer par Description
 Avec F6 : Actualiser les notes du gril et supprimer les filtres</value>
   </data>
   <data name="ToolTipListBox" xml:space="preserve">
-    <value>Avec la touche Échap : Fermer la liste</value>
+    <value>Avec la touche Esc : Fermer la liste</value>
   </data>
   <data name="ToolTipChekedList" xml:space="preserve">
-    <value>Ouvrir la liste des concepts pour une sélection multiple</value>
+    <value>Liste à concept ouvert pour sélection multiple</value>
   </data>
   <data name="ToolTipFechas" xml:space="preserve">
-    <value>Activer ou désactiver l'accès aux dates antérieures à l'exercice en cours</value>
+    <value>Activez ou désactivez l’accès aux données avant l’exercice fiscal en cours</value>
   </data>
   <data name="ToolTipExcel" xml:space="preserve">
-    <value>Exporter des notes vers Excel</value>
+    <value>Exporter les notes vers Excel</value>
   </data>
   <data name="ToolTipAumentar" xml:space="preserve">
     <value>Augmenter la taille de la police</value>
   </data>
   <data name="ToolTipNormal" xml:space="preserve">
-    <value>Restaurer la taille de la police</value>
+    <value>Restauration de la mesure Fomt</value>
   </data>
   <data name="ToolTipF5" xml:space="preserve">
     <value>Filtrer par description</value>
   </data>
   <data name="ToolTipF6" xml:space="preserve">
-    <value>Actualiser les notes du gril et supprimer les filtres</value>
+    <value>Rafraîchissement de la grille des notes et suppression des filtres</value>
   </data>
   <data name="ToolTipTraspasar" xml:space="preserve">
-    <value>Transfert d'un compte à un autre</value>
+    <value>Transfert d’un compte à un autre</value>
   </data>
   <data name="MsgText3" xml:space="preserve">
     <value>Divers concepts sélectionnés</value>
   </data>
   <data name="MsgText4" xml:space="preserve">
-    <value>DIVERS CONCEPTS</value>
+    <value>CONCEPTS VARIÉS</value>
   </data>
   <data name="MsgText2" xml:space="preserve">
     <value>Introduction des notes</value>
@@ -225,9 +225,9 @@ Avec F6 : Actualiser les notes du gril et supprimer les filtres</value>
     <value>Avis de filtre</value>
   </data>
   <data name="MsgAviso1" xml:space="preserve">
-    <value>Il existe divers concepts sélectionnés.
-Filtrez d'abord par comptes et dates,
-puis par Divers Concepts</value>
+    <value>Plusieurs concepts sont sélectionnés.
+Filter Primer per Comptes i Dates,
+després per Conceptes Divers</value>
   </data>
   <data name="RutaExcelExiste" xml:space="preserve">
     <value>Le chemin C existe déjà :\HomeAccount3.0\Excel</value>

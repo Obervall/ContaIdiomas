@@ -150,23 +150,26 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Einführung von Notizen</value>
   </data>
-  <data name="SelecCuenta" xml:space="preserve">
-    <value>Wählen Sie das Konto aus, auf das sich die Transaktion bezieht</value>
+  <data name="Label8.Text" xml:space="preserve">
+    <value>Beschreibung 2:</value>
+  </data>
+  <data name="LblBuscarLetras.Text" xml:space="preserve">
+    <value>Suchbeschreibung:</value>
+  </data>
+  <data name="Label3.Text" xml:space="preserve">
+    <value>Beschreibung 1:</value>
+  </data>
+  <data name="SelecConcepto" xml:space="preserve">
+    <value>Wählen Sie das Konzept aus</value>
   </data>
   <data name="SelecDescripcion" xml:space="preserve">
-    <value>Wähle Beschreibung oder Typ zum Suchen (mindestens 3)</value>
+    <value>Wähle Beschreibung oder Typ zum Suchen (3 Min.)</value>
   </data>
   <data name="ImporteAsiento" xml:space="preserve">
-    <value>Sitzanzahl</value>
-  </data>
-  <data name="BtnConcepto" xml:space="preserve">
-    <value>Buchhaltungskonzepte bearbeiten, Abfragen und beim Verlassen von Füllkonzepten</value>
-  </data>
-  <data name="BtnCuenta" xml:space="preserve">
-    <value>Bankkonten hinzufügen, bearbeiten, löschen oder einsehen</value>
+    <value>Höhe des Eintrags</value>
   </data>
   <data name="BtnDescripcion" xml:space="preserve">
-    <value>Speichern Sie die Beschreibungen der gespeicherten Notizen</value>
+    <value>Fülle Beschreibungen aus, aus gespeicherten Notizen</value>
   </data>
   <data name="TxtABuscar" xml:space="preserve">
     <value>Text zur Suche</value>
@@ -175,14 +178,14 @@
     <value>Fehler bei der Suche nach Buchstaben in der Beschreibung</value>
   </data>
   <data name="EjercicioActual" xml:space="preserve">
-    <value>Das Jahr des Haushaltsjahres fällt nicht mit dem aktuellen Jahr überein,
+    <value>Das Jahr des Haushaltsjahres fällt nicht mit dem laufenden Jahr zusammen,
 das Datum des 31. Dezember des Haushaltsjahres wird festgelegt</value>
   </data>
   <data name="Fecha31Diciembre" xml:space="preserve">
     <value>Termin ist auf den 31. Dezember festgelegt</value>
   </data>
   <data name="ErrorGrabarRegistro" xml:space="preserve">
-    <value>Fehler Speichern des Datensatzes, Überprüfung des Datums und der Betrag ohne Buchstaben ...
+    <value>Fehler Speichern des Datensatzes, Überprüfung des Datums und der Betrag ohne Buchstaben...
 Fehler</value>
   </data>
   <data name="NoCantidadImporte" xml:space="preserve">
@@ -191,5 +194,20 @@ Fehler</value>
   <data name="ErrorLlenarDesplegable" xml:space="preserve">
     <value>Fehler beim Ausfüllen des Dropdown-Menüs.
 Fehler</value>
+  </data>
+  <data name="BtnAyuda.Text" xml:space="preserve">
+    <value>Hilfe (?)</value>
+  </data>
+  <data name="NoExistenDescripciones" xml:space="preserve">
+    <value>Es gibt keine Beschreibungen mit</value>
+  </data>
+  <data name="AñadirDescripcion" xml:space="preserve">
+    <value>Wir fügen die Beschreibung hinzu</value>
+  </data>
+  <data name="BtnAyuda" xml:space="preserve">
+    <value>Siehe die Hilfe zum Eintragen von Notizen</value>
+  </data>
+  <data name="SelecCuenta" xml:space="preserve">
+    <value>Wählen Sie das Konto aus, auf das sich der Eintrag bezieht</value>
   </data>
 </root>

@@ -28,25 +28,16 @@ Partial Class AyudaApuntes
         '
         'Label1
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(11, 8)
-        Me.Label1.MaximumSize = New System.Drawing.Size(320, 0)
+        resources.ApplyResources(Me.Label1, "Label1")
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(319, 560)
-        Me.Label1.TabIndex = 0
-        Me.Label1.Text = resources.GetString("Label1.Text")
         '
         'AyudaApuntes
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
+        resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(349, 584)
         Me.Controls.Add(Me.Label1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Name = "AyudaApuntes"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
-        Me.Text = "Guía de Introducción Rápida"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

@@ -159,4 +159,34 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Traspaso entre Cuentas</value>
   </data>
+  <data name="SeleccionarCuentaOrigen" xml:space="preserve">
+    <value>Seleccionar la Cuenta de Origen</value>
+  </data>
+  <data name="SeleccionarCuentaDestino" xml:space="preserve">
+    <value>Seleccionar la Cuenta de Destino</value>
+  </data>
+  <data name="IntroDescripcion" xml:space="preserve">
+    <value>Introducir una descripción para el Apunte</value>
+  </data>
+  <data name="ImporteApunte" xml:space="preserve">
+    <value>Importe del Apunte</value>
+  </data>
+  <data name="ToolTipSeleccionarConcepto" xml:space="preserve">
+    <value>Seleccionar el Concepto al que se refiere el Apunte</value>
+  </data>
+  <data name="RegistroOrigenGrabadoCorrectamente" xml:space="preserve">
+    <value>Registro Origen, Grabado Correctamente</value>
+  </data>
+  <data name="RegistroDestinoGrabadoCorrectamente" xml:space="preserve">
+    <value>Registro Destino, Grabado Correctamente</value>
+  </data>
+  <data name="NoHayImporte" xml:space="preserve">
+    <value>NO hay Cantidad en Importe</value>
+  </data>
+  <data name="DescripcionVacia" xml:space="preserve">
+    <value>La Descripción NO puede estar Vacía</value>
+  </data>
+  <data name="CuentasDiferentes" xml:space="preserve">
+    <value>Las cuentas de Origen y Destino tienen que ser Diferentes</value>
+  </data>
 </root>

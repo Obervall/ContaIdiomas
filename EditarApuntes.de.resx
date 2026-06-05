@@ -168,22 +168,22 @@
   <data name="MsgBoxNoHayImporte" xml:space="preserve">
     <value>Es gibt KEINEN Betrag im Betrag</value>
   </data>
-  <data name="ToolTipSeleccionarConcepto" xml:space="preserve">
-    <value>Wählen Sie den Posten aus, mit dem sich die Transaktion bezieht</value>
-  </data>
-  <data name="ToolTipSeleccionarCuenta" xml:space="preserve">
-    <value>Wählen Sie das Konto aus, auf das sich die Transaktion bezieht</value>
-  </data>
-  <data name="ToolTipSeleccionarDescripcion" xml:space="preserve">
-    <value>Geben Sie eine Beschreibung für den Sitz ein</value>
-  </data>
-  <data name="ToolTipIngresarImporte" xml:space="preserve">
-    <value>Sitzanzahl</value>
-  </data>
   <data name="LblEditando.Text" xml:space="preserve">
     <value>BEARBEITUNG DES BUCHHALTUNGSEINTRAGS</value>
   </data>
   <data name="MsgBoxErrorInsertar" xml:space="preserve">
     <value>Fehlerverarbeitung des Eintrags</value>
+  </data>
+  <data name="ToolTipSeleccionarCuenta" xml:space="preserve">
+    <value>Wählen Sie das Konto aus, auf das sich der Eintrag bezieht</value>
+  </data>
+  <data name="ToolTipSeleccionarDescripcion" xml:space="preserve">
+    <value>Geben Sie eine Beschreibung für den Eintrag ein</value>
+  </data>
+  <data name="ToolTipIngresarImporte" xml:space="preserve">
+    <value>Höhe des Eintrags</value>
+  </data>
+  <data name="ToolTipSeleccionarConcepto" xml:space="preserve">
+    <value>Wählen Sie das Konzept aus, auf das sich die Notiz bezieht</value>
   </data>
 </root>

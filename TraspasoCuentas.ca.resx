@@ -159,4 +159,34 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Traspàs entre Comptes</value>
   </data>
+  <data name="SeleccionarCuentaOrigen" xml:space="preserve">
+    <value>Seleccionar el Compte d' Origen</value>
+  </data>
+  <data name="SeleccionarCuentaDestino" xml:space="preserve">
+    <value>Seleccionar el Compte de Destinació</value>
+  </data>
+  <data name="ImporteApunte" xml:space="preserve">
+    <value>Import de l' Apunt</value>
+  </data>
+  <data name="IntroDescripcion" xml:space="preserve">
+    <value>Introduir una descripció per a l' Apunt</value>
+  </data>
+  <data name="ToolTipSeleccionarConcepto" xml:space="preserve">
+    <value>Seleccionar el Concepte a què es refereix l' Apunt</value>
+  </data>
+  <data name="RegistroOrigenGrabadoCorrectamente" xml:space="preserve">
+    <value>Registre Origen, Gravat Correctament</value>
+  </data>
+  <data name="RegistroDestinoGrabadoCorrectamente" xml:space="preserve">
+    <value>Registre Destinació, Gravat Correctament</value>
+  </data>
+  <data name="NoHayImporte" xml:space="preserve">
+    <value>NO hi ha Quantitat en Import</value>
+  </data>
+  <data name="DescripcionVacia" xml:space="preserve">
+    <value>La Descripció NO pot estar Buida</value>
+  </data>
+  <data name="CuentasDiferentes" xml:space="preserve">
+    <value>Els comptes d' Origen i Destinació han de ser Diferents</value>
+  </data>
 </root>

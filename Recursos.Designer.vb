@@ -118,6 +118,24 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Añade, Edita, Borra o Consulta Conceptos.
+    '''</summary>
+    Friend Shared ReadOnly Property BtnConcepto() As String
+        Get
+            Return ResourceManager.GetString("BtnConcepto", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Añade, Edita, Borra o Consulta Cuentas Bancarias.
+    '''</summary>
+    Friend Shared ReadOnly Property BtnCuenta() As String
+        Get
+            Return ResourceManager.GetString("BtnCuenta", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a CAJA EFECTIVO.
     '''</summary>
     Friend Shared ReadOnly Property CAJA_EFECTIVO() As String

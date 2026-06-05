@@ -168,22 +168,22 @@
   <data name="MsgBoxNoHayImporte" xml:space="preserve">
     <value>Il n’y a PAS de montant dans le montant</value>
   </data>
-  <data name="ToolTipSeleccionarConcepto" xml:space="preserve">
-    <value>Sélectionnez l’élément auquel la transaction est liée</value>
-  </data>
-  <data name="ToolTipSeleccionarCuenta" xml:space="preserve">
-    <value>Sélectionnez le compte auquel la transaction est liée</value>
-  </data>
-  <data name="ToolTipSeleccionarDescripcion" xml:space="preserve">
-    <value>Saisissez une description du siège</value>
-  </data>
-  <data name="ToolTipIngresarImporte" xml:space="preserve">
-    <value>Nombre de sièges</value>
-  </data>
   <data name="LblEditando.Text" xml:space="preserve">
     <value>MODIFICATION DE L’ENTRÉE COMPTABLE</value>
   </data>
   <data name="MsgBoxErrorInsertar" xml:space="preserve">
     <value>Traitement des erreurs de l’entrée</value>
+  </data>
+  <data name="ToolTipSeleccionarCuenta" xml:space="preserve">
+    <value>Sélectionnez le compte auquel l’entrée fait référence</value>
+  </data>
+  <data name="ToolTipSeleccionarDescripcion" xml:space="preserve">
+    <value>Entrez une description pour l’entrée</value>
+  </data>
+  <data name="ToolTipIngresarImporte" xml:space="preserve">
+    <value>Nombre de l’entrée</value>
+  </data>
+  <data name="ToolTipSeleccionarConcepto" xml:space="preserve">
+    <value>Sélectionnez le concept auquel la note fait référence</value>
   </data>
 </root>

@@ -186,34 +186,34 @@ With F5: Filter by Description
 With F6: Refresh the Grill Notes and Remove Filters</value>
   </data>
   <data name="ToolTipListBox" xml:space="preserve">
-    <value>With Esc Key: Close List</value>
+    <value>With Esc key: Close list</value>
   </data>
   <data name="ToolTipChekedList" xml:space="preserve">
-    <value>Open list of Concepts for multiple selection</value>
+    <value>Open Concept List for multiple selection</value>
   </data>
   <data name="ToolTipFechas" xml:space="preserve">
-    <value>Activate or Deactivate Access to Dates prior to the Current Fiscal Year</value>
+    <value>Enable or Disable Access to Data Prior to the Current Fiscal Year</value>
   </data>
   <data name="ToolTipExcel" xml:space="preserve">
     <value>Export Notes to Excel</value>
   </data>
   <data name="ToolTipAumentar" xml:space="preserve">
-    <value>Increase font size</value>
+    <value>Increase Font Size</value>
   </data>
   <data name="ToolTipNormal" xml:space="preserve">
-    <value>Restore font size</value>
+    <value>Restore Fomt Measurement</value>
   </data>
   <data name="ToolTipF5" xml:space="preserve">
     <value>Filter by Description</value>
   </data>
   <data name="ToolTipF6" xml:space="preserve">
-    <value>Refresh Grill Notes and Remove Filters</value>
+    <value>Refreshing the Notes Grid and Removing Filters</value>
   </data>
   <data name="ToolTipTraspasar" xml:space="preserve">
-    <value>Transfer from one account to another</value>
+    <value>Transferring from one Account to another</value>
   </data>
   <data name="MsgText3" xml:space="preserve">
-    <value>Various Selected Concepts</value>
+    <value>Various selected concepts</value>
   </data>
   <data name="MsgText4" xml:space="preserve">
     <value>VARIOUS CONCEPTS</value>
@@ -225,9 +225,9 @@ With F6: Refresh the Grill Notes and Remove Filters</value>
     <value>Filter Notice</value>
   </data>
   <data name="MsgAviso1" xml:space="preserve">
-    <value>There are Various, Selected Concepts.
-Filter First by Accounts and Dates,
-then by Various Concepts</value>
+    <value>There are several selected concepts.
+Filter Primer per Comptes i Dates,
+després per Conceptes Divers</value>
   </data>
   <data name="RutaExcelExiste" xml:space="preserve">
     <value>Path C already exists:\HomeAccount3.0\Excel</value>

@@ -553,4 +553,10 @@ Ils ne sont pas supprimés de la base de données</value>
   <data name="IrAHoy" xml:space="preserve">
     <value>Aller à aujourd’hui</value>
   </data>
+  <data name="BtnCuenta" xml:space="preserve">
+    <value>Ajouter, modifier, supprimer ou consulter des comptes bancaires</value>
+  </data>
+  <data name="BtnConcepto" xml:space="preserve">
+    <value>Ajouter, modifier, supprimer ou interroger des concepts</value>
+  </data>
 </root>

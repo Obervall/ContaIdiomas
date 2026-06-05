@@ -553,4 +553,10 @@ No s' Eliminen de la Base de Dades</value>
   <data name="IrAHoy" xml:space="preserve">
     <value>Anar a Hoy</value>
   </data>
+  <data name="BtnCuenta" xml:space="preserve">
+    <value>Afegeix, Edita, Borra o Consulta Comptes Bancaris</value>
+  </data>
+  <data name="BtnConcepto" xml:space="preserve">
+    <value>Afegeix, Edita, Borra o Consulta Conceptes</value>
+  </data>
 </root>

@@ -168,22 +168,22 @@
   <data name="MsgBoxNoHayImporte" xml:space="preserve">
     <value>There is NO Amount in Amount</value>
   </data>
-  <data name="ToolTipSeleccionarConcepto" xml:space="preserve">
-    <value>Select the Item to which the transaction relates</value>
-  </data>
-  <data name="ToolTipSeleccionarCuenta" xml:space="preserve">
-    <value>Select the Account to which the transaction relates</value>
-  </data>
-  <data name="ToolTipSeleccionarDescripcion" xml:space="preserve">
-    <value>Enter a description for the Seat</value>
-  </data>
-  <data name="ToolTipIngresarImporte" xml:space="preserve">
-    <value>Seat Amount</value>
-  </data>
   <data name="LblEditando.Text" xml:space="preserve">
     <value>EDITING ACCOUNTING ENTRY</value>
   </data>
   <data name="MsgBoxErrorInsertar" xml:space="preserve">
     <value>Error processing the entry</value>
+  </data>
+  <data name="ToolTipSeleccionarCuenta" xml:space="preserve">
+    <value>Select the Account to which the Entry refers</value>
+  </data>
+  <data name="ToolTipSeleccionarDescripcion" xml:space="preserve">
+    <value>Enter a description for the Entry</value>
+  </data>
+  <data name="ToolTipIngresarImporte" xml:space="preserve">
+    <value>Amount of the Entry</value>
+  </data>
+  <data name="ToolTipSeleccionarConcepto" xml:space="preserve">
+    <value>Select the Concept to which the Note refers</value>
   </data>
 </root>

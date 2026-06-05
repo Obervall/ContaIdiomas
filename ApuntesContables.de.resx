@@ -186,13 +186,13 @@ Mit F5: Nach Beschreibung filtern
 Mit F6: Grillnotizen aktualisieren und Filter entfernen</value>
   </data>
   <data name="ToolTipListBox" xml:space="preserve">
-    <value>Mit Esc-Taste: Liste schließen</value>
+    <value>Mit Esc-Schlüssel: Liste schließen</value>
   </data>
   <data name="ToolTipChekedList" xml:space="preserve">
-    <value>Liste der Konzepte zur Mehrfachauswahl öffnen</value>
+    <value>Offene Konzeptliste für Mehrfachauswahl</value>
   </data>
   <data name="ToolTipFechas" xml:space="preserve">
-    <value>Aktivieren oder deaktivieren Sie den Zugriff auf Daten vor dem aktuellen Geschäftsjahr</value>
+    <value>Aktivieren oder deaktivieren Sie den Zugriff auf Daten vor dem aktuellen Haushaltsjahr</value>
   </data>
   <data name="ToolTipExcel" xml:space="preserve">
     <value>Notizen nach Excel exportieren</value>
@@ -201,16 +201,16 @@ Mit F6: Grillnotizen aktualisieren und Filter entfernen</value>
     <value>Schriftgröße erhöhen</value>
   </data>
   <data name="ToolTipNormal" xml:space="preserve">
-    <value>Schriftgröße wiederherstellen</value>
+    <value>Wiederherstellen der Fomt-Messung</value>
   </data>
   <data name="ToolTipF5" xml:space="preserve">
-    <value>Nach Beschreibung filtern</value>
+    <value>Filtern nach Beschreibung</value>
   </data>
   <data name="ToolTipF6" xml:space="preserve">
-    <value>Grillnotizen aktualisieren und Filter entfernen</value>
+    <value>Das Notizraster aktualisieren und Filter entfernen</value>
   </data>
   <data name="ToolTipTraspasar" xml:space="preserve">
-    <value>Von einem Konto auf ein anderes übertragen</value>
+    <value>Übertragung von einem Konto auf ein anderes</value>
   </data>
   <data name="MsgText3" xml:space="preserve">
     <value>Verschiedene ausgewählte Konzepte</value>
@@ -225,9 +225,9 @@ Mit F6: Grillnotizen aktualisieren und Filter entfernen</value>
     <value>Filterhinweis</value>
   </data>
   <data name="MsgAviso1" xml:space="preserve">
-    <value>Es gibt verschiedene, ausgewählte Konzepte.
-Filtern Sie zuerst nach Konten und Daten.
-dann von Different Concepts</value>
+    <value>Es gibt mehrere ausgewählte Konzepte.
+Filter Primer per Comptes i Dates,
+després per Conceptes Divers</value>
   </data>
   <data name="RutaExcelExiste" xml:space="preserve">
     <value>Pfad C existiert bereits:\HomeAccount3.0\Excel</value>

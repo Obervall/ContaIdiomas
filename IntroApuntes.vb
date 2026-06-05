@@ -10,7 +10,7 @@ Public Class IntroApuntes
     Public vDescripcionAPU, vNotasAPU, vCuentaAPU, strText, vIntro, vLetras, vCombo, vDescripcion As String
     Public vImporteAPU As Double
     Public i, primero, nuevo As Integer
-    Private TL(12) As ToolTip
+    Private TL(13) As ToolTip
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub IntroApuntes_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -47,13 +47,15 @@ Public Class IntroApuntes
         TL(8) = New ToolTip
         TL(8).SetToolTip(Me.BtnCalculadora, rmse.GetString("ToolTipCalculadora"))
         TL(9) = New ToolTip
-        TL(9).SetToolTip(Me.BtnConcepto, rmse.GetString("BtnConcepto"))
+        TL(9).SetToolTip(Me.BtnConcepto, resManager.GetString("BtnConcepto"))
         TL(10) = New ToolTip
-        TL(10).SetToolTip(Me.BtnCuenta, rmse.GetString("BtnCuenta"))
+        TL(10).SetToolTip(Me.BtnCuenta, resManager.GetString("BtnCuenta"))
         TL(11) = New ToolTip
         TL(11).SetToolTip(Me.BtnDescripcion, rmse.GetString("BtnDescripcion"))
         TL(12) = New ToolTip
         TL(12).SetToolTip(Me.TxtBuscarLetras, rmse.GetString("TxtABuscar"))
+        TL(13) = New ToolTip
+        TL(13).SetToolTip(Me.BtnAyuda, rmse.GetString("BtnAyuda"))
 
         CmbConcepto.DropDownStyle = ComboBoxStyle.DropDownList
 
@@ -124,10 +126,6 @@ Public Class IntroApuntes
     Private Sub TxtBuscarLetras_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtBuscarLetras.KeyDown
         ' Si el usuario pulsa FLECHA ABAJO desde el cuadro de búsqueda, saltamos al combo de forma inteligente
         If e.KeyCode = Keys.Down Then
-            'If vCombo = "concepto" AndAlso CmbConcepto.Items.Count > 0 Then
-            '    e.Handled = True
-            '    CmbConcepto.Focus()
-            '    CmbConcepto.SelectedIndex = 0
             If vCombo = "descripcion" AndAlso CmbDescripcion.Items.Count > 0 Then
                 e.Handled = True
                 CmbDescripcion.Focus()
@@ -144,7 +142,7 @@ Public Class IntroApuntes
             ' 🛠️ CORRECCIÓN DE ANIDACIÓN: Cambiado a un IF limpio y directo para corregir el teclado
             If vCombo = "descripcion_vacia" Then
                 ' Bloque de alta de descripción nueva
-                Dim respuesta As MsgBoxResult = MsgBox("No existen Descripciones con: -" & TxtBuscarLetras.Text.ToUpper() & "-" & vbCrLf & "¿Añadimos la descripción?", vbQuestion + vbYesNo + vbDefaultButton1, "Introducir Apunte")
+                Dim respuesta As MsgBoxResult = MsgBox(rmse.GetString("NoExistenDescripciones") & ": -" & TxtBuscarLetras.Text.ToUpper() & "-" & vbCrLf & "¿" & rmse.GetString("AñadimosDescripcion") & "?", vbQuestion + vbYesNo + vbDefaultButton1, rmse.GetString("$this.Text"))
 
                 If respuesta = vbYes Then
                     vIntro = "SI"
@@ -246,7 +244,7 @@ Public Class IntroApuntes
 
             Return True
         Catch ex As Exception
-            MsgBox("Error al grabar asiento contable: " & ex.Message, MsgBoxStyle.Critical)
+            MsgBox(rmse.GetString("ErrorGrabarRegistro") & ": " & ex.Message, MsgBoxStyle.Critical)
             Return False
         End Try
     End Function
@@ -743,24 +741,33 @@ Public Class IntroApuntes
         Dim frmExistente As AyudaApuntes = Application.OpenForms.OfType(Of AyudaApuntes)().FirstOrDefault()
 
         If frmExistente IsNot Nothing Then
-            ' Si ya estaba abierta, la cerramos (actúa como un interruptor)
+            ' Si ya estaba abierta, la cerramos (esto disparará automáticamente el evento FormClosed)
             frmExistente.Close()
         Else
-            ' Si no existe, creamos una instancia nueva de la ventana de ayuda
+            ' --- DESPLAZAR EL FORMULARIO ACTUAL A LA IZQUIERDA ---
+            Dim pixelesDesplazamiento As Integer = 150
+            Me.Left -= pixelesDesplazamiento
+
+            ' Creamos la instancia de la ventana de ayuda
             Dim frmAyuda As New AyudaApuntes()
 
-            ' CÁLCULO DE POSICIÓN: Colocamos la ayuda pegada al borde derecho de tu formulario actual
+            ' --- DETECTAR EL CIERRE (BOTÓN O CRUZ X) ---
+            ' Usamos AddHandler para ejecutar código cuando frmAyuda se cierre por cualquier motivo
+            AddHandler frmAyuda.FormClosed, Sub(s, ev)
+                                                ' Cuando la ayuda se cierra, devolvemos el formulario principal a la derecha
+                                                Me.Left += pixelesDesplazamiento
+                                            End Sub
+
+            ' CÁLCULO DE POSICIÓN: Se calcula usando la NUEVA posición del formulario actual
             Dim x As Integer = Me.Location.X + Me.Width
             Dim y As Integer = Me.Location.Y
 
             frmAyuda.Location = New Point(x, y)
 
-            ' La mostramos en modo "Show" (no ShowDialog) para que el usuario pueda seguir 
-            ' escribiendo apuntes en la pantalla principal sin que la ayuda le bloquee el teclado.
+            ' La mostramos en modo "Show"
             frmAyuda.Show(Me)
         End If
     End Sub
-
 
     Private Sub CmbCuenta_KeyDown(sender As Object, e As KeyEventArgs) Handles CmbCuenta.KeyDown
         ' Verificamos si la tecla presionada es Enter

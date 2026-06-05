@@ -553,4 +553,10 @@ They are not removed from the database</value>
   <data name="IrAHoy" xml:space="preserve">
     <value>Go to Today</value>
   </data>
+  <data name="BtnCuenta" xml:space="preserve">
+    <value>Add, Edit, Delete or Consult Bank Accounts</value>
+  </data>
+  <data name="BtnConcepto" xml:space="preserve">
+    <value>Add, Edit, Delete, or Query Concepts</value>
+  </data>
 </root>

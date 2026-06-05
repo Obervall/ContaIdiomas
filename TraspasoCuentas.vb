@@ -7,6 +7,7 @@ Public Class TraspasoCuentas
     Public vImporteAPU As Double
     Public vDescripcionAPU, vNotasAPU, vCuentaOrigenAPU, vCuentaDestinoAPU As String
     Public vfechaHoyOrigen As Date = DateTime.Today
+    Private TL(11) As ToolTip
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub IntroApuntes_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -14,32 +15,30 @@ Public Class TraspasoCuentas
         ActualizarTextosFormulario(Me)
 
         Label7.Text = vMoneda
-        Dim TL(11) As ToolTip
         TL(0) = New ToolTip
-        TL(0).SetToolTip(Me.BtnHoyOrigen, "Ir a Hoy Origen")
+        TL(0).SetToolTip(Me.BtnHoyOrigen, resManager.GetString("IrAHoy"))
         TL(1) = New ToolTip
-        TL(1).SetToolTip(Me.BtnAceptar, "Aceptar y Salir")
+        TL(1).SetToolTip(Me.BtnAceptar, resManager.GetString("ToolTipAceptar"))
         TL(2) = New ToolTip
-        TL(2).SetToolTip(Me.BtnCancelar, "Cancelar la introducción del Apunte")
+        TL(2).SetToolTip(Me.BtnCancelar, resManager.GetString("ToolTipCancelar"))
         TL(3) = New ToolTip
-        TL(3).SetToolTip(Me.CmbConcepto, "Seleccionar el Concepto a la que se refiere la transacción")
+        TL(3).SetToolTip(Me.CmbConcepto, rmse.GetString("ToolTipSeleccionarConcepto"))
         TL(4) = New ToolTip
-        TL(4).SetToolTip(Me.CmbCuentaOrigen, "Seleccionar la Cuenta Origen a la que se refiere la transacción")
+        TL(4).SetToolTip(Me.CmbCuentaOrigen, rmse.GetString("SeleccionarCuentaOrigen"))
         TL(5) = New ToolTip
-        TL(5).SetToolTip(Me.CmbCuentaDestino, "Seleccionar la Cuenta Destino a la que se refiere la transacción")
+        TL(5).SetToolTip(Me.CmbCuentaDestino, rmse.GetString("SeleccionarCuentaDestino"))
         TL(6) = New ToolTip
-        TL(6).SetToolTip(Me.TxtDescripcion, "Introducir una descripción para el Asiento")
+        TL(6).SetToolTip(Me.TxtDescripcion, rmse.GetString("IntroDescripcion"))
         TL(7) = New ToolTip
-        TL(7).SetToolTip(Me.TxtImporte, "Importe del Asiento")
+        TL(7).SetToolTip(Me.TxtImporte, rmse.GetString("ImporteApunte"))
         TL(8) = New ToolTip
-        TL(8).SetToolTip(Me.BtnCalculadora, "Activar la Calculadora")
+        TL(8).SetToolTip(Me.BtnCalculadora, resManager.GetString("ToolTipCalculadora"))
         TL(9) = New ToolTip
-        TL(9).SetToolTip(Me.BtnConcepto, "Añade, Edita, Borra o Consulta Conceptos Contables")
+        TL(9).SetToolTip(Me.BtnConcepto, resManager.GetString("BtnConcepto"))
         TL(10) = New ToolTip
-        TL(10).SetToolTip(Me.BtnCuentaOrigen, "Añade, Edita, Borra o Consulta Cuentas Bancarias")
+        TL(10).SetToolTip(Me.BtnCuentaOrigen, resManager.GetString("BtnCuenta"))
         TL(11) = New ToolTip
-        TL(11).SetToolTip(Me.BtnCuentaDestino, "Añade, Edita, Borra o Consulta Cuentas Bancarias")
-
+        TL(11).SetToolTip(Me.BtnCuentaDestino, resManager.GetString("BtnCuenta"))
 
         ' Llenar el Combo Concepto
         '*************************
@@ -58,7 +57,7 @@ Public Class TraspasoCuentas
             End If
             drMdb1.Close()
         Catch ex As Exception
-            MsgBox("Error al cargar el Combo Concepto: " & ex.ToString)
+            MsgBox(resManager.GetString("Error") & ": " & ex.ToString)
         End Try
 
         ' Llenar el Combo Cuenta
@@ -142,9 +141,9 @@ Public Class TraspasoCuentas
                     cmdMdb1cr.CommandText = vAñadirOrigenSql
                     Try
                         cmdMdb1cr.ExecuteNonQuery()
-                        MsgBox("Registro Origen, Grabado Correctamente")
+                        MsgBox(rmse.GetString("RegistroOrigenGrabadoCorrectamente"))
                     Catch ex As Exception
-                        MsgBox("Error al Grabar el Registro Origen: " & ex.ToString)
+                        MsgBox(resManager.GetString("Error") & ": " & ex.ToString)
                     End Try
 
                     vConcepto = CmbConcepto.Text '  & " DESTINO"
@@ -156,20 +155,20 @@ Public Class TraspasoCuentas
                     cmdMdb1cr.CommandText = vAñadirDestinoSql
                     Try
                         cmdMdb1cr.ExecuteNonQuery()
-                        MsgBox("Registro Destino, Grabado Correctamente")
+                        MsgBox(rmse.GetString("RegistroDestinoGrabadoCorrectamente"))
                     Catch ex As Exception
-                        MsgBox("Error al Grabar el Registro Destino: " & ex.ToString)
+                        MsgBox(resManager.GetString("Error") & ": " & ex.ToString)
                     End Try
                     Me.Close()
                 Else
-                    MsgBox("NO hay Cantidad en Importe ...", vbExclamation)
+                    MsgBox(rmse.GetString("NoHayImporte") & "...", vbExclamation)
                     TxtImporte.Select()
                 End If
             Else
-                MsgBox("La Descripción NO puede estar vacia.", vbExclamation)
+                MsgBox(rmse.GetString("DescripcionVacia"), vbExclamation)
             End If
         Else
-            MsgBox("Las cuentas de Origen y Destino tienen que ser Diferentes.", vbExclamation)
+            MsgBox(rmse.GetString("CuentasDiferentes"), vbExclamation)
         End If
     End Sub
 
@@ -178,54 +177,15 @@ Public Class TraspasoCuentas
     End Sub
 
     Private Sub BtnCuentaOrigen_Click(sender As Object, e As EventArgs) Handles BtnCuentaOrigen.Click
-        frmPrincipal.TsLabelFormulario.Text = "Cuentas Bancarias"
-
-        ' Comprobamos si existe un identificador asociado.
-        If ((frmCuentasBancarias Is Nothing) OrElse (Not frmCuentasBancarias.IsHandleCreated)) Then
-            frmCuentasBancarias = New CuentasBancarias
-        End If
-
-        ' Llamamos al formulario de manera modal.
-        frmCuentasBancarias.ShowDialog()
-
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
-        frmCuentasBancarias.Dispose()
-        frmPrincipal.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        frmPrincipal.CuentasToolStripMenuItem.PerformClick()
     End Sub
 
     Private Sub BtnCuentaDestino_Click(sender As Object, e As EventArgs) Handles BtnCuentaDestino.Click
-        frmPrincipal.TsLabelFormulario.Text = "Cuentas Bancarias"
-
-        ' Comprobamos si existe un identificador asociado.
-        If ((frmCuentasBancarias Is Nothing) OrElse (Not frmCuentasBancarias.IsHandleCreated)) Then
-            frmCuentasBancarias = New CuentasBancarias
-        End If
-
-        ' Llamamos al formulario de manera modal.
-        frmCuentasBancarias.ShowDialog()
-
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
-        frmCuentasBancarias.Dispose()
-        frmPrincipal.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        frmPrincipal.CuentasToolStripMenuItem.PerformClick()
     End Sub
 
     Private Sub BtnConcepto_Click(sender As Object, e As EventArgs) Handles BtnConcepto.Click
-        frmPrincipal.TsLabelFormulario.Text = "Conceptos Contables"
-
-        ' Comprobamos si existe un identificador asociado.
-        If ((frmConceptosContables Is Nothing) OrElse (Not frmConceptosContables.IsHandleCreated)) Then
-            frmConceptosContables = New ConceptosContables
-        End If
-
-        ' Llamamos al formulario de manera modal.
-        frmConceptosContables.ShowDialog()
-
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
-        frmConceptosContables.Dispose()
-        frmPrincipal.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        frmPrincipal.ConceptosContablesToolStripMenuItem.PerformClick()
     End Sub
 
     Private Sub DtpOrigen_ValueChanged(sender As Object, e As EventArgs) Handles DtpOrigen.ValueChanged

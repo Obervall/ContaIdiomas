@@ -159,4 +159,34 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Überweisung zwischen Konten</value>
   </data>
+  <data name="SeleccionarCuentaOrigen" xml:space="preserve">
+    <value>Wählen Sie das Quellkonto aus</value>
+  </data>
+  <data name="SeleccionarCuentaDestino" xml:space="preserve">
+    <value>Wählen Sie das Zielkonto aus</value>
+  </data>
+  <data name="ImporteApunte" xml:space="preserve">
+    <value>Höhe des Eintrags</value>
+  </data>
+  <data name="IntroDescripcion" xml:space="preserve">
+    <value>Geben Sie eine Beschreibung für den Eintrag ein</value>
+  </data>
+  <data name="ToolTipSeleccionarConcepto" xml:space="preserve">
+    <value>Wählen Sie das Konzept aus, auf das sich die Notiz bezieht</value>
+  </data>
+  <data name="RegistroOrigenGrabadoCorrectamente" xml:space="preserve">
+    <value>Quellenregistrierung, korrekt aufgezeichnet</value>
+  </data>
+  <data name="RegistroDestinoGrabadoCorrectamente" xml:space="preserve">
+    <value>Zielregistrierung, korrekt erfasst</value>
+  </data>
+  <data name="NoHayImporte" xml:space="preserve">
+    <value>Es gibt KEINEN Betrag im Betrag</value>
+  </data>
+  <data name="DescripcionVacia" xml:space="preserve">
+    <value>Beschreibung DARF NICHT leer sein</value>
+  </data>
+  <data name="CuentasDiferentes" xml:space="preserve">
+    <value>Quell- und Zielkonten müssen unterschiedlich sein</value>
+  </data>
 </root>

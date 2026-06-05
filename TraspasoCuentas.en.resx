@@ -159,4 +159,34 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Transfer between Accounts</value>
   </data>
+  <data name="SeleccionarCuentaOrigen" xml:space="preserve">
+    <value>Select the Source Account</value>
+  </data>
+  <data name="SeleccionarCuentaDestino" xml:space="preserve">
+    <value>Select the Destination Account</value>
+  </data>
+  <data name="ImporteApunte" xml:space="preserve">
+    <value>Amount of the Entry</value>
+  </data>
+  <data name="IntroDescripcion" xml:space="preserve">
+    <value>Enter a description for the Entry</value>
+  </data>
+  <data name="ToolTipSeleccionarConcepto" xml:space="preserve">
+    <value>Select the Concept to which the Note refers</value>
+  </data>
+  <data name="RegistroOrigenGrabadoCorrectamente" xml:space="preserve">
+    <value>Source Registration, Correctly Recorded</value>
+  </data>
+  <data name="RegistroDestinoGrabadoCorrectamente" xml:space="preserve">
+    <value>Destination Registration, Recorded Correctly</value>
+  </data>
+  <data name="NoHayImporte" xml:space="preserve">
+    <value>There is NO Amount in Amount</value>
+  </data>
+  <data name="DescripcionVacia" xml:space="preserve">
+    <value>Description CANNOT be Empty</value>
+  </data>
+  <data name="CuentasDiferentes" xml:space="preserve">
+    <value>Source and Destination accounts must be Different</value>
+  </data>
 </root>

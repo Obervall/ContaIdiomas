@@ -484,3 +484,9 @@ C:\ComptaLlar\Hogar\obj\Debug\ContaHogar3.0.exe
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar3.0.pdb
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.AyudaApuntes.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar3.0.exe.config
+C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.AyudaApuntes.ca.resources
+C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.AyudaApuntes.de.resources
+C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.AyudaApuntes.en.resources
+C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.AyudaApuntes.es.resources
+C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.AyudaApuntes.fr.resources
+C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.AyudaApuntes.pt.resources

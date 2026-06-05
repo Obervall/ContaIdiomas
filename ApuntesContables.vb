@@ -1756,7 +1756,7 @@ Public Class ApuntesContables
             End If
         Next
         If vRow = -1 Then
-            MsgBox(rmse.GetString("MsgDatos1"))
+            MsgBox(resManager.GetString("MsgDatos1"))
             BtnSeguirBuscando.Enabled = False
         Else
             If vCampo = 0 Then
@@ -2056,7 +2056,7 @@ Public Class ApuntesContables
     Private Sub BtnPrimero_Click(sender As Object, e As EventArgs) Handles BtnPrimero.Click
         vFilaActual = DgvApuntes.CurrentRow.Index
         If vFilaActual = 0 Then
-            MsgBox(rmse.GetString("MsgFila1"))
+            MsgBox(resManager.GetString("MsgFila1"))
         Else
             vFila = 0
             DgvApuntes.Rows(vFila).Selected = True
@@ -2067,7 +2067,7 @@ Public Class ApuntesContables
     Private Sub BtnAnterior_Click(sender As Object, e As EventArgs) Handles BtnAnterior.Click
         vFilaActual = DgvApuntes.CurrentRow.Index
         If vFilaActual = 0 Then
-            MsgBox(rmse.GetString("MsgFila1"))
+            MsgBox(resManager.GetString("MsgFila1"))
         Else
             vFila = vFilaActual - 1
             DgvApuntes.Rows(vFila).Selected = True
@@ -2078,7 +2078,7 @@ Public Class ApuntesContables
     Private Sub BtnSiguiente_Click(sender As Object, e As EventArgs) Handles BtnSiguiente.Click
         vFilaActual = DgvApuntes.CurrentRow.Index
         If vFilaActual = DgvApuntes.RowCount - 1 Then
-            MsgBox(rmse.GetString("MsgFila2"))
+            MsgBox(resManager.GetString("MsgFila2"))
         Else
             vFila = vFilaActual + 1
             DgvApuntes.Rows(vFila).Selected = True
@@ -2089,7 +2089,7 @@ Public Class ApuntesContables
     Private Sub BtnUltimo_Click(sender As Object, e As EventArgs) Handles BtnUltimo.Click
         vFilaActual = DgvApuntes.CurrentRow.Index
         If vFilaActual = DgvApuntes.RowCount - 1 Then
-            MsgBox(rmse.GetString("MsgFila2"))
+            MsgBox(resManager.GetString("MsgFila2"))
         Else
             vFila = DgvApuntes.RowCount - 1
             DgvApuntes.Rows(vFila).Selected = True

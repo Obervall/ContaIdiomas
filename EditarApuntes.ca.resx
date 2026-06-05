@@ -168,22 +168,22 @@
   <data name="MsgBoxNoHayImporte" xml:space="preserve">
     <value>NO hi ha Quantitat en Import</value>
   </data>
-  <data name="ToolTipSeleccionarConcepto" xml:space="preserve">
-    <value>Seleccionar el Concepte a què es refereix la transacció</value>
-  </data>
-  <data name="ToolTipSeleccionarCuenta" xml:space="preserve">
-    <value>Seleccionar el Compte a què es refereix la transacció</value>
-  </data>
-  <data name="ToolTipSeleccionarDescripcion" xml:space="preserve">
-    <value>Introduir una descripció per al Seient</value>
-  </data>
-  <data name="ToolTipIngresarImporte" xml:space="preserve">
-    <value>Import de l' Assentament</value>
-  </data>
   <data name="LblEditando.Text" xml:space="preserve">
     <value>EDITANT APUNT COMPTABLE</value>
   </data>
   <data name="MsgBoxErrorInsertar" xml:space="preserve">
     <value>Error en processar l' apunt</value>
+  </data>
+  <data name="ToolTipSeleccionarCuenta" xml:space="preserve">
+    <value>Seleccionar el Compte a què es refereix l' Apunt</value>
+  </data>
+  <data name="ToolTipSeleccionarDescripcion" xml:space="preserve">
+    <value>Introduir una descripció per a l' Apunt</value>
+  </data>
+  <data name="ToolTipIngresarImporte" xml:space="preserve">
+    <value>Import de l' Apunt</value>
+  </data>
+  <data name="ToolTipSeleccionarConcepto" xml:space="preserve">
+    <value>Seleccionar el Concepte a què es refereix l' Apunt</value>
   </data>
 </root>

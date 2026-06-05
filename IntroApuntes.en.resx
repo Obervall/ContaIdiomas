@@ -150,23 +150,30 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Introduction of Notes</value>
   </data>
-  <data name="SelecCuenta" xml:space="preserve">
-    <value>Select the Account to which the transaction relates</value>
+  <data name="ErrorLlenarDesplegable" xml:space="preserve">
+    <value>Error filling out the drop-down.
+Error</value>
+  </data>
+  <data name="Label8.Text" xml:space="preserve">
+    <value>Description 2:</value>
+  </data>
+  <data name="LblBuscarLetras.Text" xml:space="preserve">
+    <value>Search Description:</value>
+  </data>
+  <data name="Label3.Text" xml:space="preserve">
+    <value>Description 1:</value>
+  </data>
+  <data name="SelecConcepto" xml:space="preserve">
+    <value>Select the Concept</value>
   </data>
   <data name="SelecDescripcion" xml:space="preserve">
-    <value>Select Description or Type to Search (3 minimum)</value>
+    <value>Select Description or Type to Search (3 min)</value>
   </data>
   <data name="ImporteAsiento" xml:space="preserve">
-    <value>Seat Amount</value>
-  </data>
-  <data name="BtnConcepto" xml:space="preserve">
-    <value>Edit Query Accounting Concepts and when exiting Fill in Concepts</value>
-  </data>
-  <data name="BtnCuenta" xml:space="preserve">
-    <value>Add, Edit, Delete or Consult Bank Accounts</value>
+    <value>Amount of the Entry</value>
   </data>
   <data name="BtnDescripcion" xml:space="preserve">
-    <value>Fill in Saved Notes Descriptions</value>
+    <value>Fill Descriptions, from Saved Notes</value>
   </data>
   <data name="TxtABuscar" xml:space="preserve">
     <value>Text to Search</value>
@@ -175,21 +182,32 @@
     <value>Error When Searching for Letters in Description</value>
   </data>
   <data name="EjercicioActual" xml:space="preserve">
-    <value>The year of the fiscal year does not coincide with the current year,
-the date of December 31 of the year of the fiscal year shall be established</value>
+    <value>The year of the Fiscal Year does not coincide with the Current Year,
+the date of December 31 of the year of the Fiscal Year is established</value>
   </data>
   <data name="Fecha31Diciembre" xml:space="preserve">
     <value>Date set for December 31</value>
   </data>
   <data name="ErrorGrabarRegistro" xml:space="preserve">
-    <value>Error Saving the Record, Verifying that the Date is Correct and the Amount Has No Letters ...
+    <value>Error Saving the Record, Verifying that the Date is Correct and the Amount Has No Letters...
 Error</value>
   </data>
   <data name="NoCantidadImporte" xml:space="preserve">
     <value>No Amount</value>
   </data>
-  <data name="ErrorLlenarDesplegable" xml:space="preserve">
-    <value>Error filling out the drop-down.
-Error</value>
+  <data name="BtnAyuda.Text" xml:space="preserve">
+    <value>Help (?)</value>
+  </data>
+  <data name="NoExistenDescripciones" xml:space="preserve">
+    <value>There are no Descriptions with</value>
+  </data>
+  <data name="AñadirDescripcion" xml:space="preserve">
+    <value>We add the description</value>
+  </data>
+  <data name="BtnAyuda" xml:space="preserve">
+    <value>See the Help for Entering Notes</value>
+  </data>
+  <data name="SelecCuenta" xml:space="preserve">
+    <value>Select the Account to which the Entry refers</value>
   </data>
 </root>
