@@ -141,13 +141,13 @@
   <data name="TsBtnPastel.ToolTipText" xml:space="preserve">
     <value>Pie Charts</value>
   </data>
-  <data name="ToolStrip1.Text" xml:space="preserve">
-    <value>ToolStrip1</value>
-  </data>
   <data name="Chart1.Text" xml:space="preserve">
     <value>Chart1</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Graphics</value>
+  </data>
+  <data name="TSBtnImprimir" xml:space="preserve">
+    <value>Print</value>
   </data>
 </root>

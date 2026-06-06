@@ -135,7 +135,7 @@
     <value>4</value>
   </data>
   <data name="RadioButton5.Text" xml:space="preserve">
-    <value>Agrupado por Conceptos Checkeados</value>
+    <value>Agrupado por Conceptos Chequeados</value>
   </data>
   <data name="&gt;&gt;RadioButton5.Name" xml:space="preserve">
     <value>RadioButton5</value>
@@ -628,5 +628,26 @@
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ListadoCompleto" xml:space="preserve">
+    <value>Listado Completo.</value>
+  </data>
+  <data name="ListadoConceptos" xml:space="preserve">
+    <value>Listado por Conceptos.</value>
+  </data>
+  <data name="ListadoCuentas" xml:space="preserve">
+    <value>Listado por Cuentas.</value>
+  </data>
+  <data name="ListadoFechas" xml:space="preserve">
+    <value>Listado por Fechas.</value>
+  </data>
+  <data name="ListadoConceptosChequeados" xml:space="preserve">
+    <value>Listado con Conceptos Chequeados Varios.</value>
+  </data>
+  <data name="ListadoFechasConceptosChequeados" xml:space="preserve">
+    <value>Listado por Fechas de Conceptos Chequeados Varios.</value>
+  </data>
+  <data name="ListadoCuentasConceptosChequeados" xml:space="preserve">
+    <value>Listado por Cuentas de Conceptos Chequeados Varios.</value>
   </data>
 </root>

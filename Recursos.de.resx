@@ -559,4 +559,31 @@ Sie werden nicht aus der Datenbank entfernt</value>
   <data name="BtnConcepto" xml:space="preserve">
     <value>Konzepte hinzufügen, bearbeiten, löschen oder abfragen</value>
   </data>
+  <data name="Desde" xml:space="preserve">
+    <value>Von</value>
+  </data>
+  <data name="Hasta" xml:space="preserve">
+    <value>Bis</value>
+  </data>
+  <data name="TotalIngresos" xml:space="preserve">
+    <value>Gesamtumsatz</value>
+  </data>
+  <data name="TotalGastos" xml:space="preserve">
+    <value>Gesamtausgaben</value>
+  </data>
+  <data name="TOTAL" xml:space="preserve">
+    <value>INSGESAMT</value>
+  </data>
+  <data name="FECHA_UPPER" xml:space="preserve">
+    <value>DATUM</value>
+  </data>
+  <data name="Gastos" xml:space="preserve">
+    <value>Ausgaben</value>
+  </data>
+  <data name="Ingresos" xml:space="preserve">
+    <value>Einkommen</value>
+  </data>
+  <data name="Moneda" xml:space="preserve">
+    <value>Währung</value>
+  </data>
 </root>

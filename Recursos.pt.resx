@@ -559,4 +559,31 @@ Eles não são removidos do banco de dados</value>
   <data name="BtnConcepto" xml:space="preserve">
     <value>Adicionar, Editar, Excluir ou Consultar Conceitos</value>
   </data>
+  <data name="Desde" xml:space="preserve">
+    <value>De</value>
+  </data>
+  <data name="Hasta" xml:space="preserve">
+    <value>Até</value>
+  </data>
+  <data name="TotalIngresos" xml:space="preserve">
+    <value>Receita Total</value>
+  </data>
+  <data name="TotalGastos" xml:space="preserve">
+    <value>Despesas Totais</value>
+  </data>
+  <data name="TOTAL" xml:space="preserve">
+    <value>TOTAL</value>
+  </data>
+  <data name="FECHA_UPPER" xml:space="preserve">
+    <value>DATA</value>
+  </data>
+  <data name="Gastos" xml:space="preserve">
+    <value>Despesas</value>
+  </data>
+  <data name="Ingresos" xml:space="preserve">
+    <value>Renda</value>
+  </data>
+  <data name="Moneda" xml:space="preserve">
+    <value>Moeda</value>
+  </data>
 </root>

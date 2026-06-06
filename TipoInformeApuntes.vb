@@ -8,6 +8,8 @@ Public Class TipoInformeApuntes
     Private vtipoSql, vAñadir, vAñadir2 As String
     Private PrintLine, Contador As Integer
     Public Property DgvApuntes As Object
+    Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
+
 
     Private Sub TipoInformeApuntes_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ActualizarTextosFormulario(Me)
@@ -25,47 +27,49 @@ Public Class TipoInformeApuntes
         'Comienzo del Título
         '********************
         If RadioButton1.Checked = True Then
-            frmImprimirForm.LblTitulo.Text = "Listado Completo."
+            frmImprimirForm.LblTitulo.Text = rmse.GetString("ListadoCompleto")
         End If
         If RadioButton2.Checked = True Then
-            frmImprimirForm.LblTitulo.Text = "Listado por Conceptos."
+            frmImprimirForm.LblTitulo.Text = rmse.GetString("ListadoConceptos")
         End If
         If RadioButton3.Checked = True Then
-            frmImprimirForm.LblTitulo.Text = "Listado por Cuentas."
+            frmImprimirForm.LblTitulo.Text = rmse.GetString("ListadoCuentas")
         End If
         If RadioButton4.Checked = True Then
-            frmImprimirForm.LblTitulo.Text = "Listado por Fechas."
+            frmImprimirForm.LblTitulo.Text = rmse.GetString("ListadoFechas")
         End If
 
         'Siguiente parte, General, del Título, si hay algún Filtro checkeado
         '*****************************************************************
+        ' Filtrado: si hay algún filtro checkeado, añadimos la palabra "Filtrado" al título,
+        ' para diferenciarlo del listado completo sin filtros.
         If frmApuntesContables.BtnFiltroConcepto.Enabled = False Or frmApuntesContables.BtnFiltroCuenta.Enabled = False Or frmApuntesContables.BtnFiltroFecha.Enabled = False Then
-            frmImprimirForm.LblTitulo.Text += " Filtrado:"
+            frmImprimirForm.LblTitulo.Text += " " & resManager.GetString("Filtrado")
         End If
 
         'Siguiente parte del Título con el texto del componente filtrado, según el Combo
         '*******************************************************************************
         If frmApuntesContables.BtnFiltroConcepto.Enabled = False Then
             If frmApuntesContables.ListBox1.SelectedItems.Count >= 2 Then
-                frmImprimirForm.LblTitulo.Text = "Listado con Conceptos Checkeados Varios."
+                frmImprimirForm.LblTitulo.Text = rmse.GetString("ListadoConceptosChequeados")
             Else
                 frmImprimirForm.LblTitulo.Text += "  " & frmApuntesContables.CmbConcepto.Text & "."
             End If
         End If
         If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
             If frmApuntesContables.ListBox1.SelectedItems.Count >= 2 Then
-                frmImprimirForm.LblTitulo.Text = "Listado por Cuentas de Conceptos Checkeados Varios."
+                frmImprimirForm.LblTitulo.Text = rmse.GetString("ListadoCuentasConceptosChequeados")
             Else
                 frmImprimirForm.LblTitulo.Text += "  " & frmApuntesContables.CmbCuenta.Text & "."
             End If
         End If
         If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
             If frmApuntesContables.ListBox1.SelectedItems.Count >= 2 Then
-                frmImprimirForm.LblTitulo.Text = "Listado por Fechas de Conceptos Checkeados Varios."
+                frmImprimirForm.LblTitulo.Text = rmse.GetString("ListadoFechasConceptosChequeados")
             Else
-                frmImprimirForm.LblTitulo.Text += "  FECHAS."
+                frmImprimirForm.LblTitulo.Text += "  " & resManager.GetString("FECHA_UPPER") & "."
             End If
-            frmImprimirForm.LblEntreFechas.Text = "Desde: " & frmApuntesContables.DateTimePicker1.Value & "    Hasta: " & frmApuntesContables.DateTimePicker2.Value
+            frmImprimirForm.LblEntreFechas.Text = resManager.GetString("Desde") & ": " & frmApuntesContables.DateTimePicker1.Value & "    " & resManager.GetString("Hasta") & ": " & frmApuntesContables.DateTimePicker2.Value
         End If
 
         'Llenar el Grid de ImprimirForm para leerlo luego en el Print *** COMPLETO ***
@@ -74,17 +78,35 @@ Public Class TipoInformeApuntes
             vIngresos = 0
             vGastos = 0
             vValor = 0
+            ' 1. Saca la actualización del LblTotal fuera del bucle (por rendimiento)
             For Each fila As DataGridViewRow In frmApuntesContables.DgvApuntes.Rows
-                vSaldo = fila.Cells(3).Value + vValor
-                fila.Cells(4).Value = vSaldo
-                vValor = fila.Cells(4).Value
-                If fila.Cells(3).Value >= 0 Then
-                    vIngresos += fila.Cells(3).Value
-                Else
-                    vGastos += fila.Cells(3).Value
+                ' Evita errores si la fila es la de inserción (nueva fila vacía al final)
+                If Not fila.IsNewRow AndAlso fila.Cells(3).Value IsNot Nothing Then
+
+                    ' Convertimos el valor de la celda a Double de forma segura
+                    Dim valorCelda As Double = Convert.ToDouble(fila.Cells(3).Value)
+                    ' Cálculo del saldo acumulado
+                    vSaldo = valorCelda + vValor
+                    fila.Cells(4).Value = vSaldo
+                    vValor = vSaldo ' Asignamos directamente el número, no el valor de la celda
+                    ' Acumuladores de Ingresos y Gastos
+                    If valorCelda >= 0 Then
+                        vIngresos += valorCelda
+                    Else
+                        vGastos += valorCelda
+                    End If
                 End If
-                frmImprimirForm.LblTotal.Text = "Total Ingresos: " & Format(vIngresos, "###,##0.00").ToString & "  -  Total Gastos: " & Format(vGastos, "###,##0.00").ToString & "                        TOTAL: " & Format(vValor, "###,##0.00 ").ToString & vMoneda
             Next
+            ' 2. Formateo multiidioma automático con .ToString("N2") fuera del bucle
+            frmImprimirForm.LblTotal.Text = String.Format("{0}: {1}  -  {2}: {3}                        {4}: {5}{6}",
+                resManager.GetString("TotalIngresos"),
+                vIngresos.ToString("N2"),
+                resManager.GetString("TotalGastos"),
+                vGastos.ToString("N2"),
+                resManager.GetString("TOTAL"),
+                vValor.ToString("N2"),
+                vMoneda
+            )
         End If
 
         'Llenar el Grid de ImprimirForm para leerlo luego en el Print *** CONCEPTOS ***
@@ -104,7 +126,7 @@ Public Class TipoInformeApuntes
                 cmdMdb1cr.ExecuteNonQuery()
                 'MsgBox("Registros Tempapu, Borrados !!!")
             Catch ex As Exception
-                MsgBox("Error al Borrar los Registros de Tempapu")
+                'MsgBox("Error al Borrar los Registros de Tempapu")
                 MsgBox(ex.ToString)
             End Try
 
@@ -130,7 +152,7 @@ Public Class TipoInformeApuntes
                         cmdMdb1cr.ExecuteNonQuery()
                         'MsgBox("Registro1, Grabado Correctamente")
                     Catch ex As Exception
-                        MsgBox("Error al Grabar el Concepto: " & vNombreConcepto)
+                        'MsgBox("Error al Grabar el Concepto: " & vNombreConcepto)
                         MsgBox(ex.ToString)
                     End Try
                 Else
@@ -147,7 +169,7 @@ Public Class TipoInformeApuntes
                         End If
                         drMdb1.Close()
                     Catch ex As Exception
-                        MsgBox("Error al Leer el Concepto: " & vNombreConcepto)
+                        'MsgBox("Error al Leer el Concepto: " & vNombreConcepto)
                         MsgBox(ex.ToString)
                     End Try
                     vNewImporteConcepto = vImporteConcepto + vExistenteImporteConcepto
@@ -161,7 +183,7 @@ Public Class TipoInformeApuntes
                         drMdb1 = cmdMdb1cr.ExecuteReader()
                         'MsgBox("Registro2, Grabado Correctamente")
                     Catch ex As Exception
-                        MsgBox("Error al Actualizar el Concepto: " & vNombreConcepto)
+                        'MsgBox("Error al Actualizar el Concepto: " & vNombreConcepto)
                         MsgBox(ex.ToString)
                     End Try
                     drMdb1.Close()
@@ -174,8 +196,8 @@ Public Class TipoInformeApuntes
             vValor = 0
             For Each fila As DataGridViewRow In frmImprimirForm.DgvApuntes.Rows
                 vValor += fila.Cells(1).Value
-                frmImprimirForm.LblTotal.Text = "Total:  " & Format(vValor, "###,##0.00 ").ToString & vMoneda
             Next
+            frmImprimirForm.LblTotal.Text = String.Format("{0}: {1} {2}", resManager.GetString("TOTAL"), vValor.ToString("N2"), vMoneda)
         End If
 
         'Llenar el Grid de ImprimirForm para leerlo luego en el Print *** CUENTAS ***
@@ -195,7 +217,7 @@ Public Class TipoInformeApuntes
                 cmdMdb1cr.ExecuteNonQuery()
                 'MsgBox("Registros Tempapu, Borrados !!!")
             Catch ex As Exception
-                MsgBox("Error al Borrar los Registros de Tempapu")
+                'MsgBox("Error al Borrar los Registros de Tempapu")
                 MsgBox(ex.ToString)
             End Try
 
@@ -221,7 +243,7 @@ Public Class TipoInformeApuntes
                         cmdMdb1cr.ExecuteNonQuery()
                         'MsgBox("Registro1, Grabado Correctamente")
                     Catch ex As Exception
-                        MsgBox("Error al Grabar la Cuenta: " & vNombreConcepto)
+                        'MsgBox("Error al Grabar la Cuenta: " & vNombreConcepto)
                         MsgBox(ex.ToString)
                     End Try
                 Else
@@ -240,7 +262,7 @@ Public Class TipoInformeApuntes
                         End If
                         drMdb1.Close()
                     Catch ex As Exception
-                        MsgBox("Error al Leer el Concepto: " & vNombreConcepto)
+                        'MsgBox("Error al Leer el Concepto: " & vNombreConcepto)
                         MsgBox(ex.ToString)
                     End Try
                     vNewImporteConcepto = vImporteConcepto + vExistenteImporteConcepto
@@ -254,7 +276,7 @@ Public Class TipoInformeApuntes
                         drMdb1 = cmdMdb1cr.ExecuteReader()
                         'MsgBox("Registro2, Grabado Correctamente")
                     Catch ex As Exception
-                        MsgBox("Error al Actualizar la Cuenta: " & vNombreConcepto)
+                        'MsgBox("Error al Actualizar la Cuenta: " & vNombreConcepto)
                         MsgBox(ex.ToString)
                     End Try
                     drMdb1.Close()
@@ -267,8 +289,8 @@ Public Class TipoInformeApuntes
             vValor = 0
             For Each fila As DataGridViewRow In frmImprimirForm.DgvApuntes.Rows
                 vValor += fila.Cells(1).Value
-                frmImprimirForm.LblTotal.Text = "Total:  " & Format(vValor, "###,##0.00 ").ToString & vMoneda
             Next
+            frmImprimirForm.LblTotal.Text = String.Format("{0}: {1} {2}", resManager.GetString("TOTAL"), vValor.ToString("N2"), vMoneda)
         End If
 
         'Llenar el Grid de ImprimirForm para leerlo luego en el Print *** FECHAS ***
@@ -285,7 +307,7 @@ Public Class TipoInformeApuntes
                 cmdMdb1cr.ExecuteNonQuery()
                 'MsgBox("Registros Tmpprint, Borrados !!!")
             Catch ex As Exception
-                MsgBox("Error al Borrar los Registros de Tmpprint")
+                'MsgBox("Error al Borrar los Registros de Tmpprint")
                 MsgBox(ex.ToString)
             End Try
 
@@ -296,7 +318,6 @@ Public Class TipoInformeApuntes
             vFechaTemp = CDate("01/01/1900")
             For Each fila As DataGridViewRow In frmApuntesContables.DgvApuntes.Rows
                 vValor += fila.Cells(3).Value
-                frmImprimirForm.LblTotal.Text = "Total:  " & Format(vValor, "###,##0.00 ").ToString & vMoneda
                 If vFechaTemp <> CDate(fila.Cells(0).Value) Then
                     vFechaTemp = CDate(fila.Cells(0).Value)
                     vImporteFecha = ""
@@ -317,7 +338,7 @@ Public Class TipoInformeApuntes
                         cmdMdb1cr.ExecuteNonQuery()
                         'MsgBox("Registro1, Grabado Correctamente")
                     Catch ex As Exception
-                        MsgBox("Error al Grabar la Fecha: " & vFechaTemp)
+                        'MsgBox("Error al Grabar la Fecha: " & vFechaTemp)
                         MsgBox(ex.ToString)
                     End Try
                 Else
@@ -347,7 +368,7 @@ Public Class TipoInformeApuntes
                         End If
                         drMdb1.Close()
                     Catch ex As Exception
-                        MsgBox("Error al Leer la Fecha: " & vFechaTemp)
+                        'MsgBox("Error al Leer la Fecha: " & vFechaTemp)
                         MsgBox(ex.ToString)
                     End Try
                     vNewImporteFechas = (vImporteTmpprint + Val(fila.Cells(3).Value)).ToString
@@ -360,12 +381,13 @@ Public Class TipoInformeApuntes
                         drMdb1 = cmdMdb1cr.ExecuteReader()
                         'MsgBox("Registro2, Grabado Correctamente")
                     Catch ex As Exception
-                        MsgBox("Error al Actualizar la Fecha: " & vFechaTemp)
+                        'MsgBox("Error al Actualizar la Fecha: " & vFechaTemp)
                         MsgBox(ex.ToString)
                     End Try
                     drMdb1.Close()
                 End If
             Next
+            frmImprimirForm.LblTotal.Text = String.Format("{0}: {1} {2}", resManager.GetString("TOTAL"), vValor.ToString("N2"), vMoneda)
             'Llenamos la tabla Temporal con los cálculos realizados
             vtipoSql = "SELECT * FROM tmpprint ORDER BY tmpprint.FechaTMP ASC"
             LlenarGrid(vtipoSql, "PRINT_TEMP_APUNTES_FECHAS", "4")
@@ -388,7 +410,7 @@ Public Class TipoInformeApuntes
                 cmdMdb1cr.ExecuteNonQuery()
                 'MsgBox("Registros Tempapu, Borrados !!!")
             Catch ex As Exception
-                MsgBox("Error al Borrar los Registros de Tempapu")
+                'MsgBox("Error al Borrar los Registros de Tempapu")
                 MsgBox(ex.ToString)
             End Try
             'Ordenamos la columna Concepto, antes de calcular los totales parciales.
@@ -414,7 +436,7 @@ Public Class TipoInformeApuntes
                         cmdMdb1cr.ExecuteNonQuery()
                         'MsgBox("Registro1, Grabado Correctamente")
                     Catch ex As Exception
-                        MsgBox("Error al Grabar el Concepto: " & vNombreConcepto)
+                        'MsgBox("Error al Grabar el Concepto: " & vNombreConcepto)
                         MsgBox(ex.ToString)
                     End Try
                 Else
@@ -433,7 +455,7 @@ Public Class TipoInformeApuntes
                         End If
                         drMdb1.Close()
                     Catch ex As Exception
-                        MsgBox("Error al Leer el Concepto: " & vNombreConcepto)
+                        'MsgBox("Error al Leer el Concepto: " & vNombreConcepto)
                         MsgBox(ex.ToString)
                     End Try
                     vNewImporteConcepto = vImporteConcepto + vExistenteImporteConcepto
@@ -447,7 +469,7 @@ Public Class TipoInformeApuntes
                         drMdb1 = cmdMdb1cr.ExecuteReader()
                         'MsgBox("Registro2, Grabado Correctamente")
                     Catch ex As Exception
-                        MsgBox("Error al Actualizar el Concepto: " & vNombreConcepto)
+                        'MsgBox("Error al Actualizar el Concepto: " & vNombreConcepto)
                         MsgBox(ex.ToString)
                     End Try
                     drMdb1.Close()
@@ -460,9 +482,9 @@ Public Class TipoInformeApuntes
             vValor = 0
             For Each fila As DataGridViewRow In frmImprimirForm.DgvApuntes.Rows
                 vValor += fila.Cells(1).Value
-                frmImprimirForm.LblTotal.Text = "Total:  " & Format(vValor, "###,##0.00 ").ToString & vMoneda
             Next
-            frmImprimirForm.LblTitulo.Text = "Listado por Conceptos Checkeados Varios."
+            frmImprimirForm.LblTotal.Text = String.Format("{0}: {1} {2}", resManager.GetString("TOTAL"), vValor.ToString("N2"), vMoneda)
+            frmImprimirForm.LblTitulo.Text = rmse.GetString("ListadoConceptosChequeados")
         End If
 
         'Iniciamos Código para Imprimir
@@ -499,6 +521,8 @@ Public Class TipoInformeApuntes
         End If
     End Sub
 
+
+
     Private Sub PrintDocument1_PrintPage(sender As Object, e As PrintPageEventArgs) Handles PrintDocument1.PrintPage
         'Cualquier variable que desees que conserve su valor debes declararla fuera del Printdocument
         'Todas las variable declaradas dentro de printdocument pierden su valor al cambiar de pagina
@@ -524,31 +548,31 @@ Public Class TipoInformeApuntes
         'Imprimimos el encabezado o titulo de la lista de materias por encima de los puntos definidos
         '********************************************************************************************
         If RadioButton1.Checked = True Then
-            e.Graphics.DrawString("Fecha:", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
-            e.Graphics.DrawString("Concepto:", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto2.Left, frmImprimirForm.Punto2.Top - 30)
-            e.Graphics.DrawString("Descripción:", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
-            e.Graphics.DrawString("Importe(" & vMoneda & "):", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto4.Left, frmImprimirForm.Punto4.Top - 30)
-            e.Graphics.DrawString("Saldo(" & vMoneda & "):", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto5.Left, frmImprimirForm.Punto5.Top - 30)
+            e.Graphics.DrawString(resManager.GetString("Fecha") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
+            e.Graphics.DrawString(resManager.GetString("Concepto") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto2.Left, frmImprimirForm.Punto2.Top - 30)
+            e.Graphics.DrawString(resManager.GetString("Descripcion") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
+            e.Graphics.DrawString(resManager.GetString("Importe") & "(" & vMoneda & "):", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto4.Left, frmImprimirForm.Punto4.Top - 30)
+            e.Graphics.DrawString(resManager.GetString("Saldo") & "(" & vMoneda & "):", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto5.Left, frmImprimirForm.Punto5.Top - 30)
         End If
 
         If RadioButton2.Checked = True Then
-            e.Graphics.DrawString("Concepto:", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
-            e.Graphics.DrawString("Importe(" & vMoneda & "):", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
+            e.Graphics.DrawString(resManager.GetString("Concepto") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
+            e.Graphics.DrawString(resManager.GetString("Importe") & "(" & vMoneda & "):", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
         End If
 
         If RadioButton3.Checked = True Then
-            e.Graphics.DrawString("Grupo Cuentas:", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
-            e.Graphics.DrawString("Importe(" & vMoneda & "):", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
+            e.Graphics.DrawString(resManager.GetString("Cuenta") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
+            e.Graphics.DrawString(resManager.GetString("Importe") & "(" & vMoneda & "):", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
         End If
 
         If RadioButton4.Checked = True Then
-            e.Graphics.DrawString("Grupo Fechas:", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
-            e.Graphics.DrawString("Importe(" & vMoneda & "):", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
+            e.Graphics.DrawString(resManager.GetString("Fecha") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
+            e.Graphics.DrawString(resManager.GetString("Importe") & "(" & vMoneda & "):", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
         End If
 
         If RadioButton5.Checked = True Then
-            e.Graphics.DrawString("Concepto:", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
-            e.Graphics.DrawString("Importe(" & vMoneda & "):", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
+            e.Graphics.DrawString(resManager.GetString("Concepto") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
+            e.Graphics.DrawString(resManager.GetString("Importe") & "(" & vMoneda & "):", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
         End If
 
         'imprimimos la linea debajo de los encabezados
@@ -571,21 +595,45 @@ Public Class TipoInformeApuntes
                     e.Graphics.DrawString(DirectCast(frmApuntesContables.DgvApuntes.Rows(PrintLine).Cells(0).Value, DateTime).ToString("d"), FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
                     e.Graphics.DrawString(frmApuntesContables.DgvApuntes.Rows(PrintLine).Cells(1).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto2.Left, startY)
                     e.Graphics.DrawString(frmApuntesContables.DgvApuntes.Rows(PrintLine).Cells(2).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto3.Left, startY)
-                    e.Graphics.DrawString(Format(frmApuntesContables.DgvApuntes.Rows(PrintLine).Cells(3).Value, "###,##0.00").ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto4.Right + 50, startY, sf)
-                    e.Graphics.DrawString(Format(frmApuntesContables.DgvApuntes.Rows(PrintLine).Cells(4).Value, "###,##0.00").ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto5.Right + 40, startY, sf)
+                    ' Convertimos a Double y aplicamos "N2" de forma nativa
+                    Dim importeFormateado As String = Convert.ToDouble(frmApuntesContables.DgvApuntes.Rows(PrintLine).Cells(3).Value).ToString("N2")
+                    Dim importeFormateado2 As String = Convert.ToDouble(frmApuntesContables.DgvApuntes.Rows(PrintLine).Cells(4).Value).ToString("N2")
+                    ' Lo pintamos usando tu variable de alineación 'sf'
+                    e.Graphics.DrawString(importeFormateado, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto4.Right + 50, startY, sf)
+                    e.Graphics.DrawString(importeFormateado2, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto5.Right + 40, startY, sf)
+                    ' --- IMPRESIÓN DE CUENTA ---
                     startY += frmImprimirForm.LblFecha.Height
-                    e.Graphics.DrawString("Cuenta:  ", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
-                    e.Graphics.DrawString(frmApuntesContables.DgvApuntes.Rows(PrintLine).Cells(6).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left + 50, startY)
+                    ' 1. Guardamos la etiqueta y el valor de forma segura
+                    Dim etiquetaCuenta As String = resManager.GetString("Cuenta") & ":   "
+                    Dim valorCuenta As String = ""
+                    If frmApuntesContables.DgvApuntes.Rows(PrintLine).Cells(6).Value IsNot Nothing Then
+                        valorCuenta = frmApuntesContables.DgvApuntes.Rows(PrintLine).Cells(6).Value.ToString()
+                    End If
+                    ' 2. Pintamos la etiqueta ("Cuenta:  ")
+                    e.Graphics.DrawString(etiquetaCuenta, FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
+                    ' 3. Calculamos matemáticamente el ancho de la etiqueta traducida
+                    Dim anchoEtiquetaCuenta As Single = e.Graphics.MeasureString(etiquetaCuenta, FuenteSubrayada).Width
+                    ' 4. Pintamos el valor sumando el ancho exacto (nunca se solapará)
+                    e.Graphics.DrawString(valorCuenta, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left + anchoEtiquetaCuenta, startY)
+                    ' --- IMPRESIÓN DE NOTAS ---
                     startY += frmImprimirForm.LblFecha.Height
-                    e.Graphics.DrawString("Notas:   ", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
-                    e.Graphics.DrawString(frmApuntesContables.DgvApuntes.Rows(PrintLine).Cells(5).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left + 50, startY)
+                    ' 1. Guardamos la etiqueta y el valor de forma segura
+                    Dim etiquetaNotas As String = resManager.GetString("Notas") & ":    "
+                    Dim valorNotas As String = ""
+                    If frmApuntesContables.DgvApuntes.Rows(PrintLine).Cells(5).Value IsNot Nothing Then
+                        valorNotas = frmApuntesContables.DgvApuntes.Rows(PrintLine).Cells(5).Value.ToString()
+                    End If
+                    ' 2. Pintamos la etiqueta ("Notas:   ")
+                    e.Graphics.DrawString(etiquetaNotas, FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
+                    ' 3. Calculamos matemáticamente el ancho de la etiqueta traducida
+                    Dim anchoEtiquetaNotas As Single = e.Graphics.MeasureString(etiquetaNotas, FuenteSubrayada).Width
+                    ' 4. Pintamos el valor en su posición exacta calculada dinámicamente
+                    e.Graphics.DrawString(valorNotas, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left + anchoEtiquetaNotas, startY)
                     startY += frmImprimirForm.LblFecha.Height
                     e.Graphics.DrawString("---------------------------------------------------------------------------------------------------------------------------------------------------------------------", FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
                 End If
-
                 'Aqui estoy usando un tipo de letras mas grande
                 'LabelCodigo' mas grande que 'Punto1' para crear mas espacio entre filas
-
                 'Con el contador solamente imprimimos la parte final del reporte si ha alcanzado el total de registros
                 'Si deseamos repetir la parte final del reporte en cada pagina, debemos quitar en contador
                 ''Imprimimos los valores que salen despues del datagridview al final del reporte
@@ -604,55 +652,64 @@ Public Class TipoInformeApuntes
                 PrintLine = 0
                 Contador = 0
             End If
-
             'Si deseamos poner un contador de páginas
             'Esta parte siempre va a salir en todas las paginas
             frmImprimirForm.LblNumeroPagina.Text = CInt(frmImprimirForm.LblNumeroPagina.Text) + 1
             e.Graphics.DrawString(frmImprimirForm.Label2.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.Label2.Left, e.MarginBounds.Bottom)
             e.Graphics.DrawString(frmImprimirForm.LblNumeroPagina.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.LblNumeroPagina.Left, e.MarginBounds.Bottom)
-
             'Para volver a dejar a 0 las páginas, cuando se imprime desde la Vista Previa
             If Contador = 0 Then
                 frmImprimirForm.LblNumeroPagina.Text = "0"
             End If
         Else
             Do While PrintLine < frmImprimirForm.DgvApuntes.Rows.Count
+                Dim filaImprimir As DataGridViewRow = frmImprimirForm.DgvApuntes.Rows(PrintLine)
+                ' 1. SEGURIDAD: Si es la fila nueva vacía del final, la saltamos y avanzamos
+                If filaImprimir.IsNewRow Then
+                    PrintLine += 1
+                    Continue Do
+                End If
+                ' 2. CONTROL DE SALTO DE PÁGINA (¡Arreglado!)
+                ' Si no cabe la línea actual, marcamos que hay más páginas y salimos. 
+                ' Al NO avanzar PrintLine aquí, la siguiente página empezará exactamente en esta fila.
                 If startY + frmImprimirForm.Punto1.Height > e.MarginBounds.Bottom Then
-                    'Esta parte se activa solo si 'startY' que es la posicion vertical almacenada supera el borde inferior de la pagina
-                    'Este se reinicia con cada pagina necesitada
                     e.HasMorePages = True
                     Exit Do
                 End If
-                If RadioButton2.Checked = True Then
-                    e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(0).Value, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
-                    e.Graphics.DrawString(Format(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(1).Value, "###,##0.00").ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto3.Right + 50, startY, sf)
+                ' Variables para almacenar dinámicamente qué vamos a pintar en esta vuelta
+                Dim textoCelda0 As String = ""
+                Dim valorImporte As Double = 0
+                Dim celdaImporte As Object = Nothing
+                ' 3. LOGICA DE FILTROS SEGÚN RADIOBUTTONS
+                ' Obtenemos los valores de forma segura controlando los nulos (Nothing)
+                If RadioButton2.Checked OrElse RadioButton3.Checked OrElse RadioButton5.Checked Then
+                    If filaImprimir.Cells(0).Value IsNot Nothing Then textoCelda0 = filaImprimir.Cells(0).Value.ToString()
+                    celdaImporte = filaImprimir.Cells(1).Value
+                ElseIf RadioButton4.Checked Then
+                    If filaImprimir.Cells(0).Value IsNot Nothing Then
+                        textoCelda0 = DirectCast(filaImprimir.Cells(0).Value, DateTime).ToString("d")
+                    End If
+                    ' En el RadioButton4 usabas la celda 5
+                    celdaImporte = filaImprimir.Cells(5).Value
                 End If
-
-                If RadioButton3.Checked = True Then
-                    e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(0).Value, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
-                    e.Graphics.DrawString(Format(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(1).Value, "###,##0.00").ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto3.Right + 50, startY, sf)
+                ' Convertimos el importe a número solo si la celda tiene datos
+                If celdaImporte IsNot Nothing AndAlso IsNumeric(celdaImporte) Then
+                    valorImporte = Convert.ToDouble(celdaImporte)
                 End If
-
-                If RadioButton4.Checked = True Then
-                    e.Graphics.DrawString(DirectCast(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(0).Value, DateTime).ToString("d"), FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
-                    e.Graphics.DrawString(Format(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(5).Value, "###,##0.00").ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto3.Right + 50, startY, sf)
-                End If
-
-                If RadioButton5.Checked = True Then
-                    e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(0).Value, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
-                    e.Graphics.DrawString(Format(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(1).Value, "###,##0.00").ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto3.Right + 50, startY, sf)
-                End If
-
-                'Aqui estoy usando un tipo de letras mas grande
-                'LabelCodigo' mas grande que 'Punto1' para crear mas espacio entre filas
-
-                'Con el contador solamente imprimimos la parte final del reporte si ha alcanzado el total de registros
-                'Si deseamos repetir la parte final del reporte en cada pagina, debemos quitar en contador
-                ''Imprimimos los valores que salen despues del datagridview al final del reporte
+                ' 4. PINTADO EN EL DOCUMENTO (Se ejecuta una sola vez en lugar de repetir código)
+                e.Graphics.DrawString(textoCelda0, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
+                e.Graphics.DrawString(valorImporte.ToString("N2"), FuenteDetalles, Brushes.Black, frmImprimirForm.Punto3.Right + 50, startY, sf)
+                ' 5. AVANCE DE LÍNEA Y CONTADORES
                 startY += frmImprimirForm.LblFecha.Height
                 PrintLine += 1
                 Contador += 1
             Loop
+            ' 6. FINALIZACIÓN DE LA IMPRESIÓN
+            ' Si el bucle termina de forma natural porque recorrió todas las filas, cerramos la paginación
+            If PrintLine >= frmImprimirForm.DgvApuntes.Rows.Count Then
+                e.HasMorePages = False
+                PrintLine = 0 ' Reiniciamos para la próxima vez que el usuario pulse Imprimir
+            End If
             'Con el contador solamente imprimimos la parte final del reporte si ha alcanzado el total de registros
             'Si deseamos repetir la parte final del reporte en cada pagina, debemos quitar en contador
             'Imprimimos los valores que salen despues del datagridview al final del reporte
@@ -669,18 +726,15 @@ Public Class TipoInformeApuntes
                 If RadioButton5.Checked = True Then
                     e.Graphics.DrawString(frmImprimirForm.LblTotal.Text, FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Right + 50, startY, sf)
                 End If
-
                 'Para volver a dejar a 0, cuando se imprime desde la Vista Previa
                 PrintLine = 0
                 Contador = 0
             End If
-
             'Si deseamos poner un contador de páginas
             'Esta parte siempre va a salir en todas las paginas
             frmImprimirForm.LblNumeroPagina.Text = CInt(frmImprimirForm.LblNumeroPagina.Text) + 1
             e.Graphics.DrawString(frmImprimirForm.Label2.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.Label2.Left, e.MarginBounds.Bottom)
             e.Graphics.DrawString(frmImprimirForm.LblNumeroPagina.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.LblNumeroPagina.Left, e.MarginBounds.Bottom)
-
             'Para volver a dejar a 0 las páginas, cuando se imprime desde la Vista Previa
             If Contador = 0 Then
                 frmImprimirForm.LblNumeroPagina.Text = "0"

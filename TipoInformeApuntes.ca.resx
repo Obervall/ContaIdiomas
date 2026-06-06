@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="RadioButton5.Text" xml:space="preserve">
-    <value>Agrupat per Conceptes Checkejats</value>
-  </data>
   <data name="RadioButton4.Text" xml:space="preserve">
     <value>Agrupat per Dates</value>
   </data>
@@ -143,5 +140,29 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Tipus d' Informe Apunts Comptables</value>
+  </data>
+  <data name="ListadoCompleto" xml:space="preserve">
+    <value>Llistat Complet.</value>
+  </data>
+  <data name="ListadoConceptos" xml:space="preserve">
+    <value>Llistat per Conceptes.</value>
+  </data>
+  <data name="ListadoCuentas" xml:space="preserve">
+    <value>Llistat per Comptes.</value>
+  </data>
+  <data name="ListadoFechas" xml:space="preserve">
+    <value>Llistat per Dates.</value>
+  </data>
+  <data name="ListadoConceptosChequeados" xml:space="preserve">
+    <value>Llistat amb Conceptes seleccionats.</value>
+  </data>
+  <data name="ListadoFechasConceptosChequeados" xml:space="preserve">
+    <value>Llistat per Dates dels Conceptes seleccionats.</value>
+  </data>
+  <data name="ListadoCuentasConceptosChequeados" xml:space="preserve">
+    <value>Llistat per Comptes dels Conceptes seleccionats.</value>
+  </data>
+  <data name="RadioButton5.Text" xml:space="preserve">
+    <value>Agrupat per Conceptes seleccionats</value>
   </data>
 </root>

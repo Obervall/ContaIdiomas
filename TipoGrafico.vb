@@ -1,5 +1,9 @@
 ﻿Public Class TipoGrafico
 
+    Private Sub TipoGrafico_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ActualizarTextosFormulario(Me)
+    End Sub
+
     Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click
         vGrafico = ""
         If RadioButton1.Checked = True Then
@@ -106,9 +110,5 @@
 
     Private Sub BtnCancelar_Click(sender As Object, e As EventArgs) Handles BtnCancelar.Click
         Me.Close()
-    End Sub
-
-    Private Sub TipoGrafico_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ActualizarTextosFormulario(Me)
     End Sub
 End Class

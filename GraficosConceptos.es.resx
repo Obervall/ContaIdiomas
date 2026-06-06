@@ -141,8 +141,8 @@
   <data name="TsBtnPastel.ToolTipText" xml:space="preserve">
     <value>Gráficos Tipo Pastel</value>
   </data>
-  <data name="ToolStrip1.Text" xml:space="preserve">
-    <value>ToolStrip1</value>
+  <data name="TSBtnImprimir" xml:space="preserve">
+    <value>Imprimir</value>
   </data>
   <data name="Chart1.Text" xml:space="preserve">
     <value>Chart1</value>

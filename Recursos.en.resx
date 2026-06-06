@@ -559,4 +559,31 @@ They are not removed from the database</value>
   <data name="BtnConcepto" xml:space="preserve">
     <value>Add, Edit, Delete, or Query Concepts</value>
   </data>
+  <data name="Desde" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="Hasta" xml:space="preserve">
+    <value>Up to</value>
+  </data>
+  <data name="TotalIngresos" xml:space="preserve">
+    <value>Total Revenue</value>
+  </data>
+  <data name="TotalGastos" xml:space="preserve">
+    <value>Total Expenses</value>
+  </data>
+  <data name="TOTAL" xml:space="preserve">
+    <value>TOTAL</value>
+  </data>
+  <data name="FECHA_UPPER" xml:space="preserve">
+    <value>DATE</value>
+  </data>
+  <data name="Gastos" xml:space="preserve">
+    <value>Expenses</value>
+  </data>
+  <data name="Ingresos" xml:space="preserve">
+    <value>Income</value>
+  </data>
+  <data name="Moneda" xml:space="preserve">
+    <value>Currency</value>
+  </data>
 </root>

@@ -567,4 +567,31 @@ No se Eliminan de la Base de Datos</value>
   <data name="BtnConcepto" xml:space="preserve">
     <value>Añade, Edita, Borra o Consulta Conceptos</value>
   </data>
+  <data name="Desde" xml:space="preserve">
+    <value>Desde</value>
+  </data>
+  <data name="Hasta" xml:space="preserve">
+    <value>Hasta</value>
+  </data>
+  <data name="TotalIngresos" xml:space="preserve">
+    <value>Total Ingresos</value>
+  </data>
+  <data name="TotalGastos" xml:space="preserve">
+    <value>Total Gastos</value>
+  </data>
+  <data name="TOTAL" xml:space="preserve">
+    <value>TOTAL</value>
+  </data>
+  <data name="FECHA_UPPER" xml:space="preserve">
+    <value>FECHA</value>
+  </data>
+  <data name="Gastos" xml:space="preserve">
+    <value>Gastos</value>
+  </data>
+  <data name="Ingresos" xml:space="preserve">
+    <value>Ingresos</value>
+  </data>
+  <data name="Moneda" xml:space="preserve">
+    <value>Moneda</value>
+  </data>
 </root>

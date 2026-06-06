@@ -61,7 +61,24 @@ Public Class IntroApuntes
 
         ' Llenar el Combo Concepto
         '*************************
-        LlenarConcepto()
+        cmdMdb1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
+        Try
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            If drMdb1.HasRows Then
+                While drMdb1.Read()
+                    CmbConcepto.Items.Add(drMdb1.GetValue(0))
+                End While
+                CmbConcepto.Text = CmbConcepto.Items(0)
+            Else
+                'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
+            End If
+            drMdb1.Close()
+        Catch ex As Exception
+            'MsgBox("Error al llenar el Combo Concepto")
+            MsgBox(ex.ToString)
+        End Try
+
+        'LlenarConcepto()
         ' 3. Ahora que ya tiene filas, seleccionamos de forma segura la primera
         'CmbConcepto.SelectedIndex = 0
 
@@ -106,8 +123,8 @@ Public Class IntroApuntes
     End Sub
 
     Private Sub CmbConcepto_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbConcepto.SelectedIndexChanged
-        ' Se buscan Conceptos según lo seleccionado
-        '******************************************
+        ' Se buscan Conceptos según lo seleccionado para mostrar su descripción y tipo en los cuadros de abajo
+        '*****************************************************************************************************
         If vIntro = "NO" Then
             vConcepto = CmbConcepto.Text.ToString
             drMdb1.Close()
@@ -394,7 +411,24 @@ Public Class IntroApuntes
         If CmbConcepto.Items.Count <> 0 Then
             CmbConcepto.Items.Clear()
         End If
-        LlenarConcepto()
+        cmdMdb1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
+        Try
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            If drMdb1.HasRows Then
+                While drMdb1.Read()
+                    CmbConcepto.Items.Add(drMdb1.GetValue(0))
+                End While
+                CmbConcepto.Text = CmbConcepto.Items(0)
+            Else
+                'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
+            End If
+            drMdb1.Close()
+        Catch ex As Exception
+            'MsgBox("Error al llenar el Combo Concepto")
+            MsgBox(ex.ToString)
+        End Try
+
+        'LlenarConcepto()
     End Sub
 
     Private Sub TxtImporte_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtImporte.KeyPress
@@ -976,59 +1010,58 @@ Public Class IntroApuntes
         Return ""
     End Function
 
-    Public Function LlenarConcepto() As String
-        ' 1. BLINDAJE: Vaciamos el combo de forma segura desactivando eventos
-        RemoveHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
-        CmbConcepto.SelectedIndex = -1
-        CmbConcepto.Items.Clear()
-        AddHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
-
-        ' Forzamos solo la columna que necesitamos
-        cmdMdb1cr.CommandText = "SELECT CodigoCON FROM conceptos ORDER BY CodigoCON ASC"
-
-        Try
-            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-
-            If drMdb1.HasRows Then
-                While drMdb1.Read()
-                    Dim valor As String = Convert.ToString(drMdb1.GetValue(0))
-                    If valor <> "TRASPASO" Then
-                        CmbConcepto.Items.Add(valor)
-                    End If
-                End While
-
-                ' 2. Asignación del concepto inicial por defecto
-                If CmbConcepto.Items.Count > 0 Then
-                    If frmApuntesContables.BtnFiltroConcepto.Enabled = False Then
-                        If frmApuntesContables.ListBox1.SelectedItems.Count <> 0 Then
-                            CmbConcepto.Text = Convert.ToString(CmbConcepto.Items(0))
-                        Else
-                            Dim index As Integer = frmApuntesContables.CmbConcepto.SelectedIndex - 1
-                            If index >= 0 AndAlso index < CmbConcepto.Items.Count Then
-                                CmbConcepto.Text = Convert.ToString(CmbConcepto.Items(index))
-                            Else
-                                CmbConcepto.Text = Convert.ToString(CmbConcepto.Items(0))
-                            End If
-                        End If
-                    Else
-                        CmbConcepto.Text = Convert.ToString(CmbConcepto.Items(0))
-                    End If
-                End If
-            End If
-            drMdb1.Close()
-        Catch ex As Exception
-            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-            MsgBox(rmse.GetString("ErrorLlenarDesplegable") & rmse.GetString("Label2.Text") & " " & ex.Message, vbExclamation, rmse.GetString("$this.Text"))
-        End Try
-        Return ""
-    End Function
 End Class
 
-
-
-
 '======================================================================================================
+
+'Public Function LlenarConcepto() As String
+'    ' 1. BLINDAJE: Vaciamos el combo de forma segura desactivando eventos
+'    RemoveHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
+'    CmbConcepto.SelectedIndex = -1
+'    CmbConcepto.Items.Clear()
+'    AddHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
+
+'    ' Forzamos solo la columna que necesitamos
+'    cmdMdb1cr.CommandText = "SELECT CodigoCON FROM conceptos ORDER BY CodigoCON ASC"
+
+'    Try
+'        If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+'        drMdb1 = cmdMdb1cr.ExecuteReader()
+
+'        If drMdb1.HasRows Then
+'            While drMdb1.Read()
+'                Dim valor As String = Convert.ToString(drMdb1.GetValue(0))
+'                If valor <> "TRASPASO" Then
+'                    CmbConcepto.Items.Add(valor)
+'                End If
+'            End While
+
+'            ' 2. Asignación del concepto inicial por defecto
+'            If CmbConcepto.Items.Count > 0 Then
+'                If frmApuntesContables.BtnFiltroConcepto.Enabled = False Then
+'                    If frmApuntesContables.ListBox1.SelectedItems.Count <> 0 Then
+'                        CmbConcepto.Text = Convert.ToString(CmbConcepto.Items(0))
+'                    Else
+'                        Dim index As Integer = frmApuntesContables.CmbConcepto.SelectedIndex - 1
+'                        If index >= 0 AndAlso index < CmbConcepto.Items.Count Then
+'                            CmbConcepto.Text = Convert.ToString(CmbConcepto.Items(index))
+'                        Else
+'                            CmbConcepto.Text = Convert.ToString(CmbConcepto.Items(0))
+'                        End If
+'                    End If
+'                Else
+'                    CmbConcepto.Text = Convert.ToString(CmbConcepto.Items(0))
+'                End If
+'            End If
+'        End If
+'        drMdb1.Close()
+'    Catch ex As Exception
+'        If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+'        MsgBox(rmse.GetString("ErrorLlenarDesplegable") & rmse.GetString("Label2.Text") & " " & ex.Message, vbExclamation, rmse.GetString("$this.Text"))
+'    End Try
+'    Return ""
+'End Function
+
 
 ''esta función llena el combo de descripción con las claves neutras traducidas a texto visible, tomando como referencia la tabla apuntes para obtener las claves únicas de descripción, y luego traducirlas usando el ResourceManager. Se ha optimizado para evitar duplicados y se ha blindado con manejo de excepciones y cierre adecuado del DataReader.
 'Public Function LlenarDescripcion() As String

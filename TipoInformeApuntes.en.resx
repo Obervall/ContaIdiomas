@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="RadioButton5.Text" xml:space="preserve">
-    <value>Agrupado por Conceptos Checkeados</value>
-  </data>
   <data name="RadioButton4.Text" xml:space="preserve">
     <value>Agrupado por Fechas</value>
   </data>
@@ -143,5 +140,29 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Tipo de Informe Apuntes Contables</value>
+  </data>
+  <data name="ListadoCompleto" xml:space="preserve">
+    <value>Complete list.</value>
+  </data>
+  <data name="ListadoConceptos" xml:space="preserve">
+    <value>List by Concepts.</value>
+  </data>
+  <data name="ListadoCuentas" xml:space="preserve">
+    <value>Listing by Accounts.</value>
+  </data>
+  <data name="ListadoFechas" xml:space="preserve">
+    <value>List by Dates.</value>
+  </data>
+  <data name="ListadoConceptosChequeados" xml:space="preserve">
+    <value>List with Miscellaneous Checked Concepts.</value>
+  </data>
+  <data name="ListadoFechasConceptosChequeados" xml:space="preserve">
+    <value>List by Dates of Miscellaneously Checked Concepts.</value>
+  </data>
+  <data name="ListadoCuentasConceptosChequeados" xml:space="preserve">
+    <value>List by Miscellaneously Checked Concept Accounts.</value>
+  </data>
+  <data name="RadioButton5.Text" xml:space="preserve">
+    <value>Grouped by Checked Items</value>
   </data>
 </root>

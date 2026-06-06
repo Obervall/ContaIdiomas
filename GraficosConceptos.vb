@@ -4,6 +4,7 @@ Imports System.Drawing.Printing
 Imports System.Windows.Forms
 Imports System.Windows.Forms.DataVisualization.Charting
 
+
 Public Class GraficosConceptos
 
     Public vAñadir, vAñadir2, vTempapu, vImporteConcepto, vNewImporteConcepto As String
@@ -12,9 +13,34 @@ Public Class GraficosConceptos
     Public miView As New DataView(miDataTable)
     Public x As Integer
     Public b As Bitmap
+    Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
+
 
     Private Sub GraficosConceptos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ActualizarTextosFormulario(Me)
+
+        ' Traducción del título principal de la gráfica   Gráfico por Conceptos Contables
+        Chart1.Titles(0).Text = resManager.GetString("TituloGrafico")
+
+        ' OPCIONAL: Si también quieres hacer la letra del título más grande (Ejemplo: Tamaño 14 en negrita)
+        Chart1.Titles(0).Font = New Font("Arial", 14, FontStyle.Bold)
+
+        ' 1. Definimos el estilo de la fuente (por ejemplo: Arial, Tamaño 12, Negrita)
+        Dim fuenteTitulosGrafico As New Font("Arial", 12, FontStyle.Bold)
+
+        ' 2. Aplicamos la fuente al título del Eje X (Conceptos)
+        Chart1.ChartAreas(0).AxisX.TitleFont = fuenteTitulosGrafico
+
+        ' 3. Aplicamos la fuente al título del Eje Y (Moneda)
+        Chart1.ChartAreas(0).AxisY.TitleFont = fuenteTitulosGrafico
+
+        ' TRADUCCIÓN DE LOS EJES (Usando el área por defecto del diseñador)
+        ' Eje X (Horizontal - Abajo)
+        Chart1.ChartAreas("ChartArea1").AxisX.Title = resManager.GetString("Concepto")
+
+        ' Eje Y (Vertical - Izquierda)
+        Chart1.ChartAreas("ChartArea1").AxisY.Title = resManager.GetString("Moneda") & ": " & vMoneda
+
 
         'Iniciamos Tabla Tempapu
         '***********************
@@ -24,7 +50,6 @@ Public Class GraficosConceptos
             cmdMdb1cr.ExecuteNonQuery()
             'MsgBox("Registros Tempapu, Borrados !!!")
         Catch ex As Exception
-            MsgBox("Error al limpiar la tabla Tempapu")
             MsgBox(ex.ToString)
         End Try
 
@@ -55,7 +80,6 @@ Public Class GraficosConceptos
                         cmdMdb1cr.ExecuteNonQuery()
                         'MsgBox("Registro1, Grabado Correctamente")
                     Catch ex As Exception
-                        MsgBox("Error al Grabar el Concepto en Tempapu")
                         MsgBox(ex.ToString)
                     End Try
                 Else
@@ -72,7 +96,6 @@ Public Class GraficosConceptos
                         End If
                         drMdb1.Close()
                     Catch ex As Exception
-                        MsgBox("Error al verificar el Importe del Concepto en Tempapu")
                         MsgBox(ex.ToString)
                     End Try
                     vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
@@ -83,7 +106,6 @@ Public Class GraficosConceptos
                         drMdb1 = cmdMdb1cr.ExecuteReader()
                         'MsgBox("Registro2, Grabado Correctamente")
                     Catch ex As Exception
-                        MsgBox("Error al actualizar el Importe del Concepto en Tempapu")
                         MsgBox(ex.ToString)
                     End Try
                     drMdb1.Close()
@@ -104,7 +126,6 @@ Public Class GraficosConceptos
                         cmdMdb1cr.ExecuteNonQuery()
                         'MsgBox("Registro1, Grabado Correctamente")
                     Catch ex As Exception
-                        MsgBox("Error al Grabar el Concepto en Tempapu")
                         MsgBox(ex.ToString)
                     End Try
                 Else
@@ -121,7 +142,6 @@ Public Class GraficosConceptos
                         End If
                         drMdb1.Close()
                     Catch ex As Exception
-                        MsgBox("Error al verificar el Importe del Concepto en Tempapu")
                         MsgBox(ex.ToString)
                     End Try
                     vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
@@ -132,7 +152,6 @@ Public Class GraficosConceptos
                         drMdb1 = cmdMdb1cr.ExecuteReader()
                         'MsgBox("Registro2, Grabado Correctamente")
                     Catch ex As Exception
-                        MsgBox("Error al actualizar el Importe del Concepto en Tempapu")
                         MsgBox(ex.ToString)
                     End Try
                     drMdb1.Close()
@@ -157,6 +176,9 @@ Public Class GraficosConceptos
         Next
         Chart1.Series("Gastos").IsVisibleInLegend = True
         Chart1.Series("Ingresos").IsVisibleInLegend = True
+        Chart1.Series("Gastos").LegendText = resManager.GetString("Gastos")
+        Chart1.Series("Ingresos").LegendText = resManager.GetString("Ingresos")
+
         Chart1.Series("Gastos").XValueMember = "Concepto"
         Chart1.Series("Ingresos").YValueMembers = "Importe"
 
@@ -268,25 +290,30 @@ Public Class GraficosConceptos
         TsBtnAreas.Checked = False
         TsBtnLineas.Checked = False
         TsBtnPastel.Checked = False
+
+        ' TRADUCCIÓN DE LEYENDAS (Multiidioma visual)
+        Chart1.Series("Gastos").LegendText = resManager.GetString("Gastos")
+        Chart1.Series("Ingresos").LegendText = resManager.GetString("Ingresos")
+
         Chart1.Series("Gastos").XValueMember = "Concepto"
         Chart1.Series("Ingresos").YValueMembers = "Importe"
         Chart1.Series("Gastos").Points.Clear()
 
-        For x = 0 To miView.Count - 1
-            'Tomamos los datos de DataView para la gráfica
+        ' Configuración del tipo de gráfico (Fuera del bucle para mayor velocidad)
+        Chart1.Series("Gastos").ChartType = SeriesChartType.Column
+        Chart1.Series("Ingresos").ChartType = SeriesChartType.Column
+
+        For x As Integer = 0 To miView.Count - 1
             With Chart1.Series("Gastos")
                 If miView(x)("Importe") <= 0 Then
-                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                    ' Nota: Usamos Convert.ToDouble en vez de Val() para asegurar la compatibilidad regional
+                    vImporteConcepto = Math.Abs(Convert.ToDouble(miView(x)("Importe")))
                     Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), vImporteConcepto)
                     .Points(i).Color = Color.Red
                 Else
                     Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), miView(x)("Importe"))
                     .Points(i).Color = Color.Blue
                 End If
-                .ChartType = SeriesChartType.Column
-            End With
-            With Chart1.Series("Ingresos")
-                .ChartType = SeriesChartType.Column
             End With
         Next
     End Sub
