@@ -342,7 +342,7 @@ Public Class CuentasBancarias
         'Llenamos la tabla de ImprimirForm con los cálculos realizados
         '*************************************************************
         vValor = 0
-        frmImprimirForm.LblTotal.Text = "Total: 0,00 " & vMoneda
+        frmImprimirForm.LblTotal.Text = resManager.GetString("TOTAL") & ": 0,00 " & vMoneda
         For Each fila As DataGridViewRow In frmCuentasBancarias.DgvCuentas.Rows
             ' Saltamos la fila vacía automática si existiera al final
             If fila.IsNewRow Then Continue For
@@ -351,7 +351,8 @@ Public Class CuentasBancarias
             If fila.Cells(3).Value IsNot Nothing AndAlso IsNumeric(fila.Cells(3).Value) Then
                 vValor += Convert.ToDouble(fila.Cells(3).Value)
             End If
-            frmImprimirForm.LblTotal.Text = "Total:  " & Format(vValor, "###,##0.00 ").ToString & vMoneda
+            frmImprimirForm.LblTotal.Text = String.Format("{0}: {1} {2}", resManager.GetString("TOTAL"), vValor.ToString("N2"), vMoneda)
+            'frmImprimirForm.LblTotal.Text = "Total:  " & Format(vValor, "###,##0.00 ").ToString & vMoneda
         Next
 
         frmImprimirForm.LblFecha.Text = Date.Today.ToLongDateString

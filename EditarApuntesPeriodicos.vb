@@ -117,7 +117,8 @@ Public Class EditarApuntesPeriodicos
         CmbDescripcion.Text = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(2).Value.ToString
         vimporteAPU = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(3).Value.ToString
         vimporteAPU = vimporteAPU
-        TxtImporte.Text = Format(Math.Abs(Val(vimporteAPU)), "###,##0.00").ToString
+        TxtImporte.Text = Math.Abs(vimporteAPU).ToString("N2")
+        'TxtImporte.Text = Format(Math.Abs(Val(vimporteAPU)), "###,##0.00").ToString
         TxtNota.Text = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(5).Value.ToString
         CmbCuenta.Text = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(6).Value.ToString
         vCodigoAPU = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(7).Value

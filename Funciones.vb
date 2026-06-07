@@ -382,10 +382,10 @@ Module Funciones
                 frmImprimirForm.DgvApuntes.DataSource = Tabla
             End Using
             vValor = 0
-            frmImprimirForm.LblTotal.Text = "Total: 0,00 " & vMoneda
+            frmImprimirForm.LblTotal.Text = resManager.GetString("TOTAL") & ": 0,00 " & vMoneda
             For Each fila As DataGridViewRow In frmImprimirForm.DgvApuntes.Rows
                 vValor += fila.Cells(3).Value
-                frmImprimirForm.LblTotal.Text = "Total:  " & Format(vValor, "###,##0.00 ").ToString & vMoneda
+                frmImprimirForm.LblTotal.Text = String.Format("{0}: {1} {2}", resManager.GetString("TOTAL"), vValor.ToString("N2"), vMoneda)
             Next
 
         ElseIf vgrid = "PRINT_TEMP_APUNTES" Then
@@ -515,6 +515,7 @@ Module Funciones
                 .Columns(3).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight
                 .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
                 .Columns(3).DefaultCellStyle.ForeColor = Color.DarkBlue
+                .Columns(3).DefaultCellStyle.Format = "N2"
                 .Columns(0).Width = 135
                 .Columns(0).HeaderText = resManager.GetString("Tipo") ' My.Resources.Recursos.Tipo
                 .Columns(1).Width = 200
@@ -559,7 +560,7 @@ Module Funciones
                     Catch ex As Exception
                         MsgBox(resManager.GetString("ErrorAlEjecutar") & ": " & cmdMdb1cr.CommandText & ex.Message)
                     End Try
-                    fila.Cells(3).Value = Format(vSaldoCuentas, "###,##0.00")
+                    fila.Cells(3).Value = Convert.ToDouble(vSaldoCuentas)
                 Next
 
                 Dim vNumRegistros As String = frmCuentasBancarias.DgvCuentas.Rows.Count.ToString
@@ -578,8 +579,9 @@ Module Funciones
             adp.Fill(Tabla)
             frmImprimirForm.DgvApuntes.DataSource = ""
             frmImprimirForm.DgvApuntes.DataSource = Tabla
+            frmImprimirForm.DgvApuntes.Columns(3).DefaultCellStyle.Format = "N2"
             vValor = 0
-            frmImprimirForm.LblTotal.Text = "Total: 0,00 " & vMoneda
+            frmImprimirForm.LblTotal.Text = resManager.GetString("TOTAL") & ": 0,00 " & vMoneda
             For Each fila As DataGridViewRow In frmImprimirForm.DgvApuntes.Rows
                 vNombreCuenta = fila.Cells(1).Value
                 ' Buscar el Saldo de cada Cuenta Bancaria en Apuntes
@@ -602,10 +604,10 @@ Module Funciones
                 Catch ex As Exception
                     MsgBox("Error al ejecutar: " & cmdMdb1cr.CommandText & " por: " & ex.Message)
                 End Try
-                fila.Cells(3).Value = Format(vSaldoCuentas, "###,##0.00")
+                fila.Cells(3).Value = Convert.ToDouble(vSaldoCuentas)
                 vValor += vSaldoCuentas
             Next
-            frmImprimirForm.LblTotal.Text = "Total: " & Format(vValor, "###,##0.00 ").ToString & vMoneda
+            frmImprimirForm.LblTotal.Text = String.Format("{0}: {1} {2}", resManager.GetString("TOTAL"), vValor.ToString("N2"), vMoneda)
 
         ElseIf vgrid = "PRINT_CUENTAS_PERIODICAS" Then
             Dim adp As New OleDbDataAdapter(linSql, conexion1)
@@ -874,15 +876,16 @@ Module Funciones
             If fila.Cells(3).Value >= 0 Then
                 vIngresos += fila.Cells(3).Value
                 fila.Cells(3).Style.ForeColor = Color.DarkBlue
-                frmCuentasBancarias.TxtIngresos.Text = Format(vIngresos, "###,##0.00").ToString
+                frmCuentasBancarias.TxtIngresos.Text = Format(Math.Abs(vIngresos).ToString("N2"))
+                'frmCuentasBancarias.TxtIngresos.Text = Format(vIngresos, "###,##0.00").ToString
             Else
                 vGastos += fila.Cells(3).Value
                 fila.Cells(3).Style.ForeColor = Color.IndianRed
-                frmCuentasBancarias.TxtGastos.Text = Format(vGastos, "###,##0.00").ToString
+                frmCuentasBancarias.TxtGastos.Text = Format(Math.Abs(vGastos).ToString("N2"))
             End If
         Next
         vSaldo = vIngresos + vGastos
-        frmCuentasBancarias.TxtSaldo.Text = Format(vSaldo, "###,##0.00").ToString
+        frmCuentasBancarias.TxtSaldo.Text = Format(Math.Abs(vSaldo).ToString("N2"))
         Return vValor
     End Function
 
@@ -908,11 +911,11 @@ Module Funciones
             If fila.Cells(vFila1).Value >= 0 Then
                 vIngresos += fila.Cells(vFila1).Value
                 fila.Cells(vFila1).Style.ForeColor = Color.DarkBlue
-                frmApuntesContables.TxtIngresos.Text = Format(vIngresos, "###,##0.00").ToString
+                frmApuntesContables.TxtIngresos.Text = Format(Math.Abs(vIngresos).ToString("N2"))
             Else
                 vGastos += fila.Cells(vFila1).Value
                 fila.Cells(vFila1).Style.ForeColor = Color.IndianRed
-                frmApuntesContables.TxtGastos.Text = Format(vGastos, "###,##0.00").ToString
+                frmApuntesContables.TxtGastos.Text = Format(Math.Abs(vGastos).ToString("N2"))
             End If
             If fila.Cells(vFila2).Value >= 0 Then
                 fila.Cells(vFila2).Style.ForeColor = Color.DarkBlue
@@ -920,7 +923,7 @@ Module Funciones
                 fila.Cells(vFila2).Style.ForeColor = Color.IndianRed
             End If
         Next
-        frmApuntesContables.TxtSaldo.Text = Format(vValor, "###,##0.00").ToString
+        frmApuntesContables.TxtSaldo.Text = Format(Math.Abs(vValor).ToString("N2"))
         Return vValor
     End Function
 
@@ -946,11 +949,11 @@ Module Funciones
             If fila.Cells(3).Value >= 0 Then
                 vIngresos += fila.Cells(3).Value
                 fila.Cells(3).Style.ForeColor = Color.DarkBlue
-                frmApuntesPeriodicos.TxtIngresos.Text = Format(vIngresos, "###,##0.00").ToString
+                frmApuntesPeriodicos.TxtIngresos.Text = Format(Math.Abs(vIngresos).ToString("N2"))
             Else
                 vGastos += fila.Cells(3).Value
                 fila.Cells(3).Style.ForeColor = Color.IndianRed
-                frmApuntesPeriodicos.TxtGastos.Text = Format(vGastos, "###,##0.00").ToString
+                frmApuntesPeriodicos.TxtGastos.Text = Format(Math.Abs(vGastos).ToString("N2"))
             End If
             If fila.Cells(4).Value >= 0 Then
                 fila.Cells(4).Style.ForeColor = Color.DarkBlue
@@ -958,7 +961,7 @@ Module Funciones
                 fila.Cells(4).Style.ForeColor = Color.IndianRed
             End If
         Next
-        frmApuntesPeriodicos.TxtSaldo.Text = Format(vValor, "###,##0.00").ToString
+        frmApuntesPeriodicos.TxtSaldo.Text = Format(Math.Abs(vValor).ToString("N2"))
         Return vValor
     End Function
 
@@ -1027,7 +1030,8 @@ Module Funciones
                                     Directory.CreateDirectory(path)
                                     'MsgBox("Ruta C:\ContaHogar3.0\Backup, Creada.")
                                 End If
-                                Dim NombreBaseDatos As String = "ContaHogar3.0" & "[" & Format(Now.ToString("ddMMyyyy")) & "]" & "[" & Format(Now.ToString("HHmmss")) & "]" & ".mdb"
+                                Dim NombreBaseDatos As String = $"ContaHogar3.0[{Now:ddMMyyyy}][{Now:HHmmss}].mdb"
+                                'Dim NombreBaseDatos As String = "ContaHogar3.0" & "[" & Format(Now.ToString("ddMMyyyy")) & "]" & "[" & Format(Now.ToString("HHmmss")) & "]" & ".mdb"
                                 Dim DataBaseFile As String = vRuta
                                 Dim FileDestino As String = "C:\ContaHogar3.0\Backup\" & NombreBaseDatos
                                 backup.InitialDirectory = "C:\ContaHogar3.0\Backup\"

@@ -603,9 +603,10 @@ Public Class ConceptosContables
         Dim startY As Integer = frmImprimirForm.Punto1.Top
 
         ' Formato para que la descripción se corte limpiamente si excede los márgenes
-        Dim formatoCortado As New StringFormat()
-        formatoCortado.Trimming = StringTrimming.EllipsisCharacter
-        formatoCortado.FormatFlags = StringFormatFlags.NoWrap
+        Dim formatoCortado As New StringFormat With {
+            .Trimming = StringTrimming.EllipsisCharacter,
+            .FormatFlags = StringFormatFlags.NoWrap
+        }
 
         ' 4. BUCLE DE IMPRESIÓN DE FILAS (RECORRIDO DEL GRID DE LA PLANTILLA CONCEPTOS)
         Do While PrintLine < frmImprimirForm.DgvApuntes.Rows.Count

@@ -1706,7 +1706,7 @@ Public Class Principal
             Directory.CreateDirectory(path)
             'MsgBox("Ruta C:\ContaHogar3.0\Backup, Creada.")
         End If
-        Dim NombreBaseDatos As String = "ContaHogar3.0" & "[" & Format(Now.ToString("ddMMyyyy")) & "]" & "[" & Format(Now.ToString("HHmmss")) & "]" & ".mdb"
+        Dim NombreBaseDatos As String = "ContaHogar3.0" & "[" & Now.ToString("ddMMyyyy") & "]" & "[" & Now.ToString("HHmmss") & "]" & ".mdb"
         Dim DataBaseFile As String = vRuta
         Dim FileDestino As String = "C:\ContaHogar3.0\Backup\" & NombreBaseDatos
         backup.InitialDirectory = "C:\ContaHogar3.0\Backup\"

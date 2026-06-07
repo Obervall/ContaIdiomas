@@ -209,7 +209,7 @@ Public Class Presupuestos
 
             ' C. Mostramos la cifra en la casilla inferior
             LblDesviacion.Enabled = True
-            TxtDesviacion.Text = Format(desviacionFinal, "###,##0.00")
+            TxtDesviacion.Text = desviacionFinal.ToString("N2")
             LblObjetivo.Visible = True
 
             ' D. EVALUACIÓN REAL DEL OBJETIVO

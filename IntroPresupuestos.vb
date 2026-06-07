@@ -146,12 +146,12 @@ Public Class IntroPresupuestos
                             ' sin Select Case
                             If mes >= 1 AndAlso mes <= 12 Then
                                 importesMensuales(mes - 1) = importe
-                                cajasMeses(mes - 1).Text = Format(importe, "###,##0.00")
+                                cajasMeses(mes - 1).Text = importe.ToString("N2")
                             End If
                         End While
 
                         ' Mostramos la suma total acumulada en la casilla Anual
-                        TxtAnual.Text = Format(sumaAnual, "###,##0.00")
+                        TxtAnual.Text = sumaAnual.ToString("N2")
 
                         ' 3. DETECTAR AUTOMÁTICAMENTE SI ERA REPARTO ANUAL O MENSUAL
                         Dim todosIguales As Boolean = True
@@ -290,7 +290,7 @@ Public Class IntroPresupuestos
             If Double.TryParse(TxtAnual.Text.Trim(), totalAnual) Then
                 ' Dividimos entre 12 y redondeamos a 2 decimales
                 Dim importeMensual As Double = Math.Round(totalAnual / 12, 2)
-                Dim textoFormateado As String = Format(importeMensual, "###,##0.00")
+                Dim textoFormateado As String = importeMensual.ToString("N2")
 
                 ' Rellenamos las 12 cajas mensuales visualmente
                 TxtEnero.Text = textoFormateado : TxtFebrero.Text = textoFormateado
@@ -301,7 +301,7 @@ Public Class IntroPresupuestos
                 TxtNoviembre.Text = textoFormateado : TxtDiciembre.Text = textoFormateado
 
                 ' Reajustamos el total anual por si el redondeo de decimales varió un céntimo
-                TxtAnual.Text = Format(importeMensual * 12, "###,##0.00")
+                TxtAnual.Text = (importeMensual * 12).ToString("N2")
             End If
         End If
     End Sub
@@ -327,7 +327,7 @@ Public Class IntroPresupuestos
             If Double.TryParse(TxtDiciembre.Text, temp) Then PointToSuma(suma, temp)
 
             ' Mostramos el resultado totalizado en la caja anual
-            TxtAnual.Text = Format(suma, "###,##0.00")
+            TxtAnual.Text = suma.ToString("N2")
         End If
     End Sub
 
@@ -347,7 +347,7 @@ Public Class IntroPresupuestos
 
         ' Damos formato de moneda a la caja en la que estábamos parados
         If Double.TryParse(txt.Text.Trim(), valor) Then
-            txt.Text = Format(valor, "###,##0.00")
+            txt.Text = valor.ToString("N2")
         Else
             txt.Text = "0,00"
         End If
@@ -426,12 +426,11 @@ Public Class IntroPresupuestos
 
             ' Guardamos en tu variable global y formateamos la caja anual
             vAnual = importeAnualPure
-            TxtAnual.Text = Format(vAnual, "###,##0.00")
+            TxtAnual.Text = vAnual.ToString("N2")
 
             ' 2. Calcular el reparto mensual exacto
             vMensual = vAnual / 12
-            Dim textoMensualFormateado As String = Format(vMensual, "###,##0.00")
-
+            Dim textoMensualFormateado As String = vMensual.ToString("N2")
             ' 3. Asignar el valor a tus 12 variables globales de meses
             vEnero = vMensual : vFebrero = vMensual : vMarzo = vMensual : vAbril = vMensual
             vMayo = vMensual : vJunio = vMensual : vJulio = vMensual : vAgosto = vMensual
@@ -472,7 +471,7 @@ Public Class IntroPresupuestos
             Double.TryParse(txt.Text, valorIngresado)
 
             ' Formateamos la caja actual inmediatamente
-            txt.Text = Format(valorIngresado, "###,##0.00")
+            txt.Text = valorIngresado.ToString("N2")
 
             ' Controlamos el foco siguiente y guardamos en la variable global correcta según la caja pulsada
             Select Case txt.Name
@@ -492,7 +491,7 @@ Public Class IntroPresupuestos
 
             ' Calculamos la suma total usando tus variables globales actualizadas
             vAnual = vEnero + vFebrero + vMarzo + vAbril + vMayo + vJunio + vJulio + vAgosto + vSeptiembre + vOctubre + vNoviembre + vDiciembre
-            TxtAnual.Text = Format(vAnual, "###,##0.00")
+            TxtAnual.Text = vAnual.ToString("N2")
 
             ' Evitamos el pitido molesto de Windows al pulsar Enter
             e.Handled = True

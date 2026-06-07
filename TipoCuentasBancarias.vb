@@ -316,9 +316,10 @@ Public Class TipoCuentaBancaria
 
             ' 4. Dibujamos en la hoja (este código se queda igual)
             Dim anchoDisponibleCol1 As Integer = e.MarginBounds.Right - frmImprimirForm.Punto2.Left
-            Dim formatoCortado As New StringFormat()
-            formatoCortado.Trimming = StringTrimming.EllipsisCharacter
-            formatoCortado.FormatFlags = StringFormatFlags.NoWrap
+            Dim formatoCortado As New StringFormat With {
+                .Trimming = StringTrimming.EllipsisCharacter,
+                .FormatFlags = StringFormatFlags.NoWrap
+            }
 
             Dim rectanguloCelda1 As New RectangleF(frmImprimirForm.Punto2.Left, startY, anchoDisponibleCol1, frmImprimirForm.Punto1.Height)
             e.Graphics.DrawString(textoCelda1, FuenteDetalles, Brushes.Black, rectanguloCelda1, formatoCortado)

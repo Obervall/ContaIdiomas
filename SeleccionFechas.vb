@@ -162,7 +162,7 @@ Public Class SeleccionFechas
             e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(0).Value, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
             e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(1).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto2.Left, startY)
             e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(2).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto3.Left, startY)
-            e.Graphics.DrawString(Format(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(3).Value, "###,##0.00").ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto5.Right + 50, startY, sf)
+            e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(3).Value.ToString("N2"), FuenteDetalles, Brushes.Black, frmImprimirForm.Punto5.Right + 50, startY, sf)
             'Aqui estoy usando un tipo de letras mas grande
             'LabelCodigo' mas grande que 'Punto1' para crear mas espacio entre filas
 

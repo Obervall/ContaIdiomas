@@ -116,7 +116,8 @@ Public Class EditarApuntes
         CmbConcepto.Text = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(1).Value.ToString
         CmbDescripcion.Text = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(2).Value.ToString
         vimporteAPU = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(3).Value
-        TxtImporte.Text = Format(Math.Abs(vimporteAPU), "###,##0.00").ToString
+        TxtImporte.Text = Math.Abs(vimporteAPU).ToString("N2")
+        'TxtImporte.Text = Format(Math.Abs(vimporteAPU), "###,##0.00").ToString
         TxtNota.Text = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(5).Value.ToString
         CmbCuenta.Text = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(6).Value.ToString
         vCodigoAPU = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(7).Value

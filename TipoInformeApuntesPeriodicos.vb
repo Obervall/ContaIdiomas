@@ -2,6 +2,7 @@
 Imports System.Drawing
 Imports System.Drawing.Printing
 Imports System.Windows.Forms
+Imports System.Globalization
 
 Public Class TipoInformeApuntesPeriodicos
 
@@ -14,8 +15,8 @@ Public Class TipoInformeApuntesPeriodicos
     End Sub
 
     Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click
-        vDate1 = Format(frmApuntesPeriodicos.DateTimePicker1.Value, "yyyy/MM/dd")
-        vDate2 = Format(frmApuntesPeriodicos.DateTimePicker2.Value, "yyyy/MM/dd")
+        vDate1 = frmApuntesPeriodicos.DateTimePicker1.Value.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture)
+        vDate2 = frmApuntesPeriodicos.DateTimePicker2.Value.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture)
 
         'Comienzo del SELECT
         '********************
@@ -82,7 +83,7 @@ Public Class TipoInformeApuntesPeriodicos
                 Else
                     vGastos += fila.Cells(3).Value
                 End If
-                frmImprimirForm.LblTotal.Text = "Total Ingresos: " & Format(vIngresos, "###,##0.00").ToString & "  -  Total Gastos: " & Format(vGastos, "###,##0.00").ToString & "                        TOTAL: " & Format(vValor, "###,##0.00 ").ToString & vMoneda
+                frmImprimirForm.LblTotal.Text = "Total Ingresos: " & vIngresos.ToString("N2") & "  -  Total Gastos: " & vGastos.ToString("N2") & "                        TOTAL: " & vValor.ToString("N2") & vMoneda
             Next
         End If
 
@@ -165,7 +166,7 @@ Public Class TipoInformeApuntesPeriodicos
             vValor = 0
             For Each fila As DataGridViewRow In frmImprimirForm.DgvApuntes.Rows
                 vValor += fila.Cells(1).Value
-                frmImprimirForm.LblTotal.Text = "Total:  " & Format(vValor, "###,##0.00 ").ToString & vMoneda
+                frmImprimirForm.LblTotal.Text = "Total:  " & vValor.ToString("N2") & vMoneda
             Next
         End If
 
@@ -261,7 +262,7 @@ Public Class TipoInformeApuntesPeriodicos
             vValor = 0
             For Each fila As DataGridViewRow In frmImprimirForm.DgvApuntes.Rows
                 vValor += fila.Cells(1).Value
-                frmImprimirForm.LblTotal.Text = "Total:  " & Format(vValor, "###,##0.00 ").ToString & vMoneda
+                frmImprimirForm.LblTotal.Text = "Total:  " & vValor.ToString("N2") & vMoneda
             Next
         End If
 
@@ -357,7 +358,7 @@ Public Class TipoInformeApuntesPeriodicos
             vValor = 0
             For Each fila As DataGridViewRow In frmImprimirForm.DgvApuntes.Rows
                 vValor += fila.Cells(1).Value
-                frmImprimirForm.LblTotal.Text = "Total:  " & Format(vValor, "###,##0.00 ").ToString & vMoneda
+                frmImprimirForm.LblTotal.Text = "Total:  " & vValor.ToString("N2") & vMoneda
             Next
         End If
 
@@ -462,8 +463,8 @@ Public Class TipoInformeApuntesPeriodicos
                 e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(0).Value, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
                 e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(1).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto2.Left, startY)
                 e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(2).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto3.Left, startY)
-                e.Graphics.DrawString(Format(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(3).Value, "###,##0.00").ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto4.Right + 50, startY, sf)
-                e.Graphics.DrawString(Format(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(4).Value, "###,##0.00").ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto5.Right + 30, startY, sf)
+                e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(3).Value.ToString("N2"), FuenteDetalles, Brushes.Black, frmImprimirForm.Punto4.Right + 50, startY, sf)
+                e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(4).Value.ToString("N2"), FuenteDetalles, Brushes.Black, frmImprimirForm.Punto5.Right + 30, startY, sf)
                 startY += frmImprimirForm.LblFecha.Height
                 e.Graphics.DrawString("Cuenta:  ", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
                 e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(6).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left + 50, startY)
@@ -476,17 +477,17 @@ Public Class TipoInformeApuntesPeriodicos
 
             If RadioButton2.Checked = True Then
                 e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(0).Value, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
-                e.Graphics.DrawString(Format(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(1).Value, "###,##0.00").ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto3.Right + 50, startY, sf)
+                e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(1).Value.ToString("N2"), FuenteDetalles, Brushes.Black, frmImprimirForm.Punto3.Right + 50, startY, sf)
             End If
 
             If RadioButton3.Checked = True Then
                 e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(0).Value, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
-                e.Graphics.DrawString(Format(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(1).Value, "###,##0.00").ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto3.Right + 50, startY, sf)
+                e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(1).Value.ToString("N2"), FuenteDetalles, Brushes.Black, frmImprimirForm.Punto3.Right + 50, startY, sf)
             End If
 
             If RadioButton4.Checked = True Then
                 e.Graphics.DrawString(Mid(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(0).Value, 1, 10), FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
-                e.Graphics.DrawString(Format(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(1).Value, "###,##0.00").ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto3.Right + 50, startY, sf)
+                e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(1).Value.ToString("N2"), FuenteDetalles, Brushes.Black, frmImprimirForm.Punto3.Right + 50, startY, sf)
             End If
 
             'Aqui estoy usando un tipo de letras mas grande

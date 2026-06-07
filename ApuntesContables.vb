@@ -1490,7 +1490,9 @@ Public Class ApuntesContables
                         dr1 = dset.Tables(0).NewRow
                         For j As Integer = 0 To DgvApuntes.Columns.Count - 1
                             If j = 0 Then
-                                dr1(j) = Format(DgvApuntes.Rows(i).Cells(j).Value, "yyyy/MM/dd")
+                                Dim fechaCelda As DateTime = Convert.ToDateTime(DgvApuntes.Rows(i).Cells(j).Value)
+                                dr1(j) = fechaCelda.ToString("yyyy/MM/dd")
+                                'dr1(j) = Format(DgvApuntes.Rows(i).Cells(j).Value, "yyyy/MM/dd")
                             ElseIf j = 1 Or j = 2 Or j = 6 Then
                                 dr1(j) = Trim(Convert.ToString(DgvApuntes.Rows(i).Cells(j).Value))
                             ElseIf j = 3 Then
@@ -1519,7 +1521,8 @@ Public Class ApuntesContables
                     dr1 = dset.Tables(0).NewRow
                     For j As Integer = 0 To DgvApuntes.Columns.Count - 1
                         If j = 0 Then
-                            dr1(j) = Format(DgvApuntes.Rows(i).Cells(j).Value, "yyyy/MM/dd")
+                            Dim fechaCelda As DateTime = Convert.ToDateTime(DgvApuntes.Rows(i).Cells(j).Value)
+                            dr1(j) = fechaCelda.ToString("yyyy/MM/dd")
                         ElseIf j = 1 Or j = 2 Or j = 6 Then
                             dr1(j) = Trim(Convert.ToString(DgvApuntes.Rows(i).Cells(j).Value))
                         ElseIf j = 3 Or j = 4 Then

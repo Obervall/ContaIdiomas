@@ -1,7 +1,8 @@
 ﻿Imports System.Diagnostics
+Imports System.Drawing
+Imports System.Globalization
 Imports System.Linq
 Imports System.Windows.Forms
-Imports System.Drawing
 Imports ToolTip = System.Windows.Forms.ToolTip
 
 Public Class IntroApuntes
@@ -492,8 +493,8 @@ Public Class IntroApuntes
                     vtipoSql += " And apuntes.ConceptoAPU = '" & frmApuntesContables.CmbConcepto.Text & "' "
                 End If
                 If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
-                    vDate1 = Format(frmApuntesContables.DateTimePicker1.Value, "yyyy/MM/dd")
-                    vDate2 = Format(frmApuntesContables.DateTimePicker2.Value, "yyyy/MM/dd")
+                    vDate1 = frmApuntesContables.DateTimePicker1.Value.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture)
+                    vDate2 = frmApuntesContables.DateTimePicker2.Value.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture)
                     vtipoSql += " And apuntes.FechaAPU >= ?"
                     vtipoSql += " And apuntes.FechaAPU <= ?"
                 End If
@@ -623,8 +624,8 @@ Public Class IntroApuntes
                     vtipoSql += " And apuntes.ConceptoAPU = '" & frmApuntesContables.CmbConcepto.Text & "' "
                 End If
                 If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
-                    vDate1 = Format(frmApuntesContables.DateTimePicker1.Value, "yyyy/MM/dd")
-                    vDate2 = Format(frmApuntesContables.DateTimePicker2.Value, "yyyy/MM/dd")
+                    vDate1 = frmApuntesContables.DateTimePicker1.Value.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture)
+                    vDate2 = frmApuntesContables.DateTimePicker2.Value.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture)
                     vtipoSql += " And apuntes.FechaAPU >= #" & vDate1 & "#"
                     vtipoSql += " And apuntes.FechaAPU <= #" & vDate2 & "#"
                 End If
@@ -1360,8 +1361,8 @@ End Class
 '                vtipoSql += " And apuntes.ConceptoAPU = '" & frmApuntesContables.CmbConcepto.Text & "' "
 '            End If
 '            If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
-'                vDate1 = Format(frmApuntesContables.DateTimePicker1.Value, "yyyy/MM/dd")
-'                vDate2 = Format(frmApuntesContables.DateTimePicker2.Value, "yyyy/MM/dd")
+'                vDate1 = frmApuntesContables.DateTimePicker1.Value.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture)
+'                vDate2 = frmApuntesContables.DateTimePicker2.Value.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture)
 '                vtipoSql += " And apuntes.FechaAPU >= ?"
 '                vtipoSql += " And apuntes.FechaAPU <= ?"
 '            End If
