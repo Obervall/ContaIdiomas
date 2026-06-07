@@ -10,15 +10,44 @@ Public Class ApuntesPeriodicos
     Private Sub ApuntesPeriodicos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ActualizarTextosFormulario(Me)
         Me.KeyPreview = True
+        ' 1. Convertimos el año base de forma segura
+        Dim anioBase As Integer
+        If Not Integer.TryParse(vAñoEjercicio, anioBase) Then
+            ' Si falla, usamos el año actual como salvavidas
+            anioBase = Date.Today.Year
+        End If
 
-        vFecha1Enero = Val(vAñoEjercicio)
-        DateTimePicker1.MinDate = New Date(vFecha1Enero, 1, 1)
-        DateTimePicker2.MinDate = New Date(vFecha1Enero, 1, 1)
-        DateTimePicker1.Value = New Date(vFecha1Enero, 1, 1)
-        vFecha31Diciembre = Val(vAñoEjercicio) + 20
-        DateTimePicker1.MaxDate = New Date(vFecha31Diciembre, 12, 31)
-        DateTimePicker2.MaxDate = New Date(vFecha31Diciembre, 12, 31)
-        DateTimePicker2.Value = New Date(vFecha31Diciembre, 12, 31)
+        ' 2. Calculamos los dos años que necesitas
+        Dim anioInicio As Integer = anioBase
+        Dim anioFin As Integer = anioBase + 20 ' Sumamos los 20 años de margen para los periódicos
+
+        ' 3. Guardamos los valores en tus variables globales por si las usas luego
+        vFecha1Enero = anioInicio
+        vFecha31Diciembre = anioFin
+
+        ' 4. Creamos las fechas exactas de inicio y fin
+        Dim fechaInicio As New Date(anioInicio, 1, 1)
+        Dim fechaFin As New Date(anioFin, 12, 31)
+
+        ' 5. Configuramos los DateTimePicker con los rangos correctos
+        DateTimePicker1.MinDate = fechaInicio
+        DateTimePicker2.MinDate = fechaInicio
+
+        DateTimePicker1.MaxDate = fechaFin
+        DateTimePicker2.MaxDate = fechaFin
+
+        ' 6. Asignamos los valores iniciales por defecto
+        DateTimePicker1.Value = fechaInicio
+        DateTimePicker2.Value = fechaFin
+
+        'vFecha1Enero = Val(vAñoEjercicio)
+        'DateTimePicker1.MinDate = New Date(vFecha1Enero, 1, 1)
+        'DateTimePicker2.MinDate = New Date(vFecha1Enero, 1, 1)
+        'DateTimePicker1.Value = New Date(vFecha1Enero, 1, 1)
+        'vFecha31Diciembre = Val(vAñoEjercicio) + 20
+        'DateTimePicker1.MaxDate = New Date(vFecha31Diciembre, 12, 31)
+        'DateTimePicker2.MaxDate = New Date(vFecha31Diciembre, 12, 31)
+        'DateTimePicker2.Value = New Date(vFecha31Diciembre, 12, 31)
 
         Dim TL(15) As ToolTip
         TL(0) = New ToolTip

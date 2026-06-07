@@ -1,4 +1,5 @@
-﻿Imports System.Data
+﻿Option Explicit On
+Imports System.Data
 Imports System.Drawing
 Imports System.Drawing.Printing
 Imports System.Windows.Forms
@@ -15,6 +16,7 @@ Public Class TipoInformeApuntesPeriodicos
     End Sub
 
     Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click
+
         vDate1 = frmApuntesPeriodicos.DateTimePicker1.Value.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture)
         vDate2 = frmApuntesPeriodicos.DateTimePicker2.Value.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture)
 

@@ -19,15 +19,45 @@ Public Class IntroApuntes
 
         Label7.Text = vMoneda
         vIntro = "NO"
-        vFecha1Enero = Val(vAñoEjercicio)
-        DateTimePicker1.MinDate = New Date(vFecha1Enero, 1, 1)
-        vFecha31Diciembre = Val(vAñoEjercicio)
-        DateTimePicker1.MaxDate = New Date(vFecha31Diciembre, 12, 31)
-        If vAñoEjercicio <> vAñoActual Then
-            DateTimePicker1.Value = New Date(vAñoEjercicio, 12, 31)
-        Else
-            DateTimePicker1.Value = vfechaHoy
+        ' 1. Convertimos el año base de forma segura a número entero
+        Dim anio As Integer
+        If Not Integer.TryParse(vAñoEjercicio, anio) Then
+            ' Salvavidas: si falla o está vacío, usa el año actual
+            anio = Date.Today.Year
         End If
+
+        ' 2. Asignamos el año a tus variables por si las usas más adelante
+        vFecha1Enero = anio
+        vFecha31Diciembre = anio
+
+        ' 3. Creamos las fechas límite de forma limpia
+        Dim fechaInicio As New Date(anio, 1, 1)
+        Dim fechaFin As New Date(anio, 12, 31)
+
+        ' 4. Aplicamos los rangos al control
+        DateTimePicker1.MinDate = fechaInicio
+        DateTimePicker1.MaxDate = fechaFin
+
+        ' 5. Aplicamos la lógica de asignación del valor según el año
+        ' Comparamos de forma segura convirtiendo vAñoActual a número o texto de forma explícita
+        If anio.ToString() <> vAñoActual.ToString() Then
+            ' Si el año no es el actual, se inicializa en el último día de ese año contable
+            DateTimePicker1.Value = fechaFin
+        Else
+            ' Si coincide con el año en curso, se inicializa con la fecha de hoy
+            ' Nota: Asegúrate de que vfechaHoy contenga un objeto Date válido o usa Date.Today
+            DateTimePicker1.Value = Convert.ToDateTime(vfechaHoy)
+        End If
+
+        'vFecha1Enero = Val(vAñoEjercicio)
+        'DateTimePicker1.MinDate = New Date(vFecha1Enero, 1, 1)
+        'vFecha31Diciembre = Val(vAñoEjercicio)
+        'DateTimePicker1.MaxDate = New Date(vFecha31Diciembre, 12, 31)
+        'If vAñoEjercicio <> vAñoActual Then
+        '    DateTimePicker1.Value = New Date(vAñoEjercicio, 12, 31)
+        'Else
+        '    DateTimePicker1.Value = vfechaHoy
+        'End If
 
         TL(0) = New ToolTip
         TL(0).SetToolTip(Me.BtnHoy, resManager.GetString("IrAHoy"))
@@ -237,9 +267,34 @@ Public Class IntroApuntes
         vDescripcionAPU = Trim(CmbDescripcion.Text)
         vNotasAPU = Trim(TxtNota.Text)
         vCuentaAPU = Trim(CmbCuenta.Text)
-        vDate3 = DateTimePicker1.Value.ToString("yyyy/MM/dd")
+        'vDate3 = DateTimePicker1.Value.ToString("yyyy/MM/dd")
+        vDate3 = DateTimePicker1.Value.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture)
 
-        vImporteAPU = Val(TxtImporte.Text.Replace(",", "."))
+
+        'vImporteAPU = Val(TxtImporte.Text.Replace(",", "."))
+        ' 1. Usamos el tipo Decimal (fundamental para evitar errores de redondeo en contabilidad)
+        Dim importeDecimal As Decimal = 0.0D
+
+        ' 2. .NET lee el idioma de Windows del usuario y procesa el punto o la coma según su país
+        If Not Decimal.TryParse(TxtImporte.Text,
+                        System.Globalization.NumberStyles.Currency,
+                        System.Globalization.CultureInfo.CurrentCulture,
+                        importeDecimal) Then
+
+            ' 3. PLAN B: Si el análisis falla, intentamos una conversión universal por si el usuario 
+            ' mezcló el formato (por ejemplo, pegar un importe con punto decimal en un Windows en español)
+            If Not Decimal.TryParse(TxtImporte.Text.Replace(",", "."),
+                            System.Globalization.NumberStyles.Any,
+                            System.Globalization.CultureInfo.InvariantCulture,
+                            importeDecimal) Then
+                ' Si introduce letras o texto inválido, el importe pasa a ser 0 por seguridad
+                importeDecimal = 0.0D
+            End If
+        End If
+
+        ' 4. Asignamos el valor limpio y exacto a tu variable
+        vImporteAPU = importeDecimal
+
         If TxtTipoConcepto.Text = "GASTO" Then
             vImporteAPU = -Math.Abs(vImporteAPU)
         Else

@@ -12,14 +12,39 @@ Public Class SeleccionFechas
         Me.KeyPreview = True
         ActualizarTextosFormulario(Me)
 
-        vFecha1Enero = Val(vAñoEjercicio)
-        vFecha31Diciembre = Val(vAñoEjercicio)
-        DateTimePicker1.MinDate = New Date(vFecha1Enero, 1, 1)
-        DateTimePicker2.MinDate = New Date(vFecha1Enero, 1, 1)
-        DateTimePicker1.Value = New Date(vFecha1Enero, 1, 1)
-        DateTimePicker1.MaxDate = New Date(vFecha31Diciembre, 12, 31)
-        DateTimePicker2.MaxDate = New Date(vFecha31Diciembre, 12, 31)
-        DateTimePicker2.Value = New Date(vFecha31Diciembre, 12, 31)
+        'vFecha1Enero = Val(vAñoEjercicio)
+        'vFecha31Diciembre = Val(vAñoEjercicio)
+        'DateTimePicker1.MinDate = New Date(vFecha1Enero, 1, 1)
+        'DateTimePicker2.MinDate = New Date(vFecha1Enero, 1, 1)
+        'DateTimePicker1.Value = New Date(vFecha1Enero, 1, 1)
+        'DateTimePicker1.MaxDate = New Date(vFecha31Diciembre, 12, 31)
+        'DateTimePicker2.MaxDate = New Date(vFecha31Diciembre, 12, 31)
+        'DateTimePicker2.Value = New Date(vFecha31Diciembre, 12, 31)
+        ' 1. Convertimos el año a número entero de forma segura
+        Dim anio As Integer
+        If Not Integer.TryParse(vAñoEjercicio, anio) Then
+            ' Salvavidas: si falla o está vacío, usa el año actual
+            anio = Date.Today.Year
+        End If
+
+        ' 2. Asignamos el año numérico puro a tus variables
+        vFecha1Enero = anio
+        vFecha31Diciembre = anio
+
+        ' 3. Creamos los objetos de fecha límites una sola vez en memoria
+        Dim fechaInicio As New Date(anio, 1, 1)
+        Dim fechaFin As New Date(anio, 12, 31)
+
+        ' 4. Configuramos de forma limpia el primer DateTimePicker
+        DateTimePicker1.MinDate = fechaInicio
+        DateTimePicker1.MaxDate = fechaFin
+        DateTimePicker1.Value = fechaInicio
+
+        ' 5. Configuramos de forma limpia el segundo DateTimePicker
+        DateTimePicker2.MinDate = fechaInicio
+        DateTimePicker2.MaxDate = fechaFin
+        DateTimePicker2.Value = fechaFin
+
 
         Dim TL(2) As ToolTip
         TL(0) = New ToolTip

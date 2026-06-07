@@ -187,6 +187,7 @@ Public Class Principal
         For Each scrn As Screen In Screen.AllScreens
             vPantallas += 1
         Next
+
         If vPantallas = 1 And CantPantallas >= 2 Then
             vPosicion = "{x=150,y=0}"
             x = Val(Mid(vPosicion, 4, (InStrRev(vPosicion, ",") - 1)))
@@ -197,9 +198,17 @@ Public Class Principal
             vPosicion = My.Settings.Posicion
             x = Val(Mid(vPosicion, 4, (InStrRev(vPosicion, ",") - 1)))
             y = Val(Mid(vPosicion, (InStrRev(vPosicion, "=") + 1)))
+
+            ' PARACHOQUES: Si la posición guardada es el techo total (0), 
+            ' le forzamos a bajar un poco (ej. 100) para que no se quede atrapado
+            If y = 0 Then y = 100
+
             vWidth = My.Settings.PantallaAncho
             vHeigth = My.Settings.PantallaAlto
         End If
+        ' Tu código original con el CInt que blinda el multiidioma
+        Me.Location = New Point(CInt(x), CInt(y))
+        Me.Size = New Size(CInt(vWidth), CInt(vHeigth))
 
         'Si en el ChbPantallaCompleta.Checked = True, se abre Pantalla Completa
         '***********************************************************************

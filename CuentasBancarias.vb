@@ -71,6 +71,24 @@ Public Class CuentasBancarias
         Next
     End Sub
 
+    Private Sub DgvCuentas_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles DgvCuentas.CellFormatting
+        ' Verificamos que sea la columna del Saldo (índice 3) y que tenga un valor válido
+        If e.ColumnIndex = 3 AndAlso e.Value IsNot Nothing AndAlso Not IsDBNull(e.Value) Then
+            Try
+                ' Convertimos el valor interno a Decimal de forma segura
+                Dim valorNumerico As Decimal = Convert.ToDecimal(e.Value)
+
+                ' Formateamos el texto final que verá el usuario con sus puntos de miles y comas
+                e.Value = valorNumerico.ToString("N2")
+
+                ' Le indicamos al Grid que la visualización ya está controlada
+                e.FormattingApplied = True
+            Catch
+                ' Si falla la conversión por ser una fila vacía, no hacemos nada
+            End Try
+        End If
+    End Sub
+
     Private Sub BtnFiltroTipoCuenta_Click(sender As Object, e As EventArgs) Handles BtnFiltroTipoCuenta.Click
         BtnFiltroTipoCuenta.Enabled = False
         BtnSinFiltroTipoCuenta.Enabled = True

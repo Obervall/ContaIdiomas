@@ -16,17 +16,49 @@ Public Class IntroApuntesPeriodicos
         ActualizarTextosFormulario(Me)
 
         Label7.Text = vMoneda
-        vFecha1Enero = Val(vAñoEjercicio)
-        ' si el año del ejercicio es diferente al año actual, se pone como fecha máxima el 31 de diciembre del año del ejercicio + 1,
-        ' para que se puedan introducir apuntes periódicos con fecha hasta el 31 de diciembre del año siguiente al ejercicio
-        vFecha31Diciembre = Val(vAñoEjercicio)
-        DateTimePicker1.MinDate = New Date(vFecha1Enero, 1, 1)
-        DateTimePicker1.MaxDate = New Date(vFecha31Diciembre, 12, 31)
-        If vAñoEjercicio <> vAñoActual Then
-            DateTimePicker1.Value = New Date(vAñoEjercicio + 1, 12, 31)
-        Else
-            DateTimePicker1.Value = vfechaHoy
+        'vFecha1Enero = Val(vAñoEjercicio)
+        '' si el año del ejercicio es diferente al año actual, se pone como fecha máxima el 31 de diciembre del año del ejercicio + 1,
+        '' para que se puedan introducir apuntes periódicos con fecha hasta el 31 de diciembre del año siguiente al ejercicio
+        'vFecha31Diciembre = Val(vAñoEjercicio)
+        'DateTimePicker1.MinDate = New Date(vFecha1Enero, 1, 1)
+        'DateTimePicker1.MaxDate = New Date(vFecha31Diciembre, 12, 31)
+        'If vAñoEjercicio <> vAñoActual Then
+        '    DateTimePicker1.Value = New Date(vAñoEjercicio + 1, 12, 31)
+        'Else
+        '    DateTimePicker1.Value = vfechaHoy
+        'End If
+        ' 1. Convertimos el año base de forma segura a número entero
+        Dim anioBase As Integer
+        If Not Integer.TryParse(vAñoEjercicio, anioBase) Then
+            ' Salvavidas: si falla o está vacío, usa el año actual
+            anioBase = Date.Today.Year
         End If
+
+        ' 2. Asignamos los valores numéricos limpios a tus variables globales
+        vFecha1Enero = anioBase
+        vFecha31Diciembre = anioBase
+
+        ' 3. Creamos los objetos de fecha límites de forma nativa
+        Dim fechaInicio As New Date(anioBase, 1, 1)
+        Dim fechaFin As New Date(anioBase, 12, 31)
+
+        ' 4. Aplicamos los rangos al control
+        DateTimePicker1.MinDate = fechaInicio
+        DateTimePicker1.MaxDate = fechaFin
+
+        ' 5. Evaluamos la condición lógica de forma limpia convirtiendo a texto explícito
+        If anioBase.ToString() <> vAñoActual.ToString() Then
+            ' Si el año de ejercicio es diferente al actual, calculamos el año siguiente de forma exacta
+            Dim anioSiguiente As Integer = anioBase + 1
+
+            ' Asignamos el valor al 31 de diciembre del año siguiente (lógica de apuntes periódicos)
+            DateTimePicker1.Value = New Date(anioSiguiente, 12, 31)
+        Else
+            ' Si coincide con el año en curso, se inicializa con la fecha de hoy
+            ' Nota: Aseguramos que la conversión a fecha sea limpia e independiente del idioma
+            DateTimePicker1.Value = Convert.ToDateTime(vfechaHoy)
+        End If
+
 
         Dim TL(12) As ToolTip
         TL(0) = New ToolTip

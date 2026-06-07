@@ -79,11 +79,38 @@ Public Class SeleccionEjercicio
         message = rmse.GetString("MsgIntroEjercicio")
         ' Set title.
         title = rmse.GetString("MsgTituloEjercicio")
+        'Do
+        '    ' Display message, title, and default value.
+        '    myValue = InputBox(message, title, Val(vAñoActual + 1))
+        '    ' 1. Si el usuario cancela o no escribe nada, salimos del bucle inmediatamente
+        '    If String.IsNullOrEmpty(myValue) Then Exit Sub
+        '    ' 2. Intentamos convertir a número y validar el rango
+        '    If Integer.TryParse(myValue, yearValue) Then
+        '        If yearValue >= 1900 AndAlso yearValue < 3000 Then
+        '            esValido = True ' El año es correcto, se marcará para salir
+        '        Else
+        '            MsgBox(rmse.GetString("MsgAvisoAño"), MsgBoxStyle.Exclamation)
+        '        End If
+        '    Else
+        '        MsgBox(rmse.GetString("MsgAvisoAño"), MsgBoxStyle.Exclamation)
+        '    End If
+        'Loop While Not esValido ' Se repite MIENTRAS NO sea válido
+        ' Código posterior con la variable 'yearValue' ya validada
+        ' 1. Calculamos el año por defecto de forma matemática y segura
+        Dim anioDefecto As Integer
+        If Not Integer.TryParse(vAñoActual.ToString(), anioDefecto) Then
+            ' Salvavidas por si vAñoActual no es válido
+            anioDefecto = Date.Today.Year
+        End If
+        Dim textoDefecto As String = (anioDefecto + 1).ToString()
+
         Do
-            ' Display message, title, and default value.
-            myValue = InputBox(message, title, Val(vAñoActual + 1))
+            ' 2. Mostramos el InputBox pasando el texto por defecto correcto
+            myValue = InputBox(message, title, textoDefecto)
+
             ' 1. Si el usuario cancela o no escribe nada, salimos del bucle inmediatamente
             If String.IsNullOrEmpty(myValue) Then Exit Sub
+
             ' 2. Intentamos convertir a número y validar el rango
             If Integer.TryParse(myValue, yearValue) Then
                 If yearValue >= 1900 AndAlso yearValue < 3000 Then
@@ -95,7 +122,7 @@ Public Class SeleccionEjercicio
                 MsgBox(rmse.GetString("MsgAvisoAño"), MsgBoxStyle.Exclamation)
             End If
         Loop While Not esValido ' Se repite MIENTRAS NO sea válido
-        ' Código posterior con la variable 'yearValue' ya validada
+
         If yearValue = vAñoActual Then
             vAñoEjercicio = vAñoActual
             MsgBox(rmse.GetString("MsgEjercicioAño"))

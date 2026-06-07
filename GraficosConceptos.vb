@@ -75,15 +75,54 @@ Public Class GraficosConceptos
                         MsgBox("Error al verificar el Importe del Concepto en Tempapu")
                         MsgBox(ex.ToString)
                     End Try
-                    vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
-                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
-                    vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+                    'vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
+                    'vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
+                    'vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+                    'cmdMdb1cr.CommandText = vAñadir2
+
+                    ' 1. Convertimos los dos importes a Decimal de forma segura (multiidioma)
+                    Dim importeConcepto As Decimal = 0.0D
+                    Dim existenteImporte As Decimal = 0.0D
+
+                    ' Convertimos el primer importe (vImporteConcepto)
+                    If vImporteConcepto IsNot Nothing Then
+                        Decimal.TryParse(vImporteConcepto.ToString().Replace(",", "."),
+                     System.Globalization.NumberStyles.Any,
+                     System.Globalization.CultureInfo.InvariantCulture,
+                     importeConcepto)
+                    End If
+
+                    ' Convertimos el segundo importe (vExistenteImporteConcepto)
+                    If vExistenteImporteConcepto IsNot Nothing Then
+                        Decimal.TryParse(vExistenteImporteConcepto.ToString().Replace(",", "."),
+                     System.Globalization.NumberStyles.Any,
+                     System.Globalization.CultureInfo.InvariantCulture,
+                     existenteImporte)
+                    End If
+
+                    ' 2. Realizamos la suma matemática exacta
+                    Dim sumaFinal As Decimal = importeConcepto + existenteImporte
+                    vNewImporteConcepto = sumaFinal
+
+                    ' 3. Preparamos la consulta SQL para Access usando el signo de interrogación o arroba
+                    ' NOTA: En Access, el orden de los parámetros en el código DEBE SER EL MISMO que en el texto SQL
+                    Dim vAñadir2 As String = "UPDATE tempapu SET SumaImporteAPU = ? WHERE ConceptoAPU = ?"
+
                     cmdMdb1cr.CommandText = vAñadir2
+                    cmdMdb1cr.Parameters.Clear()
+
+                    ' 4. Agregamos los parámetros EN EL MISMO ORDEN en que aparecen en el SQL
+                    ' Primero va el importe porque está primero en el SET
+                    cmdMdb1cr.Parameters.AddWithValue("@SumaImporte", sumaFinal)
+
+                    ' Segundo va el concepto porque está en el WHERE
+                    cmdMdb1cr.Parameters.AddWithValue("@Concepto", vNombreConcepto.ToString())
+
                     Try
                         drMdb1 = cmdMdb1cr.ExecuteReader()
                         'MsgBox("Registro2, Grabado Correctamente")
                     Catch ex As Exception
-                        MsgBox("Error al actualizar el Importe del Concepto en Tempapu")
+                        'MsgBox("Error al actualizar el Importe del Concepto en Tempapu")
                         MsgBox(ex.ToString)
                     End Try
                     drMdb1.Close()
@@ -124,15 +163,54 @@ Public Class GraficosConceptos
                         MsgBox("Error al verificar el Importe del Concepto en Tempapu")
                         MsgBox(ex.ToString)
                     End Try
-                    vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
-                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
-                    vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+                    'vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
+                    'vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
+                    'vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+                    'cmdMdb1cr.CommandText = vAñadir2
+
+                    ' 1. Convertimos los dos importes a Decimal de forma segura (multiidioma)
+                    Dim importeConcepto As Decimal = 0.0D
+                    Dim existenteImporte As Decimal = 0.0D
+
+                    ' Convertimos el primer importe (vImporteConcepto)
+                    If vImporteConcepto IsNot Nothing Then
+                        Decimal.TryParse(vImporteConcepto.ToString().Replace(",", "."),
+                     System.Globalization.NumberStyles.Any,
+                     System.Globalization.CultureInfo.InvariantCulture,
+                     importeConcepto)
+                    End If
+
+                    ' Convertimos el segundo importe (vExistenteImporteConcepto)
+                    If vExistenteImporteConcepto IsNot Nothing Then
+                        Decimal.TryParse(vExistenteImporteConcepto.ToString().Replace(",", "."),
+                     System.Globalization.NumberStyles.Any,
+                     System.Globalization.CultureInfo.InvariantCulture,
+                     existenteImporte)
+                    End If
+
+                    ' 2. Realizamos la suma matemática exacta
+                    Dim sumaFinal As Decimal = importeConcepto + existenteImporte
+                    vNewImporteConcepto = sumaFinal
+
+                    ' 3. Preparamos la consulta SQL para Access usando el signo de interrogación o arroba
+                    ' NOTA: En Access, el orden de los parámetros en el código DEBE SER EL MISMO que en el texto SQL
+                    Dim vAñadir2 As String = "UPDATE tempapu SET SumaImporteAPU = ? WHERE ConceptoAPU = ?"
+
                     cmdMdb1cr.CommandText = vAñadir2
+                    cmdMdb1cr.Parameters.Clear()
+
+                    ' 4. Agregamos los parámetros EN EL MISMO ORDEN en que aparecen en el SQL
+                    ' Primero va el importe porque está primero en el SET
+                    cmdMdb1cr.Parameters.AddWithValue("@SumaImporte", sumaFinal)
+
+                    ' Segundo va el concepto porque está en el WHERE
+                    cmdMdb1cr.Parameters.AddWithValue("@Concepto", vNombreConcepto.ToString())
+
                     Try
                         drMdb1 = cmdMdb1cr.ExecuteReader()
                         'MsgBox("Registro2, Grabado Correctamente")
                     Catch ex As Exception
-                        MsgBox("Error al actualizar el Importe del Concepto en Tempapu")
+                        'MsgBox("Error al actualizar el Importe del Concepto en Tempapu")
                         MsgBox(ex.ToString)
                     End Try
                     drMdb1.Close()
@@ -194,7 +272,29 @@ Public Class GraficosConceptos
                 'Tomamos los datos de DataView para la gráfica
                 With Chart1.Series("Gastos")
                     If miView(x)("Importe") <= 0 Then
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                        'vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                        ' 1. Creamos la variable para guardar el importe numérico puro
+                        Dim importePuro As Decimal = 0.0D
+
+                        ' 2. Verificamos que la celda de la vista no sea NULL o vacía
+                        If miView(x)("Importe") IsNot DBNull.Value AndAlso miView(x)("Importe") IsNot Nothing Then
+
+                            Dim textoImporte As String = miView(x)("Importe").ToString()
+
+                            ' 3. Conversión segura multiidioma (interpreta comas y puntos correctamente)
+                            If Not Decimal.TryParse(textoImporte,
+                            System.Globalization.NumberStyles.Any,
+                            System.Globalization.CultureInfo.CurrentCulture,
+                            importePuro) Then
+
+                                ' PLAN B: Si la base de datos guardó el dato con formato invariant (punto universal)
+                                Decimal.TryParse(textoImporte.Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, importePuro)
+                            End If
+                        End If
+
+                        ' 4. Calculamos el valor absoluto exacto con el tipo Decimal para el gráfico
+                        vImporteConcepto = Math.Abs(importePuro)
+
                         Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), vImporteConcepto)
                     Else
                         Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), miView(x)("Importe"))
@@ -220,7 +320,31 @@ Public Class GraficosConceptos
                 'Tomamos los datos de DataView para la gráfica
                 With Chart1.Series("Gastos")
                     If miView(x)("Importe") <= 0 Then
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                        ' 1. Creamos la variable para guardar el importe numérico puro
+                        Dim importePuro As Decimal = 0.0D
+
+                        ' 2. Verificamos que la celda de la vista no sea NULL o vacía
+                        If miView(x)("Importe") IsNot DBNull.Value AndAlso miView(x)("Importe") IsNot Nothing Then
+
+                            Dim textoImporte As String = miView(x)("Importe").ToString()
+
+                            ' 3. Conversión segura multiidioma (interpreta comas y puntos correctamente)
+                            If Not Decimal.TryParse(textoImporte,
+                            System.Globalization.NumberStyles.Any,
+                            System.Globalization.CultureInfo.CurrentCulture,
+                            importePuro) Then
+
+                                ' PLAN B: Si la base de datos guardó el dato con formato invariant (punto universal)
+                                Decimal.TryParse(textoImporte.Replace(",", "."),
+                         System.Globalization.NumberStyles.Any,
+                         System.Globalization.CultureInfo.InvariantCulture,
+                         importePuro)
+                            End If
+                        End If
+
+                        ' 4. Calculamos el valor absoluto exacto con el tipo Decimal para el gráfico
+                        vImporteConcepto = Math.Abs(importePuro)
+
                         Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), vImporteConcepto)
                         .Points(i).Color = Color.Red
                     Else
@@ -333,7 +457,30 @@ Public Class GraficosConceptos
             'Tomamos los datos de DataView para la gráfica
             With Chart1.Series("Gastos")
                 If miView(x)("Importe") <= 0 Then
-                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                    ' 1. Creamos la variable para guardar el importe numérico puro
+                    Dim importePuro As Decimal = 0.0D
+
+                    ' 2. Verificamos que la celda de la vista no sea NULL o vacía
+                    If miView(x)("Importe") IsNot DBNull.Value AndAlso miView(x)("Importe") IsNot Nothing Then
+
+                        Dim textoImporte As String = miView(x)("Importe").ToString()
+
+                        ' 3. Conversión segura multiidioma (interpreta comas y puntos correctamente)
+                        If Not Decimal.TryParse(textoImporte,
+                        System.Globalization.NumberStyles.Any,
+                        System.Globalization.CultureInfo.CurrentCulture,
+                        importePuro) Then
+
+                            ' PLAN B: Si la base de datos guardó el dato con formato invariant (punto universal)
+                            Decimal.TryParse(textoImporte.Replace(",", "."),
+                     System.Globalization.NumberStyles.Any,
+                     System.Globalization.CultureInfo.InvariantCulture,
+                     importePuro)
+                        End If
+                    End If
+
+                    ' 4. Calculamos el valor absoluto exacto con el tipo Decimal para el gráfico
+                    vImporteConcepto = Math.Abs(importePuro)
                     Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), vImporteConcepto)
                     .Points(i).Color = Color.Red
                 Else
@@ -385,7 +532,30 @@ Public Class GraficosConceptos
             'Tomamos los datos de DataView para la gráfica
             With Chart1.Series("Gastos")
                 If miView(x)("Importe") <= 0 Then
-                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                    ' 1. Creamos la variable para guardar el importe numérico puro
+                    Dim importePuro As Decimal = 0.0D
+
+                    ' 2. Verificamos que la celda de la vista no sea NULL o vacía
+                    If miView(x)("Importe") IsNot DBNull.Value AndAlso miView(x)("Importe") IsNot Nothing Then
+
+                        Dim textoImporte As String = miView(x)("Importe").ToString()
+
+                        ' 3. Conversión segura multiidioma (interpreta comas y puntos correctamente)
+                        If Not Decimal.TryParse(textoImporte,
+                        System.Globalization.NumberStyles.Any,
+                        System.Globalization.CultureInfo.CurrentCulture,
+                        importePuro) Then
+
+                            ' PLAN B: Si la base de datos guardó el dato con formato invariant (punto universal)
+                            Decimal.TryParse(textoImporte.Replace(",", "."),
+                     System.Globalization.NumberStyles.Any,
+                     System.Globalization.CultureInfo.InvariantCulture,
+                     importePuro)
+                        End If
+                    End If
+
+                    ' 4. Calculamos el valor absoluto exacto con el tipo Decimal para el gráfico
+                    vImporteConcepto = Math.Abs(importePuro)
                     Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), vImporteConcepto)
                     .Points(i).Color = Color.Red
                 Else
@@ -437,7 +607,30 @@ Public Class GraficosConceptos
             'Tomamos los datos de DataView para la gráfica
             With Chart1.Series("Gastos")
                 If miView(x)("Importe") <= 0 Then
-                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                    ' 1. Creamos la variable para guardar el importe numérico puro
+                    Dim importePuro As Decimal = 0.0D
+
+                    ' 2. Verificamos que la celda de la vista no sea NULL o vacía
+                    If miView(x)("Importe") IsNot DBNull.Value AndAlso miView(x)("Importe") IsNot Nothing Then
+
+                        Dim textoImporte As String = miView(x)("Importe").ToString()
+
+                        ' 3. Conversión segura multiidioma (interpreta comas y puntos correctamente)
+                        If Not Decimal.TryParse(textoImporte,
+                        System.Globalization.NumberStyles.Any,
+                        System.Globalization.CultureInfo.CurrentCulture,
+                        importePuro) Then
+
+                            ' PLAN B: Si la base de datos guardó el dato con formato invariant (punto universal)
+                            Decimal.TryParse(textoImporte.Replace(",", "."),
+                     System.Globalization.NumberStyles.Any,
+                     System.Globalization.CultureInfo.InvariantCulture,
+                     importePuro)
+                        End If
+                    End If
+
+                    ' 4. Calculamos el valor absoluto exacto con el tipo Decimal para el gráfico
+                    vImporteConcepto = Math.Abs(importePuro)
                     Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), vImporteConcepto)
                     .Points(i).Color = Color.Red
                 Else
@@ -473,7 +666,30 @@ Public Class GraficosConceptos
             'Tomamos los datos de DataView para la gráfica
             With Chart1.Series("Gastos")
                 If miView(x)("Importe") <= 0 Then
-                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                    ' 1. Creamos la variable para guardar el importe numérico puro
+                    Dim importePuro As Decimal = 0.0D
+
+                    ' 2. Verificamos que la celda de la vista no sea NULL o vacía
+                    If miView(x)("Importe") IsNot DBNull.Value AndAlso miView(x)("Importe") IsNot Nothing Then
+
+                        Dim textoImporte As String = miView(x)("Importe").ToString()
+
+                        ' 3. Conversión segura multiidioma (interpreta comas y puntos correctamente)
+                        If Not Decimal.TryParse(textoImporte,
+                        System.Globalization.NumberStyles.Any,
+                        System.Globalization.CultureInfo.CurrentCulture,
+                        importePuro) Then
+
+                            ' PLAN B: Si la base de datos guardó el dato con formato invariant (punto universal)
+                            Decimal.TryParse(textoImporte.Replace(",", "."),
+                     System.Globalization.NumberStyles.Any,
+                     System.Globalization.CultureInfo.InvariantCulture,
+                     importePuro)
+                        End If
+                    End If
+
+                    ' 4. Calculamos el valor absoluto exacto con el tipo Decimal para el gráfico
+                    vImporteConcepto = Math.Abs(importePuro)
                     Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), vImporteConcepto)
                 Else
                     Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), miView(x)("Importe"))

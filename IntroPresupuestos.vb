@@ -207,10 +207,26 @@ Public Class IntroPresupuestos
             ' Si es anual, dividimos el total entre 12 y redondeamos de forma limpia
             Dim totalAnual As Double = 0
             Double.TryParse(TxtAnual.Text, totalAnual)
-            Dim importeRepartido As Double = Math.Round(totalAnual / 12, 2)
-            For i As Integer = 0 To 11
-                importesMensuales(i) = importeRepartido
+            ' 1. Convertimos el total anual a Decimal antes de hacer la división
+            Dim totalDecimal As Decimal = Convert.ToDecimal(totalAnual)
+            Dim importeRepartido As Decimal = Math.Round(totalDecimal / 12D, 2)
+
+            ' 2. Llenamos los primeros 11 meses con el valor redondeado
+            Dim acumuladoPrimerosMeses As Decimal = 0.0D
+            For i As Integer = 0 To 10
+                ' Si importesMensuales exige Double, usamos Convert pero sobre el número YA redondeado
+                importesMensuales(i) = Convert.ToDouble(importeRepartido)
+                acumuladoPrimerosMeses += importeRepartido
             Next
+
+            ' 3. El último mes se queda con el pico exacto del presupuesto contable
+            Dim ultimoMesDecimal As Decimal = totalDecimal - acumuladoPrimerosMeses
+            importesMensuales(11) = Convert.ToDouble(ultimoMesDecimal)
+
+            'Dim importeRepartido As Decimal = Math.Round(Convert.ToDecimal(totalAnual / 12), 2)
+            'For i As Integer = 0 To 11
+            '    importesMensuales(i) = Convert.ToDouble(importeRepartido)
+            'Next
         Else
             ' Si es mensual, parseamos cada una de las 12 cajas de tu formulario
             Double.TryParse(TxtEnero.Text, importesMensuales(0))
@@ -289,7 +305,9 @@ Public Class IntroPresupuestos
             ' Convertimos el texto a número de forma segura
             If Double.TryParse(TxtAnual.Text.Trim(), totalAnual) Then
                 ' Dividimos entre 12 y redondeamos a 2 decimales
-                Dim importeMensual As Double = Math.Round(totalAnual / 12, 2)
+                ' 1. Convertimos la variable primero y luego dividimos por 12 en formato Decimal (12D)
+                Dim importeMensual As Decimal = Math.Round(Convert.ToDecimal(totalAnual) / 12D, 2)
+                ' 2. Formateamos a texto para la pantalla respetando los puntos y comas del usuario
                 Dim textoFormateado As String = importeMensual.ToString("N2")
 
                 ' Rellenamos las 12 cajas mensuales visualmente

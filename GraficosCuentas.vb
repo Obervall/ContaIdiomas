@@ -130,13 +130,40 @@ Public Class GraficosCuentas
                         End Try
                     Else ' Si el Concepto existe y hay importe diferente a cero, si es positivo o negativo se suma
                         cmdMdb1cr.CommandType = CommandType.Text
-                        If Val(vImporteConcepto) > 0 Then
-                            cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                            cmdMdb1cr.CommandText += "And tempapu.SumaImporteAPU > 0 "
-                        ElseIf Val(vImporteConcepto) < 0 Then
-                            cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                            cmdMdb1cr.CommandText += "And tempapu.SumaImporteAPU < 0 "
+                        ' 1. Convertimos el importe a Decimal de forma segura (multiidioma)
+                        Dim importeDecimal As Decimal = 0.0D
+                        If vImporteConcepto IsNot Nothing Then
+                            Decimal.TryParse(vImporteConcepto.ToString().Replace(",", "."),
+                     System.Globalization.NumberStyles.Any,
+                     System.Globalization.CultureInfo.InvariantCulture,
+                     importeDecimal)
                         End If
+
+                        ' 2. Limpiamos los parámetros previos del comando
+                        cmdMdb1cr.Parameters.Clear()
+
+                        ' 3. Evaluamos de forma exacta usando el número decimal puro
+                        If importeDecimal > 0 Then
+                            ' Consulta usando parámetros (?) para evitar fallos por comillas o caracteres raros
+                            cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = ? And tempapu.SumaImporteAPU > 0"
+
+                            ' Añadimos el parámetro que sustituye al primer "?"
+                            cmdMdb1cr.Parameters.AddWithValue("@Concepto", vNombreConcepto.ToString())
+
+                        ElseIf importeDecimal < 0 Then
+                            cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = ? And tempapu.SumaImporteAPU < 0"
+
+                            ' Añadimos el parámetro que sustituye al primer "?"
+                            cmdMdb1cr.Parameters.AddWithValue("@Concepto", vNombreConcepto.ToString())
+                        End If
+
+                        'If Val(vImporteConcepto) > 0 Then
+                        '    cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+                        '    cmdMdb1cr.CommandText += "And tempapu.SumaImporteAPU > 0 "
+                        'ElseIf Val(vImporteConcepto) < 0 Then
+                        '    cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+                        '    cmdMdb1cr.CommandText += "And tempapu.SumaImporteAPU < 0 "
+                        'End If
                         Try
                             drMdb1 = cmdMdb1cr.ExecuteReader()
                             If drMdb1.HasRows Then 'Significa que existe con las condiciones
@@ -144,12 +171,29 @@ Public Class GraficosCuentas
                                     vExistenteImporteConcepto = drMdb1.GetValue(1)
                                 End While
                                 drMdb1.Close()
-                                vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
-                                If Val(vImporteConcepto) > 0 Then
+                                'vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
+                                ' 1. Convertimos ambos importes a variables decimales exactas
+                                Dim importe1 As Decimal = 0.0D
+                                Dim importe2 As Decimal = 0.0D
+
+                                ' Conversión segura del primer importe
+                                If vImporteConcepto IsNot Nothing Then
+                                    Decimal.TryParse(vImporteConcepto.ToString().Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, importe1)
+                                End If
+
+                                ' Conversión segura del segundo importe
+                                If vExistenteImporteConcepto IsNot Nothing Then
+                                    Decimal.TryParse(vExistenteImporteConcepto.ToString().Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, importe2)
+                                End If
+
+                                ' 2. Sumamos los números reales de forma exacta
+                                vNewImporteConcepto = importe1 + importe2
+
+                                If importe1 > 0 Then
                                     vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
                                     vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
                                     vAñadir2 += "And tempapu.SumaImporteAPU > 0 "
-                                ElseIf Val(vImporteConcepto) < 0 Then
+                                ElseIf importe1 < 0 Then
                                     vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
                                     vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
                                     vAñadir2 += "And tempapu.SumaImporteAPU < 0 "
@@ -175,6 +219,23 @@ Public Class GraficosCuentas
                                     End While
                                     drMdb1.Close()
                                     vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
+                                    ' 1. Convertimos ambos importes a variables decimales exactas
+                                    Dim importe1 As Decimal = 0.0D
+                                    Dim importe2 As Decimal = 0.0D
+
+                                    ' Conversión segura del primer importe
+                                    If vImporteConcepto IsNot Nothing Then
+                                        Decimal.TryParse(vImporteConcepto.ToString().Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, importe1)
+                                    End If
+
+                                    ' Conversión segura del segundo importe
+                                    If vExistenteImporteConcepto IsNot Nothing Then
+                                        Decimal.TryParse(vExistenteImporteConcepto.ToString().Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, importe2)
+                                    End If
+
+                                    ' 2. Sumamos los números reales de forma exacta
+                                    vNewImporteConcepto = importe1 + importe2
+
                                     vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
                                     vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
                                     vAñadir2 += "And tempapu.SumaImporteAPU = 0 "
@@ -190,108 +251,247 @@ Public Class GraficosCuentas
                                 drMdb1.Close()
                             End If
                         Catch ex As Exception
-                            MsgBox("Error al verificar que el Concepto existe en Tempapu con las condiciones")
+                            'MsgBox("Error al verificar que el Concepto existe en Tempapu con las condiciones")
                             MsgBox(ex.ToString)
                         End Try
                     End If
                 End If
             Next
         Else
+            'For Each fila As DataGridViewRow In frmApuntesContables.DgvApuntes.Rows
+            '    If fila.Cells(3).Value <> 0 Then
+            '        vImporteConcepto = fila.Cells(3).Value
+            '        If vNombreConcepto <> fila.Cells(6).Value.ToString Then
+            '            vNombreConcepto = fila.Cells(6).Value.ToString
+            '            vImporteConcepto = ""
+            '            vImporteConcepto = fila.Cells(3).Value
+            '            vAñadir = "INSERT INTO tempapu"
+            '            vAñadir += "(ConceptoAPU, SumaImporteAPU) "
+            '            vAñadir += "VALUES ('" & vNombreConcepto & "','" & vImporteConcepto & "')"
+            '            cmdMdb1cr.CommandText = vAñadir
+            '            Try
+            '                cmdMdb1cr.ExecuteNonQuery()
+            '            Catch ex As Exception
+            '                MsgBox("Error al añadir el Concepto a Tempapu")
+            '                MsgBox(ex.ToString)
+            '            End Try
+            '            vAñadir = "INSERT INTO tempapu"
+            '            vAñadir += "(ConceptoAPU, SumaImporteAPU) "
+            '            vAñadir += "VALUES ('" & vNombreConcepto & "',' 0 ')"
+            '            cmdMdb1cr.CommandText = vAñadir
+            '            Try
+            '                cmdMdb1cr.ExecuteNonQuery()
+            '            Catch ex As Exception
+            '                'MsgBox("Error al añadir el Concepto a Tempapu")
+            '                MsgBox(ex.ToString)
+            '            End Try
+            '        Else ' Si el Concepto existe y hay importe diferente a cero, si es positivo o negativo se suma
+            '            cmdMdb1cr.CommandType = CommandType.Text
+            '            If Val(vImporteConcepto) > 0 Then
+            '                cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+            '                cmdMdb1cr.CommandText += "And tempapu.SumaImporteAPU > 0 "
+            '            ElseIf Val(vImporteConcepto) < 0 Then
+            '                cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+            '                cmdMdb1cr.CommandText += "And tempapu.SumaImporteAPU < 0 "
+            '            End If
+            '            Try
+            '                drMdb1 = cmdMdb1cr.ExecuteReader()
+            '                If drMdb1.HasRows Then 'Significa que existe con las condiciones
+            '                    While drMdb1.Read()
+            '                        vExistenteImporteConcepto = drMdb1.GetValue(1)
+            '                    End While
+            '                    drMdb1.Close()
+            '                    vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
+            '                    If Val(vImporteConcepto) > 0 Then
+            '                        vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
+            '                        vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+            '                        vAñadir2 += "And tempapu.SumaImporteAPU > 0 "
+            '                    ElseIf Val(vImporteConcepto) < 0 Then
+            '                        vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
+            '                        vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+            '                        vAñadir2 += "And tempapu.SumaImporteAPU < 0 "
+            '                    End If
+            '                    cmdMdb1cr.CommandText = vAñadir2
+            '                    Try
+            '                        drMdb1 = cmdMdb1cr.ExecuteReader()
+            '                    Catch ex As Exception
+            '                        MsgBox("Error al actualizar el Concepto en Tempapu con las condiciones")
+            '                        MsgBox(ex.ToString)
+            '                    End Try
+            '                    drMdb1.Close()
+
+            '                Else   'NO existe, lo añadimos al cero
+            '                    'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
+            '                    drMdb1.Close()
+            '                    cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+            '                    cmdMdb1cr.CommandText += "And tempapu.SumaImporteAPU = 0 "
+            '                    drMdb1 = cmdMdb1cr.ExecuteReader()
+            '                    If drMdb1.HasRows Then 'Significa que existe con las condiciones
+            '                        While drMdb1.Read()
+            '                            vExistenteImporteConcepto = drMdb1.GetValue(1)
+            '                        End While
+            '                        drMdb1.Close()
+            '                        vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
+            '                        vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
+            '                        vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+            '                        vAñadir2 += "And tempapu.SumaImporteAPU = 0 "
+            '                        cmdMdb1cr.CommandText = vAñadir2
+            '                        Try
+            '                            drMdb1 = cmdMdb1cr.ExecuteReader()
+            '                        Catch ex As Exception
+            '                            MsgBox("Error al actualizar el Concepto en Tempapu con las condiciones")
+            '                            MsgBox(ex.ToString)
+            '                        End Try
+            '                        drMdb1.Close()
+            '                    End If
+            '                    drMdb1.Close()
+            '                End If
+            '            Catch ex As Exception
+            '                MsgBox("Error al verificar que el Concepto existe en Tempapu con las condiciones")
+            '                MsgBox(ex.ToString)
+            '            End Try
+            '        End If
+            '    End If
+            'Next
             For Each fila As DataGridViewRow In frmApuntesContables.DgvApuntes.Rows
-                If fila.Cells(3).Value <> 0 Then
-                    vImporteConcepto = fila.Cells(3).Value
-                    If vNombreConcepto <> fila.Cells(6).Value.ToString Then
-                        vNombreConcepto = fila.Cells(6).Value.ToString
-                        vImporteConcepto = ""
-                        vImporteConcepto = fila.Cells(3).Value
-                        vAñadir = "INSERT INTO tempapu"
-                        vAñadir += "(ConceptoAPU, SumaImporteAPU) "
-                        vAñadir += "VALUES ('" & vNombreConcepto & "','" & vImporteConcepto & "')"
-                        cmdMdb1cr.CommandText = vAñadir
+                ' Aseguramos que la fila no sea la fila vacía del final del DataGridView
+                If fila.IsNewRow Then Continue For
+
+                ' 1. Leemos el importe de la celda 3 de forma segura (como Decimal)
+                Dim importeFila As Decimal = 0.0D
+                If fila.Cells(3).Value IsNot Nothing AndAlso Not IsDBNull(fila.Cells(3).Value) Then
+                    Decimal.TryParse(fila.Cells(3).Value.ToString().Replace(",", "."),
+                         System.Globalization.NumberStyles.Any,
+                         System.Globalization.CultureInfo.InvariantCulture,
+                         importeFila)
+                End If
+
+                ' Si el importe es diferente de cero, procesamos
+                If importeFila <> 0 Then
+
+                    ' Leemos el nombre del concepto de la celda 6 de forma segura
+                    Dim conceptoFila As String = ""
+                    If fila.Cells(6).Value IsNot Nothing Then
+                        conceptoFila = fila.Cells(6).Value.ToString()
+                    End If
+
+                    If vNombreConcepto <> conceptoFila Then
+                        vNombreConcepto = conceptoFila
+
+                        ' A) INSERT de la fila con su importe real
+                        cmdMdb1cr.CommandText = "INSERT INTO tempapu (ConceptoAPU, SumaImporteAPU) VALUES (?, ?)"
+                        cmdMdb1cr.Parameters.Clear()
+                        cmdMdb1cr.Parameters.AddWithValue("@Concepto", vNombreConcepto)
+                        cmdMdb1cr.Parameters.AddWithValue("@Importe", importeFila) ' .NET maneja la coma/punto de forma nativa
+
                         Try
                             cmdMdb1cr.ExecuteNonQuery()
                         Catch ex As Exception
-                            MsgBox("Error al añadir el Concepto a Tempapu")
-                            MsgBox(ex.ToString)
+                            MsgBox("Error al añadir el Concepto a Tempapu" & vbCrLf & ex.Message)
                         End Try
-                        vAñadir = "INSERT INTO tempapu"
-                        vAñadir += "(ConceptoAPU, SumaImporteAPU) "
-                        vAñadir += "VALUES ('" & vNombreConcepto & "',' 0 ')"
-                        cmdMdb1cr.CommandText = vAñadir
+
+                        ' B) INSERT de la fila testigo con importe 0
+                        cmdMdb1cr.CommandText = "INSERT INTO tempapu (ConceptoAPU, SumaImporteAPU) VALUES (?, 0)"
+                        cmdMdb1cr.Parameters.Clear()
+                        cmdMdb1cr.Parameters.AddWithValue("@Concepto", vNombreConcepto)
+
                         Try
                             cmdMdb1cr.ExecuteNonQuery()
                         Catch ex As Exception
-                            MsgBox("Error al añadir el Concepto a Tempapu")
-                            MsgBox(ex.ToString)
+                            MsgBox(ex.Message)
                         End Try
-                    Else ' Si el Concepto existe y hay importe diferente a cero, si es positivo o negativo se suma
+
+                    Else ' Si el concepto coincide, buscamos si ya existe para sumar
                         cmdMdb1cr.CommandType = CommandType.Text
-                        If Val(vImporteConcepto) > 0 Then
-                            cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                            cmdMdb1cr.CommandText += "And tempapu.SumaImporteAPU > 0 "
-                        ElseIf Val(vImporteConcepto) < 0 Then
-                            cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                            cmdMdb1cr.CommandText += "And tempapu.SumaImporteAPU < 0 "
+                        cmdMdb1cr.Parameters.Clear()
+
+                        If importeFila > 0 Then
+                            cmdMdb1cr.CommandText = "SELECT SumaImporteAPU FROM tempapu WHERE ConceptoAPU = ? And SumaImporteAPU > 0"
+                            cmdMdb1cr.Parameters.AddWithValue("@Concepto", vNombreConcepto)
+                        Else
+                            cmdMdb1cr.CommandText = "SELECT SumaImporteAPU FROM tempapu WHERE ConceptoAPU = ? And SumaImporteAPU < 0"
+                            cmdMdb1cr.Parameters.AddWithValue("@Concepto", vNombreConcepto)
                         End If
+
+                        Dim existeConCondicion As Boolean = False
+                        Dim existenteImporte As Decimal = 0.0D
+
                         Try
                             drMdb1 = cmdMdb1cr.ExecuteReader()
-                            If drMdb1.HasRows Then 'Significa que existe con las condiciones
+                            If drMdb1.HasRows Then
+                                existeConCondicion = True
                                 While drMdb1.Read()
-                                    vExistenteImporteConcepto = drMdb1.GetValue(1)
+                                    If Not drMdb1.IsDBNull(0) Then
+                                        Decimal.TryParse(drMdb1.GetValue(0).ToString().Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, existenteImporte)
+                                    End If
                                 End While
-                                drMdb1.Close()
-                                vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
-                                If Val(vImporteConcepto) > 0 Then
-                                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
-                                    vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                                    vAñadir2 += "And tempapu.SumaImporteAPU > 0 "
-                                ElseIf Val(vImporteConcepto) < 0 Then
-                                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
-                                    vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                                    vAñadir2 += "And tempapu.SumaImporteAPU < 0 "
+                            End If
+                            drMdb1.Close()
+
+                            If existeConCondicion Then
+                                ' Realizamos la suma matemática limpia en Decimal
+                                Dim nuevaSuma As Decimal = importeFila + existenteImporte
+
+                                cmdMdb1cr.Parameters.Clear()
+                                If importeFila > 0 Then
+                                    cmdMdb1cr.CommandText = "UPDATE tempapu SET SumaImporteAPU = ? WHERE ConceptoAPU = ? And SumaImporteAPU > 0"
+                                Else
+                                    cmdMdb1cr.CommandText = "UPDATE tempapu SET SumaImporteAPU = ? WHERE ConceptoAPU = ? And SumaImporteAPU < 0"
                                 End If
-                                cmdMdb1cr.CommandText = vAñadir2
+
+                                ' IMPORTANTE EN ACCESS: Añadir parámetros en el orden exacto del SQL
+                                cmdMdb1cr.Parameters.AddWithValue("@Suma", nuevaSuma)
+                                cmdMdb1cr.Parameters.AddWithValue("@Concepto", vNombreConcepto)
+
                                 Try
-                                    drMdb1 = cmdMdb1cr.ExecuteReader()
+                                    cmdMdb1cr.ExecuteNonQuery() ' CORREGIDO: UPDATE usa ExecuteNonQuery, no ExecuteReader
                                 Catch ex As Exception
-                                    MsgBox("Error al actualizar el Concepto en Tempapu con las condiciones")
-                                    MsgBox(ex.ToString)
+                                    MsgBox("Error al actualizar el Concepto en Tempapu" & vbCrLf & ex.Message)
                                 End Try
+
+                            Else ' NO existe con esa condición, buscamos el registro con importe 0
+                                cmdMdb1cr.Parameters.Clear()
+                                cmdMdb1cr.CommandText = "SELECT SumaImporteAPU FROM tempapu WHERE ConceptoAPU = ? And SumaImporteAPU = 0"
+                                cmdMdb1cr.Parameters.AddWithValue("@Concepto", vNombreConcepto)
+
+                                Dim existeCero As Boolean = False
+                                Dim existenteImporteCero As Decimal = 0.0D
+
+                                drMdb1 = cmdMdb1cr.ExecuteReader()
+                                If drMdb1.HasRows Then
+                                    existeCero = True
+                                    While drMdb1.Read()
+                                        If Not drMdb1.IsDBNull(0) Then
+                                            Decimal.TryParse(drMdb1.GetValue(0).ToString().Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, existenteImporteCero)
+                                        End If
+                                    End While
+                                End If
                                 drMdb1.Close()
 
-                            Else   'NO existe, lo añadimos al cero
-                                'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
-                                drMdb1.Close()
-                                cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                                cmdMdb1cr.CommandText += "And tempapu.SumaImporteAPU = 0 "
-                                drMdb1 = cmdMdb1cr.ExecuteReader()
-                                If drMdb1.HasRows Then 'Significa que existe con las condiciones
-                                    While drMdb1.Read()
-                                        vExistenteImporteConcepto = drMdb1.GetValue(1)
-                                    End While
-                                    drMdb1.Close()
-                                    vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
-                                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
-                                    vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                                    vAñadir2 += "And tempapu.SumaImporteAPU = 0 "
-                                    cmdMdb1cr.CommandText = vAñadir2
+                                If existeCero Then
+                                    Dim nuevaSumaCero As Decimal = importeFila + existenteImporteCero
+
+                                    cmdMdb1cr.Parameters.Clear()
+                                    cmdMdb1cr.CommandText = "UPDATE tempapu SET SumaImporteAPU = ? WHERE ConceptoAPU = ? And SumaImporteAPU = 0"
+                                    cmdMdb1cr.Parameters.AddWithValue("@Suma", nuevaSumaCero)
+                                    cmdMdb1cr.Parameters.AddWithValue("@Concepto", vNombreConcepto)
+
                                     Try
-                                        drMdb1 = cmdMdb1cr.ExecuteReader()
+                                        cmdMdb1cr.ExecuteNonQuery() ' CORREGIDO: ExecuteNonQuery
                                     Catch ex As Exception
-                                        MsgBox("Error al actualizar el Concepto en Tempapu con las condiciones")
-                                        MsgBox(ex.ToString)
+                                        MsgBox("Error al actualizar el Concepto cero en Tempapu" & vbCrLf & ex.Message)
                                     End Try
-                                    drMdb1.Close()
                                 End If
-                                drMdb1.Close()
                             End If
+
                         Catch ex As Exception
-                            MsgBox("Error al verificar que el Concepto existe en Tempapu con las condiciones")
-                            MsgBox(ex.ToString)
+                            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+                            MsgBox("Error en el proceso de verificación del Concepto" & vbCrLf & ex.Message)
                         End Try
                     End If
                 End If
             Next
+
         End If
 
         miDataTable.Columns.Add("Cuenta")

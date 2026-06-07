@@ -87,7 +87,12 @@ Module Funciones
     Public resManager As New ResourceManager("Contahogar.Recursos", Assembly.GetExecutingAssembly())
     ' Para copiar en en el Classe de cada Form la línea:
     'Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
-    Public vDate1, vDate2, vDate3, vFechaTemp, vFechaTemp2 As DateTime
+    Public vDate1 As DateTime
+    Public vDate2 As DateTime
+    Public vDate3 As DateTime
+    Public vFechaTemp As DateTime
+    Public vFechaTemp2 As DateTime
+
     Public vfechaHoy As DateTime = DateTime.Today
 
     Public Structure ElementoCombo
@@ -497,16 +502,48 @@ Module Funciones
             Dim adp As New OleDbDataAdapter(linSql, conexion1)
             Dim Tabla As New DataTable
             adp.Fill(Tabla)
-            frmCuentasBancarias.DgvCuentas.DataSource = ""
+
+            ' --- SOLUCIÓN: Recorremos las filas de la TABLA de datos antes de enlazar al Grid ---
+            For Each filaData As DataRow In Tabla.Rows
+                vNombreCuenta = filaData(1).ToString() ' Celda 1 (Nombre)
+
+                ' Buscar el Saldo de cada Cuenta Bancaria en Apuntes
+                cmdMdb1cr.CommandText = "SELECT apuntes.ImporteAPU FROM apuntes"
+                cmdMdb1cr.CommandText += " WHERE apuntes.CuentaAPU = '" & vNombreCuenta & "' "
+                cmdMdb1cr.CommandText += "And apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+
+                Try
+                    drMdb1 = cmdMdb1cr.ExecuteReader()
+                    vSaldoCuentas = 0
+                    If drMdb1.HasRows Then
+                        While drMdb1.Read()
+                            ' Sumamos de forma limpia convirtiendo a Decimal
+                            vSaldoCuentas += Convert.ToDecimal(drMdb1.GetValue(0))
+                        End While
+                    End If
+                    drMdb1.Close()
+                Catch ex As Exception
+                    If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+                    MsgBox(resManager.GetString("ErrorAlEjecutar") & ": " & cmdMdb1cr.CommandText & ex.Message)
+                End Try
+
+                ' Guardamos el número exacto directamente en el registro de la tabla
+                ' Al calcularlo aquí, .NET sabrá que es un número real
+                filaData(3) = Math.Round(Convert.ToDecimal(vSaldoCuentas), 2)
+            Next
+
+            ' --- AHORA SÍ: Enlazamos la tabla ya calculada al Grid ---
+            frmCuentasBancarias.DgvCuentas.DataSource = Nothing
             frmCuentasBancarias.DgvCuentas.DataSource = Tabla
+
             With frmCuentasBancarias.DgvCuentas
                 .DefaultCellStyle.Font = New Font("Tahoma", 9)
                 .DefaultCellStyle.ForeColor = Color.Black
                 .DefaultCellStyle.BackColor = Color.White
                 .DefaultCellStyle.SelectionForeColor = Color.White
                 .DefaultCellStyle.SelectionBackColor = Color.Blue
-                ' arreglamos columnas
-                '********************
+
+                ' Configuración de alineaciones y colores
                 .Columns(2).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
                 .Columns(0).DefaultCellStyle.ForeColor = Color.DarkGreen
                 .Columns(1).DefaultCellStyle.ForeColor = Color.DarkBlue
@@ -515,55 +552,24 @@ Module Funciones
                 .Columns(3).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight
                 .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
                 .Columns(3).DefaultCellStyle.ForeColor = Color.DarkBlue
+
+                ' TRUCO MAESTRO: Forzamos el formato N2 ahora que la columna contiene números puros
                 .Columns(3).DefaultCellStyle.Format = "N2"
+
+                ' Dimensiones y encabezados traducidos
                 .Columns(0).Width = 135
-                .Columns(0).HeaderText = resManager.GetString("Tipo") ' My.Resources.Recursos.Tipo
+                .Columns(0).HeaderText = resManager.GetString("Tipo")
                 .Columns(1).Width = 200
-                .Columns(1).HeaderText = resManager.GetString("Nombre") ' My.Resources.Recursos.Nombre
+                .Columns(1).HeaderText = resManager.GetString("Nombre")
                 .Columns(2).Width = 200
-                .Columns(2).HeaderText = resManager.GetString("Numero") ' My.Resources.Recursos.Numero
+                .Columns(2).HeaderText = resManager.GetString("Numero")
                 .Columns(3).Width = 125
-                .Columns(3).HeaderText = resManager.GetString("Saldo") & "(" & vMoneda & ")" ' My.Resources.Recursos.Saldo
-                ' --- NUEVO: Hacemos que la columna 4 rellene el espacio restante del Grid ---
+                .Columns(3).HeaderText = resManager.GetString("Saldo") & "(" & vMoneda & ")"
+
                 .Columns(4).AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
                 .Columns(4).HeaderText = resManager.GetString("Notas")
 
-                '.Columns(4).Width = 155
-                '.Columns(4).HeaderText = resManager.GetString("Notas") ' My.Resources.Recursos.Notas
-
-                '' Para insertar alguna columna
-                'Dim columna As New DataGridViewTextBoxColumn With {
-                '.HeaderText = "Saldo(" & vMoneda & ")",
-                '.Width = 350
-                '}
-                '.Columns.Insert(3, columna)
-
-                For Each fila As DataGridViewRow In frmCuentasBancarias.DgvCuentas.Rows
-                    vNombreCuenta = fila.Cells(1).Value
-                    ' Buscar el Saldo de cada Cuenta Bancaria en Apuntes
-                    '***************************************************
-                    cmdMdb1cr.CommandText = "SELECT apuntes.ImporteAPU FROM apuntes"
-                    cmdMdb1cr.CommandText += " WHERE "
-                    cmdMdb1cr.CommandText += "apuntes.CuentaAPU = '" & vNombreCuenta & "' "
-                    cmdMdb1cr.CommandText += "And apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-                    Try
-                        drMdb1 = cmdMdb1cr.ExecuteReader()
-                        vSaldoCuentas = 0
-                        If drMdb1.HasRows Then
-                            While drMdb1.Read()
-                                vSaldoCuentas += drMdb1.GetValue(0)
-                            End While
-                        Else
-                            'MsgBox("No existen registros en " & tipoSql)
-                        End If
-                        drMdb1.Close()
-                    Catch ex As Exception
-                        MsgBox(resManager.GetString("ErrorAlEjecutar") & ": " & cmdMdb1cr.CommandText & ex.Message)
-                    End Try
-                    fila.Cells(3).Value = Convert.ToDouble(vSaldoCuentas)
-                Next
-
-                Dim vNumRegistros As String = frmCuentasBancarias.DgvCuentas.Rows.Count.ToString
+                Dim vNumRegistros As String = .Rows.Count.ToString
                 frmCuentasBancarias.TxtNumRegistros.Text = vNumRegistros
                 If frmCuentasBancarias.BtnFiltroTipoCuenta.Enabled = False Then
                     frmCuentasBancarias.LblNumRegistros.Text = resManager.GetString("Filtrado")
@@ -604,7 +610,7 @@ Module Funciones
                 Catch ex As Exception
                     MsgBox("Error al ejecutar: " & cmdMdb1cr.CommandText & " por: " & ex.Message)
                 End Try
-                fila.Cells(3).Value = Convert.ToDouble(vSaldoCuentas)
+                fila.Cells(3).Value = Math.Round(Convert.ToDecimal(vSaldoCuentas), 2)
                 vValor += vSaldoCuentas
             Next
             frmImprimirForm.LblTotal.Text = String.Format("{0}: {1} {2}", resManager.GetString("TOTAL"), vValor.ToString("N2"), vMoneda)

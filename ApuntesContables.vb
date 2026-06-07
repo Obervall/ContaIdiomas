@@ -31,16 +31,46 @@ Public Class ApuntesContables
     Private Sub ApuntesContables_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
 
-        vFecha1Enero = Val(vAñoEjercicio)
-        DateTimePicker1.MinDate = New Date(vFecha1Enero, 1, 1)
-        DateTimePicker2.MinDate = New Date(vFecha1Enero, 1, 1)
-        DateTimePicker1.Value = New Date(vFecha1Enero, 1, 1)
-        vFecha31Diciembre = Val(vAñoEjercicio)
-        DateTimePicker1.MaxDate = New Date(vFecha31Diciembre, 12, 31)
-        DateTimePicker2.MaxDate = New Date(vFecha31Diciembre, 12, 31)
-        DateTimePicker2.Value = New Date(vFecha31Diciembre, 12, 31)
+        ' 1. Convertimos el año de texto a un número entero de forma segura
+        Dim anio As Integer
+        If Not Integer.TryParse(vAñoEjercicio, anio) Then
+            ' Si por alguna razón vAñoEjercicio no es un número válido, 
+            ' le asignamos el año actual por defecto para que no rompa el programa
+            anio = Date.Today.Year
+        End If
+
+        ' 2. Asignamos a tus variables el año obtenido (opcional, por si las usas en otra parte)
+        vFecha1Enero = anio
+        vFecha31Diciembre = anio
+
+        ' 3. Configuramos los DateTimePicker de forma limpia
+        Dim fechaInicio As New Date(anio, 1, 1)
+        Dim fechaFin As New Date(anio, 12, 31)
+
+        ' Aplicamos los límites y valores del primer control
+        DateTimePicker1.MinDate = fechaInicio
+        DateTimePicker1.MaxDate = fechaFin
+        DateTimePicker1.Value = fechaInicio
+
+        ' Aplicamos los límites y valores del segundo control
+        DateTimePicker2.MinDate = fechaInicio
+        DateTimePicker2.MaxDate = fechaFin
+        DateTimePicker2.Value = fechaFin
+
+        ' 4. El resto de tu lógica original
         BtnFechasClick = "NO"
         BtnFechasFondo.Visible = False
+
+        'vFecha1Enero = Val(vAñoEjercicio)
+        'DateTimePicker1.MinDate = New Date(vFecha1Enero, 1, 1)
+        'DateTimePicker2.MinDate = New Date(vFecha1Enero, 1, 1)
+        'DateTimePicker1.Value = New Date(vFecha1Enero, 1, 1)
+        'vFecha31Diciembre = Val(vAñoEjercicio)
+        'DateTimePicker1.MaxDate = New Date(vFecha31Diciembre, 12, 31)
+        'DateTimePicker2.MaxDate = New Date(vFecha31Diciembre, 12, 31)
+        'DateTimePicker2.Value = New Date(vFecha31Diciembre, 12, 31)
+        'BtnFechasClick = "NO"
+        'BtnFechasFondo.Visible = False
 
         ' Ejemplo de uso del ResourceManager para obtener una cadena traducida
         TL(0) = New ToolTip
@@ -669,12 +699,31 @@ Public Class ApuntesContables
             BtnFechasClick = "NO"
             BtnFechasFondo.Visible = False
         End If
-        vFecha1Enero = Val(vAñoEjercicio)
-        DateTimePicker1.Value = New Date(vFecha1Enero, 1, 1)
-        vFecha31Diciembre = Val(vAñoEjercicio)
-        DateTimePicker2.Value = New Date(vFecha31Diciembre, 12, 31)
+        ' 1. Convertimos el año a número entero de forma segura
+        Dim anio As Integer
+        If Not Integer.TryParse(vAñoEjercicio, anio) Then
+            ' Si falla o viene vacío, usamos el año actual para evitar que el programa se rompa
+            anio = Date.Today.Year
+        End If
+
+        ' 2. Asignamos el año a tus variables (por si las usas en el resto del formulario)
+        vFecha1Enero = anio
+        vFecha31Diciembre = anio
+
+        ' 3. Asignamos de forma segura las fechas a los DateTimePicker
+        DateTimePicker1.Value = New Date(anio, 1, 1)
+        DateTimePicker2.Value = New Date(anio, 12, 31)
+
+        ' 4. Tu lógica de botones original
         BtnFiltroFecha.Enabled = True
         BtnSinFiltroFecha.Enabled = False
+
+        'vFecha1Enero = Val(vAñoEjercicio)
+        'DateTimePicker1.Value = New Date(vFecha1Enero, 1, 1)
+        'vFecha31Diciembre = Val(vAñoEjercicio)
+        'DateTimePicker2.Value = New Date(vFecha31Diciembre, 12, 31)
+        'BtnFiltroFecha.Enabled = True
+        'BtnSinFiltroFecha.Enabled = False
         If ListBox1.SelectedItems.Count <> 0 Then
             TxtConcepto.Text = rmse.GetString("MsgText3")
             CmbConcepto.Items.Clear()
@@ -1198,12 +1247,36 @@ Public Class ApuntesContables
                 drMdb1 = cmdMdb1cr.ExecuteReader()
                 If drMdb1.HasRows Then
                     While drMdb1.Read()
-                        vFecha1Enero = Val(drMdb1.GetValue(0))
+                        ' 1. Verificamos que el valor de la base de datos no sea NULL
+                        If Not drMdb1.IsDBNull(0) Then
+                            Dim valorDb As String = drMdb1.GetValue(0).ToString()
+                            Dim anio As Integer
+
+                            ' 2. Convertimos el texto a número entero de forma segura
+                            If Integer.TryParse(valorDb, anio) Then
+                                vFecha1Enero = anio
+                            Else
+                                ' Si no es un número válido (ej. texto), asignamos año actual por seguridad
+                                vFecha1Enero = Date.Today.Year
+                            End If
+                        Else
+                            ' Si el campo en la base de datos es NULL, asignamos año actual
+                            vFecha1Enero = Date.Today.Year
+                        End If
                     End While
                 Else
                     'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
                 End If
                 drMdb1.Close()
+
+                'If drMdb1.HasRows Then
+                '    While drMdb1.Read()
+                '        vFecha1Enero = Val(drMdb1.GetValue(0))
+                '    End While
+                'Else
+                '    'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
+                'End If
+                'drMdb1.Close()
             Catch ex As Exception
                 MsgBox(ex.ToString)
             End Try
@@ -1211,17 +1284,48 @@ Public Class ApuntesContables
             DateTimePicker1.Value = New Date(vFecha1Enero, 1, 1)
             DateTimePicker2.MinDate = New Date(vFecha1Enero, 1, 1)
         Else
-            vFecha1Enero = Val(vAñoEjercicio)
-            vFecha31Diciembre = Val(vAñoEjercicio)
-            DateTimePicker1.MinDate = New Date(vFecha1Enero, 1, 1)
-            DateTimePicker1.MaxDate = New Date(vFecha31Diciembre, 12, 31)
-            DateTimePicker1.Value = New Date(vFecha1Enero, 1, 1)
-            DateTimePicker2.MinDate = New Date(vFecha1Enero, 1, 1)
-            DateTimePicker2.MaxDate = New Date(vFecha31Diciembre, 12, 31)
-            DateTimePicker2.Value = New Date(vFecha31Diciembre, 12, 31)
+            ' 1. Convertimos el año a número entero de forma segura
+            Dim anio As Integer
+            If Not Integer.TryParse(vAñoEjercicio, anio) Then
+                ' Salvavidas: si falla o está vacío, usa el año actual
+                anio = Date.Today.Year
+            End If
+
+            ' 2. Asignamos el año a tus variables del formulario
+            vFecha1Enero = anio
+            vFecha31Diciembre = anio
+
+            ' 3. Creamos los objetos de fecha una sola vez para mejorar el rendimiento
+            Dim fechaInicio As New Date(anio, 1, 1)
+            Dim fechaFin As New Date(anio, 12, 31)
+
+            ' 4. Configuramos el primer DateTimePicker
+            DateTimePicker1.MinDate = fechaInicio
+            DateTimePicker1.MaxDate = fechaFin
+            DateTimePicker1.Value = fechaInicio
+
+            ' 5. Configuramos el segundo DateTimePicker
+            DateTimePicker2.MinDate = fechaInicio
+            DateTimePicker2.MaxDate = fechaFin
+            DateTimePicker2.Value = fechaFin
+
+            ' 6. Tu lógica original de la interfaz
             BtnFechasClick = "NO"
             BtnFechasFondo.Visible = False
         End If
+
+        'Else
+        '    vFecha1Enero = Val(vAñoEjercicio)
+        '    vFecha31Diciembre = Val(vAñoEjercicio)
+        '    DateTimePicker1.MinDate = New Date(vFecha1Enero, 1, 1)
+        '    DateTimePicker1.MaxDate = New Date(vFecha31Diciembre, 12, 31)
+        '    DateTimePicker1.Value = New Date(vFecha1Enero, 1, 1)
+        '    DateTimePicker2.MinDate = New Date(vFecha1Enero, 1, 1)
+        '    DateTimePicker2.MaxDate = New Date(vFecha31Diciembre, 12, 31)
+        '    DateTimePicker2.Value = New Date(vFecha31Diciembre, 12, 31)
+        '    BtnFechasClick = "NO"
+        '    BtnFechasFondo.Visible = False
+        'End If
     End Sub
     Private Sub BtnEditarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEditarRegistro.Click
         filaActual = frmApuntesContables.DgvApuntes.CurrentRow.Index

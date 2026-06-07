@@ -148,8 +148,33 @@ Public Class EditarApuntes
         vNotasAPU = Trim(TxtNota.Text)
         vCuentaAPU = Trim(CmbCuenta.Text)
 
-        ' 2. Formatear el importe numérico puro (Evita fallos por comas decimales)
-        vimporteAPU = Val(TxtImporte.Text.Replace(",", "."))
+        '' 2. Formatear el importe numérico puro (Evita fallos por comas decimales)
+        'vimporteAPU = Val(TxtImporte.Text.Replace(",", "."))
+
+        ' 1. Usamos el tipo Decimal (imprescindible para contabilidad multiidioma)
+        Dim importeDecimal As Decimal
+
+        ' 2. .NET lee automáticamente el idioma de Windows del usuario (CurrentCulture)
+        ' detectando si debe usar coma o punto según su país, SIN necesidad de hacer .Replace()
+        If Not Decimal.TryParse(TxtImporte.Text,
+                        System.Globalization.NumberStyles.Currency,
+                        System.Globalization.CultureInfo.CurrentCulture,
+                        importeDecimal) Then
+
+            ' 3. PLAN B (Por si el usuario escribe con un formato mixto por error)
+            ' Si el paso anterior falla, intentamos leerlo ignorando la cultura (con punto universal)
+            If Not Decimal.TryParse(TxtImporte.Text.Replace(",", "."),
+                            System.Globalization.NumberStyles.Any,
+                            System.Globalization.CultureInfo.InvariantCulture,
+                            importeDecimal) Then
+                ' Si todo falla (ej. escribe letras), se asigna 0 por seguridad
+                importeDecimal = 0.0D
+            End If
+        End If
+
+        ' 4. Guardamos el importe limpio en tu variable
+        vimporteAPU = importeDecimal
+
         If TxtTipoConcepto.Text = "GASTO" Then
             vimporteAPU = -Math.Abs(vimporteAPU)
         Else

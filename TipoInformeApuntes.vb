@@ -371,7 +371,31 @@ Public Class TipoInformeApuntes
                         'MsgBox("Error al Leer la Fecha: " & vFechaTemp)
                         MsgBox(ex.ToString)
                     End Try
-                    vNewImporteFechas = (vImporteTmpprint + Val(fila.Cells(3).Value)).ToString
+                    'vNewImporteFechas = (vImporteTmpprint + Val(fila.Cells(3).Value)).ToString
+                    ' 1. Convertimos el acumulador actual a Decimal de forma segura
+                    Dim importeAcumulado As Decimal = 0.0D
+                    If vImporteTmpprint IsNot Nothing Then
+                        Decimal.TryParse(vImporteTmpprint.ToString().Replace(",", "."),
+                     System.Globalization.NumberStyles.Any,
+                     System.Globalization.CultureInfo.InvariantCulture,
+                     importeAcumulado)
+                    End If
+
+                    ' 2. Convertimos el importe de la celda actual a Decimal
+                    Dim importeCelda As Decimal = 0.0D
+                    If fila.Cells(3).Value IsNot Nothing AndAlso Not IsDBNull(fila.Cells(3).Value) Then
+                        Decimal.TryParse(fila.Cells(3).Value.ToString().Replace(",", "."),
+                     System.Globalization.NumberStyles.Any,
+                     System.Globalization.CultureInfo.InvariantCulture,
+                     importeCelda)
+                    End If
+
+                    ' 3. Realizamos la suma matemática exacta
+                    Dim sumaTotal As Decimal = importeAcumulado + importeCelda
+
+                    ' 4. Guardamos el resultado en formato texto para tu variable de impresión
+                    vNewImporteFechas = sumaTotal.ToString(System.Globalization.CultureInfo.InvariantCulture)
+
                     vAñadir2 = "UPDATE tmpprint SET ImporteTMP = ? WHERE tmpprint.FechaTMP = ?"
                     cmdMdb1cr.CommandText = vAñadir2
                     cmdMdb1cr.Parameters.Clear()
