@@ -150,4 +150,13 @@
   <data name="TSBtnImprimir" xml:space="preserve">
     <value>Impressão</value>
   </data>
+  <data name="TituloGrafico" xml:space="preserve">
+    <value>Gráfico por itens contábeis</value>
+  </data>
+  <data name="TSBtnImprimir.ToolTipText" xml:space="preserve">
+    <value>Gráfico de Impressão</value>
+  </data>
+  <data name="ToolStrip1.Text" xml:space="preserve">
+    <value>Barra de Ferramentas de Gráficos</value>
+  </data>
 </root>

@@ -4,6 +4,7 @@ Imports System.Drawing.Printing
 Imports System.Windows.Forms
 Imports System.Windows.Forms.DataVisualization.Charting
 
+
 Public Class GraficosConceptos
 
     Public vAñadir, vAñadir2, vTempapu, vImporteConcepto, vNewImporteConcepto As String
@@ -14,48 +15,80 @@ Public Class GraficosConceptos
     Public b As Bitmap
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
-    Private Sub GraficosConceptos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        'Iniciamos Tabla Tempapu
-        '***********************
+    Private Sub GraficosConceptos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ' =========================================================================
+        ' 1. INITIALIZACIÓN CRÍTICA DEL GRÁFICO (EVITA EL ERROR NULL / ARGUMENT)
+        ' =========================================================================
+        ' Borramos cualquier residuo del diseñador y creamos las series limpias
+        Chart1.Series.Clear()
+        Chart1.Series.Add("Gastos")
+        Chart1.Series.Add("Ingresos")
+
+        ' Establecemos el tipo inicial (Columnas) para que herede los ejes cartesianos
+        Chart1.Series("Gastos").ChartType = SeriesChartType.Column
+        Chart1.Series("Ingresos").ChartType = SeriesChartType.Column
+
+        ' Traducción automática del formulario y títulos
+        ActualizarTextosFormulario(Me)
+
+        If Chart1.Titles.Count > 0 Then
+            Chart1.Titles(0).Text = rmse.GetString("TituloGrafico")
+        Else
+            Chart1.Titles.Add(rmse.GetString("TituloGrafico"))
+        End If
+        Chart1.Titles(0).Font = New Font("Arial", 12, FontStyle.Italic)
+
+        ' Fuentes y títulos de los ejes (Multiidioma)
+        Dim fuenteTitulosGrafico As New Font("Arial", 12, FontStyle.Bold)
+        Chart1.ChartAreas(0).AxisX.TitleFont = fuenteTitulosGrafico
+        Chart1.ChartAreas(0).AxisY.TitleFont = fuenteTitulosGrafico
+
+        Chart1.ChartAreas("ChartArea1").AxisX.Title = resManager.GetString("Concepto")
+        Chart1.ChartAreas("ChartArea1").AxisY.Title = resManager.GetString("Moneda") & ": " & vMoneda
+
+        ' =========================================================================
+        ' 2. LIMPIEZA DE LA TABLA TEMPORAL EN LA BASE DE DATOS
+        ' =========================================================================
         vTempapu = "DELETE FROM tempapu"
         cmdMdb1cr.CommandText = vTempapu
         Try
             cmdMdb1cr.ExecuteNonQuery()
-            'MsgBox("Registros Tempapu, Borrados !!!")
         Catch ex As Exception
-            MsgBox("Error al limpiar la tabla Tempapu")
             MsgBox(ex.ToString)
         End Try
 
-        'Ordenamos la columna Concepto, antes de calcular los totales parciales.
-        '***********************************************************************
+        ' =========================================================================
+        ' 3. ORDENACIÓN DINÁMICA DE LOS DATAGRIDVIEW SEGÚN EL ORIGEN
+        ' =========================================================================
         If vGrafico <> "" Then
             frmApuntesPeriodicos.DgvApuper.Sort(frmApuntesPeriodicos.DgvApuper.Columns(1), System.ComponentModel.ListSortDirection.Ascending)
         Else
             frmApuntesContables.DgvApuntes.Sort(frmApuntesContables.DgvApuntes.Columns(1), System.ComponentModel.ListSortDirection.Ascending)
+            ' Aseguramos que la función de refresco reciba los parámetros correctos
             DgvApuntesContables(3, 4)
         End If
 
-        'Llenamos la tabla Temporal con los Conceptos Agrupados desde DgvApuntes
-        '***********************************************************************
+        ' =========================================================================
+        ' 4. PROCESAMIENTO Y AGRUPACIÓN DE CONCEPTOS (CON REPARACIÓN DE EXECUTES)
+        ' =========================================================================
         vNombreConcepto = ""
+
         If vGrafico <> "" Then
+            ' --- ORIGEN: APUNTES PERIÓDICOS ---
             For Each fila As DataGridViewRow In frmApuntesPeriodicos.DgvApuper.Rows
+                If fila.IsNewRow Then Continue For ' Seguridad: Evitamos la fila vacía
+
                 vImporteConcepto = fila.Cells(3).Value
-                If vNombreConcepto <> fila.Cells(1).Value.ToString Then
-                    vNombreConcepto = fila.Cells(1).Value.ToString
-                    vImporteConcepto = ""
+                If vNombreConcepto <> fila.Cells(1).Value.ToString() Then
+                    vNombreConcepto = fila.Cells(1).Value.ToString()
                     vImporteConcepto = fila.Cells(3).Value
-                    vAñadir = "INSERT INTO tempapu"
-                    vAñadir += "(ConceptoAPU, SumaImporteAPU) "
-                    vAñadir += "VALUES ('" & vNombreConcepto & "','" & vImporteConcepto & "')"
+
+                    vAñadir = "INSERT INTO tempapu(ConceptoAPU, SumaImporteAPU) VALUES ('" & vNombreConcepto & "','" & vImporteConcepto & "')"
                     cmdMdb1cr.CommandText = vAñadir
                     Try
                         cmdMdb1cr.ExecuteNonQuery()
-                        'MsgBox("Registro1, Grabado Correctamente")
                     Catch ex As Exception
-                        MsgBox("Error al Grabar el Concepto en Tempapu")
                         MsgBox(ex.ToString)
                     End Try
                 Else
@@ -67,44 +100,38 @@ Public Class GraficosConceptos
                             While drMdb1.Read()
                                 vExistenteImporteConcepto = drMdb1.GetValue(1)
                             End While
-                        Else
-                            'MsgBox("No existen registros en " + cmdMdb1cr.CommandText)
                         End If
                         drMdb1.Close()
                     Catch ex As Exception
-                        MsgBox("Error al verificar el Importe del Concepto en Tempapu")
                         MsgBox(ex.ToString)
                     End Try
-                    vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
-                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
-                    vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+
+                    vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto)
+                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
                     cmdMdb1cr.CommandText = vAñadir2
                     Try
-                        drMdb1 = cmdMdb1cr.ExecuteReader()
-                        'MsgBox("Registro2, Grabado Correctamente")
+                        ' CORRECCIÓN CRÍTICA: Los UPDATE usan ExecuteNonQuery, no ExecuteReader
+                        cmdMdb1cr.ExecuteNonQuery()
                     Catch ex As Exception
-                        MsgBox("Error al actualizar el Importe del Concepto en Tempapu")
                         MsgBox(ex.ToString)
                     End Try
-                    drMdb1.Close()
                 End If
             Next
         Else
+            ' --- ORIGEN: APUNTES CONTABLES ---
             For Each fila As DataGridViewRow In frmApuntesContables.DgvApuntes.Rows
+                If fila.IsNewRow Then Continue For ' Seguridad: Evitamos la fila vacía
+
                 vImporteConcepto = fila.Cells(3).Value
-                If vNombreConcepto <> fila.Cells(1).Value.ToString Then
-                    vNombreConcepto = fila.Cells(1).Value.ToString
-                    vImporteConcepto = ""
+                If vNombreConcepto <> fila.Cells(1).Value.ToString() Then
+                    vNombreConcepto = fila.Cells(1).Value.ToString()
                     vImporteConcepto = fila.Cells(3).Value
-                    vAñadir = "INSERT INTO tempapu"
-                    vAñadir += "(ConceptoAPU, SumaImporteAPU) "
-                    vAñadir += "VALUES ('" & vNombreConcepto & "','" & vImporteConcepto & "')"
+
+                    vAñadir = "INSERT INTO tempapu(ConceptoAPU, SumaImporteAPU) VALUES ('" & vNombreConcepto & "','" & vImporteConcepto & "')"
                     cmdMdb1cr.CommandText = vAñadir
                     Try
                         cmdMdb1cr.ExecuteNonQuery()
-                        'MsgBox("Registro1, Grabado Correctamente")
                     Catch ex As Exception
-                        MsgBox("Error al Grabar el Concepto en Tempapu")
                         MsgBox(ex.ToString)
                     End Try
                 Else
@@ -116,92 +143,63 @@ Public Class GraficosConceptos
                             While drMdb1.Read()
                                 vExistenteImporteConcepto = drMdb1.GetValue(1)
                             End While
-                        Else
-                            'MsgBox("No existen registros en " + cmdMdb1cr.CommandText)
                         End If
                         drMdb1.Close()
                     Catch ex As Exception
-                        MsgBox("Error al verificar el Importe del Concepto en Tempapu")
                         MsgBox(ex.ToString)
                     End Try
-                    vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
-                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
-                    vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+
+                    vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto)
+                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
                     cmdMdb1cr.CommandText = vAñadir2
                     Try
-                        drMdb1 = cmdMdb1cr.ExecuteReader()
-                        'MsgBox("Registro2, Grabado Correctamente")
+                        ' CORRECCIÓN CRÍTICA: Los UPDATE usan ExecuteNonQuery, no ExecuteReader
+                        cmdMdb1cr.ExecuteNonQuery()
                     Catch ex As Exception
-                        MsgBox("Error al actualizar el Importe del Concepto en Tempapu")
                         MsgBox(ex.ToString)
                     End Try
-                    drMdb1.Close()
                 End If
             Next
         End If
 
+        ' =========================================================================
+        ' 5. VOLCADO DE DATOS AL DATATABLE E INYECCIÓN EN EL GRÁFICO
+        ' =========================================================================
         miDataTable.Columns.Add("Concepto")
         miDataTable.Columns.Add("Importe")
-        Dim unused As DataRow = miDataTable.NewRow()
+
         vtipoSql = "SELECT * FROM tempapu ORDER BY tempapu.ConceptoAPU ASC"
         LlenarGrid(vtipoSql, "PRINT_TEMP_APUNTES", "0")
+
         vValor = 0
         For Each fila As DataGridViewRow In frmImprimirForm.DgvApuntes.Rows
-            'Guardamos los datos en un database
+            If fila.IsNewRow Then Continue For ' Seguridad
+
             Dim Renglon As DataRow = miDataTable.NewRow()
-            Renglon("Concepto") = fila.Cells(0).Value.ToString
+            Renglon("Concepto") = fila.Cells(0).Value.ToString()
             vValor = fila.Cells(1).Value
             vValor = Math.Truncate(vValor)
-            Renglon("Importe") = vValor.ToString
+            Renglon("Importe") = vValor.ToString()
             miDataTable.Rows.Add(Renglon)
         Next
-        Chart1.Series("Gastos").IsVisibleInLegend = True
-        Chart1.Series("Ingresos").IsVisibleInLegend = True
+
+        ' ¡LAS LÍNEAS QUE FALTABAN PARA DETECTAR LOS DATOS AL ABRIR!:
+        ' Vinculamos el gráfico con tu DataTable y le asignamos las columnas correspondientes
+        Chart1.DataSource = miDataTable
         Chart1.Series("Gastos").XValueMember = "Concepto"
+        Chart1.Series("Gastos").YValueMembers = "Importe"
+        Chart1.Series("Ingresos").XValueMember = "Concepto"
         Chart1.Series("Ingresos").YValueMembers = "Importe"
 
-        If TsBtnPastel.Checked Then
-            Chart1.Series("Gastos").Points.Clear()
-            'Enviamos a un dataview los datos
-            For x = 0 To miView.Count - 1
-                'Tomamos los datos de DataView para la gráfica
-                With Chart1.Series("Gastos")
-                    If miView(x)("Importe") <= 0 Then
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), vImporteConcepto)
-                    Else
-                        Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), miView(x)("Importe"))
-                    End If
-                    .ChartType = SeriesChartType.Pie
-                End With
-                With Chart1.Series("Ingresos")
-                    .ChartType = SeriesChartType.Pie
-                End With
-            Next
-        Else
-            Chart1.Series("Gastos").XValueMember = "Concepto"
-            Chart1.Series("Ingresos").YValueMembers = "Importe"
+        ' Forzamos al gráfico a dibujarse con los datos cargados
+        Chart1.DataBind()
 
-            Chart1.Series("Gastos").Points.Clear()
-            For x = 0 To miView.Count - 1
-                'Tomamos los datos de DataView para la gráfica
-                With Chart1.Series("Gastos")
-                    If miView(x)("Importe") <= 0 Then
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                    Else
-                        Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), miView(x)("Importe"))
-                        .Points(i).Color = Color.Blue
-                    End If
-                    .ChartType = SeriesChartType.Column
-                End With
-                With Chart1.Series("Ingresos")
-                    .ChartType = SeriesChartType.Column
-                End With
-            Next
-        End If
+        ' Mostramos las leyendas de forma segura
+        Chart1.Series("Gastos").IsVisibleInLegend = True
+        Chart1.Series("Ingresos").IsVisibleInLegend = True
     End Sub
+
+
 
     Private Sub TSBtnImprimir_Click(sender As Object, e As EventArgs) Handles TSBtnImprimir.Click
         'Iniciamos Código para Imprimir
@@ -268,63 +266,42 @@ Public Class GraficosConceptos
         TsBtnAreas.Checked = False
         TsBtnLineas.Checked = False
         TsBtnPastel.Checked = False
-        ' Traducción segura del título principal de la gráfica
+
+        ' Recreación desde cero absoluto
+        Chart1.Series.Clear()
+        Chart1.Series.Add("Gastos")
+        Chart1.Series.Add("Ingresos")
+
+        ' Traducción segura de títulos principales y textos de ejes
         If Chart1.Titles.Count > 0 Then
             Chart1.Titles(0).Text = rmse.GetString("TituloGrafico")
+        Else
+            Chart1.Titles.Add(rmse.GetString("TituloGrafico"))
         End If
+        Chart1.ChartAreas(0).AxisX.Title = resManager.GetString("Conceptos")
+        Chart1.ChartAreas(0).AxisY.Title = resManager.GetString("Moneda")
 
-        Chart1.Series("Gastos").XValueMember = "Concepto"
-        Chart1.Series("Ingresos").YValueMembers = "Importe"
-        Chart1.Series("Gastos").Points.Clear()
+        Dim fuenteTitulos As New Font("Arial", 12, FontStyle.Bold)
+        Chart1.ChartAreas(0).AxisX.TitleFont = fuenteTitulos
+        Chart1.ChartAreas(0).AxisY.TitleFont = fuenteTitulos
 
-        For x = 0 To miView.Count - 1
-            'Tomamos los datos de DataView para la gráfica
+        ' Configuración de la estructura visual de barras
+        Chart1.Series("Gastos").LegendText = resManager.GetString("Gastos")
+        Chart1.Series("Ingresos").LegendText = resManager.GetString("Ingresos")
+        Chart1.Series("Gastos").ChartType = SeriesChartType.Column
+        Chart1.Series("Ingresos").ChartType = SeriesChartType.Column
+
+        ' Bucle de llenado de datos
+        For x As Integer = 0 To miView.Count - 1
             With Chart1.Series("Gastos")
                 If miView(x)("Importe") <= 0 Then
-                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                    vImporteConcepto = Math.Abs(Convert.ToDouble(miView(x)("Importe")))
                     Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), vImporteConcepto)
                     .Points(i).Color = Color.Red
                 Else
                     Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), miView(x)("Importe"))
                     .Points(i).Color = Color.Blue
                 End If
-                .ChartType = SeriesChartType.Column
-            End With
-            With Chart1.Series("Ingresos")
-                .ChartType = SeriesChartType.Column
-            End With
-        Next
-    End Sub
-
-    Private Sub TsBtnAreas_Click(sender As Object, e As EventArgs) Handles TsBtnAreas.Click
-        TsBtnColumnas.Checked = False
-        TsBtnAreas.Checked = True
-        TsBtnLineas.Checked = False
-        TsBtnPastel.Checked = False
-        ' Traducción segura del título principal de la gráfica
-        If Chart1.Titles.Count > 0 Then
-            Chart1.Titles(0).Text = rmse.GetString("TituloGrafico")
-        End If
-
-        Chart1.Series("Gastos").XValueMember = "Concepto"
-        Chart1.Series("Ingresos").YValueMembers = "Importe"
-
-        Chart1.Series("Gastos").Points.Clear()
-        For x = 0 To miView.Count - 1
-            'Tomamos los datos de DataView para la gráfica
-            With Chart1.Series("Gastos")
-                If miView(x)("Importe") <= 0 Then
-                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                    Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), vImporteConcepto)
-                    .Points(i).Color = Color.Red
-                Else
-                    Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), miView(x)("Importe"))
-                    .Points(i).Color = Color.Blue
-                End If
-                .ChartType = SeriesChartType.Area
-            End With
-            With Chart1.Series("Ingresos")
-                .ChartType = SeriesChartType.Area
             End With
         Next
     End Sub
@@ -334,30 +311,71 @@ Public Class GraficosConceptos
         TsBtnAreas.Checked = False
         TsBtnLineas.Checked = True
         TsBtnPastel.Checked = False
-        ' Traducción segura del título principal de la gráfica
+
+        Chart1.Series.Clear()
+        Chart1.Series.Add("Gastos")
+        Chart1.Series.Add("Ingresos")
+
         If Chart1.Titles.Count > 0 Then
             Chart1.Titles(0).Text = rmse.GetString("TituloGrafico")
+        Else
+            Chart1.Titles.Add(rmse.GetString("TituloGrafico"))
         End If
+        Chart1.ChartAreas(0).AxisX.Title = resManager.GetString("Conceptos")
+        Chart1.ChartAreas(0).AxisY.Title = resManager.GetString("Moneda")
 
-        Chart1.Series("Gastos").XValueMember = "Concepto"
-        Chart1.Series("Ingresos").YValueMembers = "Importe"
+        Chart1.Series("Gastos").LegendText = resManager.GetString("Gastos")
+        Chart1.Series("Ingresos").LegendText = resManager.GetString("Ingresos")
+        Chart1.Series("Gastos").ChartType = SeriesChartType.Line
+        Chart1.Series("Ingresos").ChartType = SeriesChartType.Line
+        Chart1.Series("Gastos").Color = Color.Red
+        Chart1.Series("Ingresos").Color = Color.Blue
 
-        Chart1.Series("Gastos").Points.Clear()
-        For x = 0 To miView.Count - 1
-            'Tomamos los datos de DataView para la gráfica
+        For x As Integer = 0 To miView.Count - 1
             With Chart1.Series("Gastos")
                 If miView(x)("Importe") <= 0 Then
-                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                    vImporteConcepto = Math.Abs(Convert.ToDouble(miView(x)("Importe")))
+                    .Points.AddXY(miView(x)("Concepto"), vImporteConcepto)
+                Else
+                    .Points.AddXY(miView(x)("Concepto"), miView(x)("Importe"))
+                End If
+            End With
+        Next
+    End Sub
+
+    Private Sub TsBtnAreas_Click(sender As Object, e As EventArgs) Handles TsBtnAreas.Click
+        TsBtnColumnas.Checked = False
+        TsBtnAreas.Checked = True
+        TsBtnLineas.Checked = False
+        TsBtnPastel.Checked = False
+
+        Chart1.Series.Clear()
+        Chart1.Series.Add("Gastos")
+        Chart1.Series.Add("Ingresos")
+
+        If Chart1.Titles.Count > 0 Then
+            Chart1.Titles(0).Text = rmse.GetString("TituloGrafico")
+        Else
+            Chart1.Titles.Add(rmse.GetString("TituloGrafico"))
+        End If
+        Chart1.ChartAreas(0).AxisX.Title = resManager.GetString("Conceptos")
+        Chart1.ChartAreas(0).AxisY.Title = resManager.GetString("Moneda")
+
+        Chart1.Series("Gastos").LegendText = resManager.GetString("Gastos")
+        Chart1.Series("Ingresos").LegendText = resManager.GetString("Ingresos")
+        Chart1.Series("Gastos").ChartType = SeriesChartType.Area
+        Chart1.Series("Ingresos").ChartType = SeriesChartType.Area
+
+        For x As Integer = 0 To miView.Count - 1
+            With Chart1.Series("Gastos")
+                If miView(x)("Importe") <= 0 Then
+                    vImporteConcepto = Math.Abs(Convert.ToDouble(miView(x)("Importe")))
                     Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), vImporteConcepto)
                     .Points(i).Color = Color.Red
                 Else
                     Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), miView(x)("Importe"))
                     .Points(i).Color = Color.Blue
                 End If
-                .ChartType = SeriesChartType.Line
-            End With
-            With Chart1.Series("Ingresos")
-                .ChartType = SeriesChartType.Line
             End With
         Next
     End Sub
@@ -367,27 +385,34 @@ Public Class GraficosConceptos
         TsBtnAreas.Checked = False
         TsBtnLineas.Checked = False
         TsBtnPastel.Checked = True
-        ' Traducción segura del título principal de la gráfica
+
+        ' Eliminamos todo residuo de ejes creando únicamente la serie Gastos
+        Chart1.Series.Clear()
+        Chart1.Series.Add("Gastos")
+
         If Chart1.Titles.Count > 0 Then
             Chart1.Titles(0).Text = rmse.GetString("TituloGrafico")
+        Else
+            Chart1.Titles.Add(rmse.GetString("TituloGrafico"))
         End If
 
-        Chart1.Series("Gastos").Points.Clear()
-        'Enviamos a un dataview los datos
-        For x = 0 To miView.Count - 1
-            'Tomamos los datos de DataView para la gráfica
+        ' El modo pastel no trabaja con ejes cartesianos, limpiamos títulos residuales
+        Chart1.ChartAreas(0).AxisX.Title = ""
+        Chart1.ChartAreas(0).AxisY.Title = ""
+
+        Chart1.Series("Gastos").LegendText = "#VALX"
+        Chart1.Series("Gastos").ChartType = SeriesChartType.Pie
+
+        For x As Integer = 0 To miView.Count - 1
             With Chart1.Series("Gastos")
                 If miView(x)("Importe") <= 0 Then
-                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                    Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), vImporteConcepto)
+                    vImporteConcepto = Math.Abs(Convert.ToDouble(miView(x)("Importe")))
+                    .Points.AddXY(miView(x)("Concepto"), vImporteConcepto)
                 Else
-                    Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), miView(x)("Importe"))
+                    .Points.AddXY(miView(x)("Concepto"), miView(x)("Importe"))
                 End If
-                .ChartType = SeriesChartType.Pie
-            End With
-            With Chart1.Series("Ingresos")
-                .ChartType = SeriesChartType.Pie
             End With
         Next
     End Sub
+
 End Class

@@ -276,6 +276,9 @@
   <data name="TSBtnImprimir.Size" type="System.Drawing.Size, System.Drawing">
     <value>29, 28</value>
   </data>
+  <data name="TSBtnImprimir.ToolTipText" xml:space="preserve">
+    <value>Imprimir Gáfico</value>
+  </data>
   <data name="ToolStrip1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -285,8 +288,8 @@
   <data name="ToolStrip1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="TSBtnImprimir" xml:space="preserve">
-    <value>Imprimir</value>
+  <data name="ToolStrip1.Text" xml:space="preserve">
+    <value>Barra de herramientas de gráficos</value>
   </data>
   <data name="&gt;&gt;ToolStrip1.Name" xml:space="preserve">
     <value>ToolStrip1</value>
@@ -629,5 +632,11 @@
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TituloGrafico" xml:space="preserve">
+    <value>Gráfico por Conceptos Contables</value>
+  </data>
+  <data name="TSBtnImprimir" xml:space="preserve">
+    <value>Imprimir</value>
   </data>
 </root>
