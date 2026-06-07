@@ -586,4 +586,7 @@ They are not removed from the database</value>
   <data name="Moneda" xml:space="preserve">
     <value>Currency</value>
   </data>
+  <data name="Conceptos" xml:space="preserve">
+    <value>Concepts</value>
+  </data>
 </root>

@@ -586,4 +586,7 @@ Ils ne sont pas supprimés de la base de données</value>
   <data name="Moneda" xml:space="preserve">
     <value>Monnaie</value>
   </data>
+  <data name="Conceptos" xml:space="preserve">
+    <value>Concepts</value>
+  </data>
 </root>

@@ -586,4 +586,7 @@ Eles não são removidos do banco de dados</value>
   <data name="Moneda" xml:space="preserve">
     <value>Moeda</value>
   </data>
+  <data name="Conceptos" xml:space="preserve">
+    <value>Conceitos</value>
+  </data>
 </root>

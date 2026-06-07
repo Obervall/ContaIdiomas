@@ -594,4 +594,7 @@ No se Eliminan de la Base de Datos</value>
   <data name="Moneda" xml:space="preserve">
     <value>Moneda</value>
   </data>
+  <data name="Conceptos" xml:space="preserve">
+    <value>Conceptos</value>
+  </data>
 </root>

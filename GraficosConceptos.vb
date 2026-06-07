@@ -159,9 +159,36 @@ Public Class GraficosConceptos
         Chart1.Series("Ingresos").IsVisibleInLegend = True
         Chart1.Series("Gastos").XValueMember = "Concepto"
         Chart1.Series("Ingresos").YValueMembers = "Importe"
+        ' Traducción segura del título principal de la gráfica
+        If Chart1.Titles.Count > 0 Then
+            Chart1.Titles(0).Text = rmse.GetString("TituloGrafico")
+        End If
+        ' 1. Creamos el estilo de la fuente (por ejemplo: Arial, Tamaño 12, Negrita)
+        Dim fuenteEjes As New Font("Arial", 12, FontStyle.Bold)
+
+        ' 2. Aplicamos la fuente al Eje X (Conceptos)
+        Chart1.ChartAreas("ChartArea1").AxisX.TitleFont = fuenteEjes
+
+        ' 3. Aplicamos la fuente al Eje Y (Moneda)
+        Chart1.ChartAreas("ChartArea1").AxisY.TitleFont = fuenteEjes
+
+        ' Eje X (Horizontal - Abajo del gráfico)
+        Chart1.ChartAreas("ChartArea1").AxisX.Title = resManager.GetString("Conceptos")
+
+        ' Eje Y (Vertical - A la izquierda del gráfico)
+        Chart1.ChartAreas("ChartArea1").AxisY.Title = resManager.GetString("Moneda") & ": " & vMoneda
 
         If TsBtnPastel.Checked Then
+            ' 1. Primero traducimos la leyenda leyendo el resManager
+            Chart1.Series("Gastos").LegendText = resManager.GetString("Gastos")
+            Chart1.Series("Ingresos").LegendText = resManager.GetString("Ingresos")
+
+            ' 2. Limpiamos y rellenamos (Esto es lo que fuerza a .NET a actualizar el texto en pantalla)
             Chart1.Series("Gastos").Points.Clear()
+            ' Limpieza de ejes para el modo Pastel
+            Chart1.ChartAreas("ChartArea1").AxisX.Title = ""
+            Chart1.ChartAreas("ChartArea1").AxisY.Title = ""
+
             'Enviamos a un dataview los datos
             For x = 0 To miView.Count - 1
                 'Tomamos los datos de DataView para la gráfica
@@ -182,7 +209,13 @@ Public Class GraficosConceptos
             Chart1.Series("Gastos").XValueMember = "Concepto"
             Chart1.Series("Ingresos").YValueMembers = "Importe"
 
+            ' 1. Primero traducimos la leyenda leyendo el resManager
+            Chart1.Series("Gastos").LegendText = resManager.GetString("Gastos")
+            Chart1.Series("Ingresos").LegendText = resManager.GetString("Ingresos")
+
+            ' 2. Limpiamos y rellenamos (Esto es lo que fuerza a .NET a actualizar el texto en pantalla)
             Chart1.Series("Gastos").Points.Clear()
+
             For x = 0 To miView.Count - 1
                 'Tomamos los datos de DataView para la gráfica
                 With Chart1.Series("Gastos")
@@ -268,15 +301,34 @@ Public Class GraficosConceptos
         TsBtnAreas.Checked = False
         TsBtnLineas.Checked = False
         TsBtnPastel.Checked = False
+        ' 1. Creamos el estilo de la fuente (por ejemplo: Arial, Tamaño 12, Negrita)
+        Dim fuenteEjes As New Font("Arial", 12, FontStyle.Bold)
+
+        ' 2. Aplicamos la fuente al Eje X (Conceptos)
+        Chart1.ChartAreas("ChartArea1").AxisX.TitleFont = fuenteEjes
+
+        ' 3. Aplicamos la fuente al Eje Y (Moneda)
+        Chart1.ChartAreas("ChartArea1").AxisY.TitleFont = fuenteEjes
+
         ' Traducción segura del título principal de la gráfica
         If Chart1.Titles.Count > 0 Then
             Chart1.Titles(0).Text = rmse.GetString("TituloGrafico")
         End If
+        ' Eje X (Horizontal - Abajo del gráfico)
+        Chart1.ChartAreas("ChartArea1").AxisX.Title = resManager.GetString("Conceptos")
+
+        ' Eje Y (Vertical - A la izquierda del gráfico)
+        Chart1.ChartAreas("ChartArea1").AxisY.Title = resManager.GetString("Moneda") & ": " & vMoneda
 
         Chart1.Series("Gastos").XValueMember = "Concepto"
         Chart1.Series("Ingresos").YValueMembers = "Importe"
         Chart1.Series("Gastos").Points.Clear()
+        ' 1. Primero traducimos la leyenda leyendo el resManager
+        Chart1.Series("Gastos").LegendText = resManager.GetString("Gastos")
+        Chart1.Series("Ingresos").LegendText = resManager.GetString("Ingresos")
 
+        ' 2. Limpiamos y rellenamos (Esto es lo que fuerza a .NET a actualizar el texto en pantalla)
+        Chart1.Series("Gastos").Points.Clear()
         For x = 0 To miView.Count - 1
             'Tomamos los datos de DataView para la gráfica
             With Chart1.Series("Gastos")
@@ -301,14 +353,33 @@ Public Class GraficosConceptos
         TsBtnAreas.Checked = True
         TsBtnLineas.Checked = False
         TsBtnPastel.Checked = False
+        ' 1. Creamos el estilo de la fuente (por ejemplo: Arial, Tamaño 12, Negrita)
+        Dim fuenteEjes As New Font("Arial", 12, FontStyle.Bold)
+
+        ' 2. Aplicamos la fuente al Eje X (Conceptos)
+        Chart1.ChartAreas("ChartArea1").AxisX.TitleFont = fuenteEjes
+
+        ' 3. Aplicamos la fuente al Eje Y (Moneda)
+        Chart1.ChartAreas("ChartArea1").AxisY.TitleFont = fuenteEjes
+
         ' Traducción segura del título principal de la gráfica
         If Chart1.Titles.Count > 0 Then
             Chart1.Titles(0).Text = rmse.GetString("TituloGrafico")
         End If
+        ' Eje X (Horizontal - Abajo del gráfico)
+        Chart1.ChartAreas("ChartArea1").AxisX.Title = resManager.GetString("Conceptos")
+
+        ' Eje Y (Vertical - A la izquierda del gráfico)
+        Chart1.ChartAreas("ChartArea1").AxisY.Title = resManager.GetString("Moneda") & ": " & vMoneda
 
         Chart1.Series("Gastos").XValueMember = "Concepto"
         Chart1.Series("Ingresos").YValueMembers = "Importe"
+        Chart1.Series("Gastos").Points.Clear()
+        ' 1. Primero traducimos la leyenda leyendo el resManager
+        Chart1.Series("Gastos").LegendText = resManager.GetString("Gastos")
+        Chart1.Series("Ingresos").LegendText = resManager.GetString("Ingresos")
 
+        ' 2. Limpiamos y rellenamos (Esto es lo que fuerza a .NET a actualizar el texto en pantalla)
         Chart1.Series("Gastos").Points.Clear()
         For x = 0 To miView.Count - 1
             'Tomamos los datos de DataView para la gráfica
@@ -334,14 +405,33 @@ Public Class GraficosConceptos
         TsBtnAreas.Checked = False
         TsBtnLineas.Checked = True
         TsBtnPastel.Checked = False
+        ' 1. Creamos el estilo de la fuente (por ejemplo: Arial, Tamaño 12, Negrita)
+        Dim fuenteEjes As New Font("Arial", 12, FontStyle.Bold)
+
+        ' 2. Aplicamos la fuente al Eje X (Conceptos)
+        Chart1.ChartAreas("ChartArea1").AxisX.TitleFont = fuenteEjes
+
+        ' 3. Aplicamos la fuente al Eje Y (Moneda)
+        Chart1.ChartAreas("ChartArea1").AxisY.TitleFont = fuenteEjes
+
         ' Traducción segura del título principal de la gráfica
         If Chart1.Titles.Count > 0 Then
             Chart1.Titles(0).Text = rmse.GetString("TituloGrafico")
         End If
+        ' Eje X (Horizontal - Abajo del gráfico)
+        Chart1.ChartAreas("ChartArea1").AxisX.Title = resManager.GetString("Conceptos")
+
+        ' Eje Y (Vertical - A la izquierda del gráfico)
+        Chart1.ChartAreas("ChartArea1").AxisY.Title = resManager.GetString("Moneda") & ": " & vMoneda
 
         Chart1.Series("Gastos").XValueMember = "Concepto"
         Chart1.Series("Ingresos").YValueMembers = "Importe"
+        Chart1.Series("Gastos").Points.Clear()
+        ' 1. Primero traducimos la leyenda leyendo el resManager
+        Chart1.Series("Gastos").LegendText = resManager.GetString("Gastos")
+        Chart1.Series("Ingresos").LegendText = resManager.GetString("Ingresos")
 
+        ' 2. Limpiamos y rellenamos (Esto es lo que fuerza a .NET a actualizar el texto en pantalla)
         Chart1.Series("Gastos").Points.Clear()
         For x = 0 To miView.Count - 1
             'Tomamos los datos de DataView para la gráfica
@@ -371,7 +461,12 @@ Public Class GraficosConceptos
         If Chart1.Titles.Count > 0 Then
             Chart1.Titles(0).Text = rmse.GetString("TituloGrafico")
         End If
+        ' Limpieza de ejes para el modo Pastel
+        Chart1.ChartAreas("ChartArea1").AxisX.Title = ""
+        Chart1.ChartAreas("ChartArea1").AxisY.Title = ""
 
+        ' Obligatorio para que no se quede fijo con la palabra "Gastos" en ningún idioma
+        Chart1.Series("Gastos").LegendText = "#VALX"
         Chart1.Series("Gastos").Points.Clear()
         'Enviamos a un dataview los datos
         For x = 0 To miView.Count - 1
