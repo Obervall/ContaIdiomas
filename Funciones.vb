@@ -87,6 +87,7 @@ Module Funciones
     Public resManager As New ResourceManager("Contahogar.Recursos", Assembly.GetExecutingAssembly())
     ' Para copiar en en el Classe de cada Form la línea:
     'Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
+    Public vAñadir, vAñadir2, vImporteConcepto, vNewImporteConcepto, vExistenteImporteConcepto As String
     Public vDate1 As DateTime
     Public vDate2 As DateTime
     Public vDate3 As DateTime
@@ -1312,6 +1313,407 @@ Module Funciones
         Return ""
     End Function
 
+    Public Sub LlenarTempApuConceptos(Dgv As String)
+        Dim filas As DataGridViewRowCollection = Nothing
+        If Dgv = "CONCEPTOS_APUNTES_PERIODICOS" Then
+            filas = frmApuntesPeriodicos.DgvApuper.Rows
+        ElseIf Dgv = "CONCEPTOS_APUNTES_CONTABLES" Then
+            filas = frmApuntesContables.DgvApuntes.Rows
+        End If
+
+        If filas IsNot Nothing Then
+            For Each fila As DataGridViewRow In filas
+                vImporteConcepto = fila.Cells(3).Value
+                If vNombreConcepto <> fila.Cells(1).Value.ToString Then
+                    vNombreConcepto = fila.Cells(1).Value.ToString
+                    vImporteConcepto = ""
+                    vImporteConcepto = fila.Cells(3).Value
+                    vAñadir = "INSERT INTO tempapu"
+                    vAñadir += "(ConceptoAPU, SumaImporteAPU) "
+                    vAñadir += "VALUES ('" & vNombreConcepto & "','" & vImporteConcepto & "')"
+                    cmdMdb1cr.CommandText = vAñadir
+                    Try
+                        cmdMdb1cr.ExecuteNonQuery()
+                        'MsgBox("Registro1, Grabado Correctamente")
+                    Catch ex As Exception
+                        MsgBox(resManager.GetString("ErrorGrabarTemporal"))
+                        MsgBox(ex.ToString)
+                    End Try
+                Else
+                    cmdMdb1cr.CommandType = CommandType.Text
+                    cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+                    Try
+                        drMdb1 = cmdMdb1cr.ExecuteReader()
+                        If drMdb1.HasRows Then
+                            While drMdb1.Read()
+                                vExistenteImporteConcepto = drMdb1.GetValue(1)
+                            End While
+                        Else
+                            'MsgBox("No existen registros en " + cmdMdb1cr.CommandText)
+                        End If
+                        drMdb1.Close()
+                    Catch ex As Exception
+                        MsgBox(resManager.GetString("ErrorGrabarTemporal"))
+                        MsgBox(ex.ToString)
+                    End Try
+                    ' 1. Convertimos los dos importes a Decimal de forma segura (multiidioma)
+                    Dim importeConcepto As Decimal = 0.0D
+                    Dim existenteImporte As Decimal = 0.0D
+                    ' Convertimos el primer importe (vImporteConcepto)
+                    If vImporteConcepto IsNot Nothing Then
+                        Decimal.TryParse(vImporteConcepto.ToString().Replace(",", "."),
+                            System.Globalization.NumberStyles.Any,
+                            System.Globalization.CultureInfo.InvariantCulture,
+                            importeConcepto)
+                    End If
+                    ' Convertimos el segundo importe (vExistenteImporteConcepto)
+                    If vExistenteImporteConcepto IsNot Nothing Then
+                        Decimal.TryParse(vExistenteImporteConcepto.ToString().Replace(",", "."),
+                            System.Globalization.NumberStyles.Any,
+                            System.Globalization.CultureInfo.InvariantCulture,
+                            existenteImporte)
+                    End If
+                    ' 2. Realizamos la suma matemática exacta
+                    Dim sumaFinal As Decimal = Math.Round(importeConcepto + existenteImporte, 2)
+                    vNewImporteConcepto = sumaFinal
+                    ' 3. Preparamos la consulta SQL para Access
+                    Dim vAñadir2 As String = "UPDATE tempapu SET SumaImporteAPU = ? WHERE ConceptoAPU = ?"
+                    cmdMdb1cr.CommandText = vAñadir2
+                    cmdMdb1cr.Parameters.Clear()
+                    ' 4. CORRECCIÓN: Definimos los tipos de parámetros exactos para evitar conflictos de precisión con Access
+                    ' Primero el Importe (SumaImporteAPU) indicando que es un Double/Decimal de base de datos
+                    Dim pSuma As New OleDbParameter("@SumaImporte", OleDbType.Double)
+                    pSuma.Value = Convert.ToDouble(sumaFinal)
+                    cmdMdb1cr.Parameters.Add(pSuma)
+                    ' Segundo el Concepto (ConceptoAPU)
+                    Dim pConcepto As New OleDbParameter("@Concepto", OleDbType.VarChar)
+                    pConcepto.Value = vNombreConcepto.ToString()
+                    cmdMdb1cr.Parameters.Add(pConcepto)
+                    ' 5. CORRECCIÓN CRÍTICA: Los UPDATE se ejecutan con ExecuteNonQuery, NO con ExecuteReader
+                    Try
+                        cmdMdb1cr.ExecuteNonQuery()
+                        'MsgBox("Registro2, Grabado Correctamente")
+                    Catch ex As Exception
+                        MsgBox(resManager.GetString("ErrorGrabarTemporal") & vbCrLf & ex.Message)
+                    End Try
+                End If
+            Next
+        End If
+    End Sub
+
+    Public Sub LlenarTempApuCuentas(Dgv As String)
+        Dim filas As DataGridViewRowCollection = Nothing
+        If Dgv = "CUENTAS_APUNTES_PERIODICOS" Then
+            filas = frmApuntesPeriodicos.DgvApuper.Rows
+        ElseIf Dgv = "CUENTAS_APUNTES_CONTABLES" Then
+            filas = frmApuntesContables.DgvApuntes.Rows
+        End If
+        If filas IsNot Nothing Then
+            For Each fila As DataGridViewRow In filas
+                If fila.Cells(3).Value <> 0 Then
+                    vImporteConcepto = fila.Cells(3).Value
+                    If vNombreConcepto <> fila.Cells(6).Value.ToString Then
+                        vNombreConcepto = fila.Cells(6).Value.ToString
+                        vImporteConcepto = ""
+                        vImporteConcepto = fila.Cells(3).Value
+                        vAñadir = "INSERT INTO tempapu"
+                        vAñadir += "(ConceptoAPU, SumaImporteAPU) "
+                        vAñadir += "VALUES ('" & vNombreConcepto & "','" & vImporteConcepto & "')"
+                        cmdMdb1cr.CommandText = vAñadir
+                        Try
+                            cmdMdb1cr.ExecuteNonQuery()
+                        Catch ex As Exception
+                            MsgBox(resManager.GetString("ErrorGrabarTemporal"))
+                            MsgBox(ex.ToString)
+                        End Try
+                        vAñadir = "INSERT INTO tempapu"
+                        vAñadir += "(ConceptoAPU, SumaImporteAPU) "
+                        vAñadir += "VALUES ('" & vNombreConcepto & "',' 0 ')"
+                        cmdMdb1cr.CommandText = vAñadir
+                        Try
+                            cmdMdb1cr.ExecuteNonQuery()
+                        Catch ex As Exception
+                            MsgBox(resManager.GetString("ErrorGrabarTemporal"))
+                            MsgBox(ex.ToString)
+                        End Try
+                    Else ' Si el Concepto existe y hay importe diferente a cero, si es positivo o negativo se suma
+                        cmdMdb1cr.CommandType = CommandType.Text
+                        ' 1. Convertimos el importe a Decimal de forma segura (multiidioma)
+                        Dim importeDecimal As Decimal = 0.0D
+                        If vImporteConcepto IsNot Nothing Then
+                            Decimal.TryParse(vImporteConcepto.ToString().Replace(",", "."),
+                     System.Globalization.NumberStyles.Any,
+                     System.Globalization.CultureInfo.InvariantCulture,
+                     importeDecimal)
+                        End If
+
+                        ' 2. Limpiamos los parámetros previos del comando
+                        cmdMdb1cr.Parameters.Clear()
+
+                        ' 3. Evaluamos de forma exacta usando el número decimal puro
+                        If importeDecimal > 0 Then
+                            ' Consulta usando parámetros (?) para evitar fallos por comillas o caracteres raros
+                            cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = ? And tempapu.SumaImporteAPU > 0"
+
+                            ' Añadimos el parámetro que sustituye al primer "?"
+                            cmdMdb1cr.Parameters.AddWithValue("@Concepto", vNombreConcepto.ToString())
+
+                        ElseIf importeDecimal < 0 Then
+                            cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = ? And tempapu.SumaImporteAPU < 0"
+
+                            ' Añadimos el parámetro que sustituye al primer "?"
+                            cmdMdb1cr.Parameters.AddWithValue("@Concepto", vNombreConcepto.ToString())
+                        End If
+
+                        Try
+                            drMdb1 = cmdMdb1cr.ExecuteReader()
+                            If drMdb1.HasRows Then 'Significa que existe con las condiciones
+                                While drMdb1.Read()
+                                    vExistenteImporteConcepto = drMdb1.GetValue(1)
+                                End While
+                                drMdb1.Close()
+                                'vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
+                                ' 1. Convertimos ambos importes a variables decimales exactas
+                                Dim importe1 As Decimal = 0.0D
+                                Dim importe2 As Decimal = 0.0D
+
+                                ' Conversión segura del primer importe
+                                If vImporteConcepto IsNot Nothing Then
+                                    Decimal.TryParse(vImporteConcepto.ToString().Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, importe1)
+                                End If
+
+                                ' Conversión segura del segundo importe
+                                If vExistenteImporteConcepto IsNot Nothing Then
+                                    Decimal.TryParse(vExistenteImporteConcepto.ToString().Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, importe2)
+                                End If
+
+                                ' 2. Sumamos los números reales de forma exacta
+                                vNewImporteConcepto = importe1 + importe2
+
+                                If importe1 > 0 Then
+                                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
+                                    vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+                                    vAñadir2 += "And tempapu.SumaImporteAPU > 0 "
+                                ElseIf importe1 < 0 Then
+                                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
+                                    vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+                                    vAñadir2 += "And tempapu.SumaImporteAPU < 0 "
+                                End If
+                                cmdMdb1cr.CommandText = vAñadir2
+                                Try
+                                    cmdMdb1cr.ExecuteNonQuery()
+                                Catch ex As Exception
+                                    MsgBox(resManager.GetString("ErrorGrabarTemporal"))
+                                    MsgBox(ex.ToString)
+                                End Try
+                            Else   'NO existe, lo añadimos al cero
+                                'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
+                                cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+                                cmdMdb1cr.CommandText += "And tempapu.SumaImporteAPU = 0 "
+                                drMdb1.Close() ' Nos aseguramos de cerrar el DataReader antes de abrir uno nuevo
+                                drMdb1 = cmdMdb1cr.ExecuteReader()
+                                If drMdb1.HasRows Then 'Significa que existe con las condiciones
+                                    While drMdb1.Read()
+                                        vExistenteImporteConcepto = drMdb1.GetValue(1)
+                                    End While
+                                    drMdb1.Close()
+                                    vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
+                                    ' 1. Convertimos ambos importes a variables decimales exactas
+                                    Dim importe1 As Decimal = 0.0D
+                                    Dim importe2 As Decimal = 0.0D
+
+                                    ' Conversión segura del primer importe
+                                    If vImporteConcepto IsNot Nothing Then
+                                        Decimal.TryParse(vImporteConcepto.ToString().Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, importe1)
+                                    End If
+
+                                    ' Conversión segura del segundo importe
+                                    If vExistenteImporteConcepto IsNot Nothing Then
+                                        Decimal.TryParse(vExistenteImporteConcepto.ToString().Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, importe2)
+                                    End If
+
+                                    ' 2. Sumamos los números reales de forma exacta
+                                    vNewImporteConcepto = importe1 + importe2
+
+                                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
+                                    vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+                                    vAñadir2 += "And tempapu.SumaImporteAPU = 0 "
+                                    cmdMdb1cr.CommandText = vAñadir2
+                                    Try
+                                        cmdMdb1cr.ExecuteNonQuery()
+                                    Catch ex As Exception
+                                        MsgBox(resManager.GetString("ErrorGrabarTemporal"))
+                                        MsgBox(ex.ToString)
+                                    End Try
+                                End If
+                                drMdb1.Close()
+                            End If
+                        Catch ex As Exception
+                            MsgBox(resManager.GetString("ErrorGrabarTemporal"))
+                            MsgBox(ex.ToString)
+                        End Try
+                    End If
+                End If
+            Next
+        End If
+    End Sub
+
+    Public Sub LlenarTempApuFechas(Dgv As String)
+        Dim filas As DataGridViewRowCollection = Nothing
+        Dim vFechaConcepto As DateTime = DateTime.MinValue ' Inicialización segura
+
+        If Dgv = "FECHAS_APUNTES_PERIODICOS" Then
+            filas = frmApuntesPeriodicos.DgvApuper.Rows
+        ElseIf Dgv = "FECHAS_APUNTES_CONTABLES" Then
+            filas = frmApuntesContables.DgvApuntes.Rows
+        End If
+
+        If filas IsNot Nothing Then
+            For Each fila As DataGridViewRow In filas
+                ' Omitir la fila nueva en blanco automática del DataGridView para evitar nulos
+                If fila.IsNewRow Then Continue For
+
+                ' Validación de que la celda del importe no esté vacía
+                If fila.Cells(3).Value IsNot Nothing AndAlso IsNumeric(fila.Cells(3).Value) AndAlso Convert.ToDecimal(fila.Cells(3).Value) <> 0 Then
+
+                    ' Conversión segura del importe de la celda
+                    Dim importeFila As Decimal = Convert.ToDecimal(fila.Cells(3).Value)
+                    vImporteConcepto = importeFila
+
+                    ' Conversión segura de la fecha de la celda
+                    Dim fechaFila As DateTime = Convert.ToDateTime(fila.Cells(0).Value)
+
+                    ' Formateamos la fecha al estándar universal que Access entiende siempre (#aaaa-mm-dd#)
+                    Dim fechaFormatoAccess As String = "#" & fechaFila.ToString("yyyy-MM-dd") & "#"
+
+                    If vFechaConcepto <> fechaFila Then
+                        vFechaConcepto = fechaFila
+                        vImporteConcepto = importeFila
+
+                        ' Primer INSERT
+                        vAñadir = "INSERT INTO tmpprint (FechaTMP, ConceptoTMP, DescripcionTMP, CuentaTMP, NotasTMP, ImporteTMP, SaldoTMP) " &
+                              "VALUES (" & fechaFormatoAccess & ", '', '', '', '', '" & vImporteConcepto & "', '0')"
+                        cmdMdb1cr.CommandText = vAñadir
+                        Try
+                            cmdMdb1cr.ExecuteNonQuery()
+                        Catch ex As Exception
+                            MsgBox(resManager.GetString("ErrorGrabarTemporal") & vbCrLf & ex.Message)
+                        End Try
+
+                        ' Segundo INSERT
+                        vAñadir = "INSERT INTO tmpprint (FechaTMP, ConceptoTMP, DescripcionTMP, CuentaTMP, NotasTMP, ImporteTMP, SaldoTMP) " &
+                              "VALUES (" & fechaFormatoAccess & ", '', '', '', '', '0', '0')"
+                        cmdMdb1cr.CommandText = vAñadir
+                        Try
+                            cmdMdb1cr.ExecuteNonQuery()
+                        Catch ex As Exception
+                            MsgBox(resManager.GetString("ErrorGrabarTemporal") & vbCrLf & ex.Message)
+                        End Try
+
+                    Else ' Si la fecha ya existe, sumamos o acumulamos el importe
+                        cmdMdb1cr.CommandType = CommandType.Text
+
+                        ' Construimos el SELECT filtrando por signo
+                        cmdMdb1cr.CommandText = "SELECT ImporteTMP FROM tmpprint WHERE FechaTMP = " & fechaFormatoAccess
+                        If vImporteConcepto > 0 Then
+                            cmdMdb1cr.CommandText += " AND ImporteTMP > 0"
+                        Else
+                            cmdMdb1cr.CommandText += " AND ImporteTMP < 0"
+                        End If
+
+                        Try
+                            Dim existeRegistro As Boolean = False
+                            Dim importeExistente As Decimal = 0
+
+                            ' Usamos el Reader para capturar el valor
+                            drMdb1 = cmdMdb1cr.ExecuteReader()
+                            If drMdb1.HasRows Then
+                                existeRegistro = True
+                                If drMdb1.Read() Then
+                                    ' Conversión segura a Decimal del valor existente
+                                    Decimal.TryParse(drMdb1.GetValue(0).ToString(), importeExistente)
+                                End If
+                            End If
+                            drMdb1.Close() ' Es vital cerrarlo inmediatamente aquí
+
+                            If existeRegistro Then
+                                ' Calculamos el nuevo importe sumando ambos valores numéricos
+                                Dim vNewImporteConcepto As Decimal = vImporteConcepto + importeExistente
+
+                                ' Preparamos el UPDATE
+                                vAñadir2 = "UPDATE tmpprint SET ImporteTMP = '" & vNewImporteConcepto & "' WHERE FechaTMP = " & fechaFormatoAccess
+                                If vImporteConcepto > 0 Then
+                                    vAñadir2 += " AND ImporteTMP > 0"
+                                Else
+                                    vAñadir2 += " AND ImporteTMP < 0"
+                                End If
+                                cmdMdb1cr.CommandText = vAñadir2
+                                Try
+                                    cmdMdb1cr.ExecuteNonQuery()
+                                Catch ex As Exception
+                                    MsgBox(resManager.GetString("ErrorGrabarTemporal") & vbCrLf & ex.Message)
+                                End Try
+                            Else ' NO existe registro con ese signo, buscamos el que tiene importe = 0
+                                cmdMdb1cr.CommandText = "SELECT ImporteTMP FROM tmpprint WHERE FechaTMP = " & fechaFormatoAccess & " AND ImporteTMP = 0"
+
+                                Dim existeCero As Boolean = False
+                                Dim importeCeroExistente As Decimal = 0
+
+                                drMdb1 = cmdMdb1cr.ExecuteReader()
+                                If drMdb1.HasRows Then
+                                    existeCero = True
+                                    If drMdb1.Read() Then
+                                        Decimal.TryParse(drMdb1.GetValue(0).ToString(), importeCeroExistente)
+                                    End If
+                                End If
+                                drMdb1.Close()
+
+                                If existeCero Then
+                                    Dim vNewImporteConcepto As Decimal = vImporteConcepto + importeCeroExistente
+
+                                    vAñadir2 = "UPDATE tmpprint SET ImporteTMP = '" & vNewImporteConcepto & "' WHERE FechaTMP = " & fechaFormatoAccess & " AND ImporteTMP = 0"
+                                    cmdMdb1cr.CommandText = vAñadir2
+                                    Try
+                                        cmdMdb1cr.ExecuteNonQuery()
+                                    Catch ex As Exception
+                                        MsgBox(resManager.GetString("ErrorGrabarTemporal") & vbCrLf & ex.Message)
+                                    End Try
+                                End If
+                            End If
+                        Catch ex As Exception
+                            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+                            MsgBox(resManager.GetString("ErrorGrabarTemporal") & vbCrLf & ex.Message)
+                        End Try
+                    End If
+                End If
+            Next
+        End If
+    End Sub
+
+
+    Public Sub LimpiarTempApu()
+        Dim vBorrar As String = "DELETE FROM tempapu"
+        cmdMdb1cr.CommandText = vBorrar
+        Try
+            cmdMdb1cr.ExecuteNonQuery()
+            'MsgBox("Tempapu, Limpiada Correctamente")
+        Catch ex As Exception
+            MsgBox(resManager.GetString("ErrorLimpiarTemporal"))
+            MsgBox(ex.ToString)
+        End Try
+    End Sub
+
+    Public Sub LimpiarTempPrint()
+        Dim vtmpprint As String = "DELETE FROM tmpprint"
+        cmdMdb1cr.CommandText = vtmpprint
+        Try
+            cmdMdb1cr.ExecuteNonQuery()
+            'MsgBox("Registros tmpprint, Borrados !!!")
+        Catch ex As Exception
+            MsgBox(resManager.GetString("ErrorLimpiarTemporal"))
+            MsgBox(ex.ToString)
+        End Try
+    End Sub
 
     'Public Function ReadINIkey(file As String, section As String, key As String) As String
     '    Dim lret As Long, i As Long

@@ -87,13 +87,12 @@ Public Class GraficosPresupuestos
                 vAñadir2 += " WHERE tmpprint.ConceptoTMP = '" & vNombreConcepto & "' "
                 cmdMdb1cr.CommandText = vAñadir2
                 Try
-                    drMdb1 = cmdMdb1cr.ExecuteReader()
+                    cmdMdb1cr.ExecuteNonQuery()
                     'MsgBox(vImporteConcepto & " Registro2, Grabado Correctamente " & vNombreConcepto & " " & vNewImporteConcepto)
                 Catch ex As Exception
                     MsgBox("Error al actualizar el Importe del Concepto en tmpprint")
                     MsgBox(ex.ToString)
                 End Try
-                drMdb1.Close()
             End If
         Next
 

@@ -180,13 +180,12 @@ Public Class TipoInformeApuntes
                     cmdMdb1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = vNewImporteConcepto
                     cmdMdb1cr.Parameters.Add("@con", OleDb.OleDbType.VarWChar).Value = vNombreConcepto
                     Try
-                        drMdb1 = cmdMdb1cr.ExecuteReader()
+                        cmdMdb1cr.ExecuteNonQuery()
                         'MsgBox("Registro2, Grabado Correctamente")
                     Catch ex As Exception
                         'MsgBox("Error al Actualizar el Concepto: " & vNombreConcepto)
                         MsgBox(ex.ToString)
                     End Try
-                    drMdb1.Close()
                 End If
             Next
             'Llenamos la tabla de ImprimirForm con los cálculos realizados
@@ -273,13 +272,12 @@ Public Class TipoInformeApuntes
                     cmdMdb1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = vNewImporteConcepto
                     cmdMdb1cr.Parameters.Add("@con", OleDb.OleDbType.VarWChar).Value = vNombreConcepto
                     Try
-                        drMdb1 = cmdMdb1cr.ExecuteReader()
+                        cmdMdb1cr.ExecuteNonQuery()
                         'MsgBox("Registro2, Grabado Correctamente")
                     Catch ex As Exception
                         'MsgBox("Error al Actualizar la Cuenta: " & vNombreConcepto)
                         MsgBox(ex.ToString)
                     End Try
-                    drMdb1.Close()
                 End If
             Next
             'Llenamos la tabla de ImprimirForm con los cálculos realizados
@@ -402,13 +400,12 @@ Public Class TipoInformeApuntes
                     cmdMdb1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = vNewImporteFechas
                     cmdMdb1cr.Parameters.Add("@fec", OleDb.OleDbType.Date).Value = vFechaTemp2
                     Try
-                        drMdb1 = cmdMdb1cr.ExecuteReader()
+                        cmdMdb1cr.ExecuteNonQuery()
                         'MsgBox("Registro2, Grabado Correctamente")
                     Catch ex As Exception
                         'MsgBox("Error al Actualizar la Fecha: " & vFechaTemp)
                         MsgBox(ex.ToString)
                     End Try
-                    drMdb1.Close()
                 End If
             Next
             frmImprimirForm.LblTotal.Text = String.Format("{0}: {1} {2}", resManager.GetString("TOTAL"), vValor.ToString("N2"), vMoneda)
@@ -490,13 +487,12 @@ Public Class TipoInformeApuntes
                     cmdMdb1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = vNewImporteConcepto
                     cmdMdb1cr.Parameters.Add("@con", OleDb.OleDbType.VarWChar).Value = vNombreConcepto
                     Try
-                        drMdb1 = cmdMdb1cr.ExecuteReader()
+                        cmdMdb1cr.ExecuteNonQuery()
                         'MsgBox("Registro2, Grabado Correctamente")
                     Catch ex As Exception
                         'MsgBox("Error al Actualizar el Concepto: " & vNombreConcepto)
                         MsgBox(ex.ToString)
                     End Try
-                    drMdb1.Close()
                 End If
             Next
             'Llenamos la tabla de ImprimirForm con los cálculos realizados

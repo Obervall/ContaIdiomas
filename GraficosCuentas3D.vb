@@ -6,6 +6,7 @@ Imports System.Windows.Forms.DataVisualization.Charting
 
 Public Class GraficosCuentas3D
 
+    Public Property EsGrafico3D As Boolean = False
     Public vAñadir, vAñadir2, vTempapu, vImporteConcepto, vNewImporteConcepto As String
     Public vExistenteImporteConcepto, vPositivo As String
     Public miDataTable As New DataTable
@@ -156,12 +157,11 @@ Public Class GraficosCuentas3D
                                 End If
                                 cmdMdb1cr.CommandText = vAñadir2
                                 Try
-                                    drMdb1 = cmdMdb1cr.ExecuteReader()
+                                    cmdMdb1cr.ExecuteNonQuery()
                                 Catch ex As Exception
                                     MsgBox("Error al actualizar el Concepto en Tempapu con las condiciones")
                                     MsgBox(ex.ToString)
                                 End Try
-                                drMdb1.Close()
 
                             Else   'NO existe, lo añadimos al cero
                                 'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
@@ -180,12 +180,11 @@ Public Class GraficosCuentas3D
                                     vAñadir2 += "And tempapu.SumaImporteAPU = 0 "
                                     cmdMdb1cr.CommandText = vAñadir2
                                     Try
-                                        drMdb1 = cmdMdb1cr.ExecuteReader()
+                                        cmdMdb1cr.ExecuteNonQuery()
                                     Catch ex As Exception
                                         MsgBox("Error al actualizar el Concepto en Tempapu con las condiciones")
                                         MsgBox(ex.ToString)
                                     End Try
-                                    drMdb1.Close()
                                 End If
                                 drMdb1.Close()
                             End If
@@ -252,13 +251,11 @@ Public Class GraficosCuentas3D
                                 End If
                                 cmdMdb1cr.CommandText = vAñadir2
                                 Try
-                                    drMdb1 = cmdMdb1cr.ExecuteReader()
+                                    cmdMdb1cr.ExecuteNonQuery()
                                 Catch ex As Exception
                                     MsgBox("Error al actualizar el importe del Concepto en Tempapu con las condiciones")
                                     MsgBox(ex.ToString)
                                 End Try
-                                drMdb1.Close()
-
                             Else   'NO existe, lo añadimos al cero
                                 'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
                                 drMdb1.Close()
@@ -276,14 +273,12 @@ Public Class GraficosCuentas3D
                                     vAñadir2 += "And tempapu.SumaImporteAPU = 0 "
                                     cmdMdb1cr.CommandText = vAñadir2
                                     Try
-                                        drMdb1 = cmdMdb1cr.ExecuteReader()
+                                        cmdMdb1cr.ExecuteNonQuery()
                                     Catch ex As Exception
                                         MsgBox("Error al actualizar el importe del Concepto en Tempapu con las condiciones")
                                         MsgBox(ex.ToString)
                                     End Try
-                                    drMdb1.Close()
                                 End If
-                                drMdb1.Close()
                             End If
                         Catch ex As Exception
                             MsgBox("Error al verificar si el Concepto existe en Tempapu con las condiciones")

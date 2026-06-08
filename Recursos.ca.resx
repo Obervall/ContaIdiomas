@@ -589,4 +589,19 @@ No s' Eliminen de la Base de Dades</value>
   <data name="Conceptos" xml:space="preserve">
     <value>Conceptes</value>
   </data>
+  <data name="Cuentas" xml:space="preserve">
+    <value>Comptes</value>
+  </data>
+  <data name="ErrorLimpiarTemporal" xml:space="preserve">
+    <value>Error en netejar la taula Temporal</value>
+  </data>
+  <data name="ErrorGrabarTemporal" xml:space="preserve">
+    <value>Error en Gravar en Temporal</value>
+  </data>
+  <data name="PreguntaHorizontal" xml:space="preserve">
+    <value>Desitges imprimir el gràfic en orientació Horitzontal?</value>
+  </data>
+  <data name="TituloPregunta" xml:space="preserve">
+    <value>Orientació de pàgina</value>
+  </data>
 </root>

@@ -5,7 +5,7 @@ Imports System.Windows.Forms
 Imports System.Windows.Forms.DataVisualization.Charting
 
 Public Class GraficosConceptos3D
-
+    Public Property EsGrafico3D As Boolean = False
     Public vAñadir, vAñadir2, vTempapu, vImporteConcepto, vNewImporteConcepto As String
     Public vExistenteImporteConcepto As String
     Public miDataTable As New DataTable
@@ -75,11 +75,6 @@ Public Class GraficosConceptos3D
                         MsgBox("Error al verificar el Concepto en Tempapu")
                         MsgBox(ex.ToString)
                     End Try
-                    'vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
-                    'vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
-                    'vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                    'cmdMdb1cr.CommandText = vAñadir2
-
                     ' 1. Convertimos los dos importes a Decimal de forma segura (multiidioma)
                     Dim importeConcepto As Decimal = 0.0D
                     Dim existenteImporte As Decimal = 0.0D
@@ -119,13 +114,12 @@ Public Class GraficosConceptos3D
                     cmdMdb1cr.Parameters.AddWithValue("@Concepto", vNombreConcepto.ToString())
 
                     Try
-                        drMdb1 = cmdMdb1cr.ExecuteReader()
+                        cmdMdb1cr.ExecuteNonQuery()
                         'MsgBox("Registro2, Grabado Correctamente")
                     Catch ex As Exception
                         MsgBox("Error al actualizar el Importe del Concepto en Tempapu")
                         MsgBox(ex.ToString)
                     End Try
-                    drMdb1.Close()
                 End If
             Next
         Else
@@ -163,11 +157,6 @@ Public Class GraficosConceptos3D
                         MsgBox("Error al verificar el Concepto en Tempapu")
                         MsgBox(ex.ToString)
                     End Try
-                    'vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
-                    'vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
-                    'vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                    'cmdMdb1cr.CommandText = vAñadir2
-
                     ' 1. Convertimos los dos importes a Decimal de forma segura (multiidioma)
                     Dim importeConcepto As Decimal = 0.0D
                     Dim existenteImporte As Decimal = 0.0D
@@ -207,13 +196,12 @@ Public Class GraficosConceptos3D
                     cmdMdb1cr.Parameters.AddWithValue("@Concepto", vNombreConcepto.ToString())
 
                     Try
-                        drMdb1 = cmdMdb1cr.ExecuteReader()
+                        cmdMdb1cr.ExecuteNonQuery()
                         'MsgBox("Registro2, Grabado Correctamente")
                     Catch ex As Exception
                         MsgBox("Error al actualizar el Importe del Concepto en Tempapu")
                         MsgBox(ex.ToString)
                     End Try
-                    drMdb1.Close()
                 End If
             Next
         End If

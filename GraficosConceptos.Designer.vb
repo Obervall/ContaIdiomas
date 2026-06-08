@@ -59,6 +59,9 @@ Partial Class GraficosConceptos
         '
         resources.ApplyResources(Me.TsBtnColumnas, "TsBtnColumnas")
         Me.TsBtnColumnas.BackColor = System.Drawing.SystemColors.ButtonFace
+        Me.TsBtnColumnas.Checked = True
+        Me.TsBtnColumnas.CheckOnClick = True
+        Me.TsBtnColumnas.CheckState = System.Windows.Forms.CheckState.Checked
         Me.TsBtnColumnas.Name = "TsBtnColumnas"
         '
         'ToolStripLabel3
@@ -70,6 +73,7 @@ Partial Class GraficosConceptos
         '
         resources.ApplyResources(Me.TsBtnAreas, "TsBtnAreas")
         Me.TsBtnAreas.BackColor = System.Drawing.SystemColors.ButtonFace
+        Me.TsBtnAreas.CheckOnClick = True
         Me.TsBtnAreas.Name = "TsBtnAreas"
         '
         'ToolStripLabel4
@@ -81,6 +85,7 @@ Partial Class GraficosConceptos
         '
         resources.ApplyResources(Me.TsBtnLineas, "TsBtnLineas")
         Me.TsBtnLineas.BackColor = System.Drawing.SystemColors.ButtonFace
+        Me.TsBtnLineas.CheckOnClick = True
         Me.TsBtnLineas.Name = "TsBtnLineas"
         '
         'ToolStripLabel5
@@ -92,6 +97,7 @@ Partial Class GraficosConceptos
         '
         resources.ApplyResources(Me.TsBtnPastel, "TsBtnPastel")
         Me.TsBtnPastel.BackColor = System.Drawing.SystemColors.ButtonFace
+        Me.TsBtnPastel.CheckOnClick = True
         Me.TsBtnPastel.Name = "TsBtnPastel"
         '
         'ToolStripLabel2

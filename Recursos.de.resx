@@ -589,4 +589,19 @@ Sie werden nicht aus der Datenbank entfernt</value>
   <data name="Conceptos" xml:space="preserve">
     <value>Konzepte</value>
   </data>
+  <data name="Cuentas" xml:space="preserve">
+    <value>Berichte</value>
+  </data>
+  <data name="ErrorLimpiarTemporal" xml:space="preserve">
+    <value>Fehler beim Aufräumen der temporären Tabelle</value>
+  </data>
+  <data name="ErrorGrabarTemporal" xml:space="preserve">
+    <value>Fehlerspeicherung in Temporär</value>
+  </data>
+  <data name="PreguntaHorizontal" xml:space="preserve">
+    <value>Möchtest du das Diagramm im Querformat ausdrucken?</value>
+  </data>
+  <data name="TituloPregunta" xml:space="preserve">
+    <value>Seitenorientierung</value>
+  </data>
 </root>

@@ -91,7 +91,6 @@ Public Class EditarCuentaBancaria
         cmdMdb1cr.CommandText = vtipoSql
 
         Try
-            ' CORRECCIÓN: Para comandos UPDATE se usa ExecuteNonQuery, no ExecuteReader
             cmdMdb1cr.ExecuteNonQuery()
             Me.Close()
         Catch ex As Exception

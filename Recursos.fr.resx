@@ -589,4 +589,19 @@ Ils ne sont pas supprimés de la base de données</value>
   <data name="Conceptos" xml:space="preserve">
     <value>Concepts</value>
   </data>
+  <data name="Cuentas" xml:space="preserve">
+    <value>Comptes</value>
+  </data>
+  <data name="ErrorLimpiarTemporal" xml:space="preserve">
+    <value>Erreur de nettoyage de la table temporaire</value>
+  </data>
+  <data name="ErrorGrabarTemporal" xml:space="preserve">
+    <value>Sauvegarde des erreurs dans le mode temporaire</value>
+  </data>
+  <data name="PreguntaHorizontal" xml:space="preserve">
+    <value>Voulez-vous imprimer le graphique en orientation paysage ?</value>
+  </data>
+  <data name="TituloPregunta" xml:space="preserve">
+    <value>Orientation de la page</value>
+  </data>
 </root>

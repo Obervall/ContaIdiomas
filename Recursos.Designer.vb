@@ -217,11 +217,29 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Conceptos.
+    '''</summary>
+    Friend Shared ReadOnly Property Conceptos() As String
+        Get
+            Return ResourceManager.GetString("Conceptos", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Cuenta.
     '''</summary>
     Friend Shared ReadOnly Property Cuenta() As String
         Get
             Return ResourceManager.GetString("Cuenta", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Cuentas.
+    '''</summary>
+    Friend Shared ReadOnly Property Cuentas() As String
+        Get
+            Return ResourceManager.GetString("Cuentas", resourceCulture)
         End Get
     End Property
     
@@ -550,6 +568,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Desde.
+    '''</summary>
+    Friend Shared ReadOnly Property Desde() As String
+        Get
+            Return ResourceManager.GetString("Desde", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Ejercicio.
     '''</summary>
     Friend Shared ReadOnly Property Ejercicio() As String
@@ -604,6 +631,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Error al Grabar en Temporal.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorGrabarTemporal() As String
+        Get
+            Return ResourceManager.GetString("ErrorGrabarTemporal", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Error al insertar los saldos iniciales.
     '''</summary>
     Friend Shared ReadOnly Property ErrorInsertarSaldos() As String
@@ -618,6 +654,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property ErrorLeerHistoricos() As String
         Get
             Return ResourceManager.GetString("ErrorLeerHistoricos", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Error al limpiar la tabla Temporal.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorLimpiarTemporal() As String
+        Get
+            Return ResourceManager.GetString("ErrorLimpiarTemporal", resourceCulture)
         End Get
     End Property
     
@@ -685,6 +730,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a FECHA.
+    '''</summary>
+    Friend Shared ReadOnly Property FECHA_UPPER() As String
+        Get
+            Return ResourceManager.GetString("FECHA_UPPER", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a (Filtrado).
     '''</summary>
     Friend Shared ReadOnly Property Filtrado() As String
@@ -721,6 +775,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Gastos.
+    '''</summary>
+    Friend Shared ReadOnly Property Gastos() As String
+        Get
+            Return ResourceManager.GetString("Gastos", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a GASTOS BANCARIOS.
     '''</summary>
     Friend Shared ReadOnly Property GASTOS_BANCARIOS() As String
@@ -735,6 +798,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property HACIENDA() As String
         Get
             Return ResourceManager.GetString("HACIENDA", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Hasta.
+    '''</summary>
+    Friend Shared ReadOnly Property Hasta() As String
+        Get
+            Return ResourceManager.GetString("Hasta", resourceCulture)
         End Get
     End Property
     
@@ -793,6 +865,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Ingresos.
+    '''</summary>
+    Friend Shared ReadOnly Property Ingresos() As String
+        Get
+            Return ResourceManager.GetString("Ingresos", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a INTERESES.
     '''</summary>
     Friend Shared ReadOnly Property INTERESES() As String
@@ -825,6 +906,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property LUZ() As String
         Get
             Return ResourceManager.GetString("LUZ", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Moneda.
+    '''</summary>
+    Friend Shared ReadOnly Property Moneda() As String
+        Get
+            Return ResourceManager.GetString("Moneda", resourceCulture)
         End Get
     End Property
     
@@ -1009,6 +1099,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a ¿Deseas imprimir el gráfico en orientación Horizontal?.
+    '''</summary>
+    Friend Shared ReadOnly Property PreguntaHorizontal() As String
+        Get
+            Return ResourceManager.GetString("PreguntaHorizontal", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a El registro ha sido borrado correctamente.
     '''</summary>
     Friend Shared ReadOnly Property RegistroBorrado() As String
@@ -1167,6 +1266,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property TitolApp() As String
         Get
             Return ResourceManager.GetString("TitolApp", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Orientación de página.
+    '''</summary>
+    Friend Shared ReadOnly Property TituloPregunta() As String
+        Get
+            Return ResourceManager.GetString("TituloPregunta", resourceCulture)
         End Get
     End Property
     
@@ -1348,6 +1456,33 @@ Friend Class Recursos
     Friend Shared ReadOnly Property ToolTipUltimo() As String
         Get
             Return ResourceManager.GetString("ToolTipUltimo", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a TOTAL.
+    '''</summary>
+    Friend Shared ReadOnly Property TOTAL() As String
+        Get
+            Return ResourceManager.GetString("TOTAL", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Total Gastos.
+    '''</summary>
+    Friend Shared ReadOnly Property TotalGastos() As String
+        Get
+            Return ResourceManager.GetString("TotalGastos", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Total Ingresos.
+    '''</summary>
+    Friend Shared ReadOnly Property TotalIngresos() As String
+        Get
+            Return ResourceManager.GetString("TotalIngresos", resourceCulture)
         End Get
     End Property
     

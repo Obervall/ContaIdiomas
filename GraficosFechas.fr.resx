@@ -153,4 +153,10 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Graphique</value>
   </data>
+  <data name="TituloGrafico" xml:space="preserve">
+    <value>Tableau des dates</value>
+  </data>
+  <data name="TSBtnImprimir.ToolTipText" xml:space="preserve">
+    <value>Imprimé</value>
+  </data>
 </root>

@@ -130,13 +130,12 @@ Public Class GraficosSoloConceptos3D
                 vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
                 cmdMdb1cr.CommandText = vAñadir2
                 Try
-                    drMdb1 = cmdMdb1cr.ExecuteReader()
+                    cmdMdb1cr.ExecuteNonQuery()
                     'MsgBox("Registro2, Grabado Correctamente")
                 Catch ex As Exception
                     MsgBox("Error al actualizar el Importe del Concepto en Tempapu")
                     MsgBox(ex.ToString)
                 End Try
-                drMdb1.Close()
             End If
         Next
 

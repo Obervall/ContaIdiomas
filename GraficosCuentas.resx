@@ -276,6 +276,9 @@
   <data name="TSBtnImprimir.Text" xml:space="preserve">
     <value>ToolStripButton1</value>
   </data>
+  <data name="TSBtnImprimir.ToolTipText" xml:space="preserve">
+    <value>Imprimir Gáfico</value>
+  </data>
   <data name="ToolStrip1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -623,5 +626,8 @@
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TituloGrafico" xml:space="preserve">
+    <value>Gráfico por Cuentas Bancarias</value>
   </data>
 </root>

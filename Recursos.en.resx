@@ -589,4 +589,19 @@ They are not removed from the database</value>
   <data name="Conceptos" xml:space="preserve">
     <value>Concepts</value>
   </data>
+  <data name="Cuentas" xml:space="preserve">
+    <value>Accounts</value>
+  </data>
+  <data name="ErrorLimpiarTemporal" xml:space="preserve">
+    <value>Error cleaning up the Temporary table</value>
+  </data>
+  <data name="ErrorGrabarTemporal" xml:space="preserve">
+    <value>Error Saving in Temporary</value>
+  </data>
+  <data name="PreguntaHorizontal" xml:space="preserve">
+    <value>Do you want to print the chart in Landscape orientation?</value>
+  </data>
+  <data name="TituloPregunta" xml:space="preserve">
+    <value>Page orientation</value>
+  </data>
 </root>

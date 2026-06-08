@@ -12,14 +12,6 @@ Public Class SeleccionFechas
         Me.KeyPreview = True
         ActualizarTextosFormulario(Me)
 
-        'vFecha1Enero = Val(vAñoEjercicio)
-        'vFecha31Diciembre = Val(vAñoEjercicio)
-        'DateTimePicker1.MinDate = New Date(vFecha1Enero, 1, 1)
-        'DateTimePicker2.MinDate = New Date(vFecha1Enero, 1, 1)
-        'DateTimePicker1.Value = New Date(vFecha1Enero, 1, 1)
-        'DateTimePicker1.MaxDate = New Date(vFecha31Diciembre, 12, 31)
-        'DateTimePicker2.MaxDate = New Date(vFecha31Diciembre, 12, 31)
-        'DateTimePicker2.Value = New Date(vFecha31Diciembre, 12, 31)
         ' 1. Convertimos el año a número entero de forma segura
         Dim anio As Integer
         If Not Integer.TryParse(vAñoEjercicio, anio) Then

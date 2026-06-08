@@ -219,14 +219,13 @@ Public Class EditarApuntesPeriodicos
             vtipoSql += " WHERE apuper.CodigoAPP = " & vCodigoAPU.ToString
             cmdMdb1cr.CommandText = vtipoSql
             Try
-                drMdb1 = cmdMdb1cr.ExecuteReader()
+                cmdMdb1cr.ExecuteNonQuery()
                 'MsgBox("Registro, Grabado Correctamente")
                 Me.Close()
             Catch ex As Exception
                 MsgBox("Error al Grabar el Registro del Apunte Periódico")
                 MsgBox(ex.ToString)
             End Try
-            drMdb1.Close()
 
             vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper"
             vtipoSql += " WHERE apuper.EjercicioAPP = " & vAñoEjercicio.ToString

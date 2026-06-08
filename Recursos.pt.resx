@@ -589,4 +589,19 @@ Eles não são removidos do banco de dados</value>
   <data name="Conceptos" xml:space="preserve">
     <value>Conceitos</value>
   </data>
+  <data name="Cuentas" xml:space="preserve">
+    <value>Relatos</value>
+  </data>
+  <data name="ErrorLimpiarTemporal" xml:space="preserve">
+    <value>Erro ao limpar a tabela temporária</value>
+  </data>
+  <data name="ErrorGrabarTemporal" xml:space="preserve">
+    <value>Salvamento de Erros em Tempo Temporário</value>
+  </data>
+  <data name="PreguntaHorizontal" xml:space="preserve">
+    <value>Você quer imprimir o gráfico em orientação Paisagem?</value>
+  </data>
+  <data name="TituloPregunta" xml:space="preserve">
+    <value>Orientação da página</value>
+  </data>
 </root>

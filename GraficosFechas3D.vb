@@ -6,6 +6,7 @@ Imports System.Windows.Forms.DataVisualization.Charting
 
 Public Class GraficosFechas3D
 
+    Public Property EsGrafico3D As Boolean = False
     Public vAñadir, vAñadir2, vtmpprint, vPositivo As String
     Public miDataTable As New DataTable
     Public miView As New DataView(miDataTable)
@@ -155,13 +156,11 @@ Public Class GraficosFechas3D
                                 End If
                                 cmdMdb1cr.CommandText = vAñadir2
                                 Try
-                                    drMdb1 = cmdMdb1cr.ExecuteReader()
+                                    cmdMdb1cr.ExecuteNonQuery()
                                 Catch ex As Exception
                                     MsgBox("Error al actualizar el Importe del Concepto en tmpprint")
                                     MsgBox(ex.ToString)
                                 End Try
-                                drMdb1.Close()
-
                             Else   'NO existe, lo añadimos al cero
                                 'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
                                 drMdb1.Close()
@@ -179,14 +178,12 @@ Public Class GraficosFechas3D
                                     vAñadir2 += " And tmpprint.ImporteTMP = 0 "
                                     cmdMdb1cr.CommandText = vAñadir2
                                     Try
-                                        drMdb1 = cmdMdb1cr.ExecuteReader()
+                                        cmdMdb1cr.ExecuteNonQuery()
                                     Catch ex As Exception
                                         MsgBox("Error al actualizar el Importe del Concepto en tmpprint")
                                         MsgBox(ex.ToString)
                                     End Try
-                                    drMdb1.Close()
                                 End If
-                                drMdb1.Close()
                             End If
                         Catch ex As Exception
                             MsgBox("Error al verificar que el Concepto existe en tmpprint")
@@ -251,13 +248,11 @@ Public Class GraficosFechas3D
                                 End If
                                 cmdMdb1cr.CommandText = vAñadir2
                                 Try
-                                    drMdb1 = cmdMdb1cr.ExecuteReader()
+                                    cmdMdb1cr.ExecuteNonQuery()
                                 Catch ex As Exception
                                     MsgBox("Error al actualizar el Importe del Concepto en tmpprint")
                                     MsgBox(ex.ToString)
                                 End Try
-                                drMdb1.Close()
-
                             Else   'NO existe, lo añadimos al cero
                                 'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
                                 drMdb1.Close()
@@ -275,12 +270,11 @@ Public Class GraficosFechas3D
                                     vAñadir2 += " And tmpprint.ImporteTMP = 0 "
                                     cmdMdb1cr.CommandText = vAñadir2
                                     Try
-                                        drMdb1 = cmdMdb1cr.ExecuteReader()
+                                        cmdMdb1cr.ExecuteNonQuery()
                                     Catch ex As Exception
                                         MsgBox("Error al actualizar el Importe del Concepto en tmpprint")
                                         MsgBox(ex.ToString)
                                     End Try
-                                    drMdb1.Close()
                                 End If
                                 drMdb1.Close()
                             End If

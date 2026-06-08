@@ -125,9 +125,8 @@ Public Class EditarConceptoContable
         vtipoSql = "UPDATE conceptos SET DescripcionCON = '" & vTxtDescripcion & "' , NotasCON = '" & vTxtNotas & "' "
         vtipoSql += " WHERE conceptos.CodigoCON = '" & codigoOriginalMDB & "' "
         cmdMdb1cr.CommandText = vtipoSql
-
         Try
-            cmdMdb1cr.ExecuteNonQuery() ' Recomendado cambiar a ExecuteNonQuery
+            cmdMdb1cr.ExecuteNonQuery()
             Me.Close()
         Catch ex As Exception
             MsgBox(resManager.GetString("ErrorModificarRegistro"))
