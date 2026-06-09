@@ -199,28 +199,10 @@
     <Compile Include="FiltroF5.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GraficosConceptos3D.Designer.vb">
-      <DependentUpon>GraficosConceptos3D.vb</DependentUpon>
-    </Compile>
-    <Compile Include="GraficosConceptos3D.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="GraficosPresupuestos.Designer.vb">
       <DependentUpon>GraficosPresupuestos.vb</DependentUpon>
     </Compile>
     <Compile Include="GraficosPresupuestos.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GraficosCuentas3D.Designer.vb">
-      <DependentUpon>GraficosCuentas3D.vb</DependentUpon>
-    </Compile>
-    <Compile Include="GraficosCuentas3D.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GraficosFechas3D.Designer.vb">
-      <DependentUpon>GraficosFechas3D.vb</DependentUpon>
-    </Compile>
-    <Compile Include="GraficosFechas3D.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GraficosSoloConceptos3D.Designer.vb">
@@ -944,27 +926,6 @@
     <EmbeddedResource Include="GraficosConceptos.pt.resx">
       <DependentUpon>GraficosConceptos.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GraficosConceptos3D.ca.resx">
-      <DependentUpon>GraficosConceptos3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosConceptos3D.de.resx">
-      <DependentUpon>GraficosConceptos3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosConceptos3D.en.resx">
-      <DependentUpon>GraficosConceptos3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosConceptos3D.es.resx">
-      <DependentUpon>GraficosConceptos3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosConceptos3D.fr.resx">
-      <DependentUpon>GraficosConceptos3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosConceptos3D.pt.resx">
-      <DependentUpon>GraficosConceptos3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosConceptos3D.resx">
-      <DependentUpon>GraficosConceptos3D.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GraficosCuentas.ca.resx">
       <DependentUpon>GraficosCuentas.vb</DependentUpon>
     </EmbeddedResource>
@@ -983,24 +944,6 @@
     <EmbeddedResource Include="GraficosCuentas.pt.resx">
       <DependentUpon>GraficosCuentas.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GraficosCuentas3D.ca.resx">
-      <DependentUpon>GraficosCuentas3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosCuentas3D.de.resx">
-      <DependentUpon>GraficosCuentas3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosCuentas3D.en.resx">
-      <DependentUpon>GraficosCuentas3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosCuentas3D.es.resx">
-      <DependentUpon>GraficosCuentas3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosCuentas3D.fr.resx">
-      <DependentUpon>GraficosCuentas3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosCuentas3D.pt.resx">
-      <DependentUpon>GraficosCuentas3D.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GraficosFechas.ca.resx">
       <DependentUpon>GraficosFechas.vb</DependentUpon>
     </EmbeddedResource>
@@ -1018,24 +961,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosFechas.pt.resx">
       <DependentUpon>GraficosFechas.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosFechas3D.ca.resx">
-      <DependentUpon>GraficosFechas3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosFechas3D.de.resx">
-      <DependentUpon>GraficosFechas3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosFechas3D.en.resx">
-      <DependentUpon>GraficosFechas3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosFechas3D.es.resx">
-      <DependentUpon>GraficosFechas3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosFechas3D.fr.resx">
-      <DependentUpon>GraficosFechas3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosFechas3D.pt.resx">
-      <DependentUpon>GraficosFechas3D.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosMeses.ca.resx">
       <DependentUpon>GraficosMeses.vb</DependentUpon>
@@ -1075,12 +1000,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosPresupuestos.resx">
       <DependentUpon>GraficosPresupuestos.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosCuentas3D.resx">
-      <DependentUpon>GraficosCuentas3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosFechas3D.resx">
-      <DependentUpon>GraficosFechas3D.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosSoloConceptos.ca.resx">
       <DependentUpon>GraficosSoloConceptos.vb</DependentUpon>

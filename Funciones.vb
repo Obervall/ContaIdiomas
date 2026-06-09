@@ -48,13 +48,9 @@ Module Funciones
     Public frmTipoGrafico As New TipoGrafico
     Public frmTipoGraficoPeriodico As New TipoGraficoPeriodico
     Public frmGraficosConceptos As New GraficosConceptos
-    Public frmGraficosConceptos3D As New GraficosConceptos3D
     Public frmGraficosCuentas As New GraficosCuentas
-    Public frmGraficosCuentas3D As New GraficosCuentas3D
     Public frmGraficosFechas As New GraficosFechas
-    Public frmGraficosFechas3D As New GraficosFechas3D
     Public frmGraficosMeses As New GraficosMeses
-    '    Public frmGraficosMeses3D As New GraficosMeses3D
     Public frmGraficosPresupuestos As New GraficosPresupuestos
     Public frmSeleccionarDatosIngresos As New SeleccionDatosIngresos
     Public frmSeleccionarDatosGastos As New SeleccionDatosGastos
