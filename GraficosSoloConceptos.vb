@@ -250,39 +250,6 @@ Public Class GraficosSoloConceptos
         Next
     End Sub
 
-    'Private Sub TSBtnImprimir_Click(sender As Object, e As EventArgs) Handles TSBtnImprimir.Click
-    '    'Iniciamos Código para Imprimir
-    '    '******************************
-    '    frmImprimirForm.LblFecha.Text = Date.Today.ToLongDateString
-    '    frmImprimirForm.LblNumeroPagina.Text = "0"
-
-    '    'Para ver la plantilla de impresión
-    '    'frmImprimirForm.Show()
-
-    '    If My.Settings.Previsualizar = True Then
-    '        'Te deja ver un preview del reporte antes de imprimir
-    '        PrintPreviewDialog1.Document = PrintDocument1
-    '        PrintPreviewDialog1.WindowState = FormWindowState.Maximized
-    '        PrintPreviewDialog1.ShowDialog()
-    '    End If
-
-    '    If My.Settings.ElegirImpresora = True Then
-    '        'Te deja elegir la impresora
-    '        PrintDialog1.Document = PrintDocument1
-    '        PrintDialog1.PrinterSettings = PrintDocument1.PrinterSettings
-    '        PrintDialog1.AllowSomePages = True
-    '        If PrintDialog1.ShowDialog = DialogResult.OK Then
-    '            PrintDocument1.PrinterSettings = PrintDialog1.PrinterSettings
-    '            PrintDocument1.Print()
-    '        End If
-    '    End If
-
-    '    If My.Settings.DirectoImpresora = True Then
-    '        'Imprime en la impresora por defecto
-    '        PrintDocument1.Print()
-    '    End If
-    'End Sub
-
     Private Sub TSBtnImprimir_Click(sender As Object, e As EventArgs) Handles TSBtnImprimir.Click
         ' PREGUNTA DE ORIENTACIÓN: Preguntamos si desea imprimir en Horizontal (Landscape)
         Dim respuesta As DialogResult = MessageBox.Show(
@@ -359,32 +326,5 @@ Public Class GraficosSoloConceptos
         e.Graphics.DrawString(frmImprimirForm.Label2.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.Label2.Left, e.MarginBounds.Bottom)
         e.Graphics.DrawString(frmImprimirForm.LblNumeroPagina.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.LblNumeroPagina.Left, e.MarginBounds.Bottom)
     End Sub
-
-    'Private Sub PrintDocument1_PrintPage(sender As Object, e As PrintPageEventArgs) Handles PrintDocument1.PrintPage
-    '    'Cualquier variable que desees que conserve su valor debes declararla fuera del Printdocument
-    '    'Todas las variable declaradas dentro de printdocument pierden su valor al cambiar de pagina
-
-    '    'Definimos los tipos de letras a utilizar en el reporte
-    '    '******************************************************
-    '    Dim FuenteTitulo As New Font("Microsoft Sans Serif", 14)
-    '    Dim FuenteSubtitulo As New Font("Microsoft Sans Serif", 16)
-    '    Dim FuenteNegrita As New Font("Microsoft Sans Serif", 9, FontStyle.Bold)
-    '    Dim FuenteDetalles As New Font("Microsoft Sans Serif", 9)
-    '    Dim FuenteSubrayada As New Font("Microsoft Sans Serif", 9, FontStyle.Underline Xor FontStyle.Bold)
-
-    '    'Imprimimos el encabezado los datos que están antes del dibujo
-    '    '*************************************************************
-    '    e.Graphics.DrawString(frmGraficosSoloConceptos.Chart1.Titles.Item(0).Text, FuenteTitulo, Brushes.Black, frmImprimirForm.LblUsuario.Left, frmImprimirForm.LblUsuario.Top)
-    '    e.Graphics.DrawString(frmImprimirForm.LblFecha.Text, FuenteNegrita, Brushes.Black, frmImprimirForm.LblFecha.Right, frmImprimirForm.LblFecha.Top)
-    '    b = New Bitmap(frmGraficosSoloConceptos.Chart1.Width, frmGraficosSoloConceptos.Chart1.Height)
-    '    frmGraficosSoloConceptos.Chart1.DrawToBitmap(b, New Rectangle(0, 0, b.Width, b.Height))
-    '    e.Graphics.DrawImage(b, 0, 100)
-
-    '    'Si deseamos poner un contador de páginas
-    '    'Esta parte siempre va a salir en todas las paginas
-    '    frmImprimirForm.LblNumeroPagina.Text = CInt(frmImprimirForm.LblNumeroPagina.Text) + 1
-    '    e.Graphics.DrawString(frmImprimirForm.Label2.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.Label2.Left, e.MarginBounds.Bottom)
-    '    e.Graphics.DrawString(frmImprimirForm.LblNumeroPagina.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.LblNumeroPagina.Left, e.MarginBounds.Bottom)
-    'End Sub
 
 End Class

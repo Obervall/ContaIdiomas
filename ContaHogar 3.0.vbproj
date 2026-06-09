@@ -223,12 +223,6 @@
     <Compile Include="GraficosFechas3D.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GraficosMeses3D.Designer.vb">
-      <DependentUpon>GraficosMeses3D.vb</DependentUpon>
-    </Compile>
-    <Compile Include="GraficosMeses3D.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="GraficosSoloConceptos3D.Designer.vb">
       <DependentUpon>GraficosSoloConceptos3D.vb</DependentUpon>
     </Compile>
@@ -1061,24 +1055,6 @@
     <EmbeddedResource Include="GraficosMeses.pt.resx">
       <DependentUpon>GraficosMeses.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GraficosMeses3D.ca.resx">
-      <DependentUpon>GraficosMeses3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosMeses3D.de.resx">
-      <DependentUpon>GraficosMeses3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosMeses3D.en.resx">
-      <DependentUpon>GraficosMeses3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosMeses3D.es.resx">
-      <DependentUpon>GraficosMeses3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosMeses3D.fr.resx">
-      <DependentUpon>GraficosMeses3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosMeses3D.pt.resx">
-      <DependentUpon>GraficosMeses3D.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GraficosPresupuestos.ca.resx">
       <DependentUpon>GraficosPresupuestos.vb</DependentUpon>
     </EmbeddedResource>
@@ -1105,9 +1081,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosFechas3D.resx">
       <DependentUpon>GraficosFechas3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosMeses3D.resx">
-      <DependentUpon>GraficosMeses3D.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosSoloConceptos.ca.resx">
       <DependentUpon>GraficosSoloConceptos.vb</DependentUpon>

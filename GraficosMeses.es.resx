@@ -142,7 +142,7 @@
     <value>Gráficos Tipo Pastel</value>
   </data>
   <data name="TSBtnImprimir.Text" xml:space="preserve">
-    <value>ToolStripButton1</value>
+    <value>Imprimir</value>
   </data>
   <data name="ToolStrip1.Text" xml:space="preserve">
     <value>ToolStrip1</value>
@@ -152,5 +152,8 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Graficos</value>
+  </data>
+  <data name="TituloGrafico" xml:space="preserve">
+    <value>Gráficos por Meses</value>
   </data>
 </root>

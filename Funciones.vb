@@ -54,7 +54,7 @@ Module Funciones
     Public frmGraficosFechas As New GraficosFechas
     Public frmGraficosFechas3D As New GraficosFechas3D
     Public frmGraficosMeses As New GraficosMeses
-    Public frmGraficosMeses3D As New GraficosMeses3D
+    '    Public frmGraficosMeses3D As New GraficosMeses3D
     Public frmGraficosPresupuestos As New GraficosPresupuestos
     Public frmSeleccionarDatosIngresos As New SeleccionDatosIngresos
     Public frmSeleccionarDatosGastos As New SeleccionDatosGastos
@@ -394,19 +394,12 @@ Module Funciones
                 frmImprimirForm.LblTotal.Text = String.Format("{0}: {1} {2}", resManager.GetString("TOTAL"), vValor.ToString("N2"), vMoneda)
             Next
 
-        ElseIf vgrid = "PRINT_TEMP_APUNTES" Then
+        ElseIf vgrid = "PRINT_TEMP_APUNTES" Or vgrid = "PRINT_TEMP_APUNTES_FECHAS" Then
             Dim adp As New OleDbDataAdapter(linSql, conexion1)
-            Dim Tabla As New DataTable
-            adp.Fill(Tabla)
-            frmImprimirForm.DgvApuntes.DataSource = ""
-            frmImprimirForm.DgvApuntes.DataSource = Tabla
-
-        ElseIf vgrid = "PRINT_TEMP_APUNTES_FECHAS" Then
-            Dim adp As New OleDbDataAdapter(linSql, conexion1)
-            Dim Tabla As New DataTable
-            adp.Fill(Tabla)
-            frmImprimirForm.DgvApuntes.DataSource = ""
-            frmImprimirForm.DgvApuntes.DataSource = Tabla
+                Dim Tabla As New DataTable
+                adp.Fill(Tabla)
+                frmImprimirForm.DgvApuntes.DataSource = ""
+                frmImprimirForm.DgvApuntes.DataSource = Tabla
 
         ElseIf vgrid = "APUNTES_PERIODICOS" Then
             Using adp As New OleDbDataAdapter(linSql, conexion1)
@@ -1408,6 +1401,7 @@ Module Funciones
         ElseIf Dgv = "CUENTAS_APUNTES_CONTABLES" Then
             filas = frmApuntesContables.DgvApuntes.Rows
         End If
+
         If filas IsNot Nothing Then
             For Each fila As DataGridViewRow In filas
                 If fila.Cells(3).Value <> 0 Then
@@ -1683,6 +1677,87 @@ Module Funciones
                         Catch ex As Exception
                             If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
                             MsgBox(resManager.GetString("ErrorGrabarTemporal") & vbCrLf & ex.Message)
+                        End Try
+                    End If
+                End If
+            Next
+        End If
+    End Sub
+
+    Public Sub LlenarTempApuMeses(Dgv As String)
+        Dim filas As DataGridViewRowCollection = Nothing
+
+        If Dgv = "MESES_APUNTES_PERIODICOS" Then
+            filas = frmApuntesPeriodicos.DgvApuper.Rows
+        ElseIf Dgv = "MESES_APUNTES_CONTABLES" Then
+            filas = frmApuntesContables.DgvApuntes.Rows
+        End If
+
+        If filas IsNot Nothing Then
+            For Each fila As DataGridViewRow In filas
+                ' Evitamos procesar la fila nueva vacía automática de .NET
+                If fila.IsNewRow Then Continue For
+
+                If fila.Cells(3).Value <> 0 Then
+                    vImporteConcepto = fila.Cells(3).Value
+
+                    ' Extraemos de forma genérica el Año-Mes de la celda de fecha
+                    Dim fechaReal As DateTime = Convert.ToDateTime(fila.Cells(0).Value)
+                    Dim claveMesAño As String = fechaReal.ToString("yy") & "-" & fechaReal.Month.ToString("D2")
+                    ' "D2" fuerza a que el mes salga como "01" en lugar de "1" para mantener el orden en la base de datos
+
+                    If vNombreConcepto <> claveMesAño Then
+                        vNombreConcepto = claveMesAño
+                        vImporteConcepto = fila.Cells(3).Value
+
+                        ' Inserción del importe real
+                        vAñadir = "INSERT INTO tempapu(ConceptoAPU, SumaImporteAPU) VALUES ('" & vNombreConcepto & "','" & vImporteConcepto & "')"
+                        cmdMdb1cr.CommandText = vAñadir
+                        Try : cmdMdb1cr.ExecuteNonQuery() : Catch ex As Exception : MsgBox(ex.ToString) : End Try
+
+                        ' Inserción de la fila espejo a cero
+                        vAñadir = "INSERT INTO tempapu(ConceptoAPU, SumaImporteAPU) VALUES ('" & vNombreConcepto & "',' 0 ')"
+                        cmdMdb1cr.CommandText = vAñadir
+                        Try : cmdMdb1cr.ExecuteNonQuery() : Catch ex As Exception : MsgBox(ex.ToString) : End Try
+                    Else
+                        ' Si ya existe el registro del mes actual en tempapu, actualizamos acumulando el importe
+                        cmdMdb1cr.CommandType = CommandType.Text
+                        If Val(vImporteConcepto) > 0 Then
+                            cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' And tempapu.SumaImporteAPU > 0 "
+                        ElseIf Val(vImporteConcepto) < 0 Then
+                            cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' And tempapu.SumaImporteAPU < 0 "
+                        End If
+
+                        Try
+                            drMdb1 = cmdMdb1cr.ExecuteReader()
+                            If drMdb1.HasRows Then
+                                While drMdb1.Read() : vExistenteImporteConcepto = drMdb1.GetValue(1) : End While
+                                drMdb1.Close() ' Importante cerrar el reader antes del Update
+
+                                vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto)
+                                vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+                                vAñadir2 += If(Val(vImporteConcepto) > 0, "And tempapu.SumaImporteAPU > 0 ", "And tempapu.SumaImporteAPU < 0 ")
+
+                                cmdMdb1cr.CommandText = vAñadir2
+                                Try : cmdMdb1cr.ExecuteNonQuery() : Catch ex As Exception : MsgBox(ex.ToString) : End Try
+                            Else
+                                drMdb1.Close()
+                                ' Si no existe, acumulamos sobre el registro que se creó a cero
+                                cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' And tempapu.SumaImporteAPU = 0 "
+                                drMdb1 = cmdMdb1cr.ExecuteReader()
+                                If drMdb1.HasRows Then
+                                    While drMdb1.Read() : vExistenteImporteConcepto = drMdb1.GetValue(1) : End While
+                                    drMdb1.Close()
+
+                                    vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto)
+                                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' And tempapu.SumaImporteAPU = 0 "
+                                    cmdMdb1cr.CommandText = vAñadir2
+                                    Try : cmdMdb1cr.ExecuteNonQuery() : Catch ex As Exception : MsgBox(ex.ToString) : End Try
+                                End If
+                                drMdb1.Close()
+                            End If
+                        Catch ex As Exception
+                            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
                         End Try
                     End If
                 End If

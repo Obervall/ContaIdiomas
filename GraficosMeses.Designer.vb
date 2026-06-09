@@ -39,10 +39,10 @@ Partial Class GraficosMeses
         Me.ToolStripLabel2 = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.TSBtnImprimir = New System.Windows.Forms.ToolStripButton()
-        Me.Chart1 = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.PrintDialog1 = New System.Windows.Forms.PrintDialog()
         Me.PrintDocument1 = New System.Drawing.Printing.PrintDocument()
         Me.PrintPreviewDialog1 = New System.Windows.Forms.PrintPreviewDialog()
+        Me.Chart1 = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.ToolStrip1.SuspendLayout()
         CType(Me.Chart1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -58,6 +58,9 @@ Partial Class GraficosMeses
         '
         resources.ApplyResources(Me.TsBtnColumnas, "TsBtnColumnas")
         Me.TsBtnColumnas.BackColor = System.Drawing.SystemColors.ButtonFace
+        Me.TsBtnColumnas.Checked = True
+        Me.TsBtnColumnas.CheckOnClick = True
+        Me.TsBtnColumnas.CheckState = System.Windows.Forms.CheckState.Checked
         Me.TsBtnColumnas.Name = "TsBtnColumnas"
         '
         'ToolStripLabel3
@@ -69,6 +72,7 @@ Partial Class GraficosMeses
         '
         resources.ApplyResources(Me.TsBtnAreas, "TsBtnAreas")
         Me.TsBtnAreas.BackColor = System.Drawing.SystemColors.ButtonFace
+        Me.TsBtnAreas.CheckOnClick = True
         Me.TsBtnAreas.Name = "TsBtnAreas"
         '
         'ToolStripLabel4
@@ -80,6 +84,7 @@ Partial Class GraficosMeses
         '
         resources.ApplyResources(Me.TsBtnLineas, "TsBtnLineas")
         Me.TsBtnLineas.BackColor = System.Drawing.SystemColors.ButtonFace
+        Me.TsBtnLineas.CheckOnClick = True
         Me.TsBtnLineas.Name = "TsBtnLineas"
         '
         'ToolStripLabel5
@@ -91,6 +96,7 @@ Partial Class GraficosMeses
         '
         resources.ApplyResources(Me.TsBtnPastel, "TsBtnPastel")
         Me.TsBtnPastel.BackColor = System.Drawing.SystemColors.ButtonFace
+        Me.TsBtnPastel.CheckOnClick = True
         Me.TsBtnPastel.Name = "TsBtnPastel"
         '
         'ToolStripLabel2
@@ -109,43 +115,6 @@ Partial Class GraficosMeses
         resources.ApplyResources(Me.TSBtnImprimir, "TSBtnImprimir")
         Me.TSBtnImprimir.Name = "TSBtnImprimir"
         '
-        'Chart1
-        '
-        ChartArea1.AxisX.Interval = 1.0R
-        ChartArea1.AxisX.IsLabelAutoFit = False
-        ChartArea1.AxisX.LabelStyle.Angle = -45
-        ChartArea1.AxisX.Title = "MESES"
-        ChartArea1.AxisX.TitleFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        ChartArea1.AxisX2.TitleFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        ChartArea1.AxisY.Title = "EUROS"
-        ChartArea1.AxisY.TitleFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        ChartArea1.Name = "ChartArea1"
-        Me.Chart1.ChartAreas.Add(ChartArea1)
-        Legend1.Name = "Legend1"
-        Me.Chart1.Legends.Add(Legend1)
-        resources.ApplyResources(Me.Chart1, "Chart1")
-        Me.Chart1.Name = "Chart1"
-        Series1.ChartArea = "ChartArea1"
-        Series1.Color = System.Drawing.Color.Red
-        Series1.IsValueShownAsLabel = True
-        Series1.IsVisibleInLegend = False
-        Series1.Legend = "Legend1"
-        Series1.Name = "Gastos"
-        Series1.SmartLabelStyle.AllowOutsidePlotArea = System.Windows.Forms.DataVisualization.Charting.LabelOutsidePlotAreaStyle.No
-        Series2.ChartArea = "ChartArea1"
-        Series2.Color = System.Drawing.Color.Blue
-        Series2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Series2.IsValueShownAsLabel = True
-        Series2.IsVisibleInLegend = False
-        Series2.Legend = "Legend1"
-        Series2.Name = "Ingresos"
-        Series2.SmartLabelStyle.AllowOutsidePlotArea = System.Windows.Forms.DataVisualization.Charting.LabelOutsidePlotAreaStyle.No
-        Me.Chart1.Series.Add(Series1)
-        Me.Chart1.Series.Add(Series2)
-        Title1.Name = "Title1"
-        Title1.Text = "Gráfico por Meses"
-        Me.Chart1.Titles.Add(Title1)
-        '
         'PrintDialog1
         '
         Me.PrintDialog1.UseEXDialog = True
@@ -157,6 +126,43 @@ Partial Class GraficosMeses
         '
         resources.ApplyResources(Me.PrintPreviewDialog1, "PrintPreviewDialog1")
         Me.PrintPreviewDialog1.Name = "PrintPreviewDialog1"
+        '
+        'Chart1
+        '
+        ChartArea1.AxisX.Interval = 1.0R
+        ChartArea1.AxisX.IsLabelAutoFit = False
+        ChartArea1.AxisX.LabelStyle.Angle = -45
+        ChartArea1.AxisX.Title = "CONCEPTOS"
+        ChartArea1.AxisX.TitleFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        ChartArea1.AxisX2.TitleFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        ChartArea1.AxisY.Title = "EUROS"
+        ChartArea1.AxisY.TitleFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        ChartArea1.Name = "ChartArea1"
+        Me.Chart1.ChartAreas.Add(ChartArea1)
+        resources.ApplyResources(Me.Chart1, "Chart1")
+        Legend1.Name = "Legend1"
+        Me.Chart1.Legends.Add(Legend1)
+        Me.Chart1.Name = "Chart1"
+        Series1.ChartArea = "ChartArea1"
+        Series1.Color = System.Drawing.Color.Blue
+        Series1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
+        Series1.IsValueShownAsLabel = True
+        Series1.IsVisibleInLegend = False
+        Series1.Legend = "Legend1"
+        Series1.Name = "Ingresos"
+        Series1.SmartLabelStyle.AllowOutsidePlotArea = System.Windows.Forms.DataVisualization.Charting.LabelOutsidePlotAreaStyle.No
+        Series2.ChartArea = "ChartArea1"
+        Series2.Color = System.Drawing.Color.Red
+        Series2.IsValueShownAsLabel = True
+        Series2.IsVisibleInLegend = False
+        Series2.Legend = "Legend1"
+        Series2.Name = "Gastos"
+        Series2.SmartLabelStyle.AllowOutsidePlotArea = System.Windows.Forms.DataVisualization.Charting.LabelOutsidePlotAreaStyle.No
+        Me.Chart1.Series.Add(Series1)
+        Me.Chart1.Series.Add(Series2)
+        Title1.Name = "Title1"
+        Title1.Text = "Gráfico por Conceptos Contables"
+        Me.Chart1.Titles.Add(Title1)
         '
         'GraficosMeses
         '
@@ -174,7 +180,6 @@ Partial Class GraficosMeses
 
     End Sub
     Friend WithEvents ToolStrip1 As Windows.Forms.ToolStrip
-    Friend WithEvents Chart1 As Windows.Forms.DataVisualization.Charting.Chart
     Friend WithEvents ToolStripLabel2 As Windows.Forms.ToolStripLabel
     Friend WithEvents ToolStripSeparator2 As Windows.Forms.ToolStripSeparator
     Friend WithEvents TsBtnColumnas As Windows.Forms.ToolStripButton
@@ -188,4 +193,5 @@ Partial Class GraficosMeses
     Friend WithEvents PrintDialog1 As Windows.Forms.PrintDialog
     Friend WithEvents PrintDocument1 As Drawing.Printing.PrintDocument
     Friend WithEvents PrintPreviewDialog1 As Windows.Forms.PrintPreviewDialog
+    Friend WithEvents Chart1 As Windows.Forms.DataVisualization.Charting.Chart
 End Class

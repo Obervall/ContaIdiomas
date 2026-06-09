@@ -7,16 +7,904 @@ Imports System.Windows.Forms.DataVisualization.Charting
 Public Class GraficosMeses
 
     Public Property EsGrafico3D As Boolean = False
-    Public vAñadir, vAñadir2, vTempapu, vImporteConcepto, vNewImporteConcepto As String
-    Public vExistenteImporteConcepto, vPositivo As String
     Public miDataTable As New DataTable
     Public miView As New DataView(miDataTable)
     Public x, vContador As Integer
     Public vImportePrimero, vImporteSegundo As Double
     Private b As Bitmap
+    Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
+
+    ' =======================================================================
+    ' EVENTO LOAD: Prepara los datos agrupados de la base de datos temporal
+    ' =======================================================================
+    Private Sub GraficosMeses_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+            ' 1. Vaciamos la tabla temporal llamando a tu módulo
+            LimpiarTempApu()
+
+            ' 2. Ordenamos el DataGridView de origen según el formulario activo
+            If vGrafico <> "" Then
+                frmApuntesPeriodicos.DgvApuper.Sort(frmApuntesPeriodicos.DgvApuper.Columns(0), System.ComponentModel.ListSortDirection.Ascending)
+                LlenarTempApuMeses("MESES_APUNTES_PERIODICOS")
+            Else
+                frmApuntesContables.DgvApuntes.Sort(frmApuntesContables.DgvApuntes.Columns(0), System.ComponentModel.ListSortDirection.Ascending)
+                LlenarTempApuMeses("MESES_APUNTES_CONTABLES")
+            End If
+
+            ' 3. Estructuramos la tabla local en memoria para el gráfico
+            miDataTable.Rows.Clear()
+            If miDataTable.Columns.Count = 0 Then
+                miDataTable.Columns.Add("Fecha")
+                miDataTable.Columns.Add("Importe")
+            End If
+
+            ' 4. Rellenamos la cuadrícula intermedia de impresión
+            vtipoSql = "SELECT * FROM tempapu ORDER BY tempapu.ConceptoAPU ASC"
+            LlenarGrid(vtipoSql, "PRINT_TEMP_APUNTES", "0")
+
+            ' 5. Recorremos las filas analizando el texto plano (ej: "25-01" o "26-02")
+            For Each fila As DataGridViewRow In frmImprimirForm.DgvApuntes.Rows
+                If fila.IsNewRow Then Continue For
+                If fila.Cells(0).Value Is Nothing OrElse IsDBNull(fila.Cells(0).Value) Then Continue For
+
+                Dim Renglon As DataRow = miDataTable.NewRow()
+                Dim textoBaseDatos As String = fila.Cells(0).Value.ToString()
+
+                ' Troceamos las posiciones fijas del texto de la base de datos
+                Dim añoDosDigitos As String = Mid(textoBaseDatos, 1, 2)
+                Dim mesExtraido As String = Mid(textoBaseDatos, 4, 2)
+
+                ' Traducimos el mes de forma correlativa manteniendo el año real
+                Select Case mesExtraido
+                    Case "01" : Renglon("Fecha") = "Enero-" & añoDosDigitos
+                    Case "02" : Renglon("Fecha") = "Febrero-" & añoDosDigitos
+                    Case "03" : Renglon("Fecha") = "Marzo-" & añoDosDigitos
+                    Case "04" : Renglon("Fecha") = "Abril-" & añoDosDigitos
+                    Case "05" : Renglon("Fecha") = "Mayo-" & añoDosDigitos
+                    Case "06" : Renglon("Fecha") = "Junio-" & añoDosDigitos
+                    Case "07" : Renglon("Fecha") = "Julio-" & añoDosDigitos
+                    Case "08" : Renglon("Fecha") = "Agosto-" & añoDosDigitos
+                    Case "09" : Renglon("Fecha") = "Septiembre-" & añoDosDigitos
+                    Case "10" : Renglon("Fecha") = "Octubre-" & añoDosDigitos
+                    Case "11" : Renglon("Fecha") = "Noviembre-" & añoDosDigitos
+                    Case "12" : Renglon("Fecha") = "Diciembre-" & añoDosDigitos
+                    Case Else : Renglon("Fecha") = "Mes-" & mesExtraido
+                End Select
+
+                ' Capturamos el importe quitando decimales de forma segura
+                If fila.Cells(1).Value IsNot Nothing AndAlso IsNumeric(fila.Cells(1).Value) Then
+                    Renglon("Importe") = Math.Truncate(Convert.ToDouble(fila.Cells(1).Value))
+                Else
+                    Renglon("Importe") = 0
+                End If
+                miDataTable.Rows.Add(Renglon)
+            Next
+
+            ' 6. Inicialización automática simulando el clic en el botón de Columnas
+            TsBtnColumnas.PerformClick()
+        End Sub
+
+    ' =======================================================================
+    ' CONFIGURACIÓN CENTRAL DE ESTILOS E IDIOMAS (2D y 3D Conmutable)
+    ' =======================================================================
+    Public Sub CrearEstilos()
+        ' Aseguramos que existan las series para evitar el ArgumentException
+        If Chart1.Series.IndexOf("Gastos") = -1 Then Chart1.Series.Add("Gastos")
+        If Chart1.Series.IndexOf("Ingresos") = -1 Then Chart1.Series.Add("Ingresos")
+
+        Dim fuenteEjes As New Font("Arial", 12, FontStyle.Bold)
+        Chart1.ChartAreas("ChartArea1").AxisX.TitleFont = fuenteEjes
+        Chart1.ChartAreas("ChartArea1").AxisY.TitleFont = fuenteEjes
+
+        ' CORRECCIÓN EFECTUADA: "Fecha" en lugar de "Fechas" para coincidir con tu Resource Manager
+        Chart1.ChartAreas("ChartArea1").AxisX.Title = resManager.GetString("Fecha")
+        Chart1.ChartAreas("ChartArea1").AxisY.Title = resManager.GetString("Moneda") & ": " & vMoneda
+
+        ' CONMUTADOR 2D/3D AUTOMÁTICO: Enciende o apaga el relieve según la propiedad
+        Chart1.ChartAreas("ChartArea1").Area3DStyle.Enable3D = Me.EsGrafico3D
+
+        If Chart1.Titles.Count > 0 Then
+            Chart1.Titles(0).Text = rmse.GetString("TituloGrafico")
+        End If
+
+        Chart1.Series("Gastos").IsVisibleInLegend = True
+        Chart1.Series("Ingresos").IsVisibleInLegend = True
+        Chart1.Series("Gastos").LegendText = resManager.GetString("Gastos")
+        Chart1.Series("Ingresos").LegendText = resManager.GetString("Ingresos")
+    End Sub
+
+    ' =======================================================================
+    ' MÉTODOS DE DIBUJADO COMPACTOS (Leyendo de miDataTable manual)
+    ' =======================================================================
+    Private Sub DibujarGraficoColumnas()
+        CrearEstilos()
+
+        Chart1.Series("Gastos").Points.Clear()
+        Chart1.Series("Ingresos").Points.Clear()
+
+        For x = 0 To miDataTable.Rows.Count - 1
+            Dim nombreEjeX As String = miDataTable.Rows(x)("Fecha").ToString()
+            Dim importeMes As Decimal = Convert.ToDecimal(miDataTable.Rows(x)("Importe"))
+
+            If importeMes <= 0 Then
+                With Chart1.Series("Gastos")
+                    Dim i As Integer = .Points.AddXY(nombreEjeX, Math.Abs(importeMes))
+                    .Points(i).Color = Color.Red
+                    .ChartType = SeriesChartType.Column
+                End With
+            Else
+                With Chart1.Series("Ingresos")
+                    Dim i As Integer = .Points.AddXY(nombreEjeX, importeMes)
+                    .Points(i).Color = Color.Blue
+                    .ChartType = SeriesChartType.Column
+                End With
+            End If
+        Next
+    End Sub
+
+    ' =======================================================================
+    ' MANEJADORES DE EVENTOS DE LA BOTONERA (TOOLSTRIP)
+    ' =======================================================================
+
+    ' BOTÓN COLUMNAS
+    Private Sub TsBtnColumnas_Click(sender As Object, e As EventArgs) Handles TsBtnColumnas.Click
+        TsBtnColumnas.Checked = True
+        TsBtnAreas.Checked = False
+        TsBtnLineas.Checked = False
+        TsBtnPastel.Checked = False
+
+        DibujarGraficoColumnas()
+    End Sub
+
+    ' BOTÓN ÁREAS
+    Private Sub TsBtnAreas_Click(sender As Object, e As EventArgs) Handles TsBtnAreas.Click
+        TsBtnColumnas.Checked = False
+        TsBtnAreas.Checked = True
+        TsBtnLineas.Checked = False
+        TsBtnPastel.Checked = False
+
+        CrearEstilos()
+
+        Chart1.Series("Gastos").Points.Clear()
+        Chart1.Series("Ingresos").Points.Clear()
+
+        For x = 0 To miDataTable.Rows.Count - 1
+            Dim nombreEjeX As String = miDataTable.Rows(x)("Fecha").ToString()
+            Dim importeMes As Decimal = Convert.ToDecimal(miDataTable.Rows(x)("Importe"))
+
+            If importeMes <= 0 Then
+                With Chart1.Series("Gastos")
+                    Dim i As Integer = .Points.AddXY(nombreEjeX, Math.Abs(importeMes))
+                    .Points(i).Color = Color.Red
+                    .ChartType = SeriesChartType.Area
+                End With
+            Else
+                With Chart1.Series("Ingresos")
+                    Dim i As Integer = .Points.AddXY(nombreEjeX, importeMes)
+                    .Points(i).Color = Color.Blue
+                    .ChartType = SeriesChartType.Area
+                End With
+            End If
+        Next
+    End Sub
+
+    ' BOTÓN LÍNEAS
+    Private Sub TsBtnLineas_Click(sender As Object, e As EventArgs) Handles TsBtnLineas.Click
+        TsBtnColumnas.Checked = False
+        TsBtnAreas.Checked = False
+        TsBtnLineas.Checked = True
+        TsBtnPastel.Checked = False
+
+        CrearEstilos()
+
+        Chart1.Series("Gastos").Points.Clear()
+        Chart1.Series("Ingresos").Points.Clear()
+
+        For x = 0 To miDataTable.Rows.Count - 1
+            Dim nombreEjeX As String = miDataTable.Rows(x)("Fecha").ToString()
+            Dim importeMes As Decimal = Convert.ToDecimal(miDataTable.Rows(x)("Importe"))
+
+            If importeMes <= 0 Then
+                With Chart1.Series("Gastos")
+                    Dim i As Integer = .Points.AddXY(nombreEjeX, Math.Abs(importeMes))
+                    .Points(i).Color = Color.Red
+                    .ChartType = SeriesChartType.Line
+                End With
+            Else
+                With Chart1.Series("Ingresos")
+                    Dim i As Integer = .Points.AddXY(nombreEjeX, importeMes)
+                    .Points(i).Color = Color.Blue
+                    .ChartType = SeriesChartType.Line
+                End With
+            End If
+        Next
+    End Sub
+
+    ' BOTÓN PASTEL / TARTA
+    Private Sub TsBtnPastel_Click(sender As Object, e As EventArgs) Handles TsBtnPastel.Click
+        TsBtnColumnas.Checked = False
+        TsBtnAreas.Checked = False
+        TsBtnLineas.Checked = False
+        TsBtnPastel.Checked = True
+
+        ' Limpieza de títulos de ejes para el modo tarta
+        Chart1.ChartAreas("ChartArea1").AxisX.Title = ""
+        Chart1.ChartAreas("ChartArea1").AxisY.Title = ""
+
+        ' Mapeamos dinámicamente las leyendas con los nombres de los meses (#VALX)
+        Chart1.Series("Gastos").IsVisibleInLegend = True
+        Chart1.Series("Ingresos").IsVisibleInLegend = True
+        Chart1.Series("Gastos").LegendText = "#VALX"
+        Chart1.Series("Ingresos").LegendText = "#VALX"
+
+        Chart1.Series("Gastos").Points.Clear()
+        Chart1.Series("Ingresos").Points.Clear()
+
+        For x = 0 To miDataTable.Rows.Count - 1
+            Dim nombreEjeX As String = miDataTable.Rows(x)("Fecha").ToString()
+            Dim importeMes As Decimal = Convert.ToDecimal(miDataTable.Rows(x)("Importe"))
+
+            With Chart1.Series("Gastos")
+                If miView(x)("Importe") <= 0 Then
+                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+                Else
+                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), miView(x)("Importe"))
+                End If
+                .ChartType = SeriesChartType.Pie
+            End With
+            With Chart1.Series("Ingresos")
+                .ChartType = SeriesChartType.Pie
+            End With
+        Next
+    End Sub
+
+
+    'Private Sub GraficosMeses_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+    '    ' 1. Vaciamos la tabla temporal desde el módulo
+    '    LimpiarTempApu()
+
+    '    ' 2. Ordenamos la rejilla de origen
+    '    If vGrafico <> "" Then
+    '        frmApuntesPeriodicos.DgvApuper.Sort(frmApuntesPeriodicos.DgvApuper.Columns(0), System.ComponentModel.ListSortDirection.Ascending)
+    '        LlenarTempApuMeses("MESES_APUNTES_PERIODICOS")
+    '    Else
+    '        frmApuntesContables.DgvApuntes.Sort(frmApuntesContables.DgvApuntes.Columns(0), System.ComponentModel.ListSortDirection.Ascending)
+    '        LlenarTempApuMeses("MESES_APUNTES_CONTABLES")
+    '    End If
+
+    '    miDataTable.Columns.Add("Fecha")
+    '    miDataTable.Columns.Add("Importe")
+    '    Dim unused As DataRow = miDataTable.NewRow()
+    '    vtipoSql = "SELECT * FROM tempapu ORDER BY tempapu.ConceptoAPU ASC"
+    '    LlenarGrid(vtipoSql, "PRINT_TEMP_APUNTES", "0")
+    '    vValor = 0
+    '    For Each fila As DataGridViewRow In frmImprimirForm.DgvApuntes.Rows
+    '        'Guardamos los datos en un database
+    '        Dim Renglon As DataRow = miDataTable.NewRow()
+    '        If Mid(fila.Cells(0).Value, 4, 5) = "01" Then
+    '            Renglon("Fecha") = "Enero-" & Mid(fila.Cells(0).Value, 1, 2)
+    '        End If
+    '        If Mid(fila.Cells(0).Value, 4, 5) = "02" Then
+    '            Renglon("Fecha") = "Febrero-" & Mid(fila.Cells(0).Value, 1, 2)
+    '        End If
+    '        If Mid(fila.Cells(0).Value, 4, 5) = "03" Then
+    '            Renglon("Fecha") = "Marzo-" & Mid(fila.Cells(0).Value, 1, 2)
+    '        End If
+    '        If Mid(fila.Cells(0).Value, 4, 5) = "04" Then
+    '            Renglon("Fecha") = "Abril-" & Mid(fila.Cells(0).Value, 1, 2)
+    '        End If
+    '        If Mid(fila.Cells(0).Value, 4, 5) = "05" Then
+    '            Renglon("Fecha") = "Mayo-" & Mid(fila.Cells(0).Value, 1, 2)
+    '        End If
+    '        If Mid(fila.Cells(0).Value, 4, 5) = "06" Then
+    '            Renglon("Fecha") = "Junio-" & Mid(fila.Cells(0).Value, 1, 2)
+    '        End If
+    '        If Mid(fila.Cells(0).Value, 4, 5) = "07" Then
+    '            Renglon("Fecha") = "Julio-" & Mid(fila.Cells(0).Value, 1, 2)
+    '        End If
+    '        If Mid(fila.Cells(0).Value, 4, 5) = "08" Then
+    '            Renglon("Fecha") = "Agosto-" & Mid(fila.Cells(0).Value, 1, 2)
+    '        End If
+    '        If Mid(fila.Cells(0).Value, 4, 5) = "09" Then
+    '            Renglon("Fecha") = "Septiembre-" & Mid(fila.Cells(0).Value, 1, 2)
+    '        End If
+    '        If Mid(fila.Cells(0).Value, 4, 5) = "10" Then
+    '            Renglon("Fecha") = "Octubre-" & Mid(fila.Cells(0).Value, 1, 2)
+    '        End If
+    '        If Mid(fila.Cells(0).Value, 4, 5) = "11" Then
+    '            Renglon("Fecha") = "Noviembre-" & Mid(fila.Cells(0).Value, 1, 2)
+    '        End If
+    '        If Mid(fila.Cells(0).Value, 4, 5) = "12" Then
+    '            Renglon("Fecha") = "Diciembre-" & Mid(fila.Cells(0).Value, 1, 2)
+    '        End If
+    '        vValor = fila.Cells(1).Value
+    '        vValor = Math.Truncate(vValor)
+    '        Renglon("Importe") = vValor
+    '        miDataTable.Rows.Add(Renglon)
+    '    Next
+
+    '    CrearEstilos()
+
+    '    'Chart1.Series("Gastos").IsVisibleInLegend = True
+    '    'Chart1.Series("Ingresos").IsVisibleInLegend = True
+
+    '    'Chart1.Series("Gastos").XValueMember = "Fecha"
+    '    'Chart1.Series("Gastos").YValueMembers = "Importe"
+    '    'Chart1.Series("Ingresos").XValueMember = "Fecha"
+    '    'Chart1.Series("Ingresos").YValueMembers = "Importe"
+
+    '    'Chart1.Series("Gastos").Points.Clear()
+    '    '' 1. Primero traducimos la leyenda leyendo el resManager
+    '    'Chart1.Series("Gastos").LegendText = resManager.GetString("Gastos")
+    '    'Chart1.Series("Ingresos").LegendText = resManager.GetString("Ingresos")
+    '    'Chart1.ChartAreas("ChartArea1").Area3DStyle.Enable3D = Me.EsGrafico3D
+
+    '    vContador = 0
+    '    For x = 0 To miView.Count - 1
+    '        'Tomamos los datos de DataView para la gráfica
+    '        vContador += 1
+    '        vImporteConcepto = Val(miView(x)("Importe"))
+    '        If (vContador Mod 2) <> 0 Then
+    '            'El número es impar.
+    '            vImportePrimero = Val(miView(x)("Importe"))
+    '            vImporteSegundo = Val(miView(x + 1)("Importe"))
+    '            If vImportePrimero = 0 And vImporteSegundo > 0 Then
+    '                With Chart1.Series("Gastos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Red
+    '                    .ChartType = SeriesChartType.Column
+    '                End With
+    '            End If
+    '            If vImportePrimero = 0 And vImporteSegundo < 0 Then
+    '                With Chart1.Series("Ingresos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Blue
+    '                    .ChartType = SeriesChartType.Column
+    '                End With
+    '            End If
+    '            If vImportePrimero > 0 And vImporteSegundo = 0 Then
+    '                With Chart1.Series("Ingresos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Blue
+    '                    .ChartType = SeriesChartType.Column
+    '                End With
+    '            End If
+    '            If vImportePrimero < 0 And vImporteSegundo = 0 Then
+    '                With Chart1.Series("Gastos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Red
+    '                    .ChartType = SeriesChartType.Column
+    '                End With
+    '            End If
+    '            If vImportePrimero < 0 And vImporteSegundo > 0 Then
+    '                With Chart1.Series("Gastos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Red
+    '                    .ChartType = SeriesChartType.Column
+    '                End With
+    '            End If
+    '            If vImportePrimero > 0 And vImporteSegundo < 0 Then
+    '                With Chart1.Series("Ingresos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Blue
+    '                    .ChartType = SeriesChartType.Column
+    '                End With
+    '            End If
+    '        Else
+    '            'El número es par.
+    '            vImporteSegundo = Val(miView(x)("Importe"))
+    '            If vImportePrimero = 0 And vImporteSegundo > 0 Then
+    '                With Chart1.Series("Ingresos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Blue
+    '                    .ChartType = SeriesChartType.Column
+    '                End With
+    '            End If
+    '            If vImportePrimero = 0 And vImporteSegundo < 0 Then
+    '                With Chart1.Series("Gastos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Red
+    '                    .ChartType = SeriesChartType.Column
+    '                End With
+    '            End If
+    '            If vImportePrimero > 0 And vImporteSegundo = 0 Then
+    '                With Chart1.Series("Gastos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Red
+    '                    .ChartType = SeriesChartType.Column
+    '                End With
+    '            End If
+    '            If vImportePrimero < 0 And vImporteSegundo = 0 Then
+    '                With Chart1.Series("Ingresos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Blue
+    '                    .ChartType = SeriesChartType.Column
+    '                End With
+    '            End If
+    '            If vImportePrimero < 0 And vImporteSegundo > 0 Then
+    '                With Chart1.Series("Ingresos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Blue
+    '                    .ChartType = SeriesChartType.Column
+    '                End With
+    '            End If
+    '            If vImportePrimero > 0 And vImporteSegundo < 0 Then
+    '                With Chart1.Series("Gastos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Red
+    '                    .ChartType = SeriesChartType.Column
+    '                End With
+    '            End If
+    '        End If
+    '    Next
+    'End Sub
+
+    'Private Sub TsBtnColumnas_Click(sender As Object, e As EventArgs) Handles TsBtnColumnas.Click
+    '    TsBtnColumnas.Checked = True
+    '    TsBtnAreas.Checked = False
+    '    TsBtnLineas.Checked = False
+    '    TsBtnPastel.Checked = False
+    '    Chart1.Series("Gastos").XValueMember = "Fecha"
+    '    Chart1.Series("Ingresos").YValueMembers = "Importe"
+
+    '    Chart1.Series("Gastos").XValueMember = "Fecha"
+    '    Chart1.Series("Gastos").YValueMembers = "Importe"
+    '    Chart1.Series("Ingresos").XValueMember = "Fecha"
+    '    Chart1.Series("Ingresos").YValueMembers = "Importe"
+
+    '    Chart1.Series("Gastos").Points.Clear()
+    '    Chart1.Series("Ingresos").Points.Clear()
+
+    '    vContador = 0
+    '    For x = 0 To miView.Count - 1
+    '        'Tomamos los datos de DataView para la gráfica
+    '        vContador += 1
+    '        vImporteConcepto = Val(miView(x)("Importe"))
+    '        If (vContador Mod 2) <> 0 Then
+    '            'El número es impar.
+    '            vImportePrimero = Val(miView(x)("Importe"))
+    '            vImporteSegundo = Val(miView(x + 1)("Importe"))
+    '            If vImportePrimero = 0 And vImporteSegundo > 0 Then
+    '                With Chart1.Series("Gastos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Red
+    '                    .ChartType = SeriesChartType.Column
+    '                End With
+    '            End If
+    '            If vImportePrimero = 0 And vImporteSegundo < 0 Then
+    '                With Chart1.Series("Ingresos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Blue
+    '                    .ChartType = SeriesChartType.Column
+    '                End With
+    '            End If
+    '            If vImportePrimero > 0 And vImporteSegundo = 0 Then
+    '                With Chart1.Series("Ingresos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Blue
+    '                    .ChartType = SeriesChartType.Column
+    '                End With
+    '            End If
+    '            If vImportePrimero < 0 And vImporteSegundo = 0 Then
+    '                With Chart1.Series("Gastos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Red
+    '                    .ChartType = SeriesChartType.Column
+    '                End With
+    '            End If
+    '            If vImportePrimero < 0 And vImporteSegundo > 0 Then
+    '                With Chart1.Series("Gastos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Red
+    '                    .ChartType = SeriesChartType.Column
+    '                End With
+    '            End If
+    '            If vImportePrimero > 0 And vImporteSegundo < 0 Then
+    '                With Chart1.Series("Ingresos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Blue
+    '                    .ChartType = SeriesChartType.Column
+    '                End With
+    '            End If
+    '        Else
+    '            'El número es par.
+    '            vImporteSegundo = Val(miView(x)("Importe"))
+    '            If vImportePrimero = 0 And vImporteSegundo > 0 Then
+    '                With Chart1.Series("Ingresos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Blue
+    '                    .ChartType = SeriesChartType.Column
+    '                End With
+    '            End If
+    '            If vImportePrimero = 0 And vImporteSegundo < 0 Then
+    '                With Chart1.Series("Gastos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Red
+    '                    .ChartType = SeriesChartType.Column
+    '                End With
+    '            End If
+    '            If vImportePrimero > 0 And vImporteSegundo = 0 Then
+    '                With Chart1.Series("Gastos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Red
+    '                    .ChartType = SeriesChartType.Column
+    '                End With
+    '            End If
+    '            If vImportePrimero < 0 And vImporteSegundo = 0 Then
+    '                With Chart1.Series("Ingresos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Blue
+    '                    .ChartType = SeriesChartType.Column
+    '                End With
+    '            End If
+    '            If vImportePrimero < 0 And vImporteSegundo > 0 Then
+    '                With Chart1.Series("Ingresos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Blue
+    '                    .ChartType = SeriesChartType.Column
+    '                End With
+    '            End If
+    '            If vImportePrimero > 0 And vImporteSegundo < 0 Then
+    '                With Chart1.Series("Gastos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Red
+    '                    .ChartType = SeriesChartType.Column
+    '                End With
+    '            End If
+    '        End If
+    '    Next
+    'End Sub
+
+    'Private Sub TsBtnAreas_Click(sender As Object, e As EventArgs) Handles TsBtnAreas.Click
+    '    TsBtnColumnas.Checked = False
+    '    TsBtnAreas.Checked = True
+    '    TsBtnLineas.Checked = False
+    '    TsBtnPastel.Checked = False
+    '    Chart1.Series("Gastos").XValueMember = "Fecha"
+    '    Chart1.Series("Ingresos").YValueMembers = "Importe"
+
+    '    Chart1.Series("Gastos").XValueMember = "Fecha"
+    '    Chart1.Series("Gastos").YValueMembers = "Importe"
+    '    Chart1.Series("Ingresos").XValueMember = "Fecha"
+    '    Chart1.Series("Ingresos").YValueMembers = "Importe"
+
+    '    Chart1.Series("Gastos").Points.Clear()
+    '    Chart1.Series("Ingresos").Points.Clear()
+
+    '    vContador = 0
+    '    For x = 0 To miView.Count - 1
+    '        'Tomamos los datos de DataView para la gráfica
+    '        vContador += 1
+    '        vImporteConcepto = Val(miView(x)("Importe"))
+    '        If (vContador Mod 2) <> 0 Then
+    '            'El número es impar.
+    '            vImportePrimero = Val(miView(x)("Importe"))
+    '            vImporteSegundo = Val(miView(x + 1)("Importe"))
+    '            If vImportePrimero = 0 And vImporteSegundo > 0 Then
+    '                With Chart1.Series("Gastos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Red
+    '                    .ChartType = SeriesChartType.Area
+    '                End With
+    '            End If
+    '            If vImportePrimero = 0 And vImporteSegundo < 0 Then
+    '                With Chart1.Series("Ingresos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Blue
+    '                    .ChartType = SeriesChartType.Area
+    '                End With
+    '            End If
+    '            If vImportePrimero > 0 And vImporteSegundo = 0 Then
+    '                With Chart1.Series("Ingresos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Blue
+    '                    .ChartType = SeriesChartType.Area
+    '                End With
+    '            End If
+    '            If vImportePrimero < 0 And vImporteSegundo = 0 Then
+    '                With Chart1.Series("Gastos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Red
+    '                    .ChartType = SeriesChartType.Area
+    '                End With
+    '            End If
+    '            If vImportePrimero < 0 And vImporteSegundo > 0 Then
+    '                With Chart1.Series("Gastos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Red
+    '                    .ChartType = SeriesChartType.Area
+    '                End With
+    '            End If
+    '            If vImportePrimero > 0 And vImporteSegundo < 0 Then
+    '                With Chart1.Series("Ingresos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Blue
+    '                    .ChartType = SeriesChartType.Area
+    '                End With
+    '            End If
+    '        Else
+    '            'El número es par.
+    '            vImporteSegundo = Val(miView(x)("Importe"))
+    '            If vImportePrimero = 0 And vImporteSegundo > 0 Then
+    '                With Chart1.Series("Ingresos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Blue
+    '                    .ChartType = SeriesChartType.Area
+    '                End With
+    '            End If
+    '            If vImportePrimero = 0 And vImporteSegundo < 0 Then
+    '                With Chart1.Series("Gastos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Red
+    '                    .ChartType = SeriesChartType.Area
+    '                End With
+    '            End If
+    '            If vImportePrimero > 0 And vImporteSegundo = 0 Then
+    '                With Chart1.Series("Gastos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Red
+    '                    .ChartType = SeriesChartType.Area
+    '                End With
+    '            End If
+    '            If vImportePrimero < 0 And vImporteSegundo = 0 Then
+    '                With Chart1.Series("Ingresos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Blue
+    '                    .ChartType = SeriesChartType.Area
+    '                End With
+    '            End If
+    '            If vImportePrimero < 0 And vImporteSegundo > 0 Then
+    '                With Chart1.Series("Ingresos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Blue
+    '                    .ChartType = SeriesChartType.Area
+    '                End With
+    '            End If
+    '            If vImportePrimero > 0 And vImporteSegundo < 0 Then
+    '                With Chart1.Series("Gastos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Red
+    '                    .ChartType = SeriesChartType.Area
+    '                End With
+    '            End If
+    '        End If
+    '    Next
+    'End Sub
+
+    'Private Sub TsBtnLineas_Click(sender As Object, e As EventArgs) Handles TsBtnLineas.Click
+    '    TsBtnColumnas.Checked = False
+    '    TsBtnAreas.Checked = False
+    '    TsBtnLineas.Checked = True
+    '    TsBtnPastel.Checked = False
+    '    Chart1.Series("Gastos").XValueMember = "Fecha"
+    '    Chart1.Series("Ingresos").YValueMembers = "Importe"
+
+    '    Chart1.Series("Gastos").XValueMember = "Fecha"
+    '    Chart1.Series("Gastos").YValueMembers = "Importe"
+    '    Chart1.Series("Ingresos").XValueMember = "Fecha"
+    '    Chart1.Series("Ingresos").YValueMembers = "Importe"
+
+    '    Chart1.Series("Gastos").Points.Clear()
+    '    Chart1.Series("Ingresos").Points.Clear()
+
+    '    vContador = 0
+    '    For x = 0 To miView.Count - 1
+    '        'Tomamos los datos de DataView para la gráfica
+    '        vContador += 1
+    '        vImporteConcepto = Val(miView(x)("Importe"))
+    '        If (vContador Mod 2) <> 0 Then
+    '            'El número es impar.
+    '            vImportePrimero = Val(miView(x)("Importe"))
+    '            vImporteSegundo = Val(miView(x + 1)("Importe"))
+    '            If vImportePrimero = 0 And vImporteSegundo > 0 Then
+    '                With Chart1.Series("Gastos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Red
+    '                    .ChartType = SeriesChartType.Line
+    '                End With
+    '            End If
+    '            If vImportePrimero = 0 And vImporteSegundo < 0 Then
+    '                With Chart1.Series("Ingresos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Blue
+    '                    .ChartType = SeriesChartType.Line
+    '                End With
+    '            End If
+    '            If vImportePrimero > 0 And vImporteSegundo = 0 Then
+    '                With Chart1.Series("Ingresos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Blue
+    '                    .ChartType = SeriesChartType.Line
+    '                End With
+    '            End If
+    '            If vImportePrimero < 0 And vImporteSegundo = 0 Then
+    '                With Chart1.Series("Gastos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Red
+    '                    .ChartType = SeriesChartType.Line
+    '                End With
+    '            End If
+    '            If vImportePrimero < 0 And vImporteSegundo > 0 Then
+    '                With Chart1.Series("Gastos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Red
+    '                    .ChartType = SeriesChartType.Line
+    '                End With
+    '            End If
+    '            If vImportePrimero > 0 And vImporteSegundo < 0 Then
+    '                With Chart1.Series("Ingresos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Blue
+    '                    .ChartType = SeriesChartType.Line
+    '                End With
+    '            End If
+    '        Else
+    '            'El número es par.
+    '            vImporteSegundo = Val(miView(x)("Importe"))
+    '            If vImportePrimero = 0 And vImporteSegundo > 0 Then
+    '                With Chart1.Series("Ingresos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Blue
+    '                    .ChartType = SeriesChartType.Line
+    '                End With
+    '            End If
+    '            If vImportePrimero = 0 And vImporteSegundo < 0 Then
+    '                With Chart1.Series("Gastos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Red
+    '                    .ChartType = SeriesChartType.Line
+    '                End With
+    '            End If
+    '            If vImportePrimero > 0 And vImporteSegundo = 0 Then
+    '                With Chart1.Series("Gastos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Red
+    '                    .ChartType = SeriesChartType.Line
+    '                End With
+    '            End If
+    '            If vImportePrimero < 0 And vImporteSegundo = 0 Then
+    '                With Chart1.Series("Ingresos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Blue
+    '                    .ChartType = SeriesChartType.Line
+    '                End With
+    '            End If
+    '            If vImportePrimero < 0 And vImporteSegundo > 0 Then
+    '                With Chart1.Series("Ingresos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Blue
+    '                    .ChartType = SeriesChartType.Line
+    '                End With
+    '            End If
+    '            If vImportePrimero > 0 And vImporteSegundo < 0 Then
+    '                With Chart1.Series("Gastos")
+    '                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '                    .Points(i).Color = Color.Red
+    '                    .ChartType = SeriesChartType.Line
+    '                End With
+    '            End If
+    '        End If
+    '    Next
+    'End Sub
+
+    'Private Sub TsBtnPastel_Click(sender As Object, e As EventArgs) Handles TsBtnPastel.Click
+    '    TsBtnColumnas.Checked = False
+    '    TsBtnAreas.Checked = False
+    '    TsBtnLineas.Checked = False
+    '    TsBtnPastel.Checked = True
+
+    '    Chart1.Series("Gastos").Points.Clear()
+    '    Chart1.Series("Ingresos").Points.Clear()
+    '    For x = 0 To miView.Count - 1
+    '        'Tomamos los datos de DataView para la gráfica
+    '        With Chart1.Series("Gastos")
+    '            If miView(x)("Importe") <= 0 Then
+    '                vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+    '                Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+    '            Else
+    '                Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), miView(x)("Importe"))
+    '            End If
+    '            .ChartType = SeriesChartType.Pie
+    '        End With
+    '        With Chart1.Series("Ingresos")
+    '            .ChartType = SeriesChartType.Pie
+    '        End With
+    '    Next
+    'End Sub
+
+    ' =======================================================================
+    ' CONFIGURACIÓN CENTRAL DE ESTILOS E IDIOMAS (2D y 3D Conmutable)
+    ' =======================================================================
+    'Public Sub CrearEstilos()
+
+    '' Aseguramos que existan las series para evitar el ArgumentException
+    'If Chart1.Series.IndexOf("Gastos") = -1 Then Chart1.Series.Add("Gastos")
+    '    If Chart1.Series.IndexOf("Ingresos") = -1 Then Chart1.Series.Add("Ingresos")
+
+    '    Dim fuenteEjes As New Font("Arial", 12, FontStyle.Bold)
+    '    Chart1.ChartAreas("ChartArea1").AxisX.TitleFont = fuenteEjes
+    '    Chart1.ChartAreas("ChartArea1").AxisY.TitleFont = fuenteEjes
+
+    '    Chart1.ChartAreas("ChartArea1").AxisX.Title = resManager.GetString("Fecha")
+    '    Chart1.ChartAreas("ChartArea1").AxisY.Title = resManager.GetString("Moneda") & ": " & vMoneda
+
+    '    ' CONMUTADOR 2D/3D AUTOMÁTICO: Enciende o apaga el relieve según la ventana de opciones
+    '    Chart1.ChartAreas("ChartArea1").Area3DStyle.Enable3D = Me.EsGrafico3D
+
+    '    If Chart1.Titles.Count > 0 Then
+    '        Chart1.Titles(0).Text = rmse.GetString("TituloGrafico")
+    '    End If
+
+    '    Chart1.Series("Gastos").IsVisibleInLegend = True
+    '    Chart1.Series("Ingresos").IsVisibleInLegend = True
+    '    Chart1.Series("Gastos").LegendText = resManager.GetString("Gastos")
+    '    Chart1.Series("Ingresos").LegendText = resManager.GetString("Ingresos")
+    'End Sub
 
     Private Sub TSBtnImprimir_Click(sender As Object, e As EventArgs) Handles TSBtnImprimir.Click
-        'Iniciamos Código para Imprimir
+        ' PREGUNTA DE ORIENTACIÓN: Preguntamos si desea imprimir en Horizontal (Landscape)
+        Dim respuesta As DialogResult = MessageBox.Show(
+            resManager.GetString("PreguntaHorizontal"), ' O pon el texto directo: "¿Deseas imprimir el gráfico en orientación Horizontal?"
+            resManager.GetString("TituloPregunta"),     ' O pon el texto directo: "Orientación de página"
+            MessageBoxButtons.YesNo,
+            MessageBoxIcon.Question)
+
+        If respuesta = DialogResult.Yes Then
+            PrintDocument1.DefaultPageSettings.Landscape = True  ' Horizontal
+        Else
+            PrintDocument1.DefaultPageSettings.Landscape = False ' Vertical (Defecto)
+        End If
+
+        'Iniciamos Código para Imprimir (Tu código intacto)
         '******************************
         frmImprimirForm.LblFecha.Text = Date.Today.ToLongDateString
         frmImprimirForm.LblNumeroPagina.Text = "0"
@@ -52,7 +940,7 @@ Public Class GraficosMeses
         'Cualquier variable que desees que conserve su valor debes declararla fuera del Printdocument
         'Todas las variable declaradas dentro de printdocument pierden su valor al cambiar de pagina
 
-        'Definimos los tipos de letras a utilizar en el reporte
+        'Definimos los tipos de letras a utilizar en el reporte (Tus fuentes intactas)
         '******************************************************
         Dim FuenteTitulo As New Font("Microsoft Sans Serif", 14)
         Dim FuenteSubtitulo As New Font("Microsoft Sans Serif", 16)
@@ -60,811 +948,71 @@ Public Class GraficosMeses
         Dim FuenteDetalles As New Font("Microsoft Sans Serif", 9)
         Dim FuenteSubrayada As New Font("Microsoft Sans Serif", 9, FontStyle.Underline Xor FontStyle.Bold)
 
-        'Imprimimos el encabezado los datos que están antes del dibujo
+        'Imprimimos el encabezado los datos que están antes del dibujo (Cambiado a Me.Chart1 para que sea universal)
         '*************************************************************
-        e.Graphics.DrawString(frmGraficosMeses.Chart1.Titles.Item(0).Text, FuenteTitulo, Brushes.Black, frmImprimirForm.LblUsuario.Left, frmImprimirForm.LblUsuario.Top)
-        e.Graphics.DrawString(frmImprimirForm.LblFecha.Text, FuenteNegrita, Brushes.Black, frmImprimirForm.LblFecha.Right, frmImprimirForm.LblFecha.Top)
-        b = New Bitmap(frmGraficosMeses.Chart1.Width, frmGraficosMeses.Chart1.Height)
-        frmGraficosMeses.Chart1.DrawToBitmap(b, New Rectangle(0, 0, b.Width, b.Height))
-        e.Graphics.DrawImage(b, 0, 100)
+        e.Graphics.DrawString(Me.Chart1.Titles.Item(0).Text, FuenteTitulo, Brushes.Black, frmImprimirForm.LblUsuario.Left, frmImprimirForm.LblUsuario.Top)
 
-        'Si deseamos poner un contador de páginas
+        Dim posXFecha As Integer = e.MarginBounds.Right - 150
+        e.Graphics.DrawString(frmImprimirForm.LblFecha.Text, FuenteNegrita, Brushes.Black, posXFecha, frmImprimirForm.LblFecha.Top)
+
+        ' =======================================================================
+        ' 1. CAPTURA: Usamos Me.Chart1 para capturar de forma segura el gráfico actual
+        ' =======================================================================
+        b = New Bitmap(Me.Chart1.Width, Me.Chart1.Height)
+        Me.Chart1.DrawToBitmap(b, New Rectangle(0, 0, b.Width, b.Height))
+
+        ' =======================================================================
+        ' 2. ESCALA: Calculamos las dimensiones optimizadas para Vertical y Horizontal
+        ' =======================================================================
+        ' Tomamos el ancho útil disponible de la hoja según su orientación
+        Dim anchoDestino As Integer = e.MarginBounds.Width
+
+        ' Calculamos la altura proporcional base
+        Dim altoDestino As Integer = CInt((anchoDestino / b.Width) * b.Height)
+
+        ' CONTROL PARA VERTICAL: Si el papel está en vertical, calculamos el espacio útil hacia abajo
+        If Not PrintDocument1.DefaultPageSettings.Landscape Then
+            ' Calculamos el alto máximo disponible en el folio (restando el encabezado de arriba)
+            Dim altoMaximoDisponible As Integer = e.MarginBounds.Height - 150
+
+            ' Si el gráfico es muy pequeño y sobra mucho espacio, lo expandimos un 35% más a lo alto
+            If altoDestino < (altoMaximoDisponible * 0.6) Then
+                altoDestino = CInt(altoMaximoDisponible * 0.65)
+            End If
+        End If
+
+        ' =======================================================================
+        ' 2. ESCALA: Máxima expansión aprovechando los bordes del papel
+        ' =======================================================================
+        If PrintDocument1.DefaultPageSettings.Landscape = True Then
+            ' --- CONFIGURACIÓN PARA HORIZONTAL (Se mantiene como te gustaba) ---
+            anchoDestino = e.MarginBounds.Width
+            altoDestino = CInt((anchoDestino / b.Width) * b.Height)
+
+            ' Creamos el rectángulo alineado al margen izquierdo estándar
+            Dim rectanguloPapel As New Rectangle(e.MarginBounds.Left, 100, anchoDestino, altoDestino)
+            e.Graphics.DrawImage(b, rectanguloPapel)
+        Else
+            ' --- CONFIGURACIÓN PARA VERTICAL (Agrandado al límite de la hoja) ---
+            ' 1. Tomamos el ancho total absoluto físico del papel (Saltamos el margen)
+            Dim anchoPapelTotal As Integer = e.PageBounds.Width
+
+            ' 2. Dejamos solo un pequeño borde estético de seguridad (ej: 25 píxeles por lado)
+            anchoDestino = anchoPapelTotal - 50
+
+            ' 3. Calculamos el alto de forma estrictamente proporcional para que no se deforme
+            altoDestino = CInt((anchoDestino / b.Width) * b.Height)
+
+            ' 4. Creamos el rectángulo centrado (X=25 para equilibrar los bordes)
+            Dim rectanguloPapelVertical As New Rectangle(25, 100, anchoDestino, altoDestino)
+            e.Graphics.DrawImage(b, rectanguloPapelVertical)
+        End If
+
+        'Si deseamos poner un contador de páginas (Tu código intacto)
         'Esta parte siempre va a salir en todas las paginas
         frmImprimirForm.LblNumeroPagina.Text = CInt(frmImprimirForm.LblNumeroPagina.Text) + 1
         e.Graphics.DrawString(frmImprimirForm.Label2.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.Label2.Left, e.MarginBounds.Bottom)
         e.Graphics.DrawString(frmImprimirForm.LblNumeroPagina.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.LblNumeroPagina.Left, e.MarginBounds.Bottom)
     End Sub
 
-    Private Sub GraficosCuentas_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ActualizarTextosFormulario(Me)
-
-        'Iniciamos Tabla Tempapu
-        '***********************
-        vTempapu = "DELETE FROM tempapu"
-        cmdMdb1cr.CommandText = vTempapu
-        Try
-            cmdMdb1cr.ExecuteNonQuery()
-            'MsgBox("Registros Tempapu, Borrados !!!")
-        Catch ex As Exception
-            MsgBox("Error al borrar los registros de Tempapu")
-            MsgBox(ex.ToString)
-        End Try
-
-        'Ordenamos la columna Fecha, antes de calcular los totales parciales.
-        '***********************************************************************
-        If vGrafico <> "" Then
-            frmApuntesPeriodicos.DgvApuper.Sort(frmApuntesPeriodicos.DgvApuper.Columns(0), System.ComponentModel.ListSortDirection.Ascending)
-        Else
-            frmApuntesContables.DgvApuntes.Sort(frmApuntesContables.DgvApuntes.Columns(0), System.ComponentModel.ListSortDirection.Ascending)
-        End If
-
-        'Llenamos la tabla Temporal con los Conceptos Agrupados desde DgvApuntes
-        '***********************************************************************
-        vNombreConcepto = ""
-        If vGrafico <> "" Then
-            For Each fila As DataGridViewRow In frmApuntesPeriodicos.DgvApuper.Rows
-                If fila.Cells(3).Value <> 0 Then
-                    vImporteConcepto = fila.Cells(3).Value
-                    If vNombreConcepto <> Mid(fila.Cells(0).Value, 9, 10) & "-" & Mid(fila.Cells(0).Value, 4, 2).ToString Then
-                        vNombreConcepto = Mid(fila.Cells(0).Value, 9, 10) & "-" & Mid(fila.Cells(0).Value, 4, 2).ToString
-                        vImporteConcepto = ""
-                        vImporteConcepto = fila.Cells(3).Value
-                        vAñadir = "INSERT INTO tempapu"
-                        vAñadir += "(ConceptoAPU, SumaImporteAPU) "
-                        vAñadir += "VALUES ('" & vNombreConcepto & "','" & vImporteConcepto & "')"
-                        cmdMdb1cr.CommandText = vAñadir
-                        Try
-                            cmdMdb1cr.ExecuteNonQuery()
-                        Catch ex As Exception
-                            MsgBox("Error al añadir el Concepto a Tempapu")
-                            MsgBox(ex.ToString)
-                        End Try
-                        vAñadir = "INSERT INTO tempapu"
-                        vAñadir += "(ConceptoAPU, SumaImporteAPU) "
-                        vAñadir += "VALUES ('" & vNombreConcepto & "',' 0 ')"
-                        cmdMdb1cr.CommandText = vAñadir
-                        Try
-                            cmdMdb1cr.ExecuteNonQuery()
-                        Catch ex As Exception
-                            MsgBox("Error al añadir el Concepto a Tempapu")
-                            MsgBox(ex.ToString)
-                        End Try
-                    Else ' Si el Concepto existe y hay importe diferente a cero, si es positivo o negativo se suma
-                        cmdMdb1cr.CommandType = CommandType.Text
-                        If Val(vImporteConcepto) > 0 Then
-                            cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                            cmdMdb1cr.CommandText += "And tempapu.SumaImporteAPU > 0 "
-                        ElseIf Val(vImporteConcepto) < 0 Then
-                            cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                            cmdMdb1cr.CommandText += "And tempapu.SumaImporteAPU < 0 "
-                        End If
-                        Try
-                            drMdb1 = cmdMdb1cr.ExecuteReader()
-                            If drMdb1.HasRows Then 'Significa que existe con las condiciones
-                                While drMdb1.Read()
-                                    vExistenteImporteConcepto = drMdb1.GetValue(1)
-                                End While
-                                drMdb1.Close()
-                                vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
-                                If Val(vImporteConcepto) > 0 Then
-                                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
-                                    vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                                    vAñadir2 += "And tempapu.SumaImporteAPU > 0 "
-                                ElseIf Val(vImporteConcepto) < 0 Then
-                                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
-                                    vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                                    vAñadir2 += "And tempapu.SumaImporteAPU < 0 "
-                                End If
-                                cmdMdb1cr.CommandText = vAñadir2
-                                Try
-                                    cmdMdb1cr.ExecuteNonQuery()
-                                Catch ex As Exception
-                                    MsgBox("Error al actualizar el Concepto en Tempapu")
-                                    MsgBox(ex.ToString)
-                                End Try
-                            Else   'NO existe, lo añadimos al cero
-                                'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
-                                drMdb1.Close()
-                                cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                                cmdMdb1cr.CommandText += "And tempapu.SumaImporteAPU = 0 "
-                                drMdb1 = cmdMdb1cr.ExecuteReader()
-                                If drMdb1.HasRows Then 'Significa que existe con las condiciones
-                                    While drMdb1.Read()
-                                        vExistenteImporteConcepto = drMdb1.GetValue(1)
-                                    End While
-                                    drMdb1.Close()
-                                    vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
-                                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
-                                    vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                                    vAñadir2 += "And tempapu.SumaImporteAPU = 0 "
-                                    cmdMdb1cr.CommandText = vAñadir2
-                                    Try
-                                        cmdMdb1cr.ExecuteNonQuery()
-                                    Catch ex As Exception
-                                        MsgBox("Error al actualizar el Concepto en Tempapu")
-                                        MsgBox(ex.ToString)
-                                    End Try
-                                End If
-                                drMdb1.Close()
-                            End If
-                        Catch ex As Exception
-                            MsgBox("Error al verificar que el Concepto existe en Tempapu")
-                            MsgBox(ex.ToString)
-                        End Try
-                    End If
-                End If
-            Next
-        Else
-            For Each fila As DataGridViewRow In frmApuntesContables.DgvApuntes.Rows
-                If fila.Cells(3).Value <> 0 Then
-                    vImporteConcepto = fila.Cells(3).Value
-                    If vNombreConcepto <> Mid(fila.Cells(0).Value, 9, 10) & "-" & Mid(fila.Cells(0).Value, 4, 2).ToString Then
-                        vNombreConcepto = Mid(fila.Cells(0).Value, 9, 10) & "-" & Mid(fila.Cells(0).Value, 4, 2).ToString
-                        vImporteConcepto = ""
-                        vImporteConcepto = fila.Cells(3).Value
-                        vAñadir = "INSERT INTO tempapu"
-                        vAñadir += "(ConceptoAPU, SumaImporteAPU) "
-                        vAñadir += "VALUES ('" & vNombreConcepto & "','" & vImporteConcepto & "')"
-                        cmdMdb1cr.CommandText = vAñadir
-                        Try
-                            cmdMdb1cr.ExecuteNonQuery()
-                        Catch ex As Exception
-                            MsgBox("Error al añadir el Concepto a Tempapu")
-                            MsgBox(ex.ToString)
-                        End Try
-                        vAñadir = "INSERT INTO tempapu"
-                        vAñadir += "(ConceptoAPU, SumaImporteAPU) "
-                        vAñadir += "VALUES ('" & vNombreConcepto & "',' 0 ')"
-                        cmdMdb1cr.CommandText = vAñadir
-                        Try
-                            cmdMdb1cr.ExecuteNonQuery()
-                        Catch ex As Exception
-                            MsgBox("Error al añadir el Concepto a Tempapu")
-                            MsgBox(ex.ToString)
-                        End Try
-                    Else ' Si el Concepto existe y hay importe diferente a cero, si es positivo o negativo se suma
-                        cmdMdb1cr.CommandType = CommandType.Text
-                        If Val(vImporteConcepto) > 0 Then
-                            cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                            cmdMdb1cr.CommandText += "And tempapu.SumaImporteAPU > 0 "
-                        ElseIf Val(vImporteConcepto) < 0 Then
-                            cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                            cmdMdb1cr.CommandText += "And tempapu.SumaImporteAPU < 0 "
-                        End If
-                        Try
-                            drMdb1 = cmdMdb1cr.ExecuteReader()
-                            If drMdb1.HasRows Then 'Significa que existe con las condiciones
-                                While drMdb1.Read()
-                                    vExistenteImporteConcepto = drMdb1.GetValue(1)
-                                End While
-                                drMdb1.Close()
-                                vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
-                                If Val(vImporteConcepto) > 0 Then
-                                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
-                                    vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                                    vAñadir2 += "And tempapu.SumaImporteAPU > 0 "
-                                ElseIf Val(vImporteConcepto) < 0 Then
-                                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
-                                    vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                                    vAñadir2 += "And tempapu.SumaImporteAPU < 0 "
-                                End If
-                                cmdMdb1cr.CommandText = vAñadir2
-                                Try
-                                    cmdMdb1cr.ExecuteNonQuery()
-                                Catch ex As Exception
-                                    MsgBox("Error al actualizar el Concepto en Tempapu")
-                                    MsgBox(ex.ToString)
-                                End Try
-                            Else   'NO existe, lo añadimos al cero
-                                'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
-                                drMdb1.Close()
-                                cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                                cmdMdb1cr.CommandText += "And tempapu.SumaImporteAPU = 0 "
-                                drMdb1 = cmdMdb1cr.ExecuteReader()
-                                If drMdb1.HasRows Then 'Significa que existe con las condiciones
-                                    While drMdb1.Read()
-                                        vExistenteImporteConcepto = drMdb1.GetValue(1)
-                                    End While
-                                    drMdb1.Close()
-                                    vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
-                                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
-                                    vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                                    vAñadir2 += "And tempapu.SumaImporteAPU = 0 "
-                                    cmdMdb1cr.CommandText = vAñadir2
-                                    Try
-                                        cmdMdb1cr.ExecuteNonQuery()
-                                    Catch ex As Exception
-                                        MsgBox("Error al actualizar el Concepto en Tempapu")
-                                        MsgBox(ex.ToString)
-                                    End Try
-                                End If
-                                drMdb1.Close()
-                            End If
-                        Catch ex As Exception
-                            MsgBox("Error al verificar que el Concepto existe en Tempapu")
-                            MsgBox(ex.ToString)
-                        End Try
-                    End If
-                End If
-            Next
-        End If
-
-        miDataTable.Columns.Add("Fecha")
-        miDataTable.Columns.Add("Importe")
-        Dim unused As DataRow = miDataTable.NewRow()
-        vtipoSql = "SELECT * FROM tempapu ORDER BY tempapu.ConceptoAPU ASC"
-        LlenarGrid(vtipoSql, "PRINT_TEMP_APUNTES", "0")
-        vValor = 0
-        For Each fila As DataGridViewRow In frmImprimirForm.DgvApuntes.Rows
-            'Guardamos los datos en un database
-            Dim Renglon As DataRow = miDataTable.NewRow()
-            If Mid(fila.Cells(0).Value, 4, 5) = "01" Then
-                Renglon("Fecha") = "Enero-" & Mid(fila.Cells(0).Value, 1, 2)
-            End If
-            If Mid(fila.Cells(0).Value, 4, 5) = "02" Then
-                Renglon("Fecha") = "Febrero-" & Mid(fila.Cells(0).Value, 1, 2)
-            End If
-            If Mid(fila.Cells(0).Value, 4, 5) = "03" Then
-                Renglon("Fecha") = "Marzo-" & Mid(fila.Cells(0).Value, 1, 2)
-            End If
-            If Mid(fila.Cells(0).Value, 4, 5) = "04" Then
-                Renglon("Fecha") = "Abril-" & Mid(fila.Cells(0).Value, 1, 2)
-            End If
-            If Mid(fila.Cells(0).Value, 4, 5) = "05" Then
-                Renglon("Fecha") = "Mayo-" & Mid(fila.Cells(0).Value, 1, 2)
-            End If
-            If Mid(fila.Cells(0).Value, 4, 5) = "06" Then
-                Renglon("Fecha") = "Junio-" & Mid(fila.Cells(0).Value, 1, 2)
-            End If
-            If Mid(fila.Cells(0).Value, 4, 5) = "07" Then
-                Renglon("Fecha") = "Julio-" & Mid(fila.Cells(0).Value, 1, 2)
-            End If
-            If Mid(fila.Cells(0).Value, 4, 5) = "08" Then
-                Renglon("Fecha") = "Agosto-" & Mid(fila.Cells(0).Value, 1, 2)
-            End If
-            If Mid(fila.Cells(0).Value, 4, 5) = "09" Then
-                Renglon("Fecha") = "Septiembre-" & Mid(fila.Cells(0).Value, 1, 2)
-            End If
-            If Mid(fila.Cells(0).Value, 4, 5) = "10" Then
-                Renglon("Fecha") = "Octubre-" & Mid(fila.Cells(0).Value, 1, 2)
-            End If
-            If Mid(fila.Cells(0).Value, 4, 5) = "11" Then
-                Renglon("Fecha") = "Noviembre-" & Mid(fila.Cells(0).Value, 1, 2)
-            End If
-            If Mid(fila.Cells(0).Value, 4, 5) = "12" Then
-                Renglon("Fecha") = "Diciembre-" & Mid(fila.Cells(0).Value, 1, 2)
-            End If
-            vValor = fila.Cells(1).Value
-            vValor = Math.Truncate(vValor)
-            Renglon("Importe") = vValor
-            miDataTable.Rows.Add(Renglon)
-        Next
-        Chart1.Series("Gastos").IsVisibleInLegend = True
-        Chart1.Series("Ingresos").IsVisibleInLegend = True
-
-        Chart1.Series("Gastos").XValueMember = "Fecha"
-        Chart1.Series("Gastos").YValueMembers = "Importe"
-        Chart1.Series("Ingresos").XValueMember = "Fecha"
-        Chart1.Series("Ingresos").YValueMembers = "Importe"
-
-        vContador = 0
-        For x = 0 To miView.Count - 1
-            'Tomamos los datos de DataView para la gráfica
-            vContador += 1
-            vImporteConcepto = Val(miView(x)("Importe"))
-            If (vContador Mod 2) <> 0 Then
-                'El número es impar.
-                vImportePrimero = Val(miView(x)("Importe"))
-                vImporteSegundo = Val(miView(x + 1)("Importe"))
-                If vImportePrimero = 0 And vImporteSegundo > 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero = 0 And vImporteSegundo < 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero > 0 And vImporteSegundo = 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero < 0 And vImporteSegundo = 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero < 0 And vImporteSegundo > 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero > 0 And vImporteSegundo < 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-            Else
-                'El número es par.
-                vImporteSegundo = Val(miView(x)("Importe"))
-                If vImportePrimero = 0 And vImporteSegundo > 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero = 0 And vImporteSegundo < 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero > 0 And vImporteSegundo = 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero < 0 And vImporteSegundo = 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero < 0 And vImporteSegundo > 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero > 0 And vImporteSegundo < 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-            End If
-        Next
-    End Sub
-
-    Private Sub TsBtnColumnas_Click(sender As Object, e As EventArgs) Handles TsBtnColumnas.Click
-        TsBtnColumnas.Checked = True
-        TsBtnAreas.Checked = False
-        TsBtnLineas.Checked = False
-        TsBtnPastel.Checked = False
-        Chart1.Series("Gastos").XValueMember = "Fecha"
-        Chart1.Series("Ingresos").YValueMembers = "Importe"
-
-        Chart1.Series("Gastos").XValueMember = "Fecha"
-        Chart1.Series("Gastos").YValueMembers = "Importe"
-        Chart1.Series("Ingresos").XValueMember = "Fecha"
-        Chart1.Series("Ingresos").YValueMembers = "Importe"
-
-        Chart1.Series("Gastos").Points.Clear()
-        Chart1.Series("Ingresos").Points.Clear()
-
-        vContador = 0
-        For x = 0 To miView.Count - 1
-            'Tomamos los datos de DataView para la gráfica
-            vContador += 1
-            vImporteConcepto = Val(miView(x)("Importe"))
-            If (vContador Mod 2) <> 0 Then
-                'El número es impar.
-                vImportePrimero = Val(miView(x)("Importe"))
-                vImporteSegundo = Val(miView(x + 1)("Importe"))
-                If vImportePrimero = 0 And vImporteSegundo > 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero = 0 And vImporteSegundo < 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero > 0 And vImporteSegundo = 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero < 0 And vImporteSegundo = 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero < 0 And vImporteSegundo > 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero > 0 And vImporteSegundo < 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-            Else
-                'El número es par.
-                vImporteSegundo = Val(miView(x)("Importe"))
-                If vImportePrimero = 0 And vImporteSegundo > 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero = 0 And vImporteSegundo < 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero > 0 And vImporteSegundo = 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero < 0 And vImporteSegundo = 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero < 0 And vImporteSegundo > 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero > 0 And vImporteSegundo < 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-            End If
-        Next
-    End Sub
-
-    Private Sub TsBtnAreas_Click(sender As Object, e As EventArgs) Handles TsBtnAreas.Click
-        TsBtnColumnas.Checked = False
-        TsBtnAreas.Checked = True
-        TsBtnLineas.Checked = False
-        TsBtnPastel.Checked = False
-        Chart1.Series("Gastos").XValueMember = "Fecha"
-        Chart1.Series("Ingresos").YValueMembers = "Importe"
-
-        Chart1.Series("Gastos").XValueMember = "Fecha"
-        Chart1.Series("Gastos").YValueMembers = "Importe"
-        Chart1.Series("Ingresos").XValueMember = "Fecha"
-        Chart1.Series("Ingresos").YValueMembers = "Importe"
-
-        Chart1.Series("Gastos").Points.Clear()
-        Chart1.Series("Ingresos").Points.Clear()
-
-        vContador = 0
-        For x = 0 To miView.Count - 1
-            'Tomamos los datos de DataView para la gráfica
-            vContador += 1
-            vImporteConcepto = Val(miView(x)("Importe"))
-            If (vContador Mod 2) <> 0 Then
-                'El número es impar.
-                vImportePrimero = Val(miView(x)("Importe"))
-                vImporteSegundo = Val(miView(x + 1)("Importe"))
-                If vImportePrimero = 0 And vImporteSegundo > 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Area
-                    End With
-                End If
-                If vImportePrimero = 0 And vImporteSegundo < 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Area
-                    End With
-                End If
-                If vImportePrimero > 0 And vImporteSegundo = 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Area
-                    End With
-                End If
-                If vImportePrimero < 0 And vImporteSegundo = 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Area
-                    End With
-                End If
-                If vImportePrimero < 0 And vImporteSegundo > 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Area
-                    End With
-                End If
-                If vImportePrimero > 0 And vImporteSegundo < 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Area
-                    End With
-                End If
-            Else
-                'El número es par.
-                vImporteSegundo = Val(miView(x)("Importe"))
-                If vImportePrimero = 0 And vImporteSegundo > 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Area
-                    End With
-                End If
-                If vImportePrimero = 0 And vImporteSegundo < 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Area
-                    End With
-                End If
-                If vImportePrimero > 0 And vImporteSegundo = 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Area
-                    End With
-                End If
-                If vImportePrimero < 0 And vImporteSegundo = 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Area
-                    End With
-                End If
-                If vImportePrimero < 0 And vImporteSegundo > 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Area
-                    End With
-                End If
-                If vImportePrimero > 0 And vImporteSegundo < 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Area
-                    End With
-                End If
-            End If
-        Next
-    End Sub
-
-    Private Sub TsBtnLineas_Click(sender As Object, e As EventArgs) Handles TsBtnLineas.Click
-        TsBtnColumnas.Checked = False
-        TsBtnAreas.Checked = False
-        TsBtnLineas.Checked = True
-        TsBtnPastel.Checked = False
-        Chart1.Series("Gastos").XValueMember = "Fecha"
-        Chart1.Series("Ingresos").YValueMembers = "Importe"
-
-        Chart1.Series("Gastos").XValueMember = "Fecha"
-        Chart1.Series("Gastos").YValueMembers = "Importe"
-        Chart1.Series("Ingresos").XValueMember = "Fecha"
-        Chart1.Series("Ingresos").YValueMembers = "Importe"
-
-        Chart1.Series("Gastos").Points.Clear()
-        Chart1.Series("Ingresos").Points.Clear()
-
-        vContador = 0
-        For x = 0 To miView.Count - 1
-            'Tomamos los datos de DataView para la gráfica
-            vContador += 1
-            vImporteConcepto = Val(miView(x)("Importe"))
-            If (vContador Mod 2) <> 0 Then
-                'El número es impar.
-                vImportePrimero = Val(miView(x)("Importe"))
-                vImporteSegundo = Val(miView(x + 1)("Importe"))
-                If vImportePrimero = 0 And vImporteSegundo > 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Line
-                    End With
-                End If
-                If vImportePrimero = 0 And vImporteSegundo < 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Line
-                    End With
-                End If
-                If vImportePrimero > 0 And vImporteSegundo = 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Line
-                    End With
-                End If
-                If vImportePrimero < 0 And vImporteSegundo = 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Line
-                    End With
-                End If
-                If vImportePrimero < 0 And vImporteSegundo > 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Line
-                    End With
-                End If
-                If vImportePrimero > 0 And vImporteSegundo < 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Line
-                    End With
-                End If
-            Else
-                'El número es par.
-                vImporteSegundo = Val(miView(x)("Importe"))
-                If vImportePrimero = 0 And vImporteSegundo > 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Line
-                    End With
-                End If
-                If vImportePrimero = 0 And vImporteSegundo < 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Line
-                    End With
-                End If
-                If vImportePrimero > 0 And vImporteSegundo = 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Line
-                    End With
-                End If
-                If vImportePrimero < 0 And vImporteSegundo = 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Line
-                    End With
-                End If
-                If vImportePrimero < 0 And vImporteSegundo > 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Line
-                    End With
-                End If
-                If vImportePrimero > 0 And vImporteSegundo < 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Line
-                    End With
-                End If
-            End If
-        Next
-    End Sub
-
-    Private Sub TsBtnPastel_Click(sender As Object, e As EventArgs) Handles TsBtnPastel.Click
-        TsBtnColumnas.Checked = False
-        TsBtnAreas.Checked = False
-        TsBtnLineas.Checked = False
-        TsBtnPastel.Checked = True
-
-        Chart1.Series("Gastos").Points.Clear()
-        Chart1.Series("Ingresos").Points.Clear()
-        For x = 0 To miView.Count - 1
-            'Tomamos los datos de DataView para la gráfica
-            With Chart1.Series("Gastos")
-                If miView(x)("Importe") <= 0 Then
-                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
-                Else
-                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), miView(x)("Importe"))
-                End If
-                .ChartType = SeriesChartType.Pie
-            End With
-            With Chart1.Series("Ingresos")
-                .ChartType = SeriesChartType.Pie
-            End With
-        Next
-    End Sub
 End Class

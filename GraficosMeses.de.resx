@@ -141,9 +141,6 @@
   <data name="TsBtnPastel.ToolTipText" xml:space="preserve">
     <value>Kreisdiagramme</value>
   </data>
-  <data name="TSBtnImprimir.Text" xml:space="preserve">
-    <value>ToolStripButton1</value>
-  </data>
   <data name="ToolStrip1.Text" xml:space="preserve">
     <value>ToolStrip1</value>
   </data>
@@ -152,5 +149,11 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Grafik</value>
+  </data>
+  <data name="TSBtnImprimir.Text" xml:space="preserve">
+    <value>Druck</value>
+  </data>
+  <data name="TituloGrafico" xml:space="preserve">
+    <value>Diagramme nach Monaten</value>
   </data>
 </root>

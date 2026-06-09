@@ -157,9 +157,6 @@ Partial Class GraficosFechas
         '
         Me.PrintDialog1.UseEXDialog = True
         '
-        'PrintDocument1
-        '
-        '
         'PrintPreviewDialog1
         '
         resources.ApplyResources(Me.PrintPreviewDialog1, "PrintPreviewDialog1")

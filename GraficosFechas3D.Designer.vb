@@ -38,11 +38,11 @@ Partial Class GraficosFechas3D
         Me.TsBtnPastel = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripLabel2 = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.TSBtnImprimir = New System.Windows.Forms.ToolStripButton()
         Me.Chart1 = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.PrintDialog1 = New System.Windows.Forms.PrintDialog()
         Me.PrintDocument1 = New System.Drawing.Printing.PrintDocument()
         Me.PrintPreviewDialog1 = New System.Windows.Forms.PrintPreviewDialog()
-        Me.TSBtnImprimir = New System.Windows.Forms.ToolStripButton()
         Me.ToolStrip1.SuspendLayout()
         CType(Me.Chart1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -134,6 +134,15 @@ Partial Class GraficosFechas3D
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
         Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 31)
         '
+        'TSBtnImprimir
+        '
+        Me.TSBtnImprimir.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.TSBtnImprimir.Image = CType(resources.GetObject("TSBtnImprimir.Image"), System.Drawing.Image)
+        Me.TSBtnImprimir.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.TSBtnImprimir.Name = "TSBtnImprimir"
+        Me.TSBtnImprimir.Size = New System.Drawing.Size(29, 28)
+        Me.TSBtnImprimir.Text = "ToolStripButton1"
+        '
         'Chart1
         '
         ChartArea1.Area3DStyle.Enable3D = True
@@ -180,6 +189,9 @@ Partial Class GraficosFechas3D
         '
         Me.PrintDialog1.UseEXDialog = True
         '
+        'PrintDocument1
+        '
+        '
         'PrintPreviewDialog1
         '
         Me.PrintPreviewDialog1.AutoScrollMargin = New System.Drawing.Size(0, 0)
@@ -189,15 +201,6 @@ Partial Class GraficosFechas3D
         Me.PrintPreviewDialog1.Icon = CType(resources.GetObject("PrintPreviewDialog1.Icon"), System.Drawing.Icon)
         Me.PrintPreviewDialog1.Name = "PrintPreviewDialog1"
         Me.PrintPreviewDialog1.Visible = False
-        '
-        'TSBtnImprimir
-        '
-        Me.TSBtnImprimir.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.TSBtnImprimir.Image = CType(resources.GetObject("TSBtnImprimir.Image"), System.Drawing.Image)
-        Me.TSBtnImprimir.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.TSBtnImprimir.Name = "TSBtnImprimir"
-        Me.TSBtnImprimir.Size = New System.Drawing.Size(29, 28)
-        Me.TSBtnImprimir.Text = "ToolStripButton1"
         '
         'GraficosFechas3D
         '
@@ -209,7 +212,7 @@ Partial Class GraficosFechas3D
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Name = "GraficosFechas3D"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
-        Me.Text = "Graficos"
+        Me.Text = "Gráficos"
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
         CType(Me.Chart1, System.ComponentModel.ISupportInitialize).EndInit()
