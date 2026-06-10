@@ -192,10 +192,10 @@
     <value>Salir Aplicación</value>
   </data>
   <data name="ArchivoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>73, 24</value>
+    <value>59, 27</value>
   </data>
   <data name="ArchivoToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Archivo</value>
+    <value>&amp;Inicio</value>
   </data>
   <data name="BarraDeHerramientasMenu.Size" type="System.Drawing.Size, System.Drawing">
     <value>261, 26</value>
@@ -225,7 +225,7 @@
     <value>Ocultar/Ver Colores en Barra y Menu</value>
   </data>
   <data name="VerToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 24</value>
+    <value>44, 27</value>
   </data>
   <data name="VerToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Ver</value>
@@ -281,7 +281,7 @@
     <value>Tipos de Cuentas</value>
   </data>
   <data name="MantenimientosToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 24</value>
+    <value>130, 27</value>
   </data>
   <data name="MantenimientosToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Mantenimientos</value>
@@ -363,7 +363,7 @@
     <value>Añade, Edita, Borra o Consulta Apuntes Periódicos</value>
   </data>
   <data name="ApuntesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>77, 24</value>
+    <value>77, 27</value>
   </data>
   <data name="ApuntesToolStripMenuItem.Text" xml:space="preserve">
     <value>Apuntes</value>
@@ -404,7 +404,7 @@
     <value>Mostrar Gráfico y Desviación Presupuestos</value>
   </data>
   <data name="PresupuestosToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 24</value>
+    <value>109, 27</value>
   </data>
   <data name="PresupuestosToolStripMenuItem.Text" xml:space="preserve">
     <value>Presupuestos</value>
@@ -593,7 +593,7 @@
     <value>Gráficos de Gastos por Concepto</value>
   </data>
   <data name="InformesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>81, 24</value>
+    <value>81, 27</value>
   </data>
   <data name="InformesToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Informes</value>
@@ -735,7 +735,7 @@
     <value>287, 6</value>
   </data>
   <data name="HerramientasToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>112, 24</value>
+    <value>112, 27</value>
   </data>
   <data name="HerramientasToolStripMenuItem.Text" xml:space="preserve">
     <value>Herramientas</value>
@@ -1001,7 +1001,7 @@
     <value>Donación/Aportación</value>
   </data>
   <data name="AyudaToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 24</value>
+    <value>65, 27</value>
   </data>
   <data name="AyudaToolStripMenuItem.Text" xml:space="preserve">
     <value>Ayuda</value>
@@ -1020,7 +1020,7 @@
     <value>False</value>
   </data>
   <data name="VactualVDisponible.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 24</value>
+    <value>244, 27</value>
   </data>
   <data name="VactualVDisponible.Text" xml:space="preserve">
     <value>Versión actual: Versión disponible</value>
@@ -1032,7 +1032,7 @@
     <value>0, 0</value>
   </data>
   <data name="BarraDeMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1225, 28</value>
+    <value>1225, 31</value>
   </data>
   <data name="BarraDeMenu.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1990,7 +1990,7 @@
     <value>7, 30</value>
   </data>
   <data name="BarraDeHerramientas.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 28</value>
+    <value>0, 31</value>
   </data>
   <data name="BarraDeHerramientas.Size" type="System.Drawing.Size, System.Drawing">
     <value>1225, 37</value>
@@ -8959,35 +8959,14 @@
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="CreadoCorrectamente" xml:space="preserve">
-    <value>creado correctamente</value>
+  <data name="ApuntesContablesVaciado" xml:space="preserve">
+    <value>Apuntes Contables, Vaciado!</value>
   </data>
-  <data name="LblAvisoActivacion" xml:space="preserve">
-    <value>"Software en modo demo. Por favor active el software para quitar esta advertencia."</value>
-  </data>
-  <data name="MsgEspera" xml:space="preserve">
-    <value>En Espera ...</value>
-  </data>
-  <data name="SeCrearaEjercicio" xml:space="preserve">
-    <value>se creará ejercicio</value>
-  </data>
-  <data name="TraspasoCuentas" xml:space="preserve">
-    <value>Traspaso entre Cuentas</value>
+  <data name="ApuntesPeriodicosVaciado" xml:space="preserve">
+    <value>Apuntes Periódicos, Vaciado!</value>
   </data>
   <data name="BackupOk" xml:space="preserve">
     <value>Backup realizado satisfactoriamente</value>
-  </data>
-  <data name="PreguntaBackup" xml:space="preserve">
-    <value>¿Estas seguro de RESTAURAR la Base de Datos?</value>
-  </data>
-  <data name="RestaurarBD" xml:space="preserve">
-    <value>Restaurar Base de Datos</value>
-  </data>
-  <data name="RestaurarOk" xml:space="preserve">
-    <value>Restauración realizada satisfactoriamente</value>
-  </data>
-  <data name="Restaurar" xml:space="preserve">
-    <value>RESTAURAR</value>
   </data>
   <data name="CompactacionOk" xml:space="preserve">
     <value>Compactación realizada satisfactoriamente</value>
@@ -8997,6 +8976,18 @@
   </data>
   <data name="CompactarError" xml:space="preserve">
     <value>Error al compactar la base de datos</value>
+  </data>
+  <data name="CreadoCorrectamente" xml:space="preserve">
+    <value>creado correctamente</value>
+  </data>
+  <data name="LblAvisoActivacion" xml:space="preserve">
+    <value>"Software en modo demo. Por favor active el software para quitar esta advertencia."</value>
+  </data>
+  <data name="MsgEspera" xml:space="preserve">
+    <value>En Espera ...</value>
+  </data>
+  <data name="MsgNoVaciarBD" xml:space="preserve">
+    <value>No se Eliminan los CONCEPTOS ni las CUENTAS CONTABLES</value>
   </data>
   <data name="MsgVaciarBD" xml:space="preserve">
     <value>¿Estas seguro de VACIAR e INICIAR la Base de Datos de APUNTES - APUNTES PERIODICOS y PRESUPUESTOS del Ejercicio</value>
@@ -9010,16 +9001,25 @@
   <data name="MsgVaciarBD4" xml:space="preserve">
     <value>Se va a Iniciar el Vaciado de la Base de Datos</value>
   </data>
-  <data name="MsgNoVaciarBD" xml:space="preserve">
-    <value>No se Eliminan los CONCEPTOS ni las CUENTAS CONTABLES</value>
-  </data>
-  <data name="ApuntesContablesVaciado" xml:space="preserve">
-    <value>Apuntes Contables, Vaciado!</value>
-  </data>
-  <data name="ApuntesPeriodicosVaciado" xml:space="preserve">
-    <value>Apuntes Periódicos, Vaciado!</value>
+  <data name="PreguntaBackup" xml:space="preserve">
+    <value>¿Estas seguro de RESTAURAR la Base de Datos?</value>
   </data>
   <data name="PresupuestosVaciado" xml:space="preserve">
     <value>Presupuestos, Vaciado!</value>
+  </data>
+  <data name="Restaurar" xml:space="preserve">
+    <value>RESTAURAR</value>
+  </data>
+  <data name="RestaurarBD" xml:space="preserve">
+    <value>Restaurar Base de Datos</value>
+  </data>
+  <data name="RestaurarOk" xml:space="preserve">
+    <value>Restauración realizada satisfactoriamente</value>
+  </data>
+  <data name="SeCrearaEjercicio" xml:space="preserve">
+    <value>se creará ejercicio</value>
+  </data>
+  <data name="TraspasoCuentas" xml:space="preserve">
+    <value>Traspaso entre Cuentas</value>
   </data>
 </root>

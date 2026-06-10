@@ -8,32 +8,38 @@ Imports ToolTip = System.Windows.Forms.ToolTip
 
 Public Class Presupuestos
 
-    Public vtipoSql, vtipoGrid, vConcepto, vBorrarPresu, vAñadir, vAñadir2 As String
+    Public vtipoSql, vtipoGrid, vConcepto, vAñadir, vAñadir2 As String
     Public vTmpprint As String
-    Public vImporteConcepto, vImporteConcepto2, vExistenteImporteConcepto, vNewImporteConcepto As Double
     Public PrintLine, Contador As Integer
     Public vTipoConceptoActual As String = ""
-    Public TL(9) As ToolTip
+    Public TL() As ToolTip
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub Presupuestos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
 
         ' Inicialización centralizada de ToolTips
+        ' *=====================================
         Dim controlesToolTip As Control() = {
-            BtnGraficos, BtnSalir, BtnFiltroConcepto, BtnSinFiltroConcepto, BtnImprimir,
-            BtnPrimero, BtnAnterior, BtnSiguiente, BtnUltimo, BtnEliminarRegistro
+            BtnGraficos2D, BtnSalir, BtnFiltroConcepto, BtnSinFiltroConcepto, BtnImprimir,
+            BtnPrimero, BtnAnterior, BtnSiguiente, BtnUltimo, BtnEliminarRegistro, BtnGraficos3D ' <-- Añadido aquí
         }
 
         Dim clavesToolTip As String() = {
-            "ToolTipGraficos", "ToolTipSalir", "ToolTipAplicarFiltro", "ToolTipQuitarFiltro", "ToolTipImprimir",
-            "ToolTipPrimero", "ToolTipAnterior", "ToolTipSiguiente", "ToolTipUltimo", "ToolTipEliminar"
+            "ToolTipGraficos2D", "ToolTipSalir", "ToolTipAplicarFiltro", "ToolTipQuitarFiltro", "ToolTipImprimir",
+            "ToolTipPrimero", "ToolTipAnterior", "ToolTipSiguiente", "ToolTipUltimo", "ToolTipEliminar", "ToolTipGraficos3D" ' <-- Añadido aquí
         }
 
-        For i As Integer = 0 To TL.Length - 1
+        ' TRUCO DE ORO: Redimensionamos la matriz TL automáticamente según el número de controles
+        ' El (-1) es porque las matrices en .NET empiezan a contar desde el 0
+        ReDim TL(controlesToolTip.Length - 1)
+
+        ' El bucle ahora recorrerá los 11 elementos sin peligro de desbordamiento
+        For i As Integer = 0 To controlesToolTip.Length - 1
             TL(i) = New ToolTip()
             TL(i).SetToolTip(controlesToolTip(i), resManager.GetString(clavesToolTip(i)))
         Next
+
 
         ' Llenar el Combo Concepto
         '*************************
@@ -53,6 +59,19 @@ Public Class Presupuestos
             MsgBox(ex.ToString)
         End Try
 
+        '' Llenar Grid de PRESUPUESTOS (Corregido alias de palabra reservada)
+        ''****************************
+        'vtipoSql = "SELECT ConceptoPRE, '' AS Mes, 0.00 AS [Real], ImportePRE, FDesdePRE FROM presupuesto"
+        'vtipoSql += " WHERE EjercicioPRE = " & vAñoEjercicio.ToString
+        'vtipoSql += " ORDER BY ConceptoPRE ASC, FDesdePRE ASC"
+
+        'vtipoGrid = "PRESUPUESTOS"
+        'LlenarGrid(vtipoSql, vtipoGrid, "1")
+
+
+        '' 2. ACTUAR SOBRE LA ETIQUETA: Evaluamos si corresponde "Parcial" o "Anual"
+        'ActualizarEtiquetaDesviacion()
+
         ' Llenar Grid de PRESUPUESTOS
         '****************************
         vtipoSql = "SELECT presupuesto.ConceptoPRE, presupuesto.ConceptoPRE, presupuesto.ImportePRE, presupuesto.ImportePRE, presupuesto.FDesdePRE FROM presupuesto"
@@ -61,6 +80,7 @@ Public Class Presupuestos
         vtipoSql += " ORDER BY presupuesto.ConceptoPRE ASC, presupuesto.FDesdePRE ASC"
         vtipoGrid = "PRESUPUESTOS"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
+
         ' 2. ACTUAR SOBRE LA ETIQUETA: Evaluamos si corresponde "Parcial" o "Anual"
         ActualizarEtiquetaDesviacion()
     End Sub
@@ -136,7 +156,6 @@ Public Class Presupuestos
         End If
     End Sub
 
-
     ''' <summary>
     ''' MÉTODO CENTRALIZADO PROFESIONAL: Ejecuta la carga y pinta los resultados YTD calculados por el módulo
     ''' </summary>
@@ -181,12 +200,11 @@ Public Class Presupuestos
                 End Using
             End If
 
-            ' Evaluamos si es un gasto (Soporta Castellano, Catalán, Alemán o Inglés)
-            Dim esGasto As Boolean = (tipoConcepto = "GASTO" OrElse
-                                      tipoConcepto = "DESPESA" OrElse
-                                      tipoConcepto = "AUSGABE" OrElse
-                                      tipoConcepto = "EXPENSE" OrElse
-                                      tipoConcepto.Contains("GAST"))
+            ' =======================================================================
+            ' EVALUACIÓN ESTÁNDAR UNIVERSAL: La base de datos siempre guarda "GASTO" o "INGRESO"
+            ' =======================================================================
+            Dim esGasto As Boolean = (tipoConcepto = "GASTO")
+            ' =======================================================================
 
             Dim desviacionFinal As Double = 0
 
@@ -229,17 +247,34 @@ Public Class Presupuestos
         End If
     End Sub
 
-    Private Sub BtnGraficos_Click(sender As Object, e As EventArgs) Handles BtnGraficos.Click
-        ' Comprobamos si existe un identificador asociado.
-        If ((frmGraficosPresupuestos Is Nothing) OrElse (Not frmGraficosPresupuestos.IsHandleCreated)) Then
+    Private Sub BtnGraficos2D_Click(sender As Object, e As EventArgs) Handles BtnGraficos2D.Click
+        ' 1. Comprobamos si existe un identificador asociado (Instancia segura)
+        If (frmGraficosPresupuestos Is Nothing) OrElse (Not frmGraficosPresupuestos.IsHandleCreated) Then
             frmGraficosPresupuestos = New GraficosPresupuestos
         End If
-        ' Llamamos al formulario de manera modal.
+
+        ' 2. TRUCO DE ORO: Le decimos que NO active el 3D (Gráfico plano)
+        frmGraficosPresupuestos.EsGrafico3D = False
+
+        ' 3. Llamamos al formulario de manera modal y lo destruimos al cerrar
         frmGraficosPresupuestos.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
         frmGraficosPresupuestos.Dispose()
     End Sub
+
+    Private Sub BtnGraficos3D_Click(sender As Object, e As EventArgs) Handles BtnGraficos3D.Click
+        ' 1. Comprobamos si existe un identificador asociado (Instancia segura)
+        If (frmGraficosPresupuestos Is Nothing) OrElse (Not frmGraficosPresupuestos.IsHandleCreated) Then
+            frmGraficosPresupuestos = New GraficosPresupuestos
+        End If
+
+        ' 2. TRUCO DE ORO: Le decimos que SÍ active el 3D (Gráfico con relieve)
+        frmGraficosPresupuestos.EsGrafico3D = True
+
+        ' 3. Llamamos al formulario de manera modal y lo destruimos al cerrar
+        frmGraficosPresupuestos.ShowDialog()
+        frmGraficosPresupuestos.Dispose()
+    End Sub
+
 
     Private Sub BtnSalir_Click(sender As Object, e As EventArgs) Handles BtnSalir.Click
         Me.Close()

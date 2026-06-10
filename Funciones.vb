@@ -392,10 +392,10 @@ Module Funciones
 
         ElseIf vgrid = "PRINT_TEMP_APUNTES" Or vgrid = "PRINT_TEMP_APUNTES_FECHAS" Then
             Dim adp As New OleDbDataAdapter(linSql, conexion1)
-                Dim Tabla As New DataTable
-                adp.Fill(Tabla)
-                frmImprimirForm.DgvApuntes.DataSource = ""
-                frmImprimirForm.DgvApuntes.DataSource = Tabla
+            Dim Tabla As New DataTable
+            adp.Fill(Tabla)
+            frmImprimirForm.DgvApuntes.DataSource = ""
+            frmImprimirForm.DgvApuntes.DataSource = Tabla
 
         ElseIf vgrid = "APUNTES_PERIODICOS" Then
             Using adp As New OleDbDataAdapter(linSql, conexion1)
@@ -612,165 +612,485 @@ Module Funciones
             frmImprimirForm.DgvApuntes.DataSource = ""
             frmImprimirForm.DgvApuntes.DataSource = Tabla
 
+            'ElseIf vgrid = "PRESUPUESTOS" Then
+            '    Dim adp As New OleDbDataAdapter(linSql, conexion1)
+            '    Dim Tabla As New DataTable
+            '    adp.Fill(Tabla)
+            '    frmPresupuestos.DgvPresupuestos.DataSource = Tabla
+
+            '    With frmPresupuestos.DgvPresupuestos
+            '        .DefaultCellStyle.Font = New Font("Tahoma", 9)
+            '        .DefaultCellStyle.ForeColor = Color.Black
+            '        .DefaultCellStyle.BackColor = Color.White
+
+            '        ' --- CAMBIO APLICADO: Cabeceras leyendo desde frmPresupuestos.rmse ---
+            '        .Columns(0).Width = 160
+            '        .Columns(0).HeaderText = frmPresupuestos.rmse.GetString("Concepto")
+            '        .Columns(0).DefaultCellStyle.ForeColor = Color.DarkBlue
+
+            '        .Columns(1).Width = 100
+            '        .Columns(1).HeaderText = frmPresupuestos.rmse.GetString("Mes")
+            '        .Columns(1).DefaultCellStyle.ForeColor = Color.DarkBlue
+
+            '        .Columns(2).Width = 97
+            '        .Columns(2).HeaderText = frmPresupuestos.rmse.GetString("Real")
+            '        .Columns(2).DefaultCellStyle.ForeColor = Color.DarkBlue
+            '        .Columns(2).DefaultCellStyle.Format = "###,##0.00"
+
+            '        .Columns(3).Width = 97
+            '        .Columns(3).HeaderText = frmPresupuestos.rmse.GetString("Presupuesto")
+            '        .Columns(3).DefaultCellStyle.Format = "###,##0.00"
+
+            '        .Columns(4).Width = 0
+            '        .Columns(4).Visible = False
+
+            '        frmPresupuestos.TxtNumRegistros.Text = .Rows.Count.ToString()
+            '        frmPresupuestos.LblNumRegistros.Text = If(frmPresupuestos.BtnFiltroConcepto.Enabled = False, If(resManager.GetString("Filtrado"), "Filtrado"), If(resManager.GetString("SinFiltrar"), "Sin Filtrar"))
+
+            '        ' Cultura para control regional
+            '        Dim cultura As New System.Globalization.CultureInfo(My.Settings.CulturaUsuario)
+            '        Dim resSet As System.Resources.ResourceSet = resManager.GetResourceSet(cultura, True, True)
+
+            '        ' Carga masiva rápida de movimientos reales agrupados
+            '        Dim dictReal As New Dictionary(Of String, Double)()
+            '        Dim sqlReal As String = "SELECT ConceptoAPU, Month(FechaAPU) AS NMes, Sum(ImporteAPU) AS SumaReal " &
+            '                        "FROM apuntes WHERE EjercicioAPU = " & vAñoEjercicio.ToString & " " &
+            '                        "GROUP BY ConceptoAPU, Month(FechaAPU)"
+            '        Try
+            '            Using cmdReal As New OleDbCommand(sqlReal, conexion1)
+            '                If conexion1.State <> ConnectionState.Open Then conexion1.Open()
+            '                Using drReal As OleDbDataReader = cmdReal.ExecuteReader()
+            '                    While drReal.Read()
+            '                        Dim clave As String = drReal("ConceptoAPU").ToString().Trim().ToUpper() & "_" & CInt(drReal("NMes")).ToString()
+            '                        If Not dictReal.ContainsKey(clave) Then dictReal.Add(clave, Convert.ToDouble(drReal("SumaReal")))
+            '                    End While
+            '                End Using
+            '            End Using
+            '        Catch ex As Exception
+            '            MsgBox("Error en indexación: " & ex.Message)
+            '        End Try
+
+            '        ' Variables para acumular los totales macros (YTD)
+            '        Dim vTotalPresupuesto As Double = 0
+            '        Dim vTotalReal As Double = 0
+            '        Dim mesActualCalendario As Integer = DateTime.Now.Month
+            '        Dim añoActualCalendario As Integer = DateTime.Now.Year
+
+            '        ' NUEVAS VARIABLES: Para la suma global de la columna entera en pantalla
+            '        Dim vSumaColumnaRealCompleta As Double = 0
+            '        Dim vSumaColumnaPresuCompleta As Double = 0
+
+            '        ' 2. BUCLE DE RECORRIDO DEL GRID
+            '        For Each fila As DataGridViewRow In .Rows
+            '            If fila.IsNewRow Then Continue For
+
+            '            ' A. Determinamos el número de mes e idioma basándonos en los datos del registro
+            '            Dim numeroMes As Integer = 0
+            '            Dim nombreConceptoVisible As String = fila.Cells(0).Value.ToString().Trim()
+
+            '            ' Si la columna 4 tiene la fecha de la MDB, sacamos el mes de ahí
+            '            If fila.Cells(4).Value IsNot Nothing AndAlso Not String.IsNullOrEmpty(fila.Cells(4).Value.ToString()) Then
+            '                Dim fechaFila As Date
+            '                If Date.TryParse(fila.Cells(4).Value.ToString(), fechaFila) Then
+            '                    numeroMes = fechaFila.Month
+            '                    ' Traducimos visualmente el mes en la celda (1)
+            '                    fila.Cells(1).Value = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(fechaFila.ToString("MMMM", cultura))
+            '                End If
+            '            End If
+
+            '            ' 🚨 PLAN B DE EMBERGENCIA: Si la columna 4 falló, deducimos el mes según el orden de las filas cargadas
+            '            If numeroMes = 0 Then
+            '                numeroMes = (fila.Index Mod 12) + 1
+            '                Dim fechaAux As New Date(CInt(vAñoEjercicio), numeroMes, 1)
+            '                fila.Cells(1).Value = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(fechaAux.ToString("MMMM", cultura))
+            '            End If
+
+            '            ' B. Búsqueda inversa de idiomas para el concepto para cruzar datos reales
+            '            Dim nombreConceptoOriginalMDB As String = nombreConceptoVisible
+            '            If Not My.Settings.CulturaUsuario.StartsWith("es", StringComparison.OrdinalIgnoreCase) AndAlso resSet IsNot Nothing Then
+            '                For Each elemento As System.Collections.DictionaryEntry In resSet
+            '                    If elemento.Value.ToString().Trim().ToUpper() = nombreConceptoVisible.ToUpper() Then
+            '                        nombreConceptoOriginalMDB = elemento.Key.ToString().Replace("_", " ")
+            '                        Exit For
+            '                    End If
+            '                Next
+            '            End If
+
+            '            ' C. CRUCE CON EL MAPA EN MEMORIA RAM
+            '            Dim claveBusqueda As String = nombreConceptoOriginalMDB.ToUpper() & "_" & numeroMes.ToString()
+            '            Dim saldoRealMes As Double = 0
+            '            If dictReal.ContainsKey(claveBusqueda) Then saldoRealMes = dictReal(claveBusqueda)
+
+            '            ' Inversión de signos contables y FORZADO SIEMPRE A POSITIVO mediante Math.Abs
+            '            Dim importeRealFinal As Double = Math.Abs(-saldoRealMes)
+            '            Dim importePresuFinal As Double = 0
+
+            '            If fila.Cells(3).Value IsNot Nothing Then
+            '                Double.TryParse(fila.Cells(3).Value.ToString(), importePresuFinal)
+            '                ' Nos aseguramos que el presupuesto en pantalla también sea positivo
+            '                importePresuFinal = Math.Abs(importePresuFinal)
+            '                fila.Cells(3).Value = importePresuFinal
+            '            End If
+
+            '            ' Volcamos el cálculo real final en la celda (2) corregido a positivo
+            '            fila.Cells(2).Value = importeRealFinal
+
+            '            ' ACUMULACIÓN PARA LA FILA DE TOTALES VISIBLES (Suma total absoluta de lo que hay en el Grid)
+            '            vSumaColumnaRealCompleta += importeRealFinal
+            '            vSumaColumnaPresuCompleta += importePresuFinal
+
+            '            ' D. 📈 ACUMULACIÓN DE TOTALES YTD CONTROLADOS (Para tus variables macro y cálculos de lógica)
+            '            If CInt(vAñoEjercicio) < añoActualCalendario Then
+            '                vTotalPresupuesto += importePresuFinal
+            '                vTotalReal += importeRealFinal
+            '            ElseIf CInt(vAñoEjercicio) = añoActualCalendario Then
+            '                If numeroMes <= mesActualCalendario Then
+            '                    vTotalPresupuesto += importePresuFinal
+            '                    vTotalReal += importeRealFinal
+            '                End If
+            '            End If
+            '        Next
+
+            '        ' 3. SINCRONIZAMOS LAS VARIABLES GLOBALES DE CÁLCULO CONTABLE
+            '        vSaldoAnualReal = vTotalReal
+            '        vSaldoAnualPresupuesto = vTotalPresupuesto
+
+            '        ' 4. INSERCIÓN DE LA FILA DE TOTALES EN EL GRID (vía DataTable)
+            '        Try
+            '            Dim filaTotales As DataRow = Tabla.NewRow()
+            '            filaTotales(0) = resManager.GetString("TOTAL")
+            '            filaTotales(1) = ""
+            '            filaTotales(2) = vSumaColumnaRealCompleta
+            '            filaTotales(3) = vSumaColumnaPresuCompleta
+            '            filaTotales(4) = DBNull.Value
+
+            '            Tabla.Rows.Add(filaTotales)
+            '            Tabla.AcceptChanges()
+            '        Catch ex As Exception
+            '            ' Control de fallos silencioso por si la tabla está vacía
+            '        End Try
+
+            '    End With
+
+            'ElseIf vgrid = "PRESUPUESTOS" Then
+            '    Dim adp As New OleDbDataAdapter(linSql, conexion1)
+            '    Dim Tabla As New DataTable
+            '    adp.Fill(Tabla)
+
+            '    ' 1. CULTURA E IDIOMAS
+            '    Dim cultura As New System.Globalization.CultureInfo(My.Settings.CulturaUsuario)
+            '    Dim resSet As System.Resources.ResourceSet = resManager.GetResourceSet(cultura, True, True)
+
+            '    ' 2. CARGA MASIVA EN RAM (Evita los cientos de llamadas SQL lentas del bucle clásico)
+            '    Dim dictReal As New Dictionary(Of String, Double)()
+            '    Dim sqlReal As String = "SELECT ConceptoAPU, Month(FechaAPU) AS NMes, Sum(ImporteAPU) AS SumaReal " &
+            '                    "FROM apuntes WHERE EjercicioAPU = " & vAñoEjercicio.ToString & " " &
+            '                    "GROUP BY ConceptoAPU, Month(FechaAPU)"
+            '    Try
+            '        Using cmdReal As New OleDbCommand(sqlReal, conexion1)
+            '            If conexion1.State <> ConnectionState.Open Then conexion1.Open()
+            '            Using drReal As OleDbDataReader = cmdReal.ExecuteReader()
+            '                While drReal.Read()
+            '                    ' Guardamos en el diccionario indexando por el concepto de la MDB (en mayúsculas) y el mes
+            '                    Dim clave As String = drReal("ConceptoAPU").ToString().Trim().ToUpper() & "_" & CInt(drReal("NMes")).ToString()
+            '                    If Not dictReal.ContainsKey(clave) Then dictReal.Add(clave, Convert.ToDouble(drReal("SumaReal")))
+            '                End While
+            '            End Using
+            '        End Using
+            '    Catch ex As Exception
+            '        MsgBox("Error en indexación de reales: " & ex.Message)
+            '    End Try
+
+            '    ' Variables macro de totales controlados
+            '    Dim vTotalPresupuesto As Double = 0
+            '    Dim vTotalReal As Double = 0
+            '    Dim mesActualCalendario As Integer = DateTime.Now.Month
+            '    Dim añoActualCalendario As Integer = DateTime.Now.Year
+
+            '    ' Sumas completas para la fila visual de TOTALES
+            '    Dim vSumaColumnaRealCompleta As Double = 0
+            '    Dim vSumaColumnaPresuCompleta As Double = 0
+
+            '    ' 3. PROCESAMIENTO DE LAS FILAS DE LA TABLA (Mismo orden que tu ContaHogar 3.0)
+            '    For i As Integer = 0 To Tabla.Rows.Count - 1
+            '        Dim filaData As DataRow = Tabla.Rows(i)
+            '        Dim nombreConceptoVisible As String = filaData(0).ToString().Trim()
+            '        Dim numeroMes As Integer = 0
+
+            '        ' EXTRAER MES: Intentamos leer de la columna 4 (Fecha de la MDB)
+            '        If filaData(4) IsNot DBNull.Value AndAlso Not String.IsNullOrEmpty(filaData(4).ToString()) Then
+            '            Dim fechaFila As Date
+            '            If Date.TryParse(filaData(4).ToString(), fechaFila) Then
+            '                numeroMes = fechaFila.Month
+            '                ' Traducimos visualmente el mes en la columna 1
+            '                filaData(1) = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(fechaFila.ToString("MMMM", cultura))
+            '            End If
+            '        End If
+
+            '        ' PLAN B CLÁSICO: Si la fecha está vacía, deducimos el mes por la posición secuencial de la fila
+            '        If numeroMes = 0 Then
+            '            numeroMes = (i Mod 12) + 1
+            '            Dim fechaAux As New Date(CInt(vAñoEjercicio), numeroMes, 1)
+            '            filaData(1) = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(fechaAux.ToString("MMMM", cultura))
+            '        End If
+
+            '        ' TRADUCCIÓN INVERSA: Buscamos cómo se llama el concepto en la base de datos (MDB)
+            '        ' Si el usuario usa inglés u otro idioma, convertimos "Food" a "Alimentación" para buscar en la BD
+            '        Dim nombreConceptoOriginalMDB As String = nombreConceptoVisible
+            '        If Not My.Settings.CulturaUsuario.StartsWith("es", StringComparison.OrdinalIgnoreCase) AndAlso resSet IsNot Nothing Then
+            '            For Each elemento As System.Collections.DictionaryEntry In resSet
+            '                If elemento.Value.ToString().Trim().ToUpper() = nombreConceptoVisible.ToUpper() Then
+            '                    ' El Key del recurso representa el nombre original de la base de datos
+            '                    nombreConceptoOriginalMDB = elemento.Key.ToString().Replace("_", " ")
+            '                    Exit For
+            '                End If
+            '            Next
+            '        End If
+
+            '        ' CRUCE CON EL DICCIONARIO RAM (Reemplaza tu bucle de consultas SELECT antiguo)
+            '        Dim claveBusqueda As String = nombreConceptoOriginalMDB.ToUpper() & "_" & numeroMes.ToString()
+            '        Dim saldoRealMes As Double = 0
+            '        If dictReal.ContainsKey(claveBusqueda) Then saldoRealMes = dictReal(claveBusqueda)
+
+            '        ' Inversión contable y forzado a positivo absoluto
+            '        Dim importeRealFinal As Double = Math.Abs(-saldoRealMes)
+            '        Dim importePresuFinal As Double = 0
+
+            '        ' Tratamiento del presupuesto de esta fila
+            '        If filaData(3) IsNot DBNull.Value AndAlso Not String.IsNullOrEmpty(filaData(3).ToString()) Then
+            '            Double.TryParse(filaData(3).ToString(), importePresuFinal)
+            '            importePresuFinal = Math.Abs(importePresuFinal)
+            '            filaData(3) = importePresuFinal
+            '        End If
+
+            '        ' Guardamos el valor Real calculado en el DataTable
+            '        filaData(2) = importeRealFinal
+
+            '        ' Acumulaciones para la fila visual inferior
+            '        vSumaColumnaRealCompleta += importeRealFinal
+            '        vSumaColumnaPresuCompleta += importePresuFinal
+
+            '        ' Acumulación de totales macros controlados (YTD)
+            '        If CInt(vAñoEjercicio) < añoActualCalendario Then
+            '            vTotalPresupuesto += importePresuFinal
+            '            vTotalReal += importeRealFinal
+            '        ElseIf CInt(vAñoEjercicio) = añoActualCalendario Then
+            '            If numeroMes <= mesActualCalendario Then
+            '                vTotalPresupuesto += importePresuFinal
+            '                vTotalReal += importeRealFinal
+            '            End If
+            '        End If
+            '    Next
+
+            '    ' Sincronizamos las variables globales macro
+            '    vSaldoAnualReal = vTotalReal
+            '    vSaldoAnualPresupuesto = vTotalPresupuesto
+
+            '    ' 4. INSERCIÓN DE LA FILA DE TOTALES EN EL DATATABLE
+            '    Try
+            '        Dim filaTotales As DataRow = Tabla.NewRow()
+            '        filaTotales(0) = resManager.GetString("TOTAL")
+            '        filaTotales(1) = ""
+            '        filaTotales(2) = vSumaColumnaRealCompleta
+            '        filaTotales(3) = vSumaColumnaPresuCompleta
+            '        filaTotales(4) = DBNull.Value
+            '        Tabla.Rows.Add(filaTotales)
+            '    Catch ex As Exception
+            '        ' Control de fallos silencioso
+            '    End Try
+
+            '    ' 5. ASIGNACIÓN ÚNICA AL ORIGEN DE DATOS DEL GRID
+            '    frmPresupuestos.DgvPresupuestos.DataSource = Tabla
+
+            '    ' 6. CONFIGURACIÓN VISUAL DEL GRID
+            '    With frmPresupuestos.DgvPresupuestos
+            '        .DefaultCellStyle.Font = New Font("Tahoma", 9)
+            '        .DefaultCellStyle.ForeColor = Color.Black
+            '        .DefaultCellStyle.BackColor = Color.White
+
+            '        .Columns(0).Width = 160
+            '        .Columns(0).HeaderText = frmPresupuestos.rmse.GetString("Concepto")
+            '        .Columns(0).DefaultCellStyle.ForeColor = Color.DarkBlue
+
+            '        .Columns(1).Width = 100
+            '        .Columns(1).HeaderText = frmPresupuestos.rmse.GetString("Mes")
+            '        .Columns(1).DefaultCellStyle.ForeColor = Color.DarkBlue
+
+            '        .Columns(2).Width = 97
+            '        .Columns(2).HeaderText = frmPresupuestos.rmse.GetString("Real")
+            '        .Columns(2).DefaultCellStyle.ForeColor = Color.DarkBlue
+            '        .Columns(2).DefaultCellStyle.Format = "###,##0.00"
+
+            '        .Columns(3).Width = 97
+            '        .Columns(3).HeaderText = frmPresupuestos.rmse.GetString("Presupuesto")
+            '        .Columns(3).DefaultCellStyle.Format = "###,##0.00"
+
+            '        .Columns(4).Width = 0
+            '        .Columns(4).Visible = False
+
+            '        ' Número de registros en pantalla sin contar la fila de totales
+            '        frmPresupuestos.TxtNumRegistros.Text = (.Rows.Count - 1).ToString()
+            '        frmPresupuestos.LblNumRegistros.Text = If(frmPresupuestos.BtnFiltroConcepto.Enabled = False, If(resManager.GetString("Filtrado"), "Filtrado"), If(resManager.GetString("SinFiltrar"), "Sin Filtrar"))
+            '    End With
+
         ElseIf vgrid = "PRESUPUESTOS" Then
             Dim adp As New OleDbDataAdapter(linSql, conexion1)
             Dim Tabla As New DataTable
             adp.Fill(Tabla)
+
+            ' Asignamos la tabla al Grid para que se generen las filas
             frmPresupuestos.DgvPresupuestos.DataSource = Tabla
 
             With frmPresupuestos.DgvPresupuestos
                 .DefaultCellStyle.Font = New Font("Tahoma", 9)
                 .DefaultCellStyle.ForeColor = Color.Black
                 .DefaultCellStyle.BackColor = Color.White
+                .DefaultCellStyle.SelectionForeColor = Color.White
+                .DefaultCellStyle.SelectionBackColor = Color.Blue
 
-                ' --- CAMBIO APLICADO: Cabeceras leyendo desde frmPresupuestos.rmse ---
-                .Columns(0).Width = 160
-                .Columns(0).HeaderText = frmPresupuestos.rmse.GetString("Concepto")
+                ' Configuramos las cabeceras fijas en castellano tal cual tu código base
+                .Columns(0).Width = 175
+                .Columns(0).HeaderText = "Concepto"
                 .Columns(0).DefaultCellStyle.ForeColor = Color.DarkBlue
 
                 .Columns(1).Width = 100
-                .Columns(1).HeaderText = frmPresupuestos.rmse.GetString("Mes")
+                .Columns(1).HeaderText = "Mes"
                 .Columns(1).DefaultCellStyle.ForeColor = Color.DarkBlue
 
                 .Columns(2).Width = 97
-                .Columns(2).HeaderText = frmPresupuestos.rmse.GetString("Real")
+                .Columns(2).HeaderText = "Real"
                 .Columns(2).DefaultCellStyle.ForeColor = Color.DarkBlue
                 .Columns(2).DefaultCellStyle.Format = "###,##0.00"
 
                 .Columns(3).Width = 97
-                .Columns(3).HeaderText = frmPresupuestos.rmse.GetString("Presupuesto")
+                .Columns(3).HeaderText = "Presupuesto"
                 .Columns(3).DefaultCellStyle.Format = "###,##0.00"
 
                 .Columns(4).Width = 0
-                .Columns(4).Visible = False
+                .Columns(4).HeaderText = "Fecha"
 
+                ' Contador de registros
                 frmPresupuestos.TxtNumRegistros.Text = .Rows.Count.ToString()
-                frmPresupuestos.LblNumRegistros.Text = If(frmPresupuestos.BtnFiltroConcepto.Enabled = False, If(resManager.GetString("Filtrado"), "Filtrado"), If(resManager.GetString("SinFiltrar"), "Sin Filtrar"))
+                If frmPresupuestos.BtnFiltroConcepto.Enabled = False Then
+                    frmPresupuestos.LblNumRegistros.Text = "(Filtrado)"
+                Else
+                    frmPresupuestos.LblNumRegistros.Text = "(Sin Filtrar)"
+                End If
 
-                ' Cultura para control regional
-                Dim cultura As New System.Globalization.CultureInfo(My.Settings.CulturaUsuario)
-                Dim resSet As System.Resources.ResourceSet = resManager.GetResourceSet(cultura, True, True)
-
-                ' Carga masiva rápida de movimientos reales agrupados
-                Dim dictReal As New Dictionary(Of String, Double)()
-                Dim sqlReal As String = "SELECT ConceptoAPU, Month(FechaAPU) AS NMes, Sum(ImporteAPU) AS SumaReal " &
-                                "FROM apuntes WHERE EjercicioAPU = " & vAñoEjercicio.ToString & " " &
-                                "GROUP BY ConceptoAPU, Month(FechaAPU)"
-                Try
-                    Using cmdReal As New OleDbCommand(sqlReal, conexion1)
-                        If conexion1.State <> ConnectionState.Open Then conexion1.Open()
-                        Using drReal As OleDbDataReader = cmdReal.ExecuteReader()
-                            While drReal.Read()
-                                Dim clave As String = drReal("ConceptoAPU").ToString().Trim().ToUpper() & "_" & CInt(drReal("NMes")).ToString()
-                                If Not dictReal.ContainsKey(clave) Then dictReal.Add(clave, Convert.ToDouble(drReal("SumaReal")))
-                            End While
-                        End Using
-                    End Using
-                Catch ex As Exception
-                    MsgBox("Error en indexación: " & ex.Message)
-                End Try
-
-                ' Variables para acumular los totales macros (YTD)
-                Dim vTotalPresupuesto As Double = 0
-                Dim vTotalReal As Double = 0
-                Dim mesActualCalendario As Integer = DateTime.Now.Month
-                Dim añoActualCalendario As Integer = DateTime.Now.Year
-
-                ' NUEVAS VARIABLES: Para la suma global de la columna entera en pantalla
+                ' NUEVAS VARIABLES: Para acumular las sumas de las columnas
                 Dim vSumaColumnaRealCompleta As Double = 0
                 Dim vSumaColumnaPresuCompleta As Double = 0
 
-                ' 2. BUCLE DE RECORRIDO DEL GRID
+                ' VARIABLES PARA EL CONTROL DE DESVIACIÓN CONTROLADA (YTD)
+                Dim vTotalPresupuestoYTD As Double = 0
+                Dim vTotalRealYTD As Double = 0
+                Dim mesActualCalendario As Integer = DateTime.Now.Month
+                Dim añoActualCalendario As Integer = DateTime.Now.Year
+
+                ' BUCLE ORIGINAL DE CONTAHOGAR 3.0 (Corregida la extracción del mes)
                 For Each fila As DataGridViewRow In .Rows
                     If fila.IsNewRow Then Continue For
 
-                    ' A. Determinamos el número de mes e idioma basándonos en los datos del registro
-                    Dim numeroMes As Integer = 0
-                    Dim nombreConceptoVisible As String = fila.Cells(0).Value.ToString().Trim()
+                    ' --- CAMBIO SEGURO: Convertimos a Date para extraer el mes sin importar el formato de barras ---
+                    Dim vFecha As Date
+                    Dim vMes As Integer = 1 ' Valor por defecto por si falla
 
-                    ' Si la columna 4 tiene la fecha de la MDB, sacamos el mes de ahí
-                    If fila.Cells(4).Value IsNot Nothing AndAlso Not String.IsNullOrEmpty(fila.Cells(4).Value.ToString()) Then
-                        Dim fechaFila As Date
-                        If Date.TryParse(fila.Cells(4).Value.ToString(), fechaFila) Then
-                            numeroMes = fechaFila.Month
-                            ' Traducimos visualmente el mes en la celda (1)
-                            fila.Cells(1).Value = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(fechaFila.ToString("MMMM", cultura))
-                        End If
+                    If fila.Cells(4).Value IsNot Nothing AndAlso Date.TryParse(fila.Cells(4).Value.ToString(), vFecha) Then
+                        vMes = vFecha.Month
                     End If
 
-                    ' 🚨 PLAN B DE EMBERGENCIA: Si la columna 4 falló, deducimos el mes según el orden de las filas cargadas
-                    If numeroMes = 0 Then
-                        numeroMes = (fila.Index Mod 12) + 1
-                        Dim fechaAux As New Date(CInt(vAñoEjercicio), numeroMes, 1)
-                        fila.Cells(1).Value = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(fechaAux.ToString("MMMM", cultura))
-                    End If
+                    ' Ponemos el nombre del mes (enero, febrero...) en la columna 1
+                    fila.Cells(1).Value = MonthName(vMes, False)
 
-                    ' B. Búsqueda inversa de idiomas para el concepto para cruzar datos reales
-                    Dim nombreConceptoOriginalMDB As String = nombreConceptoVisible
-                    If Not My.Settings.CulturaUsuario.StartsWith("es", StringComparison.OrdinalIgnoreCase) AndAlso resSet IsNot Nothing Then
-                        For Each elemento As System.Collections.DictionaryEntry In resSet
-                            If elemento.Value.ToString().Trim().ToUpper() = nombreConceptoVisible.ToUpper() Then
-                                nombreConceptoOriginalMDB = elemento.Key.ToString().Replace("_", " ")
-                                Exit For
+                    Dim vNombreConcepto As String = fila.Cells(0).Value.ToString()
+
+                    ' Ejecutamos tu consulta idéntica para buscar el saldo real de este concepto en este mes
+                    Dim cmdMySql1cr As New OleDbCommand()
+                    cmdMySql1cr.Connection = conexion1
+                    cmdMySql1cr.CommandText = "SELECT FechaAPU, ConceptoAPU, ImporteAPU FROM apuntes"
+                    cmdMySql1cr.CommandText += " WHERE EjercicioAPU = " & vAñoEjercicio.ToString
+                    cmdMySql1cr.CommandText += " And ConceptoAPU = '" & vNombreConcepto & "' "
+
+                    Dim vSaldoMes As Double = 0
+                    Try
+                        If conexion1.State <> ConnectionState.Open Then conexion1.Open()
+                        Using drMySql1 As OleDbDataReader = cmdMySql1cr.ExecuteReader()
+                            If drMySql1.HasRows Then
+                                While drMySql1.Read()
+                                    ' Extraemos el mes del apunte de forma segura también
+                                    Dim vFechaMes As Date
+                                    If Date.TryParse(drMySql1.GetValue(0).ToString(), vFechaMes) Then
+                                        If vFechaMes.Month = vMes Then
+                                            vSaldoMes += Convert.ToDouble(drMySql1.GetValue(2))
+                                        End If
+                                    End If
+                                End While
                             End If
-                        Next
-                    End If
+                        End Using
+                    Catch ex As Exception
+                        MsgBox("Error al ejecutar saldo: " & ex.Message)
+                    End Try
 
-                    ' C. CRUCE CON EL MAPA EN MEMORIA RAM
-                    Dim claveBusqueda As String = nombreConceptoOriginalMDB.ToUpper() & "_" & numeroMes.ToString()
-                    Dim saldoRealMes As Double = 0
-                    If dictReal.ContainsKey(claveBusqueda) Then saldoRealMes = dictReal(claveBusqueda)
+                    ' Asignamos el valor real final (en tu sistema los gastos van en negativo, por eso el menos)
+                    fila.Cells(2).Value = -vSaldoMes
 
-                    ' Inversión de signos contables y FORZADO SIEMPRE A POSITIVO mediante Math.Abs
-                    Dim importeRealFinal As Double = Math.Abs(-saldoRealMes)
-                    Dim importePresuFinal As Double = 0
+                    ' Vamos acumulando los valores de cada fila
+                    vSumaColumnaRealCompleta += -vSaldoMes
 
+                    Dim importePresuFila As Double = 0
                     If fila.Cells(3).Value IsNot Nothing Then
-                        Double.TryParse(fila.Cells(3).Value.ToString(), importePresuFinal)
-                        ' Nos aseguramos que el presupuesto en pantalla también sea positivo
-                        importePresuFinal = Math.Abs(importePresuFinal)
-                        fila.Cells(3).Value = importePresuFinal
+                        Double.TryParse(fila.Cells(3).Value.ToString(), importePresuFila)
+                        vSumaColumnaPresuCompleta += importePresuFila
                     End If
 
-                    ' Volcamos el cálculo real final en la celda (2) corregido a positivo
-                    fila.Cells(2).Value = importeRealFinal
-
-                    ' ACUMULACIÓN PARA LA FILA DE TOTALES VISIBLES (Suma total absoluta de lo que hay en el Grid)
-                    vSumaColumnaRealCompleta += importeRealFinal
-                    vSumaColumnaPresuCompleta += importePresuFinal
-
-                    ' D. 📈 ACUMULACIÓN DE TOTALES YTD CONTROLADOS (Para tus variables macro y cálculos de lógica)
+                    ' --- CÁLCULO DE DESVIACIÓN INTELIGENTE ---
+                    ' Si el año elegido es menor al año actual, sumamos todos los meses (año cerrado)
                     If CInt(vAñoEjercicio) < añoActualCalendario Then
-                        vTotalPresupuesto += importePresuFinal
-                        vTotalReal += importeRealFinal
+                        vTotalPresupuestoYTD += importePresuFila
+                        vTotalRealYTD += (-vSaldoMes)
+                        ' Si estamos en el año actual, solo sumamos los meses anteriores o iguales al mes en curso
                     ElseIf CInt(vAñoEjercicio) = añoActualCalendario Then
-                        If numeroMes <= mesActualCalendario Then
-                            vTotalPresupuesto += importePresuFinal
-                            vTotalReal += importeRealFinal
+                        If vMes <= mesActualCalendario Then
+                            vTotalPresupuestoYTD += importePresuFila
+                            vTotalRealYTD += (-vSaldoMes)
                         End If
                     End If
                 Next
 
-                ' 3. SINCRONIZAMOS LAS VARIABLES GLOBALES DE CÁLCULO CONTABLE
-                vSaldoAnualReal = vTotalReal
-                vSaldoAnualPresupuesto = vTotalPresupuesto
+                ' Sincronizamos los totales controlados en las etiquetas o cajas de texto correspondientes
+                ' Calculamos la diferencia: Presupuesto - Gasto Real (Si da positivo = Ahorro, si da negativo = Desviación)
+                Dim vDiferenciaDesviacion As Double = vTotalPresupuestoYTD - vTotalRealYTD
 
-                ' 4. INSERCIÓN DE LA FILA DE TOTALES EN EL GRID (vía DataTable)
+                ' Formateamos el resultado y lo volcamos en la caja de texto inferior del formulario
+                frmPresupuestos.TxtDesviacion.Text = vDiferenciaDesviacion.ToString("###,##0.00")
+
+                ' Opcional: Cambiar el color del texto si vas desviado (rojo) o ahorrando (azul oscuro)
+                If vDiferenciaDesviacion < 0 Then
+                    frmPresupuestos.TxtDesviacion.ForeColor = Color.Red
+                Else
+                    frmPresupuestos.TxtDesviacion.ForeColor = Color.DarkBlue
+                End If
+
+
+                ' INSERCIÓN DE LA FILA DE TOTALES DIRECTAMENTE EN EL DATATABLE SUBYACENTE
                 Try
+                    ' Creamos una fila con la misma estructura que tiene tu consulta SQL
                     Dim filaTotales As DataRow = Tabla.NewRow()
-                    filaTotales(0) = "TOTAL"
-                    filaTotales(1) = ""
-                    filaTotales(2) = vSumaColumnaRealCompleta
-                    filaTotales(3) = vSumaColumnaPresuCompleta
-                    filaTotales(4) = DBNull.Value
+                    filaTotales(0) = resManager.GetString("TOTAL")          ' En la columna Concepto ponemos el texto
+                    filaTotales(1) = ""               ' En Mes lo dejamos vacío
+                    filaTotales(2) = vSumaColumnaRealCompleta  ' Suma de Reales
+                    filaTotales(3) = vSumaColumnaPresuCompleta ' Suma de Presupuestos
+                    filaTotales(4) = DBNull.Value     ' Fecha vacía para que no interfiera
 
                     Tabla.Rows.Add(filaTotales)
                     Tabla.AcceptChanges()
                 Catch ex As Exception
-                    ' Control de fallos silencioso por si la tabla está vacía
+                    ' Control de fallos silencioso por seguridad
                 End Try
 
+
             End With
+
 
         ElseIf vgrid = "TIPO_CUENTAS_BANCARIAS" Then    'Tipo Cuentas Bancarias
             Dim adp As New OleDbDataAdapter(linSql, conexion1)

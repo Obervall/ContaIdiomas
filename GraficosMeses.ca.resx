@@ -156,4 +156,43 @@
   <data name="TituloGrafico" xml:space="preserve">
     <value>Gràfics per Mesos</value>
   </data>
+  <data name="Mes" xml:space="preserve">
+    <value>Mes-</value>
+  </data>
+  <data name="Enero" xml:space="preserve">
+    <value>Gener-</value>
+  </data>
+  <data name="Agosto" xml:space="preserve">
+    <value>Agost-</value>
+  </data>
+  <data name="Septiembre" xml:space="preserve">
+    <value>Setembre-</value>
+  </data>
+  <data name="Octubre" xml:space="preserve">
+    <value>Octubre-</value>
+  </data>
+  <data name="Noviembre" xml:space="preserve">
+    <value>Novembre-</value>
+  </data>
+  <data name="Diciembre" xml:space="preserve">
+    <value>Desembre-</value>
+  </data>
+  <data name="Febrero" xml:space="preserve">
+    <value>Febrer-</value>
+  </data>
+  <data name="Marzo" xml:space="preserve">
+    <value>Març-</value>
+  </data>
+  <data name="Abril" xml:space="preserve">
+    <value>Abril-</value>
+  </data>
+  <data name="Mayo" xml:space="preserve">
+    <value>Maig-</value>
+  </data>
+  <data name="Junio" xml:space="preserve">
+    <value>Juny-</value>
+  </data>
+  <data name="Julio" xml:space="preserve">
+    <value>Juliol-</value>
+  </data>
 </root>

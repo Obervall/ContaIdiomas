@@ -191,9 +191,6 @@
   <data name="ArchivoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>57, 24</value>
   </data>
-  <data name="ArchivoToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Arxiu</value>
-  </data>
   <data name="BarraDeHerramientasMenu.Size" type="System.Drawing.Size, System.Drawing">
     <value>256, 26</value>
   </data>
@@ -7849,5 +7846,8 @@
   </data>
   <data name="PresupuestosVaciado" xml:space="preserve">
     <value>Pressupostos, Buidatge!</value>
+  </data>
+  <data name="ArchivoToolStripMenuItem.Text" xml:space="preserve">
+    <value>Inici</value>
   </data>
 </root>

@@ -604,4 +604,22 @@ Eles não são removidos do banco de dados</value>
   <data name="TituloPregunta" xml:space="preserve">
     <value>Orientação da página</value>
   </data>
+  <data name="Realidad" xml:space="preserve">
+    <value>Realidade</value>
+  </data>
+  <data name="Presupuestado" xml:space="preserve">
+    <value>Orçamentado</value>
+  </data>
+  <data name="ToolTipGraficos2D" xml:space="preserve">
+    <value>Gráficos 2D de Exibição</value>
+  </data>
+  <data name="ToolTipGraficos3D" xml:space="preserve">
+    <value>Gráficos 3D de exibição</value>
+  </data>
+  <data name="Fechas" xml:space="preserve">
+    <value>Datas</value>
+  </data>
+  <data name="Meses" xml:space="preserve">
+    <value>Meses</value>
+  </data>
 </root>

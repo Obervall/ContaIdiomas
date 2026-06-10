@@ -517,7 +517,7 @@
     <value>4</value>
   </data>
   <data name="Chart1.Text" xml:space="preserve">
-    <value>Gráficos</value>
+    <value>Chart1</value>
   </data>
   <data name="&gt;&gt;Chart1.Name" xml:space="preserve">
     <value>Chart1</value>
@@ -626,6 +626,45 @@
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Abril" xml:space="preserve">
+    <value>Abril-</value>
+  </data>
+  <data name="Agosto" xml:space="preserve">
+    <value>Agosto-</value>
+  </data>
+  <data name="Diciembre" xml:space="preserve">
+    <value>Diciembre-</value>
+  </data>
+  <data name="Enero" xml:space="preserve">
+    <value>Enero-</value>
+  </data>
+  <data name="Febrero" xml:space="preserve">
+    <value>Febrero-</value>
+  </data>
+  <data name="Julio" xml:space="preserve">
+    <value>Julio-</value>
+  </data>
+  <data name="Junio" xml:space="preserve">
+    <value>Junio-</value>
+  </data>
+  <data name="Marzo" xml:space="preserve">
+    <value>Marzo-</value>
+  </data>
+  <data name="Mayo" xml:space="preserve">
+    <value>Mayo-</value>
+  </data>
+  <data name="Mes" xml:space="preserve">
+    <value>Mes-</value>
+  </data>
+  <data name="Noviembre" xml:space="preserve">
+    <value>Noviembre-</value>
+  </data>
+  <data name="Octubre" xml:space="preserve">
+    <value>Octubre-</value>
+  </data>
+  <data name="Septiembre" xml:space="preserve">
+    <value>Septiembre-</value>
   </data>
   <data name="TituloGrafico" xml:space="preserve">
     <value>Gráficos por Meses</value>

@@ -28,7 +28,8 @@ Partial Class Presupuestos
         Me.LblNumRegistros = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
-        Me.BtnGraficos = New System.Windows.Forms.Button()
+        Me.BtnGraficos2D = New System.Windows.Forms.Button()
+        Me.BtnGraficos3D = New System.Windows.Forms.Button()
         Me.BtnImprimir = New System.Windows.Forms.Button()
         Me.BtnSalir = New System.Windows.Forms.Button()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
@@ -85,17 +86,24 @@ Partial Class Presupuestos
         '
         'GroupBox3
         '
-        Me.GroupBox3.Controls.Add(Me.BtnGraficos)
+        Me.GroupBox3.Controls.Add(Me.BtnGraficos2D)
+        Me.GroupBox3.Controls.Add(Me.BtnGraficos3D)
         Me.GroupBox3.Controls.Add(Me.BtnImprimir)
         resources.ApplyResources(Me.GroupBox3, "GroupBox3")
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.TabStop = False
         '
-        'BtnGraficos
+        'BtnGraficos2D
         '
-        resources.ApplyResources(Me.BtnGraficos, "BtnGraficos")
-        Me.BtnGraficos.Name = "BtnGraficos"
-        Me.BtnGraficos.UseVisualStyleBackColor = True
+        resources.ApplyResources(Me.BtnGraficos2D, "BtnGraficos2D")
+        Me.BtnGraficos2D.Name = "BtnGraficos2D"
+        Me.BtnGraficos2D.UseVisualStyleBackColor = True
+        '
+        'BtnGraficos3D
+        '
+        resources.ApplyResources(Me.BtnGraficos3D, "BtnGraficos3D")
+        Me.BtnGraficos3D.Name = "BtnGraficos3D"
+        Me.BtnGraficos3D.UseVisualStyleBackColor = True
         '
         'BtnImprimir
         '
@@ -281,7 +289,7 @@ Partial Class Presupuestos
     Friend WithEvents CmbConcepto As Windows.Forms.ComboBox
     Friend WithEvents Label3 As Windows.Forms.Label
     Friend WithEvents DgvPresupuestos As Windows.Forms.DataGridView
-    Friend WithEvents BtnGraficos As Windows.Forms.Button
+    Friend WithEvents BtnGraficos3D As Windows.Forms.Button
     Friend WithEvents TxtConcepto As Windows.Forms.TextBox
     Friend WithEvents LblDesviacion As Windows.Forms.Label
     Friend WithEvents TxtDesviacion As Windows.Forms.TextBox
@@ -296,4 +304,5 @@ Partial Class Presupuestos
     Friend WithEvents PrintDialog1 As Windows.Forms.PrintDialog
     Friend WithEvents PrintDocument1 As Drawing.Printing.PrintDocument
     Friend WithEvents PrintPreviewDialog1 As Windows.Forms.PrintPreviewDialog
+    Friend WithEvents BtnGraficos2D As Windows.Forms.Button
 End Class

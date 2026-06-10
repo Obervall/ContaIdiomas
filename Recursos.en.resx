@@ -604,4 +604,22 @@ They are not removed from the database</value>
   <data name="TituloPregunta" xml:space="preserve">
     <value>Page orientation</value>
   </data>
+  <data name="Realidad" xml:space="preserve">
+    <value>Reality</value>
+  </data>
+  <data name="Presupuestado" xml:space="preserve">
+    <value>Budgeted</value>
+  </data>
+  <data name="ToolTipGraficos2D" xml:space="preserve">
+    <value>Show 2D Graphics</value>
+  </data>
+  <data name="ToolTipGraficos3D" xml:space="preserve">
+    <value>Show 3D graphics</value>
+  </data>
+  <data name="Fechas" xml:space="preserve">
+    <value>Dates</value>
+  </data>
+  <data name="Meses" xml:space="preserve">
+    <value>Months</value>
+  </data>
 </root>

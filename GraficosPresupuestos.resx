@@ -241,6 +241,9 @@
   <data name="TSBtnImprimir.Text" xml:space="preserve">
     <value>ToolStripButton1</value>
   </data>
+  <data name="TSBtnImprimir.ToolTipText" xml:space="preserve">
+    <value>Imprimir</value>
+  </data>
   <data name="ToolStrip1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>

@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ArchivoToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Arquivo</value>
-  </data>
   <data name="VerToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Ver</value>
   </data>
@@ -512,5 +509,8 @@
   </data>
   <data name="PresupuestosVaciado" xml:space="preserve">
     <value>Orçamentos, esvaziamento!</value>
+  </data>
+  <data name="ArchivoToolStripMenuItem.Text" xml:space="preserve">
+    <value>Casa</value>
   </data>
 </root>

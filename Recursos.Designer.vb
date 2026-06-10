@@ -739,6 +739,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Fechas.
+    '''</summary>
+    Friend Shared ReadOnly Property Fechas() As String
+        Get
+            Return ResourceManager.GetString("Fechas", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a (Filtrado).
     '''</summary>
     Friend Shared ReadOnly Property Filtrado() As String
@@ -906,6 +915,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property LUZ() As String
         Get
             Return ResourceManager.GetString("LUZ", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Meses.
+    '''</summary>
+    Friend Shared ReadOnly Property Meses() As String
+        Get
+            Return ResourceManager.GetString("Meses", resourceCulture)
         End Get
     End Property
     
@@ -1104,6 +1122,24 @@ Friend Class Recursos
     Friend Shared ReadOnly Property PreguntaHorizontal() As String
         Get
             Return ResourceManager.GetString("PreguntaHorizontal", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Presupuestado.
+    '''</summary>
+    Friend Shared ReadOnly Property Presupuestado() As String
+        Get
+            Return ResourceManager.GetString("Presupuestado", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Realidad.
+    '''</summary>
+    Friend Shared ReadOnly Property Realidad() As String
+        Get
+            Return ResourceManager.GetString("Realidad", resourceCulture)
         End Get
     End Property
     
@@ -1393,6 +1429,24 @@ Friend Class Recursos
     Friend Shared ReadOnly Property ToolTipGraficos() As String
         Get
             Return ResourceManager.GetString("ToolTipGraficos", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Mostrar Gráficos 2D.
+    '''</summary>
+    Friend Shared ReadOnly Property ToolTipGraficos2D() As String
+        Get
+            Return ResourceManager.GetString("ToolTipGraficos2D", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Mostrar Gráficos 3D.
+    '''</summary>
+    Friend Shared ReadOnly Property ToolTipGraficos3D() As String
+        Get
+            Return ResourceManager.GetString("ToolTipGraficos3D", resourceCulture)
         End Get
     End Property
     

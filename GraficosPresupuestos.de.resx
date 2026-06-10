@@ -147,4 +147,7 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Grafik</value>
   </data>
+  <data name="TituloGrafico" xml:space="preserve">
+    <value>Budgetvariationsdiagramm</value>
+  </data>
 </root>

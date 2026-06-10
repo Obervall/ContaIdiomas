@@ -604,4 +604,22 @@ No s' Eliminen de la Base de Dades</value>
   <data name="TituloPregunta" xml:space="preserve">
     <value>Orientació de pàgina</value>
   </data>
+  <data name="Realidad" xml:space="preserve">
+    <value>Realitat</value>
+  </data>
+  <data name="Presupuestado" xml:space="preserve">
+    <value>Pressupostat</value>
+  </data>
+  <data name="ToolTipGraficos2D" xml:space="preserve">
+    <value>Mostrar Gràfics 2D</value>
+  </data>
+  <data name="ToolTipGraficos3D" xml:space="preserve">
+    <value>Mostrar Gràfics 3D</value>
+  </data>
+  <data name="Fechas" xml:space="preserve">
+    <value>Dates</value>
+  </data>
+  <data name="Meses" xml:space="preserve">
+    <value>Mesos</value>
+  </data>
 </root>

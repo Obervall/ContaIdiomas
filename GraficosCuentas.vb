@@ -7,8 +7,6 @@ Imports System.Windows.Forms.DataVisualization.Charting
 Public Class GraficosCuentas
 
     Public Property EsGrafico3D As Boolean = False
-    Public vAñadir, vAñadir2, vImporteConcepto, vNewImporteConcepto As String
-    Public vExistenteImporteConcepto, vPositivo As String
     Public miDataTable As New DataTable
     Public miView As New DataView(miDataTable)
     Public x, vContador As Integer
@@ -76,7 +74,7 @@ Public Class GraficosCuentas
             Chart1.Titles(0).Text = rmse.GetString("TituloGrafico")
         End If
         ' Eje X (Horizontal - Abajo del gráfico)
-        Chart1.ChartAreas("ChartArea1").AxisX.Title = resManager.GetString("Conceptos")
+        Chart1.ChartAreas("ChartArea1").AxisX.Title = resManager.GetString("Cuentas")
 
         ' Eje Y (Vertical - A la izquierda del gráfico)
         Chart1.ChartAreas("ChartArea1").AxisY.Title = resManager.GetString("Moneda") & ": " & vMoneda
@@ -103,368 +101,234 @@ Public Class GraficosCuentas
     End Sub
 
     Private Sub DibujarGraficoColumnas()
+        ' 1. Cargamos fuentes, ejes y la propiedad EsGrafico3D
         CrearEstilos()
 
-        Chart1.Series("Gastos").XValueMember = "Cuenta"
-        Chart1.Series("Ingresos").YValueMembers = "Importe"
+        ' 2. Limpieza obligatoria de puntos previos (Sin XValueMember ni YValueMembers fantasmas)
         Chart1.Series("Gastos").Points.Clear()
         Chart1.Series("Ingresos").Points.Clear()
 
         vContador = 0
         For x = 0 To miView.Count - 1
-            'Tomamos los datos de DataView para la gráfica
             vContador += 1
-            vImporteConcepto = Val(miView(x)("Importe"))
+
+            ' Conversión segura multiidioma del importe actual (Elemento X)
+            Dim importeActual As Decimal = 0.0D
+            If miView(x)("Importe") IsNot DBNull.Value AndAlso miView(x)("Importe") IsNot Nothing Then
+                Decimal.TryParse(miView(x)("Importe").ToString(), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, importeActual)
+            End If
+
+            vImporteConcepto = importeActual
+
             If (vContador Mod 2) <> 0 Then
-                'El número es impar.
-                vImportePrimero = Val(miView(x)("Importe"))
-                vImporteSegundo = Val(miView(x + 1)("Importe"))
+                ' --- El número es impar ---
+                vImportePrimero = vImporteConcepto
+
+                ' Protección contra errores de desbordamiento de índice al final de la tabla
+                If x + 1 < miView.Count Then
+                    Dim importeSiguiente As Decimal = 0.0D
+                    If miView(x + 1)("Importe") IsNot DBNull.Value AndAlso miView(x + 1)("Importe") IsNot Nothing Then
+                        Decimal.TryParse(miView(x + 1)("Importe").ToString(), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, importeSiguiente)
+                    End If
+                    vImporteSegundo = importeSiguiente
+                Else
+                    vImporteSegundo = 0
+                End If
+
+                ' Evaluaciones de Impares
                 If vImportePrimero = 0 And vImporteSegundo > 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero = 0 And vImporteSegundo < 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero > 0 And vImporteSegundo = 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero < 0 And vImporteSegundo = 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero < 0 And vImporteSegundo > 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero > 0 And vImporteSegundo < 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Column
-                    End With
+                    AñadirPuntoGrafico("Gastos", miView(x)("Cuenta"), vImporteConcepto, Color.Red, SeriesChartType.Column)
+                ElseIf vImportePrimero = 0 And vImporteSegundo < 0 Then
+                    AñadirPuntoGrafico("Ingresos", miView(x)("Cuenta"), vImporteConcepto, Color.Blue, SeriesChartType.Column)
+                ElseIf vImportePrimero > 0 And vImporteSegundo = 0 Then
+                    AñadirPuntoGrafico("Ingresos", miView(x)("Cuenta"), vImporteConcepto, Color.Blue, SeriesChartType.Column)
+                ElseIf vImportePrimero < 0 And vImporteSegundo = 0 Then
+                    AñadirPuntoGrafico("Gastos", miView(x)("Cuenta"), vImporteConcepto, Color.Red, SeriesChartType.Column)
+                ElseIf vImportePrimero < 0 And vImporteSegundo > 0 Then
+                    AñadirPuntoGrafico("Gastos", miView(x)("Cuenta"), vImporteConcepto, Color.Red, SeriesChartType.Column)
+                ElseIf vImportePrimero > 0 And vImporteSegundo < 0 Then
+                    AñadirPuntoGrafico("Ingresos", miView(x)("Cuenta"), vImporteConcepto, Color.Blue, SeriesChartType.Column)
                 End If
             Else
-                'El número es par.
-                vImporteSegundo = Val(miView(x)("Importe"))
+                ' --- El número es par ---
+                vImporteSegundo = vImporteConcepto
+
+                ' Evaluaciones de Pares
                 If vImportePrimero = 0 And vImporteSegundo > 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero = 0 And vImporteSegundo < 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero > 0 And vImporteSegundo = 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero < 0 And vImporteSegundo = 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero < 0 And vImporteSegundo > 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Column
-                    End With
-                End If
-                If vImportePrimero > 0 And vImporteSegundo < 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Column
-                    End With
+                    AñadirPuntoGrafico("Ingresos", miView(x)("Cuenta"), vImporteConcepto, Color.Blue, SeriesChartType.Column)
+                ElseIf vImportePrimero = 0 And vImporteSegundo < 0 Then
+                    AñadirPuntoGrafico("Gastos", miView(x)("Cuenta"), vImporteConcepto, Color.Red, SeriesChartType.Column)
+                ElseIf vImportePrimero > 0 And vImporteSegundo = 0 Then
+                    AñadirPuntoGrafico("Gastos", miView(x)("Cuenta"), vImporteConcepto, Color.Red, SeriesChartType.Column)
+                ElseIf vImportePrimero < 0 And vImporteSegundo = 0 Then
+                    AñadirPuntoGrafico("Ingresos", miView(x)("Cuenta"), vImporteConcepto, Color.Blue, SeriesChartType.Column)
+                ElseIf vImportePrimero < 0 And vImporteSegundo > 0 Then
+                    AñadirPuntoGrafico("Ingresos", miView(x)("Cuenta"), vImporteConcepto, Color.Blue, SeriesChartType.Column)
+                ElseIf vImportePrimero > 0 And vImporteSegundo < 0 Then
+                    AñadirPuntoGrafico("Gastos", miView(x)("Cuenta"), vImporteConcepto, Color.Red, SeriesChartType.Column)
                 End If
             End If
         Next
     End Sub
 
-    Private Sub TsBtnAreas_Click(sender As Object, e As EventArgs) Handles TsBtnAreas.Click
-        CrearEstilos()
+    ' Función auxiliar universal compartida para Columnas, Áreas y Líneas
+    Private Sub AñadirPuntoGrafico(nombreSerie As String, cuenta As Object, valor As Decimal, colorPunto As Color, tipoGrafico As SeriesChartType)
+        With Chart1.Series(nombreSerie)
+            Dim i As Integer = .Points.AddXY(cuenta, Math.Abs(valor))
+            .Points(i).Color = colorPunto
+            .ChartType = tipoGrafico
+        End With
+    End Sub
 
+    Private Sub TsBtnAreas_Click(sender As Object, e As EventArgs) Handles TsBtnAreas.Click
+        ' 1. Sincronización visual estricta de los botones
         TsBtnColumnas.Checked = False
         TsBtnAreas.Checked = True
         TsBtnLineas.Checked = False
         TsBtnPastel.Checked = False
-        Chart1.Series("Gastos").XValueMember = "Cuenta"
-        Chart1.Series("Ingresos").YValueMembers = "Importe"
+
+        ' 2. Cargamos fuentes, ejes e idiomas
+        CrearEstilos()
+
+        ' 3. Limpieza de puntos y miembros fantasmas
         Chart1.Series("Gastos").Points.Clear()
         Chart1.Series("Ingresos").Points.Clear()
 
         vContador = 0
         For x = 0 To miView.Count - 1
-            'Tomamos los datos de DataView para la gráfica
             vContador += 1
-            vImporteConcepto = Val(miView(x)("Importe"))
+
+            ' Conversión segura multiidioma del importe actual (Elemento X)
+            Dim importeActual As Decimal = 0.0D
+            If miView(x)("Importe") IsNot DBNull.Value AndAlso miView(x)("Importe") IsNot Nothing Then
+                Decimal.TryParse(miView(x)("Importe").ToString(), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, importeActual)
+            End If
+
+            vImporteConcepto = importeActual
+
             If (vContador Mod 2) <> 0 Then
-                'El número es impar.
-                vImportePrimero = Val(miView(x)("Importe"))
-                vImporteSegundo = Val(miView(x + 1)("Importe"))
+                ' --- El número es impar ---
+                vImportePrimero = vImporteConcepto
+
+                ' Protección contra errores de desbordamiento de índice al final de la tabla
+                If x + 1 < miView.Count Then
+                    Dim importeSiguiente As Decimal = 0.0D
+                    If miView(x + 1)("Importe") IsNot DBNull.Value AndAlso miView(x + 1)("Importe") IsNot Nothing Then
+                        Decimal.TryParse(miView(x + 1)("Importe").ToString(), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, importeSiguiente)
+                    End If
+                    vImporteSegundo = importeSiguiente
+                Else
+                    vImporteSegundo = 0
+                End If
+
+                ' Evaluaciones de Impares (Enviamos "SeriesChartType.Area")
                 If vImportePrimero = 0 And vImporteSegundo > 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Area
-                    End With
-                End If
-                If vImportePrimero = 0 And vImporteSegundo < 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Area
-                    End With
-                End If
-                If vImportePrimero > 0 And vImporteSegundo = 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Area
-                    End With
-                End If
-                If vImportePrimero < 0 And vImporteSegundo = 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Area
-                    End With
-                End If
-                If vImportePrimero < 0 And vImporteSegundo > 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Area
-                    End With
-                End If
-                If vImportePrimero > 0 And vImporteSegundo < 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Area
-                    End With
+                    AñadirPuntoGrafico("Gastos", miView(x)("Cuenta"), vImporteConcepto, Color.Red, SeriesChartType.Area)
+                ElseIf vImportePrimero = 0 And vImporteSegundo < 0 Then
+                    AñadirPuntoGrafico("Ingresos", miView(x)("Cuenta"), vImporteConcepto, Color.Blue, SeriesChartType.Area)
+                ElseIf vImportePrimero > 0 And vImporteSegundo = 0 Then
+                    AñadirPuntoGrafico("Ingresos", miView(x)("Cuenta"), vImporteConcepto, Color.Blue, SeriesChartType.Area)
+                ElseIf vImportePrimero < 0 And vImporteSegundo = 0 Then
+                    AñadirPuntoGrafico("Gastos", miView(x)("Cuenta"), vImporteConcepto, Color.Red, SeriesChartType.Area)
+                ElseIf vImportePrimero < 0 And vImporteSegundo > 0 Then
+                    AñadirPuntoGrafico("Gastos", miView(x)("Cuenta"), vImporteConcepto, Color.Red, SeriesChartType.Area)
+                ElseIf vImportePrimero > 0 And vImporteSegundo < 0 Then
+                    AñadirPuntoGrafico("Ingresos", miView(x)("Cuenta"), vImporteConcepto, Color.Blue, SeriesChartType.Area)
                 End If
             Else
-                'El número es par.
-                vImporteSegundo = Val(miView(x)("Importe"))
+                ' --- El número es par ---
+                vImporteSegundo = vImporteConcepto
+
+                ' Evaluaciones de Pares (Enviamos "SeriesChartType.Area")
                 If vImportePrimero = 0 And vImporteSegundo > 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Area
-                    End With
-                End If
-                If vImportePrimero = 0 And vImporteSegundo < 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Area
-                    End With
-                End If
-                If vImportePrimero > 0 And vImporteSegundo = 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Area
-                    End With
-                End If
-                If vImportePrimero < 0 And vImporteSegundo = 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Area
-                    End With
-                End If
-                If vImportePrimero < 0 And vImporteSegundo > 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Area
-                    End With
-                End If
-                If vImportePrimero > 0 And vImporteSegundo < 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Area
-                    End With
+                    AñadirPuntoGrafico("Ingresos", miView(x)("Cuenta"), vImporteConcepto, Color.Blue, SeriesChartType.Area)
+                ElseIf vImportePrimero = 0 And vImporteSegundo < 0 Then
+                    AñadirPuntoGrafico("Gastos", miView(x)("Cuenta"), vImporteConcepto, Color.Red, SeriesChartType.Area)
+                ElseIf vImportePrimero > 0 And vImporteSegundo = 0 Then
+                    AñadirPuntoGrafico("Gastos", miView(x)("Cuenta"), vImporteConcepto, Color.Red, SeriesChartType.Area)
+                ElseIf vImportePrimero < 0 And vImporteSegundo = 0 Then
+                    AñadirPuntoGrafico("Ingresos", miView(x)("Cuenta"), vImporteConcepto, Color.Blue, SeriesChartType.Area)
+                ElseIf vImportePrimero < 0 And vImporteSegundo > 0 Then
+                    AñadirPuntoGrafico("Ingresos", miView(x)("Cuenta"), vImporteConcepto, Color.Blue, SeriesChartType.Area)
+                ElseIf vImportePrimero > 0 And vImporteSegundo < 0 Then
+                    AñadirPuntoGrafico("Gastos", miView(x)("Cuenta"), vImporteConcepto, Color.Red, SeriesChartType.Area)
                 End If
             End If
         Next
     End Sub
 
     Private Sub TsBtnLineas_Click(sender As Object, e As EventArgs) Handles TsBtnLineas.Click
-        CrearEstilos()
-
+        ' 1. Sincronización visual estricta de la botonera
         TsBtnColumnas.Checked = False
         TsBtnAreas.Checked = False
         TsBtnLineas.Checked = True
         TsBtnPastel.Checked = False
-        Chart1.Series("Gastos").XValueMember = "Cuenta"
-        Chart1.Series("Ingresos").YValueMembers = "Importe"
+
+        ' 2. Cargamos fuentes, ejes e idiomas
+        CrearEstilos()
+
+        ' 3. Limpieza de puntos y propiedades fantasma
         Chart1.Series("Gastos").Points.Clear()
         Chart1.Series("Ingresos").Points.Clear()
 
         vContador = 0
         For x = 0 To miView.Count - 1
-            'Tomamos los datos de DataView para la gráfica
             vContador += 1
-            vImporteConcepto = Val(miView(x)("Importe"))
+
+            ' Conversión segura multiidioma del importe actual (Elemento X)
+            Dim importeActual As Decimal = 0.0D
+            If miView(x)("Importe") IsNot DBNull.Value AndAlso miView(x)("Importe") IsNot Nothing Then
+                Decimal.TryParse(miView(x)("Importe").ToString(), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, importeActual)
+            End If
+
+            vImporteConcepto = importeActual
+
             If (vContador Mod 2) <> 0 Then
-                'El número es impar.
-                vImportePrimero = Val(miView(x)("Importe"))
-                vImporteSegundo = Val(miView(x + 1)("Importe"))
+                ' --- El número es impar ---
+                vImportePrimero = vImporteConcepto
+
+                ' Protección contra errores de desbordamiento de índice al final de la tabla
+                If x + 1 < miView.Count Then
+                    Dim importeSiguiente As Decimal = 0.0D
+                    If miView(x + 1)("Importe") IsNot DBNull.Value AndAlso miView(x + 1)("Importe") IsNot Nothing Then
+                        Decimal.TryParse(miView(x + 1)("Importe").ToString(), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, importeSiguiente)
+                    End If
+                    vImporteSegundo = importeSiguiente
+                Else
+                    vImporteSegundo = 0
+                End If
+
+                ' Evaluaciones de Impares (Enviamos "SeriesChartType.Line")
                 If vImportePrimero = 0 And vImporteSegundo > 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Line
-                    End With
-                End If
-                If vImportePrimero = 0 And vImporteSegundo < 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Line
-                    End With
-                End If
-                If vImportePrimero > 0 And vImporteSegundo = 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Line
-                    End With
-                End If
-                If vImportePrimero < 0 And vImporteSegundo = 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Line
-                    End With
-                End If
-                If vImportePrimero < 0 And vImporteSegundo > 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Line
-                    End With
-                End If
-                If vImportePrimero > 0 And vImporteSegundo < 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Line
-                    End With
+                    AñadirPuntoGrafico("Gastos", miView(x)("Cuenta"), vImporteConcepto, Color.Red, SeriesChartType.Line)
+                ElseIf vImportePrimero = 0 And vImporteSegundo < 0 Then
+                    AñadirPuntoGrafico("Ingresos", miView(x)("Cuenta"), vImporteConcepto, Color.Blue, SeriesChartType.Line)
+                ElseIf vImportePrimero > 0 And vImporteSegundo = 0 Then
+                    AñadirPuntoGrafico("Ingresos", miView(x)("Cuenta"), vImporteConcepto, Color.Blue, SeriesChartType.Line)
+                ElseIf vImportePrimero < 0 And vImporteSegundo = 0 Then
+                    AñadirPuntoGrafico("Gastos", miView(x)("Cuenta"), vImporteConcepto, Color.Red, SeriesChartType.Line)
+                ElseIf vImportePrimero < 0 And vImporteSegundo > 0 Then
+                    AñadirPuntoGrafico("Gastos", miView(x)("Cuenta"), vImporteConcepto, Color.Red, SeriesChartType.Line)
+                ElseIf vImportePrimero > 0 And vImporteSegundo < 0 Then
+                    AñadirPuntoGrafico("Ingresos", miView(x)("Cuenta"), vImporteConcepto, Color.Blue, SeriesChartType.Line)
                 End If
             Else
-                'El número es par.
-                vImporteSegundo = Val(miView(x)("Importe"))
+                ' --- El número es par ---
+                vImporteSegundo = vImporteConcepto
+
+                ' Evaluaciones de Pares (Enviamos "SeriesChartType.Line")
                 If vImportePrimero = 0 And vImporteSegundo > 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Line
-                    End With
-                End If
-                If vImportePrimero = 0 And vImporteSegundo < 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Line
-                    End With
-                End If
-                If vImportePrimero > 0 And vImporteSegundo = 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Line
-                    End With
-                End If
-                If vImportePrimero < 0 And vImporteSegundo = 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Line
-                    End With
-                End If
-                If vImportePrimero < 0 And vImporteSegundo > 0 Then
-                    With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Blue
-                        .ChartType = SeriesChartType.Line
-                    End With
-                End If
-                If vImportePrimero > 0 And vImporteSegundo < 0 Then
-                    With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                        Dim i As Integer = .Points.AddXY(miView(x)("Cuenta"), vImporteConcepto)
-                        .Points(i).Color = Color.Red
-                        .ChartType = SeriesChartType.Line
-                    End With
+                    AñadirPuntoGrafico("Ingresos", miView(x)("Cuenta"), vImporteConcepto, Color.Blue, SeriesChartType.Line)
+                ElseIf vImportePrimero = 0 And vImporteSegundo < 0 Then
+                    AñadirPuntoGrafico("Gastos", miView(x)("Cuenta"), vImporteConcepto, Color.Red, SeriesChartType.Line)
+                ElseIf vImportePrimero > 0 And vImporteSegundo = 0 Then
+                    AñadirPuntoGrafico("Gastos", miView(x)("Cuenta"), vImporteConcepto, Color.Red, SeriesChartType.Line)
+                ElseIf vImportePrimero < 0 And vImporteSegundo = 0 Then
+                    AñadirPuntoGrafico("Ingresos", miView(x)("Cuenta"), vImporteConcepto, Color.Blue, SeriesChartType.Line)
+                ElseIf vImportePrimero < 0 And vImporteSegundo > 0 Then
+                    AñadirPuntoGrafico("Ingresos", miView(x)("Cuenta"), vImporteConcepto, Color.Blue, SeriesChartType.Line)
+                ElseIf vImportePrimero > 0 And vImporteSegundo < 0 Then
+                    AñadirPuntoGrafico("Gastos", miView(x)("Cuenta"), vImporteConcepto, Color.Red, SeriesChartType.Line)
                 End If
             End If
         Next

@@ -604,4 +604,22 @@ Sie werden nicht aus der Datenbank entfernt</value>
   <data name="TituloPregunta" xml:space="preserve">
     <value>Seitenorientierung</value>
   </data>
+  <data name="Realidad" xml:space="preserve">
+    <value>Realität</value>
+  </data>
+  <data name="Presupuestado" xml:space="preserve">
+    <value>Budgetiert</value>
+  </data>
+  <data name="ToolTipGraficos2D" xml:space="preserve">
+    <value>Zeigen Sie 2D-Grafiken</value>
+  </data>
+  <data name="ToolTipGraficos3D" xml:space="preserve">
+    <value>3D-Grafiken anzeigen</value>
+  </data>
+  <data name="Fechas" xml:space="preserve">
+    <value>Termine</value>
+  </data>
+  <data name="Meses" xml:space="preserve">
+    <value>Monate</value>
+  </data>
 </root>
