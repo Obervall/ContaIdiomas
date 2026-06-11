@@ -165,17 +165,11 @@
   <data name="Mes" xml:space="preserve">
     <value>Mes</value>
   </data>
-  <data name="Real" xml:space="preserve">
-    <value>Reial</value>
-  </data>
   <data name="Presupuesto" xml:space="preserve">
     <value>Pressupost</value>
   </data>
   <data name="NoLogrado" xml:space="preserve">
     <value>Objectiu NO Assolit!</value>
-  </data>
-  <data name="DesviacionParcial" xml:space="preserve">
-    <value>Desviació Parcial:</value>
   </data>
   <data name="DesviacionAhorro" xml:space="preserve">
     <value>Desviació (Estalvi)</value>
@@ -230,5 +224,8 @@
   </data>
   <data name="ErrorEliminarPresupuestos" xml:space="preserve">
     <value>No s'han pogut eliminar els registres en Pressupostos</value>
+  </data>
+  <data name="DesviacionParcial" xml:space="preserve">
+    <value>Desviació Parcial fins a:</value>
   </data>
 </root>

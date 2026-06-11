@@ -150,4 +150,7 @@
   <data name="TituloGrafico" xml:space="preserve">
     <value>Tableau des variations budgétaires</value>
   </data>
+  <data name="TSBtnImprimir.ToolTipText" xml:space="preserve">
+    <value>Imprimé</value>
+  </data>
 </root>

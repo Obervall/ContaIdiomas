@@ -165,17 +165,11 @@
   <data name="Mes" xml:space="preserve">
     <value>Mois</value>
   </data>
-  <data name="Real" xml:space="preserve">
-    <value>Réel</value>
-  </data>
   <data name="Presupuesto" xml:space="preserve">
     <value>Caractéristiques techniques</value>
   </data>
   <data name="NoLogrado" xml:space="preserve">
     <value>Objectif NON atteint !</value>
-  </data>
-  <data name="DesviacionParcial" xml:space="preserve">
-    <value>Déviation partielle:</value>
   </data>
   <data name="DesviacionAhorro" xml:space="preserve">
     <value>Déviation (économies)</value>
@@ -230,5 +224,8 @@
   </data>
   <data name="ErrorEliminarPresupuestos" xml:space="preserve">
     <value>Oubli de supprimer les enregistrements dans les budgets</value>
+  </data>
+  <data name="DesviacionParcial" xml:space="preserve">
+    <value>Déviation partielle jusqu’à :</value>
   </data>
 </root>

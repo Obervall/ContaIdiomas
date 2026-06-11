@@ -206,9 +206,6 @@ Amb F6: Refresca la Parrilla Apunts i Quita Filtres</value>
   <data name="ToolTipF5" xml:space="preserve">
     <value>Filtra per Descripció</value>
   </data>
-  <data name="ToolTipF6" xml:space="preserve">
-    <value>Refrescar la Parrilla Apunts i Treure Filtres</value>
-  </data>
   <data name="ToolTipTraspasar" xml:space="preserve">
     <value>Traspassar d' un Compte a un altre</value>
   </data>

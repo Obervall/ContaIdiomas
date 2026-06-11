@@ -206,9 +206,6 @@ Avec F6 : Actualiser les notes du gril et supprimer les filtres</value>
   <data name="ToolTipF5" xml:space="preserve">
     <value>Filtrer par description</value>
   </data>
-  <data name="ToolTipF6" xml:space="preserve">
-    <value>Rafraîchissement de la grille des notes et suppression des filtres</value>
-  </data>
   <data name="ToolTipTraspasar" xml:space="preserve">
     <value>Transfert d’un compte à un autre</value>
   </data>

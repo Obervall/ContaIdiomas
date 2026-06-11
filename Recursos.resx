@@ -630,4 +630,10 @@ No se Eliminan de la Base de Datos</value>
   <data name="Meses" xml:space="preserve">
     <value>Meses</value>
   </data>
+  <data name="ErrorEjecutarSaldo" xml:space="preserve">
+    <value>Error al Ejecutar Saldo:</value>
+  </data>
+  <data name="ToolTipF6" xml:space="preserve">
+    <value>Refrescar la Parrilla Apuntes y Quitar Filtros</value>
+  </data>
 </root>

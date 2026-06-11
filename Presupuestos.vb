@@ -10,7 +10,7 @@ Public Class Presupuestos
 
     Public vtipoSql, vtipoGrid, vConcepto, vAñadir, vAñadir2 As String
     Public vTmpprint As String
-    Public PrintLine, Contador As Integer
+    Public PrintLine, Contador, FilaSelec As Integer
     Public vTipoConceptoActual As String = ""
     Public TL() As ToolTip
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
@@ -22,12 +22,14 @@ Public Class Presupuestos
         ' *=====================================
         Dim controlesToolTip As Control() = {
             BtnGraficos2D, BtnSalir, BtnFiltroConcepto, BtnSinFiltroConcepto, BtnImprimir,
-            BtnPrimero, BtnAnterior, BtnSiguiente, BtnUltimo, BtnEliminarRegistro, BtnGraficos3D ' <-- Añadido aquí
+            BtnPrimero, BtnAnterior, BtnSiguiente, BtnUltimo, BtnEliminarRegistro, BtnGraficos3D,
+            BtnEliminaSeleccion, BtnF6 ' <-- Añadido aquí
         }
 
         Dim clavesToolTip As String() = {
             "ToolTipGraficos2D", "ToolTipSalir", "ToolTipAplicarFiltro", "ToolTipQuitarFiltro", "ToolTipImprimir",
-            "ToolTipPrimero", "ToolTipAnterior", "ToolTipSiguiente", "ToolTipUltimo", "ToolTipEliminar", "ToolTipGraficos3D" ' <-- Añadido aquí
+            "ToolTipPrimero", "ToolTipAnterior", "ToolTipSiguiente", "ToolTipUltimo", "ToolTipEliminar", "ToolTipGraficos3D",
+            "ToolTipEliminaSeleccion", "ToolTipF6" ' <-- Añadido aquí
         }
 
         ' TRUCO DE ORO: Redimensionamos la matriz TL automáticamente según el número de controles
@@ -59,19 +61,6 @@ Public Class Presupuestos
             MsgBox(ex.ToString)
         End Try
 
-        '' Llenar Grid de PRESUPUESTOS (Corregido alias de palabra reservada)
-        ''****************************
-        'vtipoSql = "SELECT ConceptoPRE, '' AS Mes, 0.00 AS [Real], ImportePRE, FDesdePRE FROM presupuesto"
-        'vtipoSql += " WHERE EjercicioPRE = " & vAñoEjercicio.ToString
-        'vtipoSql += " ORDER BY ConceptoPRE ASC, FDesdePRE ASC"
-
-        'vtipoGrid = "PRESUPUESTOS"
-        'LlenarGrid(vtipoSql, vtipoGrid, "1")
-
-
-        '' 2. ACTUAR SOBRE LA ETIQUETA: Evaluamos si corresponde "Parcial" o "Anual"
-        'ActualizarEtiquetaDesviacion()
-
         ' Llenar Grid de PRESUPUESTOS
         '****************************
         vtipoSql = "SELECT presupuesto.ConceptoPRE, presupuesto.ConceptoPRE, presupuesto.ImportePRE, presupuesto.ImportePRE, presupuesto.FDesdePRE FROM presupuesto"
@@ -81,8 +70,14 @@ Public Class Presupuestos
         vtipoGrid = "PRESUPUESTOS"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
 
+        LblDesviacion.Visible = False
+        Label2.Visible = False
+        LblMontoDesviacion.Visible = False
+        LblObjetivo.Visible = False
+
+
         ' 2. ACTUAR SOBRE LA ETIQUETA: Evaluamos si corresponde "Parcial" o "Anual"
-        ActualizarEtiquetaDesviacion()
+        'EjecutarCalculoYDesviacion()
     End Sub
 
     Private Sub BtnSinFiltroConcepto_Click(sender As Object, e As EventArgs) Handles BtnSinFiltroConcepto.Click
@@ -101,7 +96,7 @@ Public Class Presupuestos
         ' 2. Al no haber filtro por concepto único, lo estándar es ocultar la desviación macro
         LblDesviacion.Enabled = False
         LblObjetivo.Visible = False
-        TxtDesviacion.Text = ""
+        LblMontoDesviacion.Text = ""
     End Sub
 
     Private Sub BtnFiltroConcepto_Click(sender As Object, e As EventArgs) Handles BtnFiltroConcepto.Click
@@ -171,23 +166,30 @@ Public Class Presupuestos
         vtipoSql += " ORDER BY presupuesto.ConceptoPRE ASC, presupuesto.FDesdePRE ASC"
         vtipoGrid = "PRESUPUESTOS"
 
-        ' 2. Llamamos al módulo. Al procesar el Grid, el módulo inyectará los valores acumulados YTD 
-        ' en las variables globales 'vSaldoAnualPresupuesto' y 'vSaldoAnualReal'.
+        ' 2. Llamamos al módulo. El módulo inyectará los valores en vTotalPresupuestoYTD y vTotalRealYTD
         LlenarGrid(vtipoSql, vtipoGrid, "1")
-        ' 2. ACTUAR SOBRE LA ETIQUETA: Evaluamos si corresponde "Parcial" o "Anual"
+
+        ' 🚨 RESPALDO DE SEGURIDAD INMEDIATO: Guardamos los valores calculados en variables locales
+        ' para evitar que 'ActualizarEtiquetaDesviacion' u otro proceso del módulo los ponga a cero.
+        Dim miPresupuestoYTD As Double = vTotalPresupuestoYTD
+        Dim miRealYTD As Double = vTotalRealYTD
+
+        ' 3. ACTUAR SOBRE LA ETIQUETA: Evaluamos si corresponde "Parcial" o "Anual"
         ActualizarEtiquetaDesviacion()
 
-        ' 3. Pintamos el resultado basándonos en la mallas calculadas por el módulo
+        ' 4. Pintamos el resultado basándonos en la mallas calculadas
         If frmPresupuestos.DgvPresupuestos.Rows.Count > 0 Then
+
+            ' REFUERZO DE VISIBILIDAD: Forzamos que todos los Labels de resultados se muestren siempre
+            LblDesviacion.Visible = True
+            LblMontoDesviacion.Visible = True
+            LblObjetivo.Visible = True
             LblDesviacion.Enabled = True
 
-            ' 🚨 REFUERZO DE SEGURIDAD: Si por algún motivo la variable quedó vacía, 
-            ' leemos el tipo directamente de la primera fila del DataGrid (Celda 4 o donde tengas el Tipo si venía en la Query)
+            ' REFUERZO DE SEGURIDAD: Deducimos el tipo de concepto si la variable global falló
             Dim tipoConcepto As String = vTipoConceptoActual.Trim().ToUpper()
 
-            ' Si la variable global falló, hacemos una deducción de emergencia basada en el nombre del concepto
             If String.IsNullOrEmpty(tipoConcepto) Then
-                ' Buscamos de forma quirúrgica en la MDB el tipo real
                 Using con As New OleDbConnection(conexion1.ConnectionString)
                     Using cmd As New OleDbCommand("SELECT TipoCON FROM conceptos WHERE CodigoCON = '" & CmbConcepto.Text.Replace("'", "''") & "'", con)
                         Try
@@ -200,49 +202,67 @@ Public Class Presupuestos
                 End Using
             End If
 
-            ' =======================================================================
-            ' EVALUACIÓN ESTÁNDAR UNIVERSAL: La base de datos siempre guarda "GASTO" o "INGRESO"
-            ' =======================================================================
+            ' EVALUACIÓN ESTÁNDAR UNIVERSAL: GASTO o INGRESO
             Dim esGasto As Boolean = (tipoConcepto = "GASTO")
-            ' =======================================================================
+            Dim desviacionFinal As Double
 
-            Dim desviacionFinal As Double = 0
-
-            ' B. APLICACIÓN ESTRICTA DE LA FÓRMULA CONTABLE
+            ' B. APLICACIÓN ESTRICTA DE LA FÓRMULA CONTABLE (Usando nuestras copias de seguridad locales)
             If esGasto Then
-                ' En GASTOS: Si el Presupuesto acumulado es MAYOR que el Gasto Real, hemos ahorrado (Desviación Positiva)
-                desviacionFinal = vSaldoAnualPresupuesto - vSaldoAnualReal
+                ' En GASTOS: Presupuesto - Gasto Real
+                desviacionFinal = miPresupuestoYTD - miRealYTD
             Else
-                ' En INGRESOS: Si el Real es MAYOR que el Presupuesto, hemos ganado más (Desviación Positiva)
-                desviacionFinal = Math.Abs(vSaldoAnualReal) - vSaldoAnualPresupuesto
+                ' En INGRESOS: Real - Presupuesto
+                desviacionFinal = Math.Abs(miRealYTD) - miPresupuestoYTD
             End If
 
-            ' 🧪 MENSAJE DE DIAGNÓSTICO EN TIEMPO REAL (Para ver qué calcula el PC)
-            ' Puedes comentar o borrar esta línea en cuanto veamos qué falla
-            'MessageBox.Show("Concepto: " & CmbConcepto.Text & vbCrLf &
-            '                "Tipo Detectado: " & tipoConcepto & " (¿Es Gasto?: " & esGasto.ToString() & ")" & vbCrLf &
-            '                "Suma Presupuesto YTD: " & vSaldoAnualPresupuesto.ToString("F2") & vbCrLf &
-            '                "Suma Real YTD: " & vSaldoAnualReal.ToString("F2") & vbCrLf &
-            '                "Resta Final: " & desviacionFinal.ToString("F2"), "Diagnóstico Técnico")
+            ' 🩹 SALVAVIDAS "SENSE FILTRAR": Si el cálculo contable falló por estar en modo general 
+            ' pero el grid arrojó un desfase evidente, forzamos de forma matemática la desviación.
+            If miPresupuestoYTD < miRealYTD AndAlso desviacionFinal > 0 Then
+                desviacionFinal = miPresupuestoYTD - miRealYTD
+            End If
 
-            ' C. Mostramos la cifra en la casilla inferior
-            LblDesviacion.Enabled = True
-            TxtDesviacion.Text = desviacionFinal.ToString("N2")
-            LblObjetivo.Visible = True
+            ' =======================================================================
+            ' C. CONFIGURACIÓN VISUAL DE LA DESVIACIÓN (PARA CUALQUIER AÑO)
+            ' =======================================================================
+            Dim añoActualCalendario As Integer = DateTime.Now.Year
 
-            ' D. EVALUACIÓN REAL DEL OBJETIVO
-            ' Si la desviación es POSITIVA (>= 0), el presupuesto va bien
+            ' 1. Sincronizamos el texto de la etiqueta según el año consultado
+            If CInt(vAñoEjercicio) = añoActualCalendario Then
+                ' Año Actual: Parcial hasta el mes anterior (Ya calculado en la subrutina)
+                ActualizarEtiquetaDesviacion()
+            Else
+                ' Año Pasado: Desviación Anual Cerrada
+                Dim textoAnual As String = rmse.GetString("LblDesviacion.Text")
+                If String.IsNullOrEmpty(textoAnual) Then textoAnual = "Desviació Anual"
+
+                LblDesviacion.Text = textoAnual & " " & vAñoEjercicio
+            End If
+
+            ' 2. Mostramos la cifra final formateada en el Label de resultados
+            LblMontoDesviacion.Text = desviacionFinal.ToString("N2")
+
+            ' =======================================================================
+            ' D. CONTROL TOTAL DEL COLOR Y OBJETIVO BASADO EN EL SIGNO REAL DEL NÚMERO
+            ' =======================================================================
             If desviacionFinal >= 0 Then
+                ' Caso Éxito (Ahorro o Superávit)
                 LblObjetivo.ForeColor = Color.DarkGreen
                 LblObjetivo.Text = rmse.GetString("LblObjetivo.Text")
+                If String.IsNullOrEmpty(LblObjetivo.Text) Then LblObjetivo.Text = "Objectiu Assolit!"
+
+                LblMontoDesviacion.ForeColor = Color.DarkBlue ' Azul contable limpio
             Else
-                ' Si es NEGATIVA (< 0), nos hemos desviado del plan
+                ' Caso Desviación (Negativo / Pérdida / Exceso de Gasto)
                 LblObjetivo.ForeColor = Color.DarkRed
                 LblObjetivo.Text = rmse.GetString("NoLogrado")
+                If String.IsNullOrEmpty(LblObjetivo.Text) Then LblObjetivo.Text = "Objectiu No Assolit"
+
+                LblMontoDesviacion.ForeColor = Color.Red ' <-- Forzamos el color rojo contable
             End If
         Else
+            ' Si el grid no tiene filas, limpiamos y ocultamos todo
             LblDesviacion.Enabled = False
-            TxtDesviacion.Text = ""
+            LblMontoDesviacion.Text = ""
             LblObjetivo.Visible = False
         End If
     End Sub
@@ -334,6 +354,184 @@ Public Class Presupuestos
             vFila = DgvPresupuestos.RowCount - 1
             DgvPresupuestos.Rows(vFila).Selected = True
             DgvPresupuestos.CurrentCell = DgvPresupuestos.Rows(vFila).Cells(0)
+        End If
+    End Sub
+
+
+    Private Sub BtnF6_Click(sender As Object, e As EventArgs) Handles BtnF6.Click
+        'Vuelve a Refrecar el DataGrid y dejar los Btn de los Filtros sin Filtrar
+        '************************************************************************
+        vtipoSql = "SELECT presupuesto.ConceptoPRE, presupuesto.ConceptoPRE, presupuesto.ImportePRE, presupuesto.ImportePRE, presupuesto.FDesdePRE FROM presupuesto"
+        vtipoSql += " WHERE "
+        vtipoSql += "presupuesto.EjercicioPRE = " & vAñoEjercicio.ToString
+        vtipoSql += " ORDER BY presupuesto.ConceptoPRE ASC, presupuesto.FDesdePRE ASC"
+        vtipoGrid = "PRESUPUESTOS"
+        LlenarGrid(vtipoSql, vtipoGrid, "1")
+
+        LblNumRegistros.Text = resManager.GetString("SinFiltrar") ' My.Resources.Recursos.SinFiltrar
+        BtnFiltroConcepto.Enabled = True
+        BtnSinFiltroConcepto.Enabled = False
+        LblDesviacion.Visible = False
+        LblMontoDesviacion.Visible = False
+        LblObjetivo.Visible = False
+        If DgvPresupuestos.RowCount - 1 >= 0 Then
+            DgvPresupuestos.Rows(0).Selected = True
+            DgvPresupuestos.CurrentCell = DgvPresupuestos.Rows(0).Cells(0)
+        End If
+    End Sub
+
+    Private Sub BtnEliminaSeleccion_Click(sender As Object, e As EventArgs) Handles BtnEliminaSeleccion.Click
+        'Elimina las Filas Seleccionadas
+        '*******************************
+        For Each r As DataGridViewRow In DgvPresupuestos.SelectedRows
+            If DgvPresupuestos.Rows.Count > 1 Then
+                DgvPresupuestos.Rows.Remove(r)
+            End If
+        Next
+        If DgvPresupuestos.Rows.Count > 1 Then
+            FilaSelec = DgvPresupuestos.CurrentRow.Index
+            For i = 0 To DgvPresupuestos.Rows.Count - 1
+                DgvPresupuestos.Rows(i).Selected = False
+            Next
+            DgvPresupuestos.Select()
+            DgvPresupuestos.CurrentRow.Selected = True
+            DgvPresupuestos.Refresh()
+        End If
+
+        ' 1. Obtenemos el DataTable enlazado a tu DgvPresupuestos
+        Dim dt As DataTable = CType(DgvPresupuestos.DataSource, DataTable)
+
+        ' 2. Si hay filas, verificamos si la ÚLTIMA contiene el texto de "TOTAL" traducido
+        If dt.Rows.Count > 0 Then
+            Dim ultimaFila As DataRow = dt.Rows(dt.Rows.Count - 1)
+            Dim textoTotalTraducido As String = resManager.GetString("TOTAL")
+
+            ' Si la última fila en la columna 0 coincide con el recurso, la eliminamos
+            If Convert.ToString(ultimaFila(0)) = textoTotalTraducido Then
+                dt.Rows.Remove(ultimaFila)
+            End If
+        End If
+
+        ' 3. Variables para acumular las sumas de las filas limpias
+        Dim totalCol2 As Decimal = 0
+        Dim totalCol3 As Decimal = 0
+
+        ' 4. Recorremos las filas restantes para calcular los totales reales
+        For Each fila As DataGridViewRow In DgvPresupuestos.Rows
+            Dim valorCol2 As Decimal = 0
+            Dim valorCol3 As Decimal = 0
+
+            Decimal.TryParse(Convert.ToString(fila.Cells(2).Value), valorCol2)
+            Decimal.TryParse(Convert.ToString(fila.Cells(3).Value), valorCol3)
+
+            totalCol2 += valorCol2
+            totalCol3 += valorCol3
+        Next
+
+        ' 5. Creamos la nueva fila de totales para el DataTable
+        Dim nuevaFila As DataRow = dt.NewRow()
+
+        ' 6. Asignamos el texto localizado mediante tu resManager y los totales calculados
+        nuevaFila(0) = resManager.GetString("TOTAL")
+        nuevaFila(2) = totalCol2
+        nuevaFila(3) = totalCol3
+
+        ' 7. Añadimos la fila final actualizada al DataTable
+        dt.Rows.Add(nuevaFila)
+
+    End Sub
+
+
+    Private Sub BtnEliminarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEliminarRegistro.Click
+        ' 1. Aseguramos que haya una fila seleccionada en el Grid de forma segura
+        If DgvPresupuestos.CurrentRow Is Nothing Then Exit Sub
+
+        ' 2. Mensaje de confirmación traducible (Apunta a tus llaves globales del ResX)
+        Dim msgPregunta As String = rmse.GetString("PreguntaEliminarPresupuesto")
+        Dim titPregunta As String = rmse.GetString("TituloEliminarPresupuesto")
+        Dim respuesta As MsgBoxResult = MsgBox(msgPregunta, vbQuestion + vbYesNo + vbDefaultButton2, titPregunta)
+
+        If respuesta = vbYes Then
+            filaActual = DgvPresupuestos.CurrentRow.Index
+            Dim conceptoVisible As String = DgvPresupuestos.Rows(filaActual).Cells(0).Value.ToString().Trim()
+
+            ' 🔄 REVERTIR EL IDIOMA: Buscamos el nombre original en español guardado en la MDB
+            Dim conceptoOriginalMDB As String = conceptoVisible
+
+            If Not My.Settings.CulturaUsuario.StartsWith("es", StringComparison.OrdinalIgnoreCase) Then
+                Dim cultura As New System.Globalization.CultureInfo(My.Settings.CulturaUsuario)
+                Dim recursos As System.Resources.ResourceSet = resManager.GetResourceSet(cultura, True, True)
+
+                If recursos IsNot Nothing Then
+                    For Each elemento As System.Collections.DictionaryEntry In recursos
+                        If elemento.Value.ToString().Trim().ToUpper() = conceptoVisible.ToUpper() Then
+                            ' Encontramos el código real (ej: cambia "RENT" por "ALQUILER")
+                            conceptoOriginalMDB = elemento.Key.ToString().Replace("_", " ")
+                            Exit For
+                        End If
+                    Next
+                End If
+            End If
+
+            ' 3. OPERACIÓN DE BORRADO SEGURA Y QUIRÚRGICA por Concepto y Año
+            ' Usamos un comando local parametrizado para evitar inyecciones y fallos de formato en Access
+            Dim sqlDelete As String = "DELETE FROM presupuesto WHERE ConceptoPRE = ? AND EjercicioPRE = ?"
+
+            Using conexion As New OleDbConnection(conexion1.ConnectionString)
+                Using cmd As New OleDbCommand(sqlDelete, conexion)
+                    cmd.Parameters.AddWithValue("@con", conceptoOriginalMDB)
+                    cmd.Parameters.AddWithValue("@eje", CInt(vAñoEjercicio)) ' Filtro crítico por año
+
+                    Try
+                        conexion.Open()
+                        cmd.ExecuteNonQuery()
+                        Dim msgBorrados As String = resManager.GetString("PresupuestosBorradosExito")
+                        MsgBox(msgBorrados, vbInformation)
+                    Catch ex As Exception
+                        Dim msgError As String = resManager.GetString("ErrorEliminarPresupuestos")
+                        MsgBox(msgError & vbNewLine & ex.Message, vbCritical)
+                    End Try
+                End Using
+            End Using
+
+            ' 4. RECARGA DEL GRID DE PRESUPUESTOS (Tu módulo lo procesará e indexará a la velocidad de la luz)
+            vtipoSql = "SELECT presupuesto.ConceptoPRE, presupuesto.ConceptoPRE, presupuesto.ImportePRE, presupuesto.ImportePRE, presupuesto.FDesdePRE FROM presupuesto"
+            vtipoSql += " WHERE "
+            vtipoSql += "presupuesto.EjercicioPRE = " & vAñoEjercicio.ToString
+            vtipoSql += " ORDER BY presupuesto.ConceptoPRE ASC, presupuesto.FDesdePRE ASC"
+            vtipoGrid = "PRESUPUESTOS"
+            LlenarGrid(vtipoSql, vtipoGrid, "1")
+            ' 2. ACTUAR SOBRE LA ETIQUETA: Evaluamos si corresponde "Parcial" o "Anual"
+            ActualizarEtiquetaDesviacion()
+
+            ' Forzamos la limpieza de los cuadros de desviación si el Grid se quedó vacío
+            If DgvPresupuestos.Rows.Count = 0 Then
+                LblDesviacion.Enabled = False
+                LblMontoDesviacion.Text = ""
+                LblObjetivo.Visible = False
+            End If
+        End If
+    End Sub
+
+    Private Sub CmbConcepto_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbConcepto.KeyPress
+        e.KeyChar = Char.ToUpper(e.KeyChar)
+    End Sub
+
+    Private Sub DgvPresupuestos_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles DgvPresupuestos.CellFormatting
+        ' Comprobamos que no sea la fila de cabecera
+        If e.RowIndex >= 0 Then
+            Dim dgv As DataGridView = CType(sender, DataGridView)
+
+            ' Si la celda de la columna 0 contiene la palabra "TOTAL", pintamos toda la fila
+            If dgv.Rows(e.RowIndex).Cells(0).Value IsNot Nothing AndAlso
+           dgv.Rows(e.RowIndex).Cells(0).Value.ToString() = "TOTAL" Then
+
+                ' Aplicamos el fondo gris, texto negro y negrita de forma persistente
+                e.CellStyle.BackColor = Color.LightGray
+                e.CellStyle.ForeColor = Color.Black
+                e.CellStyle.Font = New Font("Tahoma", 9, FontStyle.Bold)
+
+            End If
         End If
     End Sub
 
@@ -556,7 +754,7 @@ Public Class Presupuestos
         posY += 25
 
         e.Graphics.DrawString(rmse.GetString("Concepto") & ":", FuenteNegrita, Brushes.Black, colConceptoX, posY)
-        e.Graphics.DrawString(rmse.GetString("Real") & " YTD:", FuenteNegrita, Brushes.Black, colRealX, posY, sfDerecha)
+        e.Graphics.DrawString(rmse.GetString("Realidad") & " YTD:", FuenteNegrita, Brushes.Black, colRealX, posY, sfDerecha)
         e.Graphics.DrawString(rmse.GetString("Presupuesto") & ":", FuenteNegrita, Brushes.Black, colPresuX, posY, sfDerecha)
         e.Graphics.DrawString(rmse.GetString("Desviacion") & ":", FuenteNegrita, Brushes.Black, colDesvX, posY, sfDerecha)
         posY += 20
@@ -608,7 +806,7 @@ Public Class Presupuestos
         posY += 25
 
         e.Graphics.DrawString(rmse.GetString("Concepto") & ":", FuenteNegrita, Brushes.Black, colConceptoX, posY)
-        e.Graphics.DrawString(rmse.GetString("Real") & " YTD:", FuenteNegrita, Brushes.Black, colRealX, posY, sfDerecha)
+        e.Graphics.DrawString(rmse.GetString("Realidad") & " YTD:", FuenteNegrita, Brushes.Black, colRealX, posY, sfDerecha)
         e.Graphics.DrawString(rmse.GetString("Presupuesto") & ":", FuenteNegrita, Brushes.Black, colPresuX, posY, sfDerecha)
         e.Graphics.DrawString(rmse.GetString("DesviacionAhorro") & ":", FuenteNegrita, Brushes.Black, colDesvX, posY, sfDerecha)
         posY += 20
@@ -696,110 +894,5 @@ Public Class Presupuestos
         e.HasMorePages = False
     End Sub
 
-    Private Sub BtnEliminarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEliminarRegistro.Click
-        ' 1. Aseguramos que haya una fila seleccionada en el Grid de forma segura
-        If DgvPresupuestos.CurrentRow Is Nothing Then Exit Sub
-
-        ' 2. Mensaje de confirmación traducible (Apunta a tus llaves globales del ResX)
-        Dim msgPregunta As String = rmse.GetString("PreguntaEliminarPresupuesto")
-        Dim titPregunta As String = rmse.GetString("TituloEliminarPresupuesto")
-        Dim respuesta As MsgBoxResult = MsgBox(msgPregunta, vbQuestion + vbYesNo + vbDefaultButton2, titPregunta)
-
-        If respuesta = vbYes Then
-            filaActual = DgvPresupuestos.CurrentRow.Index
-            Dim conceptoVisible As String = DgvPresupuestos.Rows(filaActual).Cells(0).Value.ToString().Trim()
-
-            ' 🔄 REVERTIR EL IDIOMA: Buscamos el nombre original en español guardado en la MDB
-            Dim conceptoOriginalMDB As String = conceptoVisible
-
-            If Not My.Settings.CulturaUsuario.StartsWith("es", StringComparison.OrdinalIgnoreCase) Then
-                Dim cultura As New System.Globalization.CultureInfo(My.Settings.CulturaUsuario)
-                Dim recursos As System.Resources.ResourceSet = resManager.GetResourceSet(cultura, True, True)
-
-                If recursos IsNot Nothing Then
-                    For Each elemento As System.Collections.DictionaryEntry In recursos
-                        If elemento.Value.ToString().Trim().ToUpper() = conceptoVisible.ToUpper() Then
-                            ' Encontramos el código real (ej: cambia "RENT" por "ALQUILER")
-                            conceptoOriginalMDB = elemento.Key.ToString().Replace("_", " ")
-                            Exit For
-                        End If
-                    Next
-                End If
-            End If
-
-            ' 3. OPERACIÓN DE BORRADO SEGURA Y QUIRÚRGICA por Concepto y Año
-            ' Usamos un comando local parametrizado para evitar inyecciones y fallos de formato en Access
-            Dim sqlDelete As String = "DELETE FROM presupuesto WHERE ConceptoPRE = ? AND EjercicioPRE = ?"
-
-            Using conexion As New OleDbConnection(conexion1.ConnectionString)
-                Using cmd As New OleDbCommand(sqlDelete, conexion)
-                    cmd.Parameters.AddWithValue("@con", conceptoOriginalMDB)
-                    cmd.Parameters.AddWithValue("@eje", CInt(vAñoEjercicio)) ' Filtro crítico por año
-
-                    Try
-                        conexion.Open()
-                        cmd.ExecuteNonQuery()
-                        Dim msgBorrados As String = resManager.GetString("PresupuestosBorradosExito")
-                        MsgBox(msgBorrados, vbInformation)
-                    Catch ex As Exception
-                        Dim msgError As String = resManager.GetString("ErrorEliminarPresupuestos")
-                        MsgBox(msgError & vbNewLine & ex.Message, vbCritical)
-                    End Try
-                End Using
-            End Using
-
-            ' 4. RECARGA DEL GRID DE PRESUPUESTOS (Tu módulo lo procesará e indexará a la velocidad de la luz)
-            vtipoSql = "SELECT presupuesto.ConceptoPRE, presupuesto.ConceptoPRE, presupuesto.ImportePRE, presupuesto.ImportePRE, presupuesto.FDesdePRE FROM presupuesto"
-            vtipoSql += " WHERE "
-            vtipoSql += "presupuesto.EjercicioPRE = " & vAñoEjercicio.ToString
-            vtipoSql += " ORDER BY presupuesto.ConceptoPRE ASC, presupuesto.FDesdePRE ASC"
-            vtipoGrid = "PRESUPUESTOS"
-            LlenarGrid(vtipoSql, vtipoGrid, "1")
-            ' 2. ACTUAR SOBRE LA ETIQUETA: Evaluamos si corresponde "Parcial" o "Anual"
-            ActualizarEtiquetaDesviacion()
-
-            ' Forzamos la limpieza de los cuadros de desviación si el Grid se quedó vacío
-            If DgvPresupuestos.Rows.Count = 0 Then
-                LblDesviacion.Enabled = False
-                TxtDesviacion.Text = ""
-                LblObjetivo.Visible = False
-            End If
-        End If
-    End Sub
-
-    Private Sub CmbConcepto_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbConcepto.KeyPress
-        e.KeyChar = Char.ToUpper(e.KeyChar)
-    End Sub
-
-    Private Sub DgvPresupuestos_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles DgvPresupuestos.CellFormatting
-        ' Comprobamos que no sea la fila de cabecera
-        If e.RowIndex >= 0 Then
-            Dim dgv As DataGridView = CType(sender, DataGridView)
-
-            ' Si la celda de la columna 0 contiene la palabra "TOTAL", pintamos toda la fila
-            If dgv.Rows(e.RowIndex).Cells(0).Value IsNot Nothing AndAlso
-           dgv.Rows(e.RowIndex).Cells(0).Value.ToString() = "TOTAL" Then
-
-                ' Aplicamos el fondo gris, texto negro y negrita de forma persistente
-                e.CellStyle.BackColor = Color.LightGray
-                e.CellStyle.ForeColor = Color.Black
-                e.CellStyle.Font = New Font("Tahoma", 9, FontStyle.Bold)
-
-            End If
-        End If
-    End Sub
-
-    Private Sub ActualizarEtiquetaDesviacion()
-        Dim añoActualCalendario As Integer = DateTime.Now.Year
-
-        ' Comprobamos si el ejercicio consultado es el año en curso
-        If CInt(vAñoEjercicio) = añoActualCalendario Then
-            ' Si es el año actual, la desviación es parcial (YTD)
-            LblDesviacion.Text = rmse.GetString("LblDesviacion.Text")
-        Else
-            ' Si es un año pasado o diferente, es la desviación de todo el año
-            LblDesviacion.Text = rmse.GetString("DesvacionParcial")
-        End If
-    End Sub
 
 End Class

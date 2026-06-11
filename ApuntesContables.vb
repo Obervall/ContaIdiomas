@@ -126,7 +126,7 @@ Public Class ApuntesContables
         TL(25) = New ToolTip
         TL(25).SetToolTip(Me.BtnFiltroF5, rmse.GetString("ToolTipF5"))
         TL(26) = New ToolTip
-        TL(26).SetToolTip(Me.BtnF6, rmse.GetString("ToolTipF6"))
+        TL(26).SetToolTip(Me.BtnF6, resManager.GetString("ToolTipF6"))
         TL(27) = New ToolTip
         TL(27).SetToolTip(Me.BtnExcel, rmse.GetString("ToolTipExcel"))
         TL(28) = New ToolTip

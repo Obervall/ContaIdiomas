@@ -622,4 +622,10 @@ No s' Eliminen de la Base de Dades</value>
   <data name="Meses" xml:space="preserve">
     <value>Mesos</value>
   </data>
+  <data name="ErrorEjecutarSaldo" xml:space="preserve">
+    <value>Error en Executar Saldo:</value>
+  </data>
+  <data name="ToolTipF6" xml:space="preserve">
+    <value>Refrescar la Parrilla Apunts i Treure Filtres</value>
+  </data>
 </root>

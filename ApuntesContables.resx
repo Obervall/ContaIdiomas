@@ -2031,9 +2031,6 @@ Con F6: Refresca la Parrilla Apuntes y Quita Filtros</value>
   <data name="ToolTipF5" xml:space="preserve">
     <value>Filtra por Descripción</value>
   </data>
-  <data name="ToolTipF6" xml:space="preserve">
-    <value>Refrescar la Parrilla Apuntes y Quitar Filtros</value>
-  </data>
   <data name="ToolTipTraspasar" xml:space="preserve">
     <value>Traspasar de una Cuenta a otra</value>
   </data>

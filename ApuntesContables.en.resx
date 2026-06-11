@@ -206,9 +206,6 @@ With F6: Refresh the Grill Notes and Remove Filters</value>
   <data name="ToolTipF5" xml:space="preserve">
     <value>Filter by Description</value>
   </data>
-  <data name="ToolTipF6" xml:space="preserve">
-    <value>Refreshing the Notes Grid and Removing Filters</value>
-  </data>
   <data name="ToolTipTraspasar" xml:space="preserve">
     <value>Transferring from one Account to another</value>
   </data>

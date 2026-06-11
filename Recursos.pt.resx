@@ -622,4 +622,10 @@ Eles não são removidos do banco de dados</value>
   <data name="Meses" xml:space="preserve">
     <value>Meses</value>
   </data>
+  <data name="ErrorEjecutarSaldo" xml:space="preserve">
+    <value>Equilíbrio Corrente de Erro:</value>
+  </data>
+  <data name="ToolTipF6" xml:space="preserve">
+    <value>Atualizando a grade de notas e removendo filtros</value>
+  </data>
 </root>

@@ -40,7 +40,6 @@ Partial Class Presupuestos
         Me.Label3 = New System.Windows.Forms.Label()
         Me.DgvPresupuestos = New System.Windows.Forms.DataGridView()
         Me.LblDesviacion = New System.Windows.Forms.Label()
-        Me.TxtDesviacion = New System.Windows.Forms.TextBox()
         Me.LblObjetivo = New System.Windows.Forms.Label()
         Me.GroupBox8 = New System.Windows.Forms.GroupBox()
         Me.BtnUltimo = New System.Windows.Forms.Button()
@@ -49,9 +48,13 @@ Partial Class Presupuestos
         Me.BtnPrimero = New System.Windows.Forms.Button()
         Me.BtnEliminarRegistro = New System.Windows.Forms.Button()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.BtnF6 = New System.Windows.Forms.Button()
+        Me.BtnEliminaSeleccion = New System.Windows.Forms.Button()
         Me.PrintDialog1 = New System.Windows.Forms.PrintDialog()
         Me.PrintDocument1 = New System.Drawing.Printing.PrintDocument()
         Me.PrintPreviewDialog1 = New System.Windows.Forms.PrintPreviewDialog()
+        Me.LblMontoDesviacion = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
@@ -176,11 +179,6 @@ Partial Class Presupuestos
         resources.ApplyResources(Me.LblDesviacion, "LblDesviacion")
         Me.LblDesviacion.Name = "LblDesviacion"
         '
-        'TxtDesviacion
-        '
-        resources.ApplyResources(Me.TxtDesviacion, "TxtDesviacion")
-        Me.TxtDesviacion.Name = "TxtDesviacion"
-        '
         'LblObjetivo
         '
         resources.ApplyResources(Me.LblObjetivo, "LblObjetivo")
@@ -228,10 +226,24 @@ Partial Class Presupuestos
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.BtnF6)
+        Me.GroupBox2.Controls.Add(Me.BtnEliminaSeleccion)
         Me.GroupBox2.Controls.Add(Me.BtnEliminarRegistro)
         resources.ApplyResources(Me.GroupBox2, "GroupBox2")
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.TabStop = False
+        '
+        'BtnF6
+        '
+        resources.ApplyResources(Me.BtnF6, "BtnF6")
+        Me.BtnF6.Name = "BtnF6"
+        Me.BtnF6.UseVisualStyleBackColor = True
+        '
+        'BtnEliminaSeleccion
+        '
+        resources.ApplyResources(Me.BtnEliminaSeleccion, "BtnEliminaSeleccion")
+        Me.BtnEliminaSeleccion.Name = "BtnEliminaSeleccion"
+        Me.BtnEliminaSeleccion.UseVisualStyleBackColor = True
         '
         'PrintDialog1
         '
@@ -245,14 +257,25 @@ Partial Class Presupuestos
         resources.ApplyResources(Me.PrintPreviewDialog1, "PrintPreviewDialog1")
         Me.PrintPreviewDialog1.Name = "PrintPreviewDialog1"
         '
+        'LblMontoDesviacion
+        '
+        resources.ApplyResources(Me.LblMontoDesviacion, "LblMontoDesviacion")
+        Me.LblMontoDesviacion.Name = "LblMontoDesviacion"
+        '
+        'Label2
+        '
+        resources.ApplyResources(Me.Label2, "Label2")
+        Me.Label2.Name = "Label2"
+        '
         'Presupuestos
         '
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.LblMontoDesviacion)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox8)
         Me.Controls.Add(Me.LblObjetivo)
-        Me.Controls.Add(Me.TxtDesviacion)
         Me.Controls.Add(Me.LblDesviacion)
         Me.Controls.Add(Me.DgvPresupuestos)
         Me.Controls.Add(Me.GroupBox4)
@@ -292,7 +315,6 @@ Partial Class Presupuestos
     Friend WithEvents BtnGraficos3D As Windows.Forms.Button
     Friend WithEvents TxtConcepto As Windows.Forms.TextBox
     Friend WithEvents LblDesviacion As Windows.Forms.Label
-    Friend WithEvents TxtDesviacion As Windows.Forms.TextBox
     Friend WithEvents LblObjetivo As Windows.Forms.Label
     Friend WithEvents GroupBox8 As Windows.Forms.GroupBox
     Friend WithEvents BtnUltimo As Windows.Forms.Button
@@ -305,4 +327,8 @@ Partial Class Presupuestos
     Friend WithEvents PrintDocument1 As Drawing.Printing.PrintDocument
     Friend WithEvents PrintPreviewDialog1 As Windows.Forms.PrintPreviewDialog
     Friend WithEvents BtnGraficos2D As Windows.Forms.Button
+    Friend WithEvents BtnEliminaSeleccion As Windows.Forms.Button
+    Friend WithEvents BtnF6 As Windows.Forms.Button
+    Friend WithEvents LblMontoDesviacion As Windows.Forms.Label
+    Friend WithEvents Label2 As Windows.Forms.Label
 End Class

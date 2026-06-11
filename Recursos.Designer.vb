@@ -622,6 +622,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Error al Ejecutar Saldo:.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorEjecutarSaldo() As String
+        Get
+            Return ResourceManager.GetString("ErrorEjecutarSaldo", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Error al intentar eliminar el registro.
     '''</summary>
     Friend Shared ReadOnly Property ErrorEliminarRegistro() As String
@@ -1420,6 +1429,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property ToolTipEliminaSeleccion() As String
         Get
             Return ResourceManager.GetString("ToolTipEliminaSeleccion", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Refrescar la Parrilla Apuntes y Quitar Filtros.
+    '''</summary>
+    Friend Shared ReadOnly Property ToolTipF6() As String
+        Get
+            Return ResourceManager.GetString("ToolTipF6", resourceCulture)
         End Get
     End Property
     

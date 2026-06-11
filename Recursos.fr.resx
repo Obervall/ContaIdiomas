@@ -622,4 +622,10 @@ Ils ne sont pas supprimés de la base de données</value>
   <data name="Meses" xml:space="preserve">
     <value>Mois</value>
   </data>
+  <data name="ErrorEjecutarSaldo" xml:space="preserve">
+    <value>Équilibre des erreurs :</value>
+  </data>
+  <data name="ToolTipF6" xml:space="preserve">
+    <value>Rafraîchissement de la grille des notes et suppression des filtres</value>
+  </data>
 </root>

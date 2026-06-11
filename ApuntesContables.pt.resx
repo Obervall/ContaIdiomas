@@ -206,9 +206,6 @@ Com F6: atualize as notas da grelha e remova os filtros</value>
   <data name="ToolTipF5" xml:space="preserve">
     <value>Filtrar por descrição</value>
   </data>
-  <data name="ToolTipF6" xml:space="preserve">
-    <value>Atualizando a grade de notas e removendo filtros</value>
-  </data>
   <data name="ToolTipTraspasar" xml:space="preserve">
     <value>Transferência de uma conta para outra</value>
   </data>

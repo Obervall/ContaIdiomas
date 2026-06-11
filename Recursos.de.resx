@@ -622,4 +622,10 @@ Sie werden nicht aus der Datenbank entfernt</value>
   <data name="Meses" xml:space="preserve">
     <value>Monate</value>
   </data>
+  <data name="ErrorEjecutarSaldo" xml:space="preserve">
+    <value>Fehler-Laufbalance:</value>
+  </data>
+  <data name="ToolTipF6" xml:space="preserve">
+    <value>Das Notizraster aktualisieren und Filter entfernen</value>
+  </data>
 </root>

@@ -622,4 +622,10 @@ They are not removed from the database</value>
   <data name="Meses" xml:space="preserve">
     <value>Months</value>
   </data>
+  <data name="ErrorEjecutarSaldo" xml:space="preserve">
+    <value>Error Running Balance:</value>
+  </data>
+  <data name="ToolTipF6" xml:space="preserve">
+    <value>Refreshing the Notes Grid and Removing Filters</value>
+  </data>
 </root>
