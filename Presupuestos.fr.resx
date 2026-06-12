@@ -225,7 +225,52 @@
   <data name="ErrorEliminarPresupuestos" xml:space="preserve">
     <value>Oubli de supprimer les enregistrements dans les budgets</value>
   </data>
+  <data name="LblMontoDesviacion.Text" xml:space="preserve">
+    <value>LbAmountÉcart</value>
+  </data>
+  <data name="Label2.Text" xml:space="preserve">
+    <value>=</value>
+  </data>
   <data name="DesviacionParcial" xml:space="preserve">
-    <value>Déviation partielle jusqu’à :</value>
+    <value>Déviation partielle jusqu’à</value>
+  </data>
+  <data name="Mes_1" xml:space="preserve">
+    <value>Janvier</value>
+  </data>
+  <data name="Mes_2" xml:space="preserve">
+    <value>Février</value>
+  </data>
+  <data name="Mes_3" xml:space="preserve">
+    <value>Mars</value>
+  </data>
+  <data name="Mes_4" xml:space="preserve">
+    <value>Avril</value>
+  </data>
+  <data name="Mes_5" xml:space="preserve">
+    <value>Mai</value>
+  </data>
+  <data name="Mes_6" xml:space="preserve">
+    <value>Juin</value>
+  </data>
+  <data name="Mes_7" xml:space="preserve">
+    <value>Juillet</value>
+  </data>
+  <data name="Mes_8" xml:space="preserve">
+    <value>Août</value>
+  </data>
+  <data name="Mes_9" xml:space="preserve">
+    <value>Septembre</value>
+  </data>
+  <data name="Mes_10" xml:space="preserve">
+    <value>Octobre</value>
+  </data>
+  <data name="Mes_11" xml:space="preserve">
+    <value>Novembre</value>
+  </data>
+  <data name="Mes_12" xml:space="preserve">
+    <value>Décembre</value>
+  </data>
+  <data name="HastaElMes" xml:space="preserve">
+    <value>Jusqu’au mois de</value>
   </data>
 </root>

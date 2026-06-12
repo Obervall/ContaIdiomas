@@ -1,4 +1,6 @@
-﻿Imports System.Data
+﻿Imports System.Collections.Generic
+Imports System.Data
+Imports System.Data.OleDb
 Imports System.Drawing
 Imports System.Drawing.Printing
 Imports System.Windows.Forms
@@ -10,141 +12,109 @@ Public Class GraficosPresupuestos
     Public miDataTable As New DataTable
     Public miView As New DataView(miDataTable)
     Public x, vContador As Integer
-    Public vImporteConcepto, vNewImporteConcepto, vImporteConcepto2, vExistenteImporteConcepto As Double
     Private b As Bitmap
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
-    ' =======================================================================
-    ' EVENTO LOAD: Procesa los conceptos y presupuestos en la tabla temporal
-    ' =======================================================================
     Private Sub GraficosPresupuestos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'ActualizarTextosFormulario(Me)
         ' 1. Iniciamos Tabla Tempapu
         LimpiarTempPrint()
-        ' 2. Ordenamos la columna Concepto de origen
-        frmPresupuestos.DgvPresupuestos.Sort(frmPresupuestos.DgvPresupuestos.Columns(0), System.ComponentModel.ListSortDirection.Ascending)
-        ' 3. Llenamos la tabla tmpprint con los Conceptos Agrupados desde DgvPresupuestos
-        vNombreConcepto = ""
+
+        Dim añoActualCalendario As Integer = DateTime.Now.Year
+        Dim mesActualCalendario As Integer = DateTime.Now.Month
+        Dim presupuestosAgrupados As New Dictionary(Of String, (Real As Double, Presu As Double))
+
+        ' 2. PRIMER PASO: RECORREMOS TU REJILLA PRINCIPAL
         For Each fila As DataGridViewRow In frmPresupuestos.DgvPresupuestos.Rows
-            If fila.IsNewRow Then Continue For ' Evitamos la fila en blanco automática
-            vImporteConcepto = fila.Cells(3).Value
-            If vNombreConcepto <> fila.Cells(0).Value.ToString Then
-                vNombreConcepto = fila.Cells(0).Value.ToString
-                vImporteConcepto = 0
-                vImporteConcepto = fila.Cells(3).Value
-                ' Buscamos la suma total del Concepto
-                vtipoSql = "SELECT * FROM apuntes"
-                vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-                vtipoSql += " And apuntes.ConceptoAPU = '" & vNombreConcepto & "' "
-                vtipoSql += " ORDER BY apuntes.ConceptoAPU ASC"
-                LlenarGrid(vtipoSql, "PRINT_APUNTES_CONTABLES", "2")
-                vImporteConcepto2 = 0
-                For Each filas As DataGridViewRow In frmImprimirForm.DgvApuntes.Rows
-                    vImporteConcepto2 += Math.Abs(filas.Cells(4).Value)
-                Next
-                vAñadir = "INSERT INTO tmpprint(FechaTMP, ConceptoTMP, DescripcionTMP, CuentaTMP, NotasTMP, ImporteTMP, SaldoTMP) "
-                vAñadir += "VALUES ('01/01/1900', '" & vNombreConcepto & "', '', '', '' , '" & vImporteConcepto2 & "', '" & vImporteConcepto & "')"
-                cmdMdb1cr.CommandText = vAñadir
-                Try
-                    cmdMdb1cr.ExecuteNonQuery()
-                Catch ex As Exception
-                    MsgBox("Error al grabar el Concepto en Tmpprint")
-                End Try
-            Else
-                cmdMdb1cr.CommandType = CommandType.Text
-                cmdMdb1cr.CommandText = "SELECT * FROM tmpprint WHERE tmpprint.ConceptoTMP = '" & vNombreConcepto & "' "
-                Try
-                    drMdb1 = cmdMdb1cr.ExecuteReader()
-                    If drMdb1.HasRows Then
-                        While drMdb1.Read()
-                            vExistenteImporteConcepto = drMdb1.GetValue(6)
-                        End While
-                    End If
-                    drMdb1.Close()
-                Catch ex As Exception
-                    If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-                End Try
-                vNewImporteConcepto = vImporteConcepto + vExistenteImporteConcepto
-                vAñadir2 = "UPDATE tmpprint SET SaldoTMP = '" & vNewImporteConcepto & "' WHERE tmpprint.ConceptoTMP = '" & vNombreConcepto & "' "
-                cmdMdb1cr.CommandText = vAñadir2
-                Try
-                    cmdMdb1cr.ExecuteNonQuery()
-                Catch ex As Exception
-                    MsgBox("Error al actualizar el Importe del Concepto en tmpprint")
-                End Try
+            If fila.IsNewRow Then Continue For
+            If fila.Cells(0).Value IsNot Nothing AndAlso fila.Cells(0).Value.ToString().Trim().ToUpper() = "TOTAL" Then Continue For
+
+            Dim vNombreConcepto As String = fila.Cells(0).Value.ToString()
+
+            Dim vFechaFila As Date
+            Dim vMesInt As Integer = 1
+            If fila.Cells(4).Value IsNot Nothing AndAlso Date.TryParse(fila.Cells(4).Value.ToString(), vFechaFila) Then
+                vMesInt = vFechaFila.Month
             End If
+
+            ' Filtro YTD
+            If CInt(vAñoEjercicio) = añoActualCalendario Then
+                If vMesInt >= mesActualCalendario Then Continue For
+            End If
+
+            Dim valRealFila As Double = 0
+            Dim valPresuFila As Double = 0
+
+            ' 🔥 CORRECCIÓN CRÍTICA: Quitamos el signo negativo aplicando Math.Abs a la realidad
+            If fila.Cells(2).Value IsNot Nothing Then
+                Double.TryParse(fila.Cells(2).Value.ToString(), valRealFila)
+                valRealFila = Math.Abs(valRealFila)
+            End If
+
+            If fila.Cells(3).Value IsNot Nothing Then Double.TryParse(fila.Cells(3).Value.ToString(), valPresuFila)
+
+            If Not presupuestosAgrupados.ContainsKey(vNombreConcepto) Then
+                presupuestosAgrupados(vNombreConcepto) = (0, 0)
+            End If
+
+            Dim datosActuales = presupuestosAgrupados(vNombreConcepto)
+            presupuestosAgrupados(vNombreConcepto) = (datosActuales.Real + valRealFila, datosActuales.Presu + valPresuFila)
         Next
+
+        ' 3. SEGUNDO PASO: GRABAMOS EN TMPPRINT
+        For Each kvp In presupuestosAgrupados
+            Dim concepto As String = kvp.Key
+            Dim acumuladoReal As Double = kvp.Value.Real
+            Dim presupuestoFinalGuardar As Double = kvp.Value.Presu
+
+            Dim vAñadir As String = "INSERT INTO tmpprint (FechaTMP, ConceptoTMP, DescripcionTMP, CuentaTMP, NotasTMP, ImporteTMP, SaldoTMP) "
+            vAñadir += "VALUES (#1900-01-01#, ?, '', '', '', ?, ?)"
+
+            Using cmdMdb1cr As New OleDbCommand(vAñadir, conexion1)
+                cmdMdb1cr.Parameters.AddWithValue("@ConceptoTMP", concepto)
+                cmdMdb1cr.Parameters.AddWithValue("@ImporteTMP", acumuladoReal)
+                cmdMdb1cr.Parameters.AddWithValue("@SaldoTMP", presupuestoFinalGuardar)
+
+                Try
+                    If conexion1.State <> ConnectionState.Open Then conexion1.Open()
+                    cmdMdb1cr.ExecuteNonQuery()
+                Catch ex As Exception
+                    MsgBox("Error al grabar el Concepto en Tmpprint para Gráficos")
+                End Try
+            End Using
+        Next
+
         ' 4. Volcado final a la cuadrícula de datos para la gráfica
         vtipoSql = "SELECT * FROM tmpprint ORDER BY tmpprint.ConceptoTMP ASC"
         LlenarGrid(vtipoSql, "PRINT_APUNTES_CONTABLES", "2")
-        '5. Estructuramos y vaciamos la tabla en memoria miDataTable
+
+        ' 5. Estructuramos y vaciamos la tabla en memoria miDataTable
         miDataTable.Rows.Clear()
         miDataTable.Columns.Clear()
         miDataTable.Columns.Add("Concepto")
         miDataTable.Columns.Add("Real")
         miDataTable.Columns.Add("Presupuestado")
-        vValor = 0
 
         For Each fila As DataGridViewRow In frmImprimirForm.DgvApuntes.Rows
             If fila.IsNewRow Then Continue For
+
             Dim Renglon As DataRow = miDataTable.NewRow()
-            Renglon("Concepto") = fila.Cells(1).Value.ToString
-            vValor = fila.Cells(5).Value
-            Renglon("Real") = Math.Truncate(vValor).ToString
-            vValor = fila.Cells(6).Value
-            Renglon("Presupuestado") = Math.Truncate(vValor).ToString
+            Renglon("Concepto") = fila.Cells(1).Value.ToString()
+
+            Dim vValorReal As Double = 0
+            Dim vValorPresu As Double = 0
+
+            If fila.Cells(5).Value IsNot Nothing Then Double.TryParse(fila.Cells(5).Value.ToString(), vValorReal)
+            If fila.Cells(6).Value IsNot Nothing Then Double.TryParse(fila.Cells(6).Value.ToString(), vValorPresu)
+
+            ' Guardamos valores puros y positivos
+            Renglon("Real") = Math.Truncate(Math.Abs(vValorReal)).ToString()
+            Renglon("Presupuestado") = Math.Truncate(Math.Abs(vValorPresu)).ToString()
+
             miDataTable.Rows.Add(Renglon)
         Next
 
-        '' Aseguramos que las columnas existan en la tabla en memoria
-        'If miDataTable.Columns.Count = 0 Then
-        '    miDataTable.Columns.Add("Concepto")
-        '    miDataTable.Columns.Add("Real")
-        '    miDataTable.Columns.Add("Presupuestado")
-        'End If
-        '' 5. Estructuramos y volcamos los datos al DataTable de la gráfica
-        '' *=============================================================
-        'miDataTable.Rows.Clear()
-
-        '' Aseguramos que las columnas existan en la tabla en memoria
-        'If miDataTable.Columns.Count = 0 Then
-        '    miDataTable.Columns.Add("Concepto")
-        '    miDataTable.Columns.Add("Real")
-        '    miDataTable.Columns.Add("Presupuestado")
-        'End If
-
-        'For Each fila As DataGridViewRow In frmImprimirForm.DgvApuntes.Rows
-        '    If fila.IsNewRow Then Continue For
-        '    If fila.Cells(1).Value Is Nothing Then Continue For ' Si no hay concepto, saltamos
-
-        '    Dim Renglon As DataRow = miDataTable.NewRow()
-
-        '    ' Guardamos el nombre del concepto (Alimentación, Luz, etc.)
-        '    Renglon("Concepto") = fila.Cells(1).Value.ToString()
-
-        '    ' LEER GASTO REAL: Capturamos de la celda 5 (ImporteTMP) de forma numérica pura
-        '    If fila.Cells(5).Value IsNot Nothing AndAlso IsNumeric(fila.Cells(5).Value) Then
-        '        Dim valorReal As Double = Convert.ToDouble(fila.Cells(5).Value)
-        '        Renglon("Real") = Math.Truncate(valorReal).ToString()
-        '    Else
-        '        Renglon("Real") = "0"
-        '    End If
-
-        '    ' LEER PRESUPUESTO: Capturamos de la celda 6 (SaldoTMP) de forma numérica pura
-        '    If fila.Cells(6).Value IsNot Nothing AndAlso IsNumeric(fila.Cells(6).Value) Then
-        '        Dim valorPresupuesto As Double = Convert.ToDouble(fila.Cells(6).Value)
-        '        Renglon("Presupuestado") = Math.Truncate(valorPresupuesto).ToString()
-        '    Else
-        '        Renglon("Presupuestado") = "0"
-        '    End If
-
-        '    miDataTable.Rows.Add(Renglon)
-        'Next
-
-        '' 6. Forzamos la carga del gráfico de columnas al arrancar
         TsBtnColumnas.PerformClick()
     End Sub
-
     ' =======================================================================
     ' CONFIGURACIÓN CENTRAL DE ESTILOS E IDIOMAS (2D y 3D Conmutable)
     ' =======================================================================

@@ -333,8 +333,8 @@ Module Funciones
                 .Columns(2).DefaultCellStyle.ForeColor = Color.DarkBlue
                 .Columns(4).DefaultCellStyle.ForeColor = Color.DarkBlue
                 .Columns(5).DefaultCellStyle.ForeColor = Color.DarkBlue
-                .Columns(3).DefaultCellStyle.Format = "###,##0.00"
-                .Columns(4).DefaultCellStyle.Format = "###,##0.00"
+                .Columns(3).DefaultCellStyle.Format = "N2"
+                .Columns(4).DefaultCellStyle.Format = "N2"
                 .Columns(3).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight
                 .Columns(4).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight
                 .Columns(0).DefaultCellStyle.Format = "dd/MM/yyyy"
@@ -422,8 +422,8 @@ Module Funciones
                 .Columns(2).DefaultCellStyle.ForeColor = Color.DarkBlue
                 .Columns(4).DefaultCellStyle.ForeColor = Color.DarkBlue
                 .Columns(5).DefaultCellStyle.ForeColor = Color.DarkBlue
-                .Columns(3).DefaultCellStyle.Format = "###,##0.00"
-                .Columns(4).DefaultCellStyle.Format = "###,##0.00"
+                .Columns(3).DefaultCellStyle.Format = "N2"
+                .Columns(4).DefaultCellStyle.Format = "N2"
                 .Columns(3).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight
                 .Columns(4).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight
                 .Columns(0).DefaultCellStyle.Format = "dd/MM/yyyy"
@@ -641,20 +641,36 @@ Module Funciones
                 .Columns(2).Width = 97
                 .Columns(2).HeaderText = resManager.GetString("Realidad")
                 .Columns(2).DefaultCellStyle.ForeColor = Color.DarkBlue
-                .Columns(2).DefaultCellStyle.Format = "###,##0.00"
+                .Columns(2).DefaultCellStyle.Format = "N2"
 
                 .Columns(3).Width = 97
                 .Columns(3).HeaderText = frmPresupuestos.rmse.GetString("Presupuesto")
-                .Columns(3).DefaultCellStyle.Format = "###,##0.00"
+                .Columns(3).DefaultCellStyle.Format = "N2"
 
                 .Columns(4).Width = 0
                 .Columns(4).HeaderText = resManager.GetString("Fecha")
+
                 ' Contador de registros
                 frmPresupuestos.TxtNumRegistros.Text = .Rows.Count.ToString()
                 If frmPresupuestos.BtnFiltroConcepto.Enabled = False Then
                     frmPresupuestos.LblNumRegistros.Text = resManager.GetString("Filtrado")
                 Else
                     frmPresupuestos.LblNumRegistros.Text = resManager.GetString("SinFiltrar")
+                End If
+
+                ' Averiguamos el tipo de concepto activo leyendo la primera fila (INGRESO o GASTO)
+                Dim vTipoConceptoActual As String = "GASTO"
+                If .Rows.Count > 0 AndAlso .Rows(0).Cells(0).Value IsNot Nothing Then
+                    Using con As New OleDbConnection(conexion1.ConnectionString)
+                        Using cmd As New OleDbCommand("SELECT TipoCON FROM conceptos WHERE CodigoCON = '" & .Rows(0).Cells(0).Value.ToString().Replace("'", "''") & "'", con)
+                            Try
+                                con.Open()
+                                Dim res As Object = cmd.ExecuteScalar()
+                                If res IsNot Nothing Then vTipoConceptoActual = res.ToString().Trim().ToUpper()
+                            Catch
+                            End Try
+                        End Using
+                    End Using
                 End If
 
                 ' NUEVAS VARIABLES: Para acumular las sumas de las columnas
@@ -667,12 +683,10 @@ Module Funciones
                 Dim mesActualCalendario As Integer = DateTime.Now.Month
                 Dim añoActualCalendario As Integer = DateTime.Now.Year
 
-                ' BUCLE ORIGINAL DE CONTAHOGAR 3.0 (Corregida la extracción del mes)
-                ' BUCLE ORIGINAL DE CONTAHOGAR 3.0 (Corregida la extracción del mes)
+                ' BUCLE PRINCIPAL MODIFICADO FILA A FILA
                 For Each fila As DataGridViewRow In .Rows
                     If fila.IsNewRow Then Continue For
 
-                    ' --- CAMBIO SEGURO: Convertimos a Date para extraer el mes sin importar el formato de barras ---
                     Dim vFecha As Date
                     Dim vMes As Integer = 1 ' Valor por defecto por si falla
 
@@ -680,17 +694,30 @@ Module Funciones
                         vMes = vFecha.Month
                     End If
 
-                    ' Ponemos el nombre del mes (enero, febrero...) en la columna 1
+                    ' Ponemos el nombre del mes en la columna 1
                     fila.Cells(1).Value = MonthName(vMes, False)
 
                     Dim vNombreConcepto As String = fila.Cells(0).Value.ToString()
 
-                    ' Ejecutamos tu consulta idéntica para buscar el saldo real de este concepto en este mes
+                    ' 🔥 CONSULTA INTERNA POR FILA: Averiguamos el tipo de este concepto específico (INGRESO o GASTO)
+                    Dim vTipoConceptoFila As String = "GASTO"
+                    Using con As New OleDbConnection(conexion1.ConnectionString)
+                        Using cmd As New OleDbCommand("SELECT TipoCON FROM conceptos WHERE CodigoCON = '" & vNombreConcepto.Replace("'", "''") & "'", con)
+                            Try
+                                con.Open()
+                                Dim res As Object = cmd.ExecuteScalar()
+                                If res IsNot Nothing Then vTipoConceptoFila = res.ToString().Trim().ToUpper()
+                            Catch
+                            End Try
+                        End Using
+                    End Using
+
+                    ' Buscamos el saldo real de este concepto en este mes
                     Dim cmdMySql1cr As New OleDbCommand()
                     cmdMySql1cr.Connection = conexion1
                     cmdMySql1cr.CommandText = "SELECT FechaAPU, ConceptoAPU, ImporteAPU FROM apuntes"
                     cmdMySql1cr.CommandText += " WHERE EjercicioAPU = " & vAñoEjercicio.ToString
-                    cmdMySql1cr.CommandText += " And ConceptoAPU = '" & vNombreConcepto & "' "
+                    cmdMySql1cr.CommandText += " And ConceptoAPU = '" & vNombreConcepto.Replace("'", "''") & "' "
 
                     Dim vSaldoMes As Double = 0
                     Try
@@ -698,7 +725,6 @@ Module Funciones
                         Using drMySql1 As OleDbDataReader = cmdMySql1cr.ExecuteReader()
                             If drMySql1.HasRows Then
                                 While drMySql1.Read()
-                                    ' Extraemos el mes del apunte de forma segura también
                                     Dim vFechaMes As Date
                                     If Date.TryParse(drMySql1.GetValue(0).ToString(), vFechaMes) Then
                                         If vFechaMes.Month = vMes Then
@@ -712,70 +738,69 @@ Module Funciones
                         MsgBox(resManager.GetString("ErrorEjecutarSaldo") & ex.Message)
                     End Try
 
-                    ' Asignamos el valor real final (en tu sistema los gastos van en negativo, por eso el menos)
+                    ' Asignamos el valor real final
                     fila.Cells(2).Value = -vSaldoMes
-
-                    ' Vamos acumulando los valores de cada fila
                     vSumaColumnaRealCompleta += -vSaldoMes
 
+                    ' Conversión limpia y segura del valor del presupuesto
                     Dim importePresuFila As Double = 0
                     If fila.Cells(3).Value IsNot Nothing Then
-                        ' Conversión limpia y segura del valor del presupuesto
                         Double.TryParse(fila.Cells(3).Value.ToString(), importePresuFila)
+
+                        ' 🔥 SI ES INGRESO, lo forzamos a NEGATIVO tanto en la celda como en la variable de cálculo
+                        If vTipoConceptoFila = "INGRESO" Then
+                            importePresuFila = -Math.Abs(importePresuFila)
+                            fila.Cells(3).Value = importePresuFila
+                        End If
+
                         vSumaColumnaPresuCompleta += importePresuFila
                     End If
 
-                    ' =======================================================================
-                    ' CORRECCIÓN QUIRÚRGICA DE LA LÓGICA DE CONDICIONALES PARA ACUMULADOS YTD
-                    ' =======================================================================
+                    ' Acumulados controlados para el YTD financiero
                     If CInt(vAñoEjercicio) < añoActualCalendario Then
-                        ' Escenario A: Año cerrado (Pasado). Sumamos todos los meses incondicionalmente
                         vTotalPresupuestoYTD += importePresuFila
                         vTotalRealYTD += (-vSaldoMes)
-
                     ElseIf CInt(vAñoEjercicio) = añoActualCalendario Then
-                        ' Escenario B: Año actual en curso. Filtramos solo hasta el mes actual
                         Dim vMesInt As Integer = vMes
-                        If vMesInt < mesActualCalendario Then 'excluyendo el mes actual para evitar datos parciales
+                        If vMesInt < mesActualCalendario Then
                             vTotalPresupuestoYTD += importePresuFila
                             vTotalRealYTD += (-vSaldoMes)
                         End If
                     End If
-                    ' =======================================================================
-
-                Next ' Cierre de tu bucle original
-
-                ' Sincronizamos los totales controlados en las etiquetas
+                Next
+                ' Sincronizamos los totales de las etiquetas mediante tu resta limpia estándar
                 Dim vDiferenciaDesviacion As Double = vTotalPresupuestoYTD - vTotalRealYTD
 
-                ' Volcamos el resultado en la caja de texto
-                frmPresupuestos.LblMontoDesviacion.Text = vDiferenciaDesviacion.ToString("###,##0.00")
+                ' Volcamos el resultado exacto en la caja de texto
+                frmPresupuestos.LblMontoDesviacion.Text = vDiferenciaDesviacion.ToString("N2")
 
-                '' Cambiar el color del texto según el estado financiero
-                'If vDiferenciaDesviacion < 0 Then
-                '    frmPresupuestos.TxtDesviacion.ForeColor = Color.Red
-                'Else
-                '    frmPresupuestos.TxtDesviacion.ForeColor = Color.DarkBlue
-                'End If
+                ' Cambiamos los colores de la etiqueta según si el resultado es positivo (ganancia/ahorro) o negativo
+                If vDiferenciaDesviacion >= 0 Then
+                    frmPresupuestos.LblObjetivo.ForeColor = Color.DarkGreen
+                    frmPresupuestos.LblObjetivo.Text = frmPresupuestos.rmse.GetString("LblObjetivo.Text")
+                    If String.IsNullOrEmpty(frmPresupuestos.LblObjetivo.Text) Then frmPresupuestos.LblObjetivo.Text = "Objectiu Assolit!"
+                    frmPresupuestos.LblMontoDesviacion.ForeColor = Color.DarkBlue
+                Else
+                    frmPresupuestos.LblObjetivo.ForeColor = Color.DarkRed
+                    frmPresupuestos.LblObjetivo.Text = frmPresupuestos.rmse.GetString("NoLogrado")
+                    If String.IsNullOrEmpty(frmPresupuestos.LblObjetivo.Text) Then frmPresupuestos.LblObjetivo.Text = "Objectiu No Assolit"
+                    frmPresupuestos.LblMontoDesviacion.ForeColor = Color.Red
+                End If
 
-                ' Llamamos a la actualización de la etiqueta para que sincronice el texto correcto
                 ActualizarEtiquetaDesviacion()
 
-
-                ' INSERCIÓN DE LA FILA DE TOTALES DIRECTAMENTE EN EL DATATABLE SUBYACENTE
+                ' INSERCIÓN DE LA FILA DE TOTALES EN LA REJILLA
                 Try
-                    ' Creamos una fila con la misma estructura que tiene tu consulta SQL
                     Dim filaTotales As DataRow = Tabla.NewRow()
-                    filaTotales(0) = resManager.GetString("TOTAL")          ' En la columna Concepto ponemos el texto
-                    filaTotales(1) = ""               ' En Mes lo dejamos vacío
-                    filaTotales(2) = vSumaColumnaRealCompleta  ' Suma de Reales
-                    filaTotales(3) = vSumaColumnaPresuCompleta ' Suma de Presupuestos
-                    filaTotales(4) = DBNull.Value     ' Fecha vacía para que no interfiera
+                    filaTotales(0) = resManager.GetString("TOTAL")
+                    filaTotales(1) = ""
+                    filaTotales(2) = vSumaColumnaRealCompleta
+                    filaTotales(3) = vSumaColumnaPresuCompleta
+                    filaTotales(4) = DBNull.Value
 
                     Tabla.Rows.Add(filaTotales)
                     Tabla.AcceptChanges()
                 Catch ex As Exception
-                    ' Control de fallos silencioso por seguridad
                 End Try
             End With
 
@@ -882,14 +907,16 @@ Module Funciones
                 Dim nombreMesAnterior As String = StrConv(fechaMesAnterior.ToString("MMMM"), VbStrConv.ProperCase)
 
                 ' "Desviación Parcial Hasta: Mayo" (Traído desde tus recursos)
-                frmPresupuestos.LblDesviacion.Text = frmPresupuestos.rmse.GetString("DesviacionParcial") & " " & nombreMesAnterior
+                frmPresupuestos.LblDesviacion.Text = frmPresupuestos.rmse.GetString("DesviacionParcial") & " " & nombreMesAnterior & " ="
             End If
 
         ElseIf CInt(vAñoEjercicio) < añoActualCalendario Then
             ' Si es un año pasado, el ejercicio ya está cerrado: Desviación Anual
             frmPresupuestos.LblDesviacion.Visible = True
             frmPresupuestos.LblMontoDesviacion.Visible = True
-            frmPresupuestos.LblDesviacion.Text = frmPresupuestos.rmse.GetString("DesviacionAnual") & " " & vAñoEjercicio
+            Dim textoAnual As String = frmPresupuestos.rmse.GetString("LblDesviacion.Text")
+            If String.IsNullOrEmpty(textoAnual) Then textoAnual = "Desviació Anual"
+            frmPresupuestos.LblDesviacion.Text = textoAnual & " " & vAñoEjercicio & "= "
         Else
             ' Si es un año futuro, podrías querer ocultarlo o gestionarlo
             frmPresupuestos.LblDesviacion.Visible = False
@@ -916,7 +943,6 @@ Module Funciones
                 vIngresos += fila.Cells(3).Value
                 fila.Cells(3).Style.ForeColor = Color.DarkBlue
                 frmCuentasBancarias.TxtIngresos.Text = Format(Math.Abs(vIngresos).ToString("N2"))
-                'frmCuentasBancarias.TxtIngresos.Text = Format(vIngresos, "###,##0.00").ToString
             Else
                 vGastos += fila.Cells(3).Value
                 fila.Cells(3).Style.ForeColor = Color.IndianRed
@@ -1828,48 +1854,5 @@ Module Funciones
             MsgBox(ex.ToString)
         End Try
     End Sub
-
-    'Public Function ReadINIkey(file As String, section As String, key As String) As String
-    '    Dim lret As Long, i As Long
-    '    Dim ret As String, newstr As String = "", c As Char
-    '    If file = "" Then
-    '        Return ""
-    '        Exit Function
-    '    End If
-    '    ret = New String(CChar(" "), 255)
-    '    lret = GetPrivateProfileStringKey(section.Trim, key.Trim, "", ret, Len(ret), file.Trim)
-    '    If InStr(ret, Chr(0)) Then
-    '        ret = Left$(ret, Len(ret) - 1)
-    '    End If
-    '    ret = ret.Trim
-    '    ret = ret.Replace(" ", "|")
-    '    For i = 0 To ret.Length - 1
-    '        c = ret.Substring(i, 1).Trim
-    '        If Char.IsControl(c) = False Then newstr = newstr.Trim & c.ToString().Trim
-    '    Next
-    '    ret = newstr.Trim
-    '    ret = ret.Replace("|", " ")
-    '    If ret = "" Then
-    '        Return ""
-    '    Else
-    '        Return ret.Trim
-    '    End If
-    'End Function
-
-    'Public Function SaveINIkey(file As String, section As String, key As String, value As String) As Boolean
-    '    Dim lret As Long
-    '    Dim ret As String = ""
-    '    Try
-    '        lret = WritePrivateProfileString(section.Trim, key.Trim, value.Trim, file.Trim)
-    '        ret = lret.ToString().Trim().ToLower
-    '    Catch ex As Exception
-    '        MessageBox.Show("No se ha escrito nada en INI")
-    '    End Try
-    '    If ret = "0" Then
-    '        Return False
-    '    Else
-    '        Return True
-    '    End If
-    'End Function
 
 End Module

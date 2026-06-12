@@ -226,6 +226,51 @@
     <value>Não foi possível excluir registros nos Orçamentos</value>
   </data>
   <data name="DesviacionParcial" xml:space="preserve">
-    <value>Desvio parcial até:</value>
+    <value>Desvio parcial até</value>
+  </data>
+  <data name="LblMontoDesviacion.Text" xml:space="preserve">
+    <value>DesvioQuantidadeBl</value>
+  </data>
+  <data name="Label2.Text" xml:space="preserve">
+    <value>=</value>
+  </data>
+  <data name="Mes_1" xml:space="preserve">
+    <value>Janeiro</value>
+  </data>
+  <data name="Mes_2" xml:space="preserve">
+    <value>Fevereiro</value>
+  </data>
+  <data name="Mes_3" xml:space="preserve">
+    <value>Março</value>
+  </data>
+  <data name="Mes_4" xml:space="preserve">
+    <value>Abril</value>
+  </data>
+  <data name="Mes_5" xml:space="preserve">
+    <value>Maio</value>
+  </data>
+  <data name="Mes_6" xml:space="preserve">
+    <value>Junho</value>
+  </data>
+  <data name="Mes_7" xml:space="preserve">
+    <value>Julho</value>
+  </data>
+  <data name="Mes_8" xml:space="preserve">
+    <value>Agosto</value>
+  </data>
+  <data name="Mes_9" xml:space="preserve">
+    <value>Setembro</value>
+  </data>
+  <data name="Mes_10" xml:space="preserve">
+    <value>Outubro</value>
+  </data>
+  <data name="Mes_11" xml:space="preserve">
+    <value>Novembro</value>
+  </data>
+  <data name="Mes_12" xml:space="preserve">
+    <value>Dezembro</value>
+  </data>
+  <data name="HastaElMes" xml:space="preserve">
+    <value>Até o mês de</value>
   </data>
 </root>

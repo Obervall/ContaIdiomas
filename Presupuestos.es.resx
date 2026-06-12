@@ -172,7 +172,7 @@
     <value>Objetivo NO Logrado!</value>
   </data>
   <data name="DesviacionParcial" xml:space="preserve">
-    <value>Desviación Parcial hasta:</value>
+    <value>Desviación Parcial hasta</value>
   </data>
   <data name="DesviacionAhorro" xml:space="preserve">
     <value>Desviación (Ahorro)</value>
@@ -227,5 +227,50 @@
   </data>
   <data name="ErrorEliminarPresupuestos" xml:space="preserve">
     <value>No se han podido eliminar los registros en Presupuestos</value>
+  </data>
+  <data name="LblMontoDesviacion.Text" xml:space="preserve">
+    <value>LblMontoDesviacion</value>
+  </data>
+  <data name="Label2.Text" xml:space="preserve">
+    <value>=</value>
+  </data>
+  <data name="HastaElMes" xml:space="preserve">
+    <value>Hasta el mes de</value>
+  </data>
+  <data name="Mes_1" xml:space="preserve">
+    <value>Enero</value>
+  </data>
+  <data name="Mes_2" xml:space="preserve">
+    <value>Febrero</value>
+  </data>
+  <data name="Mes_3" xml:space="preserve">
+    <value>Marzo</value>
+  </data>
+  <data name="Mes_4" xml:space="preserve">
+    <value>Abril</value>
+  </data>
+  <data name="Mes_5" xml:space="preserve">
+    <value>Mayo</value>
+  </data>
+  <data name="Mes_6" xml:space="preserve">
+    <value>Junio</value>
+  </data>
+  <data name="Mes_7" xml:space="preserve">
+    <value>Julio</value>
+  </data>
+  <data name="Mes_8" xml:space="preserve">
+    <value>Agosto</value>
+  </data>
+  <data name="Mes_9" xml:space="preserve">
+    <value>Septiembre</value>
+  </data>
+  <data name="Mes_10" xml:space="preserve">
+    <value>Octubre</value>
+  </data>
+  <data name="Mes_11" xml:space="preserve">
+    <value>Noviembre</value>
+  </data>
+  <data name="Mes_12" xml:space="preserve">
+    <value>Diciembre</value>
   </data>
 </root>
