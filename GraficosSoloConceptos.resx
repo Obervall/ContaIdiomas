@@ -274,7 +274,7 @@
     <value>29, 28</value>
   </data>
   <data name="TSBtnImprimir.Text" xml:space="preserve">
-    <value>ToolStripButton1</value>
+    <value>Imprimir</value>
   </data>
   <data name="ToolStrip1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>

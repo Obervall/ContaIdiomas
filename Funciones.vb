@@ -55,7 +55,6 @@ Module Funciones
     Public frmSeleccionarDatosIngresos As New SeleccionDatosIngresos
     Public frmSeleccionarDatosGastos As New SeleccionDatosGastos
     Public frmGraficosSoloConceptos As New GraficosSoloConceptos
-    Public frmGraficosSoloConceptos3D As New GraficosSoloConceptos3D
     Public frmActivarSoftware As New ActivarSoftware
     Public frmAportacionBizum As New AportacionBizum
     'Public frmAyudaApuntes As New AyudaApuntes

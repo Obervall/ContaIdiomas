@@ -30,8 +30,8 @@ Public Class GraficosConceptos
             DgvApuntesContables(3, 4)
         End If
 
-        'Llenamos la tabla Temporal con los Conceptos Agrupados desde DgvApuntes
-        '***********************************************************************
+        'Llenamos la tabla Temporal con los Conceptos desde DgvApuntes
+        '*************************************************************
         vNombreConcepto = ""
 
         If vGrafico <> "" Then
@@ -90,7 +90,6 @@ Public Class GraficosConceptos
         Chart1.Series("Gastos").LegendText = resManager.GetString("Gastos")
         Chart1.Series("Ingresos").LegendText = resManager.GetString("Ingresos")
         Chart1.ChartAreas("ChartArea1").Area3DStyle.Enable3D = Me.EsGrafico3D
-
     End Sub
 
     Private Sub DibujarGraficoColumnas()
@@ -260,7 +259,6 @@ Public Class GraficosConceptos
         TsBtnColumnas.Checked = False
         TsBtnAreas.Checked = False
         TsBtnLineas.Checked = False
-        TsBtnPastel.Checked = True
 
         ' Limpieza de ejes para el modo Pastel
         Chart1.ChartAreas("ChartArea1").AxisX.Title = ""

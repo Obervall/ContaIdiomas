@@ -1,12 +1,10 @@
-﻿Imports System.Windows.Forms
-
-Public Class SeleccionDatosIngresos
+﻿Public Class SeleccionDatosIngresos
 
     Public i As Integer
     Public vConcepto As String
 
     Private Sub SeleccionDatos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ActualizarTextosFormulario(Me)
+        'ActualizarTextosFormulario(Me)
 
         cmdMdb1cr.CommandText = "SELECT * FROM conceptos "
         cmdMdb1cr.CommandText += "Where conceptos.TipoCON = 'INGRESO' ORDER BY conceptos.CodigoCON ASC"
@@ -64,15 +62,14 @@ Public Class SeleccionDatosIngresos
         vtipoGrid = "PRINT_APUNTES_CONTABLES"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
 
-        'vGrafico = "SOLO GASTOS / INGRESOS CONCEPTOS"
-        ' Comprobamos si existe un identificador asociado.
+        ' =================================
+        ' 1. GRÁFICOS POR SOLO CONCEPTOS 2D
+        ' =================================
         If (frmGraficosSoloConceptos Is Nothing) OrElse (Not frmGraficosSoloConceptos.IsHandleCreated) Then
             frmGraficosSoloConceptos = New GraficosSoloConceptos
         End If
-        ' Llamamos al formulario de manera modal.
+        frmGraficosSoloConceptos.EsGrafico3D = False
         frmGraficosSoloConceptos.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
         frmGraficosSoloConceptos.Dispose()
     End Sub
 
@@ -99,15 +96,14 @@ Public Class SeleccionDatosIngresos
         vtipoGrid = "PRINT_APUNTES_CONTABLES"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
 
-        'vGrafico = "SOLO GASTOS / INGRESOS CONCEPTOS"
-        ' Comprobamos si existe un identificador asociado.
-        If (frmGraficosSoloConceptos3D Is Nothing) OrElse (Not frmGraficosSoloConceptos3D.IsHandleCreated) Then
-            frmGraficosSoloConceptos3D = New GraficosSoloConceptos3D
+        ' =================================
+        ' 1. GRÁFICOS POR SOLO CONCEPTOS 3D
+        ' =================================
+        If (frmGraficosSoloConceptos Is Nothing) OrElse (Not frmGraficosSoloConceptos.IsHandleCreated) Then
+            frmGraficosSoloConceptos = New GraficosSoloConceptos
         End If
-        ' Llamamos al formulario de manera modal.
-        frmGraficosSoloConceptos3D.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
-        frmGraficosSoloConceptos3D.Dispose()
+        frmGraficosSoloConceptos.EsGrafico3D = True
+        frmGraficosSoloConceptos.ShowDialog()
+        frmGraficosSoloConceptos.Dispose()
     End Sub
 End Class

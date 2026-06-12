@@ -205,12 +205,6 @@
     <Compile Include="GraficosPresupuestos.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GraficosSoloConceptos3D.Designer.vb">
-      <DependentUpon>GraficosSoloConceptos3D.vb</DependentUpon>
-    </Compile>
-    <Compile Include="GraficosSoloConceptos3D.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="GraficosSoloConceptos.Designer.vb">
       <DependentUpon>GraficosSoloConceptos.vb</DependentUpon>
     </Compile>
@@ -1018,27 +1012,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosSoloConceptos.pt.resx">
       <DependentUpon>GraficosSoloConceptos.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosSoloConceptos3D.ca.resx">
-      <DependentUpon>GraficosSoloConceptos3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosSoloConceptos3D.de.resx">
-      <DependentUpon>GraficosSoloConceptos3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosSoloConceptos3D.en.resx">
-      <DependentUpon>GraficosSoloConceptos3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosSoloConceptos3D.es.resx">
-      <DependentUpon>GraficosSoloConceptos3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosSoloConceptos3D.fr.resx">
-      <DependentUpon>GraficosSoloConceptos3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosSoloConceptos3D.pt.resx">
-      <DependentUpon>GraficosSoloConceptos3D.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraficosSoloConceptos3D.resx">
-      <DependentUpon>GraficosSoloConceptos3D.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosSoloConceptos.resx">
       <DependentUpon>GraficosSoloConceptos.vb</DependentUpon>

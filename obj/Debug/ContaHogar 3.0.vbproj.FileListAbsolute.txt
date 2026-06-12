@@ -162,7 +162,6 @@ C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.EditarTipoCuentaBancaria.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.EditarApuntes.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.FiltroF5.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.GraficosPresupuestos.resources
-C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.GraficosSoloConceptos3D.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.GraficosSoloConceptos.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.GraficosMeses.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.GraficosFechas.resources
@@ -314,12 +313,6 @@ C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.GraficosSoloConceptos.en.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.GraficosSoloConceptos.es.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.GraficosSoloConceptos.fr.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.GraficosSoloConceptos.pt.resources
-C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.GraficosSoloConceptos3D.ca.resources
-C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.GraficosSoloConceptos3D.de.resources
-C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.GraficosSoloConceptos3D.en.resources
-C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.GraficosSoloConceptos3D.es.resources
-C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.GraficosSoloConceptos3D.fr.resources
-C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.GraficosSoloConceptos3D.pt.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.IntroApuntes.ca.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.IntroApuntes.de.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.IntroApuntes.en.resources
