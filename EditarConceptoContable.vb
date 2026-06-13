@@ -120,6 +120,11 @@ Public Class EditarConceptoContable
             End If
         End If
 
+        ' Esto es para que si hay algún Concepto que yo he entrado en catalán no se piense que se ha traducido
+        If vTxtNombre <> codigoOriginalMDB Then
+            codigoOriginalMDB = vTxtNombre
+        End If
+
         ' Modificar Registro usando el código original recuperado
         ' *******************************************************
         vtipoSql = "UPDATE conceptos SET DescripcionCON = '" & vTxtDescripcion & "' , NotasCON = '" & vTxtNotas & "' "
@@ -150,7 +155,7 @@ Public Class EditarConceptoContable
                 For Each elemento As System.Collections.DictionaryEntry In recursos
                     If elemento.Value.ToString().Trim().ToUpper() = vTxtNombre.ToUpper() Then
                         ' Restauramos el código original revirtiendo los guiones bajos por espacios
-                        nombreOriginalBD = elemento.Key.ToString().Replace("_", " ")
+                        nombreOriginalBD = elemento.Key.ToString().Replace("Desc_", " ")
                         Exit For
                     End If
                 Next
@@ -175,19 +180,21 @@ Public Class EditarConceptoContable
         End Try
 
         ' 4. Mensaje de confirmación (Muestra vTxtNombre que es el texto traducido que el usuario entiende)
-        Dim respuesta As MsgBoxResult = MsgBox(rmse.GetString("EliminarConcepto") & " " & vTxtNombre & " " & rmse.GetString("EliminarConcepto2"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("LblEliminando"))
+        If vTxtNombre <> nombreOriginalBD Then
+            nombreOriginalBD = vTxtNombre
+        End If
+
+        Dim respuesta As MsgBoxResult = MsgBox(rmse.GetString("EliminarConcepto") & " " & nombreOriginalBD & " " & rmse.GetString("EliminarConcepto2"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("LblEliminando"))
 
         If respuesta = vbYes Then
-
             ' 5. EJECUCIÓN EN CASCADA CORREGIDA: Se asigna Y SE EJECUTA cada tabla por separado
-
-            ' A. Eliminar de la tabla 'conceptos' (¡Aquí se ejecutaba mal en tu código antiguo!)
             vtipoSql = "DELETE FROM conceptos WHERE CodigoCON = '" & nombreOriginalBD & "'"
             cmdMdb1cr.CommandText = vtipoSql
             Try
                 cmdMdb1cr.ExecuteNonQuery()
+                MsgBox(frmEditarConceptoContable.rmse.GetString("EliminarConcepto3"))
             Catch ex As Exception
-                MsgBox("Error al eliminar el concepto base: " & ex.Message)
+                MsgBox(ex.Message)
             End Try
 
             ' B. Eliminar Registros Apuntes

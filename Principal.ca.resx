@@ -7850,4 +7850,129 @@
   <data name="ArchivoToolStripMenuItem.Text" xml:space="preserve">
     <value>Inici</value>
   </data>
+  <data name="ListadoApuntesOrdenadoFechas" xml:space="preserve">
+    <value>Llistat Apunts Ordenat per Dates</value>
+  </data>
+  <data name="ListadoApuntesOrdenadoConceptos" xml:space="preserve">
+    <value>Llistat Apunts Ordenat per Conceptes</value>
+  </data>
+  <data name="ListadoApuntesOrdenadoImportes" xml:space="preserve">
+    <value>Llistat Apunts Ordenat per Imports</value>
+  </data>
+  <data name="ListadoApuntesSoloIngresosFechas" xml:space="preserve">
+    <value>Llistat Apunts Només Ingressos Ordenat per Dates</value>
+  </data>
+  <data name="ListadoApuntesSoloIngresosConceptos" xml:space="preserve">
+    <value>Llistat Apunts Només Ingressos Ordenat per Conceptes</value>
+  </data>
+  <data name="ListadoApuntesSoloIngresosImportes" xml:space="preserve">
+    <value>Llistat Apunts Només Ingressos Ordenat per Imports</value>
+  </data>
+  <data name="ListadoApuntesSoloGastosFechas" xml:space="preserve">
+    <value>Llistat Apunts Només Despeses Ordenat per Dates</value>
+  </data>
+  <data name="ListadoApuntesSoloGastosConceptos" xml:space="preserve">
+    <value>Llistat Apunts Només Despeses Ordenat per Conceptes</value>
+  </data>
+  <data name="ListadoApuntesSoloGastosImportes" xml:space="preserve">
+    <value>Llistat Apunts Només Despeses Ordenat per Imports</value>
+  </data>
+  <data name="ListadoPeriodicosFechas" xml:space="preserve">
+    <value>Llistat Apunts Periòdics Ordenat per Dates</value>
+  </data>
+  <data name="ListadoPeriodicosConceptos" xml:space="preserve">
+    <value>Llistat Apunts Periòdics Ordenat per Conceptes</value>
+  </data>
+  <data name="ListadoPeriodicosImportes" xml:space="preserve">
+    <value>Llistat Apunts Periòdics Ordenat per Imports</value>
+  </data>
+  <data name="ListadoPeriodicosSoloIngresosFechas" xml:space="preserve">
+    <value>Llistat Apunts Periòdics Només Ingressos Ordenat per Dates</value>
+  </data>
+  <data name="ListadoPeriodicosSoloIngresosConceptos" xml:space="preserve">
+    <value>Llistat Apunts Periòdics Només Ingressos Ordenat per Conceptes</value>
+  </data>
+  <data name="ListadoPeriodicosSoloIngresosImportes" xml:space="preserve">
+    <value>Llistat Apunts Periòdics Només Ingressos Ordenat per Imports</value>
+  </data>
+  <data name="ListadoPeriodicosSoloGastosFechas" xml:space="preserve">
+    <value>Llistat Apunts Periòdics Només Despeses Ordenat per Dates</value>
+  </data>
+  <data name="ListadoPeriodicosSoloGastosConceptos" xml:space="preserve">
+    <value>Llistat Apunts Periòdics Només Despeses Ordenat per Conceptes</value>
+  </data>
+  <data name="ListadoPeriodicosSoloGastosImportes" xml:space="preserve">
+    <value>Llistat Apunts Periòdics Només Despeses Ordenat per Imports</value>
+  </data>
+  <data name="ImportandoApuntes" xml:space="preserve">
+    <value>Important de Contahogar els APUNTS, Espere uns Segons...</value>
+  </data>
+  <data name="RealizarCopiaSeguridad" xml:space="preserve">
+    <value>¿Desitja realitzar una còpia de seguretat
+de la base de dades abans d'importar els apunts?</value>
+  </data>
+  <data name="RecomiendaCopiaSeguridad" xml:space="preserve">
+    <value>Desitja continuar sense realitzar una còpia de seguretat?
+Es recomana realitzar-la per evitar pèrdues de dades. Aquesta acció no es pot desfer</value>
+  </data>
+  <data name="Advertencia" xml:space="preserve">
+    <value>Advertència</value>
+  </data>
+  <data name="TransferenciaApuntes" xml:space="preserve">
+    <value>Transferència completada APUNTS</value>
+  </data>
+  <data name="RegistrosCopiados" xml:space="preserve">
+    <value>registres copiats</value>
+  </data>
+  <data name="ErrorTransferenciaApuntes" xml:space="preserve">
+    <value>Error durant la transferència APUNTS</value>
+  </data>
+  <data name="ImportandoApuntesPeriodicos" xml:space="preserve">
+    <value>Important de Contahogar, els APUNTS PERIÒDICS, Espere uns Segons...</value>
+  </data>
+  <data name="TransferenciaApuntesPeriodicos" xml:space="preserve">
+    <value>Transferència completada APUNTS PERIODICS</value>
+  </data>
+  <data name="ErrorTransferenciaApuntesPeriodicos" xml:space="preserve">
+    <value>Error durant la transferència APUNTS PERIODICS</value>
+  </data>
+  <data name="ImportandoEjercicios" xml:space="preserve">
+    <value>Important de Contahogar els EXERCICIS, Espere uns Segons...</value>
+  </data>
+  <data name="TransferenciaEjercicios" xml:space="preserve">
+    <value>Transferència completada EXERCICIS</value>
+  </data>
+  <data name="RegistrosOmitidos" xml:space="preserve">
+    <value>registres omesos</value>
+  </data>
+  <data name="ErrorTransferenciaEjercicios" xml:space="preserve">
+    <value>Error durant la transferència EXERCICIS</value>
+  </data>
+  <data name="ImportandoConceptos" xml:space="preserve">
+    <value>Important de Contahogar, els CONCEPTES, Espere uns Segons...</value>
+  </data>
+  <data name="TransferenciaConceptos" xml:space="preserve">
+    <value>Transferència completada CONCEPTES</value>
+  </data>
+  <data name="ErrorTransferenciaConceptos" xml:space="preserve">
+    <value>Error durant la transferència CONCEPTES</value>
+  </data>
+  <data name="ImportandoCuentas" xml:space="preserve">
+    <value>Important de Contahogar, els COMPTES, Espere uns Segons...</value>
+  </data>
+  <data name="TransferenciaCuentas" xml:space="preserve">
+    <value>Transferència completada COMPTES</value>
+  </data>
+  <data name="ErrorTransferenciaCuentas" xml:space="preserve">
+    <value>Error durant la transferència COMPTES</value>
+  </data>
+  <data name="ImportandoPresupuestos" xml:space="preserve">
+    <value>Important de Contahogar, els PRESSUPOSTOS, Espere uns Segons...</value>
+  </data>
+  <data name="TransferenciaPresupuestos" xml:space="preserve">
+    <value>Transferència completada PRESSUPOSTOS</value>
+  </data>
+  <data name="ErrorTransferenciaPresupuestos" xml:space="preserve">
+    <value>Error durant la transferència PRESSUPOSTOS</value>
+  </data>
 </root>

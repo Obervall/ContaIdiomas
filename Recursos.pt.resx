@@ -628,4 +628,7 @@ Eles não são removidos do banco de dados</value>
   <data name="ToolTipF6" xml:space="preserve">
     <value>Atualizando a grade de notas e removendo filtros</value>
   </data>
+  <data name="AvisoConceptoProtegido" xml:space="preserve">
+    <value>Os conceitos padrão do sistema são protegidos contra modificações</value>
+  </data>
 </root>

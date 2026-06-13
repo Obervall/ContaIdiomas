@@ -109,6 +109,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Los conceptos predeterminados del sistema están protegidos contra modificaciones.
+    '''</summary>
+    Friend Shared ReadOnly Property AvisoConceptoProtegido() As String
+        Get
+            Return ResourceManager.GetString("AvisoConceptoProtegido", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a BBVA.
     '''</summary>
     Friend Shared ReadOnly Property BBVA() As String

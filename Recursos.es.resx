@@ -628,4 +628,7 @@ No se Eliminan de la Base de Datos</value>
   <data name="ToolTipF6" xml:space="preserve">
     <value>Refrescar la Parrilla Apuntes y Quitar Filtros</value>
   </data>
+  <data name="AvisoConceptoProtegido" xml:space="preserve">
+    <value>Los conceptos predeterminados del sistema están protegidos contra modificaciones</value>
+  </data>
 </root>

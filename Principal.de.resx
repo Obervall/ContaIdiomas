@@ -7853,4 +7853,129 @@
   <data name="ArchivoToolStripMenuItem.Text" xml:space="preserve">
     <value>Zuhause</value>
   </data>
+  <data name="ListadoApuntesOrdenadoFechas" xml:space="preserve">
+    <value>Liste der nach Datum sortierten Notizen</value>
+  </data>
+  <data name="ListadoApuntesOrdenadoConceptos" xml:space="preserve">
+    <value>Liste der nach Konzepten sortierten Notizen</value>
+  </data>
+  <data name="ListadoApuntesOrdenadoImportes" xml:space="preserve">
+    <value>Liste der nach Beträgen sortierten Banknoten</value>
+  </data>
+  <data name="ListadoApuntesSoloIngresosFechas" xml:space="preserve">
+    <value>Liste der Einträge Nur Einkünfte nach Daten geordnet</value>
+  </data>
+  <data name="ListadoApuntesSoloIngresosConceptos" xml:space="preserve">
+    <value>Liste der Einträge nur nach Konzepten geordnete Einkünfte</value>
+  </data>
+  <data name="ListadoApuntesSoloIngresosImportes" xml:space="preserve">
+    <value>Liste der Einträge nur nach Beträgen geordnet</value>
+  </data>
+  <data name="ListadoApuntesSoloGastosFechas" xml:space="preserve">
+    <value>Liste der Posten, nur nach Daten sortierte Ausgaben</value>
+  </data>
+  <data name="ListadoApuntesSoloGastosConceptos" xml:space="preserve">
+    <value>Liste der Posten Nur nach Konzepten geordnete Ausgaben</value>
+  </data>
+  <data name="ListadoApuntesSoloGastosImportes" xml:space="preserve">
+    <value>Nur Postenliste nach Beträgen sortiert</value>
+  </data>
+  <data name="ListadoPeriodicosFechas" xml:space="preserve">
+    <value>Liste der nach Datum sortierten Zeitschriften</value>
+  </data>
+  <data name="ListadoPeriodicosConceptos" xml:space="preserve">
+    <value>Liste periodischer Noten, geordnet nach Konzepten</value>
+  </data>
+  <data name="ListadoPeriodicosImportes" xml:space="preserve">
+    <value>Liste der periodischen Noten sortiert nach Beträgen</value>
+  </data>
+  <data name="ListadoPeriodicosSoloIngresosFechas" xml:space="preserve">
+    <value>Liste periodischer Einträge Nur Einkünfte nach Daten sortiert</value>
+  </data>
+  <data name="ListadoPeriodicosSoloIngresosConceptos" xml:space="preserve">
+    <value>Liste periodischer Forderungen Nur Einkommen nach Konzepten geordnet</value>
+  </data>
+  <data name="ListadoPeriodicosSoloIngresosImportes" xml:space="preserve">
+    <value>Liste der periodischen Forderungen: Nur Einkünfte sortiert nach Beträgen</value>
+  </data>
+  <data name="ListadoPeriodicosSoloGastosFechas" xml:space="preserve">
+    <value>Liste der periodischen Posten Nur Ausgaben nach Daten sortiert</value>
+  </data>
+  <data name="ListadoPeriodicosSoloGastosConceptos" xml:space="preserve">
+    <value>Liste periodischer Posten Nur Ausgaben nach Konzepten geordnet</value>
+  </data>
+  <data name="ListadoPeriodicosSoloGastosImportes" xml:space="preserve">
+    <value>Liste der periodischen Posten Nur nach Beträgen sortierte Ausgaben</value>
+  </data>
+  <data name="ImportandoApuntes" xml:space="preserve">
+    <value>Ich importiere die NOTEN von Contahogar, warte ein paar Sekunden...</value>
+  </data>
+  <data name="RealizarCopiaSeguridad" xml:space="preserve">
+    <value>Willst du zurückgehen?
+Die Datenbank vor dem Import der Notizen zu überprüfen?</value>
+  </data>
+  <data name="RecomiendaCopiaSeguridad" xml:space="preserve">
+    <value>Willst du ohne Rückschritt weitermachen?
+Es wird empfohlen, dies durchzuführen, um Datenverlust zu vermeiden. Diese Maßnahme kann nicht rückgängig gemacht werden</value>
+  </data>
+  <data name="Advertencia" xml:space="preserve">
+    <value>Warnung</value>
+  </data>
+  <data name="TransferenciaApuntes" xml:space="preserve">
+    <value>Transfer abgeschlossen ANMERKUNGEN</value>
+  </data>
+  <data name="RegistrosCopiados" xml:space="preserve">
+    <value>Kopierte Aufzeichnungen</value>
+  </data>
+  <data name="ErrorTransferenciaApuntes" xml:space="preserve">
+    <value>Fehler während der Übertragung ANMERKUNGEN</value>
+  </data>
+  <data name="ImportandoApuntesPeriodicos" xml:space="preserve">
+    <value>Importiert von Contahogar, die PERIODISCHEN NOTIZEN, warte ein paar Sekunden...</value>
+  </data>
+  <data name="TransferenciaApuntesPeriodicos" xml:space="preserve">
+    <value>Übertragung abgeschlossen PERIODISCHE NOTEN</value>
+  </data>
+  <data name="ErrorTransferenciaApuntesPeriodicos" xml:space="preserve">
+    <value>Fehler während der Übertragung PERIODISCHE NOTEN</value>
+  </data>
+  <data name="ImportandoEjercicios" xml:space="preserve">
+    <value>Importiere von Contahogar die ÜBUNGEN, warte ein paar Sekunden...</value>
+  </data>
+  <data name="TransferenciaEjercicios" xml:space="preserve">
+    <value>Transfer abgeschlossen ÜBUNGEN</value>
+  </data>
+  <data name="RegistrosOmitidos" xml:space="preserve">
+    <value>Übersprungene Rekorde</value>
+  </data>
+  <data name="ErrorTransferenciaEjercicios" xml:space="preserve">
+    <value>Fehler während des Transfers ÜBUNGEN</value>
+  </data>
+  <data name="ImportandoConceptos" xml:space="preserve">
+    <value>Importiere von Contahogar, die KONZEPTE, Warte ein paar Sekunden...</value>
+  </data>
+  <data name="TransferenciaConceptos" xml:space="preserve">
+    <value>Transfer abgeschlossen KONZEPTE</value>
+  </data>
+  <data name="ErrorTransferenciaConceptos" xml:space="preserve">
+    <value>Fehler während der Übertragung KONZEPTE</value>
+  </data>
+  <data name="ImportandoCuentas" xml:space="preserve">
+    <value>Importiere von Contahogar, die KONTEN, warte ein paar Sekunden...</value>
+  </data>
+  <data name="TransferenciaCuentas" xml:space="preserve">
+    <value>Abgeschlossene ÜBERTRAGUNGSKONTEN</value>
+  </data>
+  <data name="ErrorTransferenciaCuentas" xml:space="preserve">
+    <value>Fehler während der KONTOÜBERTRAGUNG</value>
+  </data>
+  <data name="ImportandoPresupuestos" xml:space="preserve">
+    <value>Import aus Contahogar, die BUDGETS, warte ein paar Sekunden...</value>
+  </data>
+  <data name="TransferenciaPresupuestos" xml:space="preserve">
+    <value>Transfer abgeschlossen QUOTES</value>
+  </data>
+  <data name="ErrorTransferenciaPresupuestos" xml:space="preserve">
+    <value>Fehler während der Übertragung QUOTES</value>
+  </data>
 </root>

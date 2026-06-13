@@ -7850,4 +7850,129 @@
   <data name="ArchivoToolStripMenuItem.Text" xml:space="preserve">
     <value>Accueil</value>
   </data>
+  <data name="ListadoApuntesOrdenadoFechas" xml:space="preserve">
+    <value>Liste des notes triées par date</value>
+  </data>
+  <data name="ListadoApuntesOrdenadoConceptos" xml:space="preserve">
+    <value>Liste des notes triées par concepts</value>
+  </data>
+  <data name="ListadoApuntesOrdenadoImportes" xml:space="preserve">
+    <value>Liste des billets triés par montants</value>
+  </data>
+  <data name="ListadoApuntesSoloIngresosFechas" xml:space="preserve">
+    <value>Liste des entrées uniquement Revenus ordonnés par dates</value>
+  </data>
+  <data name="ListadoApuntesSoloIngresosConceptos" xml:space="preserve">
+    <value>Liste des entrées uniquement Revenus ordonnés par concepts</value>
+  </data>
+  <data name="ListadoApuntesSoloIngresosImportes" xml:space="preserve">
+    <value>Liste des entrées uniquement Revenus ordonnés par montants</value>
+  </data>
+  <data name="ListadoApuntesSoloGastosFechas" xml:space="preserve">
+    <value>Liste des dépenses uniquement des articles triées par dates</value>
+  </data>
+  <data name="ListadoApuntesSoloGastosConceptos" xml:space="preserve">
+    <value>Liste des dépenses uniquement des articles ordonnées par concepts</value>
+  </data>
+  <data name="ListadoApuntesSoloGastosImportes" xml:space="preserve">
+    <value>Liste des articles uniquement Dépenses triées par montants</value>
+  </data>
+  <data name="ListadoPeriodicosFechas" xml:space="preserve">
+    <value>Liste des périodiques triés par date</value>
+  </data>
+  <data name="ListadoPeriodicosConceptos" xml:space="preserve">
+    <value>Liste des notes périodiques ordonnées par concepts</value>
+  </data>
+  <data name="ListadoPeriodicosImportes" xml:space="preserve">
+    <value>Liste des notes périodiques triées par montants</value>
+  </data>
+  <data name="ListadoPeriodicosSoloIngresosFechas" xml:space="preserve">
+    <value>Liste des entrées périodiques Revenus uniquement triés par dates</value>
+  </data>
+  <data name="ListadoPeriodicosSoloIngresosConceptos" xml:space="preserve">
+    <value>Liste des notes périodiques uniquement Revenus ordonnés par concepts</value>
+  </data>
+  <data name="ListadoPeriodicosSoloIngresosImportes" xml:space="preserve">
+    <value>Liste des billets périodiques uniquement Revenu trié par montants</value>
+  </data>
+  <data name="ListadoPeriodicosSoloGastosFechas" xml:space="preserve">
+    <value>Liste des éléments périodiques uniquement Dépenses triées par dates</value>
+  </data>
+  <data name="ListadoPeriodicosSoloGastosConceptos" xml:space="preserve">
+    <value>Liste des dépenses périodiques uniquement ordonnées par concepts</value>
+  </data>
+  <data name="ListadoPeriodicosSoloGastosImportes" xml:space="preserve">
+    <value>Liste des éléments périodiques uniquement Dépenses triées par montants</value>
+  </data>
+  <data name="ImportandoApuntes" xml:space="preserve">
+    <value>Importation depuis Contahogar des NOTES, Attends quelques secondes...</value>
+  </data>
+  <data name="RealizarCopiaSeguridad" xml:space="preserve">
+    <value>Tu veux reculer ?
+de la base de données avant d’importer les notes ?</value>
+  </data>
+  <data name="RecomiendaCopiaSeguridad" xml:space="preserve">
+    <value>Tu veux continuer sans reculer ?
+Il est recommandé de le faire pour éviter la perte de données. Cette action ne peut être annulée</value>
+  </data>
+  <data name="Advertencia" xml:space="preserve">
+    <value>Avertissement</value>
+  </data>
+  <data name="TransferenciaApuntes" xml:space="preserve">
+    <value>Transfert achevé NOTES</value>
+  </data>
+  <data name="RegistrosCopiados" xml:space="preserve">
+    <value>Enregistrements copiés</value>
+  </data>
+  <data name="ErrorTransferenciaApuntes" xml:space="preserve">
+    <value>Erreur lors du transfert NOTES</value>
+  </data>
+  <data name="ImportandoApuntesPeriodicos" xml:space="preserve">
+    <value>Important depuis Contahogar, les NOTES PÉRIODIQUES, Attendez quelques secondes...</value>
+  </data>
+  <data name="TransferenciaApuntesPeriodicos" xml:space="preserve">
+    <value>Transfert terminé NOTES PÉRIODIQUES</value>
+  </data>
+  <data name="ErrorTransferenciaApuntesPeriodicos" xml:space="preserve">
+    <value>Erreur lors du transfert NOTES PÉRIODIQUES</value>
+  </data>
+  <data name="ImportandoEjercicios" xml:space="preserve">
+    <value>Importation de Contahogar des EXERCICES, Attends quelques secondes...</value>
+  </data>
+  <data name="TransferenciaEjercicios" xml:space="preserve">
+    <value>Transfert EXERCICES achevés</value>
+  </data>
+  <data name="RegistrosOmitidos" xml:space="preserve">
+    <value>Disques sautés</value>
+  </data>
+  <data name="ErrorTransferenciaEjercicios" xml:space="preserve">
+    <value>Erreur lors des EXERCICES de transfert</value>
+  </data>
+  <data name="ImportandoConceptos" xml:space="preserve">
+    <value>Important depuis Contahogar, les CONCEPTS, Attendez quelques secondes...</value>
+  </data>
+  <data name="TransferenciaConceptos" xml:space="preserve">
+    <value>Transfert achevé CONCEPTS</value>
+  </data>
+  <data name="ErrorTransferenciaConceptos" xml:space="preserve">
+    <value>Erreur lors du transfert CONCEPTS</value>
+  </data>
+  <data name="ImportandoCuentas" xml:space="preserve">
+    <value>Importation depuis Contahogar, les COMPTES, Attendez quelques secondes...</value>
+  </data>
+  <data name="TransferenciaCuentas" xml:space="preserve">
+    <value>Transfert de COMPTES complétés</value>
+  </data>
+  <data name="ErrorTransferenciaCuentas" xml:space="preserve">
+    <value>Erreur lors du transfert du COMPTE</value>
+  </data>
+  <data name="ImportandoPresupuestos" xml:space="preserve">
+    <value>Important depuis Contahogar, les BUDGETS, Attendez quelques secondes...</value>
+  </data>
+  <data name="TransferenciaPresupuestos" xml:space="preserve">
+    <value>Transfert accompli QUOTES</value>
+  </data>
+  <data name="ErrorTransferenciaPresupuestos" xml:space="preserve">
+    <value>Erreur lors du transfert QUOTES</value>
+  </data>
 </root>

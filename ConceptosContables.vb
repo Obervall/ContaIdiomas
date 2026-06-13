@@ -1,4 +1,5 @@
 ﻿Imports System.Collections.Generic
+Imports System.Data
 Imports System.Drawing
 Imports System.Windows.Forms
 Imports ToolTip = System.Windows.Forms.ToolTip
@@ -403,15 +404,29 @@ Public Class ConceptosContables
             End If
         End If
 
+        'Colocar un codigo para que revise si el vTxtNombre existe realmente en la tabla Conceptos en CodigoCON (0)
+        'si existe esConceptoDeMuestra pasa a False
+        Dim queryVerificar As String = "SELECT COUNT(*) FROM Conceptos WHERE CodigoCON = ?"
+        Try
+            Using cmd As New OleDb.OleDbCommand(queryVerificar, conexion1)
+                ' Asignamos directamente vTxtNombre como parámetro tal como indicas
+                cmd.Parameters.Add("?", OleDb.OleDbType.VarChar).Value = vTxtNombre
+                Dim conteo As Integer = Convert.ToInt32(cmd.ExecuteScalar())
+                ' Si el conteo es mayor a 0, significa que existe y pasa a False
+                If conteo > 0 Then
+                    esConceptoDeMuestra = False
+                End If
+            End Using
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+
         If esConceptoDeMuestra Then
             Dim msgAviso As String = resManager.GetString("AvisoConceptoProtegido")
             If String.IsNullOrEmpty(msgAviso) Then msgAviso = "Los conceptos predeterminados del sistema están protegidos contra modificaciones."
-
-            MessageBox.Show(msgAviso, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            MessageBox.Show(msgAviso, resManager.GetString("Aviso"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
-        ' -------------------------------------------------------------
-        ' -------------------------------------------------
 
         ' Comprobamos si existe un identificador asociado.
         If ((frmEditarConceptoContable Is Nothing) OrElse (Not frmEditarConceptoContable.IsHandleCreated)) Then
@@ -566,18 +581,13 @@ Public Class ConceptosContables
 
         Dim sfDerecha As New StringFormat With {.Alignment = StringAlignment.Far}
 
-        ' Capturamos de forma estricta la cultura guardada por el usuario para el hilo actual
-        Dim cultura As New System.Globalization.CultureInfo(My.Settings.CulturaUsuario)
-        System.Globalization.CultureInfo.CurrentCulture = cultura
-        System.Globalization.CultureInfo.CurrentUICulture = cultura
-
         ' 2. DETERMINAR TÍTULO Y FECHA DESDE EL RESX
-        Dim textoTituloFinal As String = resManager.GetString("TituloReporteConceptos", cultura)
+        Dim textoTituloFinal As String = resManager.GetString("TituloReporteConceptos")
         If String.IsNullOrEmpty(textoTituloFinal) Then textoTituloFinal = "Listado de Conceptos Contables"
         frmImprimirForm.LblTitulo.Text = textoTituloFinal
 
         ' Generamos la fecha larga con el formato regional del idioma activo
-        Dim textoFecha As String = DateTime.Now.ToString("D", cultura)
+        Dim textoFecha As String = DateTime.Now.ToString("D")
 
         ' 3. DIBUJAR ENCABEZADO ESTRUCTURAL DE LA PLANTILLA
         ' Imprimimos la fecha larga perfectamente pegada al margen derecho de la hoja
@@ -592,9 +602,9 @@ Public Class ConceptosContables
         End If
 
         ' Imprimimos los títulos de columnas dinámicos usando las posiciones de la plantilla (Punto1, Punto2, Punto3)
-        e.Graphics.DrawString(resManager.GetString("Tipo", cultura) & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
-        e.Graphics.DrawString(resManager.GetString("Codigo", cultura) & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto2.Left, frmImprimirForm.Punto2.Top - 30)
-        e.Graphics.DrawString(resManager.GetString("Descripcion", cultura) & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
+        e.Graphics.DrawString(resManager.GetString("Tipo") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
+        e.Graphics.DrawString(resManager.GetString("Codigo") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto2.Left, frmImprimirForm.Punto2.Top - 30)
+        e.Graphics.DrawString(resManager.GetString("Descripcion") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
 
         ' Línea divisoria superior
         e.Graphics.DrawString(frmImprimirForm.LineaTop.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.LineaTop.Left, frmImprimirForm.LineaTop.Top)
@@ -632,9 +642,9 @@ Public Class ConceptosContables
             ' Manejo especial para notas de sistema en conceptos ESPECIALES
             Dim textoCelda2 As String = descActual
             Dim tipoUpper As String = tipoActual.ToUpper()
-            If tipoUpper = "ESPECIAL" OrElse (resManager.GetString("Tipo_Especial", cultura) IsNot Nothing AndAlso tipoUpper = resManager.GetString("Tipo_Especial", cultura).ToUpper()) Then
+            If tipoUpper = "ESPECIAL" OrElse (resManager.GetString("Tipo_Especial") IsNot Nothing AndAlso tipoUpper = resManager.GetString("Tipo_Especial").ToUpper()) Then
                 Dim llaveNota As String = "Nota_" & codigoActual.Replace(" ", "_")
-                Dim tradNota As String = resManager.GetString(llaveNota, cultura)
+                Dim tradNota As String = resManager.GetString(llaveNota)
                 textoCelda2 = If(Not String.IsNullOrEmpty(tradNota), tradNota, notaActual)
             End If
 
@@ -660,7 +670,7 @@ Public Class ConceptosContables
 
         ' 6. CONTADOR DE PÁGINAS DINÁMICO
         frmImprimirForm.LblNumeroPagina.Text = (CInt(frmImprimirForm.LblNumeroPagina.Text) + 1).ToString()
-        e.Graphics.DrawString(resManager.GetString("Pagina", cultura), FuenteDetalles, Brushes.Black, frmImprimirForm.Label2.Left, e.MarginBounds.Bottom)
+        e.Graphics.DrawString(resManager.GetString("Pagina"), FuenteDetalles, Brushes.Black, frmImprimirForm.Label2.Left, e.MarginBounds.Bottom)
         e.Graphics.DrawString(frmImprimirForm.LblNumeroPagina.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.LblNumeroPagina.Left, e.MarginBounds.Bottom)
     End Sub
 

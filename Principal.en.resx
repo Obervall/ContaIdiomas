@@ -7835,4 +7835,129 @@
   <data name="ArchivoToolStripMenuItem.Text" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="ListadoApuntesOrdenadoFechas" xml:space="preserve">
+    <value>List of Notes Sorted by Date</value>
+  </data>
+  <data name="ListadoApuntesOrdenadoConceptos" xml:space="preserve">
+    <value>List of Notes Sorted by Concepts</value>
+  </data>
+  <data name="ListadoApuntesOrdenadoImportes" xml:space="preserve">
+    <value>List of Notes Sorted by Amounts</value>
+  </data>
+  <data name="ListadoApuntesSoloIngresosFechas" xml:space="preserve">
+    <value>List of Entries Only Income Ordered by Dates</value>
+  </data>
+  <data name="ListadoApuntesSoloIngresosConceptos" xml:space="preserve">
+    <value>List of Entries Only Income Ordered by Concepts</value>
+  </data>
+  <data name="ListadoApuntesSoloIngresosImportes" xml:space="preserve">
+    <value>List of Entries Only Income Ordered by Amounts</value>
+  </data>
+  <data name="ListadoApuntesSoloGastosFechas" xml:space="preserve">
+    <value>List of Items Only Expenses Sorted by Dates</value>
+  </data>
+  <data name="ListadoApuntesSoloGastosConceptos" xml:space="preserve">
+    <value>List of Items Only Expenses Ordered by Concepts</value>
+  </data>
+  <data name="ListadoApuntesSoloGastosImportes" xml:space="preserve">
+    <value>List of Items Only Expenses Sorted by Amounts</value>
+  </data>
+  <data name="ListadoPeriodicosFechas" xml:space="preserve">
+    <value>List of Periodicals Sorted by Date</value>
+  </data>
+  <data name="ListadoPeriodicosConceptos" xml:space="preserve">
+    <value>List of Periodic Notes Ordered by Concepts</value>
+  </data>
+  <data name="ListadoPeriodicosImportes" xml:space="preserve">
+    <value>List of Periodic Notes Sorted by Amounts</value>
+  </data>
+  <data name="ListadoPeriodicosSoloIngresosFechas" xml:space="preserve">
+    <value>List of Periodic Entries Only Income Sorted by Dates</value>
+  </data>
+  <data name="ListadoPeriodicosSoloIngresosConceptos" xml:space="preserve">
+    <value>List of Periodic Notes Only Income Ordered by Concepts</value>
+  </data>
+  <data name="ListadoPeriodicosSoloIngresosImportes" xml:space="preserve">
+    <value>List of Periodic Notes Only Income Sorted by Amounts</value>
+  </data>
+  <data name="ListadoPeriodicosSoloGastosFechas" xml:space="preserve">
+    <value>List of Periodic Items Only Expenses Sorted by Dates</value>
+  </data>
+  <data name="ListadoPeriodicosSoloGastosConceptos" xml:space="preserve">
+    <value>List of Periodic Items Only Expenses Ordered by Concepts</value>
+  </data>
+  <data name="ListadoPeriodicosSoloGastosImportes" xml:space="preserve">
+    <value>List of Periodic Items Only Expenses Sorted by Amounts</value>
+  </data>
+  <data name="ImportandoApuntes" xml:space="preserve">
+    <value>Importing from Contahogar the NOTES, Wait a Few Seconds...</value>
+  </data>
+  <data name="RealizarCopiaSeguridad" xml:space="preserve">
+    <value>Do you want to back up
+of the database before importing the notes?</value>
+  </data>
+  <data name="RecomiendaCopiaSeguridad" xml:space="preserve">
+    <value>Do you want to continue without backing up?
+It is recommended to perform it to avoid data loss. This action cannot be undone</value>
+  </data>
+  <data name="Advertencia" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="TransferenciaApuntes" xml:space="preserve">
+    <value>Transfer completed NOTES</value>
+  </data>
+  <data name="RegistrosCopiados" xml:space="preserve">
+    <value>Copied Records</value>
+  </data>
+  <data name="ErrorTransferenciaApuntes" xml:space="preserve">
+    <value>Error during transfer NOTES</value>
+  </data>
+  <data name="ImportandoApuntesPeriodicos" xml:space="preserve">
+    <value>Importing from Contahogar, the PERIODIC NOTES, Wait a Few Seconds...</value>
+  </data>
+  <data name="TransferenciaApuntesPeriodicos" xml:space="preserve">
+    <value>Transfer completed PERIODIC NOTES</value>
+  </data>
+  <data name="ErrorTransferenciaApuntesPeriodicos" xml:space="preserve">
+    <value>Error during transfer PERIODIC NOTES</value>
+  </data>
+  <data name="ImportandoEjercicios" xml:space="preserve">
+    <value>Importing from Contahogar the EXERCISES, Wait a Few Seconds...</value>
+  </data>
+  <data name="TransferenciaEjercicios" xml:space="preserve">
+    <value>Transfer completed EXERCISES</value>
+  </data>
+  <data name="RegistrosOmitidos" xml:space="preserve">
+    <value>Skipped Records</value>
+  </data>
+  <data name="ErrorTransferenciaEjercicios" xml:space="preserve">
+    <value>Error during transfer EXERCISES</value>
+  </data>
+  <data name="ImportandoConceptos" xml:space="preserve">
+    <value>Importing from Contahogar, the CONCEPTS, Wait a Few Seconds...</value>
+  </data>
+  <data name="TransferenciaConceptos" xml:space="preserve">
+    <value>Transfer completed CONCEPTS</value>
+  </data>
+  <data name="ErrorTransferenciaConceptos" xml:space="preserve">
+    <value>Error during transfer CONCEPTS</value>
+  </data>
+  <data name="ImportandoCuentas" xml:space="preserve">
+    <value>Importing from Contahogar, the ACCOUNTS, Wait a Few Seconds...</value>
+  </data>
+  <data name="TransferenciaCuentas" xml:space="preserve">
+    <value>Transfer completed ACCOUNTS</value>
+  </data>
+  <data name="ErrorTransferenciaCuentas" xml:space="preserve">
+    <value>Error during ACCOUNT transfer</value>
+  </data>
+  <data name="ImportandoPresupuestos" xml:space="preserve">
+    <value>Importing from Contahogar, the BUDGETS, Wait a Few Seconds...</value>
+  </data>
+  <data name="TransferenciaPresupuestos" xml:space="preserve">
+    <value>Transfer completed QUOTES</value>
+  </data>
+  <data name="ErrorTransferenciaPresupuestos" xml:space="preserve">
+    <value>Error during transfer QUOTES</value>
+  </data>
 </root>

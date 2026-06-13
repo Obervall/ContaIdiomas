@@ -628,4 +628,7 @@ Ils ne sont pas supprimés de la base de données</value>
   <data name="ToolTipF6" xml:space="preserve">
     <value>Rafraîchissement de la grille des notes et suppression des filtres</value>
   </data>
+  <data name="AvisoConceptoProtegido" xml:space="preserve">
+    <value>Les concepts par défaut du système sont protégés contre les modifications</value>
+  </data>
 </root>

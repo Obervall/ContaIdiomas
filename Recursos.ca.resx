@@ -551,7 +551,7 @@ No s' Eliminen de la Base de Dades</value>
     <value>Import</value>
   </data>
   <data name="IrAHoy" xml:space="preserve">
-    <value>Anar a Hoy</value>
+    <value>Anar a Avui</value>
   </data>
   <data name="BtnCuenta" xml:space="preserve">
     <value>Afegeix, Edita, Borra o Consulta Comptes Bancaris</value>
@@ -627,5 +627,8 @@ No s' Eliminen de la Base de Dades</value>
   </data>
   <data name="ToolTipF6" xml:space="preserve">
     <value>Refrescar la Parrilla Apunts i Treure Filtres</value>
+  </data>
+  <data name="AvisoConceptoProtegido" xml:space="preserve">
+    <value>Els conceptes predeterminats del sistema estan protegits contra modificacions</value>
   </data>
 </root>

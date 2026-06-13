@@ -7,6 +7,8 @@ Public Class SeleccionFechas
     Public vtipoSql As String
     Public PrintLine, Contador As Integer
     Public PosicionSinEncabezado As Integer = frmImprimirForm.Punto1.Top
+    Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
+
 
     Private Sub SeleccionFechas_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
@@ -40,11 +42,11 @@ Public Class SeleccionFechas
 
         Dim TL(2) As ToolTip
         TL(0) = New ToolTip
-        TL(0).SetToolTip(Me.BtnHoy, "Ir a Hoy")
+        TL(0).SetToolTip(Me.BtnHoy, resManager.GetString("IrAHoy"))
         TL(1) = New ToolTip
-        TL(1).SetToolTip(Me.BtnHoy2, "Ir a Hoy")
+        TL(1).SetToolTip(Me.BtnHoy2, resManager.GetString("IrAHoy"))
         TL(2) = New ToolTip
-        TL(2).SetToolTip(Me.BtnAceptar, "Aceptar")
+        TL(2).SetToolTip(Me.BtnAceptar, resManager.GetString("ToolTipAceptar"))
 
     End Sub
 
@@ -156,10 +158,10 @@ Public Class SeleccionFechas
 
         'Imprimimos el encabezado o titulo de la lista de materias por encima de los puntos definidos
         '********************************************************************************************
-        e.Graphics.DrawString("Fecha:", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
-        e.Graphics.DrawString("Concepto Contable:", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto2.Left, frmImprimirForm.Punto2.Top - 30)
-        e.Graphics.DrawString("Descripción:", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
-        e.Graphics.DrawString("Importe " & vMoneda & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto5.Left, frmImprimirForm.Punto5.Top - 30)
+        e.Graphics.DrawString(resManager.GetString("Fecha") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
+        e.Graphics.DrawString(resManager.GetString("Concepto") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto2.Left, frmImprimirForm.Punto2.Top - 30)
+        e.Graphics.DrawString(resManager.GetString("Descripcion") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
+        e.Graphics.DrawString(resManager.GetString("Importe") & "(" & vMoneda & "):", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto5.Left, frmImprimirForm.Punto5.Top - 30)
 
         'imprimimos la linea debajo de los encabezados
         '*********************************************
@@ -176,16 +178,41 @@ Public Class SeleccionFechas
                 e.HasMorePages = True
                 Exit Do
             End If
+
+            ' Celdas 0, 1 y 2 (Se mantienen igual)
             e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(0).Value, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
             e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(1).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto2.Left, startY)
             e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(2).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto3.Left, startY)
-            e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(3).Value.ToString("N2"), FuenteDetalles, Brushes.Black, frmImprimirForm.Punto5.Right + 50, startY, sf)
-            'Aqui estoy usando un tipo de letras mas grande
-            'LabelCodigo' mas grande que 'Punto1' para crear mas espacio entre filas
 
-            'Con el contador solamente imprimimos la parte final del reporte si ha alcanzado el total de registros
-            'Si deseamos repetir la parte final del reporte en cada pagina, debemos quitar en contador
-            ''Imprimimos los valores que salen despues del datagridview al final del reporte
+            ' =========================================================================
+            ' VALIDACIÓN SEGURA PARA LA CELDA 3 (REMPLAZA TU LÍNEA ANTERIOR)
+            ' =========================================================================
+            Dim textoImporte As String = "0,00"
+
+            If frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(3).Value IsNot DBNull.Value AndAlso frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(3).Value IsNot Nothing Then
+
+                Dim valorCelda As Object = frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(3).Value
+                Dim numeroDecimal As Decimal
+
+                ' Si el valor ya es numérico, aplicamos tu formato numérico universal
+                If TypeOf valorCelda Is Decimal OrElse TypeOf valorCelda Is Double OrElse TypeOf valorCelda Is Integer Then
+                    textoImporte = Convert.ToDecimal(valorCelda).ToString("###,##0.00")
+                    ' Si viene como texto, intentamos convertirlo de forma segura
+                ElseIf Decimal.TryParse(valorCelda.ToString(), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, numeroDecimal) Then
+                    textoImporte = numeroDecimal.ToString("###,##0.00")
+                Else
+                    ' Si por error hay un texto no numérico, pintamos lo que haya para no perder el dato
+                    textoImporte = valorCelda.ToString()
+                End If
+            End If
+
+            ' Imprimimos usando la variable segura que ya tiene el formato "###,##0.00"
+            e.Graphics.DrawString(textoImporte, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto5.Right + 50, startY, sf)
+            ' =========================================================================
+
+            ' Con el contador solamente imprimimos la parte final del reporte si ha alcanzado el total de registros
+            ' Si deseamos repetir la parte final del reporte en cada pagina, debemos quitar en contador
+            '' Imprimimos los valores que salen despues del datagridview al final del reporte
 
             startY += frmImprimirForm.LblFecha.Height
             PrintLine += 1
@@ -206,7 +233,7 @@ Public Class SeleccionFechas
         'Si deseamos poner un contador de páginas
         'Esta parte siempre va a salir en todas las paginas
         frmImprimirForm.LblNumeroPagina.Text = CInt(frmImprimirForm.LblNumeroPagina.Text) + 1
-        e.Graphics.DrawString(frmImprimirForm.Label2.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.Label2.Left, e.MarginBounds.Bottom)
+        e.Graphics.DrawString(resManager.GetString("Pagina"), FuenteDetalles, Brushes.Black, frmImprimirForm.Label2.Left, e.MarginBounds.Bottom)
         e.Graphics.DrawString(frmImprimirForm.LblNumeroPagina.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.LblNumeroPagina.Left, e.MarginBounds.Bottom)
 
         'Para volver a dejar a 0 las páginas, cuando se imprime desde la Vista Previa
@@ -217,7 +244,7 @@ Public Class SeleccionFechas
 
     Private Sub BtnHoy_Click(sender As Object, e As EventArgs) Handles BtnHoy.Click
         If vAñoEjercicio <> vAñoActual Then
-            MsgBox("El año del ejercicio no coincide con el año actual," & vbCrLf & "se establecerá la fecha del 1 de Enero del año del ejercicio", MsgBoxStyle.Information, "Fecha establecida al 1 de Enero")
+            MsgBox(frmIntroApuntes.rmse.GetString("EjercicioActual"), MsgBoxStyle.Information, rmse.GetString("$this.Text"))
             DateTimePicker1.Value = New Date(vAñoEjercicio, 1, 1)
         Else
             DateTimePicker1.Value = DateTime.Today
@@ -226,7 +253,7 @@ Public Class SeleccionFechas
 
     Private Sub BtnHoy2_Click(sender As Object, e As EventArgs) Handles BtnHoy2.Click
         If vAñoEjercicio <> vAñoActual Then
-            MsgBox("El año del ejercicio no coincide con el año actual," & vbCrLf & "se establecerá la fecha del 31 de Diciembre del año del ejercicio", MsgBoxStyle.Information, "Fecha establecida al 31 de Diciembre")
+            MsgBox(frmIntroApuntes.rmse.GetString("EjercicioActual"), MsgBoxStyle.Information, rmse.GetString("$this.Text"))
             DateTimePicker2.Value = New Date(vAñoEjercicio, 12, 31)
         Else
             DateTimePicker2.Value = DateTime.Today

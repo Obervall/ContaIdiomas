@@ -333,7 +333,7 @@ Public Class Principal
                 'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
             End If
         Catch ex As Exception
-            MsgBox("Error al buscar los Apuntes Periódicos del Ejercicio " & vAñoEjercicio.ToString & vbCrLf & ex.ToString)
+            MsgBox(ex.ToString)
         End Try
         drMdb1.Close()
 
@@ -371,7 +371,7 @@ Public Class Principal
                                 cmdMdb1cr.ExecuteNonQuery()
                                 MsgBox(frmEditarApuntesPeriodicos.rmse.GetString("RegistroApuntePeriódicoBorrado"))
                             Catch ex As Exception
-                                MsgBox("Error al eliminar el Apunte Periódico con fecha: " & vDate1 & " y concepto: " & vConcepto & " del Ejercicio " & vAñoEjercicio.ToString & vbCrLf & ex.ToString)
+                                MsgBox(ex.ToString)
                             End Try
                             Exit While
                         End If
@@ -380,7 +380,7 @@ Public Class Principal
                     'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
                 End If
             Catch ex As Exception
-                MsgBox("Error al buscar los Apuntes Periódicos del Ejercicio " & vAñoEjercicio.ToString & vbCrLf & ex.ToString)
+                MsgBox(ex.ToString)
             End Try
             drMdb1.Close()
         Next
@@ -632,8 +632,8 @@ Public Class Principal
     End Sub
 
     Private Sub OrdenadoPorFechasToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OrdenadoPorFechasToolStripMenuItem.Click
-        vTituloInforme = "Listado Apuntes Ordenado por Fechas" '1
-        TsLabelFormulario.Text = "Listado Apuntes Ordenado por Fechas"
+        vTituloInforme = rmse.GetString("ListadoApuntesOrdenadoFechas") '1
+        TsLabelFormulario.Text = rmse.GetString("ListadoApuntesOrdenadoFechas")
         ' Comprobamos si existe un identificador asociado.
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
@@ -649,8 +649,8 @@ Public Class Principal
     End Sub
 
     Private Sub OrdenadoPorConceptosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OrdenadoPorConceptosToolStripMenuItem.Click
-        vTituloInforme = "Listado Apuntes Ordenado por Conceptos" '2
-        TsLabelFormulario.Text = "Listado Apuntes Ordenado por Conceptos"
+        vTituloInforme = rmse.GetString("ListadoApuntesOrdenadoConceptos") '2
+        TsLabelFormulario.Text = rmse.GetString("ListadoApuntesOrdenadoConceptos")
         ' Comprobamos si existe un identificador asociado.
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
@@ -666,8 +666,8 @@ Public Class Principal
     End Sub
 
     Private Sub OrdenadoporImportesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OrdenadoporImportesToolStripMenuItem.Click
-        vTituloInforme = "Listado Apuntes Ordenado por Importes" '3
-        TsLabelFormulario.Text = "Listado Apuntes Ordenado por Importes"
+        vTituloInforme = rmse.GetString("ListadoApuntesOrdenadoImportes") '3
+        TsLabelFormulario.Text = rmse.GetString("ListadoApuntesOrdenadoImportes")
         ' Comprobamos si existe un identificador asociado.
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
@@ -683,8 +683,8 @@ Public Class Principal
     End Sub
 
     Private Sub SoloIngresosOrdenadoPorFechasToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SoloIngresosOrdenadoPorFechasToolStripMenuItem.Click
-        vTituloInforme = "Listado Apuntes Solo Ingresos Ordenado por Fechas" '4
-        TsLabelFormulario.Text = "Listado Apuntes Solo Ingresos Ordenado por Fechas"
+        vTituloInforme = rmse.GetString("ListadoApuntesSoloIngresosFechas") '4
+        TsLabelFormulario.Text = rmse.GetString("ListadoApuntesSoloIngresosFechas")
         ' Comprobamos si existe un identificador asociado.
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
@@ -702,8 +702,8 @@ Public Class Principal
     End Sub
 
     Private Sub SoloIngresosOrdenadoPorConceptosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SoloIngresosOrdenadoPorConceptosToolStripMenuItem.Click
-        vTituloInforme = "Listado Apuntes Solo Ingresos Ordenado por Conceptos" '5
-        TsLabelFormulario.Text = "Listado Apuntes Solo Ingresos Ordenado por Conceptos"
+        vTituloInforme = rmse.GetString("ListadoApuntesSoloIngresosConceptos") '5
+        TsLabelFormulario.Text = rmse.GetString("ListadoApuntesSoloIngresosConceptos")
         ' Comprobamos si existe un identificador asociado.
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
@@ -721,8 +721,8 @@ Public Class Principal
     End Sub
 
     Private Sub SoloIngresosOrdenadoPorImportesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SoloIngresosOrdenadoPorImportesToolStripMenuItem.Click
-        vTituloInforme = "Listado Apuntes Solo Ingresos Ordenado por Importes" '6
-        TsLabelFormulario.Text = "Listado Apuntes Solo Ingresos Ordenado por Importes"
+        vTituloInforme = rmse.GetString("ListadoApuntesSoloIngresosImportes") '6
+        TsLabelFormulario.Text = rmse.GetString("ListadoApuntesSoloIngresosImportes")
         ' Comprobamos si existe un identificador asociado.
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
@@ -740,8 +740,8 @@ Public Class Principal
     End Sub
 
     Private Sub SoloGastosOrdenadoPorFechasToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SoloGastosOrdenadoPorFechasToolStripMenuItem.Click
-        vTituloInforme = "Listado Apuntes Solo Gastos Ordenado por Fechas" '7
-        TsLabelFormulario.Text = "Listado Apuntes Solo Gastos Ordenado por Fechas"
+        vTituloInforme = rmse.GetString("ListadoApuntesSoloGastosFechas") '7
+        TsLabelFormulario.Text = rmse.GetString("ListadoApuntesSoloGastosFechas")
         ' Comprobamos si existe un identificador asociado.
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
@@ -759,8 +759,8 @@ Public Class Principal
     End Sub
 
     Private Sub SoloGastosOrdenadoPorConceptosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SoloGastosOrdenadoPorConceptosToolStripMenuItem.Click
-        vTituloInforme = "Listado Apuntes Solo Gastos Ordenado por Conceptos" '8
-        TsLabelFormulario.Text = "Listado Apuntes Solo Gastos Ordenado por Conceptos"
+        vTituloInforme = rmse.GetString("ListadoApuntesSoloGastosConceptos")  '8
+        TsLabelFormulario.Text = rmse.GetString("ListadoApuntesSoloGastosConceptos")
         ' Comprobamos si existe un identificador asociado.
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
@@ -778,8 +778,8 @@ Public Class Principal
     End Sub
 
     Private Sub SoloGastosOrdenadoPorImportesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SoloGastosOrdenadoPorImportesToolStripMenuItem.Click
-        vTituloInforme = "Listado Apuntes Solo Gastos Ordenado por Importes" '9
-        TsLabelFormulario.Text = "Listado Apuntes Solo Gastos Ordenado por Importes"
+        vTituloInforme = rmse.GetString("ListadoApuntesSoloGastosImportes") '9
+        TsLabelFormulario.Text = rmse.GetString("ListadoApuntesSoloGastosImportes")
         ' Comprobamos si existe un identificador asociado.
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
@@ -797,8 +797,8 @@ Public Class Principal
     End Sub
 
     Private Sub OrdenadoPorFechasToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles OrdenadoPorFechasToolStripMenuItem1.Click
-        vTituloInforme = "Listado Apuntes Periódicos Ordenado por Fechas" '10
-        TsLabelFormulario.Text = "Listado Apuntes Periódicos Ordenado por Fechas"
+        vTituloInforme = rmse.GetString("ListadoPeriodicosFechas") '10
+        TsLabelFormulario.Text = rmse.GetString("ListadoPeriodicosFechas")
         ' Comprobamos si existe un identificador asociado.
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
@@ -814,8 +814,8 @@ Public Class Principal
     End Sub
 
     Private Sub OrdenadoPorConceptosToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles OrdenadoPorConceptosToolStripMenuItem1.Click
-        vTituloInforme = "Listado Apuntes Periódicos Ordenado por Conceptos" '11
-        TsLabelFormulario.Text = "Listado Apuntes Periódicos Ordenado por Conceptos"
+        vTituloInforme = rmse.GetString("ListadoPeriodicosConceptos") '11
+        TsLabelFormulario.Text = rmse.GetString("ListadoPeriodicosConceptos")
         ' Comprobamos si existe un identificador asociado.
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
@@ -831,8 +831,8 @@ Public Class Principal
     End Sub
 
     Private Sub OrdenadoPorImportesToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles OrdenadoPorImportesToolStripMenuItem2.Click
-        vTituloInforme = "Listado Apuntes Periódicos Ordenado por Importes" '12
-        TsLabelFormulario.Text = "Listado Apuntes Periódicos Ordenado por Importes"
+        vTituloInforme = rmse.GetString("ListadoPeriodicosImportes") '12
+        TsLabelFormulario.Text = rmse.GetString("ListadoPeriodicosImportes")
         ' Comprobamos si existe un identificador asociado.
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
@@ -843,6 +843,120 @@ Public Class Principal
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
         frmSeleccionFechas.Dispose()
+        vOrdenadoPorImportesAPP = 0
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+    End Sub
+
+    Private Sub SoloIngresosOrdenadoPorFechasToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SoloIngresosOrdenadoPorFechasToolStripMenuItem1.Click
+        vTituloInforme = rmse.GetString("ListadoPeriodicosSoloIngresosFechas") '13
+        TsLabelFormulario.Text = rmse.GetString("ListadoPeriodicosSoloIngresosFechas")
+        ' Comprobamos si existe un identificador asociado.
+        If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
+            frmSeleccionFechas = New SeleccionFechas
+        End If
+        ' Llamamos al formulario de manera modal.
+        vSoloIngresosAPP = 1
+        vOrdenadoPorFechasAPP = 1
+        frmSeleccionFechas.ShowDialog()
+        'MessageBox.Show("Se ha cerrado el formulario.")
+        ' Destruimos el formulario.
+        frmSeleccionFechas.Dispose()
+        vSoloIngresosAPP = 0
+        vOrdenadoPorFechasAPP = 0
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+    End Sub
+
+    Private Sub SoloIngresosOrdenadoPorConceptosToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SoloIngresosOrdenadoPorConceptosToolStripMenuItem1.Click
+        vTituloInforme = rmse.GetString("ListadoPeriodicosSoloIngresosConceptos") '14
+        TsLabelFormulario.Text = rmse.GetString("ListadoPeriodicosSoloIngresosConceptos")
+        ' Comprobamos si existe un identificador asociado.
+        If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
+            frmSeleccionFechas = New SeleccionFechas
+        End If
+        ' Llamamos al formulario de manera modal.
+        vSoloIngresosAPP = 1
+        vOrdenadoPorConceptosAPP = 1
+        frmSeleccionFechas.ShowDialog()
+        'MessageBox.Show("Se ha cerrado el formulario.")
+        ' Destruimos el formulario.
+        frmSeleccionFechas.Dispose()
+        vSoloIngresosAPP = 0
+        vOrdenadoPorConceptosAPP = 0
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+    End Sub
+
+    Private Sub SoloIngresosOrdenadoPorImportesToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SoloIngresosOrdenadoPorImportesToolStripMenuItem1.Click
+        vTituloInforme = rmse.GetString("ListadoPeriodicosSoloIngresosImportes") '15
+        TsLabelFormulario.Text = rmse.GetString("ListadoPeriodicosSoloIngresosImportes")
+        ' Comprobamos si existe un identificador asociado.
+        If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
+            frmSeleccionFechas = New SeleccionFechas
+        End If
+        ' Llamamos al formulario de manera modal.
+        vSoloIngresosAPP = 1
+        vOrdenadoPorImportesAPP = 1
+        frmSeleccionFechas.ShowDialog()
+        'MessageBox.Show("Se ha cerrado el formulario.")
+        ' Destruimos el formulario.
+        frmSeleccionFechas.Dispose()
+        vSoloIngresosAPP = 0
+        vOrdenadoPorImportesAPP = 0
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+    End Sub
+
+    Private Sub SoloGastosOrdenadoPorFechasToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SoloGastosOrdenadoPorFechasToolStripMenuItem1.Click
+        vTituloInforme = rmse.GetString("ListadoPeriodicosSoloGastosFechas")  '16
+        TsLabelFormulario.Text = rmse.GetString("ListadoPeriodicosSoloGastosFechas")
+        ' Comprobamos si existe un identificador asociado.
+        If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
+            frmSeleccionFechas = New SeleccionFechas
+        End If
+        ' Llamamos al formulario de manera modal.
+        vSoloGastosAPP = 1
+        vOrdenadoPorFechasAPP = 1
+        frmSeleccionFechas.ShowDialog()
+        'MessageBox.Show("Se ha cerrado el formulario.")
+        ' Destruimos el formulario.
+        frmSeleccionFechas.Dispose()
+        vSoloIngresosAPP = 0
+        vOrdenadoPorFechasAPP = 0
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+    End Sub
+
+    Private Sub SoloGastosOrdenadoPorConceptosToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SoloGastosOrdenadoPorConceptosToolStripMenuItem1.Click
+        vTituloInforme = rmse.GetString("ListadoPeriodicosSoloGastosConceptos") '17
+        TsLabelFormulario.Text = rmse.GetString("ListadoPeriodicosSoloGastosConceptos")
+        ' Comprobamos si existe un identificador asociado.
+        If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
+            frmSeleccionFechas = New SeleccionFechas
+        End If
+        ' Llamamos al formulario de manera modal.
+        vSoloGastosAPP = 1
+        vOrdenadoPorConceptosAPP = 1
+        frmSeleccionFechas.ShowDialog()
+        'MessageBox.Show("Se ha cerrado el formulario.")
+        ' Destruimos el formulario.
+        frmSeleccionFechas.Dispose()
+        vSoloIngresosAPP = 0
+        vOrdenadoPorConceptosAPP = 0
+        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+    End Sub
+
+    Private Sub SoloGastosOrdenadoPorImportesToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SoloGastosOrdenadoPorImportesToolStripMenuItem1.Click
+        vTituloInforme = rmse.GetString("ListadoPeriodicosSoloGastosImportes") '18
+        TsLabelFormulario.Text = rmse.GetString("ListadoPeriodicosSoloGastosImportes")
+        ' Comprobamos si existe un identificador asociado.
+        If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
+            frmSeleccionFechas = New SeleccionFechas
+        End If
+        ' Llamamos al formulario de manera modal.
+        vSoloGastosAPP = 1
+        vOrdenadoPorImportesAPP = 1
+        frmSeleccionFechas.ShowDialog()
+        'MessageBox.Show("Se ha cerrado el formulario.")
+        ' Destruimos el formulario.
+        frmSeleccionFechas.Dispose()
+        vSoloIngresosAPP = 0
         vOrdenadoPorImportesAPP = 0
         Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
@@ -874,25 +988,6 @@ Public Class Principal
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
         frmSeleccionarDatosGastos.Dispose()
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
-    End Sub
-
-    Private Sub SoloIngresosOrdenadoPorFechasToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SoloIngresosOrdenadoPorFechasToolStripMenuItem1.Click
-        vTituloInforme = "Listado Apuntes Periódicos Solo Ingresos Ordenado por Fechas" '13
-        TsLabelFormulario.Text = "Listado Apuntes Periódicos Solo Ingresos Ordenado por Fechas"
-        ' Comprobamos si existe un identificador asociado.
-        If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
-            frmSeleccionFechas = New SeleccionFechas
-        End If
-        ' Llamamos al formulario de manera modal.
-        vSoloIngresosAPP = 1
-        vOrdenadoPorFechasAPP = 1
-        frmSeleccionFechas.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
-        frmSeleccionFechas.Dispose()
-        vSoloIngresosAPP = 0
-        vOrdenadoPorFechasAPP = 0
         Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
@@ -960,100 +1055,6 @@ Public Class Principal
         End If
     End Sub
 
-    Private Sub SoloIngresosOrdenadoPorConceptosToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SoloIngresosOrdenadoPorConceptosToolStripMenuItem1.Click
-        vTituloInforme = "Listado Apuntes Periódicos Solo Ingresos Ordenado por Conceptos" '14
-        TsLabelFormulario.Text = "Listado Apuntes Periódicos Solo Ingresos Ordenado por Conceptos"
-        ' Comprobamos si existe un identificador asociado.
-        If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
-            frmSeleccionFechas = New SeleccionFechas
-        End If
-        ' Llamamos al formulario de manera modal.
-        vSoloIngresosAPP = 1
-        vOrdenadoPorConceptosAPP = 1
-        frmSeleccionFechas.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
-        frmSeleccionFechas.Dispose()
-        vSoloIngresosAPP = 0
-        vOrdenadoPorConceptosAPP = 0
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
-    End Sub
-
-    Private Sub SoloIngresosOrdenadoPorImportesToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SoloIngresosOrdenadoPorImportesToolStripMenuItem1.Click
-        vTituloInforme = "Listado Apuntes Periódicos Solo Ingresos Ordenado por Importes" '15
-        TsLabelFormulario.Text = "Listado Apuntes Periódicos Solo Ingresos Ordenado por Importes"
-        ' Comprobamos si existe un identificador asociado.
-        If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
-            frmSeleccionFechas = New SeleccionFechas
-        End If
-        ' Llamamos al formulario de manera modal.
-        vSoloIngresosAPP = 1
-        vOrdenadoPorImportesAPP = 1
-        frmSeleccionFechas.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
-        frmSeleccionFechas.Dispose()
-        vSoloIngresosAPP = 0
-        vOrdenadoPorImportesAPP = 0
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
-    End Sub
-
-    Private Sub SoloGastosOrdenadoPorFechasToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SoloGastosOrdenadoPorFechasToolStripMenuItem1.Click
-        vTituloInforme = "Listado Apuntes Periódicos Solo Gastos Ordenado por Fechas" '16
-        TsLabelFormulario.Text = "Listado Apuntes Periódicos Solo Gastos Ordenado por Fechas"
-        ' Comprobamos si existe un identificador asociado.
-        If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
-            frmSeleccionFechas = New SeleccionFechas
-        End If
-        ' Llamamos al formulario de manera modal.
-        vSoloGastosAPP = 1
-        vOrdenadoPorFechasAPP = 1
-        frmSeleccionFechas.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
-        frmSeleccionFechas.Dispose()
-        vSoloIngresosAPP = 0
-        vOrdenadoPorFechasAPP = 0
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
-    End Sub
-
-    Private Sub SoloGastosOrdenadoPorConceptosToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SoloGastosOrdenadoPorConceptosToolStripMenuItem1.Click
-        vTituloInforme = "Listado Apuntes Periódicos Solo Gastos Ordenado por Conceptos" '17
-        TsLabelFormulario.Text = "Listado Apuntes Periódicos Solo Gastos Ordenado por Conceptos"
-        ' Comprobamos si existe un identificador asociado.
-        If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
-            frmSeleccionFechas = New SeleccionFechas
-        End If
-        ' Llamamos al formulario de manera modal.
-        vSoloGastosAPP = 1
-        vOrdenadoPorConceptosAPP = 1
-        frmSeleccionFechas.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
-        frmSeleccionFechas.Dispose()
-        vSoloIngresosAPP = 0
-        vOrdenadoPorConceptosAPP = 0
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
-    End Sub
-
-    Private Sub SoloGastosOrdenadoPorImportesToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SoloGastosOrdenadoPorImportesToolStripMenuItem1.Click
-        vTituloInforme = "Listado Apuntes Periódicos Solo Gastos Ordenado por Importes" '18
-        TsLabelFormulario.Text = "Listado Apuntes Periódicos Solo Gastos Ordenado por Importes"
-        ' Comprobamos si existe un identificador asociado.
-        If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
-            frmSeleccionFechas = New SeleccionFechas
-        End If
-        ' Llamamos al formulario de manera modal.
-        vSoloGastosAPP = 1
-        vOrdenadoPorImportesAPP = 1
-        frmSeleccionFechas.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
-        frmSeleccionFechas.Dispose()
-        vSoloIngresosAPP = 0
-        vOrdenadoPorImportesAPP = 0
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
-    End Sub
 
     Private Sub BtnImportarContaHogar_Click(sender As Object, e As EventArgs) Handles BtnImportarContaHogar.Click
         ImportaAntiguoContahogarToolStripMenuItem.PerformClick()
@@ -1077,12 +1078,12 @@ Public Class Principal
         End If
 
         TsLabelFormulario.ForeColor = Color.Red
-        TsLabelFormulario.Text = "Importando de Contahogar, los APUNTES, Espere unos Segundos..."
-        Dim respuesta As MsgBoxResult = MsgBox("¿Desea realizar una copia de seguridad de la base de datos antes de importar los apuntes?", vbQuestion + vbYesNo + vbDefaultButton2, "Copia de Seguridad")
+        TsLabelFormulario.Text = rmse.GetString("ImportandoApuntes")
+        Dim respuesta As MsgBoxResult = MsgBox(rmse.GetString("RealizarCopiaSeguridad"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("$this.Text"))
         If respuesta = vbYes Then
             BtnCopiaSeguridad.PerformClick()
         Else
-            If MsgBox("¿Desea continuar sin realizar una copia de seguridad? Se recomienda realizarla para evitar pérdidas de datos. Esta acción no se puede deshacer.", vbExclamation + vbYesNo + vbDefaultButton2, "Advertencia") = vbNo Then
+            If MsgBox(rmse.GetString("RecomiendaCopiaSeguridad"), vbExclamation + vbYesNo + vbDefaultButton2, rmse.GetString("Advertencia")) = vbNo Then
                 TsLabelFormulario.ForeColor = Color.Black
                 Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
                 Exit Sub
@@ -1160,19 +1161,19 @@ Public Class Principal
                                             contador += 1
                                         End If
                                     End While
-                                    MsgBox("Transferencia completada APUNTES. " & contador.ToString() & " registros copiados.", MsgBoxStyle.Information, "TRANSFERENCIA")
+                                    MsgBox(rmse.GetString("TransferenciaApuntes") & ". " & contador.ToString() & " " & rmse.GetString("RegistrosCopiados"), MsgBoxStyle.Information, rmse.GetString("$this.Text"))
                                 End Using
                             End Using
                         End Using
                     End Using
                 Catch ex As Exception
-                    MsgBox("Error durante la transferencia APUNTES: " & ex.Message, MsgBoxStyle.Critical, "ERROR")
+                    MsgBox(rmse.GetString("ErrorTransferenciaApuntes") & ": " & ex.Message, MsgBoxStyle.Critical, resManager.GetString("Error"))
                 End Try
             End Using
         End Using
 
         TsLabelFormulario.ForeColor = Color.Red
-        TsLabelFormulario.Text = "Importando de Contahogar, los APUNTES PERIÓDICOS, Espere unos Segundos..."
+        TsLabelFormulario.Text = rmse.GetString("ImportandoApuntesPeriodicos")
         Using connOrigen As New OleDbConnection(connOrigenString)
             Using connDestino As New OleDbConnection(connDestinoString)
                 Try
@@ -1240,19 +1241,19 @@ Public Class Principal
                                             contador += 1
                                         End If
                                     End While
-                                    MsgBox("Transferencia completada APUNTES PERIODICOS. " & contador.ToString() & " registros copiados.", MsgBoxStyle.Information, "TRANSFERENCIA")
+                                    MsgBox(rmse.GetString("TransferenciaApuntesPeriodicos") & ". " & contador.ToString() & " " & rmse.GetString("RegistrosCopiados"), MsgBoxStyle.Information, rmse.GetString("$this.Text"))
                                 End Using
                             End Using
                         End Using
                     End Using
                 Catch ex As Exception
-                    MsgBox("Error durante la transferencia APUNTES PERIODICOS: " & ex.Message, MsgBoxStyle.Critical, "ERROR")
+                    MsgBox(rmse.GetString("ErrorTransferenciaApuntesPeriodicos") & ": " & ex.Message, MsgBoxStyle.Critical, resManager.GetString("Error"))
                 End Try
             End Using
         End Using
 
         TsLabelFormulario.ForeColor = Color.Red
-        TsLabelFormulario.Text = "Importando de Contahogar, los EJERCICIOS, Espere unos Segundos..."
+        TsLabelFormulario.Text = rmse.GetString("ImportandoEjercicios")
 
         Dim sqlSeleccion As String = "SELECT EjercicioEJE FROM EJERCICIOS"
         Dim sqlVerificar As String = "SELECT COUNT(*) FROM EJERCICIOS WHERE EjercicioEJE = ?"
@@ -1293,14 +1294,14 @@ Public Class Principal
                     End If
                 End While
                 reader.Close()
-                MsgBox("Transferencia completada EJERCICIOS. " & insertados.ToString() & " registros copiados, " & omitidos.ToString() & " registros omitidos.", MsgBoxStyle.Information, "TRANSFERENCIA")
+                MsgBox(rmse.GetString("TransferenciaEjercicios") & ". " & insertados.ToString() & " " & rmse.GetString("RegistrosCopiados") & ", " & omitidos.ToString() & " " & rmse.GetString("RegistrosOmitidos") & ".", MsgBoxStyle.Information, rmse.GetString("$this.Text"))
             Catch ex As Exception
-                MsgBox("Error durante la transferencia EJERCICIOS: " & ex.Message, MsgBoxStyle.Critical, "ERROR")
+                MsgBox(rmse.GetString("ErrorTransferenciaEjercicios") & ":  " & ex.Message, MsgBoxStyle.Critical, rmse.GetString("Error"))
             End Try
         End Using
 
         TsLabelFormulario.ForeColor = Color.Red
-        TsLabelFormulario.Text = "Importando de Contahogar, los CONCEPTOS, Espere unos Segundos..."
+        TsLabelFormulario.Text = rmse.GetString("ImportandoConceptos")
         ' --- CONFIGURACIÓN DE CONSULTAS ---
         ' Cambia Campo1, Campo2, etc., por los nombres reales de tus columnas
         Dim sqlSeleccionCON As String = "SELECT CodigoCON, DescripcionCON, TipoCON, NotasCON FROM CONCEPTOS"
@@ -1343,15 +1344,15 @@ Public Class Principal
                     End If
                 End While
                 reader.Close()
-                MsgBox("Transferencia completada CONCEPTOS. " & insertados.ToString() & " registros copiados, " & omitidos.ToString() & " registros omitidos.", MsgBoxStyle.Information, "TRANSFERENCIA")
+                MsgBox(rmse.GetString("TransferenciaConceptos") & ". " & insertados.ToString() & " " & rmse.GetString("RegistrosCopiados") & ", " & omitidos.ToString() & " " & rmse.GetString("RegistrosOmitidos") & ".", MsgBoxStyle.Information, rmse.GetString("$this.Text"))
             Catch ex As Exception
-                MsgBox("Error durante la transferencia CONCEPTOS: " & ex.Message, MsgBoxStyle.Critical, "ERROR")
+                MsgBox(rmse.GetString("ErrorTransferenciaConceptos") & ":  " & ex.Message, MsgBoxStyle.Critical, rmse.GetString("Error"))
             End Try
         End Using
 
         TsLabelFormulario.ForeColor = Color.Red
-        TsLabelFormulario.Text = "Importando de Contahogar, las CUENTAS, Espere unos Segundos..."
-        ' --- CONFIGURACIÓN DE CONSULTAS ---
+        TsLabelFormulario.Text = rmse.GetString("ImportandoCuentas")
+        ' --- CONFIGURACIÓN DE CUENTAS ---
         ' Cambia Campo1, Campo2, etc., por los nombres reales de tus columnas
         Dim sqlSeleccionCUE As String = "SELECT NombreCUE, NumeroCUE, TipoCUE, NotasCUE FROM CUENTAS"
 
@@ -1393,14 +1394,14 @@ Public Class Principal
                     End If
                 End While
                 reader.Close()
-                MsgBox("Transferencia completada CUENTAS. " & insertados.ToString() & " registros copiados, " & omitidos.ToString() & " registros omitidos.", MsgBoxStyle.Information, "TRANSFERENCIA")
+                MsgBox(rmse.GetString("TransferenciaCuentas") & ". " & insertados.ToString() & " " & rmse.GetString("RegistrosCopiados") & ", " & omitidos.ToString() & " " & rmse.GetString("RegistrosOmitidos") & ".", MsgBoxStyle.Information, rmse.GetString("$this.Text"))
             Catch ex As Exception
-                MsgBox("Error durante la transferencia CUENTAS: " & ex.Message, MsgBoxStyle.Critical, "ERROR")
+                MsgBox(rmse.GetString("ErrorTransferenciaCuentas") & ":  " & ex.Message, MsgBoxStyle.Critical, rmse.GetString("Error"))
             End Try
         End Using
 
         TsLabelFormulario.ForeColor = Color.Red
-        TsLabelFormulario.Text = "Importando de Contahogar, los PRESUPUESTOS, Espere unos Segundos..."
+        TsLabelFormulario.Text = rmse.GetString("ImportandoPresupuestos")
         ' --- CONSULTAS CON TIPOS MIXTOS ---
         Dim sqlSeleccionPRE As String = "SELECT [ConceptoPRE], [ImportePRE], [FDesdePRE], [EjercicioPRE] FROM PRESUPUESTO"
 
@@ -1453,9 +1454,9 @@ Public Class Principal
                     End If
                 End While
                 reader.Close()
-                MsgBox("Transferencia completada PRESUPUESTOS. " & insertados.ToString() & " registros copiados, " & omitidos.ToString() & " registros omitidos.", MsgBoxStyle.Information, "TRANSFERENCIA")
+                MsgBox(rmse.GetString("TransferenciaPresupuestos") & ". " & insertados.ToString() & " " & rmse.GetString("RegistrosCopiados") & ", " & omitidos.ToString() & " " & rmse.GetString("RegistrosOmitidos") & ".", MsgBoxStyle.Information, rmse.GetString("$this.Text"))
             Catch ex As Exception
-                MsgBox("Error durante la transferencia PRESUPUESTOS: " & ex.Message, MsgBoxStyle.Critical, "ERROR")
+                MsgBox(rmse.GetString("ErrorTransferenciaPresupuestos") & ": " & ex.Message, MsgBoxStyle.Critical, rmse.GetString("Error"))
             End Try
         End Using
         TsLabelFormulario.ForeColor = Color.Black
