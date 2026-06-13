@@ -137,62 +137,18 @@ Public Class GraficosSoloConceptos
         ' Eje Y (Vertical - A la izquierda del gráfico)
         Chart1.ChartAreas("ChartArea1").AxisY.Title = resManager.GetString("Moneda") & ": " & vMoneda
 
-        Chart1.Series("Gastos").IsVisibleInLegend = True
-        Chart1.Series("Ingresos").IsVisibleInLegend = True
-        Chart1.Series("Gastos").XValueMember = "Concepto"
-        Chart1.Series("Ingresos").XValueMember = "Concepto"
-        Chart1.Series("Gastos").Points.Clear()
-        ' 1. Primero traducimos la leyenda leyendo el resManager
-        Chart1.Series("Gastos").LegendText = resManager.GetString("Gastos")
-        Chart1.Series("Ingresos").LegendText = resManager.GetString("Ingresos")
+        If vGraficoSolo = "GastosPorConcepto" Then
+            Chart1.Series("Gastos").IsVisibleInLegend = True
+            Chart1.Series("Gastos").XValueMember = "Concepto"
+            Chart1.Series("Gastos").Points.Clear()
+            Chart1.Series("Gastos").LegendText = resManager.GetString("Gastos")
+        Else 'IngresosPorConcepto
+            Chart1.Series("Ingresos").IsVisibleInLegend = True
+            Chart1.Series("Ingresos").XValueMember = "Concepto"
+            Chart1.Series("Ingresos").Points.Clear()
+            Chart1.Series("Ingresos").LegendText = resManager.GetString("Ingresos")
+        End If
         Chart1.ChartAreas("ChartArea1").Area3DStyle.Enable3D = Me.EsGrafico3D
-    End Sub
-
-    Private Sub DibujarGraficoColumnas()
-        CrearEstilos()
-
-        ' 2. Limpiamos y rellenamos (Esto es lo que fuerza a .NET a actualizar el texto en pantalla)
-        Chart1.Series("Gastos").Points.Clear()
-        For x = 0 To miView.Count - 1
-            'Tomamos los datos de DataView para la gráfica
-            With Chart1.Series("Gastos")
-                If miView(x)("Importe") <= 0 Then
-                    ' 1. Creamos la variable para guardar el importe numérico puro
-                    Dim importePuro As Decimal = 0.0D
-
-                    ' 2. Verificamos que la celda de la vista no sea NULL o vacía
-                    If miView(x)("Importe") IsNot DBNull.Value AndAlso miView(x)("Importe") IsNot Nothing Then
-
-                        Dim textoImporte As String = miView(x)("Importe").ToString()
-
-                        ' 3. Conversión segura multiidioma (interpreta comas y puntos correctamente)
-                        If Not Decimal.TryParse(textoImporte,
-                        System.Globalization.NumberStyles.Any,
-                        System.Globalization.CultureInfo.CurrentCulture,
-                        importePuro) Then
-
-                            ' PLAN B: Si la base de datos guardó el dato con formato invariant (punto universal)
-                            Decimal.TryParse(textoImporte.Replace(",", "."),
-                            System.Globalization.NumberStyles.Any,
-                            System.Globalization.CultureInfo.InvariantCulture,
-                            importePuro)
-                        End If
-                    End If
-
-                    ' 4. Calculamos el valor absoluto exacto con el tipo Decimal para el gráfico
-                    vImporteConcepto = Math.Abs(importePuro)
-                    Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), vImporteConcepto)
-                    .Points(i).Color = Color.Red
-                Else
-                    Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), miView(x)("Importe"))
-                    .Points(i).Color = Color.Blue
-                End If
-                .ChartType = SeriesChartType.Column
-            End With
-            With Chart1.Series("Ingresos")
-                .ChartType = SeriesChartType.Column
-            End With
-        Next
     End Sub
 
     Private Sub TsBtnColumnas_Click(sender As Object, e As EventArgs) Handles TsBtnColumnas.Click
@@ -204,6 +160,58 @@ Public Class GraficosSoloConceptos
         DibujarGraficoColumnas()
     End Sub
 
+    Private Sub DibujarGraficoColumnas()
+        CrearEstilos()
+
+        ' 1. DETERMINACIÓN DINÁMICA DE SERIES
+        Dim serieActiva As String = "Gastos"
+        Dim serieOcultar As String = "Ingresos"
+
+        If vGraficoSolo = "IngresosPorConcepto" Then
+            serieActiva = "Ingresos"
+            serieOcultar = "Gastos"
+        End If
+
+        ' 2. RESTAURACIÓN DE SEGURIDAD TRAS EL PASTEL
+        Chart1.Series(serieActiva).Enabled = True
+        Chart1.Series(serieActiva).ChartType = SeriesChartType.Column
+        Chart1.Series(serieActiva).Points.Clear()
+        Chart1.Series(serieActiva).LegendText = resManager.GetString(serieActiva)
+
+        ' Desactivamos la serie que no corresponde para que no interfiera
+        If Chart1.Series.FindByName(serieOcultar) IsNot Nothing Then
+            Chart1.Series(serieOcultar).Points.Clear()
+            Chart1.Series(serieOcultar).Enabled = False
+        End If
+
+        ' 3. LLENADO DINÁMICO DE PUNTOS
+        For x = 0 To miView.Count - 1
+            With Chart1.Series(serieActiva)
+                Dim nombreConcepto As String = "Sin Nombre"
+                If miView(x)("Concepto") IsNot DBNull.Value AndAlso miView(x)("Concepto") IsNot Nothing Then
+                    nombreConcepto = miView(x)("Concepto").ToString()
+                End If
+
+                If miView(x)("Importe") <= 0 Then
+                    Dim importePuro As Decimal = 0.0D
+                    If miView(x)("Importe") IsNot DBNull.Value AndAlso miView(x)("Importe") IsNot Nothing Then
+                        Dim textoImporte As String = miView(x)("Importe").ToString()
+                        If Not Decimal.TryParse(textoImporte, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, importePuro) Then
+                            Decimal.TryParse(textoImporte.Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, importePuro)
+                        End If
+                    End If
+                    vImporteConcepto = Math.Abs(importePuro)
+
+                    Dim i As Integer = .Points.AddXY(nombreConcepto, vImporteConcepto)
+                    .Points(i).Color = Color.Red
+                Else
+                    Dim i As Integer = .Points.AddXY(nombreConcepto, miView(x)("Importe"))
+                    .Points(i).Color = Color.Blue
+                End If
+            End With
+        Next
+    End Sub
+
     Private Sub TsBtnAreas_Click(sender As Object, e As EventArgs) Handles TsBtnAreas.Click
         TsBtnColumnas.Checked = False
         TsBtnAreas.Checked = True
@@ -212,46 +220,46 @@ Public Class GraficosSoloConceptos
 
         CrearEstilos()
 
-        ' 2. Limpiamos y rellenamos (Esto es lo que fuerza a .NET a actualizar el texto en pantalla)
-        Chart1.Series("Gastos").Points.Clear()
+        Dim serieActiva As String = "Gastos"
+        Dim serieOcultar As String = "Ingresos"
+
+        If vGraficoSolo = "IngresosPorConcepto" Then
+            serieActiva = "Ingresos"
+            serieOcultar = "Gastos"
+        End If
+
+        Chart1.Series(serieActiva).Enabled = True
+        Chart1.Series(serieActiva).ChartType = SeriesChartType.Area
+        Chart1.Series(serieActiva).Points.Clear()
+        Chart1.Series(serieActiva).LegendText = resManager.GetString(serieActiva)
+
+        If Chart1.Series.FindByName(serieOcultar) IsNot Nothing Then
+            Chart1.Series(serieOcultar).Points.Clear()
+            Chart1.Series(serieOcultar).Enabled = False
+        End If
+
         For x = 0 To miView.Count - 1
-            'Tomamos los datos de DataView para la gráfica
-            With Chart1.Series("Gastos")
+            With Chart1.Series(serieActiva)
+                Dim nombreConcepto As String = "Sin Nombre"
+                If miView(x)("Concepto") IsNot DBNull.Value AndAlso miView(x)("Concepto") IsNot Nothing Then
+                    nombreConcepto = miView(x)("Concepto").ToString()
+                End If
+
                 If miView(x)("Importe") <= 0 Then
-                    ' 1. Creamos la variable para guardar el importe numérico puro
                     Dim importePuro As Decimal = 0.0D
-
-                    ' 2. Verificamos que la celda de la vista no sea NULL o vacía
                     If miView(x)("Importe") IsNot DBNull.Value AndAlso miView(x)("Importe") IsNot Nothing Then
-
                         Dim textoImporte As String = miView(x)("Importe").ToString()
-
-                        ' 3. Conversión segura multiidioma (interpreta comas y puntos correctamente)
-                        If Not Decimal.TryParse(textoImporte,
-                        System.Globalization.NumberStyles.Any,
-                        System.Globalization.CultureInfo.CurrentCulture,
-                        importePuro) Then
-
-                            ' PLAN B: Si la base de datos guardó el dato con formato invariant (punto universal)
-                            Decimal.TryParse(textoImporte.Replace(",", "."),
-                            System.Globalization.NumberStyles.Any,
-                            System.Globalization.CultureInfo.InvariantCulture,
-                            importePuro)
+                        If Not Decimal.TryParse(textoImporte, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, importePuro) Then
+                            Decimal.TryParse(textoImporte.Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, importePuro)
                         End If
                     End If
-
-                    ' 4. Calculamos el valor absoluto exacto con el tipo Decimal para el gráfico
                     vImporteConcepto = Math.Abs(importePuro)
-                    Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), vImporteConcepto)
+                    Dim i As Integer = .Points.AddXY(nombreConcepto, vImporteConcepto)
                     .Points(i).Color = Color.Red
                 Else
-                    Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), miView(x)("Importe"))
+                    Dim i As Integer = .Points.AddXY(nombreConcepto, miView(x)("Importe"))
                     .Points(i).Color = Color.Blue
                 End If
-                .ChartType = SeriesChartType.Area
-            End With
-            With Chart1.Series("Ingresos")
-                .ChartType = SeriesChartType.Area
             End With
         Next
     End Sub
@@ -264,101 +272,111 @@ Public Class GraficosSoloConceptos
 
         CrearEstilos()
 
-        ' 2. Limpiamos y rellenamos (Esto es lo que fuerza a .NET a actualizar el texto en pantalla)
-        Chart1.Series("Gastos").Points.Clear()
+        Dim serieActiva As String = "Gastos"
+        Dim serieOcultar As String = "Ingresos"
+
+        If vGraficoSolo = "IngresosPorConcepto" Then
+            serieActiva = "Ingresos"
+            serieOcultar = "Gastos"
+        End If
+
+        Chart1.Series(serieActiva).Enabled = True
+        Chart1.Series(serieActiva).ChartType = SeriesChartType.Line
+        Chart1.Series(serieActiva).Points.Clear()
+        Chart1.Series(serieActiva).LegendText = resManager.GetString(serieActiva)
+
+        If Chart1.Series.FindByName(serieOcultar) IsNot Nothing Then
+            Chart1.Series(serieOcultar).Points.Clear()
+            Chart1.Series(serieOcultar).Enabled = False
+        End If
+
         For x = 0 To miView.Count - 1
-            'Tomamos los datos de DataView para la gráfica
-            With Chart1.Series("Gastos")
+            With Chart1.Series(serieActiva)
+                Dim nombreConcepto As String = "Sin Nombre"
+                If miView(x)("Concepto") IsNot DBNull.Value AndAlso miView(x)("Concepto") IsNot Nothing Then
+                    nombreConcepto = miView(x)("Concepto").ToString()
+                End If
+
                 If miView(x)("Importe") <= 0 Then
-                    ' 1. Creamos la variable para guardar el importe numérico puro
                     Dim importePuro As Decimal = 0.0D
-
-                    ' 2. Verificamos que la celda de la vista no sea NULL o vacía
                     If miView(x)("Importe") IsNot DBNull.Value AndAlso miView(x)("Importe") IsNot Nothing Then
-
                         Dim textoImporte As String = miView(x)("Importe").ToString()
-
-                        ' 3. Conversión segura multiidioma (interpreta comas y puntos correctamente)
-                        If Not Decimal.TryParse(textoImporte,
-                               System.Globalization.NumberStyles.Any,
-                               System.Globalization.CultureInfo.CurrentCulture,
-                               importePuro) Then
-
-                            ' PLAN B: Si la base de datos guardó el dato con formato invariant (punto universal)
-                            Decimal.TryParse(textoImporte.Replace(",", "."),
-                            System.Globalization.NumberStyles.Any,
-                            System.Globalization.CultureInfo.InvariantCulture,
-                            importePuro)
+                        If Not Decimal.TryParse(textoImporte, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, importePuro) Then
+                            Decimal.TryParse(textoImporte.Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, importePuro)
                         End If
                     End If
-
-                    ' 4. Calculamos el valor absoluto exacto con el tipo Decimal para el gráfico
                     vImporteConcepto = Math.Abs(importePuro)
-                    Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), vImporteConcepto)
+                    Dim i As Integer = .Points.AddXY(nombreConcepto, vImporteConcepto)
                     .Points(i).Color = Color.Red
                 Else
-                    Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), miView(x)("Importe"))
+                    Dim i As Integer = .Points.AddXY(nombreConcepto, miView(x)("Importe"))
                     .Points(i).Color = Color.Blue
                 End If
-                .ChartType = SeriesChartType.Line
-            End With
-            With Chart1.Series("Ingresos")
-                .ChartType = SeriesChartType.Line
             End With
         Next
     End Sub
 
-    Private Sub TsBtnPastel_Click(sender As Object, e As EventArgs) Handles TsBtnPastel.Click
 
-        ' Encendemos únicamente el Pastel
+    Private Sub TsBtnPastel_Click(sender As Object, e As EventArgs) Handles TsBtnPastel.Click
+        ' Estado de los botones de la barra de herramientas
         TsBtnPastel.Checked = True
         TsBtnColumnas.Checked = False
         TsBtnAreas.Checked = False
         TsBtnLineas.Checked = False
 
-        ' Limpieza de ejes para el modo Pastel
+        ' El pastel no utiliza títulos de ejes
         Chart1.ChartAreas("ChartArea1").AxisX.Title = ""
         Chart1.ChartAreas("ChartArea1").AxisY.Title = ""
 
-        ' Obligatorio para que no se quede fijo con la palabra "Gastos" en ningún idioma
-        Chart1.Series("Gastos").LegendText = "#VALX"
-        Chart1.Series("Gastos").Points.Clear()
-        'Enviamos a un dataview los datos
+        ' DETERMINACIÓN DE SERIES SEGÚN TU VARIABLE vGraficoSolo
+        Dim serieActiva As String = "Gastos"
+        Dim serieOcultar As String = "Ingresos"
+
+        If vGraficoSolo = "IngresosPorConcepto" Then
+            serieActiva = "Ingresos"
+            serieOcultar = "Gastos"
+        End If
+
+        ' Aseguramos que la leyenda exista y esté encendida
+        If Chart1.Legends.Count = 0 Then Chart1.Legends.Add(New Legend("Default"))
+        Chart1.Legends(0).Enabled = True
+
+        ' CONFIGURACIÓN DE LA SERIE ACTIVA
+        Chart1.Series(serieActiva).Enabled = True
+        Chart1.Series(serieActiva).Legend = Chart1.Legends(0).Name
+
+        ' Solución a los ceros: Forzamos a leer el texto del eje X
+        Chart1.Series(serieActiva).LegendText = "#AXISLABEL"
+        Chart1.Series(serieActiva).Points.Clear()
+
+        ' Desactivamos la serie opuesta para evitar el error "Pie cannot be combined"
+        If Chart1.Series.FindByName(serieOcultar) IsNot Nothing Then
+            Chart1.Series(serieOcultar).Points.Clear()
+            Chart1.Series(serieOcultar).Enabled = False
+        End If
+
+        ' Llenado de datos desde el DataView
         For x = 0 To miView.Count - 1
-            'Tomamos los datos de DataView para la gráfica
-            With Chart1.Series("Gastos")
+            With Chart1.Series(serieActiva)
+                Dim nombreConcepto As String = "Sin Nombre"
+                If miView(x)("Concepto") IsNot DBNull.Value AndAlso miView(x)("Concepto") IsNot Nothing Then
+                    nombreConcepto = miView(x)("Concepto").ToString()
+                End If
+
                 If miView(x)("Importe") <= 0 Then
-                    ' 1. Creamos la variable para guardar el importe numérico puro
                     Dim importePuro As Decimal = 0.0D
-
-                    ' 2. Verificamos que la celda de la vista no sea NULL o vacía
                     If miView(x)("Importe") IsNot DBNull.Value AndAlso miView(x)("Importe") IsNot Nothing Then
-
                         Dim textoImporte As String = miView(x)("Importe").ToString()
-
-                        ' 3. Conversión segura multiidioma (interpreta comas y puntos correctamente)
-                        If Not Decimal.TryParse(textoImporte,
-                               System.Globalization.NumberStyles.Any,
-                               System.Globalization.CultureInfo.CurrentCulture,
-                               importePuro) Then
-
-                            ' PLAN B: Si la base de datos guardó el dato con formato invariant (punto universal)
-                            Decimal.TryParse(textoImporte.Replace(",", "."),
-                            System.Globalization.NumberStyles.Any,
-                            System.Globalization.CultureInfo.InvariantCulture,
-                            importePuro)
+                        If Not Decimal.TryParse(textoImporte, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, importePuro) Then
+                            Decimal.TryParse(textoImporte.Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, importePuro)
                         End If
                     End If
-
-                    ' 4. Calculamos el valor absoluto exacto con el tipo Decimal para el gráfico
                     vImporteConcepto = Math.Abs(importePuro)
-                    Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), vImporteConcepto)
+                    .Points.AddXY(nombreConcepto, vImporteConcepto)
                 Else
-                    Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), miView(x)("Importe"))
+                    .Points.AddXY(nombreConcepto, miView(x)("Importe"))
                 End If
-                .ChartType = SeriesChartType.Pie
-            End With
-            With Chart1.Series("Ingresos")
+
                 .ChartType = SeriesChartType.Pie
             End With
         Next
@@ -488,82 +506,5 @@ Public Class GraficosSoloConceptos
         e.Graphics.DrawString(frmImprimirForm.Label2.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.Label2.Left, e.MarginBounds.Bottom)
         e.Graphics.DrawString(frmImprimirForm.LblNumeroPagina.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.LblNumeroPagina.Left, e.MarginBounds.Bottom)
     End Sub
-
-    'Private Sub TSBtnImprimir_Click(sender As Object, e As EventArgs) Handles TSBtnImprimir.Click
-    '    ' PREGUNTA DE ORIENTACIÓN: Preguntamos si desea imprimir en Horizontal (Landscape)
-    '    Dim respuesta As DialogResult = MessageBox.Show(
-    '        resManager.GetString("PreguntaHorizontal"), ' O pon el texto directo: "¿Desea imprimir el gráfico en orientación Horizontal?"
-    '        resManager.GetString("TituloPregunta"),       ' O pon el texto directo: "Orientación de página"
-    '        MessageBoxButtons.YesNo,
-    '        MessageBoxIcon.Question)
-
-    '    If respuesta = DialogResult.Yes Then
-    '        PrintDocument1.DefaultPageSettings.Landscape = True  ' Horizontal
-    '    Else
-    '        PrintDocument1.DefaultPageSettings.Landscape = False ' Vertical (Defecto)
-    '    End If
-
-    '    'Iniciamos Código para Imprimir (Tu código intacto)
-    '    '******************************
-    '    frmImprimirForm.LblFecha.Text = Date.Today.ToLongDateString
-    '    frmImprimirForm.LblNumeroPagina.Text = "0"
-
-    '    'Para ver la plantilla de impresión
-    '    'frmImprimirForm.Show()
-
-    '    If My.Settings.Previsualizar = True Then
-    '        'Te deja ver un preview del reporte antes de imprimir
-    '        PrintPreviewDialog1.Document = PrintDocument1
-    '        PrintPreviewDialog1.WindowState = FormWindowState.Maximized
-    '        PrintPreviewDialog1.ShowDialog()
-    '    End If
-
-    '    If My.Settings.ElegirImpresora = True Then
-    '        'Te deja elegir la impresora
-    '        PrintDialog1.Document = PrintDocument1
-    '        PrintDialog1.PrinterSettings = PrintDocument1.PrinterSettings
-    '        PrintDialog1.AllowSomePages = True
-    '        If PrintDialog1.ShowDialog = DialogResult.OK Then
-    '            PrintDocument1.PrinterSettings = PrintDialog1.PrinterSettings
-    '            PrintDocument1.Print()
-    '        End If
-    '    End If
-
-    '    If My.Settings.DirectoImpresora = True Then
-    '        'Imprime en la impresora por defecto
-    '        PrintDocument1.Print()
-    '    End If
-    'End Sub
-
-    'Private Sub PrintDocument1_PrintPage(sender As Object, e As PrintPageEventArgs) Handles PrintDocument1.PrintPage
-    '    'Cualquier variable que desees que conserve su valor debes declararla fuera del Printdocument
-    '    'Todas las variable declaradas dentro de printdocument pierden su valor al cambiar de pagina
-
-    '    'Definimos los tipos de letras a utilizar en el reporte
-    '    '******************************************************
-    '    Dim FuenteTitulo As New Font("Microsoft Sans Serif", 14)
-    '    Dim FuenteSubtitulo As New Font("Microsoft Sans Serif", 16)
-    '    Dim FuenteNegrita As New Font("Microsoft Sans Serif", 9, FontStyle.Bold)
-    '    Dim FuenteDetalles As New Font("Microsoft Sans Serif", 9)
-    '    Dim FuenteSubrayada As New Font("Microsoft Sans Serif", 9, FontStyle.Underline Xor FontStyle.Bold)
-
-    '    'Imprimimos el encabezado los datos que están antes del dibujo
-    '    '*************************************************************
-    '    e.Graphics.DrawString(frmGraficosSoloConceptos.Chart1.Titles.Item(0).Text, FuenteTitulo, Brushes.Black, frmImprimirForm.LblUsuario.Left, frmImprimirForm.LblUsuario.Top)
-
-    '    ' CAMBIO SEGURO: Calculamos el extremo derecho dinámicamente según la orientación del papel
-    '    Dim posXFecha As Integer = e.MarginBounds.Right - 150
-    '    e.Graphics.DrawString(frmImprimirForm.LblFecha.Text, FuenteNegrita, Brushes.Black, posXFecha, frmImprimirForm.LblFecha.Top)
-
-    '    b = New Bitmap(frmGraficosSoloConceptos.Chart1.Width, frmGraficosSoloConceptos.Chart1.Height)
-    '    frmGraficosSoloConceptos.Chart1.DrawToBitmap(b, New Rectangle(0, 0, b.Width, b.Height))
-    '    e.Graphics.DrawImage(b, 0, 100)
-
-    '    'Si deseamos poner un contador de páginas
-    '    'Esta parte siempre va a salir en todas las paginas
-    '    frmImprimirForm.LblNumeroPagina.Text = CInt(frmImprimirForm.LblNumeroPagina.Text) + 1
-    '    e.Graphics.DrawString(frmImprimirForm.Label2.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.Label2.Left, e.MarginBounds.Bottom)
-    '    e.Graphics.DrawString(frmImprimirForm.LblNumeroPagina.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.LblNumeroPagina.Left, e.MarginBounds.Bottom)
-    'End Sub
 
 End Class

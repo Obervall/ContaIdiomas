@@ -39,10 +39,10 @@ Partial Class GraficosSoloConceptos
         Me.ToolStripLabel2 = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.TSBtnImprimir = New System.Windows.Forms.ToolStripButton()
-        Me.Chart1 = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.PrintDialog1 = New System.Windows.Forms.PrintDialog()
         Me.PrintDocument1 = New System.Drawing.Printing.PrintDocument()
         Me.PrintPreviewDialog1 = New System.Windows.Forms.PrintPreviewDialog()
+        Me.Chart1 = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.ToolStrip1.SuspendLayout()
         CType(Me.Chart1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -109,6 +109,18 @@ Partial Class GraficosSoloConceptos
         resources.ApplyResources(Me.TSBtnImprimir, "TSBtnImprimir")
         Me.TSBtnImprimir.Name = "TSBtnImprimir"
         '
+        'PrintDialog1
+        '
+        Me.PrintDialog1.UseEXDialog = True
+        '
+        'PrintDocument1
+        '
+        '
+        'PrintPreviewDialog1
+        '
+        resources.ApplyResources(Me.PrintPreviewDialog1, "PrintPreviewDialog1")
+        Me.PrintPreviewDialog1.Name = "PrintPreviewDialog1"
+        '
         'Chart1
         '
         ChartArea1.AxisX.Interval = 1.0R
@@ -146,18 +158,6 @@ Partial Class GraficosSoloConceptos
         Title1.Text = "Gráfico por Conceptos Contables"
         Me.Chart1.Titles.Add(Title1)
         '
-        'PrintDialog1
-        '
-        Me.PrintDialog1.UseEXDialog = True
-        '
-        'PrintDocument1
-        '
-        '
-        'PrintPreviewDialog1
-        '
-        resources.ApplyResources(Me.PrintPreviewDialog1, "PrintPreviewDialog1")
-        Me.PrintPreviewDialog1.Name = "PrintPreviewDialog1"
-        '
         'GraficosSoloConceptos
         '
         resources.ApplyResources(Me, "$this")
@@ -174,7 +174,6 @@ Partial Class GraficosSoloConceptos
 
     End Sub
     Friend WithEvents ToolStrip1 As Windows.Forms.ToolStrip
-    Friend WithEvents Chart1 As Windows.Forms.DataVisualization.Charting.Chart
     Friend WithEvents ToolStripLabel2 As Windows.Forms.ToolStripLabel
     Friend WithEvents ToolStripSeparator2 As Windows.Forms.ToolStripSeparator
     Friend WithEvents TsBtnColumnas As Windows.Forms.ToolStripButton
@@ -188,4 +187,5 @@ Partial Class GraficosSoloConceptos
     Friend WithEvents PrintDocument1 As Drawing.Printing.PrintDocument
     Friend WithEvents PrintPreviewDialog1 As Windows.Forms.PrintPreviewDialog
     Friend WithEvents TSBtnImprimir As Windows.Forms.ToolStripButton
+    Friend WithEvents Chart1 As Windows.Forms.DataVisualization.Charting.Chart
 End Class

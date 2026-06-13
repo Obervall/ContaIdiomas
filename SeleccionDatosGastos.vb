@@ -2,9 +2,9 @@
 
     Public i As Integer
     Public vConcepto As String
+    Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
-    Private Sub SeleccionDatos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'ActualizarTextosFormulario(Me)
+    Private Sub SeleccionDatosGastos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         cmdMdb1cr.CommandText = "SELECT * FROM conceptos "
         cmdMdb1cr.CommandText += "Where conceptos.TipoCON = 'GASTO' ORDER BY conceptos.CodigoCON ASC"
@@ -20,22 +20,23 @@
             End If
             drMdb1.Close()
         Catch ex As Exception
-            MsgBox("Error al cargar el ListBox de Conceptos de Gastos" & vbCrLf & ex.ToString)
+            MsgBox(ex.ToString)
         End Try
     End Sub
 
     Private Sub BtnTodos_Click(sender As Object, e As EventArgs) Handles BtnTodos.Click
-        If BtnTodos.Text = "Seleccionar Todos" Then
+        If ListBox1.SelectedItems.Count = ListBox1.Items.Count Then
+            For i = 0 To ListBox1.Items.Count - 1
+                ListBox1.SetSelected(i, False)
+            Next
+            ' 2. Seleccionamos el primero UNA sola vez fuera del bucle
+            If ListBox1.Items.Count > 0 Then ListBox1.SetSelected(0, True)
+            BtnTodos.Text = rmse.GetString("BtnTodos.Text")
+        Else
             For i = 0 To ListBox1.Items.Count - 1
                 ListBox1.SetSelected(i, True)
             Next
-            BtnTodos.Text = "Deseleccionar Todos"
-        Else
-            For i = 0 To ListBox1.Items.Count - 1
-                ListBox1.SetSelected(i, False)
-                ListBox1.SetSelected(0, True)
-            Next
-            BtnTodos.Text = "Seleccionar Todos"
+            BtnTodos.Text = rmse.GetString("MsgDeseleccionar")
         End If
     End Sub
 

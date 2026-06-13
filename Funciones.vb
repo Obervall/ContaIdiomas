@@ -70,7 +70,7 @@ Module Funciones
     Public vtipoSql, vAñadirSql, vtipoGrid, vMes, vEditar, vBuscar, vTituloInforme, vtipoSqlChk As String
     Public vValor, vIngresos, vGastos, vSaldo, vSaldoCuentas, vSaldoMes As Double
     Public i, vFila1, vFila2, vFila, vFilaActual, filaActual, vregData1, vAñoActual, vAñoEjercicio As Integer
-    Public vCerrar, vGrafico, vLetras, vNumeros, vNotas, vPathExportar, vConcepto As String
+    Public vCerrar, vGrafico, vGraficoSolo, vLetras, vNumeros, vNotas, vPathExportar, vConcepto As String
     Public vDescripcionAPU, vImporteAPU, vNotasAPU, vConceptoAPU As String
     Public vActualizar, vActivado, vAviso As Boolean
 

@@ -135,4 +135,7 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Sélection des données sur le revenu uniquement</value>
   </data>
+  <data name="MsgDeseleccionar" xml:space="preserve">
+    <value>Désélectionner tout</value>
+  </data>
 </root>

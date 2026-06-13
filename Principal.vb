@@ -848,12 +848,13 @@ Public Class Principal
     End Sub
 
     Private Sub GráficosDeIngresosPorConceptoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GráficosDeIngresosPorConceptoToolStripMenuItem.Click
-        TsLabelFormulario.Text = "Gráfico de Ingresos"
+        TsLabelFormulario.Text = rmse.GetString("GráficosDeIngresosPorConceptoToolStripMenuItem.Text")
         ' Comprobamos si existe un identificador asociado.
         If ((frmSeleccionarDatosIngresos Is Nothing) OrElse (Not frmSeleccionarDatosIngresos.IsHandleCreated)) Then
             frmSeleccionarDatosIngresos = New SeleccionDatosIngresos
         End If
         ' Llamamos al formulario de manera modal.
+        vGraficoSolo = "IngresosPorConcepto"
         frmSeleccionarDatosIngresos.ShowDialog()
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
@@ -862,12 +863,13 @@ Public Class Principal
     End Sub
 
     Private Sub GráficosDeGastosPorConceptoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GráficosDeGastosPorConceptoToolStripMenuItem.Click
-        TsLabelFormulario.Text = "Gráfico de Gastos"
+        TsLabelFormulario.Text = rmse.GetString("GráficosDeGastosPorConceptoToolStripMenuItem.Text")
         ' Comprobamos si existe un identificador asociado.
         If ((frmSeleccionarDatosGastos Is Nothing) OrElse (Not frmSeleccionarDatosGastos.IsHandleCreated)) Then
             frmSeleccionarDatosGastos = New SeleccionDatosGastos
         End If
         ' Llamamos al formulario de manera modal.
+        vGraficoSolo = "GastosPorConcepto"
         frmSeleccionarDatosGastos.ShowDialog()
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
