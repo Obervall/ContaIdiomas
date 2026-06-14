@@ -61,17 +61,6 @@ Public Class ApuntesContables
         BtnFechasClick = "NO"
         BtnFechasFondo.Visible = False
 
-        'vFecha1Enero = Val(vAñoEjercicio)
-        'DateTimePicker1.MinDate = New Date(vFecha1Enero, 1, 1)
-        'DateTimePicker2.MinDate = New Date(vFecha1Enero, 1, 1)
-        'DateTimePicker1.Value = New Date(vFecha1Enero, 1, 1)
-        'vFecha31Diciembre = Val(vAñoEjercicio)
-        'DateTimePicker1.MaxDate = New Date(vFecha31Diciembre, 12, 31)
-        'DateTimePicker2.MaxDate = New Date(vFecha31Diciembre, 12, 31)
-        'DateTimePicker2.Value = New Date(vFecha31Diciembre, 12, 31)
-        'BtnFechasClick = "NO"
-        'BtnFechasFondo.Visible = False
-
         ' Ejemplo de uso del ResourceManager para obtener una cadena traducida
         TL(0) = New ToolTip
         TL(0).SetToolTip(Me.BtnFiltroCuenta, resManager.GetString("ToolTipAplicarFiltro"))
@@ -366,129 +355,6 @@ Public Class ApuntesContables
         End If
     End Sub
 
-    'Private Sub BtnFiltroConcepto_Click(sender As Object, e As EventArgs) Handles BtnFiltroConcepto.Click
-    '    '' Ejemplo de prueba para revertir o inversa :
-    '    'MsgBox(CmbConcepto.Items(0))
-    '    'Dim claveOriginal As String = ObtenerClaveNeutral(CmbConcepto.Items(0), resManager)
-
-    '    '' Muestra en pantalla el nombre de la clave interna (ej: "BtnEliminar.Text" o "Eliminar")
-    '    'MsgBox("La clave neutra en la base de recursos es: " & claveOriginal)
-
-    '    If ListBox1.SelectedItems.Count <> 0 Then 'listbox con multiselección
-    '        TxtConcepto.Text = rmse.GetString("MsgText3")
-    '        CmbConcepto.Items.Clear()
-    '        CmbConcepto.Items.Add(rmse.GetString("MsgText4"))
-    '        CmbConcepto.Text = CmbConcepto.Items(0)
-    '        Dim i As Integer
-    '        BtnFiltroConcepto.Enabled = False
-    '        BtnSinFiltroConcepto.Enabled = True
-    '        vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
-    '        If BtnFechasClick = "SI" Then
-    '            vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
-    '        Else
-    '            vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-    '        End If
-    '        For i = 0 To ListBox1.SelectedItems.Count - 1
-    '            'Dim textoConcepto As String = Convert.ToString(ListBox1.SelectedItems(i))
-    '            '' 1. Buscamos la clave neutral en el resManager
-    '            'Dim claveObtenida As String = ObtenerClaveNeutral(textoConcepto, resManager)
-    '            '' 2. ¡EL FILTRO INTELIGENTE!: Si por error la función nos devuelve la clave de la descripción 
-    '            '' (porque empieza por "Desc_"), limpiamos la variable para quedarnos solo con el concepto puro.
-    '            'If claveObtenida.StartsWith("Desc_", StringComparison.OrdinalIgnoreCase) Then
-    '            '    vConcepto = ""
-    '            'Else
-    '            '    vConcepto = claveObtenida
-    '            'End If
-    '            '' 3. Si hemos obtenido un concepto válido en mayúsculas, mostramos el aviso
-    '            'If Not String.IsNullOrEmpty(vConcepto) Then
-    '            '    'MsgBox("Concepto neutro de origen detectado: " & vConcepto)
-
-    '            '    ' 💡 Aquí puedes meter tu lógica para insertar el registro traducido en la base de datos local del usuario...
-    '            '    ' Ejemplo: InsertarConceptoEnDB(vConcepto, textoConcepto)
-
-
-    '            ' 1. Capturamos el texto tal cual sale del ListBox de la Base de Datos
-    '            Dim textoOriginal As String = Convert.ToString(ListBox1.SelectedItems(i))
-
-    '            ' 2. Intentamos buscar si es uno de los 34 conceptos de fábrica
-    '            Dim claveObtenida As String = ObtenerClaveNeutral(textoOriginal, resManager)
-
-    '            ' 3. Filtramos para asegurarnos de que no se confunda con una descripción ("Desc_")
-    '            If claveObtenida.StartsWith("Desc_", StringComparison.OrdinalIgnoreCase) Then
-    '                claveObtenida = ""
-    '            End If
-
-    '            ' 4. ¡EL CAMBIO CLAVE (LOGICA INVERSA)!: 
-    '            ' Si la clave obtenida NO está vacía, es de fábrica -> Usamos la clave neutra.
-    '            ' Si está vacía, es un concepto nuevo del usuario -> Usamos su texto original en su idioma.
-    '            If Not String.IsNullOrEmpty(claveObtenida) Then
-    '                vConcepto = claveObtenida
-    '            Else
-    '                vConcepto = textoOriginal
-    '            End If
-
-    '            If i = 0 Then
-    '                vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
-    '                If BtnFiltroCuenta.Enabled = False Then
-    '                    vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
-    '                End If
-    '                If BtnFiltroFecha.Enabled = False Then
-    '                    vDate1 = DateTimePicker1.Value.Date
-    '                    vDate2 = DateTimePicker2.Value.Date
-    '                    vtipoSql += " And apuntes.FechaAPU >= ?"
-    '                    vtipoSql += " And apuntes.FechaAPU <= ?"
-    '                End If
-    '            Else
-    '                vtipoSql += " Or "
-    '                If BtnFechasClick = "SI" Then
-    '                    vtipoSql += "apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
-    '                Else
-    '                    vtipoSql += "apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-    '                End If
-    '                vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
-    '                If BtnFiltroCuenta.Enabled = False Then
-    '                    vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
-    '                End If
-    '                If BtnFiltroFecha.Enabled = False Then
-    '                    vDate1 = DateTimePicker1.Value.Date
-    '                    vDate2 = DateTimePicker2.Value.Date
-    '                    vtipoSql += " And apuntes.FechaAPU >= ?"
-    '                    vtipoSql += " And apuntes.FechaAPU <= ?"
-    '                End If
-    '            End If
-    '        Next
-    '    Else
-    '        BtnFiltroConcepto.Enabled = False
-    '        BtnSinFiltroConcepto.Enabled = True
-    '        vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
-    '        If BtnFechasClick = "SI" Then
-    '            vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' Andapuntes.EjercicioAPU <> 0 "
-    '        Else
-    '            vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-    '        End If
-    '        vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text & "' "
-    '        If BtnFiltroCuenta.Enabled = False Then
-    '            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
-    '        End If
-    '        If BtnFiltroFecha.Enabled = False Then
-    '            vDate1 = DateTimePicker1.Value.Date
-    '            vDate2 = DateTimePicker2.Value.Date
-    '            vtipoSql += " And apuntes.FechaAPU >= ?"
-    '            vtipoSql += " And apuntes.FechaAPU <= ?"
-    '        End If
-    '    End If
-    '    vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
-    '    BtnFiltroChekedList.Enabled = False
-    '    ListBox1.Visible = False
-    '    vtipoGrid = "APUNTES_CONTABLES"
-    '    LlenarGrid(vtipoSql, vtipoGrid, "1")
-    '    If DgvApuntes.RowCount - 1 >= 0 Then
-    '        vFila = DgvApuntes.RowCount - 1
-    '        DgvApuntes.Rows(vFila).Selected = True
-    '        DgvApuntes.CurrentCell = DgvApuntes.Rows(vFila).Cells(0)
-    '    End If
-    'End Sub
-
     Private Sub BtnFiltroFecha_Click(sender As Object, e As EventArgs) Handles BtnFiltroFecha.Click
         If ListBox1.SelectedItems.Count <> 0 Then
             'MsgBox("Desactive primero el filtro de Concepto para poder aplicar el filtro de Fecha")
@@ -718,12 +584,6 @@ Public Class ApuntesContables
         BtnFiltroFecha.Enabled = True
         BtnSinFiltroFecha.Enabled = False
 
-        'vFecha1Enero = Val(vAñoEjercicio)
-        'DateTimePicker1.Value = New Date(vFecha1Enero, 1, 1)
-        'vFecha31Diciembre = Val(vAñoEjercicio)
-        'DateTimePicker2.Value = New Date(vFecha31Diciembre, 12, 31)
-        'BtnFiltroFecha.Enabled = True
-        'BtnSinFiltroFecha.Enabled = False
         If ListBox1.SelectedItems.Count <> 0 Then
             TxtConcepto.Text = rmse.GetString("MsgText3")
             CmbConcepto.Items.Clear()
@@ -1268,15 +1128,6 @@ Public Class ApuntesContables
                     'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
                 End If
                 drMdb1.Close()
-
-                'If drMdb1.HasRows Then
-                '    While drMdb1.Read()
-                '        vFecha1Enero = Val(drMdb1.GetValue(0))
-                '    End While
-                'Else
-                '    'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
-                'End If
-                'drMdb1.Close()
             Catch ex As Exception
                 MsgBox(ex.ToString)
             End Try
@@ -1313,19 +1164,6 @@ Public Class ApuntesContables
             BtnFechasClick = "NO"
             BtnFechasFondo.Visible = False
         End If
-
-        'Else
-        '    vFecha1Enero = Val(vAñoEjercicio)
-        '    vFecha31Diciembre = Val(vAñoEjercicio)
-        '    DateTimePicker1.MinDate = New Date(vFecha1Enero, 1, 1)
-        '    DateTimePicker1.MaxDate = New Date(vFecha31Diciembre, 12, 31)
-        '    DateTimePicker1.Value = New Date(vFecha1Enero, 1, 1)
-        '    DateTimePicker2.MinDate = New Date(vFecha1Enero, 1, 1)
-        '    DateTimePicker2.MaxDate = New Date(vFecha31Diciembre, 12, 31)
-        '    DateTimePicker2.Value = New Date(vFecha31Diciembre, 12, 31)
-        '    BtnFechasClick = "NO"
-        '    BtnFechasFondo.Visible = False
-        'End If
     End Sub
     Private Sub BtnEditarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEditarRegistro.Click
         filaActual = frmApuntesContables.DgvApuntes.CurrentRow.Index

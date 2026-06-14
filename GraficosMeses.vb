@@ -228,21 +228,32 @@ Public Class GraficosMeses
         Chart1.Series("Gastos").Points.Clear()
         Chart1.Series("Ingresos").Points.Clear()
 
+        ' 1. Reset preventivo de tipos para evitar la colisión prohibida con otros gráficos
+        Chart1.Series("Gastos").ChartType = SeriesChartType.Pie
+        Chart1.Series("Ingresos").ChartType = SeriesChartType.Pie
+
+        ' Limpiamos los puntos previos de ambas series antes de rellenar
+        Chart1.Series("Gastos").Points.Clear()
+        Chart1.Series("Ingresos").Points.Clear()
+
         For x = 0 To miDataTable.Rows.Count - 1
+            ' Extraemos la fecha del eje X de forma limpia
             Dim nombreEjeX As String = miDataTable.Rows(x)("Fecha").ToString()
-            Dim importeMes As Decimal = Convert.ToDecimal(miDataTable.Rows(x)("Importe"))
+
+            ' 2. Convertimos el importe de forma segura una sola vez usando tu función estrella del módulo
+            ' Usamos la fila de miView(x) para mantener la consistencia con las condiciones de tu bucle original
+            Dim importePuro As Decimal = ConvertirDecimalSeguro(miView(x)("Importe"))
 
             With Chart1.Series("Gastos")
-                If miView(x)("Importe") <= 0 Then
-                    vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
-                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
+                If importePuro <= 0 Then
+                    ' Gastos: Calculamos el valor absoluto exacto con decimales reales
+                    vImporteConcepto = Math.Abs(importePuro)
+                    .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
                 Else
-                    Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), miView(x)("Importe"))
+                    ' Ingresos: Usamos el importe seguro validado por tu módulo
+                    ' (En un pastel se suele sumar a la misma serie en valor absoluto para que compute en el total)
+                    .Points.AddXY(miView(x)("Fecha"), importePuro)
                 End If
-                .ChartType = SeriesChartType.Pie
-            End With
-            With Chart1.Series("Ingresos")
-                .ChartType = SeriesChartType.Pie
             End With
         Next
     End Sub

@@ -33,14 +33,8 @@ Public Class GraficosSoloConceptos
             Dim vNewImporteConceptoNum As Double = 0
 
             ' 1. Conversión segura del importe que viene de la celda (Columna 3)
-            If fila.Cells(3).Value IsNot Nothing Then
-                Dim textoImporte As String = fila.Cells(3).Value.ToString().Trim()
-                ' Conversión segura respetando comas y puntos regionales
-                If Not Double.TryParse(textoImporte, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, vImporteConceptoNum) Then
-                    ' Plan B de seguridad por si viene en formato universal invariante
-                    Double.TryParse(textoImporte.Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, vImporteConceptoNum)
-                End If
-            End If
+            ' Conversión segura multiidioma desde la grilla (¡Centralizado en tu módulo!)
+            vImporteConceptoNum = CDbl(ConvertirDecimalSeguro(fila.Cells(3).Value))
 
             ' Comprobamos si el concepto cambia
             If vNombreConcepto <> fila.Cells(1).Value.ToString() Then
@@ -192,20 +186,17 @@ Public Class GraficosSoloConceptos
                     nombreConcepto = miView(x)("Concepto").ToString()
                 End If
 
-                If miView(x)("Importe") <= 0 Then
-                    Dim importePuro As Decimal = 0.0D
-                    If miView(x)("Importe") IsNot DBNull.Value AndAlso miView(x)("Importe") IsNot Nothing Then
-                        Dim textoImporte As String = miView(x)("Importe").ToString()
-                        If Not Decimal.TryParse(textoImporte, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, importePuro) Then
-                            Decimal.TryParse(textoImporte.Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, importePuro)
-                        End If
-                    End If
-                    vImporteConcepto = Math.Abs(importePuro)
+                ' 1. Convertimos el importe de forma segura una sola vez al inicio
+                Dim importePuro As Decimal = ConvertirDecimalSeguro(miView(x)("Importe"))
 
+                If importePuro <= 0 Then
+                    ' 2. Gastos: Calculamos el valor absoluto exacto
+                    vImporteConcepto = Math.Abs(importePuro)
                     Dim i As Integer = .Points.AddXY(nombreConcepto, vImporteConcepto)
                     .Points(i).Color = Color.Red
                 Else
-                    Dim i As Integer = .Points.AddXY(nombreConcepto, miView(x)("Importe"))
+                    ' 3. Ingresos: Usamos el importe puro ya validado por tu módulo
+                    Dim i As Integer = .Points.AddXY(nombreConcepto, importePuro)
                     .Points(i).Color = Color.Blue
                 End If
             End With
@@ -245,19 +236,17 @@ Public Class GraficosSoloConceptos
                     nombreConcepto = miView(x)("Concepto").ToString()
                 End If
 
-                If miView(x)("Importe") <= 0 Then
-                    Dim importePuro As Decimal = 0.0D
-                    If miView(x)("Importe") IsNot DBNull.Value AndAlso miView(x)("Importe") IsNot Nothing Then
-                        Dim textoImporte As String = miView(x)("Importe").ToString()
-                        If Not Decimal.TryParse(textoImporte, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, importePuro) Then
-                            Decimal.TryParse(textoImporte.Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, importePuro)
-                        End If
-                    End If
+                ' 1. Convertimos el importe de forma segura una sola vez al inicio con tu función
+                Dim importePuro As Decimal = ConvertirDecimalSeguro(miView(x)("Importe"))
+
+                If importePuro <= 0 Then
+                    ' 2. Gastos: Calculamos el valor absoluto exacto
                     vImporteConcepto = Math.Abs(importePuro)
                     Dim i As Integer = .Points.AddXY(nombreConcepto, vImporteConcepto)
                     .Points(i).Color = Color.Red
                 Else
-                    Dim i As Integer = .Points.AddXY(nombreConcepto, miView(x)("Importe"))
+                    ' 3. Ingresos: Usamos el importe puro ya validado por tu módulo
+                    Dim i As Integer = .Points.AddXY(nombreConcepto, importePuro)
                     .Points(i).Color = Color.Blue
                 End If
             End With
@@ -297,19 +286,17 @@ Public Class GraficosSoloConceptos
                     nombreConcepto = miView(x)("Concepto").ToString()
                 End If
 
-                If miView(x)("Importe") <= 0 Then
-                    Dim importePuro As Decimal = 0.0D
-                    If miView(x)("Importe") IsNot DBNull.Value AndAlso miView(x)("Importe") IsNot Nothing Then
-                        Dim textoImporte As String = miView(x)("Importe").ToString()
-                        If Not Decimal.TryParse(textoImporte, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, importePuro) Then
-                            Decimal.TryParse(textoImporte.Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, importePuro)
-                        End If
-                    End If
+                ' 1. Convertimos el importe de forma segura una sola vez al inicio con tu función
+                Dim importePuro As Decimal = ConvertirDecimalSeguro(miView(x)("Importe"))
+
+                If importePuro <= 0 Then
+                    ' 2. Gastos: Calculamos el valor absoluto exacto
                     vImporteConcepto = Math.Abs(importePuro)
                     Dim i As Integer = .Points.AddXY(nombreConcepto, vImporteConcepto)
                     .Points(i).Color = Color.Red
                 Else
-                    Dim i As Integer = .Points.AddXY(nombreConcepto, miView(x)("Importe"))
+                    ' 3. Ingresos: Usamos el importe puro ya validado por tu módulo
+                    Dim i As Integer = .Points.AddXY(nombreConcepto, importePuro)
                     .Points(i).Color = Color.Blue
                 End If
             End With
@@ -363,18 +350,16 @@ Public Class GraficosSoloConceptos
                     nombreConcepto = miView(x)("Concepto").ToString()
                 End If
 
-                If miView(x)("Importe") <= 0 Then
-                    Dim importePuro As Decimal = 0.0D
-                    If miView(x)("Importe") IsNot DBNull.Value AndAlso miView(x)("Importe") IsNot Nothing Then
-                        Dim textoImporte As String = miView(x)("Importe").ToString()
-                        If Not Decimal.TryParse(textoImporte, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, importePuro) Then
-                            Decimal.TryParse(textoImporte.Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, importePuro)
-                        End If
-                    End If
+                ' 1. Convertimos el importe de forma segura una sola vez al inicio con tu función
+                Dim importePuro As Decimal = ConvertirDecimalSeguro(miView(x)("Importe"))
+
+                If importePuro <= 0 Then
+                    ' 2. Gastos: Calculamos el valor absoluto exacto para el pastel
                     vImporteConcepto = Math.Abs(importePuro)
                     .Points.AddXY(nombreConcepto, vImporteConcepto)
                 Else
-                    .Points.AddXY(nombreConcepto, miView(x)("Importe"))
+                    ' 3. Ingresos: Usamos el importe seguro validado por tu módulo
+                    .Points.AddXY(nombreConcepto, importePuro)
                 End If
 
                 .ChartType = SeriesChartType.Pie

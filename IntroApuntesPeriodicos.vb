@@ -16,17 +16,6 @@ Public Class IntroApuntesPeriodicos
         ActualizarTextosFormulario(Me)
 
         Label7.Text = vMoneda
-        'vFecha1Enero = Val(vAñoEjercicio)
-        '' si el año del ejercicio es diferente al año actual, se pone como fecha máxima el 31 de diciembre del año del ejercicio + 1,
-        '' para que se puedan introducir apuntes periódicos con fecha hasta el 31 de diciembre del año siguiente al ejercicio
-        'vFecha31Diciembre = Val(vAñoEjercicio)
-        'DateTimePicker1.MinDate = New Date(vFecha1Enero, 1, 1)
-        'DateTimePicker1.MaxDate = New Date(vFecha31Diciembre, 12, 31)
-        'If vAñoEjercicio <> vAñoActual Then
-        '    DateTimePicker1.Value = New Date(vAñoEjercicio + 1, 12, 31)
-        'Else
-        '    DateTimePicker1.Value = vfechaHoy
-        'End If
         ' 1. Convertimos el año base de forma segura a número entero
         Dim anioBase As Integer
         If Not Integer.TryParse(vAñoEjercicio, anioBase) Then

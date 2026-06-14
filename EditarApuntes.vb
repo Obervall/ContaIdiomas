@@ -147,51 +147,63 @@ Public Class EditarApuntes
         vNotasAPU = Trim(TxtNota.Text)
         vCuentaAPU = Trim(CmbCuenta.Text)
 
-        '' 2. Formatear el importe numérico puro (Evita fallos por comas decimales)
-        'vimporteAPU = Val(TxtImporte.Text.Replace(",", "."))
+        ' 1. Usamos el tipo Decimal (imprescindible para contabilidad)
+        Dim importeDecimal As Decimal = 0.0D
 
-        ' 1. Usamos el tipo Decimal (imprescindible para contabilidad multiidioma)
-        Dim importeDecimal As Decimal
+        ' 2. Forzamos la limpieza básica de espacios
+        Dim textoLimpio As String = TxtImporte.Text.Trim()
 
-        ' 2. .NET lee automáticamente el idioma de Windows del usuario (CurrentCulture)
-        ' detectando si debe usar coma o punto según su país, SIN necesidad de hacer .Replace()
-        If Not Decimal.TryParse(TxtImporte.Text,
-                        System.Globalization.NumberStyles.Currency,
+        ' 3. Intentamos leer con la cultura regional del usuario (respeta su panel de control)
+        If Not Decimal.TryParse(textoLimpio,
+                        System.Globalization.NumberStyles.Number,
                         System.Globalization.CultureInfo.CurrentCulture,
                         importeDecimal) Then
 
-            ' 3. PLAN B (Por si el usuario escribe con un formato mixto por error)
-            ' Si el paso anterior falla, intentamos leerlo ignorando la cultura (con punto universal)
-            If Not Decimal.TryParse(TxtImporte.Text.Replace(",", "."),
-                            System.Globalization.NumberStyles.Any,
+            ' 4. PLAN B SEGURO: Intentamos con la cultura invariante (punto decimal universal) 
+            ' SIN hacer .Replace manual, para que .NET gestione los miles correctamente.
+            If Not Decimal.TryParse(textoLimpio,
+                            System.Globalization.NumberStyles.Number,
                             System.Globalization.CultureInfo.InvariantCulture,
                             importeDecimal) Then
-                ' Si todo falla (ej. escribe letras), se asigna 0 por seguridad
+                ' Si introduce letras o formato corrupto, se queda en 0 por seguridad
                 importeDecimal = 0.0D
             End If
         End If
 
-        ' 4. Guardamos el importe limpio en tu variable
+        ' 4. Guardamos el importe limpio en tu variable y aplicamos el signo
         vimporteAPU = importeDecimal
-
         If TxtTipoConcepto.Text = "GASTO" Then
             vimporteAPU = -Math.Abs(vimporteAPU)
         Else
             vimporteAPU = Math.Abs(vimporteAPU)
         End If
 
-        vtipoSql = "UPDATE apuntes SET "
-        vtipoSql += "FechaAPU = #" & vDate3.ToString("yyyy/MM/dd") & "#, "
-        vtipoSql += "ConceptoAPU = '" & vConceptoAPU & "', "
-        vtipoSql += "DescripcionAPU = '" & vDescripcionAPU & "', "
-        vtipoSql += "ImporteAPU = " & Str(vimporteAPU) & ", "
-        vtipoSql += "NotasAPU = '" & vNotasAPU & "', "
-        vtipoSql += "CuentaAPU = '" & vCuentaAPU & "' "
-        vtipoSql += "WHERE CodigoAPU = " & CInt(vCodigoAPU) ' Aseguramos que solo modifique esta fila exacta
+        ' Creamos la consulta limpia usando comodines '?' (así lo requiere Access/OleDb)
+        vtipoSql = "UPDATE apuntes SET " &
+           "FechaAPU = ?, " &
+           "ConceptoAPU = ?, " &
+           "DescripcionAPU = ?, " &
+           "ImporteAPU = ?, " &
+           "NotasAPU = ?, " &
+           "CuentaAPU = ? " &
+           "WHERE CodigoAPU = ?"
+
         cmdMdb1cr.CommandText = vtipoSql
+
+        ' ¡MUY IMPORTANTE! En Access, los parámetros se deben añadir en el MISMO ORDEN en que aparecen en el SQL
+        cmdMdb1cr.Parameters.Clear()
+        cmdMdb1cr.Parameters.AddWithValue("@FechaAPU", vDate3) ' .NET y Access gestionan la fecha internamente
+        cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vConceptoAPU) ' Admite comillas de forma segura
+        cmdMdb1cr.Parameters.AddWithValue("@DescripcionAPU", vDescripcionAPU)
+        cmdMdb1cr.Parameters.AddWithValue("@ImporteAPU", vimporteAPU) ' Envía el Decimal puro, sin importar puntos o comas de Windows
+        cmdMdb1cr.Parameters.AddWithValue("@NotasAPU", vNotasAPU)
+        cmdMdb1cr.Parameters.AddWithValue("@CuentaAPU", vCuentaAPU)
+        cmdMdb1cr.Parameters.AddWithValue("@CodigoAPU", CInt(vCodigoAPU)) ' Filtro WHERE
+
         Try
-            ' Ejecutamos la consulta en Access
+            ' Ejecutamos la consulta en Access de forma segura
             cmdMdb1cr.ExecuteNonQuery()
+
             ' Cerramos la ventana de edición al terminar con éxito
             Me.Close()
         Catch ex As Exception

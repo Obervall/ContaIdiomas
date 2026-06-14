@@ -1,4 +1,6 @@
-﻿Imports System.Diagnostics
+﻿Imports System.Collections.Generic
+Imports System.Data
+Imports System.Diagnostics
 Imports System.Windows.Forms
 
 Public Class EditarApuntesPeriodicos
@@ -198,50 +200,101 @@ Public Class EditarApuntesPeriodicos
     End Sub
 
     Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click
-        If TxtImporte.Text = "" Then
-            TxtImporte.Text = 0
-        End If
-        If TxtImporte.Text <> "0" Then
+        ' 1. Normalización inicial del cuadro de texto
+        If String.IsNullOrWhiteSpace(TxtImporte.Text) Then TxtImporte.Text = "0"
 
-            ' Modificar Registro
-            '*******************
-            vDate3 = DateTimePicker1.Value
-            vimporteAPU = TxtImporte.Text
+        ' 2. Extraemos el importe de forma segura usando tu función del módulo
+        Dim importeDecimal As Decimal = ConvertirDecimalSeguro(TxtImporte.Text)
+
+        If importeDecimal <> 0 Then
+            ' 3. Aplicamos el signo aritmético puro (sin concatenar texto "-")
             If TxtTipoConcepto.Text = "GASTO" Then
-                vimporteAPU = "-" + vimporteAPU.ToString
+                vimporteAPU = -Math.Abs(importeDecimal)
+            Else
+                vimporteAPU = Math.Abs(importeDecimal)
             End If
-            vtipoSql = "UPDATE apuper SET  FechaAPP = #" & vDate3 & "# , ConceptoAPP = '" & CmbConcepto.Text & "' , DescripcionAPP = '" & CmbDescripcion.Text & "' , ImporteAPP = '" & vimporteAPU & "' , CuentaAPP = '" & CmbCuenta.Text & "' , NotasAPP = '" & TxtNota.Text & "' "
-            vtipoSql += " WHERE apuper.CodigoAPP = " & vCodigoAPU.ToString
+
+            vDate3 = DateTimePicker1.Value.Date
+
+            ' --- FASE 1: EJECUCIÓN DEL UPDATE PARAMETRIZADO ---
+            vtipoSql = "UPDATE apuper SET FechaAPP = ?, ConceptoAPP = ?, DescripcionAPP = ?, ImporteAPP = ?, CuentaAPP = ?, NotasAPP = ? " &
+                       "WHERE apuper.CodigoAPP = ?"
             cmdMdb1cr.CommandText = vtipoSql
+
+            ' Los parámetros de Access se asocian estrictamente por el orden de los comodines '?'
+            cmdMdb1cr.Parameters.Clear()
+            cmdMdb1cr.Parameters.AddWithValue("@FechaAPP", vDate3)
+            cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPP", CmbConcepto.Text.Trim())
+            cmdMdb1cr.Parameters.AddWithValue("@DescripcionAPP", CmbDescripcion.Text.Trim())
+
+            ' Forzamos formato Currency para evitar conflictos de precisión decimal en Access
+            Dim paramImp As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteAPP", OleDb.OleDbType.Currency)
+            paramImp.Value = Math.Round(vimporteAPU, 2)
+
+            cmdMdb1cr.Parameters.AddWithValue("@CuentaAPP", CmbCuenta.Text.Trim())
+            cmdMdb1cr.Parameters.AddWithValue("@NotasAPP", TxtNota.Text.Trim())
+            cmdMdb1cr.Parameters.AddWithValue("@CodigoAPP", CInt(vCodigoAPU))
+
             Try
                 cmdMdb1cr.ExecuteNonQuery()
-                'MsgBox("Registro, Grabado Correctamente")
                 Me.Close()
             Catch ex As Exception
-                MsgBox(ex.ToString)
+                MessageBox.Show("Error al actualizar registro: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub ' Si falla el guardado, detenemos el flujo para no romper la grilla
             End Try
 
-            vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper"
-            vtipoSql += " WHERE apuper.EjercicioAPP = " & vAñoEjercicio.ToString
+
+            ' --- FASE 2: REFRESCO DE LA GRILLA DINÁMICA Y PARAMETRIZADA ---
+            ' Iniciamos la consulta base
+            vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper " &
+                       "WHERE apuper.EjercicioAPP = ?"
+
+            ' Preparamos una lista temporal para guardar los valores de los parámetros en orden de aparición
+            Dim valoresFiltros As New List(Of Object)()
+            valoresFiltros.Add(CInt(vAñoEjercicio)) ' El primer '?' corresponde al Ejercicio
+
+            ' Filtro Cuenta
             If frmApuntesPeriodicos.BtnFiltroCuenta.Enabled = False Then
-                vtipoSql += " And apuper.CuentaAPP = '" & frmApuntesPeriodicos.CmbCuenta.Text & "' "
+                vtipoSql += " And apuper.CuentaAPP = ?"
+                valoresFiltros.Add(frmApuntesPeriodicos.CmbCuenta.Text.Trim())
             End If
+
+            ' Filtro Concepto
             If frmApuntesPeriodicos.BtnFiltroConcepto.Enabled = False Then
-                vtipoSql += " And apuper.ConceptoAPP = '" & frmApuntesPeriodicos.CmbConcepto.Text & "' "
+                vtipoSql += " And apuper.ConceptoAPP = ?"
+                valoresFiltros.Add(frmApuntesPeriodicos.CmbConcepto.Text.Trim())
             End If
+
+            ' Filtro Fechas (¡Adiós almohadillas!)
             If frmApuntesPeriodicos.BtnFiltroFecha.Enabled = False Then
                 vDate1 = frmApuntesPeriodicos.DateTimePicker1.Value.Date
                 vDate2 = frmApuntesPeriodicos.DateTimePicker2.Value.Date
-                vtipoSql += " And apuper.FechaAPP >= #" & vDate1 & "#"
-                vtipoSql += " And apuper.FechaAPP <= #" & vDate2 & "#"
+                vtipoSql += " And apuper.FechaAPP >= ?"
+                vtipoSql += " And apuper.FechaAPP <= ?"
+                valoresFiltros.Add(vDate1)
+                valoresFiltros.Add(vDate2)
             End If
+
             vtipoSql += " ORDER BY apuper.FechaAPP ASC, apuper.ImporteAPP ASC"
+            cmdMdb1cr.CommandText = vtipoSql
+
+            ' Inyectamos los parámetros en el comando siguiendo el orden secuencial exacto
+            cmdMdb1cr.Parameters.Clear()
+            For idx As Integer = 0 To valoresFiltros.Count - 1
+                cmdMdb1cr.Parameters.AddWithValue("@P" & idx, valoresFiltros(idx))
+            Next
+
+            ' Cargamos los datos limpios en el Grid
             vtipoGrid = "APUNTES_PERIODICOS"
             LlenarGrid(vtipoSql, vtipoGrid, "1")
-            frmApuntesPeriodicos.DgvApuper.Rows(vFilaActual).Selected = True
-            frmApuntesPeriodicos.DgvApuper.CurrentCell = frmApuntesPeriodicos.DgvApuper.Rows(vFilaActual).Cells(0)
+
+            ' Reposicionamos la fila seleccionada por el usuario de forma segura
+            If frmApuntesPeriodicos.DgvApuper.Rows.Count > 0 AndAlso vFilaActual < frmApuntesPeriodicos.DgvApuper.Rows.Count Then
+                frmApuntesPeriodicos.DgvApuper.Rows(vFilaActual).Selected = True
+                frmApuntesPeriodicos.DgvApuper.CurrentCell = frmApuntesPeriodicos.DgvApuper.Rows(vFilaActual).Cells(0)
+            End If
         Else
-            MsgBox(frmIntroApuntes.rmse.GetString("NoCantidadImporte"), vbExclamation)
+            MessageBox.Show(frmIntroApuntes.rmse.GetString("NoQuantityAmount"), "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             TxtImporte.Select()
         End If
     End Sub

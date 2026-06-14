@@ -1,4 +1,6 @@
-﻿Imports System.Diagnostics
+﻿Imports System.Collections.Generic
+Imports System.Data
+Imports System.Diagnostics
 Imports System.Drawing
 Imports System.Globalization
 Imports System.Linq
@@ -48,16 +50,6 @@ Public Class IntroApuntes
             ' Nota: Asegúrate de que vfechaHoy contenga un objeto Date válido o usa Date.Today
             DateTimePicker1.Value = Convert.ToDateTime(vfechaHoy)
         End If
-
-        'vFecha1Enero = Val(vAñoEjercicio)
-        'DateTimePicker1.MinDate = New Date(vFecha1Enero, 1, 1)
-        'vFecha31Diciembre = Val(vAñoEjercicio)
-        'DateTimePicker1.MaxDate = New Date(vFecha31Diciembre, 12, 31)
-        'If vAñoEjercicio <> vAñoActual Then
-        '    DateTimePicker1.Value = New Date(vAñoEjercicio, 12, 31)
-        'Else
-        '    DateTimePicker1.Value = vfechaHoy
-        'End If
 
         TL(0) = New ToolTip
         TL(0).SetToolTip(Me.BtnHoy, resManager.GetString("IrAHoy"))
@@ -262,57 +254,64 @@ Public Class IntroApuntes
         vDescripcionAPU = Trim(CmbDescripcion.Text)
         vNotasAPU = Trim(TxtNota.Text)
         vCuentaAPU = Trim(CmbCuenta.Text)
-        'vDate3 = DateTimePicker1.Value.ToString("yyyy/MM/dd")
-        vDate3 = DateTimePicker1.Value.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture)
 
+        ' MULTIIDIOMA: Pasamos la fecha como objeto Date puro de .NET. Ya NO necesitas formatearla a String.
+        Dim fechaAsiento As Date = DateTimePicker1.Value.Date
 
-        'vImporteAPU = Val(TxtImporte.Text.Replace(",", "."))
-        ' 1. Usamos el tipo Decimal (fundamental para evitar errores de redondeo en contabilidad)
-        Dim importeDecimal As Decimal = 0.0D
+        ' Conversión segura multiidioma del cuadro de texto (¡Centralizado en tu módulo!)
+        Dim importeDecimal As Decimal = ConvertirDecimalSeguro(TxtImporte.Text)
 
-        ' 2. .NET lee el idioma de Windows del usuario y procesa el punto o la coma según su país
-        If Not Decimal.TryParse(TxtImporte.Text,
-                        System.Globalization.NumberStyles.Currency,
-                        System.Globalization.CultureInfo.CurrentCulture,
-                        importeDecimal) Then
-
-            ' 3. PLAN B: Si el análisis falla, intentamos una conversión universal por si el usuario 
-            ' mezcló el formato (por ejemplo, pegar un importe con punto decimal en un Windows en español)
-            If Not Decimal.TryParse(TxtImporte.Text.Replace(",", "."),
-                            System.Globalization.NumberStyles.Any,
-                            System.Globalization.CultureInfo.InvariantCulture,
-                            importeDecimal) Then
-                ' Si introduce letras o texto inválido, el importe pasa a ser 0 por seguridad
-                importeDecimal = 0.0D
-            End If
-        End If
-
-        ' 4. Asignamos el valor limpio y exacto a tu variable
-        vImporteAPU = importeDecimal
-
+        ' 4. Asignamos el valor limpio y exacto a tu variable aplicando el signo correcto
         If TxtTipoConcepto.Text = "GASTO" Then
-            vImporteAPU = -Math.Abs(vImporteAPU)
+            vImporteAPU = -Math.Abs(importeDecimal)
         Else
-            vImporteAPU = Math.Abs(vImporteAPU)
+            vImporteAPU = Math.Abs(importeDecimal)
         End If
 
-        ' Construcción SQL estricta para Access (#yyyy/MM/dd# y Str())
-        vAñadirSql = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) VALUES "
-        vAñadirSql += "(#" & vDate3 & "#, '" & vConceptoAPU & "', '" & vDescripcionAPU & "', " & Str(vImporteAPU) & ", " & CInt(vAñoEjercicio) & ", '" & vNotasAPU & "', '" & vCuentaAPU & "')"
+        ' 1. CONSTRUCCIÓN SQL PARA EL INSERT PARAMETRIZADO (Adiós a #, comillas simples y Str)
+        vAñadirSql = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) " &
+                     "VALUES (?, ?, ?, ?, ?, ?, ?)"
 
         cmdMdb1cr.CommandText = vAñadirSql
+
+        ' Limpiamos y asignamos los parámetros en el orden EXACTO de los comodines '?'
+        cmdMdb1cr.Parameters.Clear()
+        cmdMdb1cr.Parameters.AddWithValue("@FechaAPU", fechaAsiento)
+        cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vConceptoAPU)
+        cmdMdb1cr.Parameters.AddWithValue("@DescripcionAPU", vDescripcionAPU)
+
+        ' Usamos Currency para que Access no se sature con la precisión decimal
+        Dim paramImporte As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteAPU", OleDb.OleDbType.Currency)
+        paramImporte.Value = Math.Round(vImporteAPU, 2)
+
+        cmdMdb1cr.Parameters.AddWithValue("@EjercicioAPU", CInt(vAñoEjercicio))
+        cmdMdb1cr.Parameters.AddWithValue("@NotasAPU", vNotasAPU)
+        cmdMdb1cr.Parameters.AddWithValue("@CuentaAPU", vCuentaAPU)
+
         Try
+            ' Ejecutamos la inserción de forma segura
             cmdMdb1cr.ExecuteNonQuery()
 
-            vtipoSql = "Select apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
-            vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-            vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
+            ' 2. REFRESH DE LA GRILLA PARAMETRIZADO
+            vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes " &
+                       "WHERE apuntes.EjercicioAPU = ? " &
+                       "ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
+
+            cmdMdb1cr.CommandText = vtipoSql
+
+            ' Limpiamos y asignamos el parámetro del WHERE
+            cmdMdb1cr.Parameters.Clear()
+            cmdMdb1cr.Parameters.AddWithValue("@EjercicioAPU", CInt(vAñoEjercicio))
+
             vtipoGrid = "APUNTES_CONTABLES"
             LlenarGrid(vtipoSql, vtipoGrid, "1")
 
             Return True
         Catch ex As Exception
-            MsgBox(rmse.GetString("ErrorGrabarRegistro") & ": " & ex.Message, MsgBoxStyle.Critical)
+            MessageBox.Show(rmse.GetString("ErrorGrabarRegistro") & ": " & ex.Message,
+                            "Error de Almacenamiento",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error)
             Return False
         End Try
     End Function
@@ -508,49 +507,74 @@ Public Class IntroApuntes
     End Sub
 
     Private Sub BtnAceptarSalir_Click(sender As Object, e As EventArgs) Handles BtnAceptarSalir.Click
+        ' Tu control de Modo Demo idéntico
         If frmApuntesContables.DgvApuntes.RowCount >= 25 And My.Settings.Autorizar = "Se autoriza el uso de ContaHogar 3.0 a: Modo Demo" Then
             'MsgBox("Software No Activado, Máximo 25 Apuntes", MsgBoxStyle.Critical, "Falta Activación")
             'Close()
         Else
 
         End If
+
         If TxtImporte.Text <> "0" Then
+            ' --- TU LÓGICA DE IMPORTE ADAPTADA CON TU FUNCIÓN GLOBAL ---
+            Dim importeDecimal As Decimal = ConvertirDecimalSeguro(TxtImporte.Text)
+            If TxtTipoConcepto.Text = "GASTO" Then
+                vImporteAPU = -Math.Abs(importeDecimal)
+            Else
+                vImporteAPU = Math.Abs(importeDecimal)
+            End If
+
             If frmApuntesContables.ListBox1.SelectedItems.Count = 0 Then
-                vDate3 = DateTimePicker1.Value
-                vDescripcionAPU = ApostrofePorAcentoAgudo(CmbDescripcion.Text)
-                vImporteAPU = TxtImporte.Text
-                If TxtTipoConcepto.Text = "GASTO" Then
-                    vImporteAPU = "-" & vImporteAPU.ToString
-                End If
+                vDate3 = DateTimePicker1.Value.Date ' Guardamos como objeto Date puro
+                vDescripcionAPU = CmbDescripcion.Text.Trim()
                 vNotasAPU = TxtNota.Text
                 vCuentaAPU = CmbCuenta.Text.ToString
-                vAñadirSql = "INSERT INTO apuntes "
-                vAñadirSql += "(FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) "
-                vAñadirSql += "VALUES (#" & vDate3.ToString("yyyy/MM/dd") & "#,'" & vConcepto & "','" & vDescripcionAPU & "','" & vImporteAPU & "','" & vAñoEjercicio & "','" & vNotasAPU & "','" & vCuentaAPU & "')"
+
+                ' INSERT Parametrizado seguro para evitar cuelgues de comillas o Str()
+                vAñadirSql = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) VALUES (?, ?, ?, ?, ?, ?, ?)"
                 cmdMdb1cr.CommandText = vAñadirSql
+
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.Parameters.AddWithValue("@FechaAPU", vDate3)
+                cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vConcepto)
+                cmdMdb1cr.Parameters.AddWithValue("@DescripcionAPU", vDescripcionAPU)
+
+                Dim paramImp1 As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteAPU", OleDb.OleDbType.Currency)
+                paramImp1.Value = Math.Round(vImporteAPU, 2)
+
+                cmdMdb1cr.Parameters.AddWithValue("@EjercicioAPU", CInt(vAñoEjercicio))
+                cmdMdb1cr.Parameters.AddWithValue("@NotasAPU", vNotasAPU)
+                cmdMdb1cr.Parameters.AddWithValue("@CuentaAPU", vCuentaAPU)
+
                 Try
                     cmdMdb1cr.ExecuteNonQuery()
-                    'MsgBox("Registro, Grabado Correctamente")
                 Catch ex As Exception
                     MsgBox(rmse.GetString("ErrorGrabarRegistro") & ": " & ex.ToString, vbExclamation, rmse.GetString("$this.Text"))
                 End Try
+
+                ' --- TU REFRESH DE PASTEBIN EXACTO (Mismo Orden e Ifs) ---
                 vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
                 vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+
                 If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
                     vtipoSql += " And apuntes.CuentaAPU = '" & frmApuntesContables.CmbCuenta.Text & "' "
                 End If
                 If frmApuntesContables.BtnFiltroConcepto.Enabled = False Then
                     vtipoSql += " And apuntes.ConceptoAPU = '" & frmApuntesContables.CmbConcepto.Text & "' "
                 End If
+
+                ' Mismo If de tu Pastebin: pero asignando las variables como .Date puras
                 If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
-                    vDate1 = frmApuntesContables.DateTimePicker1.Value.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture)
-                    vDate2 = frmApuntesContables.DateTimePicker2.Value.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture)
-                    vtipoSql += " And apuntes.FechaAPU >= ?"
-                    vtipoSql += " And apuntes.FechaAPU <= ?"
+                    vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
+                    vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
+                    vtipoSql += " And apuntes.FechaAPU >= #" & vDate1.ToString("yyyy/MM/dd") & "#"
+                    vtipoSql += " And apuntes.FechaAPU <= #" & vDate2.ToString("yyyy/MM/dd") & "#"
                 End If
+
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
+
                 vFilaActual = frmApuntesContables.DgvApuntes.CurrentRow.Index
                 If vFilaActual = frmApuntesContables.DgvApuntes.RowCount - 1 Then
                     MsgBox(resManager.GetString("MsgFila2"))
@@ -559,32 +583,45 @@ Public Class IntroApuntes
                     frmApuntesContables.DgvApuntes.Rows(vFila).Selected = True
                     frmApuntesContables.DgvApuntes.CurrentCell = frmApuntesContables.DgvApuntes.Rows(vFila).Cells(0)
                 End If
+                ' --- RAMA B DE TU PASTEBIN TOTALMENTE INTACTA ---
             Else
-                vDate3 = DateTimePicker1.Value
-                vDescripcionAPU = ApostrofePorAcentoAgudo(CmbDescripcion.Text)
-                vImporteAPU = TxtImporte.Text
-                If TxtTipoConcepto.Text = "GASTO" Then
-                    vImporteAPU = "-" & vImporteAPU.ToString
-                End If
+                vDate3 = DateTimePicker1.Value.Date
+                vDescripcionAPU = CmbDescripcion.Text.Trim()
                 vNotasAPU = TxtNota.Text
                 vCuentaAPU = CmbCuenta.Text.ToString
-                vAñadirSql = "INSERT INTO apuntes "
-                vAñadirSql += "(FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) "
-                vAñadirSql += "VALUES (#" & vDate3.ToString("yyyy/MM/dd") & "#,'" & vConcepto & "','" & vDescripcionAPU & "','" & vImporteAPU & "','" & vAñoEjercicio & "','" & vNotasAPU & "','" & vCuentaAPU & "')"
+
+                ' INSERT Parametrizado idéntico para la rama B
+                vAñadirSql = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) VALUES (?, ?, ?, ?, ?, ?, ?)"
                 cmdMdb1cr.CommandText = vAñadirSql
+
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.Parameters.AddWithValue("@FechaAPU", vDate3)
+                cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vConcepto)
+                cmdMdb1cr.Parameters.AddWithValue("@DescripcionAPU", vDescripcionAPU)
+
+                Dim paramImp2 As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteAPU", OleDb.OleDbType.Currency)
+                paramImp2.Value = Math.Round(vImporteAPU, 2)
+
+                cmdMdb1cr.Parameters.AddWithValue("@EjercicioAPU", CInt(vAñoEjercicio))
+                cmdMdb1cr.Parameters.AddWithValue("@NotasAPU", vNotasAPU)
+                cmdMdb1cr.Parameters.AddWithValue("@CuentaAPU", vCuentaAPU)
+
                 Try
                     cmdMdb1cr.ExecuteNonQuery()
-                    'MsgBox("Registro, Grabado Correctamente")
                 Catch ex As Exception
                     MsgBox(rmse.GetString("ErrorGrabarRegistro") & ": " & ex.ToString, vbExclamation, rmse.GetString("$this.Text"))
                 End Try
+
                 Dim i As Integer
                 vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
+
                 If frmApuntesContables.BtnFechasClick = "SI" Then
                     vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
                 Else
                     vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
                 End If
+
+                ' Tu bucle exacto con tus And/Or encadenados tal como los programaste
                 For i = 0 To frmApuntesContables.ListBox1.SelectedItems.Count - 1
                     vConcepto = frmApuntesContables.ListBox1.SelectedItems(i).ToString
                     If i = 0 Then
@@ -595,8 +632,8 @@ Public Class IntroApuntes
                         If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
                             vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
                             vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
-                            vtipoSql += " And apuntes.FechaAPU >= #" & vDate1 & "#"
-                            vtipoSql += " And apuntes.FechaAPU <= #" & vDate2 & "#"
+                            vtipoSql += " And apuntes.FechaAPU >= #" & vDate1.ToString("yyyy/MM/dd") & "#"
+                            vtipoSql += " And apuntes.FechaAPU <= #" & vDate2.ToString("yyyy/MM/dd") & "#"
                         End If
                     Else
                         vtipoSql += " Or "
@@ -612,14 +649,16 @@ Public Class IntroApuntes
                         If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
                             vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
                             vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
-                            vtipoSql += " And apuntes.FechaAPU >= ?"
-                            vtipoSql += " And apuntes.FechaAPU <= ?"
+                            vtipoSql += " And apuntes.FechaAPU >= #" & vDate1.ToString("yyyy/MM/dd") & "#"
+                            vtipoSql += " And apuntes.FechaAPU <= #" & vDate2.ToString("yyyy/MM/dd") & "#"
                         End If
                     End If
                 Next
+
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
+
                 If frmApuntesContables.DgvApuntes.RowCount - 1 >= 0 Then
                     vFila = frmApuntesContables.DgvApuntes.RowCount - 1
                     frmApuntesContables.DgvApuntes.Rows(vFila).Selected = True
@@ -629,7 +668,6 @@ Public Class IntroApuntes
             Me.Close()
         Else
             MsgBox(rmse.GetString("NoCantidadImporte"), vbExclamation, rmse.GetString("$this.Text"))
-            TxtImporte.Select()
         End If
     End Sub
 
@@ -643,6 +681,7 @@ Public Class IntroApuntes
 
         If TxtImporte.Text <> "0" Then
             If frmApuntesContables.ListBox1.SelectedItems.Count = 0 Then
+                MsgBox("ListBox = 0")
                 vDate3 = DateTimePicker1.Value
                 vDescripcionAPU = ApostrofePorAcentoAgudo(CmbDescripcion.Text)
                 vImporteAPU = TxtImporte.Text
@@ -655,10 +694,27 @@ Public Class IntroApuntes
                 ' Sincronizamos vConcepto con el texto actual en pantalla antes de guardar
                 vConcepto = Trim(CmbConcepto.Text)
 
-                vAñadirSql = "INSERT INTO apuntes "
-                vAñadirSql += "(FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) "
-                vAñadirSql += "VALUES (#" & vDate3.ToString("yyyy/MM/dd") & "#,'" & vConcepto & "','" & vDescripcionAPU & "','" & vImporteAPU & "','" & vAñoEjercicio & "','" & vNotasAPU & "','" & vCuentaAPU & "')"
+                'vAñadirSql = "INSERT INTO apuntes "
+                'vAñadirSql += "(FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) "
+                'vAñadirSql += "VALUES (#" & vDate3.ToString("yyyy/MM/dd") & "#,'" & vConcepto & "','" & vDescripcionAPU & "','" & vImporteAPU & "','" & vAñoEjercicio & "','" & vNotasAPU & "','" & vCuentaAPU & "')"
+                'cmdMdb1cr.CommandText = vAñadirSql
+
+                ' INSERT Parametrizado seguro para evitar cuelgues de comillas o Str()
+                vAñadirSql = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) VALUES (?, ?, ?, ?, ?, ?, ?)"
                 cmdMdb1cr.CommandText = vAñadirSql
+
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.Parameters.AddWithValue("@FechaAPU", vDate3)
+                cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vConcepto)
+                cmdMdb1cr.Parameters.AddWithValue("@DescripcionAPU", vDescripcionAPU)
+
+                Dim paramImp1 As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteAPU", OleDb.OleDbType.Currency)
+                paramImp1.Value = Math.Round(vImporteAPU, 2)
+
+                cmdMdb1cr.Parameters.AddWithValue("@EjercicioAPU", CInt(vAñoEjercicio))
+                cmdMdb1cr.Parameters.AddWithValue("@NotasAPU", vNotasAPU)
+                cmdMdb1cr.Parameters.AddWithValue("@CuentaAPU", vCuentaAPU)
+
                 Try
                     cmdMdb1cr.ExecuteNonQuery()
                 Catch ex As Exception
@@ -674,11 +730,21 @@ Public Class IntroApuntes
                     vtipoSql += " And apuntes.ConceptoAPU = '" & frmApuntesContables.CmbConcepto.Text & "' "
                 End If
                 If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
-                    vDate1 = frmApuntesContables.DateTimePicker1.Value.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture)
-                    vDate2 = frmApuntesContables.DateTimePicker2.Value.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture)
-                    vtipoSql += " And apuntes.FechaAPU >= #" & vDate1 & "#"
-                    vtipoSql += " And apuntes.FechaAPU <= #" & vDate2 & "#"
+                    ' MULTIIDIOMA: Guardamos las fechas como objetos puros
+                    vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
+                    vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
+
+                    ' Forzamos el formato universal 'yyyy-MM-dd' con guiones. 
+                    ' Así, Access nunca confundirá el día con el mes en ningún Windows del mundo.
+                    vtipoSql += " And apuntes.FechaAPU >= #" & vDate1.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture) & "#"
+                    vtipoSql += " And apuntes.FechaAPU <= #" & vDate2.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture) & "#"
                 End If
+                'If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
+                '    vDate1 = frmApuntesContables.DateTimePicker1.Value.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture)
+                '    vDate2 = frmApuntesContables.DateTimePicker2.Value.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture)
+                '    vtipoSql += " And apuntes.FechaAPU >= #" & vDate1 & "#"
+                '    vtipoSql += " And apuntes.FechaAPU <= #" & vDate2 & "#"
+                'End If
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
@@ -692,6 +758,7 @@ Public Class IntroApuntes
                     frmApuntesContables.DgvApuntes.CurrentCell = frmApuntesContables.DgvApuntes.Rows(vFila).Cells(0)
                 End If
             Else
+                MsgBox("ListBox Mayor 0")
                 vDate3 = DateTimePicker1.Value
                 vDescripcionAPU = ApostrofePorAcentoAgudo(CmbDescripcion.Text)
                 vImporteAPU = TxtImporte.Text
@@ -730,11 +797,21 @@ Public Class IntroApuntes
                             vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
                         End If
                         If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
+                            ' MULTIIDIOMA: Guardamos las fechas como objetos puros
                             vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
                             vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
-                            vtipoSql += " And apuntes.FechaAPU >= #" & vDate1 & "#"
-                            vtipoSql += " And apuntes.FechaAPU <= #" & vDate2 & "#"
+
+                            ' Forzamos el formato universal 'yyyy-MM-dd' con guiones. 
+                            ' Así, Access nunca confundirá el día con el mes en ningún Windows del mundo.
+                            vtipoSql += " And apuntes.FechaAPU >= #" & vDate1.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture) & "#"
+                            vtipoSql += " And apuntes.FechaAPU <= #" & vDate2.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture) & "#"
                         End If
+                        'If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
+                        '    vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
+                        '    vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
+                        '    vtipoSql += " And apuntes.FechaAPU >= #" & vDate1 & "#"
+                        '    vtipoSql += " And apuntes.FechaAPU <= #" & vDate2 & "#"
+                        'End If
                     Else
                         vtipoSql += " Or "
                         If frmApuntesContables.BtnFechasClick = "SI" Then
@@ -1062,439 +1139,3 @@ Public Class IntroApuntes
     End Function
 
 End Class
-
-'======================================================================================================
-
-'Public Function LlenarConcepto() As String
-'    ' 1. BLINDAJE: Vaciamos el combo de forma segura desactivando eventos
-'    RemoveHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
-'    CmbConcepto.SelectedIndex = -1
-'    CmbConcepto.Items.Clear()
-'    AddHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
-
-'    ' Forzamos solo la columna que necesitamos
-'    cmdMdb1cr.CommandText = "SELECT CodigoCON FROM conceptos ORDER BY CodigoCON ASC"
-
-'    Try
-'        If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-'        drMdb1 = cmdMdb1cr.ExecuteReader()
-
-'        If drMdb1.HasRows Then
-'            While drMdb1.Read()
-'                Dim valor As String = Convert.ToString(drMdb1.GetValue(0))
-'                If valor <> "TRASPASO" Then
-'                    CmbConcepto.Items.Add(valor)
-'                End If
-'            End While
-
-'            ' 2. Asignación del concepto inicial por defecto
-'            If CmbConcepto.Items.Count > 0 Then
-'                If frmApuntesContables.BtnFiltroConcepto.Enabled = False Then
-'                    If frmApuntesContables.ListBox1.SelectedItems.Count <> 0 Then
-'                        CmbConcepto.Text = Convert.ToString(CmbConcepto.Items(0))
-'                    Else
-'                        Dim index As Integer = frmApuntesContables.CmbConcepto.SelectedIndex - 1
-'                        If index >= 0 AndAlso index < CmbConcepto.Items.Count Then
-'                            CmbConcepto.Text = Convert.ToString(CmbConcepto.Items(index))
-'                        Else
-'                            CmbConcepto.Text = Convert.ToString(CmbConcepto.Items(0))
-'                        End If
-'                    End If
-'                Else
-'                    CmbConcepto.Text = Convert.ToString(CmbConcepto.Items(0))
-'                End If
-'            End If
-'        End If
-'        drMdb1.Close()
-'    Catch ex As Exception
-'        If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-'        MsgBox(rmse.GetString("ErrorLlenarDesplegable") & rmse.GetString("Label2.Text") & " " & ex.Message, vbExclamation, rmse.GetString("$this.Text"))
-'    End Try
-'    Return ""
-'End Function
-
-
-''esta función llena el combo de descripción con las claves neutras traducidas a texto visible, tomando como referencia la tabla apuntes para obtener las claves únicas de descripción, y luego traducirlas usando el ResourceManager. Se ha optimizado para evitar duplicados y se ha blindado con manejo de excepciones y cierre adecuado del DataReader.
-'Public Function LlenarDescripcion() As String
-'    RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-'    CmbDescripcion.SelectedIndex = -1 : CmbDescripcion.Items.Clear()
-'    AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-
-'    cmdMdb1cr.CommandText = "SELECT DISTINCT ConceptoAPU FROM apuntes WHERE ConceptoAPU <> 'SALDO' ORDER BY ConceptoAPU ASC"
-'    Try
-'        If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-'        drMdb1 = cmdMdb1cr.ExecuteReader()
-'        If drMdb1.HasRows Then
-'            While drMdb1.Read()
-'                Dim claveNeutro As String = Convert.ToString(drMdb1.GetValue(0)).Trim()
-'                If Not String.IsNullOrEmpty(claveNeutro) Then
-'                    Dim textoTraducido As String = resManager.GetString("Desc_" & claveNeutro)
-'                    If Not String.IsNullOrEmpty(textoTraducido) Then CmbDescripcion.Items.Add(textoTraducido.Trim())
-'                End If
-'            End While
-'        End If
-'        drMdb1.Close()
-'    Catch ex As Exception
-'        If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-'        MsgBox("Error al cargar Descripciones: " & ex.Message)
-'    End Try
-'    Return ""
-'End Function
-
-
-'' con traducción inversa y carga de descripción traducida
-'Private Sub CmbConcepto_KeyDown(sender As Object, e As KeyEventArgs) Handles CmbConcepto.KeyDown
-'    If e.KeyCode = Keys.Enter Then
-'        e.SuppressKeyPress = True
-
-'        Dim textoSeleccionado As String = CmbConcepto.Text
-
-'        RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-'        TxtBuscarLetras.Text = ""
-'        AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-'        TxtBuscarLetras.Enabled = False
-
-'        CmbConcepto.Text = textoSeleccionado
-
-'        ' TRADUCCIÓN INVERSA: Buscamos la clave neutra original
-'        vConcepto = ObtenerClaveNeutral(textoSeleccionado, resManager)
-'        If String.IsNullOrEmpty(vConcepto) Then vConcepto = textoSeleccionado
-
-'        ' Cargar descripción por defecto traducida
-'        If Not String.IsNullOrEmpty(vConcepto) Then
-'            Try
-'                If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-'                cmdMdb1cr.CommandText = "SELECT * FROM conceptos WHERE CodigoCON = '" & vConcepto.Replace("'", "''") & "' ORDER BY CodigoCON ASC"
-'                drMdb1 = cmdMdb1cr.ExecuteReader()
-
-'                If drMdb1.Read() Then
-'                    TxtTipoConcepto.Text = Convert.ToString(drMdb1.GetValue(2))
-'                    Dim keyDesc As String = "Desc_" & vConcepto
-'                    Dim descTraducida As String = resManager.GetString(keyDesc)
-
-'                    If Not String.IsNullOrEmpty(descTraducida) Then
-'                        CmbDescripcion.Text = descTraducida
-'                    Else
-'                        CmbDescripcion.Text = Convert.ToString(drMdb1.GetValue(1))
-'                    End If
-'                    vDescripcion = CmbDescripcion.Text
-'                    MsgBox("CmbConcepto_KeyDown" & vDescripcion)
-'                End If
-'                drMdb1.Close()
-'            Catch ex As Exception
-'                If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-'            End Try
-'        End If
-
-'        If CmbConcepto.DroppedDown Then CmbConcepto.DroppedDown = False
-'        CmbDescripcion.Select()
-'    End If
-'End Sub
-
-'' Versión optimizada y comentada de tu función BuscarLetras, con traducción inversa y control de descripción nueva
-'Public Function BuscarLetras(combo As String) As String
-'    If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-
-'    If combo = "concepto" Then
-'        RemoveHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
-'        CmbConcepto.DroppedDown = False : CmbConcepto.SelectedIndex = -1
-'        If CmbConcepto.Items.Count > 0 Then CmbConcepto.Items.Clear()
-'        AddHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
-
-'        Dim letrasLimpias As String = vLetras.Replace("'", "''")
-'        cmdMdb1cr.CommandText = "SELECT CodigoCON FROM conceptos WHERE CodigoCON LIKE '%" & letrasLimpias & "%' ORDER BY CodigoCON ASC"
-'        Try
-'            drMdb1 = cmdMdb1cr.ExecuteReader()
-'            If drMdb1.HasRows Then
-'                While drMdb1.Read()
-'                    Dim valor As String = Convert.ToString(drMdb1.GetValue(0))
-'                    If valor <> "TRASPASO" Then
-'                        Dim trans As String = resManager.GetString(valor)
-'                        CmbConcepto.Items.Add(If(String.IsNullOrEmpty(trans), valor, trans).ToUpper())
-'                    End If
-'                End While
-'                CmbConcepto.DroppedDown = True
-'            Else
-'                CmbConcepto.DroppedDown = False
-'            End If
-'            drMdb1.Close()
-'        Catch ex As Exception
-'            MsgBox("Error en búsqueda Concepto: " & ex.Message)
-'        End Try
-'    End If
-
-'    If combo = "descripcion" AndAlso vLetras.Length > 2 Then
-'        RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-'        CmbDescripcion.DroppedDown = False : CmbDescripcion.SelectedIndex = -1
-'        If CmbDescripcion.Items.Count > 0 Then CmbDescripcion.Items.Clear()
-'        AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-
-'        Dim letrasLimpias As String = vLetras.Replace("'", "''")
-'        cmdMdb1cr.CommandText = "SELECT DISTINCT ConceptoAPU FROM apuntes WHERE ConceptoAPU LIKE '%" & letrasLimpias & "%' AND ConceptoAPU <> 'SALDO'"
-'        Try
-'            drMdb1 = cmdMdb1cr.ExecuteReader()
-'            Dim huboFilas As Boolean = False
-
-'            While drMdb1.Read()
-'                Dim valor As String = Convert.ToString(drMdb1.GetValue(0))
-'                Dim trans As String = resManager.GetString("Desc_" & valor)
-'                If Not String.IsNullOrEmpty(trans) Then
-'                    CmbDescripcion.Items.Add(trans.Trim())
-'                    huboFilas = True
-'                End If
-'            End While
-'            drMdb1.Close()
-
-'            If huboFilas Then
-'                CmbDescripcion.DroppedDown = True
-'                vCombo = "descripcion"
-'            Else
-'                CmbDescripcion.DroppedDown = False
-'                Dim respuesta As MsgBoxResult = MsgBox("No existen Descripciones con: -" & vLetras.ToUpper() & "-" & vbCrLf & "¿Añadimos la descripción?", vbQuestion + vbYesNo + vbDefaultButton1, "Introducir Apunte")
-
-'                If respuesta = vbYes Then
-'                    vIntro = "SI"
-'                    CmbDescripcion.Text = vLetras : vDescripcion = vLetras
-'                    RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-'                    TxtBuscarLetras.Text = ""
-'                    AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-'                    TxtBuscarLetras.Enabled = False
-'                    TxtImporte.Focus() : TxtImporte.SelectAll()
-'                Else
-'                    RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-'                    If TxtBuscarLetras.Text.Length > 0 Then TxtBuscarLetras.Text = TxtBuscarLetras.Text.Substring(0, TxtBuscarLetras.Text.Length - 1)
-'                    AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-'                    TxtBuscarLetras.Focus() : TxtBuscarLetras.SelectionStart = TxtBuscarLetras.Text.Length
-'                    vLetras = TxtBuscarLetras.Text
-'                End If
-'            End If
-'        Catch ex As Exception
-'            MsgBox("Error en búsqueda Descripción: " & ex.Message)
-'            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-'        End Try
-'    End If
-'    Return ""
-'End Function
-
-'' con traducción de claves neutras a texto visible
-'Public Function LlenarConcepto() As String
-'    RemoveHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
-'    CmbConcepto.SelectedIndex = -1 : CmbConcepto.Items.Clear()
-'    AddHandler CmbConcepto.SelectedIndexChanged, AddressOf CmbConcepto_SelectedIndexChanged
-
-'    cmdMdb1cr.CommandText = "SELECT CodigoCON FROM conceptos ORDER BY CodigoCON ASC"
-'    Try
-'        If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-'        drMdb1 = cmdMdb1cr.ExecuteReader()
-'        If drMdb1.HasRows Then
-'            While drMdb1.Read()
-'                Dim claveNeutro As String = Convert.ToString(drMdb1.GetValue(0)).Trim()
-'                If claveNeutro <> "TRASPASO" AndAlso Not String.IsNullOrEmpty(claveNeutro) Then
-'                    Dim textoTraducido As String = resManager.GetString(claveNeutro)
-'                    If String.IsNullOrEmpty(textoTraducido) Then textoTraducido = claveNeutro
-'                    CmbConcepto.Items.Add(textoTraducido.ToUpper())
-'                End If
-'            End While
-'            'If CmbConcepto.Items.Count > 0 Then CmbConcepto.Text = Convert.ToString(CmbConcepto.Items(0))
-'            If CmbConcepto.Items.Count > 0 Then TxtDescripcion.Text = Convert.ToString(CmbConcepto.Items(0))
-'        End If
-'        'drMdb1.Close()
-'    Catch ex As Exception
-'        If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-'        MsgBox("Error al cargar Conceptos: " & ex.Message)
-'    End Try
-'    drMdb1.Close()
-'    Return ""
-'End Function
-
-''con traducción de claves neutras a texto visible y doble intento de carga (primero desde apuntes, si no hay nada, desde conceptos)
-'Public Function LlenarDescripcion() As String
-'    ' 1. Desvincular eventos y limpiar el ComboBox
-'    RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-'    CmbDescripcion.SelectedIndex = -1 : CmbDescripcion.Items.Clear()
-'    AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-
-'    Try
-'        Dim cargoDesdeApuntes As Boolean = False
-
-'        ' INTERVENTOR 1: Intentar cargar desde la tabla 'apuntes' (Flujo normal)
-'        cmdMdb1cr.CommandText = "SELECT DISTINCT ConceptoAPU FROM apuntes WHERE ConceptoAPU <> 'SALDO' ORDER BY ConceptoAPU ASC"
-
-'        If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-'        drMdb1 = cmdMdb1cr.ExecuteReader()
-
-'        If drMdb1.HasRows Then
-'            cargoDesdeApuntes = True
-'            While drMdb1.Read()
-'                Dim claveNeutro As String = Convert.ToString(drMdb1.GetValue(0)).Trim()
-'                If Not String.IsNullOrEmpty(claveNeutro) Then
-'                    Dim textoTraducido As String = resManager.GetString("Desc_" & claveNeutro)
-'                    If Not String.IsNullOrEmpty(textoTraducido) Then
-'                        CmbDescripcion.Items.Add(textoTraducido.Trim())
-'                    End If
-'                End If
-'            End While
-'        End If
-'        drMdb1.Close()
-
-'        ' INTERVENTOR 2: Si 'apuntes' estaba vacía, cargamos basándonos en la tabla 'conceptos'
-'        If Not cargoDesdeApuntes Then
-'            cmdMdb1cr.CommandText = "SELECT CodigoCON FROM conceptos ORDER BY CodigoCON ASC"
-
-'            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-'            drMdb1 = cmdMdb1cr.ExecuteReader()
-
-'            If drMdb1.HasRows Then
-'                While drMdb1.Read()
-'                    Dim claveNeutro As String = Convert.ToString(drMdb1.GetValue(0)).Trim()
-'                    ' Excluimos TRASPASO igual que haces en LlenarConcepto si es necesario
-'                    If claveNeutro <> "TRASPASO" AndAlso Not String.IsNullOrEmpty(claveNeutro) Then
-'                        ' Buscamos la descripción asociada al concepto base
-'                        Dim textoTraducido As String = resManager.GetString("Desc_" & claveNeutro)
-
-'                        ' Si existe la traducción "Desc_CONCEPTO", la añadimos al combo
-'                        If Not String.IsNullOrEmpty(textoTraducido) Then
-'                            CmbDescripcion.Items.Add(textoTraducido.Trim())
-'                        End If
-'                    End If
-'                End While
-'            End If
-'            drMdb1.Close()
-'        End If
-
-'        ' Seleccionar el primer elemento por defecto si se llenó algo
-'        If CmbDescripcion.Items.Count > 0 Then
-'            CmbDescripcion.Text = Convert.ToString(CmbDescripcion.Items(0))
-'        End If
-
-'    Catch ex As Exception
-'        If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-'        MsgBox("Error al cargar Descripciones: " & ex.Message)
-'    End Try
-
-'    Return ""
-'End Function
-
-'Private Sub BtnAceptarOtro_Click(sender As Object, e As EventArgs) Handles BtnAceptarOtro.Click
-'    If frmApuntesContables.DgvApuntes.RowCount >= 25 And My.Settings.Autorizar = "Se autoriza el uso de ContaHogar 3.0 a: Modo Demo" Then
-'        'MsgBox("Software No Activado, Máximo 25 Apuntes", MsgBoxStyle.Critical, "Falta Activación")
-'        'Close()
-'    Else
-
-'    End If
-'    If TxtImporte.Text <> "0" Then
-'        If frmApuntesContables.ListBox1.SelectedItems.Count = 0 Then
-'            vDate3 = DateTimePicker1.Value
-'            vDescripcionAPU = ApostrofePorAcentoAgudo(CmbDescripcion.Text)
-'            vImporteAPU = TxtImporte.Text
-'            If TxtTipoConcepto.Text = "GASTO" Then
-'                vImporteAPU = "-" & vImporteAPU.ToString
-'            End If
-'            vNotasAPU = TxtNota.Text
-'            vCuentaAPU = CmbCuenta.Text.ToString
-'            vAñadirSql = "INSERT INTO apuntes "
-'            vAñadirSql += "(FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) "
-'            vAñadirSql += "VALUES (#" & vDate3.ToString("yyyy/MM/dd") & "#,'" & vConcepto & "','" & vDescripcionAPU & "','" & vImporteAPU & "','" & vAñoEjercicio & "','" & vNotasAPU & "','" & vCuentaAPU & "')"
-'            cmdMdb1cr.CommandText = vAñadirSql
-'            Try
-'                cmdMdb1cr.ExecuteNonQuery()
-'                'MsgBox("Registro, Grabado Correctamente")
-'            Catch ex As Exception
-'                MsgBox(rmse.GetString("ErrorGrabarRegistro") & ": " & ex.ToString, vbExclamation, rmse.GetString("$this.Text"))
-'            End Try
-'            vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
-'            vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-'            If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
-'                vtipoSql += " And apuntes.CuentaAPU = '" & frmApuntesContables.CmbCuenta.Text & "' "
-'            End If
-'            If frmApuntesContables.BtnFiltroConcepto.Enabled = False Then
-'                vtipoSql += " And apuntes.ConceptoAPU = '" & frmApuntesContables.CmbConcepto.Text & "' "
-'            End If
-'            If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
-'                vDate1 = frmApuntesContables.DateTimePicker1.Value.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture)
-'                vDate2 = frmApuntesContables.DateTimePicker2.Value.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture)
-'                vtipoSql += " And apuntes.FechaAPU >= ?"
-'                vtipoSql += " And apuntes.FechaAPU <= ?"
-'            End If
-'            vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
-'            vtipoGrid = "APUNTES_CONTABLES"
-'            LlenarGrid(vtipoSql, vtipoGrid, "1")
-'            vFila = frmApuntesContables.DgvApuntes.RowCount - 1
-'            frmApuntesContables.DgvApuntes.Rows(vFila).Selected = True
-'            frmApuntesContables.DgvApuntes.CurrentCell = frmApuntesContables.DgvApuntes.Rows(vFila).Cells(0)
-'        Else
-'            vDate3 = DateTimePicker1.Value
-'            vDescripcionAPU = ApostrofePorAcentoAgudo(CmbDescripcion.Text)
-'            vImporteAPU = TxtImporte.Text
-'            If TxtTipoConcepto.Text = "GASTO" Then
-'                vImporteAPU = "-" & vImporteAPU.ToString
-'            End If
-'            vNotasAPU = TxtNota.Text
-'            vCuentaAPU = CmbCuenta.Text.ToString
-'            vAñadirSql = "INSERT INTO apuntes "
-'            vAñadirSql += "(FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) "
-'            vAñadirSql += "VALUES (#" & vDate3.ToString("yyyy/MM/dd") & "#,'" & vConcepto & "','" & vDescripcionAPU & "','" & vImporteAPU & "','" & vAñoEjercicio & "','" & vNotasAPU & "','" & vCuentaAPU & "')"
-'            cmdMdb1cr.CommandText = vAñadirSql
-'            Try
-'                cmdMdb1cr.ExecuteNonQuery()
-'                'MsgBox("Registro, Grabado Correctamente")
-'            Catch ex As Exception
-'                MsgBox(rmse.GetString("ErrorGrabarRegistro") & ": " & ex.ToString, vbExclamation, rmse.GetString("$this.Text"))
-'            End Try
-'            Dim i As Integer
-'            vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
-'            If frmApuntesContables.BtnFechasClick = "SI" Then
-'                vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
-'            Else
-'                vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-'            End If
-'            For i = 0 To frmApuntesContables.ListBox1.SelectedItems.Count - 1
-'                vConcepto = frmApuntesContables.ListBox1.SelectedItems(i).ToString
-'                If i = 0 Then
-'                    vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
-'                    If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
-'                        vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
-'                    End If
-'                    If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
-'                        vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
-'                        vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
-'                        vtipoSql += " And apuntes.FechaAPU >= #" & vDate1 & "#"
-'                        vtipoSql += " And apuntes.FechaAPU <= #" & vDate2 & "#"
-'                    End If
-'                Else
-'                    vtipoSql += " Or "
-'                    If frmApuntesContables.BtnFechasClick = "SI" Then
-'                        vtipoSql += "apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
-'                    Else
-'                        vtipoSql += "apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-'                    End If
-'                    vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
-'                    If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
-'                        vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
-'                    End If
-'                    If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
-'                        vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
-'                        vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
-'                        vtipoSql += " And apuntes.FechaAPU >= ?"
-'                        vtipoSql += " And apuntes.FechaAPU <= ?"
-'                    End If
-'                End If
-'            Next
-'            vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
-'            vtipoGrid = "APUNTES_CONTABLES"
-'            LlenarGrid(vtipoSql, vtipoGrid, "1")
-'            If frmApuntesContables.DgvApuntes.RowCount - 1 >= 0 Then
-'                vFila = frmApuntesContables.DgvApuntes.RowCount - 1
-'                frmApuntesContables.DgvApuntes.Rows(vFila).Selected = True
-'                frmApuntesContables.DgvApuntes.CurrentCell = frmApuntesContables.DgvApuntes.Rows(vFila).Cells(0)
-'            End If
-'        End If
-'        TxtImporte.Text = 0
-'        TxtNota.Text = ""
-'        DateTimePicker1.Select()
-'    Else
-'        MsgBox(rmse.GetString("NoCantidadImporte"), vbExclamation, rmse.GetString("$this.Text"))
-'        TxtImporte.Select()
-'        TxtImporte.SelectAll()
-'    End If
-'End Sub

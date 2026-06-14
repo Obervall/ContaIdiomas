@@ -194,18 +194,30 @@ Public Class GraficosFechas
         Chart1.Series("Gastos").Points.Clear()
         Chart1.Series("Ingresos").Points.Clear()
 
+        ' Reseteo preventivo de tipos para evitar colisiones con el gráfico de pastel
+        Chart1.Series("Gastos").ChartType = SeriesChartType.Area
+        Chart1.Series("Ingresos").ChartType = SeriesChartType.Area
+
         vContador = 0
         For x = 0 To miView.Count - 1
             'Tomamos los datos de DataView para la gráfica
             vContador += 1
-            vImporteConcepto = Val(miView(x)("Importe"))
+            vImporteConcepto = ConvertirDecimalSeguro(miView(x)("Importe"))
+
             If (vContador Mod 2) <> 0 Then
                 'El número es impar.
-                vImportePrimero = Val(miView(x)("Importe"))
-                vImporteSegundo = Val(miView(x + 1)("Importe"))
+                vImportePrimero = ConvertirDecimalSeguro(miView(x)("Importe"))
+
+                ' Escudo contra desbordamiento de índice si la BD devuelve filas impares
+                If x + 1 < miView.Count Then
+                    vImporteSegundo = ConvertirDecimalSeguro(miView(x + 1)("Importe"))
+                Else
+                    vImporteSegundo = 0.0D
+                End If
+
                 If vImportePrimero = 0 And vImporteSegundo > 0 Then
                     With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                        vImporteConcepto = Math.Abs(ConvertirDecimalSeguro(miView(x)("Importe")))
                         Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
                         .Points(i).Color = Color.Red
                         .ChartType = SeriesChartType.Area
@@ -213,7 +225,7 @@ Public Class GraficosFechas
                 End If
                 If vImportePrimero = 0 And vImporteSegundo < 0 Then
                     With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                        vImporteConcepto = Math.Abs(ConvertirDecimalSeguro(miView(x)("Importe")))
                         Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
                         .Points(i).Color = Color.Blue
                         .ChartType = SeriesChartType.Area
@@ -221,7 +233,7 @@ Public Class GraficosFechas
                 End If
                 If vImportePrimero > 0 And vImporteSegundo = 0 Then
                     With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                        vImporteConcepto = Math.Abs(ConvertirDecimalSeguro(miView(x)("Importe")))
                         Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
                         .Points(i).Color = Color.Blue
                         .ChartType = SeriesChartType.Area
@@ -229,7 +241,7 @@ Public Class GraficosFechas
                 End If
                 If vImportePrimero < 0 And vImporteSegundo = 0 Then
                     With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                        vImporteConcepto = Math.Abs(ConvertirDecimalSeguro(miView(x)("Importe")))
                         Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
                         .Points(i).Color = Color.Red
                         .ChartType = SeriesChartType.Area
@@ -237,7 +249,7 @@ Public Class GraficosFechas
                 End If
                 If vImportePrimero < 0 And vImporteSegundo > 0 Then
                     With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                        vImporteConcepto = Math.Abs(ConvertirDecimalSeguro(miView(x)("Importe")))
                         Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
                         .Points(i).Color = Color.Red
                         .ChartType = SeriesChartType.Area
@@ -245,7 +257,7 @@ Public Class GraficosFechas
                 End If
                 If vImportePrimero > 0 And vImporteSegundo < 0 Then
                     With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                        vImporteConcepto = Math.Abs(ConvertirDecimalSeguro(miView(x)("Importe")))
                         Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
                         .Points(i).Color = Color.Blue
                         .ChartType = SeriesChartType.Area
@@ -253,10 +265,11 @@ Public Class GraficosFechas
                 End If
             Else
                 'El número es par.
-                vImporteSegundo = Val(miView(x)("Importe"))
+                vImporteSegundo = ConvertirDecimalSeguro(miView(x)("Importe"))
+
                 If vImportePrimero = 0 And vImporteSegundo > 0 Then
                     With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                        vImporteConcepto = Math.Abs(ConvertirDecimalSeguro(miView(x)("Importe")))
                         Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
                         .Points(i).Color = Color.Blue
                         .ChartType = SeriesChartType.Area
@@ -264,7 +277,7 @@ Public Class GraficosFechas
                 End If
                 If vImportePrimero = 0 And vImporteSegundo < 0 Then
                     With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                        vImporteConcepto = Math.Abs(ConvertirDecimalSeguro(miView(x)("Importe")))
                         Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
                         .Points(i).Color = Color.Red
                         .ChartType = SeriesChartType.Area
@@ -272,7 +285,7 @@ Public Class GraficosFechas
                 End If
                 If vImportePrimero > 0 And vImporteSegundo = 0 Then
                     With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                        vImporteConcepto = Math.Abs(ConvertirDecimalSeguro(miView(x)("Importe")))
                         Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
                         .Points(i).Color = Color.Red
                         .ChartType = SeriesChartType.Area
@@ -280,7 +293,7 @@ Public Class GraficosFechas
                 End If
                 If vImportePrimero < 0 And vImporteSegundo = 0 Then
                     With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                        vImporteConcepto = Math.Abs(ConvertirDecimalSeguro(miView(x)("Importe")))
                         Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
                         .Points(i).Color = Color.Blue
                         .ChartType = SeriesChartType.Area
@@ -288,7 +301,7 @@ Public Class GraficosFechas
                 End If
                 If vImportePrimero < 0 And vImporteSegundo > 0 Then
                     With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                        vImporteConcepto = Math.Abs(ConvertirDecimalSeguro(miView(x)("Importe")))
                         Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
                         .Points(i).Color = Color.Blue
                         .ChartType = SeriesChartType.Area
@@ -296,7 +309,7 @@ Public Class GraficosFechas
                 End If
                 If vImportePrimero > 0 And vImporteSegundo < 0 Then
                     With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                        vImporteConcepto = Math.Abs(ConvertirDecimalSeguro(miView(x)("Importe")))
                         Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
                         .Points(i).Color = Color.Red
                         .ChartType = SeriesChartType.Area
@@ -329,14 +342,22 @@ Public Class GraficosFechas
         For x = 0 To miView.Count - 1
             'Tomamos los datos de DataView para la gráfica
             vContador += 1
-            vImporteConcepto = Val(miView(x)("Importe"))
+            vImporteConcepto = ConvertirDecimalSeguro(miView(x)("Importe"))
+
             If (vContador Mod 2) <> 0 Then
                 'El número es impar.
-                vImportePrimero = Val(miView(x)("Importe"))
-                vImporteSegundo = Val(miView(x + 1)("Importe"))
+                vImportePrimero = ConvertirDecimalSeguro(miView(x)("Importe"))
+
+                ' FILTRO DE SEGURIDAD: Evita que el programa se cuelgue si es el último registro suelto
+                If x + 1 < miView.Count Then
+                    vImporteSegundo = ConvertirDecimalSeguro(miView(x + 1)("Importe"))
+                Else
+                    vImporteSegundo = 0.0D
+                End If
+
                 If vImportePrimero = 0 And vImporteSegundo > 0 Then
                     With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                        vImporteConcepto = Math.Abs(ConvertirDecimalSeguro(miView(x)("Importe")))
                         Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
                         .Points(i).Color = Color.Red
                         .ChartType = SeriesChartType.Line
@@ -344,7 +365,7 @@ Public Class GraficosFechas
                 End If
                 If vImportePrimero = 0 And vImporteSegundo < 0 Then
                     With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                        vImporteConcepto = Math.Abs(ConvertirDecimalSeguro(miView(x)("Importe")))
                         Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
                         .Points(i).Color = Color.Blue
                         .ChartType = SeriesChartType.Line
@@ -352,7 +373,7 @@ Public Class GraficosFechas
                 End If
                 If vImportePrimero > 0 And vImporteSegundo = 0 Then
                     With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                        vImporteConcepto = Math.Abs(ConvertirDecimalSeguro(miView(x)("Importe")))
                         Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
                         .Points(i).Color = Color.Blue
                         .ChartType = SeriesChartType.Line
@@ -360,7 +381,7 @@ Public Class GraficosFechas
                 End If
                 If vImportePrimero < 0 And vImporteSegundo = 0 Then
                     With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                        vImporteConcepto = Math.Abs(ConvertirDecimalSeguro(miView(x)("Importe")))
                         Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
                         .Points(i).Color = Color.Red
                         .ChartType = SeriesChartType.Line
@@ -368,7 +389,7 @@ Public Class GraficosFechas
                 End If
                 If vImportePrimero < 0 And vImporteSegundo > 0 Then
                     With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                        vImporteConcepto = Math.Abs(ConvertirDecimalSeguro(miView(x)("Importe")))
                         Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
                         .Points(i).Color = Color.Red
                         .ChartType = SeriesChartType.Line
@@ -376,7 +397,7 @@ Public Class GraficosFechas
                 End If
                 If vImportePrimero > 0 And vImporteSegundo < 0 Then
                     With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                        vImporteConcepto = Math.Abs(ConvertirDecimalSeguro(miView(x)("Importe")))
                         Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
                         .Points(i).Color = Color.Blue
                         .ChartType = SeriesChartType.Line
@@ -384,10 +405,11 @@ Public Class GraficosFechas
                 End If
             Else
                 'El número es par.
-                vImporteSegundo = Val(miView(x)("Importe"))
+                vImporteSegundo = ConvertirDecimalSeguro(miView(x)("Importe"))
+
                 If vImportePrimero = 0 And vImporteSegundo > 0 Then
                     With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                        vImporteConcepto = Math.Abs(ConvertirDecimalSeguro(miView(x)("Importe")))
                         Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
                         .Points(i).Color = Color.Blue
                         .ChartType = SeriesChartType.Line
@@ -395,7 +417,7 @@ Public Class GraficosFechas
                 End If
                 If vImportePrimero = 0 And vImporteSegundo < 0 Then
                     With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                        vImporteConcepto = Math.Abs(ConvertirDecimalSeguro(miView(x)("Importe")))
                         Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
                         .Points(i).Color = Color.Red
                         .ChartType = SeriesChartType.Line
@@ -403,7 +425,7 @@ Public Class GraficosFechas
                 End If
                 If vImportePrimero > 0 And vImporteSegundo = 0 Then
                     With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                        vImporteConcepto = Math.Abs(ConvertirDecimalSeguro(miView(x)("Importe")))
                         Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
                         .Points(i).Color = Color.Red
                         .ChartType = SeriesChartType.Line
@@ -411,7 +433,7 @@ Public Class GraficosFechas
                 End If
                 If vImportePrimero < 0 And vImporteSegundo = 0 Then
                     With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                        vImporteConcepto = Math.Abs(ConvertirDecimalSeguro(miView(x)("Importe")))
                         Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
                         .Points(i).Color = Color.Blue
                         .ChartType = SeriesChartType.Line
@@ -419,7 +441,7 @@ Public Class GraficosFechas
                 End If
                 If vImportePrimero < 0 And vImporteSegundo > 0 Then
                     With Chart1.Series("Ingresos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                        vImporteConcepto = Math.Abs(ConvertirDecimalSeguro(miView(x)("Importe")))
                         Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
                         .Points(i).Color = Color.Blue
                         .ChartType = SeriesChartType.Line
@@ -427,7 +449,7 @@ Public Class GraficosFechas
                 End If
                 If vImportePrimero > 0 And vImporteSegundo < 0 Then
                     With Chart1.Series("Gastos")
-                        vImporteConcepto = Math.Abs(Val(miView(x)("Importe")))
+                        vImporteConcepto = Math.Abs(ConvertirDecimalSeguro(miView(x)("Importe")))
                         Dim i As Integer = .Points.AddXY(miView(x)("Fecha"), vImporteConcepto)
                         .Points(i).Color = Color.Red
                         .ChartType = SeriesChartType.Line
@@ -466,14 +488,8 @@ Public Class GraficosFechas
         ' 3. Recorrido seguro de la vista
         For x = 0 To miView.Count - 1
             With Chart1.Series("Gastos")
-                ' Conversión segura multiidioma del importe
-                Dim importePuro As Decimal = 0.0D
-                If miView(x)("Importe") IsNot DBNull.Value AndAlso miView(x)("Importe") IsNot Nothing Then
-                    Dim textoImporte As String = miView(x)("Importe").ToString()
-                    If Not Decimal.TryParse(textoImporte, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, importePuro) Then
-                        Decimal.TryParse(textoImporte.Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, importePuro)
-                    End If
-                End If
+                ' Conversión segura multiidioma del importe (¡Centralizado en tu módulo!)
+                Dim importePuro As Decimal = ConvertirDecimalSeguro(miView(x)("Importe"))
 
                 If importePuro <= 0 Then
                     vImporteConcepto = Math.Abs(importePuro)

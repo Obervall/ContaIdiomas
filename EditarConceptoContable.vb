@@ -96,45 +96,63 @@ Public Class EditarConceptoContable
 
     Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click
         vTxtNombre = TxtNombre.Text.Trim()
-        vTxtDescripcion = ApostrofePorAcentoAgudo(TxtDescripcion.Text)
-        vTxtNotas = TxtNota.Text
+        vTxtDescripcion = TxtDescripcion.Text.Trim() ' Ya no necesitas cambiar apóstrofes si usas parámetros
+        vTxtNotas = TxtNota.Text.Trim()
 
-        ' --- TRADUCCIÓN INVERSA: Buscar el código original en la MDB ---
-        Dim codigoOriginalMDB As String = vTxtNombre ' Por si está en español y no cambia
+        ' --- TRADUCCIÓN INVERSA OPTIMIZADA ---
+        Dim codigoOriginalMDB As String = vTxtNombre
+        Dim textoBuscar As String = vTxtNombre.ToUpper()
 
-        ' Si el idioma actual no es español, buscamos la llave original en el ResX
-        If My.Settings.CulturaUsuario <> "es" Then
-            ' Obtenemos todos los registros guardados en el archivo de recursos
-            Dim resSet As System.Resources.ResourceSet = resManager.GetResourceSet(System.Globalization.CultureInfo.CurrentCulture, True, True)
+        ' Buscamos la llave original en el archivo de recursos de la interfaz actual
+        Dim resSet As System.Resources.ResourceSet = resManager.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
 
-            If resSet IsNot Nothing Then
-                ' Recorremos todas las llaves del archivo de recursos
-                For Each dict As System.Collections.DictionaryEntry In resSet
-                    ' Si el valor traducido coincide con lo que hay en el TextBox...
-                    If dict.Value.ToString().Trim().ToUpper() = vTxtNombre.ToUpper() Then
-                        ' ¡Encontramos la llave original! (Ej: "RENT" -> su llave es "ALQUILER")
-                        codigoOriginalMDB = dict.Key.ToString()
-                        Exit For
-                    End If
-                Next
+        If resSet IsNot Nothing Then
+            For Each dict As System.Collections.DictionaryEntry In resSet
+                ' Evitamos nulos con el operador '?' y normalizamos a mayúsculas
+                Dim valorTraducido As String = dict.Value?.ToString().Trim().ToUpper()
+
+                If valorTraducido = textoBuscar Then
+                    ' Encontramos la llave original de la base de datos (Ej: "ALQUILER")
+                    codigoOriginalMDB = dict.Key.ToString()
+                    Exit For
+                End If
+            Next
+        End If
+
+        ' --- CONTROL DE CONCEPTOS PROPIOS (Ej: en catalán o personalizados) ---
+        ' Si tras buscar en el .resx encontramos una coincidencia, verificamos si es una de tus 
+        ' llaves de sistema. Si no coincide con ninguna traducción real del sistema, 
+        ' asumimos que es un concepto propio del usuario y mantenemos su texto original.
+        If codigoOriginalMDB <> vTxtNombre Then
+            ' Verificación secundaria: ¿La llave encontrada realmente existe en tu gestor de recursos?
+            If resManager.GetString(codigoOriginalMDB) Is Nothing AndAlso resManager.GetString("Desc_" & codigoOriginalMDB) Is Nothing Then
+                ' Si no es una llave del sistema, es un texto propio del usuario
+                codigoOriginalMDB = vTxtNombre
             End If
         End If
 
-        ' Esto es para que si hay algún Concepto que yo he entrado en catalán no se piense que se ha traducido
-        If vTxtNombre <> codigoOriginalMDB Then
-            codigoOriginalMDB = vTxtNombre
-        End If
-
-        ' Modificar Registro usando el código original recuperado
+        ' Modificar Registro usando parámetros seguros
         ' *******************************************************
-        vtipoSql = "UPDATE conceptos SET DescripcionCON = '" & vTxtDescripcion & "' , NotasCON = '" & vTxtNotas & "' "
-        vtipoSql += " WHERE conceptos.CodigoCON = '" & codigoOriginalMDB & "' "
+        vtipoSql = "UPDATE conceptos SET DescripcionCON = ?, NotasCON = ? " &
+           "WHERE conceptos.CodigoCON = ?"
+
         cmdMdb1cr.CommandText = vtipoSql
+
+        ' ¡Recuerda! En Access/OleDb el orden de los parámetros debe ser EXACTO al del SQL
+        cmdMdb1cr.Parameters.Clear()
+        cmdMdb1cr.Parameters.AddWithValue("@DescripcionCON", vTxtDescripcion) ' Soporta apóstrofes nativos (')
+        cmdMdb1cr.Parameters.AddWithValue("@NotasCON", vTxtNotas)             ' Soporta apóstrofes nativos (')
+        cmdMdb1cr.Parameters.AddWithValue("@CodigoCON", codigoOriginalMDB)   ' Filtro WHERE usando la clave recuperada
+
         Try
             cmdMdb1cr.ExecuteNonQuery()
             Me.Close()
         Catch ex As Exception
-            MsgBox(resManager.GetString("ErrorModificarRegistro"))
+            ' Mensaje de error traducido desde tu gestor de recursos
+            MessageBox.Show(resManager.GetString("ErrorModificarRegistro"),
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -146,20 +164,28 @@ Public Class EditarConceptoContable
         Dim nombreOriginalBD As String = vTxtNombre
 
         ' Si la cultura no empieza por español, ejecutamos la traducción inversa precisa
-        If Not My.Settings.CulturaUsuario.StartsWith("es", StringComparison.OrdinalIgnoreCase) Then
-            Dim cultura As New System.Globalization.CultureInfo(My.Settings.CulturaUsuario)
-            ' Nota: He usado 'resManager' que es tu recurso global de textos contables
-            Dim recursos As System.Resources.ResourceSet = resManager.GetResourceSet(cultura, True, True)
+        ' --- TRADUCCIÓN INVERSA LIMPIA Y UNIFICADA ---
+        Dim textoBuscar As String = vTxtNombre.ToUpper()
 
-            If recursos IsNot Nothing Then
-                For Each elemento As System.Collections.DictionaryEntry In recursos
-                    If elemento.Value.ToString().Trim().ToUpper() = vTxtNombre.ToUpper() Then
-                        ' Restauramos el código original revirtiendo los guiones bajos por espacios
-                        nombreOriginalBD = elemento.Key.ToString().Replace("Desc_", " ")
-                        Exit For
+        ' .NET lee automáticamente el idioma visual que se activó en tus Preferencias
+        Dim recursos As System.Resources.ResourceSet = resManager.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
+
+        If recursos IsNot Nothing Then
+            For Each elemento As System.Collections.DictionaryEntry In recursos
+                Dim valorTraducido As String = elemento.Value?.ToString().Trim().ToUpper()
+
+                If valorTraducido = textoBuscar Then
+                    Dim llaveEncontrada As String = elemento.Key.ToString()
+
+                    ' Si la llave corresponde a una descripción (Desc_), le quitamos el prefijo limpiamente sin dejar espacios
+                    If llaveEncontrada.StartsWith("Desc_", StringComparison.OrdinalIgnoreCase) Then
+                        nombreOriginalBD = llaveEncontrada.Substring(5)
+                    Else
+                        nombreOriginalBD = llaveEncontrada
                     End If
-                Next
-            End If
+                    Exit For
+                End If
+            Next
         End If
 
         ' 3. VALIDACIÓN: Verificar si el concepto tiene el tipo original "ESPECIAL"

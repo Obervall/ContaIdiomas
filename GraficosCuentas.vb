@@ -111,12 +111,8 @@ Public Class GraficosCuentas
         vContador = 0
         For x = 0 To miView.Count - 1
             vContador += 1
-
-            ' Conversión segura multiidioma del importe actual (Elemento X)
-            Dim importeActual As Decimal = 0.0D
-            If miView(x)("Importe") IsNot DBNull.Value AndAlso miView(x)("Importe") IsNot Nothing Then
-                Decimal.TryParse(miView(x)("Importe").ToString(), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, importeActual)
-            End If
+            ' Conversión segura multiidioma del importe (¡Centralizado en tu módulo!)
+            Dim importeActual As Decimal = ConvertirDecimalSeguro(miView(x)("Importe"))
 
             vImporteConcepto = importeActual
 
@@ -198,11 +194,8 @@ Public Class GraficosCuentas
         For x = 0 To miView.Count - 1
             vContador += 1
 
-            ' Conversión segura multiidioma del importe actual (Elemento X)
-            Dim importeActual As Decimal = 0.0D
-            If miView(x)("Importe") IsNot DBNull.Value AndAlso miView(x)("Importe") IsNot Nothing Then
-                Decimal.TryParse(miView(x)("Importe").ToString(), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, importeActual)
-            End If
+            ' Conversión segura multiidioma del importe actual (¡Centralizado en tu módulo!)
+            Dim importeActual As Decimal = ConvertirDecimalSeguro(miView(x)("Importe"))
 
             vImporteConcepto = importeActual
 
@@ -275,11 +268,8 @@ Public Class GraficosCuentas
         For x = 0 To miView.Count - 1
             vContador += 1
 
-            ' Conversión segura multiidioma del importe actual (Elemento X)
-            Dim importeActual As Decimal = 0.0D
-            If miView(x)("Importe") IsNot DBNull.Value AndAlso miView(x)("Importe") IsNot Nothing Then
-                Decimal.TryParse(miView(x)("Importe").ToString(), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, importeActual)
-            End If
+            ' Conversión segura multiidioma del importe actual (¡Centralizado en tu módulo!)
+            Dim importeActual As Decimal = ConvertirDecimalSeguro(miView(x)("Importe"))
 
             vImporteConcepto = importeActual
 
@@ -363,14 +353,8 @@ Public Class GraficosCuentas
         ' 3. Recorrido seguro de la vista
         For x = 0 To miView.Count - 1
             With Chart1.Series("Gastos")
-                ' Conversión segura multiidioma del importe
-                Dim importePuro As Decimal = 0.0D
-                If miView(x)("Importe") IsNot DBNull.Value AndAlso miView(x)("Importe") IsNot Nothing Then
-                    Dim textoImporte As String = miView(x)("Importe").ToString()
-                    If Not Decimal.TryParse(textoImporte, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, importePuro) Then
-                        Decimal.TryParse(textoImporte.Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, importePuro)
-                    End If
-                End If
+                ' Conversión segura multiidioma del importe (¡Centralizado en tu módulo!)
+                Dim importePuro As Decimal = ConvertirDecimalSeguro(miView(x)("Importe"))
 
                 If importePuro <= 0 Then
                     vImporteConcepto = Math.Abs(importePuro)

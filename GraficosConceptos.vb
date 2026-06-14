@@ -95,47 +95,55 @@ Public Class GraficosConceptos
     Private Sub DibujarGraficoColumnas()
         CrearEstilos()
 
-        ' 2. Limpiamos y rellenamos (Esto es lo que fuerza a .NET a actualizar el texto en pantalla)
+        ' 1. Limpiamos las series antes de rellenar
         Chart1.Series("Gastos").Points.Clear()
+        Chart1.Series("Ingresos").Points.Clear()
+
+        ' 2. Obtenemos el recurso del idioma actual (UI) seleccionado en Preferencias
+        Dim recursos As System.Resources.ResourceSet = resManager.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
+
         For x = 0 To miView.Count - 1
-            'Tomamos los datos de DataView para la gráfica
-            With Chart1.Series("Gastos")
-                If miView(x)("Importe") <= 0 Then
-                    ' 1. Creamos la variable para guardar el importe numérico puro
-                    Dim importePuro As Decimal = 0.0D
+            ' Evitamos nulos en la fila de la base de datos
+            If miView(x)("Importe") Is DBNull.Value OrElse miView(x)("Importe") Is Nothing Then Continue For
 
-                    ' 2. Verificamos que la celda de la vista no sea NULL o vacía
-                    If miView(x)("Importe") IsNot DBNull.Value AndAlso miView(x)("Importe") IsNot Nothing Then
+            ' --- A. PARSEO SEGURO DEL IMPORTE (Cultura Regional - CurrentCulture) ---
+            Dim importePuro As Decimal = 0.0D
+            importePuro = ConvertirDecimalSeguro(miView(x)("Importe"))
 
-                        Dim textoImporte As String = miView(x)("Importe").ToString()
+            ' --- B. TRADUCCIÓN DEL CONCEPTO PARA EL GRÁFICO (Cultura Visual - CurrentUICulture) ---
+            Dim conceptoOriginalBD As String = miView(x)("Concepto").ToString().Trim()
+            Dim conceptoTraducidoVisual As String = conceptoOriginalBD
 
-                        ' 3. Conversión segura multiidioma (interpreta comas y puntos correctamente)
-                        If Not Decimal.TryParse(textoImporte,
-                        System.Globalization.NumberStyles.Any,
-                        System.Globalization.CultureInfo.CurrentCulture,
-                        importePuro) Then
+            ' Buscamos en el archivo .resx si el concepto de la BD tiene una traducción para el idioma actual
+            If recursos IsNot Nothing Then
+                ' Buscamos primero por la llave directa (ej: "VENTAS") o por su descripción ("Desc_VENTAS")
+                Dim traduccionDirecta As String = recursos.GetString(conceptoOriginalBD)
+                Dim traduccionDesc As String = recursos.GetString("Desc_" & conceptoOriginalBD)
 
-                            ' PLAN B: Si la base de datos guardó el dato con formato invariant (punto universal)
-                            Decimal.TryParse(textoImporte.Replace(",", "."),
-                            System.Globalization.NumberStyles.Any,
-                            System.Globalization.CultureInfo.InvariantCulture,
-                            importePuro)
-                        End If
-                    End If
-
-                    ' 4. Calculamos el valor absoluto exacto con el tipo Decimal para el gráfico
-                    vImporteConcepto = Math.Abs(importePuro)
-                    Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), vImporteConcepto)
-                    .Points(i).Color = Color.Red
-                Else
-                    Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), miView(x)("Importe"))
-                    .Points(i).Color = Color.Blue
+                If Not String.IsNullOrEmpty(traduccionDirecta) Then
+                    conceptoTraducidoVisual = traduccionDirecta
+                ElseIf Not String.IsNullOrEmpty(traduccionDesc) Then
+                    conceptoTraducidoVisual = traduccionDesc
                 End If
-                .ChartType = SeriesChartType.Column
-            End With
-            With Chart1.Series("Ingresos")
-                .ChartType = SeriesChartType.Column
-            End With
+            End If
+
+            ' --- C. DIBUJAR EN EL GRÁFICO ---
+            If importePuro <= 0 Then
+                With Chart1.Series("Gastos")
+                    vImporteConcepto = Math.Abs(importePuro)
+                    ' Pasamos el concepto ya traducido en el idioma de Preferencias
+                    Dim i As Integer = .Points.AddXY(conceptoTraducidoVisual, vImporteConcepto)
+                    .Points(i).Color = Color.Red
+                    .ChartType = SeriesChartType.Column
+                End With
+            Else
+                With Chart1.Series("Ingresos")
+                    ' Pasamos el concepto ya traducido en el idioma de Preferencias
+                    Dim i As Integer = .Points.AddXY(conceptoTraducidoVisual, importePuro)
+                    .Points(i).Color = Color.Blue
+                    .ChartType = SeriesChartType.Column
+                End With
+            End If
         Next
     End Sub
 
@@ -167,21 +175,7 @@ Public Class GraficosConceptos
 
                     ' 2. Verificamos que la celda de la vista no sea NULL o vacía
                     If miView(x)("Importe") IsNot DBNull.Value AndAlso miView(x)("Importe") IsNot Nothing Then
-
-                        Dim textoImporte As String = miView(x)("Importe").ToString()
-
-                        ' 3. Conversión segura multiidioma (interpreta comas y puntos correctamente)
-                        If Not Decimal.TryParse(textoImporte,
-                        System.Globalization.NumberStyles.Any,
-                        System.Globalization.CultureInfo.CurrentCulture,
-                        importePuro) Then
-
-                            ' PLAN B: Si la base de datos guardó el dato con formato invariant (punto universal)
-                            Decimal.TryParse(textoImporte.Replace(",", "."),
-                            System.Globalization.NumberStyles.Any,
-                            System.Globalization.CultureInfo.InvariantCulture,
-                            importePuro)
-                        End If
+                        importePuro = ConvertirDecimalSeguro(miView(x)("Importe"))
                     End If
 
                     ' 4. Calculamos el valor absoluto exacto con el tipo Decimal para el gráfico
@@ -219,21 +213,7 @@ Public Class GraficosConceptos
 
                     ' 2. Verificamos que la celda de la vista no sea NULL o vacía
                     If miView(x)("Importe") IsNot DBNull.Value AndAlso miView(x)("Importe") IsNot Nothing Then
-
-                        Dim textoImporte As String = miView(x)("Importe").ToString()
-
-                        ' 3. Conversión segura multiidioma (interpreta comas y puntos correctamente)
-                        If Not Decimal.TryParse(textoImporte,
-                               System.Globalization.NumberStyles.Any,
-                               System.Globalization.CultureInfo.CurrentCulture,
-                               importePuro) Then
-
-                            ' PLAN B: Si la base de datos guardó el dato con formato invariant (punto universal)
-                            Decimal.TryParse(textoImporte.Replace(",", "."),
-                            System.Globalization.NumberStyles.Any,
-                            System.Globalization.CultureInfo.InvariantCulture,
-                            importePuro)
-                        End If
+                        importePuro = ConvertirDecimalSeguro(miView(x)("Importe"))
                     End If
 
                     ' 4. Calculamos el valor absoluto exacto con el tipo Decimal para el gráfico
@@ -264,47 +244,46 @@ Public Class GraficosConceptos
         Chart1.ChartAreas("ChartArea1").AxisX.Title = ""
         Chart1.ChartAreas("ChartArea1").AxisY.Title = ""
 
+        ' reset/Limpieza total de tipos para evitar la combinación prohibida
+        Chart1.Series("Gastos").ChartType = SeriesChartType.Pie
+        Chart1.Series("Ingresos").ChartType = SeriesChartType.Pie
+
         ' Obligatorio para que no se quede fijo con la palabra "Gastos" en ningún idioma
         Chart1.Series("Gastos").LegendText = "#VALX"
         Chart1.Series("Gastos").Points.Clear()
-        'Enviamos a un dataview los datos
+        Chart1.Series("Ingresos").Points.Clear()
+
+        ' Obtenemos el diccionario del idioma actual (UI) seleccionado en Preferencias
+        Dim recursos As System.Resources.ResourceSet = resManager.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
+
+        ' Enviamos a un dataview los datos
         For x = 0 To miView.Count - 1
-            'Tomamos los datos de DataView para la gráfica
-            With Chart1.Series("Gastos")
-                If miView(x)("Importe") <= 0 Then
-                    ' 1. Creamos la variable para guardar el importe numérico puro
-                    Dim importePuro As Decimal = 0.0D
+            ' 1. Convertimos el importe usando tu NUEVA FUNCIÓN del módulo
+            Dim importePuro As Decimal = ConvertirDecimalSeguro(miView(x)("Importe"))
 
-                    ' 2. Verificamos que la celda de la vista no sea NULL o vacía
-                    If miView(x)("Importe") IsNot DBNull.Value AndAlso miView(x)("Importe") IsNot Nothing Then
+            ' 2. TRADUCCIÓN DEL CONCEPTO
+            Dim conceptoOriginalBD As String = miView(x)("Concepto").ToString().Trim()
+            Dim conceptoTraducidoVisual As String = conceptoOriginalBD
 
-                        Dim textoImporte As String = miView(x)("Importe").ToString()
+            If recursos IsNot Nothing Then
+                Dim traduccionDirecta As String = recursos.GetString(conceptoOriginalBD)
+                Dim traduccionDesc As String = recursos.GetString("Desc_" & conceptoOriginalBD)
 
-                        ' 3. Conversión segura multiidioma (interpreta comas y puntos correctamente)
-                        If Not Decimal.TryParse(textoImporte,
-                               System.Globalization.NumberStyles.Any,
-                               System.Globalization.CultureInfo.CurrentCulture,
-                               importePuro) Then
-
-                            ' PLAN B: Si la base de datos guardó el dato con formato invariant (punto universal)
-                            Decimal.TryParse(textoImporte.Replace(",", "."),
-                            System.Globalization.NumberStyles.Any,
-                            System.Globalization.CultureInfo.InvariantCulture,
-                            importePuro)
-                        End If
-                    End If
-
-                    ' 4. Calculamos el valor absoluto exacto con el tipo Decimal para el gráfico
-                    vImporteConcepto = Math.Abs(importePuro)
-                    Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), vImporteConcepto)
-                Else
-                    Dim i As Integer = .Points.AddXY(miView(x)("Concepto"), miView(x)("Importe"))
+                If Not String.IsNullOrEmpty(traduccionDirecta) Then
+                    conceptoTraducidoVisual = traduccionDirecta
+                ElseIf Not String.IsNullOrEmpty(traduccionDesc) Then
+                    conceptoTraducidoVisual = traduccionDesc
                 End If
-                .ChartType = SeriesChartType.Pie
-            End With
-            With Chart1.Series("Ingresos")
-                .ChartType = SeriesChartType.Pie
-            End With
+            End If
+
+            ' 3. ENVIAMOS LOS DATOS YA TRADUCIDOS AL GRÁFICO
+            If importePuro <= 0 Then
+                Chart1.Series("Gastos").Points.AddXY(conceptoTraducidoVisual, Math.Abs(importePuro))
+            Else
+                ' Si deseas pintar los ingresos en el mismo pastel, se añaden a la misma serie de arriba 
+                ' o a la suya propia si controlas visibilidades. Aquí lo añadimos a Gastos en valor absoluto para que sume al pastel:
+                Chart1.Series("Gastos").Points.AddXY(conceptoTraducidoVisual, importePuro)
+            End If
         Next
     End Sub
 

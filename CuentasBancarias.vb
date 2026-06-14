@@ -93,22 +93,27 @@ Public Class CuentasBancarias
         BtnFiltroTipoCuenta.Enabled = False
         BtnSinFiltroTipoCuenta.Enabled = True
 
-        ' 1. Por defecto, asumimos que el valor a buscar es el texto visible del combo
+        ' 1. Limpiamos el texto del combo para la comparación
+        Dim textoCombo As String = CmbTipoCuenta.Text.Trim().ToUpper()
         Dim valorOriginalBD As String = CmbTipoCuenta.Text
 
-        ' 2. ¡Truco de inversión! Buscamos en el historial de recursos cuál era el código original de fábrica
-        ' Recorremos todas las claves del archivo de recursos para ver cuál coincide con la traducción actual
+        ' 2. ¡Truco de inversión optimizado!
         Dim recursos As System.Resources.ResourceSet = rmse.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
+
         If recursos IsNot Nothing Then
             For Each elemento As System.Collections.DictionaryEntry In recursos
-                ' Si el valor traducido en el .resx coincide con lo que el usuario ve en el combo...
-                If elemento.Value.ToString() = CmbTipoCuenta.Text Then
-                    ' ¡Encontramos el código original de la base de datos! (ej: "CAJA EFECTIVO")
+                ' Usamos el operador '?' para evitar cuelgues si hay valores nulos en el .resx
+                Dim valorTraducido As String = elemento.Value?.ToString().Trim().ToUpper()
+
+                ' Si el valor traducido coincide con lo que ve el usuario...
+                If valorTraducido = textoCombo Then
+                    ' Encontramos la clave original (ej: "CAJA EFECTIVO")
                     valorOriginalBD = elemento.Key.ToString()
                     Exit For
                 End If
             Next
         End If
+
 
         ' 3. Armamos la consulta SQL usando el valor original que Access sí entiende
         vtipoSql = "SELECT cuentas.TipoCUE, cuentas.NombreCUE, cuentas.NumeroCUE, cuentas.NotasCUE, cuentas.NotasCUE FROM cuentas"
@@ -370,7 +375,6 @@ Public Class CuentasBancarias
                 vValor += Convert.ToDouble(fila.Cells(3).Value)
             End If
             frmImprimirForm.LblTotal.Text = String.Format("{0}: {1} {2}", resManager.GetString("TOTAL"), vValor.ToString("N2"), vMoneda)
-            'frmImprimirForm.LblTotal.Text = "Total:  " & Format(vValor, "###,##0.00 ").ToString & vMoneda
         Next
 
         frmImprimirForm.LblFecha.Text = Date.Today.ToLongDateString
@@ -628,13 +632,19 @@ Public Class CuentasBancarias
         ' 1. Evitamos ejecutar si el combo está vacío o no hay selección válida
         If CmbTipoCuenta.SelectedIndex = -1 Then Exit Sub
 
-        ' 2. Buscamos el valor original en Access usando la traducción inversa
+        ' 2. Preparamos el texto del combo limpio y en mayúsculas para comparar
+        Dim textoCombo As String = CmbTipoCuenta.Text.Trim().ToUpper()
         Dim valorOriginalBD As String = CmbTipoCuenta.Text
+
+        ' 3. Buscamos el valor original en Access usando la traducción inversa optimizada
         Dim recursos As System.Resources.ResourceSet = rmse.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
 
         If recursos IsNot Nothing Then
             For Each elemento As System.Collections.DictionaryEntry In recursos
-                If elemento.Value.ToString() = CmbTipoCuenta.Text Then
+                ' Evitamos NullReferenceException con el operador '?' y normalizamos el texto
+                Dim valorTraducido As String = elemento.Value?.ToString().Trim().ToUpper()
+
+                If valorTraducido = textoCombo Then
                     valorOriginalBD = elemento.Key.ToString()
                     Exit For
                 End If

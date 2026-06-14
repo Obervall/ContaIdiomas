@@ -369,24 +369,12 @@ Public Class TipoInformeApuntes
                         'MsgBox("Error al Leer la Fecha: " & vFechaTemp)
                         MsgBox(ex.ToString)
                     End Try
-                    'vNewImporteFechas = (vImporteTmpprint + Val(fila.Cells(3).Value)).ToString
-                    ' 1. Convertimos el acumulador actual a Decimal de forma segura
-                    Dim importeAcumulado As Decimal = 0.0D
-                    If vImporteTmpprint IsNot Nothing Then
-                        Decimal.TryParse(vImporteTmpprint.ToString().Replace(",", "."),
-                     System.Globalization.NumberStyles.Any,
-                     System.Globalization.CultureInfo.InvariantCulture,
-                     importeAcumulado)
-                    End If
 
-                    ' 2. Convertimos el importe de la celda actual a Decimal
-                    Dim importeCelda As Decimal = 0.0D
-                    If fila.Cells(3).Value IsNot Nothing AndAlso Not IsDBNull(fila.Cells(3).Value) Then
-                        Decimal.TryParse(fila.Cells(3).Value.ToString().Replace(",", "."),
-                     System.Globalization.NumberStyles.Any,
-                     System.Globalization.CultureInfo.InvariantCulture,
-                     importeCelda)
-                    End If
+                    ' 1. Convertimos el acumulador actual a Decimal de forma segura con tu función
+                    Dim importeAcumulado As Decimal = ConvertirDecimalSeguro(vImporteTmpprint)
+
+                    ' 2. Convertimos el importe de la celda actual a Decimal de forma segura con tu función
+                    Dim importeCelda As Decimal = ConvertirDecimalSeguro(fila.Cells(3).Value)
 
                     ' 3. Realizamos la suma matemática exacta
                     Dim sumaTotal As Decimal = importeAcumulado + importeCelda

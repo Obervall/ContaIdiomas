@@ -382,21 +382,25 @@ Public Class ConceptosContables
         filaActual = frmConceptosContables.DgvConceptos.CurrentRow.Index
         vTxtNombre = frmConceptosContables.DgvConceptos.Rows(filaActual).Cells(1).Value.ToString
 
-        ' --- VALIDACIÓN: PROTEGER CONCEPTOS DE MUESTRA (CORREGIDO) ---
+        ' --- VALIDACIÓN: PROTEGER CONCEPTOS DE MUESTRA (OPTIMIZADO) ---
         Dim esConceptoDeMuestra As Boolean = False
         Dim textoCelda As String = vTxtNombre.Trim().ToUpper()
 
-        ' Si el idioma es español, la llave coincide directamente con el texto
+        ' 1. Si el sistema está en español, la llave coincide directamente en mayúsculas/guiones
         Dim llaveBase As String = textoCelda.Replace(" ", "_")
+
         If resManager.GetString(llaveBase) IsNot Nothing OrElse resManager.GetString("Desc_" & llaveBase) IsNot Nothing Then
             esConceptoDeMuestra = True
-        ElseIf My.Settings.CulturaUsuario <> "es" Then
-            ' Si está en otro idioma, buscamos de forma inversa en los valores del ResX
-            Dim resSet As System.Resources.ResourceSet = resManager.GetResourceSet(System.Globalization.CultureInfo.CurrentCulture, True, True)
+        Else
+            ' 2. Si está en otro idioma, buscamos qué llave del ResX coincide con el texto traducido de la celda.
+            ' Usamos CurrentUICulture (idioma de la interfaz) en lugar de CurrentCulture (formatos de fecha/números).
+            Dim resSet As System.Resources.ResourceSet = resManager.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
+
             If resSet IsNot Nothing Then
                 For Each dict As System.Collections.DictionaryEntry In resSet
-                    ' Comparamos el valor traducido en el ResX con el texto visible de la celda
-                    If dict.Value.ToString().Trim().ToUpper() = textoCelda Then
+                    Dim valorTraducido As String = dict.Value?.ToString().Trim().ToUpper()
+
+                    If valorTraducido = textoCelda Then
                         esConceptoDeMuestra = True
                         Exit For
                     End If

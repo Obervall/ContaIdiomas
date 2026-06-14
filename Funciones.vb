@@ -1376,7 +1376,6 @@ Module Funciones
         ElseIf Dgv = "CONCEPTOS_APUNTES_CONTABLES" Then
             filas = frmApuntesContables.DgvApuntes.Rows
         End If
-
         If filas IsNot Nothing Then
             For Each fila As DataGridViewRow In filas
                 vImporteConcepto = fila.Cells(3).Value
@@ -1415,20 +1414,29 @@ Module Funciones
                     ' 1. Convertimos los dos importes a Decimal de forma segura (multiidioma)
                     Dim importeConcepto As Decimal = 0.0D
                     Dim existenteImporte As Decimal = 0.0D
-                    ' Convertimos el primer importe (vImporteConcepto)
-                    If vImporteConcepto IsNot Nothing Then
-                        Decimal.TryParse(vImporteConcepto.ToString().Replace(",", "."),
-                            System.Globalization.NumberStyles.Any,
-                            System.Globalization.CultureInfo.InvariantCulture,
-                            importeConcepto)
-                    End If
-                    ' Convertimos el segundo importe (vExistenteImporteConcepto)
-                    If vExistenteImporteConcepto IsNot Nothing Then
-                        Decimal.TryParse(vExistenteImporteConcepto.ToString().Replace(",", "."),
-                            System.Globalization.NumberStyles.Any,
-                            System.Globalization.CultureInfo.InvariantCulture,
-                            existenteImporte)
-                    End If
+
+                    ' Convertimos el primer importe (vImporteConcepto) de forma segura
+                    importeConcepto = ConvertirDecimalSeguro(vImporteConcepto)
+
+                    'If vImporteConcepto IsNot Nothing Then
+                    '    Dim textoImporteRaw As String = vImporteConcepto.ToString().Trim()
+
+                    '    ' Intentamos primero con la cultura regional del usuario (respeta su panel de control)
+                    '    If Not Decimal.TryParse(textoImporteRaw,
+                    '                            System.Globalization.NumberStyles.Number,
+                    '                            System.Globalization.CultureInfo.CurrentCulture,
+                    '                            importeConcepto) Then
+
+                    '        ' PLAN B: Si la BD lo guardó con formato universal (punto), lo lee de forma nativa sin .Replace
+                    '        Decimal.TryParse(textoImporteRaw,
+                    '                         System.Globalization.NumberStyles.Number,
+                    '                         System.Globalization.CultureInfo.InvariantCulture,
+                    '                         importeConcepto)
+                    '    End If
+                    'End If
+                    ' Convertimos el segundo importe (vExistenteImporteConcepto) de forma segura
+                    existenteImporte = ConvertirDecimalSeguro(vExistenteImporteConcepto)
+
                     ' 2. Realizamos la suma matemática exacta
                     Dim sumaFinal As Decimal = Math.Round(importeConcepto + existenteImporte, 2)
                     vNewImporteConcepto = sumaFinal
@@ -1495,14 +1503,11 @@ Module Funciones
                         End Try
                     Else ' Si el Concepto existe y hay importe diferente a cero, si es positivo o negativo se suma
                         cmdMdb1cr.CommandType = CommandType.Text
+
                         ' 1. Convertimos el importe a Decimal de forma segura (multiidioma)
                         Dim importeDecimal As Decimal = 0.0D
-                        If vImporteConcepto IsNot Nothing Then
-                            Decimal.TryParse(vImporteConcepto.ToString().Replace(",", "."),
-                     System.Globalization.NumberStyles.Any,
-                     System.Globalization.CultureInfo.InvariantCulture,
-                     importeDecimal)
-                        End If
+
+                        importeDecimal = ConvertirDecimalSeguro(vImporteConcepto)
 
                         ' 2. Limpiamos los parámetros previos del comando
                         cmdMdb1cr.Parameters.Clear()
@@ -1529,20 +1534,15 @@ Module Funciones
                                     vExistenteImporteConcepto = drMdb1.GetValue(1)
                                 End While
                                 drMdb1.Close()
-                                'vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
                                 ' 1. Convertimos ambos importes a variables decimales exactas
                                 Dim importe1 As Decimal = 0.0D
                                 Dim importe2 As Decimal = 0.0D
 
                                 ' Conversión segura del primer importe
-                                If vImporteConcepto IsNot Nothing Then
-                                    Decimal.TryParse(vImporteConcepto.ToString().Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, importe1)
-                                End If
+                                importe1 = ConvertirDecimalSeguro(vImporteConcepto)
 
                                 ' Conversión segura del segundo importe
-                                If vExistenteImporteConcepto IsNot Nothing Then
-                                    Decimal.TryParse(vExistenteImporteConcepto.ToString().Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, importe2)
-                                End If
+                                importe2 = ConvertirDecimalSeguro(vExistenteImporteConcepto)
 
                                 ' 2. Sumamos los números reales de forma exacta
                                 vNewImporteConcepto = importe1 + importe2
@@ -1574,33 +1574,30 @@ Module Funciones
                                         vExistenteImporteConcepto = drMdb1.GetValue(1)
                                     End While
                                     drMdb1.Close()
-                                    vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto).ToString
-                                    ' 1. Convertimos ambos importes a variables decimales exactas
-                                    Dim importe1 As Decimal = 0.0D
-                                    Dim importe2 As Decimal = 0.0D
 
-                                    ' Conversión segura del primer importe
-                                    If vImporteConcepto IsNot Nothing Then
-                                        Decimal.TryParse(vImporteConcepto.ToString().Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, importe1)
-                                    End If
+                                    ' 1. Convertimos ambos importes a variables decimales exactas usando tu función
+                                    Dim importe1 As Decimal = ConvertirDecimalSeguro(vImporteConcepto)
+                                    Dim importe2 As Decimal = ConvertirDecimalSeguro(vExistenteImporteConcepto)
 
-                                    ' Conversión segura del segundo importe
-                                    If vExistenteImporteConcepto IsNot Nothing Then
-                                        Decimal.TryParse(vExistenteImporteConcepto.ToString().Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, importe2)
-                                    End If
+                                    ' 2. Sumamos los números reales de forma matemática y exacta
+                                    Dim vNewImporteConceptoDecimal As Decimal = importe1 + importe2
 
-                                    ' 2. Sumamos los números reales de forma exacta
-                                    vNewImporteConcepto = importe1 + importe2
+                                    ' 3. Consulta parametrizada blindada contra idiomas y comillas
+                                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = ? " &
+                                               "WHERE tempapu.ConceptoAPU = ? AND tempapu.SumaImporteAPU = 0"
 
-                                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
-                                    vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                                    vAñadir2 += "And tempapu.SumaImporteAPU = 0 "
                                     cmdMdb1cr.CommandText = vAñadir2
+
+                                    ' Limpiamos y asignamos parámetros en el orden EXACTO del SQL
+                                    cmdMdb1cr.Parameters.Clear()
+                                    cmdMdb1cr.Parameters.AddWithValue("@SumaImporteAPU", vNewImporteConceptoDecimal) ' Envía el Decimal puro
+                                    cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vNombreConcepto)              ' Soporta comillas/acentos
+
                                     Try
                                         cmdMdb1cr.ExecuteNonQuery()
                                     Catch ex As Exception
-                                        MsgBox(resManager.GetString("ErrorGrabarTemporal"))
-                                        MsgBox(ex.ToString)
+                                        MessageBox.Show(resManager.GetString("ErrorGrabarTemporal"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                        MessageBox.Show(ex.Message, "Detalle Técnico", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                                     End Try
                                 End If
                                 drMdb1.Close()
@@ -1761,72 +1758,138 @@ Module Funciones
                 ' Evitamos procesar la fila nueva vacía automática de .NET
                 If fila.IsNewRow Then Continue For
 
-                If fila.Cells(3).Value <> 0 Then
-                    vImporteConcepto = fila.Cells(3).Value
+                ' Forzamos la lectura limpia del importe de la celda actual usando tu función del módulo
+                Dim importeCeldaSeguro As Decimal = ConvertirDecimalSeguro(fila.Cells(3).Value)
+
+                ' Si el importe es 0, no hay nada que acumular en este mes
+                If importeCeldaSeguro <> 0 Then
+                    vImporteConcepto = importeCeldaSeguro
 
                     ' Extraemos de forma genérica el Año-Mes de la celda de fecha
                     Dim fechaReal As DateTime = Convert.ToDateTime(fila.Cells(0).Value)
                     Dim claveMesAño As String = fechaReal.ToString("yy") & "-" & fechaReal.Month.ToString("D2")
-                    ' "D2" fuerza a que el mes salga como "01" en lugar de "1" para mantener el orden en la base de datos
 
                     If vNombreConcepto <> claveMesAño Then
                         vNombreConcepto = claveMesAño
-                        vImporteConcepto = fila.Cells(3).Value
 
-                        ' Inserción del importe real
-                        vAñadir = "INSERT INTO tempapu(ConceptoAPU, SumaImporteAPU) VALUES ('" & vNombreConcepto & "','" & vImporteConcepto & "')"
+                        ' Inserción 1: Del importe real (Parametrizada y segura)
+                        vAñadir = "INSERT INTO tempapu(ConceptoAPU, SumaImporteAPU) VALUES (?, ?)"
                         cmdMdb1cr.CommandText = vAñadir
-                        Try : cmdMdb1cr.ExecuteNonQuery() : Catch ex As Exception : MsgBox(ex.ToString) : End Try
+                        cmdMdb1cr.Parameters.Clear()
+                        cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vNombreConcepto)
+                        Dim paramInsert As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@SumaImporteAPU", OleDb.OleDbType.Currency)
+                        paramInsert.Value = Math.Round(ConvertirDecimalSeguro(vImporteConcepto), 2)
+                        Try
+                            cmdMdb1cr.ExecuteNonQuery()
+                        Catch ex As Exception
+                            MessageBox.Show(ex.Message, "Error Insert Real", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                        End Try
 
-                        ' Inserción de la fila espejo a cero
-                        vAñadir = "INSERT INTO tempapu(ConceptoAPU, SumaImporteAPU) VALUES ('" & vNombreConcepto & "',' 0 ')"
+                        ' Inserción 2: De la fila espejo a cero (Parametrizada y segura)
+                        vAñadir = "INSERT INTO tempapu(ConceptoAPU, SumaImporteAPU) VALUES (?, 0)"
                         cmdMdb1cr.CommandText = vAñadir
-                        Try : cmdMdb1cr.ExecuteNonQuery() : Catch ex As Exception : MsgBox(ex.ToString) : End Try
+                        cmdMdb1cr.Parameters.Clear()
+                        cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vNombreConcepto)
+                        Try
+                            cmdMdb1cr.ExecuteNonQuery()
+                        Catch ex As Exception
+                            MessageBox.Show(ex.Message, "Error Insert Cero", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                        End Try
                     Else
                         ' Si ya existe el registro del mes actual en tempapu, actualizamos acumulando el importe
                         cmdMdb1cr.CommandType = CommandType.Text
-                        If Val(vImporteConcepto) > 0 Then
-                            cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' And tempapu.SumaImporteAPU > 0 "
-                        ElseIf Val(vImporteConcepto) < 0 Then
-                            cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' And tempapu.SumaImporteAPU < 0 "
+
+                        ' Evaluamos la cantidad real con céntimos incluidos y preparamos la query exacta
+                        If importeCeldaSeguro > 0 Then
+                            cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = ? And tempapu.SumaImporteAPU > 0"
+                        Else
+                            cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = ? And tempapu.SumaImporteAPU < 0"
                         End If
+
+                        cmdMdb1cr.Parameters.Clear()
+                        cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vNombreConcepto)
 
                         Try
                             drMdb1 = cmdMdb1cr.ExecuteReader()
                             If drMdb1.HasRows Then
-                                While drMdb1.Read() : vExistenteImporteConcepto = drMdb1.GetValue(1) : End While
-                                drMdb1.Close() ' Importante cerrar el reader antes del Update
+                                While drMdb1.Read()
+                                    vExistenteImporteConcepto = drMdb1.GetValue(1)
+                                End While
+                                drMdb1.Close() ' Cerramos inmediatamente el reader
 
-                                vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto)
-                                vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                                vAñadir2 += If(Val(vImporteConcepto) > 0, "And tempapu.SumaImporteAPU > 0 ", "And tempapu.SumaImporteAPU < 0 ")
+                                ' 1. Conversión y suma matemática exacta con tipos Decimal
+                                Dim imp1 As Decimal = ConvertirDecimalSeguro(vImporteConcepto)
+                                Dim imp2 As Decimal = ConvertirDecimalSeguro(vExistenteImporteConcepto)
+                                ' Sumamos y redondeamos estrictamente a 2 decimales para que quepa en el campo de Access
+                                Dim vNewImporteConceptoDecimal As Decimal = Math.Round(imp1 + imp2, 2)
+
+                                ' 2. Construimos la query parametrizada limpia sin mezclas estáticas
+                                vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = ? WHERE tempapu.ConceptoAPU = ? "
+                                vAñadir2 += If(imp1 > 0, "And tempapu.SumaImporteAPU > 0", "And tempapu.SumaImporteAPU < 0")
 
                                 cmdMdb1cr.CommandText = vAñadir2
-                                Try : cmdMdb1cr.ExecuteNonQuery() : Catch ex As Exception : MsgBox(ex.ToString) : End Try
+
+                                ' ¡LIMPIEZA RADICAL! Vaciamos por completo el comando antes de asignar los nuevos parámetros
+                                cmdMdb1cr.Parameters.Clear()
+                                ' Obligamos al parámetro a comportarse como Moneda pura para que Access no se sature con la precisión
+                                Dim paramSuma1 As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@SumaImporteAPU", OleDb.OleDbType.Currency)
+                                paramSuma1.Value = Math.Round(vNewImporteConceptoDecimal, 2)
+                                cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vNombreConcepto)
+
+                                Try
+                                    cmdMdb1cr.ExecuteNonQuery()
+                                Catch ex As Exception
+                                    MessageBox.Show(ex.Message, "Error Update 1 (Interno)", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                End Try
                             Else
                                 drMdb1.Close()
-                                ' Si no existe, acumulamos sobre el registro que se creó a cero
-                                cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' And tempapu.SumaImporteAPU = 0 "
+
+                                ' Si no existe, acumulamos sobre el registro que se creó a cero (Consulta parametrizada)
+                                cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = ? And tempapu.SumaImporteAPU = 0"
+                                cmdMdb1cr.Parameters.Clear()
+                                cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vNombreConcepto)
+
                                 drMdb1 = cmdMdb1cr.ExecuteReader()
                                 If drMdb1.HasRows Then
-                                    While drMdb1.Read() : vExistenteImporteConcepto = drMdb1.GetValue(1) : End While
+                                    While drMdb1.Read()
+                                        vExistenteImporteConcepto = drMdb1.GetValue(1)
+                                    End While
                                     drMdb1.Close()
 
-                                    vNewImporteConcepto = Val(vImporteConcepto) + Val(vExistenteImporteConcepto)
-                                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' And tempapu.SumaImporteAPU = 0 "
+                                    ' Conversión y suma exacta para el segundo caso
+                                    Dim impActual As Decimal = ConvertirDecimalSeguro(vImporteConcepto)
+                                    Dim impExistente As Decimal = ConvertirDecimalSeguro(vExistenteImporteConcepto)
+                                    ' Hacemos lo mismo en el segundo acumulador por seguridad
+                                    Dim vNewImporteConceptoDecimal2 As Decimal = Math.Round(impActual + impExistente, 2)
+
+                                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = ? WHERE tempapu.ConceptoAPU = ? And tempapu.SumaImporteAPU = 0"
                                     cmdMdb1cr.CommandText = vAñadir2
-                                    Try : cmdMdb1cr.ExecuteNonQuery() : Catch ex As Exception : MsgBox(ex.ToString) : End Try
+
+                                    cmdMdb1cr.Parameters.Clear()
+                                    ' Aplicamos el mismo blindaje en el segundo acumulador
+                                    Dim paramSuma2 As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@SumaImporteAPU", OleDb.OleDbType.Currency)
+                                    paramSuma2.Value = Math.Round(vNewImporteConceptoDecimal2, 2)
+                                    cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vNombreConcepto)
+
+                                    Try
+                                        cmdMdb1cr.ExecuteNonQuery()
+                                    Catch ex As Exception
+                                        MessageBox.Show(ex.Message, "Error Update 2", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                    End Try
+                                Else
+                                    drMdb1.Close()
                                 End If
-                                drMdb1.Close()
                             End If
                         Catch ex As Exception
                             If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+                            MessageBox.Show(ex.Message, "Error General en Rama Else", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                         End Try
                     End If
                 End If
             Next
         End If
     End Sub
+
 
 
     Public Sub LimpiarTempApu()
@@ -1852,5 +1915,26 @@ Module Funciones
             MsgBox(ex.ToString)
         End Try
     End Sub
+
+    Public Function ConvertirDecimalSeguro(vValor As Object) As Decimal
+        Dim importeResultado As Decimal = 0.0D
+        If vValor IsNot Nothing AndAlso vValor IsNot DBNull.Value Then
+            Dim textoImporteRaw As String = vValor.ToString().Trim()
+
+            ' 1. Intento con cultura local de Windows
+            If Not Decimal.TryParse(textoImporteRaw,
+                                System.Globalization.NumberStyles.Number,
+                                System.Globalization.CultureInfo.CurrentCulture,
+                                importeResultado) Then
+
+                ' 2. Plan B con cultura invariante (punto universal)
+                Decimal.TryParse(textoImporteRaw,
+                             System.Globalization.NumberStyles.Number,
+                             System.Globalization.CultureInfo.InvariantCulture,
+                             importeResultado)
+            End If
+        End If
+        Return importeResultado
+    End Function
 
 End Module

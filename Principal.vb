@@ -188,6 +188,39 @@ Public Class Principal
             vPantallas += 1
         Next
 
+        'If vPantallas = 1 And CantPantallas >= 2 Then
+        '    ' Configuramos la posición por defecto directamente en las variables numéricas
+        '    x = 150
+        '    y = 0
+        '    vWidth = 1139
+        '    vHeigth = 629
+        'Else
+        '    vPosicion = My.Settings.Posicion ' Ejemplo de texto: "{x=150,y=100}"
+
+        '    ' Intentamos extraer las coordenadas de forma moderna y segura
+        '    Try
+        '        ' Extraemos lo que hay entre "x=" y la coma
+        '        Dim parteX As String = vPosicion.Substring(vPosicion.IndexOf("x=") + 2)
+        '        parteX = parteX.Substring(0, parteX.IndexOf(","))
+        '        Integer.TryParse(parteX, x)
+
+        '        ' Extraemos lo que hay después del último "=" eliminando la llave de cierre "}"
+        '        Dim parteY As String = vPosicion.Substring(vPosicion.LastIndexOf("=") + 1).Replace("}", "")
+        '        Integer.TryParse(parteY, y)
+        '    Catch
+        '        ' Si el texto de configuración estuviera corrupto, asignamos una posición segura por defecto
+        '        x = 100
+        '        y = 100
+        '    End Try
+
+        '    ' PARACHOQUES: Si la posición guardada es el techo total (0), 
+        '    ' le forzamos a bajar un poco (ej. 100) para que no se quede atrapado
+        '    If y = 0 Then y = 100
+
+        '    vWidth = My.Settings.PantallaAncho
+        '    vHeigth = My.Settings.PantallaAlto
+        'End If
+
         If vPantallas = 1 And CantPantallas >= 2 Then
             vPosicion = "{x=150,y=0}"
             x = Val(Mid(vPosicion, 4, (InStrRev(vPosicion, ",") - 1)))

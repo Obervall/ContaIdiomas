@@ -40,15 +40,6 @@ Public Class ApuntesPeriodicos
         DateTimePicker1.Value = fechaInicio
         DateTimePicker2.Value = fechaFin
 
-        'vFecha1Enero = Val(vAñoEjercicio)
-        'DateTimePicker1.MinDate = New Date(vFecha1Enero, 1, 1)
-        'DateTimePicker2.MinDate = New Date(vFecha1Enero, 1, 1)
-        'DateTimePicker1.Value = New Date(vFecha1Enero, 1, 1)
-        'vFecha31Diciembre = Val(vAñoEjercicio) + 20
-        'DateTimePicker1.MaxDate = New Date(vFecha31Diciembre, 12, 31)
-        'DateTimePicker2.MaxDate = New Date(vFecha31Diciembre, 12, 31)
-        'DateTimePicker2.Value = New Date(vFecha31Diciembre, 12, 31)
-
         Dim TL(15) As ToolTip
         TL(0) = New ToolTip
         TL(0).SetToolTip(Me.BtnFiltroCuenta, "Aplica el filtro a los Registros")
