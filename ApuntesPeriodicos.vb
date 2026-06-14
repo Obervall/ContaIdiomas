@@ -106,7 +106,6 @@ Public Class ApuntesPeriodicos
             End If
             drMdb1.Close()
         Catch ex As Exception
-            MsgBox("Error al llenar el Combo Concepto")
             MsgBox(ex.ToString)
         End Try
 
@@ -125,7 +124,6 @@ Public Class ApuntesPeriodicos
             End If
             drMdb1.Close()
         Catch ex As Exception
-            MsgBox("Error al llenar el Combo Cuenta")
             MsgBox(ex.ToString)
         End Try
 
@@ -236,7 +234,6 @@ Public Class ApuntesPeriodicos
             End If
             drMdb1.Close()
         Catch ex As Exception
-            MsgBox("Error al llenar el Combo Concepto")
             MsgBox(ex.ToString)
         End Try
         BtnFiltroConcepto.Enabled = True
@@ -397,17 +394,6 @@ Public Class ApuntesPeriodicos
         vtipoSql += " ORDER BY apuper.FechaAPP ASC"
         vtipoGrid = "APUNTES_PERIODICOS"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
-    End Sub
-
-    Private Sub BtnPrimero_Click(sender As Object, e As EventArgs) Handles BtnPrimero.Click
-        vFilaActual = DgvApuper.CurrentRow.Index
-        If vFilaActual = 0 Then
-            MsgBox("Fila Primera Seleccionada")
-        Else
-            vFila = 0
-            DgvApuper.Rows(vFila).Selected = True
-            DgvApuper.CurrentCell = DgvApuper.Rows(vFila).Cells(0)
-        End If
     End Sub
 
     Private Sub BtnImprimir_Click(sender As Object, e As EventArgs) Handles BtnImprimir.Click
@@ -690,7 +676,7 @@ Public Class ApuntesPeriodicos
             End If
         Next
         If vRow = -1 Then
-            MsgBox("No hay ninguna Coincidencia con los datos Introducidos")
+            MsgBox(resManager.GetString("MsgDatos1"))
             BtnSeguirBuscando.Enabled = False
         Else
             If vCampo = 0 Then
@@ -727,7 +713,7 @@ Public Class ApuntesPeriodicos
     Private Sub SeguirF3()
         vCantidadFilas = DgvApuper.RowCount
         If vRow + 1 = vCantidadFilas Then
-            MsgBox("No hay más Registros que Coincidencian con los datos Introducidos")
+            MsgBox(resManager.GetString("MsgDatos2"))
             BtnSeguirBuscando.Enabled = False
         Else
             vContador = -1
@@ -828,7 +814,7 @@ Public Class ApuntesPeriodicos
                 End If
             Next
             If vRowSeguir = -1 Then
-                MsgBox("No hay más Registros que Coincidencian con los datos Introducidos")
+                MsgBox(resManager.GetString("MsgDatos2"))
                 BtnSeguirBuscando.Enabled = False
             Else
                 vRow = vRowSeguir
@@ -853,17 +839,6 @@ Public Class ApuntesPeriodicos
         End If
     End Sub
 
-    Private Sub BtnAnterior_Click(sender As Object, e As EventArgs) Handles BtnAnterior.Click
-        vFilaActual = DgvApuper.CurrentRow.Index
-        If vFilaActual = 0 Then
-            MsgBox("Fila Primera Seleccionada")
-        Else
-            vFila = vFilaActual - 1
-            DgvApuper.Rows(vFila).Selected = True
-            DgvApuper.CurrentCell = DgvApuper.Rows(vFila).Cells(0)
-        End If
-    End Sub
-
     Private Sub BtnAñadirRegistro_Click(sender As Object, e As EventArgs) Handles BtnAñadirRegistro.Click
         frmPrincipal.TsLabelFormulario.Text = "Introducción de Apuntes Periódicos"
         ' Comprobamos si existe un identificador asociado.
@@ -878,10 +853,32 @@ Public Class ApuntesPeriodicos
         frmPrincipal.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
     End Sub
 
+    Private Sub BtnPrimero_Click(sender As Object, e As EventArgs) Handles BtnPrimero.Click
+        vFilaActual = DgvApuper.CurrentRow.Index
+        If vFilaActual = 0 Then
+            MsgBox(resManager.GetString("MsgFila1"))
+        Else
+            vFila = 0
+            DgvApuper.Rows(vFila).Selected = True
+            DgvApuper.CurrentCell = DgvApuper.Rows(vFila).Cells(0)
+        End If
+    End Sub
+
+    Private Sub BtnAnterior_Click(sender As Object, e As EventArgs) Handles BtnAnterior.Click
+        vFilaActual = DgvApuper.CurrentRow.Index
+        If vFilaActual = 0 Then
+            MsgBox(resManager.GetString("ToolTipAnterior"))
+        Else
+            vFila = vFilaActual - 1
+            DgvApuper.Rows(vFila).Selected = True
+            DgvApuper.CurrentCell = DgvApuper.Rows(vFila).Cells(0)
+        End If
+    End Sub
+
     Private Sub BtnSiguiente_Click(sender As Object, e As EventArgs) Handles BtnSiguiente.Click
         vFilaActual = DgvApuper.CurrentRow.Index
         If vFilaActual = DgvApuper.RowCount - 1 Then
-            MsgBox("Fila Ultima Seleccionada")
+            MsgBox(resManager.GetString("ToolTipSiguiente"))
         Else
             vFila = vFilaActual + 1
             DgvApuper.Rows(vFila).Selected = True
@@ -892,7 +889,7 @@ Public Class ApuntesPeriodicos
     Private Sub BtnUltimo_Click(sender As Object, e As EventArgs) Handles BtnUltimo.Click
         vFilaActual = DgvApuper.CurrentRow.Index
         If vFilaActual = DgvApuper.RowCount - 1 Then
-            MsgBox("Fila Ultima Seleccionada")
+            MsgBox(resManager.GetString("MsgFila2"))
         Else
             vFila = DgvApuper.RowCount - 1
             DgvApuper.Rows(vFila).Selected = True

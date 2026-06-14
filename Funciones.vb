@@ -172,7 +172,7 @@ Module Funciones
                     'MessageBox.Show("Se ha conectado a " & conexion1.ConnectionString)
                 Catch ex As Exception
                     ':::Si no se conecta nos mostrara el posible fallo en la conexión
-                    MsgBox("No se conectó por: " & ex.Message)
+                    MsgBox(resManager.GetString("NoConectoPor") & ": " & ex.Message)
                 End Try
             End If
         End If
@@ -598,7 +598,7 @@ Module Funciones
                     End If
                     drMdb1.Close()
                 Catch ex As Exception
-                    MsgBox("Error al ejecutar: " & cmdMdb1cr.CommandText & " por: " & ex.Message)
+                    MsgBox(resManager.GetString("ErrorAlEjecutar") & ":  " & cmdMdb1cr.CommandText & " : " & ex.Message)
                 End Try
                 fila.Cells(3).Value = Math.Round(Convert.ToDecimal(vSaldoCuentas), 2)
                 vValor += vSaldoCuentas
@@ -1040,8 +1040,8 @@ Module Funciones
             e.Handled = False
         Else
             e.Handled = True
-            MsgBox("Solo admite el . Punto como separador decimal",
-            MsgBoxStyle.Exclamation, "Separador decimal")
+            MsgBox(resManager.GetString("SoloAdmitePunto"),
+            MsgBoxStyle.Exclamation, resManager.GetString("SeparadorDecimal"))
         End If
     End Sub
     Public Function ApostrofePorAcentoAgudo(ByVal sNombreCampo As String) As String
@@ -1054,7 +1054,7 @@ Module Funciones
                 newNombreCampo = sNombreCampo
             End If
         Catch ex As Exception
-            MsgBox("Error N° " & Err.Number & NL & ex.Message, MsgBoxStyle.Critical, "Información")
+            MsgBox(resManager.GetString("Error") & " " & Err.Number & NL & ex.Message, MsgBoxStyle.Critical, resManager.GetString("Informacion"))
         End Try
         Return newNombreCampo
     End Function
@@ -1079,12 +1079,12 @@ Module Funciones
                     vNewVersion = Trim(vNewVersion)
 
                     If My.Settings.Version < vNewVersion Then
-                        MsgBox("Versión Instalada: " & My.Settings.Version & vbNewLine & "Versión Disponible: " & vNewVersion, MsgBoxStyle.Information, "Comprobar Nueva Versión")
+                        MsgBox(resManager.GetString("VersionInstalada") & " " & My.Settings.Version & vbNewLine & resManager.GetString("VersionDisponible") & " " & vNewVersion, MsgBoxStyle.Information, resManager.GetString("Informacion"))
                         vNuevaVersion = vNewVersion
                         vHayNuevaVersion = "SI"
-                        Dim respuesta As MsgBoxResult = MsgBox("¿Quieres actualizar a la Versión: " & vNewVersion & " ?", vbQuestion + vbYesNo + vbDefaultButton1, "Versión ContaHogar 3.0")
+                        Dim respuesta As MsgBoxResult = MsgBox(resManager.GetString("ActualizarVersion") & ": " & vNewVersion & " ?", vbQuestion + vbYesNo + vbDefaultButton1, resManager.GetString("Versio") & " ContaHogar 3.0")
                         If respuesta = vbYes Then
-                            Dim respuesta2 As MsgBoxResult = MsgBox("Quieres guardar una Copia de Seguridad de la Base de Datos.", vbQuestion + vbYesNo + vbDefaultButton1, "Actualizar Software")
+                            Dim respuesta2 As MsgBoxResult = MsgBox(resManager.GetString("GuardarCopiaSeguridad"), vbQuestion + vbYesNo + vbDefaultButton1, resManager.GetString("Versio") & " ContaHogar 3.0")
                             If respuesta2 = vbYes Then
                                 ' Si no existe la carpeta de BackUp la creamos.
                                 Dim path As String = "C:\ContaHogar3.0\Backup"
@@ -1109,26 +1109,25 @@ Module Funciones
                                 If backup.ShowDialog = Windows.Forms.DialogResult.OK Then
                                     Try
                                         FileCopy(DataBaseFile, FileDestino)
-                                        MessageBox.Show("Backup realizado satisfactoriamente. Ahora, se descargará la actualización.", "BACKUP", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                        MessageBox.Show(resManager.GetString("BackupSatisfactorioBuscarActualizacio"), resManager.GetString("Backup"), MessageBoxButtons.OK, MessageBoxIcon.Information)
                                     Catch ex As Exception
-                                        MsgBox("Error al realizar el Backup de la Base de Datos, revise que no exista otro Backup con el mismo nombre o que el archivo no esté abierto.")
-                                        MsgBox(ex.ToString)
+                                        MsgBox(resManager.GetString("ErrorBackup") & ": " & ex.ToString)
                                     End Try
                                 End If
                             End If
-                            MessageBox.Show("Ahora, se descargará la actualización.", "Actualizar Software", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            MessageBox.Show(resManager.GetString("AhoraDescargaActualizacion"), resManager.GetString("ActualizarSoftware"), MessageBoxButtons.OK, MessageBoxIcon.Information)
                             Try
                                 Dim descargar As New Devices.Computer
                                 With descargar
                                     .Network.DownloadFile("https://filedn.eu/ljfTvwyEW2tVj4PWYI9927f/ContaHogar/Actualizar/" & vNewVersion & "/InstaladorContaHogar3.0.msi", "C:\ContaHogar3.0\InstaladorContaHogar3.0.msi", "", "", True, 100, True, 3)
                                 End With
                                 Dim Proceso As New Process()
-                                MsgBox("Se ha descargado la actualización: " & vNewVersion & ", se procederá a instalarla. Pulsa Aceptar para continuar.", MsgBoxStyle.Information, "Actualizar Software")
+                                MsgBox(resManager.GetString("DescargadaActualizacion") & ":  " & vNewVersion & ", " & resManager.GetString("ProcederaInstalar"), MsgBoxStyle.Information, resManager.GetString("ActualizarSoftware"))
                                 Proceso.StartInfo.FileName = "C:\ContaHogar3.0\InstaladorContaHogar3.0.msi"
                                 Proceso.StartInfo.Arguments = ""
                                 Proceso.Start()
                             Catch ex As Exception
-                                MsgBox("Error al descargar la actualización: " & vNewVersion & ", revise su conexión a Internet o que el archivo no esté abierto.")
+                                MsgBox(resManager.GetString("ErrorDescargarActualizacion") & ":  " & vNewVersion & ", " & resManager.GetString("ErrorDescargarActualizacion2"))
                                 MsgBox(ex.ToString)
                             End Try
                             Application.Exit()
@@ -1138,11 +1137,11 @@ Module Funciones
                         'MsgBox(My.Settings.Version & " = " & vNewVersion)
                     End If
                 Catch ex As Exception
-                    MsgBox("Error al comprobar la nueva versión, revise su conexión a Internet.")
+                    MsgBox(resManager.GetString("ErrorDescargarActualizacion2"))
                     MsgBox(ex.ToString)
                 End Try
             Else
-                MsgBox("No estas conectado a una red para comprobar nueva Versión.", MsgBoxStyle.Information, "Sin Conexión a Internet")
+                MsgBox(resManager.GetString("NoConectadoRed"), MsgBoxStyle.Information, resManager.GetString("Informacion"))
             End If
             Return vHayNuevaVersion
         Else
@@ -1239,7 +1238,7 @@ Module Funciones
                     combo.Items.Add(elemento)
                     ' ===================================================================
 
-                    historialSeguimiento &= $"BD: {valorBD} -> Trad: {textoTraducido}" & vbNewLine
+                    historialSeguimiento &= $"BD:  {valorBD} -> Trad: {textoTraducido}" & vbNewLine
                 End While
 
                 'MsgBox(historialSeguimiento, MsgBoxStyle.Information, "Resumen de Carga")

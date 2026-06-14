@@ -162,4 +162,7 @@
   <data name="EliminarCuenta4" xml:space="preserve">
     <value>Erreur de suppression de l’enregistrement du compte bancaire</value>
   </data>
+  <data name="EliminarCuenta5" xml:space="preserve">
+    <value>Impossible de supprimer les comptes bancaires</value>
+  </data>
 </root>

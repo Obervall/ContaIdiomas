@@ -7799,9 +7799,6 @@
   <data name="CuentasToolStripMenuItem.Text" xml:space="preserve">
     <value>Comptes bancaires</value>
   </data>
-  <data name="BackupOk" xml:space="preserve">
-    <value>Sauvegarde réussie</value>
-  </data>
   <data name="PreguntaBackup" xml:space="preserve">
     <value>Êtes-vous sûr de RESTAURER la base de données ?</value>
   </data>
@@ -7974,5 +7971,35 @@ Il est recommandé de le faire pour éviter la perte de données. Cette action n
   </data>
   <data name="ErrorTransferenciaPresupuestos" xml:space="preserve">
     <value>Erreur lors du transfert QUOTES</value>
+  </data>
+  <data name="BackupOk" xml:space="preserve">
+    <value>Sauvegarde réussie</value>
+  </data>
+  <data name="MsgImportar1" xml:space="preserve">
+    <value>Cette fonctionnalité est conçue pour ajouter sans dupliquer des données,
+de l’ancienne base de données ContaHogar à la nouvelle base de données ContaHogar 3.0
+Il est recommandé de faire une sauvegarde avant de procéder à l’importation,
+puisque cette action ne peut être annulée</value>
+  </data>
+  <data name="ImportarContahogar" xml:space="preserve">
+    <value>CONTACT D’IMPORTATION</value>
+  </data>
+  <data name="ExisteCHDB2" xml:space="preserve">
+    <value>Le fichier CHDB2.mdb existe déjà dans C :\HomeAccount3.0
+L’importation sera effectuée</value>
+  </data>
+  <data name="NoExisteCHDB2" xml:space="preserve">
+    <value>Le fichier CHDB2.mdb n’existe PAS dans C :\HomeAccount3.0
+Il est vérifié que C :\Contahogar3.0 existe et, sinon, il est créé</value>
+  </data>
+  <data name="YaExisteRuta" xml:space="preserve">
+    <value>La Route C existe déjà :\ContaHogar3.0
+Copiez le fichier CHDB2.mdb de l’ancien Contahogar dans le dossier C :\ContaHogar3.0
+pour pouvoir effectuer le processus d’importation</value>
+  </data>
+  <data name="RutaCreada" xml:space="preserve">
+    <value>Chemin C :\HomeAccount3.0, Créé.
+Copiez le fichier CHDB2.mdb de l’ancien Contahogar dans le dossier C :\ContaHogar3.0
+pour pouvoir effectuer le processus d’importation</value>
   </data>
 </root>

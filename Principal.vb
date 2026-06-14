@@ -359,9 +359,9 @@ Public Class Principal
                             cmdMdb1cr.CommandText = vAñadirSql
                             Try
                                 cmdMdb1cr.ExecuteNonQuery()
-                                MsgBox(vDate1 & vbNewLine & vConcepto & "     " & vDescripcion & "     " & vImporte & vbNewLine & "Grabado Correctamente")
+                                MsgBox(vDate1 & vbNewLine & vConcepto & "     " & vDescripcion & "     " & vImporte & vbNewLine & rmse.GetString("CreadoCorrectamente"))
                             Catch ex As Exception
-                                MsgBox("Error al insertar el Apunte Periódico con fecha: " & vDate1 & " y concepto: " & vConcepto & " del Ejercicio " & vAñoEjercicio.ToString & vbCrLf & ex.ToString)
+                                MsgBox(ex.ToString)
                             End Try
                             ' Eliminar Registro Apunte Periódico
                             vtipoSql = "DELETE FROM apuper"
@@ -1061,18 +1061,18 @@ Public Class Principal
     End Sub
 
     Private Sub ImportaAntiguoContahogarToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ImportaAntiguoContahogarToolStripMenuItem.Click
-        MsgBox("Esta función se ha diseñado para Añadir sin Duplicar los datos, de la antigua Base de Datos de ContaHogar a la nueva de ContaHogar 3.0. " & NL & NL & "Se recomienda realizar una copia de seguridad antes de proceder con la importación, " & NL & "ya que esta acción no se puede deshacer.", MsgBoxStyle.Information, "IMPORTAR APUNTES")
+        MsgBox(rmse.GetString("MsgImportar1"), MsgBoxStyle.Information, rmse.GetString("ImportarContahogar"))
         ' Si no existe la carpeta la creamos y salimos del Sub.
         Dim RutaArchivo As String = "C:\ContaHogar3.0\CHDB2.mdb"
         If File.Exists(RutaArchivo) Then
-            MsgBox("Ya existe el archivo CHDB2.mdb en C:\ContaHogar3.0, se procederá a realizar la importación.")
+            MsgBox(rmse.GetString("ExisteCHDB2"))
         Else
-            MsgBox("NO existe el archivo CHDB2.mdb en C:\ContaHogar3.0 " & NL & NL & "Se comprueba que C:\Contahogar3.0 existe y si no, se crea")
+            MsgBox(rmse.GetString("NoExisteCHDB2"))
             If Directory.Exists("C:\ContaHogar3.0") Then
-                MsgBox("Ya existe la Ruta C:\ContaHogar3.0" & NL & NL & "Copiar el archivo CHDB2.mdb del antiguo Contahogar a la carpeta C:\ContaHogar3.0 para poder realizar el proceso de importación.")
+                MsgBox(rmse.GetString("YaExisteRuta"))
             Else
                 Directory.CreateDirectory("C:\ContaHogar3.0")
-                MsgBox("Ruta C:\ContaHogar3.0, Creada. " & NL & NL & "Copiar el archivo CHDB2.mdb del antiguo Contahogar a la carpeta C:\ContaHogar3.0 para poder realizar el proceso de importación.")
+                MsgBox(rmse.GetString("RutaCreada"))
             End If
             Exit Sub
         End If

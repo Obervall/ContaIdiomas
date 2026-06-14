@@ -105,13 +105,8 @@ Public Class IntroApuntes
             End If
             drMdb1.Close()
         Catch ex As Exception
-            'MsgBox("Error al llenar el Combo Concepto")
             MsgBox(ex.ToString)
         End Try
-
-        'LlenarConcepto()
-        ' 3. Ahora que ya tiene filas, seleccionamos de forma segura la primera
-        'CmbConcepto.SelectedIndex = 0
 
         ' Llenar el Combo Descripción
         '****************************

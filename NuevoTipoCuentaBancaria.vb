@@ -79,15 +79,12 @@ Public Class NuevoTipoCuentaBancaria
                     cmdMdb1cr.CommandText = vtipoSql
                     Try
                         cmdMdb1cr.ExecuteNonQuery()
-                        'MsgBox("Registro, Grabado Correctamente")
                         Me.Close()
                     Catch ex As Exception
-                        'MsgBox("Error al insertar el nuevo Tipo de Cuenta Bancaria")
                         MsgBox(ex.ToString)
                     End Try
                 End If
             Catch ex As Exception
-                'MsgBox("Error al verificar que el Nombre no se repite en Tipo Cuentas Bancarias")
                 MsgBox(ex.ToString)
             End Try
         Else

@@ -63,7 +63,7 @@ Public Class EditarTipoCuentaBancaria
     End Sub
 
     Private Sub BtnEliminar_Click(sender As Object, e As EventArgs) Handles BtnEliminar.Click
-        MsgBox("No se pueden Eliminar Cuentas Bancarias")
+        MsgBox(rmse.GetString("EliminarCuenta5"))
     End Sub
 
     Private Sub BtnCancelar_Click(sender As Object, e As EventArgs) Handles BtnCancelar.Click

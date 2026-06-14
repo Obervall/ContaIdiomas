@@ -638,4 +638,31 @@ Recomenda-se realizá-la para evitar perda de dados. Essa ação não pode ser d
   <data name="ErrorTransferenciaPresupuestos" xml:space="preserve">
     <value>Erro durante a transferência ORÇAMENTOS</value>
   </data>
+  <data name="MsgImportar1" xml:space="preserve">
+    <value>Este recurso foi projetado para adicionar sem duplicar dados,
+do antigo Banco de Dados ContaHogar para o novo Banco de Dados ContaHogar 3.0
+Recomenda-se fazer um backup antes de prosseguir com a importação,
+já que essa ação não pode ser desfeita</value>
+  </data>
+  <data name="ImportarContahogar" xml:space="preserve">
+    <value>CONTATO DE IMPORTAÇÃO</value>
+  </data>
+  <data name="ExisteCHDB2" xml:space="preserve">
+    <value>O arquivo CHDB2.mdb já existe em C:\HomeAccount3.0
+A importação será realizada</value>
+  </data>
+  <data name="NoExisteCHDB2" xml:space="preserve">
+    <value>O arquivo CHDB2.mdb NÃO existe em C:\HomeAccount3.0
+É verificado que C:\Contahogar3.0 existe e, se não existir, ele é criado</value>
+  </data>
+  <data name="YaExisteRuta" xml:space="preserve">
+    <value>A Rota C já existe:\ContaHogar3.0
+Copie o arquivo CHDB2.mdb do antigo Contahogar para a pasta C:\ContaHogar3.0
+para poder realizar o processo de importação</value>
+  </data>
+  <data name="RutaCreada" xml:space="preserve">
+    <value>Caminho C:\HomeAccount3.0, Criado.
+Copie o arquivo CHDB2.mdb do antigo Contahogar para a pasta C:\ContaHogar3.0
+para poder realizar o processo de importação</value>
+  </data>
 </root>

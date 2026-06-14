@@ -78,7 +78,7 @@ Public Class GraficosPresupuestos
                     If conexion1.State <> ConnectionState.Open Then conexion1.Open()
                     cmdMdb1cr.ExecuteNonQuery()
                 Catch ex As Exception
-                    MsgBox("Error al grabar el Concepto en Tmpprint para Gráficos")
+                    MsgBox(ex.ToString)
                 End Try
             End Using
         Next

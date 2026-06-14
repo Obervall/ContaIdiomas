@@ -8966,7 +8966,7 @@
     <value>Apuntes Periódicos, Vaciado!</value>
   </data>
   <data name="BackupOk" xml:space="preserve">
-    <value>Backup realizado satisfactoriamente</value>
+    <value>Copia de Seguridad realizada satisfactoriamente</value>
   </data>
   <data name="CompactacionOk" xml:space="preserve">
     <value>Compactación realizada satisfactoriamente</value>
@@ -9146,5 +9146,32 @@ Se recomienda realizarla para evitar pérdidas de datos. Esta acción no se pued
   </data>
   <data name="ErrorTransferenciaPresupuestos" xml:space="preserve">
     <value>Error durante la transferencia PRESUPUESTOS</value>
+  </data>
+  <data name="MsgImportar1" xml:space="preserve">
+    <value>Esta función se ha diseñado para Añadir sin Duplicar los datos,
+de la antigua Base de Datos de ContaHogar a la nueva de ContaHogar 3.0
+se recomienda realizar una copia de seguridad antes de proceder con la importación,
+ya que esta acción no se puede deshacer</value>
+  </data>
+  <data name="ImportarContahogar" xml:space="preserve">
+    <value>IMPORTAR CONTAHOGAR</value>
+  </data>
+  <data name="ExisteCHDB2" xml:space="preserve">
+    <value>Ya existe el archivo CHDB2.mdb en C:\ContaHogar3.0
+se procederá a realizar la importación</value>
+  </data>
+  <data name="NoExisteCHDB2" xml:space="preserve">
+    <value>NO existe el archivo CHDB2.mdb en C:\ContaHogar3.0
+Se comprueba que C:\Contahogar3.0 existe y si no, se crea</value>
+  </data>
+  <data name="YaExisteRuta" xml:space="preserve">
+    <value>Ya existe la Ruta C:\ContaHogar3.0
+Copiar el archivo CHDB2.mdb del antiguo Contahogar a la carpeta C:\ContaHogar3.0
+para poder realizar el proceso de importación</value>
+  </data>
+  <data name="RutaCreada" xml:space="preserve">
+    <value>Ruta C:\ContaHogar3.0, Creada.
+Copiar el archivo CHDB2.mdb del antiguo Contahogar a la carpeta C:\ContaHogar3.0
+para poder realizar el proceso de importación</value>
   </data>
 </root>

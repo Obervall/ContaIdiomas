@@ -180,4 +180,13 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Introdução de notas periódicas</value>
   </data>
+  <data name="ErrorGrabarApuntePeriodico" xml:space="preserve">
+    <value>Erro ao salvar a entrada periódica</value>
+  </data>
+  <data name="MoHayPagosCobros" xml:space="preserve">
+    <value>NÃO há Número de Pagamentos/Cobranças</value>
+  </data>
+  <data name="NoDescripcionVacia" xml:space="preserve">
+    <value>A Descrição NÃO pode estar vazia</value>
+  </data>
 </root>

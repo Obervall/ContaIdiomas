@@ -631,4 +631,58 @@ Eles não são removidos do banco de dados</value>
   <data name="AvisoConceptoProtegido" xml:space="preserve">
     <value>Os conceitos padrão do sistema são protegidos contra modificações</value>
   </data>
+  <data name="NoConectoPor" xml:space="preserve">
+    <value>Não conectado por</value>
+  </data>
+  <data name="SoloAdmitePunto" xml:space="preserve">
+    <value>Ele só suporta o . Ponto como separador decimal</value>
+  </data>
+  <data name="SeparadorDecimal" xml:space="preserve">
+    <value>Separador Decimal</value>
+  </data>
+  <data name="Informacion" xml:space="preserve">
+    <value>Informações</value>
+  </data>
+  <data name="ActualizarVersion" xml:space="preserve">
+    <value>Você quer atualizar para a versão</value>
+  </data>
+  <data name="GuardarCopiaSeguridad" xml:space="preserve">
+    <value>Você quer salvar um Backup do Banco de Dados?</value>
+  </data>
+  <data name="BackupSatisfactorioBuscarActualizacio" xml:space="preserve">
+    <value>Backup feito com sucesso.
+Agora, a atualização será baixada</value>
+  </data>
+  <data name="Backup" xml:space="preserve">
+    <value>Reserva</value>
+  </data>
+  <data name="ErrorBackup" xml:space="preserve">
+    <value>Erro ao fazer backup do banco de dados,
+verifique se não há outra cópia com o mesmo nome ou
+O arquivo não está aberto</value>
+  </data>
+  <data name="AhoraDescargaActualizacion" xml:space="preserve">
+    <value>Agora, a atualização será baixada</value>
+  </data>
+  <data name="ActualizarSoftware" xml:space="preserve">
+    <value>Software de Atualização</value>
+  </data>
+  <data name="DescargadaActualizacion" xml:space="preserve">
+    <value>A atualização foi baixada</value>
+  </data>
+  <data name="ProcederaInstalar" xml:space="preserve">
+    <value>Será instalado. Toque em OK para continuar</value>
+  </data>
+  <data name="ErrorDescargarActualizacion" xml:space="preserve">
+    <value>Erro ao baixar atualização</value>
+  </data>
+  <data name="ErrorDescargarActualizacion2" xml:space="preserve">
+    <value>Verifique se sua conexão de internet ou arquivo não está aberto</value>
+  </data>
+  <data name="NoConectadoRed" xml:space="preserve">
+    <value>Você não está conectado a uma rede para verificar uma nova versão</value>
+  </data>
+  <data name="Vacio" xml:space="preserve">
+    <value>Sem programação..</value>
+  </data>
 </root>

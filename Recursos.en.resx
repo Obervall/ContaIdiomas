@@ -631,4 +631,58 @@ They are not removed from the database</value>
   <data name="AvisoConceptoProtegido" xml:space="preserve">
     <value>System default concepts are protected against modifications</value>
   </data>
+  <data name="NoConectoPor" xml:space="preserve">
+    <value>Not connected by</value>
+  </data>
+  <data name="SoloAdmitePunto" xml:space="preserve">
+    <value>It only supports the . Point as decimal separator</value>
+  </data>
+  <data name="SeparadorDecimal" xml:space="preserve">
+    <value>Decimal Separator</value>
+  </data>
+  <data name="Informacion" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="ActualizarVersion" xml:space="preserve">
+    <value>Do you want to upgrade to the Version</value>
+  </data>
+  <data name="GuardarCopiaSeguridad" xml:space="preserve">
+    <value>Do you want to save a Database Backup?</value>
+  </data>
+  <data name="BackupSatisfactorioBuscarActualizacio" xml:space="preserve">
+    <value>Backup made successfully.
+Now, the update will be downloaded</value>
+  </data>
+  <data name="Backup" xml:space="preserve">
+    <value>Backup</value>
+  </data>
+  <data name="ErrorBackup" xml:space="preserve">
+    <value>Error while backing up the database,
+check that there is no other Copy with the same name or
+the file is not open</value>
+  </data>
+  <data name="AhoraDescargaActualizacion" xml:space="preserve">
+    <value>Now, the update will be downloaded</value>
+  </data>
+  <data name="ActualizarSoftware" xml:space="preserve">
+    <value>Update Software</value>
+  </data>
+  <data name="DescargadaActualizacion" xml:space="preserve">
+    <value>The update has been downloaded</value>
+  </data>
+  <data name="ProcederaInstalar" xml:space="preserve">
+    <value>it will be installed. Tap OK to continue</value>
+  </data>
+  <data name="ErrorDescargarActualizacion" xml:space="preserve">
+    <value>Error downloading update</value>
+  </data>
+  <data name="ErrorDescargarActualizacion2" xml:space="preserve">
+    <value>check your internet connection or file is not open</value>
+  </data>
+  <data name="NoConectadoRed" xml:space="preserve">
+    <value>You are not connected to a network to check for a new version</value>
+  </data>
+  <data name="Vacio" xml:space="preserve">
+    <value>Without programming..</value>
+  </data>
 </root>

@@ -7799,9 +7799,6 @@
   <data name="CuentasToolStripMenuItem.Text" xml:space="preserve">
     <value>Comptes Bancaris</value>
   </data>
-  <data name="BackupOk" xml:space="preserve">
-    <value>Backup realitzat satisfactòriament</value>
-  </data>
   <data name="PreguntaBackup" xml:space="preserve">
     <value>¿Aquestes segur de RESTAURAR la Base de Dades?</value>
   </data>
@@ -7974,5 +7971,35 @@ Es recomana realitzar-la per evitar pèrdues de dades. Aquesta acció no es pot 
   </data>
   <data name="ErrorTransferenciaPresupuestos" xml:space="preserve">
     <value>Error durant la transferència PRESSUPOSTOS</value>
+  </data>
+  <data name="BackupOk" xml:space="preserve">
+    <value>Còpia de Seguretat realitzada satisfactòriament</value>
+  </data>
+  <data name="MsgImportar1" xml:space="preserve">
+    <value>Aquesta funció s' ha dissenyat per Afegir sense Duplicar les dades,
+de l'antiga Base de Dades de ContaHogar a la nova de ContaHogar 3.0
+es recomana realitzar una còpia de seguretat abans de procedir amb la importació,
+ja que aquesta acció no es pot desfer</value>
+  </data>
+  <data name="ImportarContahogar" xml:space="preserve">
+    <value>IMPORTAR CONTAHOGAR</value>
+  </data>
+  <data name="ExisteCHDB2" xml:space="preserve">
+    <value>Ja existeix l'arxiu CHDB2.mdb en C:\ContaHogar3.0
+es procedirà a realitzar la importació</value>
+  </data>
+  <data name="NoExisteCHDB2" xml:space="preserve">
+    <value>NO existeix l'arxiu CHDB2.mdb en C:\ContaHogar3.0
+Es comprova que C:\Contahogar3.0 existeix i si no, es crea</value>
+  </data>
+  <data name="YaExisteRuta" xml:space="preserve">
+    <value>Ja existeix la Ruta C:\ContaHogar3.0
+Copiar l'arxiu CHDB2.mdb de l'antic Contahogar a la carpeta C:\ContaHogar3.0
+per poder realitzar el procés d' importació</value>
+  </data>
+  <data name="RutaCreada" xml:space="preserve">
+    <value>Ruta C:\ContaHogar3.0, Creada.
+Copiar l'arxiu CHDB2.mdb de l'antic Contahogar a la carpeta C:\ContaHogar3.0
+per poder realitzar el procés d' importació</value>
   </data>
 </root>

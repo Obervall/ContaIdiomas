@@ -631,4 +631,58 @@ No s' Eliminen de la Base de Dades</value>
   <data name="AvisoConceptoProtegido" xml:space="preserve">
     <value>Els conceptes predeterminats del sistema estan protegits contra modificacions</value>
   </data>
+  <data name="NoConectoPor" xml:space="preserve">
+    <value>No es va connectar per</value>
+  </data>
+  <data name="SoloAdmitePunto" xml:space="preserve">
+    <value>Només admet el . Punt com a separador decimal</value>
+  </data>
+  <data name="SeparadorDecimal" xml:space="preserve">
+    <value>Separador Decimal</value>
+  </data>
+  <data name="Informacion" xml:space="preserve">
+    <value>Informació</value>
+  </data>
+  <data name="ActualizarVersion" xml:space="preserve">
+    <value>Vols actualitzar la Versió</value>
+  </data>
+  <data name="GuardarCopiaSeguridad" xml:space="preserve">
+    <value>Vols guardar una Còpia de Seguretat de la Base de Dades?</value>
+  </data>
+  <data name="BackupSatisfactorioBuscarActualizacio" xml:space="preserve">
+    <value>Còpia de Seguretat realitzat satisfactòriament.
+Ara, es descarregarà l'actualització</value>
+  </data>
+  <data name="Backup" xml:space="preserve">
+    <value>Còpia de Seguretat</value>
+  </data>
+  <data name="ErrorBackup" xml:space="preserve">
+    <value>Error en realitzar la Còpia de Seguretat de la Base de Dades,
+revisi que no existeixi una altra Còpia amb el mateix nom o
+que l' arxiu no estigui obert</value>
+  </data>
+  <data name="AhoraDescargaActualizacion" xml:space="preserve">
+    <value>Ara, es descarregarà l'actualització</value>
+  </data>
+  <data name="ActualizarSoftware" xml:space="preserve">
+    <value>Actualitzar Programari</value>
+  </data>
+  <data name="DescargadaActualizacion" xml:space="preserve">
+    <value>S'ha descarregat l'actualització</value>
+  </data>
+  <data name="ProcederaInstalar" xml:space="preserve">
+    <value>es procedirà a instal·lar-la. Pulsa Acceptar per continuar</value>
+  </data>
+  <data name="ErrorDescargarActualizacion" xml:space="preserve">
+    <value>Error en descarregar l' actualització</value>
+  </data>
+  <data name="ErrorDescargarActualizacion2" xml:space="preserve">
+    <value>revisi la seva connexió a Internet o que l' arxiu no estigui obert</value>
+  </data>
+  <data name="NoConectadoRed" xml:space="preserve">
+    <value>No aquestes connectat a una xarxa per comprovar nova Versió</value>
+  </data>
+  <data name="Vacio" xml:space="preserve">
+    <value>Sense Programar..</value>
+  </data>
 </root>

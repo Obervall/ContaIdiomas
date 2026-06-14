@@ -7802,9 +7802,6 @@
   <data name="CuentasToolStripMenuItem.Text" xml:space="preserve">
     <value>Bankkonten</value>
   </data>
-  <data name="BackupOk" xml:space="preserve">
-    <value>Erfolgreiche Sicherung</value>
-  </data>
   <data name="PreguntaBackup" xml:space="preserve">
     <value>Bist du dir sicher, dass du die Datenbank wiederherstellen kannst?</value>
   </data>
@@ -7977,5 +7974,35 @@ Es wird empfohlen, dies durchzuführen, um Datenverlust zu vermeiden. Diese Maß
   </data>
   <data name="ErrorTransferenciaPresupuestos" xml:space="preserve">
     <value>Fehler während der Übertragung QUOTES</value>
+  </data>
+  <data name="BackupOk" xml:space="preserve">
+    <value>Erfolgreiche Sicherung</value>
+  </data>
+  <data name="MsgImportar1" xml:space="preserve">
+    <value>Diese Funktion ist darauf ausgelegt, Daten hinzuzufügen, ohne Daten zu duplizieren,
+von der alten ContaHogar-Datenbank zur neuen ContaHogar 3.0-Datenbank
+Es wird empfohlen, vor dem Import ein Backup zu machen,
+da diese Wirkung nicht rückgängig gemacht werden kann</value>
+  </data>
+  <data name="ImportarContahogar" xml:space="preserve">
+    <value>IMPORTKONTAKT</value>
+  </data>
+  <data name="ExisteCHDB2" xml:space="preserve">
+    <value>Die CHDB2.mdb-Datei existiert bereits in C:\HomeAccount3.0
+Der Import wird durchgeführt</value>
+  </data>
+  <data name="NoExisteCHDB2" xml:space="preserve">
+    <value>Die CHDB2.mdb-Datei existiert in C:\HomeAccount3.0 NICHT
+Es wird überprüft, dass C:\Contahogar3.0 existiert, und falls nicht, wird es erstellt</value>
+  </data>
+  <data name="YaExisteRuta" xml:space="preserve">
+    <value>Route C existiert bereits:\ContaHogar3.0
+Kopiere die CHDB2.mdb-Datei vom alten Contahogar in den Ordner C:\ContaHogar3.0
+um den Importprozess durchführen zu können</value>
+  </data>
+  <data name="RutaCreada" xml:space="preserve">
+    <value>Pfad C:\HomeAccount3.0, erstellt.
+Kopiere die CHDB2.mdb-Datei vom alten Contahogar in den Ordner C:\ContaHogar3.0
+um den Importprozess durchführen zu können</value>
   </data>
 </root>

@@ -159,4 +159,7 @@
   <data name="RegistroApuntePeriódicoBorrado" xml:space="preserve">
     <value>Journal des entrées régulières, supprimé !!!</value>
   </data>
+  <data name="SeguroEliminarRegistro" xml:space="preserve">
+    <value>Êtes-vous sûr de supprimer l’entrée périodique sélectionnée ?</value>
+  </data>
 </root>

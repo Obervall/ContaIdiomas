@@ -162,4 +162,7 @@
   <data name="EliminarCuenta4" xml:space="preserve">
     <value>Error Deleting Bank Account Registration</value>
   </data>
+  <data name="EliminarCuenta5" xml:space="preserve">
+    <value>Unable to Delete Bank Accounts</value>
+  </data>
 </root>

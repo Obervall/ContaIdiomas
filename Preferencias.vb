@@ -6,6 +6,7 @@ Imports System.Drawing
 Public Class Preferencias
     Private estaCargado As Boolean = False
     Private TL(1) As ToolTip
+    Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub Preferencias_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ActualizarTextosFormulario(Me)
@@ -147,10 +148,10 @@ Public Class Preferencias
                 My.Settings.Save()
                 My.Settings.Reload()
             Catch ex As Exception
-                MsgBox("Error al seleccionar la nueva ubicación de la Base de Datos, se mantendrá la ubicación actual.")
+                MsgBox(rmse.GetString("ErrorSeleccionUbicacion"))
                 MsgBox(ex.ToString)
             End Try
-            MsgBox("Se cerrará el programa para iniciar con la nueva Ubicación.")
+            MsgBox(rmse.GetString("CerrarPrograma"))
             End
         End If
     End Sub
@@ -160,11 +161,11 @@ Public Class Preferencias
             If ChkBuscarActualizacion.Checked = True Then
                 My.Settings.Actualizar = True
                 BtnBuscarActualizacion.Enabled = False
-                MsgBox("Se desactivará la búsqueda manual de actualizaciones, se buscará automáticamente al iniciar el programa.")
+                MsgBox(rmse.GetString("DesactivarBusqueda"))
             Else
                 My.Settings.Actualizar = False
                 BtnBuscarActualizacion.Enabled = True
-                MsgBox("Se activará la búsqueda manual de actualizaciones, se buscará al hacer click en el botón 'Buscar Actualización'.")
+                MsgBox(rmse.GetString("ActivarBusqueda"))
                 BtnBuscarActualizacion.PerformClick()
             End If
             My.Settings.Save()
@@ -176,16 +177,14 @@ Public Class Preferencias
         vActualizar = True
         BuscarActualizacion()
         If vHayNuevaVersion = "SI" Then
-            MsgBox("Versión Instalada: " & My.Settings.Version & " - Versión disponible: " & vNuevaVersion)
+            MsgBox(resManager.GetString("VersionInstalada") & " " & My.Settings.Version & " - " & resManager.GetString("VersionDisponible") & " " & vNuevaVersion)
         Else
-            MsgBox("No hay nuevas versiones disponibles. Versión actual: " & My.Settings.Version)
+            MsgBox(rmse.GetString("NoHayNuevaVersion") & ": " & My.Settings.Version)
         End If
     End Sub
 
     Private Sub BtnBuscarBackup_Click(sender As Object, e As EventArgs) Handles BtnBuscarBackup.Click
         If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
-            ' List files in the folder.
-            'ListFiles(FolderBrowserDialog1.SelectedPath)
             TxtPathExportar.Text = FolderBrowserDialog1.SelectedPath
             My.Settings.PathExportar = TxtPathExportar.Text
             My.Settings.Save()

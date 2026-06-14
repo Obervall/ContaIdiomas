@@ -631,4 +631,58 @@ Sie werden nicht aus der Datenbank entfernt</value>
   <data name="AvisoConceptoProtegido" xml:space="preserve">
     <value>Systemstandardkonzepte sind vor Änderungen geschützt</value>
   </data>
+  <data name="NoConectoPor" xml:space="preserve">
+    <value>Nicht verbunden durch</value>
+  </data>
+  <data name="SoloAdmitePunto" xml:space="preserve">
+    <value>Es unterstützt nur das . Punkt als Dezimaltrenner</value>
+  </data>
+  <data name="SeparadorDecimal" xml:space="preserve">
+    <value>Dezimaltrenner</value>
+  </data>
+  <data name="Informacion" xml:space="preserve">
+    <value>Informationen</value>
+  </data>
+  <data name="ActualizarVersion" xml:space="preserve">
+    <value>Willst du auf die Version upgraden</value>
+  </data>
+  <data name="GuardarCopiaSeguridad" xml:space="preserve">
+    <value>Möchten Sie ein Datenbank-Backup speichern?</value>
+  </data>
+  <data name="BackupSatisfactorioBuscarActualizacio" xml:space="preserve">
+    <value>Verstärkung erfolgte.
+Jetzt wird das Update heruntergeladen</value>
+  </data>
+  <data name="Backup" xml:space="preserve">
+    <value>Backup</value>
+  </data>
+  <data name="ErrorBackup" xml:space="preserve">
+    <value>Fehler beim Sichern der Datenbank,
+Überprüfen Sie, ob es keine andere Kopie mit demselben Namen gibt oder
+Die Datei ist nicht geöffnet</value>
+  </data>
+  <data name="AhoraDescargaActualizacion" xml:space="preserve">
+    <value>Jetzt wird das Update heruntergeladen</value>
+  </data>
+  <data name="ActualizarSoftware" xml:space="preserve">
+    <value>Update-Software</value>
+  </data>
+  <data name="DescargadaActualizacion" xml:space="preserve">
+    <value>Das Update wurde heruntergeladen</value>
+  </data>
+  <data name="ProcederaInstalar" xml:space="preserve">
+    <value>Es wird installiert. Tippen Sie OK, um fortzufahren</value>
+  </data>
+  <data name="ErrorDescargarActualizacion" xml:space="preserve">
+    <value>Fehler beim Herunterladen des Updates</value>
+  </data>
+  <data name="ErrorDescargarActualizacion2" xml:space="preserve">
+    <value>Überprüfe, ob deine Internetverbindung oder deine Datei nicht geöffnet ist</value>
+  </data>
+  <data name="NoConectadoRed" xml:space="preserve">
+    <value>Du bist nicht mit einem Netzwerk verbunden, um nach einer neuen Version zu suchen</value>
+  </data>
+  <data name="Vacio" xml:space="preserve">
+    <value>Ohne Programmierung..</value>
+  </data>
 </root>

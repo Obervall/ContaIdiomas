@@ -78,7 +78,7 @@
             ' 5. OPCIÓN EXTRA (Sin programar) -> RadioButton5
             ' =======================================================================
         ElseIf RadioButton5.Checked = True Then
-            MsgBox("Sin Progamar ...")
+            MsgBox(resManager.GetString("Vacio"))
         End If
     End Sub
 

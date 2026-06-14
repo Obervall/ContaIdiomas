@@ -171,4 +171,22 @@
   <data name="GroupBox3.Text" xml:space="preserve">
     <value>Path Export Excel:</value>
   </data>
+  <data name="ErrorSeleccionUbicacion" xml:space="preserve">
+    <value>Error selecting the new Database location,
+The current location will be maintained</value>
+  </data>
+  <data name="CerrarPrograma" xml:space="preserve">
+    <value>The program will be closed to start with the new Location</value>
+  </data>
+  <data name="DesactivarBusqueda" xml:space="preserve">
+    <value>Manual checking for updates will be disabled,
+will be automatically searched when the program is launched</value>
+  </data>
+  <data name="ActivarBusqueda" xml:space="preserve">
+    <value>Manual checking for updates will be turned on,
+will be searched by clicking on the 'Check for Update' button</value>
+  </data>
+  <data name="NoHayNuevaVersion" xml:space="preserve">
+    <value>No new versions are available. Current version</value>
+  </data>
 </root>

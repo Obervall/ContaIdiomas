@@ -180,4 +180,13 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Introduction of Periodic Notes</value>
   </data>
+  <data name="ErrorGrabarApuntePeriodico" xml:space="preserve">
+    <value>Error Saving the Periodic Entry</value>
+  </data>
+  <data name="MoHayPagosCobros" xml:space="preserve">
+    <value>There is NO Number of Payments/Collections</value>
+  </data>
+  <data name="NoDescripcionVacia" xml:space="preserve">
+    <value>The Description can NOT be empty</value>
+  </data>
 </root>

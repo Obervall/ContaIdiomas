@@ -171,4 +171,22 @@
   <data name="GroupBox3.Text" xml:space="preserve">
     <value>Path Exportar Excel:</value>
   </data>
+  <data name="ErrorSeleccionUbicacion" xml:space="preserve">
+    <value>Error en seleccionar la nova ubicació de la Base de Dades,
+es mantindrà la ubicació actual</value>
+  </data>
+  <data name="CerrarPrograma" xml:space="preserve">
+    <value>Es tancarà el programa per iniciar amb la nova Ubicació</value>
+  </data>
+  <data name="DesactivarBusqueda" xml:space="preserve">
+    <value>Es desactivarà la recerca manual d' actualitzacions,
+es buscarà automàticament en iniciar el programa</value>
+  </data>
+  <data name="ActivarBusqueda" xml:space="preserve">
+    <value>S' activarà la recerca manual d' actualitzacions,
+es buscarà en fer click al botó 'Buscar Actualització'</value>
+  </data>
+  <data name="NoHayNuevaVersion" xml:space="preserve">
+    <value>No hi ha noves versions disponibles. Versió actual</value>
+  </data>
 </root>

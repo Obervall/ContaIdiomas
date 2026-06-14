@@ -530,7 +530,7 @@ Public Class ConceptosContables
                 Next
             End If
         Catch ex As Exception
-            MsgBox("Error al preparar los datos para la impresión: " & ex.Message)
+            MsgBox(ex.Message)
             Exit Sub
         End Try
 

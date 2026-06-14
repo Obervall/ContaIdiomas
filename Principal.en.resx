@@ -7784,9 +7784,6 @@
   <data name="CuentasToolStripMenuItem.Text" xml:space="preserve">
     <value>Bank Accounts</value>
   </data>
-  <data name="BackupOk" xml:space="preserve">
-    <value>Successful backup</value>
-  </data>
   <data name="PreguntaBackup" xml:space="preserve">
     <value>Are you sure about RESTORING the Database?</value>
   </data>
@@ -7959,5 +7956,35 @@ It is recommended to perform it to avoid data loss. This action cannot be undone
   </data>
   <data name="ErrorTransferenciaPresupuestos" xml:space="preserve">
     <value>Error during transfer QUOTES</value>
+  </data>
+  <data name="BackupOk" xml:space="preserve">
+    <value>Successful Backup</value>
+  </data>
+  <data name="MsgImportar1" xml:space="preserve">
+    <value>This feature is designed to Add without Duplicating Data,
+from the old ContaHogar Database to the new ContaHogar 3.0 Database
+it is recommended to make a backup before proceeding with the import,
+since this action cannot be undone</value>
+  </data>
+  <data name="ImportarContahogar" xml:space="preserve">
+    <value>IMPORT CONTACT</value>
+  </data>
+  <data name="ExisteCHDB2" xml:space="preserve">
+    <value>The CHDB2.mdb file already exists in C:\HomeAccount3.0
+The import will be carried out</value>
+  </data>
+  <data name="NoExisteCHDB2" xml:space="preserve">
+    <value>The CHDB2.mdb file does NOT exist in C:\HomeAccount3.0
+It is verified that C:\Contahogar3.0 exists and if not, it is created</value>
+  </data>
+  <data name="YaExisteRuta" xml:space="preserve">
+    <value>Route C already exists:\ContaHogar3.0
+Copy the CHDB2.mdb file from the old Contahogar to the folder C:\ContaHogar3.0
+to be able to carry out the import process</value>
+  </data>
+  <data name="RutaCreada" xml:space="preserve">
+    <value>Path C:\HomeAccount3.0, Created.
+Copy the CHDB2.mdb file from the old Contahogar to the folder C:\ContaHogar3.0
+to be able to carry out the import process</value>
   </data>
 </root>

@@ -50,7 +50,6 @@ Public Class EditarApuntesPeriodicos
             End If
             drMdb1.Close()
         Catch ex As Exception
-            MsgBox("Error al llenar el Combo Concepto")
             MsgBox(ex.ToString)
         End Try
 
@@ -88,7 +87,6 @@ Public Class EditarApuntesPeriodicos
             End If
             drMdb1.Close()
         Catch ex As Exception
-            MsgBox("Error al llenar el Combo Descripción")
             MsgBox(ex.ToString)
         End Try
 
@@ -107,7 +105,6 @@ Public Class EditarApuntesPeriodicos
             End If
             drMdb1.Close()
         Catch ex As Exception
-            MsgBox("Error al llenar el Combo Cuenta")
             MsgBox(ex.ToString)
         End Try
 
@@ -139,7 +136,7 @@ Public Class EditarApuntesPeriodicos
     End Sub
 
     Private Sub BtnEliminar_Click(sender As Object, e As EventArgs) Handles BtnEliminar.Click
-        Dim respuesta As MsgBoxResult = MsgBox("¿Estas seguro de Eliminar el Apunte Periódico seleccionado?.", vbQuestion + vbYesNo + vbDefaultButton2, "Eliminar Apunte Periódico")
+        Dim respuesta As MsgBoxResult = MsgBox(rmse.GetString("SeguroEliminarRegistro"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("$this.Text"))
         If respuesta = vbYes Then
             ' Eliminar Registro Apunte
             vtipoSql = "DELETE FROM apuper"
@@ -148,9 +145,8 @@ Public Class EditarApuntesPeriodicos
 
             Try
                 cmdMdb1cr.ExecuteNonQuery()
-                MsgBox("Registro Apunte Periódico, Borrado !!!")
+                MsgBox(rmse.GetString("RegistroApuntePeriódicoBorrado"))
             Catch ex As Exception
-                MsgBox("Error al Eliminar el Registro del Apunte Periódico")
                 MsgBox(ex.ToString)
             End Try
         Else
@@ -222,7 +218,6 @@ Public Class EditarApuntesPeriodicos
                 'MsgBox("Registro, Grabado Correctamente")
                 Me.Close()
             Catch ex As Exception
-                MsgBox("Error al Grabar el Registro del Apunte Periódico")
                 MsgBox(ex.ToString)
             End Try
 
@@ -246,7 +241,7 @@ Public Class EditarApuntesPeriodicos
             frmApuntesPeriodicos.DgvApuper.Rows(vFilaActual).Selected = True
             frmApuntesPeriodicos.DgvApuper.CurrentCell = frmApuntesPeriodicos.DgvApuper.Rows(vFilaActual).Cells(0)
         Else
-            MsgBox("NO hay Cantidad en Importe ...", vbExclamation)
+            MsgBox(frmIntroApuntes.rmse.GetString("NoCantidadImporte"), vbExclamation)
             TxtImporte.Select()
         End If
     End Sub

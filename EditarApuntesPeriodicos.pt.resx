@@ -159,4 +159,7 @@
   <data name="RegistroApuntePeriódicoBorrado" xml:space="preserve">
     <value>Registro de Nota Periódica, Excluído!!!</value>
   </data>
+  <data name="SeguroEliminarRegistro" xml:space="preserve">
+    <value>Você tem certeza de que vai deletar a Entrada Periódica selecionada?</value>
+  </data>
 </root>

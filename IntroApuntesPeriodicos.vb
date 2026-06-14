@@ -109,7 +109,6 @@ Public Class IntroApuntesPeriodicos
             End If
             drMdb1.Close()
         Catch ex As Exception
-            MsgBox("Error al llenar el Combo Concepto")
             MsgBox(ex.ToString)
         End Try
 
@@ -147,7 +146,6 @@ Public Class IntroApuntesPeriodicos
             End If
             drMdb1.Close()
         Catch ex As Exception
-            MsgBox("Error al llenar el Combo Descripción")
             MsgBox(ex.ToString)
         End Try
 
@@ -166,7 +164,6 @@ Public Class IntroApuntesPeriodicos
             End If
             drMdb1.Close()
         Catch ex As Exception
-            MsgBox("Error al llenar el Combo Cuenta")
             MsgBox(ex.ToString)
         End Try
         TxtImporte.Text = 0
@@ -273,7 +270,7 @@ Public Class IntroApuntesPeriodicos
                             cmdMdb1cr.ExecuteNonQuery()
                             vbOK = "SI"
                         Catch ex As Exception
-                            MsgBox("Error al Grabar el Apunte Periódico Nº " & (i + 1).ToString)
+                            MsgBox(rmse.GetString("ErrorGrabarApuntePeriodico") & ": " & (i + 1).ToString)
                             MsgBox(ex.ToString)
                         End Try
                     Next
@@ -300,15 +297,15 @@ Public Class IntroApuntesPeriodicos
                     LlenarGrid(vtipoSql, vtipoGrid, "1")
                     Me.Close()
                 Else
-                    MsgBox("NO hay Cantidad en Importe ...", vbExclamation)
+                    MsgBox(frmIntroApuntes.rmse.GetString("NoCantidadImporte"), vbExclamation)
                     TxtImporte.Select()
                 End If
             Else
-                MsgBox("NO hay Número de Pagos/Cobros ...", vbExclamation)
+                MsgBox(rmse.GetString("MoHayPagosCobros"), vbExclamation)
                 TxtNumeroPagos.Select()
             End If
         Else
-            MsgBox("La Descripción NO puede estar vacia.", vbExclamation)
+            MsgBox(rmse.GetString("NoDescripcionVacia"), vbExclamation)
             CmbDescripcion.Select()
         End If
     End Sub

@@ -159,4 +159,7 @@
   <data name="RegistroApuntePeriódicoBorrado" xml:space="preserve">
     <value>Regelmäßiges Eintragsprotokoll, gelöscht!!!</value>
   </data>
+  <data name="SeguroEliminarRegistro" xml:space="preserve">
+    <value>Bist du sicher, dass du den ausgewählten periodischen Eintrag löschst?</value>
+  </data>
 </root>

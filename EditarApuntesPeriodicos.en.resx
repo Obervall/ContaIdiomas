@@ -159,4 +159,7 @@
   <data name="RegistroApuntePeriódicoBorrado" xml:space="preserve">
     <value>Regular Entry Log, Deleted!!!</value>
   </data>
+  <data name="SeguroEliminarRegistro" xml:space="preserve">
+    <value>Are you sure to Delete the selected Periodic Entry?</value>
+  </data>
 </root>

@@ -162,4 +162,7 @@
   <data name="EliminarCuenta4" xml:space="preserve">
     <value>Fehler Löschung der Bankkontoregistrierung</value>
   </data>
+  <data name="EliminarCuenta5" xml:space="preserve">
+    <value>Bankkonten können nicht gelöscht werden</value>
+  </data>
 </root>

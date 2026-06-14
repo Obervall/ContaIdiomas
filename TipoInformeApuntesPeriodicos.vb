@@ -108,7 +108,7 @@ Public Class TipoInformeApuntesPeriodicos
                 cmdMdb1cr.ExecuteNonQuery()
                 'MsgBox("Registros Tempapu, Borrados !!!")
             Catch ex As Exception
-                MsgBox("Error al iniciar la tabla Tempapu")
+                'MsgBox("Error al iniciar la tabla Tempapu")
                 MsgBox(ex.ToString)
             End Try
             'Llenamos la tabla Temporal con los Conceptos Agrupados
@@ -127,7 +127,7 @@ Public Class TipoInformeApuntesPeriodicos
                         cmdMdb1cr.ExecuteNonQuery()
                         'MsgBox("Registro1, Grabado Correctamente")
                     Catch ex As Exception
-                        MsgBox("Error al añadir el Concepto a la tabla Tempapu")
+                        'MsgBox("Error al añadir el Concepto a la tabla Tempapu")
                         MsgBox(ex.ToString)
                     End Try
                 Else
@@ -144,7 +144,7 @@ Public Class TipoInformeApuntesPeriodicos
                         End If
                         drMdb1.Close()
                     Catch ex As Exception
-                        MsgBox("Error al verificar si el Concepto ya existe en la tabla Tempapu")
+                        'MsgBox("Error al verificar si el Concepto ya existe en la tabla Tempapu")
                         MsgBox(ex.ToString)
                     End Try
                     vNewImporteConcepto = vImporteConcepto + vExistenteImporteConcepto
@@ -155,7 +155,7 @@ Public Class TipoInformeApuntesPeriodicos
                         cmdMdb1cr.ExecuteNonQuery()
                         'MsgBox("Registro2, Grabado Correctamente")
                     Catch ex As Exception
-                        MsgBox("Error al actualizar el Importe del Concepto en la tabla Tempapu")
+                        'MsgBox("Error al actualizar el Importe del Concepto en la tabla Tempapu")
                         MsgBox(ex.ToString)
                     End Try
                 End If
@@ -202,7 +202,7 @@ Public Class TipoInformeApuntesPeriodicos
                 cmdMdb1cr.ExecuteNonQuery()
                 'MsgBox("Registros Tempapu, Borrados !!!")
             Catch ex As Exception
-                MsgBox("Error al iniciar la tabla Tempapu")
+                'MsgBox("Error al iniciar la tabla Tempapu")
                 MsgBox(ex.ToString)
             End Try
             'Llenamos la tabla Temporal con los Conceptos Agrupados
@@ -222,7 +222,7 @@ Public Class TipoInformeApuntesPeriodicos
                         cmdMdb1cr.ExecuteNonQuery()
                         'MsgBox("Registro1, Grabado Correctamente")
                     Catch ex As Exception
-                        MsgBox("Error al añadir el Concepto a la tabla Tempapu")
+                        'MsgBox("Error al añadir el Concepto a la tabla Tempapu")
                         MsgBox(ex.ToString)
                     End Try
                 Else
@@ -239,7 +239,7 @@ Public Class TipoInformeApuntesPeriodicos
                         End If
                         drMdb1.Close()
                     Catch ex As Exception
-                        MsgBox("Error al verificar si el Concepto ya existe en la tabla Tempapu")
+                        'MsgBox("Error al verificar si el Concepto ya existe en la tabla Tempapu")
                         MsgBox(ex.ToString)
                     End Try
                     vNewImporteConcepto = vImporteConcepto + vExistenteImporteConcepto
@@ -250,7 +250,7 @@ Public Class TipoInformeApuntesPeriodicos
                         cmdMdb1cr.ExecuteNonQuery()
                         'MsgBox("Registro2, Grabado Correctamente")
                     Catch ex As Exception
-                        MsgBox("Error al actualizar el Importe del Concepto en la tabla Tempapu")
+                        'MsgBox("Error al actualizar el Importe del Concepto en la tabla Tempapu")
                         MsgBox(ex.ToString)
                     End Try
                 End If
@@ -297,7 +297,7 @@ Public Class TipoInformeApuntesPeriodicos
                 cmdMdb1cr.ExecuteNonQuery()
                 'MsgBox("Registros Tempapu, Borrados !!!")
             Catch ex As Exception
-                MsgBox("Error al iniciar la tabla Tempapu")
+                'MsgBox("Error al iniciar la tabla Tempapu")
                 MsgBox(ex.ToString)
             End Try
             'Llenamos la tabla Temporal con los Conceptos Agrupados
@@ -317,7 +317,7 @@ Public Class TipoInformeApuntesPeriodicos
                         cmdMdb1cr.ExecuteNonQuery()
                         'MsgBox("Registro1, Grabado Correctamente")
                     Catch ex As Exception
-                        MsgBox("Error al añadir el Concepto a la tabla Tempapu")
+                        'MsgBox("Error al añadir el Concepto a la tabla Tempapu")
                         MsgBox(ex.ToString)
                     End Try
                 Else
@@ -334,7 +334,7 @@ Public Class TipoInformeApuntesPeriodicos
                         End If
                         drMdb1.Close()
                     Catch ex As Exception
-                        MsgBox("Error al verificar si el Concepto ya existe en la tabla Tempapu")
+                        'MsgBox("Error al verificar si el Concepto ya existe en la tabla Tempapu")
                         MsgBox(ex.ToString)
                     End Try
                     vNewImporteConcepto = vImporteConcepto + vExistenteImporteConcepto
@@ -345,7 +345,7 @@ Public Class TipoInformeApuntesPeriodicos
                         cmdMdb1cr.ExecuteNonQuery()
                         'MsgBox("Registro2, Grabado Correctamente")
                     Catch ex As Exception
-                        MsgBox("Error al actualizar el Importe del Concepto en la tabla Tempapu")
+                        'MsgBox("Error al actualizar el Importe del Concepto en la tabla Tempapu")
                         MsgBox(ex.ToString)
                     End Try
                 End If

@@ -631,4 +631,58 @@ Ils ne sont pas supprimés de la base de données</value>
   <data name="AvisoConceptoProtegido" xml:space="preserve">
     <value>Les concepts par défaut du système sont protégés contre les modifications</value>
   </data>
+  <data name="NoConectoPor" xml:space="preserve">
+    <value>Non connecté par</value>
+  </data>
+  <data name="SoloAdmitePunto" xml:space="preserve">
+    <value>Il ne supporte que le fichier . Point comme séparateur décimal</value>
+  </data>
+  <data name="SeparadorDecimal" xml:space="preserve">
+    <value>Séparateur décimal</value>
+  </data>
+  <data name="Informacion" xml:space="preserve">
+    <value>Informations</value>
+  </data>
+  <data name="ActualizarVersion" xml:space="preserve">
+    <value>Voulez-vous passer à la version</value>
+  </data>
+  <data name="GuardarCopiaSeguridad" xml:space="preserve">
+    <value>Voulez-vous sauvegarder une sauvegarde de base de données ?</value>
+  </data>
+  <data name="BackupSatisfactorioBuscarActualizacio" xml:space="preserve">
+    <value>Sauvegarde réalisée avec succès.
+Maintenant, la mise à jour sera téléchargée</value>
+  </data>
+  <data name="Backup" xml:space="preserve">
+    <value>Remplaçant</value>
+  </data>
+  <data name="ErrorBackup" xml:space="preserve">
+    <value>Erreur lors de la sauvegarde de la base de données,
+vérifiez qu’il n’y a pas d’autre copie portant le même nom ou
+le fichier n’est pas ouvert</value>
+  </data>
+  <data name="AhoraDescargaActualizacion" xml:space="preserve">
+    <value>Maintenant, la mise à jour sera téléchargée</value>
+  </data>
+  <data name="ActualizarSoftware" xml:space="preserve">
+    <value>Logiciel de mise à jour</value>
+  </data>
+  <data name="DescargadaActualizacion" xml:space="preserve">
+    <value>La mise à jour a été téléchargée</value>
+  </data>
+  <data name="ProcederaInstalar" xml:space="preserve">
+    <value>Il sera installé. Appuyez sur OK pour continuer</value>
+  </data>
+  <data name="ErrorDescargarActualizacion" xml:space="preserve">
+    <value>Erreur de téléchargement de la mise à jour</value>
+  </data>
+  <data name="ErrorDescargarActualizacion2" xml:space="preserve">
+    <value>Vérifiez que votre connexion internet ou votre fichier n’est pas ouvert</value>
+  </data>
+  <data name="NoConectadoRed" xml:space="preserve">
+    <value>Vous n’êtes pas connecté à un réseau pour vérifier une nouvelle version</value>
+  </data>
+  <data name="Vacio" xml:space="preserve">
+    <value>Sans programmation..</value>
+  </data>
 </root>

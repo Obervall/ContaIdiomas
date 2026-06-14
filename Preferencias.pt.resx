@@ -171,4 +171,22 @@
   <data name="GroupBox3.Text" xml:space="preserve">
     <value>Exportação de Caminhos Excel:</value>
   </data>
+  <data name="ErrorSeleccionUbicacion" xml:space="preserve">
+    <value>Erro na seleção da nova localização do banco de dados,
+A localização atual será mantida</value>
+  </data>
+  <data name="CerrarPrograma" xml:space="preserve">
+    <value>O programa estará fechado a partir da nova localização</value>
+  </data>
+  <data name="DesactivarBusqueda" xml:space="preserve">
+    <value>A verificação manual para atualizações será desativada,
+será buscado automaticamente quando o programa for lançado</value>
+  </data>
+  <data name="ActivarBusqueda" xml:space="preserve">
+    <value>A verificação manual para atualizações será ativada,
+será pesquisado clicando no botão 'Verificar Atualização'</value>
+  </data>
+  <data name="NoHayNuevaVersion" xml:space="preserve">
+    <value>Não há novas versões disponíveis. Versão atual</value>
+  </data>
 </root>

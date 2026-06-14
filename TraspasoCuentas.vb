@@ -77,7 +77,7 @@ Public Class TraspasoCuentas
             End If
             drMdb1.Close()
         Catch ex As Exception
-            MsgBox("Error al cargar el Combo Cuenta: " & ex.ToString)
+            MsgBox(ex.ToString)
         End Try
         TxtImporte.Text = 0
     End Sub

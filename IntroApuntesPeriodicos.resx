@@ -926,4 +926,13 @@
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="ErrorGrabarApuntePeriodico" xml:space="preserve">
+    <value>Error al Grabar el Apunte Periódico</value>
+  </data>
+  <data name="MoHayPagosCobros" xml:space="preserve">
+    <value>NO hay Número de Pagos/Cobros</value>
+  </data>
+  <data name="NoDescripcionVacia" xml:space="preserve">
+    <value>La Descripción NO puede estar vacia</value>
+  </data>
 </root>

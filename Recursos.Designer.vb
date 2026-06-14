@@ -82,11 +82,38 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Actualizar Software.
+    '''</summary>
+    Friend Shared ReadOnly Property ActualizarSoftware() As String
+        Get
+            Return ResourceManager.GetString("ActualizarSoftware", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a ¿Quieres actualizar a la Versión.
+    '''</summary>
+    Friend Shared ReadOnly Property ActualizarVersion() As String
+        Get
+            Return ResourceManager.GetString("ActualizarVersion", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a AGUA.
     '''</summary>
     Friend Shared ReadOnly Property AGUA() As String
         Get
             Return ResourceManager.GetString("AGUA", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Ahora, se descargará la actualización.
+    '''</summary>
+    Friend Shared ReadOnly Property AhoraDescargaActualizacion() As String
+        Get
+            Return ResourceManager.GetString("AhoraDescargaActualizacion", resourceCulture)
         End Get
     End Property
     
@@ -114,6 +141,25 @@ Friend Class Recursos
     Friend Shared ReadOnly Property AvisoConceptoProtegido() As String
         Get
             Return ResourceManager.GetString("AvisoConceptoProtegido", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Copia de Seguridad.
+    '''</summary>
+    Friend Shared ReadOnly Property Backup() As String
+        Get
+            Return ResourceManager.GetString("Backup", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Copia de Seguridad realizado satisfactoriamente.
+    '''Ahora, se descargará la actualización.
+    '''</summary>
+    Friend Shared ReadOnly Property BackupSatisfactorioBuscarActualizacio() As String
+        Get
+            Return ResourceManager.GetString("BackupSatisfactorioBuscarActualizacio", resourceCulture)
         End Get
     End Property
     
@@ -568,6 +614,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Se ha descargado la actualización.
+    '''</summary>
+    Friend Shared ReadOnly Property DescargadaActualizacion() As String
+        Get
+            Return ResourceManager.GetString("DescargadaActualizacion", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Descripción.
     '''</summary>
     Friend Shared ReadOnly Property Descripcion() As String
@@ -627,6 +682,35 @@ Friend Class Recursos
     Friend Shared ReadOnly Property ErrorAlEjecutar() As String
         Get
             Return ResourceManager.GetString("ErrorAlEjecutar", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Error al realizar la Copia de Seguridad de la Base de Datos,
+    '''revise que no exista otra Copia con el mismo nombre o
+    '''que el archivo no esté abierto.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorBackup() As String
+        Get
+            Return ResourceManager.GetString("ErrorBackup", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Error al descargar la actualización.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorDescargarActualizacion() As String
+        Get
+            Return ResourceManager.GetString("ErrorDescargarActualizacion", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a revise su conexión a Internet o que el archivo no esté abierto.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorDescargarActualizacion2() As String
+        Get
+            Return ResourceManager.GetString("ErrorDescargarActualizacion2", resourceCulture)
         End Get
     End Property
     
@@ -820,6 +904,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a ¿Quieres guardar una Copia de Seguridad de la Base de Datos?.
+    '''</summary>
+    Friend Shared ReadOnly Property GuardarCopiaSeguridad() As String
+        Get
+            Return ResourceManager.GetString("GuardarCopiaSeguridad", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a HACIENDA.
     '''</summary>
     Friend Shared ReadOnly Property HACIENDA() As String
@@ -888,6 +981,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property IMPUESTO_5() As String
         Get
             Return ResourceManager.GetString("IMPUESTO_5", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Información.
+    '''</summary>
+    Friend Shared ReadOnly Property Informacion() As String
+        Get
+            Return ResourceManager.GetString("Informacion", resourceCulture)
         End Get
     End Property
     
@@ -996,6 +1098,24 @@ Friend Class Recursos
     Friend Shared ReadOnly Property MsgFila2() As String
         Get
             Return ResourceManager.GetString("MsgFila2", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a No estas conectado a una red para comprobar nueva Versión.
+    '''</summary>
+    Friend Shared ReadOnly Property NoConectadoRed() As String
+        Get
+            Return ResourceManager.GetString("NoConectadoRed", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a No se conectó por.
+    '''</summary>
+    Friend Shared ReadOnly Property NoConectoPor() As String
+        Get
+            Return ResourceManager.GetString("NoConectoPor", resourceCulture)
         End Get
     End Property
     
@@ -1153,6 +1273,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a se procederá a instalarla. Pulsa Aceptar para continuar.
+    '''</summary>
+    Friend Shared ReadOnly Property ProcederaInstalar() As String
+        Get
+            Return ResourceManager.GetString("ProcederaInstalar", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Realidad.
     '''</summary>
     Friend Shared ReadOnly Property Realidad() As String
@@ -1252,11 +1381,29 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Separador Decimal.
+    '''</summary>
+    Friend Shared ReadOnly Property SeparadorDecimal() As String
+        Get
+            Return ResourceManager.GetString("SeparadorDecimal", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a (Sin Filtrar).
     '''</summary>
     Friend Shared ReadOnly Property SinFiltrar() As String
         Get
             Return ResourceManager.GetString("SinFiltrar", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Solo admite el . Punto como separador decimal.
+    '''</summary>
+    Friend Shared ReadOnly Property SoloAdmitePunto() As String
+        Get
+            Return ResourceManager.GetString("SoloAdmitePunto", resourceCulture)
         End Get
     End Property
     
@@ -1573,6 +1720,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property TRASPASO() As String
         Get
             Return ResourceManager.GetString("TRASPASO", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Sin Programar...
+    '''</summary>
+    Friend Shared ReadOnly Property Vacio() As String
+        Get
+            Return ResourceManager.GetString("Vacio", resourceCulture)
         End Get
     End Property
     

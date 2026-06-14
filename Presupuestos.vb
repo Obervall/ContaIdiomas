@@ -626,7 +626,7 @@ Public Class Presupuestos
                     If conexion1.State <> ConnectionState.Open Then conexion1.Open()
                     cmdMdb1cr.ExecuteNonQuery()
                 Catch ex As Exception
-                    MsgBox("ErrorGrabarTemporal" & ": " & ex.Message)
+                    MsgBox(ex.Message)
                 End Try
             End Using
         Next
