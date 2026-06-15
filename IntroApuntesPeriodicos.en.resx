@@ -178,7 +178,7 @@
     <value>Accept</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Introduction of Periodic Notes</value>
+    <value>Introduction of Periodic Transactions</value>
   </data>
   <data name="ErrorGrabarApuntePeriodico" xml:space="preserve">
     <value>Error Saving the Periodic Entry</value>

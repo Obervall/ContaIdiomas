@@ -166,7 +166,7 @@
     <value>Efectiu</value>
   </data>
   <data name="Fondo_de_Inversión" xml:space="preserve">
-    <value>Fons d' Inversió</value>
+    <value>Fons d'Inversió</value>
   </data>
   <data name="Plan_de_Pensiones" xml:space="preserve">
     <value>Pla de Pensions</value>
@@ -190,7 +190,7 @@
     <value>Targeta de Crèdit VISA</value>
   </data>
   <data name="Desc_Fondo_de_Inversión" xml:space="preserve">
-    <value>Fons d' Inversió Banc</value>
+    <value>Fons d'Inversió Banc</value>
   </data>
   <data name="SeleccionarTipo" xml:space="preserve">
     <value>Per favor, seleccioni un tipus de compte de la llista.</value>

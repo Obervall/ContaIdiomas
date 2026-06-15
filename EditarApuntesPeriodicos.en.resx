@@ -154,7 +154,7 @@
     <value>Accept</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Edit Periodic Notes</value>
+    <value>Edit Periodic Transactions</value>
   </data>
   <data name="RegistroApuntePeriódicoBorrado" xml:space="preserve">
     <value>Regular Entry Log, Deleted!!!</value>

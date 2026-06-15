@@ -142,7 +142,7 @@
     <value>Annuler</value>
   </data>
   <data name="BtnAceptarSalir.Text" xml:space="preserve">
-    <value>Accepter et quitter</value>
+    <value>Accepter et Quitter</value>
   </data>
   <data name="BtnAceptarOtro.Text" xml:space="preserve">
     <value>Accepter et autre</value>

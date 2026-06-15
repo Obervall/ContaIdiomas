@@ -172,13 +172,13 @@
     <value>Displace</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Periodic Notes</value>
+    <value>Periodic Transactions</value>
   </data>
   <data name="LblApuntes.Text" xml:space="preserve">
-    <value>PERIODIC NOTES</value>
+    <value>PERIODIC TRANSACTIONS</value>
   </data>
   <data name="EliminarApuntesPeriodicos" xml:space="preserve">
-    <value>Periodic Notes, Erased !!</value>
+    <value>Periodic Transactions, Erased !!</value>
   </data>
   <data name="EliminarApuntesPeriodicosError" xml:space="preserve">
     <value>Error in Deleting Periodic Entries Related to the Accounting Item</value>

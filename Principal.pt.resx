@@ -145,10 +145,10 @@
     <value>BarraDeMenu</value>
   </data>
   <data name="CambiarEjercicioActivoToolStripMenuItem.Text" xml:space="preserve">
-    <value>Changer Ejercicio Activo</value>
+    <value>Changer AnoFiscal</value>
   </data>
   <data name="CambiarEjercicioActivoToolStripMenuItem.ToolTipText" xml:space="preserve">
-    <value>Changer Ejercicio Activo</value>
+    <value>Changer AnoFiscal</value>
   </data>
   <data name="PreferenciasToolStripMenuItem.Text" xml:space="preserve">
     <value>Preferências</value>
@@ -364,7 +364,7 @@
     <value>BarraDeEstado</value>
   </data>
   <data name="BtnCambiarEjercicioActivo.Text" xml:space="preserve">
-    <value>Changer Ejercicio Activo</value>
+    <value>Changer AnoFiscal</value>
   </data>
   <data name="BtnPreferencias.Text" xml:space="preserve">
     <value>Preferências</value>

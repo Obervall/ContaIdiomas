@@ -183,7 +183,7 @@
   <data name="ToolTipLabelApuntes" xml:space="preserve">
     <value>Com a tecla Delete: exclui as linhas selecionadas
 Com F5: Filtrar por Descrição
-Com F6: atualize as notas da grelha e remova os filtros</value>
+Com F6: atualize as notas da grade de lançamentos e remova os filtros</value>
   </data>
   <data name="ToolTipListBox" xml:space="preserve">
     <value>Com a tecla Esc: Fechar lista</value>

@@ -192,7 +192,7 @@ Amb F6: Refresca la Parrilla Apunts i Quita Filtres</value>
     <value>Obre Llistat de Conceptes per a múltiple selecció</value>
   </data>
   <data name="ToolTipFechas" xml:space="preserve">
-    <value>Activar o Desactivar Accés a Dades anteriors a l' Exercici Actual</value>
+    <value>Activar o Desactivar Accés a Dades anteriors a l'Exercici Actual</value>
   </data>
   <data name="ToolTipExcel" xml:space="preserve">
     <value>Exportar Apunts a Excel</value>
@@ -207,7 +207,7 @@ Amb F6: Refresca la Parrilla Apunts i Quita Filtres</value>
     <value>Filtra per Descripció</value>
   </data>
   <data name="ToolTipTraspasar" xml:space="preserve">
-    <value>Traspassar d' un Compte a un altre</value>
+    <value>Traspassar d'un Compte a un altre</value>
   </data>
   <data name="MsgText3" xml:space="preserve">
     <value>Diversos Conceptes Seleccionats</value>
@@ -216,7 +216,7 @@ Amb F6: Refresca la Parrilla Apunts i Quita Filtres</value>
     <value>DIVERSOS CONCEPTES</value>
   </data>
   <data name="MsgText2" xml:space="preserve">
-    <value>Introducció d' Apunts</value>
+    <value>Introducció d'Apunts</value>
   </data>
   <data name="MsgText1" xml:space="preserve">
     <value>Avís de Filtres</value>

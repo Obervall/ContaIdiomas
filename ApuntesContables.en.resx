@@ -127,7 +127,7 @@
     <value>From:</value>
   </data>
   <data name="LblApuntes.Text" xml:space="preserve">
-    <value>NOTES</value>
+    <value>TRANSACTIONS</value>
   </data>
   <data name="Label7.Text" xml:space="preserve">
     <value>Income:</value>
@@ -151,7 +151,7 @@
     <value>Reg.:</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Accounting Notes</value>
+    <value>Accounting Entries</value>
   </data>
   <data name="Label4.Text" xml:space="preserve">
     <value>Concept:</value>
@@ -175,7 +175,7 @@
     <value>Until:</value>
   </data>
   <data name="EliminarApuntes" xml:space="preserve">
-    <value>Notes, Deletions !!</value>
+    <value>Transactions, Deletions !!</value>
   </data>
   <data name="EliminarApuntesError" xml:space="preserve">
     <value>Error in Deleting Entries Related to the Accounting Concept</value>
@@ -183,7 +183,7 @@
   <data name="ToolTipLabelApuntes" xml:space="preserve">
     <value>With Delete Key: Delete selected rows
 With F5: Filter by Description
-With F6: Refresh the Grill Notes and Remove Filters</value>
+With F6: Refresh the Data Grid and Remove Filters</value>
   </data>
   <data name="ToolTipListBox" xml:space="preserve">
     <value>With Esc key: Close list</value>
@@ -195,7 +195,7 @@ With F6: Refresh the Grill Notes and Remove Filters</value>
     <value>Enable or Disable Access to Data Prior to the Current Fiscal Year</value>
   </data>
   <data name="ToolTipExcel" xml:space="preserve">
-    <value>Export Notes to Excel</value>
+    <value>Export Transactions to Excel</value>
   </data>
   <data name="ToolTipAumentar" xml:space="preserve">
     <value>Increase Font Size</value>
@@ -216,7 +216,7 @@ With F6: Refresh the Grill Notes and Remove Filters</value>
     <value>VARIOUS CONCEPTS</value>
   </data>
   <data name="MsgText2" xml:space="preserve">
-    <value>Introduction of Notes</value>
+    <value>Introduction of Transactions</value>
   </data>
   <data name="MsgText1" xml:space="preserve">
     <value>Filter Notice</value>

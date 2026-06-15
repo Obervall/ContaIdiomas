@@ -151,7 +151,7 @@
     <value>Accept</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Edit Notes</value>
+    <value>Edit Transactions</value>
   </data>
   <data name="LblEliminando" xml:space="preserve">
     <value>DELETE ACCOUNTING ENTRY !!</value>

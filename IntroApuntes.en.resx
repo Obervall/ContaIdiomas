@@ -148,7 +148,7 @@
     <value>Accept and Other</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Introduction of Notes</value>
+    <value>Introduction of Transactions</value>
   </data>
   <data name="ErrorLlenarDesplegable" xml:space="preserve">
     <value>Error filling out the drop-down.
@@ -173,7 +173,7 @@ Error</value>
     <value>Amount of the Entry</value>
   </data>
   <data name="BtnDescripcion" xml:space="preserve">
-    <value>Fill Descriptions, from Saved Notes</value>
+    <value>Fill Descriptions, from Saved Transactions</value>
   </data>
   <data name="TxtABuscar" xml:space="preserve">
     <value>Text to Search</value>
@@ -205,7 +205,7 @@ Error</value>
     <value>We add the description</value>
   </data>
   <data name="BtnAyuda" xml:space="preserve">
-    <value>See the Help for Entering Notes</value>
+    <value>See the Help for Entering Transactions</value>
   </data>
   <data name="SelecCuenta" xml:space="preserve">
     <value>Select the Account to which the Entry refers</value>

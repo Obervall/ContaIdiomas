@@ -160,7 +160,7 @@
     <value>Registre Concepte Comptable, Esborrat !!</value>
   </data>
   <data name="EliminarConcepto4" xml:space="preserve">
-    <value>Error a l' Eliminar el Registre del Concepte Comptable</value>
+    <value>Error a l'Eliminar el Registre del Concepte Comptable</value>
   </data>
   <data name="ToolTipDescripcion" xml:space="preserve">
     <value>Descripció del Concepte</value>

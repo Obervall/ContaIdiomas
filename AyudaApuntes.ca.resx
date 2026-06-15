@@ -130,6 +130,6 @@ Pots retrocedir per modificar l'escrit.
 En el cas que vulguis guardar una nova descripció que no existeix, continua escrivint i com que no trobarà cap coincidència, et preguntarà si vols afegir aquest Text, un cop passa el Text a Descripció 2:, pots completar-lo.</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Guia d' Introducció Ràpida</value>
+    <value>Guia d'Introducció Ràpida</value>
   </data>
 </root>

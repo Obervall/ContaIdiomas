@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CmbTipoConcepto.Items" xml:space="preserve">
-    <value>Ausgaben</value>
+    <value>Ausgabe</value>
   </data>
   <data name="CmbTipoConcepto.Items1" xml:space="preserve">
-    <value>EINKOMMEN</value>
+    <value>EINNAHME</value>
   </data>
   <data name="Label6.Text" xml:space="preserve">
     <value>Bewertung:</value>

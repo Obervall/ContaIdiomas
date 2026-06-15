@@ -142,7 +142,7 @@
     <value>contahogar2@gmail.com</value>
   </data>
   <data name="Label4.Text" xml:space="preserve">
-    <value>Per obtenir el codi d' activació escriure a:</value>
+    <value>Per obtenir el codi d'activació escriure a:</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Activar Programa</value>
@@ -163,6 +163,6 @@
     <value>Error Activació</value>
   </data>
   <data name="ErrorObtenerID" xml:space="preserve">
-    <value>Error en obtenir l' ID de la màquina</value>
+    <value>Error en obtenir l'ID de la màquina</value>
   </data>
 </root>

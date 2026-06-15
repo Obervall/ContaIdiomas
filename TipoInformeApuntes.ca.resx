@@ -130,7 +130,7 @@
     <value>Detallant Tots els moviments</value>
   </data>
   <data name="GroupBox1.Text" xml:space="preserve">
-    <value>Seleccionar el Tipus d' Informe</value>
+    <value>Seleccionar el Tipus d'Informe</value>
   </data>
   <data name="BtnAceptar.Text" xml:space="preserve">
     <value>Acceptar</value>
@@ -139,7 +139,7 @@
     <value>Cancel·lar</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Tipus d' Informe Apunts Comptables</value>
+    <value>Tipus d'Informe Apunts Comptables</value>
   </data>
   <data name="ListadoCompleto" xml:space="preserve">
     <value>Llistat Complet.</value>

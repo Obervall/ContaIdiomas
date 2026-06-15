@@ -148,7 +148,7 @@
     <value>Acceptar i Un altre</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Introducció d' Apunts</value>
+    <value>Introducció d'Apunts</value>
   </data>
   <data name="SelecConcepto" xml:space="preserve">
     <value>Seleccionar el Concepte</value>
@@ -170,7 +170,7 @@ Error</value>
     <value>Seleccionar la Descripció o Escriure per Buscar (3)</value>
   </data>
   <data name="ImporteAsiento" xml:space="preserve">
-    <value>Import de l' Apunt</value>
+    <value>Import de l'Apunt</value>
   </data>
   <data name="BtnDescripcion" xml:space="preserve">
     <value>Plena Descripcions, d'Apunts guardats</value>
@@ -182,14 +182,14 @@ Error</value>
     <value>Error en Buscar Lletres en Descripció</value>
   </data>
   <data name="EjercicioActual" xml:space="preserve">
-    <value>L' any de l' Exercici no coincideix amb l' any Actual,
-s' estableix la data del 31 de desembre de l' any de l' exercici</value>
+    <value>L'any de l'Exercici no coincideix amb l'any Actual,
+s'estableix la data del 31 de desembre de l'any de l'exercici</value>
   </data>
   <data name="Fecha31Diciembre" xml:space="preserve">
     <value>Data establerta el 31 de desembre</value>
   </data>
   <data name="ErrorGrabarRegistro" xml:space="preserve">
-    <value>Error en Gravar el Registre, Verificar que la Data és Correcta i l' Import no tingui lletres...
+    <value>Error en Gravar el Registre, Verificar que la Data és Correcta i l'Import no tingui lletres...
 Error</value>
   </data>
   <data name="NoCantidadImporte" xml:space="preserve">
@@ -208,6 +208,6 @@ Error</value>
     <value>Veure l'Ajuda per Introduir Apunt</value>
   </data>
   <data name="SelecCuenta" xml:space="preserve">
-    <value>Seleccionar el Compte a què es refereix l' Apunt</value>
+    <value>Seleccionar el Compte a què es refereix l'Apunt</value>
   </data>
 </root>

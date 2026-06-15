@@ -160,19 +160,19 @@
     <value>Traspàs entre Comptes</value>
   </data>
   <data name="SeleccionarCuentaOrigen" xml:space="preserve">
-    <value>Seleccionar el Compte d' Origen</value>
+    <value>Seleccionar el Compte d'Origen</value>
   </data>
   <data name="SeleccionarCuentaDestino" xml:space="preserve">
     <value>Seleccionar el Compte de Destinació</value>
   </data>
   <data name="ImporteApunte" xml:space="preserve">
-    <value>Import de l' Apunt</value>
+    <value>Import de l'Apunt</value>
   </data>
   <data name="IntroDescripcion" xml:space="preserve">
-    <value>Introduir una descripció per a l' Apunt</value>
+    <value>Introduir una descripció per a l'Apunt</value>
   </data>
   <data name="ToolTipSeleccionarConcepto" xml:space="preserve">
-    <value>Seleccionar el Concepte a què es refereix l' Apunt</value>
+    <value>Seleccionar el Concepte a què es refereix l'Apunt</value>
   </data>
   <data name="RegistroOrigenGrabadoCorrectamente" xml:space="preserve">
     <value>Registre Origen, Gravat Correctament</value>
@@ -187,6 +187,6 @@
     <value>La Descripció NO pot estar Buida</value>
   </data>
   <data name="CuentasDiferentes" xml:space="preserve">
-    <value>Els comptes d' Origen i Destinació han de ser Diferents</value>
+    <value>Els comptes d'Origen i Destinació han de ser Diferents</value>
   </data>
 </root>

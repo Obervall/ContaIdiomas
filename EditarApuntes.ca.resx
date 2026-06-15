@@ -163,7 +163,7 @@
     <value>Registre Apunt Comptable, Esborrat!!</value>
   </data>
   <data name="MsgBoxErrorEliminarRegistro" xml:space="preserve">
-    <value>Error a l' Eliminar Registre Apunt Comptable</value>
+    <value>Error a l'Eliminar Registre Apunt Comptable</value>
   </data>
   <data name="MsgBoxNoHayImporte" xml:space="preserve">
     <value>NO hi ha Quantitat en Import</value>
@@ -172,18 +172,18 @@
     <value>EDITANT APUNT COMPTABLE</value>
   </data>
   <data name="MsgBoxErrorInsertar" xml:space="preserve">
-    <value>Error en processar l' apunt</value>
+    <value>Error en processar l'apunt</value>
   </data>
   <data name="ToolTipSeleccionarCuenta" xml:space="preserve">
-    <value>Seleccionar el Compte a què es refereix l' Apunt</value>
+    <value>Seleccionar el Compte a què es refereix l'Apunt</value>
   </data>
   <data name="ToolTipSeleccionarDescripcion" xml:space="preserve">
-    <value>Introduir una descripció per a l' Apunt</value>
+    <value>Introduir una descripció per a l'Apunt</value>
   </data>
   <data name="ToolTipIngresarImporte" xml:space="preserve">
-    <value>Import de l' Apunt</value>
+    <value>Import de l'Apunt</value>
   </data>
   <data name="ToolTipSeleccionarConcepto" xml:space="preserve">
-    <value>Seleccionar el Concepte a què es refereix l' Apunt</value>
+    <value>Seleccionar el Concepte a què es refereix l'Apunt</value>
   </data>
 </root>

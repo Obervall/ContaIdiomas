@@ -564,7 +564,7 @@
     <value>317, 26</value>
   </data>
   <data name="GráficosDeIngresosPorConceptoToolStripMenuItem.Text" xml:space="preserve">
-    <value>Gràfics d' Ingressos per Concepte</value>
+    <value>Gràfics d'Ingressos per Concepte</value>
   </data>
   <data name="GráficosDeGastosPorConceptoToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -758,7 +758,7 @@
     <value>Arxiu d'Ajut</value>
   </data>
   <data name="ArchivoDeAyudaToolStripMenuItem.ToolTipText" xml:space="preserve">
-    <value>Contingut de l'Arxiu d' Ajut</value>
+    <value>Contingut de l'Arxiu d'Ajut</value>
   </data>
   <data name="AcercaDeToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1296,7 +1296,7 @@
 </value>
   </data>
   <data name="BtnAyuda.Text" xml:space="preserve">
-    <value>Contingut de l'Arxiu d' Ajut</value>
+    <value>Contingut de l'Arxiu d'Ajut</value>
   </data>
   <data name="BtnAcercade.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -7833,7 +7833,7 @@
     <value>VACIAR Base de Dades</value>
   </data>
   <data name="MsgNoVaciarBD" xml:space="preserve">
-    <value>No s' Eliminen els CONCEPTES ni els COMPTES COMPTABLES</value>
+    <value>No s'Eliminen els CONCEPTES ni els COMPTES COMPTABLES</value>
   </data>
   <data name="ApuntesContablesVaciado" xml:space="preserve">
     <value>Apunts Comptables, Buidatge!</value>
@@ -7976,7 +7976,7 @@ Es recomana realitzar-la per evitar pèrdues de dades. Aquesta acció no es pot 
     <value>Còpia de Seguretat realitzada satisfactòriament</value>
   </data>
   <data name="MsgImportar1" xml:space="preserve">
-    <value>Aquesta funció s' ha dissenyat per Afegir sense Duplicar les dades,
+    <value>Aquesta funció s'ha dissenyat per Afegir sense Duplicar les dades,
 de l'antiga Base de Dades de ContaHogar a la nova de ContaHogar 3.0
 es recomana realitzar una còpia de seguretat abans de procedir amb la importació,
 ja que aquesta acció no es pot desfer</value>
@@ -7995,11 +7995,11 @@ Es comprova que C:\Contahogar3.0 existeix i si no, es crea</value>
   <data name="YaExisteRuta" xml:space="preserve">
     <value>Ja existeix la Ruta C:\ContaHogar3.0
 Copiar l'arxiu CHDB2.mdb de l'antic Contahogar a la carpeta C:\ContaHogar3.0
-per poder realitzar el procés d' importació</value>
+per poder realitzar el procés d'importació</value>
   </data>
   <data name="RutaCreada" xml:space="preserve">
     <value>Ruta C:\ContaHogar3.0, Creada.
 Copiar l'arxiu CHDB2.mdb de l'antic Contahogar a la carpeta C:\ContaHogar3.0
-per poder realitzar el procés d' importació</value>
+per poder realitzar el procés d'importació</value>
   </data>
 </root>

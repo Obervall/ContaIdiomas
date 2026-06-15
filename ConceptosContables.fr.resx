@@ -136,7 +136,7 @@
     <value>Sortir</value>
   </data>
   <data name="CmbTipoConcepto.Items" xml:space="preserve">
-    <value>DÉPENSÉ</value>
+    <value>DÉPENSE</value>
   </data>
   <data name="CmbTipoConcepto.Items1" xml:space="preserve">
     <value>REVENU</value>

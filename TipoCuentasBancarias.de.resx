@@ -133,10 +133,10 @@
     <value>Ausgehen</value>
   </data>
   <data name="CmbTipoConcepto.Items" xml:space="preserve">
-    <value>Ausgaben</value>
+    <value>Ausgabe</value>
   </data>
   <data name="CmbTipoConcepto.Items1" xml:space="preserve">
-    <value>EINKOMMEN</value>
+    <value>EINNAHME</value>
   </data>
   <data name="CmbTipoConcepto.Items2" xml:space="preserve">
     <value>Spezial</value>

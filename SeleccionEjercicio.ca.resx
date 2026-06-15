@@ -127,10 +127,10 @@
     <value>&amp;Acceptar</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Seleccioni l' Exercici</value>
+    <value>Seleccioni l'Exercici</value>
   </data>
   <data name="MsgIntroEjercicio" xml:space="preserve">
-    <value>Introduir l' any del Nou Exercici</value>
+    <value>Introduir l'any del Nou Exercici</value>
   </data>
   <data name="MsgTituloEjercicio" xml:space="preserve">
     <value>Nou Exercici</value>

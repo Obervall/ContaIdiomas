@@ -139,7 +139,7 @@
     <value>Displace</value>
   </data>
   <data name="CmbTipoConcepto.Items" xml:space="preserve">
-    <value>EXPENDITURE</value>
+    <value>EXPENSE</value>
   </data>
   <data name="CmbTipoConcepto.Items1" xml:space="preserve">
     <value>INCOME</value>

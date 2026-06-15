@@ -289,7 +289,7 @@
     <value>214, 26</value>
   </data>
   <data name="VerApuntesToolStripMenuItem.Text" xml:space="preserve">
-    <value>Voir les remarques</value>
+    <value>Voir les Éscritures</value>
   </data>
   <data name="VerApuntesToolStripMenuItem.ToolTipText" xml:space="preserve">
     <value>Ajouter, modifier, supprimer ou consulter des notes</value>
@@ -357,7 +357,7 @@
     <value>97, 24</value>
   </data>
   <data name="ApuntesToolStripMenuItem.Text" xml:space="preserve">
-    <value>Remarques</value>
+    <value>Éscritures</value>
   </data>
   <data name="IntroducirDaToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

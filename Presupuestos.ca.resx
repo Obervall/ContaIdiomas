@@ -154,7 +154,7 @@
     <value>Pressupostos, Esborrats !!</value>
   </data>
   <data name="EliminarPresupuestosError" xml:space="preserve">
-    <value>Error a l' Eliminar els Pressupostos relacionats amb el Concepte Comptable</value>
+    <value>Error a l'Eliminar els Pressupostos relacionats amb el Concepte Comptable</value>
   </data>
   <data name="Label1.Text" xml:space="preserve">
     <value>Reg.:</value>

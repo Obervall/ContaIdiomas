@@ -154,7 +154,7 @@
     <value>Are you sure to delete the bank account</value>
   </data>
   <data name="EliminarCuenta2" xml:space="preserve">
-    <value>and all his Notes of All the Exercises?.</value>
+    <value>and all his Transactions of All the Exercises?.</value>
   </data>
   <data name="EliminarCuenta3" xml:space="preserve">
     <value>Bank Account Registration, Deleted!!</value>

@@ -239,7 +239,7 @@ Sie werden nicht aus der Datenbank entfernt</value>
     <value>Alle Felder</value>
   </data>
   <data name="ToolTipAceptar" xml:space="preserve">
-    <value>Annehmen und Verlassen</value>
+    <value>Akzeptieren und beenden</value>
   </data>
   <data name="ToolTipCancelar" xml:space="preserve">
     <value>Stornieren</value>
@@ -578,10 +578,10 @@ Sie werden nicht aus der Datenbank entfernt</value>
     <value>DATUM</value>
   </data>
   <data name="Gastos" xml:space="preserve">
-    <value>Ausgaben</value>
+    <value>Ausgabe</value>
   </data>
   <data name="Ingresos" xml:space="preserve">
-    <value>Einkommen</value>
+    <value>Einnahme</value>
   </data>
   <data name="Moneda" xml:space="preserve">
     <value>Währung</value>
