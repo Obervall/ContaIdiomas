@@ -119,9 +119,19 @@ Public Class TipoInformeApuntesPeriodicos
                     vNombreConcepto = fila.Cells(1).Value.ToString
                     vImporteConcepto = 0
                     vImporteConcepto = fila.Cells(3).Value
-                    vAñadir = "INSERT INTO tempapu"
-                    vAñadir += "(ConceptoAPU, SumaImporteAPU) "
-                    vAñadir += "VALUES ('" & vNombreConcepto & "','" & vImporteConcepto & "')"
+                    ' 1. Diseñamos la estructura parametrizada limpia para la tabla temporal
+                    vAñadir = "INSERT INTO tempapu (ConceptoAPU, SumaImporteAPU) VALUES (?, ?)"
+                    cmdMdb1cr.CommandText = vAñadir
+
+                    ' 2. Inyectamos los parámetros en el orden exacto de los comodines '?'
+                    cmdMdb1cr.Parameters.Clear()
+
+                    ' El concepto se limpia de apóstrofes automáticamente de forma nativa
+                    cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vNombreConcepto)
+
+                    ' Importe blindado en formato Moneda nativo de Access usando tu función global
+                    Dim paramImpTemp As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@SumaImporteAPU", OleDb.OleDbType.Currency)
+                    paramImpTemp.Value = Math.Round(ConvertirDecimalSeguro(vImporteConcepto), 2)
                     cmdMdb1cr.CommandText = vAñadir
                     Try
                         cmdMdb1cr.ExecuteNonQuery()
@@ -148,8 +158,19 @@ Public Class TipoInformeApuntesPeriodicos
                         MsgBox(ex.ToString)
                     End Try
                     vNewImporteConcepto = vImporteConcepto + vExistenteImporteConcepto
-                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
-                    vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+                    ' 1. Diseñamos la estructura parametrizada limpia para la actualización temporal
+                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = ? WHERE tempapu.ConceptoAPU = ?"
+                    cmdMdb1cr.CommandText = vAñadir2
+
+                    ' 2. Inyectamos los parámetros en el orden EXACTO de los comodines '?'
+                    cmdMdb1cr.Parameters.Clear()
+
+                    ' Primero: El importe blindado como tipo Moneda de Access usando tu función global
+                    Dim paramSumaTemp As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@SumaImporteAPU", OleDb.OleDbType.Currency)
+                    paramSumaTemp.Value = Math.Round(ConvertirDecimalSeguro(vNewImporteConcepto), 2)
+
+                    ' Segundo: El concepto (el filtro WHERE), libre de fallos por apóstrofes
+                    cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vNombreConcepto)
                     cmdMdb1cr.CommandText = vAñadir2
                     Try
                         cmdMdb1cr.ExecuteNonQuery()
@@ -214,9 +235,19 @@ Public Class TipoInformeApuntesPeriodicos
                     vNombreConcepto = fila.Cells(6).Value.ToString
                     vImporteConcepto = 0
                     vImporteConcepto = fila.Cells(3).Value
-                    vAñadir = "INSERT INTO tempapu"
-                    vAñadir += "(ConceptoAPU, SumaImporteAPU) "
-                    vAñadir += "VALUES ('" & vNombreConcepto & "','" & vImporteConcepto & "')"
+                    ' 1. Diseñamos la estructura parametrizada limpia para la tabla temporal
+                    vAñadir = "INSERT INTO tempapu (ConceptoAPU, SumaImporteAPU) VALUES (?, ?)"
+                    cmdMdb1cr.CommandText = vAñadir
+
+                    ' 2. Inyectamos los parámetros en el orden exacto de los comodines '?'
+                    cmdMdb1cr.Parameters.Clear()
+
+                    ' El concepto se limpia de apóstrofes automáticamente de forma nativa
+                    cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vNombreConcepto)
+
+                    ' Importe blindado en formato Moneda nativo de Access usando tu función global
+                    Dim paramImpTemp As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@SumaImporteAPU", OleDb.OleDbType.Currency)
+                    paramImpTemp.Value = Math.Round(ConvertirDecimalSeguro(vImporteConcepto), 2)
                     cmdMdb1cr.CommandText = vAñadir
                     Try
                         cmdMdb1cr.ExecuteNonQuery()
@@ -243,8 +274,19 @@ Public Class TipoInformeApuntesPeriodicos
                         MsgBox(ex.ToString)
                     End Try
                     vNewImporteConcepto = vImporteConcepto + vExistenteImporteConcepto
-                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
-                    vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+                    ' 1. Diseñamos la estructura parametrizada limpia para la actualización temporal
+                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = ? WHERE tempapu.ConceptoAPU = ?"
+                    cmdMdb1cr.CommandText = vAñadir2
+
+                    ' 2. Inyectamos los parámetros en el orden EXACTO de los comodines '?'
+                    cmdMdb1cr.Parameters.Clear()
+
+                    ' Primero: El importe blindado como tipo Moneda de Access usando tu función global
+                    Dim paramSumaTemp As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@SumaImporteAPU", OleDb.OleDbType.Currency)
+                    paramSumaTemp.Value = Math.Round(ConvertirDecimalSeguro(vNewImporteConcepto), 2)
+
+                    ' Segundo: El concepto (el filtro WHERE), libre de fallos por apóstrofes
+                    cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vNombreConcepto)
                     cmdMdb1cr.CommandText = vAñadir2
                     Try
                         cmdMdb1cr.ExecuteNonQuery()
@@ -309,9 +351,19 @@ Public Class TipoInformeApuntesPeriodicos
                     vNombreConcepto = fila.Cells(0).Value.ToString
                     vImporteConcepto = 0
                     vImporteConcepto = fila.Cells(3).Value
-                    vAñadir = "INSERT INTO tempapu"
-                    vAñadir += "(ConceptoAPU, SumaImporteAPU) "
-                    vAñadir += "VALUES ('" & vNombreConcepto & "','" & vImporteConcepto & "')"
+                    ' 1. Diseñamos la estructura parametrizada limpia para la tabla temporal
+                    vAñadir = "INSERT INTO tempapu (ConceptoAPU, SumaImporteAPU) VALUES (?, ?)"
+                    cmdMdb1cr.CommandText = vAñadir
+
+                    ' 2. Inyectamos los parámetros en el orden exacto de los comodines '?'
+                    cmdMdb1cr.Parameters.Clear()
+
+                    ' El concepto se limpia de apóstrofes automáticamente de forma nativa
+                    cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vNombreConcepto)
+
+                    ' Importe blindado en formato Moneda nativo de Access usando tu función global
+                    Dim paramImpTemp As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@SumaImporteAPU", OleDb.OleDbType.Currency)
+                    paramImpTemp.Value = Math.Round(ConvertirDecimalSeguro(vImporteConcepto), 2)
                     cmdMdb1cr.CommandText = vAñadir
                     Try
                         cmdMdb1cr.ExecuteNonQuery()
@@ -338,8 +390,19 @@ Public Class TipoInformeApuntesPeriodicos
                         MsgBox(ex.ToString)
                     End Try
                     vNewImporteConcepto = vImporteConcepto + vExistenteImporteConcepto
-                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
-                    vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+                    ' 1. Diseñamos la estructura parametrizada limpia para la actualización temporal
+                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = ? WHERE tempapu.ConceptoAPU = ?"
+                    cmdMdb1cr.CommandText = vAñadir2
+
+                    ' 2. Inyectamos los parámetros en el orden EXACTO de los comodines '?'
+                    cmdMdb1cr.Parameters.Clear()
+
+                    ' Primero: El importe blindado como tipo Moneda de Access usando tu función global
+                    Dim paramSumaTemp As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@SumaImporteAPU", OleDb.OleDbType.Currency)
+                    paramSumaTemp.Value = Math.Round(ConvertirDecimalSeguro(vNewImporteConcepto), 2)
+
+                    ' Segundo: El concepto (el filtro WHERE), que se desinfecta de apóstrofes solo
+                    cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vNombreConcepto)
                     cmdMdb1cr.CommandText = vAñadir2
                     Try
                         cmdMdb1cr.ExecuteNonQuery()

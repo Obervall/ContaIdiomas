@@ -142,7 +142,7 @@ Public Class EditarApuntesPeriodicos
         If respuesta = vbYes Then
             ' Eliminar Registro Apunte
             vtipoSql = "DELETE FROM apuper"
-            vtipoSql += " WHERE apuper.CodigoAPP = " & vCodigoAPU.ToString
+            vtipoSql += " WHERE apuper.CodigoAPP = " & CInt(vCodigoAPU)
             cmdMdb1cr.CommandText = vtipoSql
 
             Try
@@ -164,7 +164,7 @@ Public Class EditarApuntesPeriodicos
         '******************************************
         vConcepto = CmbConcepto.Text.ToString
         drMdb1.Close()
-        cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto & "' "
+        cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto.Replace("'", "''") & "' "
         drMdb1 = cmdMdb1cr.ExecuteReader()
         drMdb1.Read()
         TxtTipoConcepto.Text = drMdb1.GetValue(2)

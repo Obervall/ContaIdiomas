@@ -1,4 +1,5 @@
-﻿Imports System.Diagnostics
+﻿Imports System.Data
+Imports System.Diagnostics
 Imports System.Windows.Forms
 
 Public Class TraspasoCuentas
@@ -87,7 +88,7 @@ Public Class TraspasoCuentas
         '******************************************
         vConcepto = CmbConcepto.Text.ToString
         drMdb1.Close()
-        cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto & "' "
+        cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto.Replace("'", "''") & "' "
         drMdb1 = cmdMdb1cr.ExecuteReader()
         drMdb1.Read()
         TxtTipoConcepto.Text = drMdb1.GetValue(2)
@@ -135,9 +136,29 @@ Public Class TraspasoCuentas
                     vImporteAPU = "-" & vImporteAPU.ToString
                     vNotasAPU = TxtNota.Text
                     vCuentaOrigenAPU = CmbCuentaOrigen.Text.ToString
-                    vAñadirOrigenSql = "INSERT INTO apuntes "
-                    vAñadirOrigenSql += "(FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) "
-                    vAñadirOrigenSql += "VALUES (#" & CDate(DtpOrigen.Value).ToString("yyyy/MM/dd") & "#,'" & vConcepto & "','" & vDescripcionAPU & "','" & vImporteAPU & "','" & vAñoEjercicio & "','" & vNotasAPU & "','" & vCuentaOrigenAPU & "')"
+                    ' 1. Diseñamos la estructura limpia usando comodines '?'
+                    vAñadirOrigenSql = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) " &
+                                       "VALUES (?, ?, ?, ?, ?, ?, ?)"
+                    cmdMdb1cr.CommandText = vAñadirOrigenSql
+
+                    ' 2. Inyectamos los parámetros en el orden EXACTO de aparición del SQL
+                    cmdMdb1cr.Parameters.Clear()
+
+                    ' Fecha pura en binario (¡Adiós almohadillas # y formatos de texto!)
+                    cmdMdb1cr.Parameters.AddWithValue("@FechaAPU", DtpOrigen.Value.Date)
+
+                    ' Cadenas de texto libres (Los parámetros limpian los apóstrofes solos automáticamente)
+                    cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vConcepto)
+                    cmdMdb1cr.Parameters.AddWithValue("@DescripcionAPU", vDescripcionAPU)
+
+                    ' Importe blindado en formato Moneda para que Access no sature su precisión decimal
+                    Dim paramImpOrigen As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteAPU", OleDb.OleDbType.Currency)
+                    paramImpOrigen.Value = Math.Round(ConvertirDecimalSeguro(vImporteAPU), 2)
+
+                    ' Resto de campos del apunte
+                    cmdMdb1cr.Parameters.AddWithValue("@EjercicioAPU", CInt(vAñoEjercicio))
+                    cmdMdb1cr.Parameters.AddWithValue("@NotasAPU", vNotasAPU)
+                    cmdMdb1cr.Parameters.AddWithValue("@CuentaAPU", vCuentaOrigenAPU)
                     cmdMdb1cr.CommandText = vAñadirOrigenSql
                     Try
                         cmdMdb1cr.ExecuteNonQuery()
@@ -149,9 +170,29 @@ Public Class TraspasoCuentas
                     vConcepto = CmbConcepto.Text '  & " DESTINO"
                     vImporteAPU = TxtImporte.Text
                     vCuentaDestinoAPU = CmbCuentaDestino.Text.ToString
-                    vAñadirDestinoSql = "INSERT INTO apuntes "
-                    vAñadirDestinoSql += "(FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) "
-                    vAñadirDestinoSql += "VALUES (#" & CDate(DtpDestino.Value).ToString("yyyy/MM/dd") & "#,'" & vConcepto & "','" & vDescripcionAPU & "','" & vImporteAPU & "','" & vAñoEjercicio & "','" & vNotasAPU & "','" & vCuentaDestinoAPU & "')"
+                    ' 1. Diseñamos la estructura limpia de destino usando comodines '?'
+                    vAñadirDestinoSql = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) " &
+                                        "VALUES (?, ?, ?, ?, ?, ?, ?)"
+                    cmdMdb1cr.CommandText = vAñadirDestinoSql
+
+                    ' 2. Inyectamos los parámetros en el orden EXACTO de aparición del SQL
+                    cmdMdb1cr.Parameters.Clear()
+
+                    ' Fecha de destino pura en binario (Inmune al cambio de idioma de Windows)
+                    cmdMdb1cr.Parameters.AddWithValue("@FechaAPU", DtpDestino.Value.Date)
+
+                    ' Cadenas de texto protegidas automáticamente por .NET
+                    cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vConcepto)
+                    cmdMdb1cr.Parameters.AddWithValue("@DescripcionAPU", vDescripcionAPU)
+
+                    ' Importe de destino formateado como Moneda nativa de Access
+                    Dim paramImpDestino As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteAPU", OleDb.OleDbType.Currency)
+                    paramImpDestino.Value = Math.Round(ConvertirDecimalSeguro(vImporteAPU), 2)
+
+                    ' Resto de campos del contraasiento
+                    cmdMdb1cr.Parameters.AddWithValue("@EjercicioAPU", CInt(vAñoEjercicio))
+                    cmdMdb1cr.Parameters.AddWithValue("@NotasAPU", vNotasAPU)
+                    cmdMdb1cr.Parameters.AddWithValue("@CuentaAPU", vCuentaDestinoAPU)
                     cmdMdb1cr.CommandText = vAñadirDestinoSql
                     Try
                         cmdMdb1cr.ExecuteNonQuery()

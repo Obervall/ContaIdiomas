@@ -134,9 +134,9 @@ Public Class ApuntesPeriodicos
         BtnSinFiltroCuenta.Enabled = True
         vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper"
         vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
-        vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text & "' "
+        vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text.Replace("'", "''") & "' "
         If BtnFiltroConcepto.Enabled = False Then
-            vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text & "' "
+            vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text.Replace("'", "''") & "' "
         End If
         If BtnFiltroFecha.Enabled = False Then
             vDate1 = DateTimePicker1.Value.Date
@@ -154,9 +154,9 @@ Public Class ApuntesPeriodicos
         BtnSinFiltroConcepto.Enabled = True
         vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper"
         vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
-        vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text & "' "
+        vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text.Replace("'", "''") & "' "
         If BtnFiltroCuenta.Enabled = False Then
-            vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text & "' "
+            vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text.Replace("'", "''") & "' "
         End If
         If BtnFiltroFecha.Enabled = False Then
             vDate1 = DateTimePicker1.Value.Date
@@ -179,10 +179,10 @@ Public Class ApuntesPeriodicos
         vtipoSql += " And apuper.FechaAPP >= ?"
         vtipoSql += " And apuper.FechaAPP <= ?"
         If BtnFiltroCuenta.Enabled = False Then
-            vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text & "' "
+            vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text.Replace("'", "''") & "' "
         End If
         If BtnFiltroConcepto.Enabled = False Then
-            vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text & "' "
+            vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text.Replace("'", "''") & "' "
         End If
         vtipoSql += " ORDER BY apuper.FechaAPP ASC"
         vtipoGrid = "APUNTES_PERIODICOS"
@@ -196,7 +196,7 @@ Public Class ApuntesPeriodicos
         vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
         vtipoSql += " And apuper.CuentaAPP <> '' "
         If BtnFiltroConcepto.Enabled = False Then
-            vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text & "' "
+            vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text.Replace("'", "''") & "' "
         End If
         If BtnFiltroFecha.Enabled = False Then
             vDate1 = DateTimePicker1.Value.Date
@@ -233,7 +233,7 @@ Public Class ApuntesPeriodicos
         vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
         vtipoSql += " And apuper.ConceptoAPP <> '' "
         If BtnFiltroCuenta.Enabled = False Then
-            vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text & "' "
+            vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text.Replace("'", "''") & "' "
         End If
         If BtnFiltroFecha.Enabled = False Then
             vDate1 = DateTimePicker1.Value.Date
@@ -254,10 +254,10 @@ Public Class ApuntesPeriodicos
         vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper"
         vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
         If BtnFiltroCuenta.Enabled = False Then
-            vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text & "' "
+            vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text.Replace("'", "''") & "' "
         End If
         If BtnFiltroConcepto.Enabled = False Then
-            vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text & "' "
+            vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text.Replace("'", "''") & "' "
         End If
         vtipoSql += " ORDER BY apuper.FechaAPP ASC"
         vtipoGrid = "APUNTES_PERIODICOS"
@@ -268,9 +268,9 @@ Public Class ApuntesPeriodicos
         If BtnFiltroCuenta.Enabled = False Then
             vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper"
             vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
-            vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text & "' "
+            vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text.Replace("'", "''") & "' "
             If BtnFiltroConcepto.Enabled = False Then
-                vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text & "' "
+                vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text.Replace("'", "''") & "' "
             End If
             If BtnFiltroFecha.Enabled = False Then
                 vDate1 = DateTimePicker1.Value.Date
@@ -293,10 +293,10 @@ Public Class ApuntesPeriodicos
             vtipoSql += " And apuper.FechaAPP >= ?"
             vtipoSql += " And apuper.FechaAPP <= ?"
             If BtnFiltroCuenta.Enabled = False Then
-                vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text & "' "
+                vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text.Replace("'", "''") & "' "
             End If
             If BtnFiltroConcepto.Enabled = False Then
-                vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text & "' "
+                vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text.Replace("'", "''") & "' "
             End If
             vtipoSql += " ORDER BY apuper.FechaAPP ASC"
             vtipoGrid = "APUNTES_PERIODICOS"
@@ -313,10 +313,10 @@ Public Class ApuntesPeriodicos
             vtipoSql += " And apuper.FechaAPP >= ?"
             vtipoSql += " And apuper.FechaAPP <= ?"
             If BtnFiltroCuenta.Enabled = False Then
-                vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text & "' "
+                vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text.Replace("'", "''") & "' "
             End If
             If BtnFiltroConcepto.Enabled = False Then
-                vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text & "' "
+                vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text.Replace("'", "''") & "' "
             End If
             vtipoSql += " ORDER BY apuper.FechaAPP ASC"
             vtipoGrid = "APUNTES_PERIODICOS"
@@ -329,7 +329,7 @@ Public Class ApuntesPeriodicos
         '******************************************
         vConcepto = CmbConcepto.Text.ToString
         drMdb1.Close()
-        cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto & "' "
+        cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto.Replace("'", "''") & "' "
         drMdb1 = cmdMdb1cr.ExecuteReader()
         drMdb1.Read()
         TxtConcepto.Text = drMdb1.GetValue(1)
@@ -337,9 +337,9 @@ Public Class ApuntesPeriodicos
         If BtnFiltroConcepto.Enabled = False Then
             vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper"
             vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
-            vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text & "' "
+            vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text.Replace("'", "''") & "' "
             If BtnFiltroCuenta.Enabled = False Then
-                vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text & "' "
+                vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text.Replace("'", "''") & "' "
             End If
             If BtnFiltroFecha.Enabled = False Then
                 vDate1 = DateTimePicker1.Value.Date
@@ -450,10 +450,10 @@ Public Class ApuntesPeriodicos
         vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper"
         vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
         If BtnFiltroCuenta.Enabled = False Then
-            vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text & "' "
+            vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text.Replace("'", "''") & "' "
         End If
         If BtnFiltroConcepto.Enabled = False Then
-            vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text & "' "
+            vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text.Replace("'", "''") & "' "
         End If
         If BtnFiltroFecha.Enabled = False Then
             vDate1 = DateTimePicker1.Value.Date
@@ -923,10 +923,10 @@ Public Class ApuntesPeriodicos
         vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper"
         vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
         If BtnFiltroCuenta.Enabled = False Then
-            vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text & "' "
+            vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text.Replace("'", "''") & "' "
         End If
         If BtnFiltroConcepto.Enabled = False Then
-            vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text & "' "
+            vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text.Replace("'", "''") & "' "
         End If
         If BtnFiltroFecha.Enabled = False Then
             vDate1 = DateTimePicker1.Value.Date

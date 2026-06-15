@@ -99,10 +99,18 @@ Public Class NuevaCuentaBancaria
                 TxtNombre.Select()
             Else
                 drMdb1.Close()
-                vtipoSql = "INSERT INTO cuentas "
-                vtipoSql += "(NombreCUE, NumeroCUE, TipoCUE, NotasCUE) "
-                vtipoSql += "VALUES ('" & vTxtNombre & "','" & vTxtNumero & "','" & vTxtTipo & "','" & vTxtNotas & "')"
+                ' 1. Diseñamos la estructura limpia para cuentas usando comodines '?'
+                vtipoSql = "INSERT INTO cuentas (NombreCUE, NumeroCUE, TipoCUE, NotasCUE) VALUES (?, ?, ?, ?)"
+                cmdMdb1cr.CommandText = vtipoSql
 
+                ' 2. Limpiamos y asignamos los parámetros en el orden exacto del SQL
+                cmdMdb1cr.Parameters.Clear()
+
+                ' Todos estos textos quedan protegidos automáticamente contra apóstrofes nativos
+                cmdMdb1cr.Parameters.AddWithValue("@NombreCUE", vTxtNombre.Trim())
+                cmdMdb1cr.Parameters.AddWithValue("@NumeroCUE", vTxtNumero.Trim())
+                cmdMdb1cr.Parameters.AddWithValue("@TipoCUE", vTxtTipo.Trim())
+                cmdMdb1cr.Parameters.AddWithValue("@NotasCUE", vTxtNotas.Trim())
                 cmdMdb1cr.CommandText = vtipoSql
                 Try
                     cmdMdb1cr.ExecuteNonQuery()

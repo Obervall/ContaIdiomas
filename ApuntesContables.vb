@@ -233,9 +233,9 @@ Public Class ApuntesContables
                             Else
                 vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
             End If
-            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
             If BtnFiltroConcepto.Enabled = False Then
-                vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text & "' "
+                vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text.Replace("'", "''") & "' "
             End If
             If BtnFiltroFecha.Enabled = False Then
                 vDate1 = DateTimePicker1.Value.Date
@@ -373,10 +373,10 @@ Public Class ApuntesContables
             vtipoSql += " And apuntes.FechaAPU >= ?"
             vtipoSql += " And apuntes.FechaAPU <= ?"
             If BtnFiltroCuenta.Enabled = False Then
-                vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
             End If
             If BtnFiltroConcepto.Enabled = False Then
-                vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text & "' "
+                vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text.Replace("'", "''") & "' "
             End If
             vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
 
@@ -410,7 +410,7 @@ Public Class ApuntesContables
             For i = 0 To ListBox1.SelectedItems.Count - 1
                 vConcepto = ListBox1.SelectedItems(i).ToString
                 If i = 0 Then
-                    vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
+                    vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
                     If BtnFiltroFecha.Enabled = False Then
                         vDate1 = DateTimePicker1.Value.Date
                         vDate2 = DateTimePicker2.Value.Date
@@ -424,7 +424,7 @@ Public Class ApuntesContables
                     Else
                         vtipoSql += "apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
                     End If
-                    vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
+                    vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
                     If BtnFiltroFecha.Enabled = False Then
                         vDate1 = DateTimePicker1.Value.Date
                         vDate2 = DateTimePicker2.Value.Date
@@ -452,7 +452,7 @@ Public Class ApuntesContables
             End If
             vtipoSql += " And apuntes.CuentaAPU <> '' "
             If BtnFiltroConcepto.Enabled = False Then
-                vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text & "' "
+                vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text.Replace("'", "''") & "' "
             End If
             If BtnFiltroFecha.Enabled = False Then
                 vDate1 = DateTimePicker1.Value.Date
@@ -511,7 +511,7 @@ Public Class ApuntesContables
                 CmbConcepto.Text = CmbConcepto.Items(1)
                 vConcepto = CmbConcepto.Text.ToString
                 drMdb1.Close()
-                cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto & "' "
+                cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto.Replace("'", "''") & "' "
                 drMdb1 = cmdMdb1cr.ExecuteReader()
                 drMdb1.Read()
                 TxtConcepto.Text = drMdb1.GetValue(1)
@@ -542,7 +542,7 @@ Public Class ApuntesContables
         End If
         vtipoSql += " And apuntes.ConceptoAPU <> '' "
         If BtnFiltroCuenta.Enabled = False Then
-            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
         End If
         If BtnFiltroFecha.Enabled = False Then
             vDate1 = DateTimePicker1.Value.Date
@@ -603,7 +603,7 @@ Public Class ApuntesContables
             For i = 0 To ListBox1.SelectedItems.Count - 1
                 vConcepto = ListBox1.SelectedItems(i).ToString
                 If i = 0 Then
-                    vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
+                    vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
                     If BtnFiltroFecha.Enabled = False Then
                         vDate1 = DateTimePicker1.Value.Date
                         vDate2 = DateTimePicker2.Value.Date
@@ -611,7 +611,7 @@ Public Class ApuntesContables
                         vtipoSql += " And apuntes.FechaAPU <= ?"
                     End If
                     If BtnFiltroCuenta.Enabled = False Then
-                        vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                        vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
                     End If
                 Else
                     vtipoSql += " Or "
@@ -620,7 +620,7 @@ Public Class ApuntesContables
                     Else
                         vtipoSql += "apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
                     End If
-                    vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
+                    vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
                     If BtnFiltroFecha.Enabled = False Then
                         vDate1 = DateTimePicker1.Value.Date
                         vDate2 = DateTimePicker2.Value.Date
@@ -628,7 +628,7 @@ Public Class ApuntesContables
                         vtipoSql += " And apuntes.FechaAPU <= ?"
                     End If
                     If BtnFiltroCuenta.Enabled = False Then
-                        vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                        vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
                     End If
                 End If
             Next
@@ -654,10 +654,10 @@ Public Class ApuntesContables
             vtipoSql += " And apuntes.FechaAPU >= ?"
             vtipoSql += " And apuntes.FechaAPU <= ?"
             If BtnFiltroCuenta.Enabled = False Then
-                vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
             End If
             If BtnFiltroConcepto.Enabled = False Then
-                vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text & "' "
+                vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text.Replace("'", "''") & "' "
             End If
             vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
             vtipoGrid = "APUNTES_CONTABLES"
@@ -679,9 +679,9 @@ Public Class ApuntesContables
                 Else
                     vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
                 End If
-                vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
                 If BtnFiltroConcepto.Enabled = False Then
-                    vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text & "' "
+                    vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text.Replace("'", "''") & "' "
                 End If
                 If BtnFiltroFecha.Enabled = False Then
                     vDate1 = DateTimePicker1.Value.Date
@@ -710,9 +710,9 @@ Public Class ApuntesContables
                 For i = 0 To ListBox1.SelectedItems.Count - 1
                     vConcepto = ListBox1.SelectedItems(i).ToString
                     If i = 0 Then
-                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
+                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
                         If BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
                         End If
                         If BtnFiltroFecha.Enabled = False Then
                             vDate1 = DateTimePicker1.Value.Date
@@ -727,9 +727,9 @@ Public Class ApuntesContables
                         Else
                             vtipoSql += "apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
                         End If
-                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
+                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
                         If BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
                         End If
                         If BtnFiltroFecha.Enabled = False Then
                             vDate1 = DateTimePicker1.Value.Date
@@ -765,10 +765,10 @@ Public Class ApuntesContables
                 vtipoSql += " And apuntes.FechaAPU >= ?"
                 vtipoSql += " And apuntes.FechaAPU <= ?"
                 If BtnFiltroCuenta.Enabled = False Then
-                    vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                    vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
                 End If
                 If BtnFiltroConcepto.Enabled = False Then
-                    vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text & "' "
+                    vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text.Replace("'", "''") & "' "
                 End If
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
@@ -794,9 +794,9 @@ Public Class ApuntesContables
                 For i = 0 To ListBox1.SelectedItems.Count - 1
                     vConcepto = ListBox1.SelectedItems(i).ToString
                     If i = 0 Then
-                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
+                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
                         If BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
                         End If
                         If BtnFiltroFecha.Enabled = False Then
                             vDate1 = DateTimePicker1.Value.Date
@@ -811,9 +811,9 @@ Public Class ApuntesContables
                         Else
                             vtipoSql += "apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
                         End If
-                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
+                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
                         If BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
                         End If
                         If BtnFiltroFecha.Enabled = False Then
                             vDate1 = DateTimePicker1.Value.Date
@@ -849,10 +849,10 @@ Public Class ApuntesContables
                 vtipoSql += " And apuntes.FechaAPU >= ?"
                 vtipoSql += " And apuntes.FechaAPU <= ?"
                 If BtnFiltroCuenta.Enabled = False Then
-                    vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                    vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
                 End If
                 If BtnFiltroConcepto.Enabled = False Then
-                    vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text & "' "
+                    vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text.Replace("'", "''") & "' "
                 End If
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
@@ -876,9 +876,9 @@ Public Class ApuntesContables
                 For i = 0 To ListBox1.SelectedItems.Count - 1
                     vConcepto = ListBox1.SelectedItems(i).ToString
                     If i = 0 Then
-                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
+                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
                         If BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
                         End If
                         If BtnFiltroFecha.Enabled = False Then
                             vDate1 = DateTimePicker1.Value.Date
@@ -893,9 +893,9 @@ Public Class ApuntesContables
                         Else
                             vtipoSql += "apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
                         End If
-                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
+                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
                         If BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
                         End If
                         If BtnFiltroFecha.Enabled = False Then
                             vDate1 = DateTimePicker1.Value.Date
@@ -994,9 +994,9 @@ Public Class ApuntesContables
                 For i = 0 To frmApuntesContables.ListBox1.SelectedItems.Count - 1
                     vConcepto = frmApuntesContables.ListBox1.SelectedItems(i).ToString
                     If i = 0 Then
-                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
+                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
                         If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
                         End If
                         If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
                             vDate1 = frmApuntesContables.DateTimePicker1.Value
@@ -1011,9 +1011,9 @@ Public Class ApuntesContables
                         Else
                             vtipoSql += "apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
                         End If
-                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
+                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
                         If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
                         End If
                         If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
                             vDate1 = frmApuntesContables.DateTimePicker1.Value
@@ -1194,9 +1194,9 @@ Public Class ApuntesContables
                 For i = 0 To ListBox1.SelectedItems.Count - 1
                     vConcepto = ListBox1.SelectedItems(i).ToString
                     If i = 0 Then
-                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
+                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
                         If BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
                         End If
                         If BtnFiltroFecha.Enabled = False Then
                             vDate1 = DateTimePicker1.Value.Date
@@ -1211,9 +1211,9 @@ Public Class ApuntesContables
                         Else
                             vtipoSql += "apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
                         End If
-                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
+                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
                         If BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
                         End If
                         If BtnFiltroFecha.Enabled = False Then
                             vDate1 = DateTimePicker1.Value.Date
@@ -1231,10 +1231,10 @@ Public Class ApuntesContables
                     vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
                 End If
                 If BtnFiltroCuenta.Enabled = False Then
-                    vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                    vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
                 End If
                 If BtnFiltroConcepto.Enabled = False Then
-                    vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text & "' "
+                    vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text.Replace("'", "''") & "' "
                 End If
                 If BtnFiltroFecha.Enabled = False Then
                     vDate1 = DateTimePicker1.Value.Date
@@ -1290,9 +1290,9 @@ Public Class ApuntesContables
                 For i = 0 To ListBox1.SelectedItems.Count - 1
                     vConcepto = ListBox1.SelectedItems(i).ToString
                     If i = 0 Then
-                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
+                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
                         If BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
                         End If
                         If BtnFiltroFecha.Enabled = False Then
                             vDate1 = DateTimePicker1.Value.Date
@@ -1307,9 +1307,9 @@ Public Class ApuntesContables
                         Else
                             vtipoSql += "apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
                         End If
-                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
+                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
                         If BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
                         End If
                         If BtnFiltroFecha.Enabled = False Then
                             vDate1 = DateTimePicker1.Value.Date
@@ -1327,10 +1327,10 @@ Public Class ApuntesContables
                     vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
                 End If
                 If BtnFiltroCuenta.Enabled = False Then
-                    vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                    vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
                 End If
                 If BtnFiltroConcepto.Enabled = False Then
-                    vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text & "' "
+                    vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text.Replace("'", "''") & "' "
                 End If
                 If BtnFiltroFecha.Enabled = False Then
                     vDate1 = DateTimePicker1.Value.Date
@@ -1433,8 +1433,7 @@ Public Class ApuntesContables
                         For j As Integer = 0 To DgvApuntes.Columns.Count - 1
                             If j = 0 Then
                                 Dim fechaCelda As DateTime = Convert.ToDateTime(DgvApuntes.Rows(i).Cells(j).Value)
-                                dr1(j) = fechaCelda.ToString("yyyy/MM/dd")
-                                'dr1(j) = Format(DgvApuntes.Rows(i).Cells(j).Value, "yyyy/MM/dd")
+                                dr1(j) = fechaCelda.ToString("yyyy'/'MM'/'dd")
                             ElseIf j = 1 Or j = 2 Or j = 6 Then
                                 dr1(j) = Trim(Convert.ToString(DgvApuntes.Rows(i).Cells(j).Value))
                             ElseIf j = 3 Then
@@ -1464,7 +1463,7 @@ Public Class ApuntesContables
                     For j As Integer = 0 To DgvApuntes.Columns.Count - 1
                         If j = 0 Then
                             Dim fechaCelda As DateTime = Convert.ToDateTime(DgvApuntes.Rows(i).Cells(j).Value)
-                            dr1(j) = fechaCelda.ToString("yyyy/MM/dd")
+                            dr1(j) = fechaCelda.ToString("yyyy'/'MM'/'dd")
                         ElseIf j = 1 Or j = 2 Or j = 6 Then
                             dr1(j) = Trim(Convert.ToString(DgvApuntes.Rows(i).Cells(j).Value))
                         ElseIf j = 3 Or j = 4 Then
@@ -1519,7 +1518,7 @@ Public Class ApuntesContables
             ' 3. APLICACIÓN DEL FORMATO CONTABLE CON NEGATIVOS EN ROJO DIRECTAMENTE EN EXCEL
             ' Seleccionamos los rangos desde la fila 2 hasta la última fila escrita para las columnas D (3) y E (4)
             ' El formato "#,##0.00 €;[Red]-#,##0.00 €" define: Positivos estándar; Negativos en ROJO con signo menos.
-            Dim formatoMonedaRojo As String = "#,##0.00 €;[Red]-#,##0.00 €"
+            Dim formatoMonedaRojo As String = "#,##0.00 €;[Red]-#,##0.00 " & vMoneda
             wSheet.Range("D2", "D" & (rowIndex + 1)).NumberFormat = formatoMonedaRojo
             wSheet.Range("E2", "E" & (rowIndex + 1)).NumberFormat = formatoMonedaRojo
 
@@ -1834,10 +1833,10 @@ Public Class ApuntesContables
                 vtipoSql += " And apuntes.DescripcionAPU LIKE '%" & vTxtDescripcion & "%' "
                 If frmFiltroF5.ChkOtrosFiltros.Checked = True And frmFiltroF5.ChkOtrosFiltros.Enabled = True Then
                     If BtnFiltroCuenta.Enabled = False Then
-                        vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                        vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
                     End If
                     If BtnFiltroConcepto.Enabled = False Then
-                        vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text & "' "
+                        vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text.Replace("'", "''") & "' "
                     End If
                     If BtnFiltroFecha.Enabled = False Then
                         vtipoSql += " And apuntes.FechaAPU >= #" & vDate1 & "# "
@@ -1908,10 +1907,10 @@ Public Class ApuntesContables
                     vtipoSql += " And apuntes.DescripcionAPU LIKE '%" & vTxtDescripcion & "%' "
                     If frmFiltroF5.ChkOtrosFiltros.Checked = True And frmFiltroF5.ChkOtrosFiltros.Enabled = True Then
                         If BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
                         End If
                         If BtnFiltroConcepto.Enabled = False Then
-                            vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text & "' "
+                            vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text.Replace("'", "''") & "' "
                         End If
                         If BtnFiltroFecha.Enabled = False Then
                             vtipoSql += " And apuntes.FechaAPU >= #" & vDate1 & "# "
@@ -2131,7 +2130,7 @@ Public Class ApuntesContables
         If ListBox1.SelectedItems.Count = 0 Then
             vConcepto = CmbConcepto.Text.ToString
             drMdb1.Close()
-            cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto & "' "
+            cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto.Replace("'", "''") & "' "
             drMdb1 = cmdMdb1cr.ExecuteReader()
             drMdb1.Read()
             TxtConcepto.Text = drMdb1.GetValue(1)
@@ -2143,9 +2142,9 @@ Public Class ApuntesContables
                 Else
                     vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
                 End If
-                vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text & "' "
+                vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text.Replace("'", "''") & "' "
                 If BtnFiltroCuenta.Enabled = False Then
-                    vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                    vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
                 End If
                 If BtnFiltroFecha.Enabled = False Then
                     vDate1 = DateTimePicker1.Value.Date

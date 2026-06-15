@@ -451,8 +451,13 @@ Public Class TipoCuentaBancaria
             cmdMdb1cr.Parameters.Clear()
 
             ' Asignamos la nueva sentencia de borrado usando el nombre original (vTxtNombre)
-            Dim vtipoSql As String = "DELETE FROM tipocuentas WHERE CodigoTIP = '" & vTxtNombre & "'"
+            ' 1. Defines la consulta con el "?" y la asignas una sola vez
+            Dim vtipoSql As String = "DELETE FROM tipocuentas WHERE CodigoTIP = ?"
             cmdMdb1cr.CommandText = vtipoSql
+
+            ' 2. Limpias parámetros y pasas el texto de forma segura
+            cmdMdb1cr.Parameters.Clear()
+            cmdMdb1cr.Parameters.AddWithValue("?", vTxtNombre)
 
             Try
                 ' Ejecutamos el borrado físico

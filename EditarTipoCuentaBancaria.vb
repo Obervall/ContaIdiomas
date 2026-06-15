@@ -50,9 +50,18 @@ Public Class EditarTipoCuentaBancaria
 
         ' Modificar Registro
         '*******************
-        vtipoSql = "UPDATE tipocuentas Set DescripcionTIP = '" & vTxtDescripcion & "' "
-        vtipoSql += " WHERE tipocuentas.CodigoTIP = '" & vTxtNombre & "' "
+        ' 1. Limpias la consulta cambiando las comillas y concatenaciones por "?"
+        vtipoSql = "UPDATE tipocuentas SET DescripcionTIP = ? WHERE tipocuentas.CodigoTIP = ?"
         cmdMdb1cr.CommandText = vtipoSql
+
+        ' 2. Limpias los parámetros anteriores para que no se acumulen
+        cmdMdb1cr.Parameters.Clear()
+
+        ' 3. Añades los nuevos valores en el orden exacto de los "?"
+        cmdMdb1cr.Parameters.AddWithValue("?", vTxtDescripcion)
+        cmdMdb1cr.Parameters.AddWithValue("?", vTxtNombre)
+
+        ' 4. Tu comando ya está listo para hacer el ExecuteNonQuery como siempre
         Try
             cmdMdb1cr.ExecuteNonQuery()
             'MsgBox("Registro, Grabado Correctamente")

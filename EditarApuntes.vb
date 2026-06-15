@@ -233,7 +233,7 @@ Public Class EditarApuntes
         '******************************************
         vConcepto = CmbConcepto.Text.ToString
         drMdb1.Close()
-        cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto & "' "
+        cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto.Replace("'", "''") & "' "
         drMdb1 = cmdMdb1cr.ExecuteReader()
         drMdb1.Read()
         TxtTipoConcepto.Text = drMdb1.GetValue(2)

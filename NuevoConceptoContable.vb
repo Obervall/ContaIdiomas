@@ -136,10 +136,18 @@ Public Class NuevoConceptoContable
                     TxtNombre.Select()
                 Else
                     drMdb1.Close()
-                    vtipoSql = "INSERT INTO conceptos "
-                    vtipoSql += "(CodigoCON, DescripcionCON, TipoCON, NotasCON) "
-                    vtipoSql += "VALUES ('" & vTxtNombre & "','" & vTxtDescripcion & "','" & vTxtTipo & "','" & vTxtNotas & "')"
+                    ' 1. Diseñamos la estructura limpia para conceptos usando comodines '?'
+                    vtipoSql = "INSERT INTO conceptos (CodigoCON, DescripcionCON, TipoCON, NotasCON) VALUES (?, ?, ?, ?)"
+                    cmdMdb1cr.CommandText = vtipoSql
 
+                    ' 2. Limpiamos y asignamos los parámetros en el orden exacto del SQL
+                    cmdMdb1cr.Parameters.Clear()
+
+                    ' Los parámetros limpian cualquier apóstrofe de forma automática y nativa
+                    cmdMdb1cr.Parameters.AddWithValue("@CodigoCON", vTxtNombre.Trim())
+                    cmdMdb1cr.Parameters.AddWithValue("@DescripcionCON", vTxtDescripcion.Trim())
+                    cmdMdb1cr.Parameters.AddWithValue("@TipoCON", vTxtTipo.Trim())
+                    cmdMdb1cr.Parameters.AddWithValue("@NotasCON", vTxtNotas.Trim())
                     cmdMdb1cr.CommandText = vtipoSql
                     Try
                         cmdMdb1cr.ExecuteNonQuery()

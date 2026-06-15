@@ -122,9 +122,13 @@ Public Class SeleccionEjercicio
                 Else
                     MsgBox(rmse.GetString("MsgNoExiste") & vAñoNuevo)
                     drMdb1.Close()
-                    tipoSql = "INSERT INTO ejercicios "
-                    tipoSql += "(EjercicioEJE) "
-                    tipoSql += "VALUES ('" & vAñoNuevo & "')"
+                    ' 1. Diseñamos la estructura limpia para ejercicios usando el comodín '?'
+                    tipoSql = "INSERT INTO ejercicios (EjercicioEJE) VALUES (?)"
+                    cmdMdb1cr.CommandText = tipoSql
+
+                    ' 2. Limpiamos parámetros e inyectamos el año nuevo como un número entero puro
+                    cmdMdb1cr.Parameters.Clear()
+                    cmdMdb1cr.Parameters.AddWithValue("@EjercicioEJE", CInt(vAñoNuevo))
                     cmdMdb1cr.CommandText = tipoSql
                     Try
                         cmdMdb1cr.ExecuteNonQuery()

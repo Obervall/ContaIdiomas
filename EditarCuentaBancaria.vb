@@ -86,8 +86,18 @@ Public Class EditarCuentaBancaria
 
         ' Modificar Registro
         '*******************
-        vtipoSql = "UPDATE cuentas SET NumeroCUE = '" & vTxtNumero & "' , TipoCUE = '" & vTxtTipo & "' , NotasCUE = '" & vTxtNotas & "' "
-        vtipoSql += " WHERE cuentas.NombreCUE = '" & vTxtNombre & "' "
+        ' 1. Limpias la consulta cambiando todas las comillas por "?"
+        vtipoSql = "UPDATE cuentas SET NumeroCUE = ?, TipoCUE = ?, NotasCUE = ? WHERE cuentas.NombreCUE = ?"
+        cmdMdb1cr.CommandText = vtipoSql
+
+        ' 2. Limpias los parámetros para evitar acumulaciones
+        cmdMdb1cr.Parameters.Clear()
+
+        ' 3. Añades los 4 valores en el orden exacto de aparición
+        cmdMdb1cr.Parameters.AddWithValue("?", vTxtNumero)
+        cmdMdb1cr.Parameters.AddWithValue("?", vTxtTipo)
+        cmdMdb1cr.Parameters.AddWithValue("?", vTxtNotas)
+        cmdMdb1cr.Parameters.AddWithValue("?", vTxtNombre) ' El WHERE va al final
         cmdMdb1cr.CommandText = vtipoSql
 
         Try
@@ -106,8 +116,13 @@ Public Class EditarCuentaBancaria
             ' Nota: Tus consultas DELETE son seguras porque filtran por "NombreCUE",
             ' la cual es una cadena de texto propia del usuario y libre de traducciones.
             ' Eliminar Registro Cuentas
-            vtipoSql = "DELETE FROM cuentas WHERE cuentas.NombreCUE = '" & vTxtNombre & "' "
+            ' 1. Defines la consulta con el "?" y la asignas una sola vez
+            vtipoSql = "DELETE FROM cuentas WHERE cuentas.NombreCUE = ?"
             cmdMdb1cr.CommandText = vtipoSql
+
+            ' 2. Limpias parámetros y pasas el texto de forma segura
+            cmdMdb1cr.Parameters.Clear()
+            cmdMdb1cr.Parameters.AddWithValue("?", vTxtNombre)
             Try
                 cmdMdb1cr.ExecuteNonQuery()
                 MsgBox(rmse.GetString("EliminarCuenta3"))
@@ -116,8 +131,13 @@ Public Class EditarCuentaBancaria
                 Exit Sub ' Si no se pudo eliminar la cuenta, no intentamos eliminar los apuntes relacionados
             End Try
             ' Eliminar Registros Apuntes
-            vtipoSql = "DELETE FROM apuntes WHERE apuntes.CuentaAPU = '" & vTxtNombre & "' "
+            ' 1. Defines la consulta con el "?" y la asignas una sola vez
+            vtipoSql = "DELETE FROM apuntes WHERE apuntes.CuentaAPU = ?"
             cmdMdb1cr.CommandText = vtipoSql
+
+            ' 2. Limpias parámetros y pasas el texto de forma segura
+            cmdMdb1cr.Parameters.Clear()
+            cmdMdb1cr.Parameters.AddWithValue("?", vTxtNombre)
             Try
                 cmdMdb1cr.ExecuteNonQuery()
                 MsgBox(frmApuntesContables.rmse.GetString("EliminarApuntes"))
@@ -126,8 +146,13 @@ Public Class EditarCuentaBancaria
             End Try
 
             ' Eliminar Registros Apuntes Periódicos
-            vtipoSql = "DELETE FROM apuper WHERE apuper.CuentaAPP = '" & vTxtNombre & "' "
+            ' 1. Defines la consulta con el "?" y la asignas una sola vez
+            vtipoSql = "DELETE FROM apuper WHERE apuper.CuentaAPP = ?"
             cmdMdb1cr.CommandText = vtipoSql
+
+            ' 2. Limpias parámetros y pasas el texto de forma segura
+            cmdMdb1cr.Parameters.Clear()
+            cmdMdb1cr.Parameters.AddWithValue("?", vTxtNombre)
             Try
                 cmdMdb1cr.ExecuteNonQuery()
                 MsgBox(frmApuntesPeriodicos.rmse.GetString("EliminarApuntesPeriodicos"))

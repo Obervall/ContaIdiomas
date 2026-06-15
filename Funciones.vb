@@ -1383,9 +1383,19 @@ Module Funciones
                     vNombreConcepto = fila.Cells(1).Value.ToString
                     vImporteConcepto = ""
                     vImporteConcepto = fila.Cells(3).Value
-                    vAñadir = "INSERT INTO tempapu"
-                    vAñadir += "(ConceptoAPU, SumaImporteAPU) "
-                    vAñadir += "VALUES ('" & vNombreConcepto & "','" & vImporteConcepto & "')"
+                    ' 1. Diseñamos la estructura parametrizada limpia para la tabla temporal
+                    vAñadir = "INSERT INTO tempapu (ConceptoAPU, SumaImporteAPU) VALUES (?, ?)"
+                    cmdMdb1cr.CommandText = vAñadir
+
+                    ' 2. Inyectamos los parámetros en el orden exacto de los comodines '?'
+                    cmdMdb1cr.Parameters.Clear()
+
+                    ' El concepto se limpia de apóstrofes automáticamente de forma nativa
+                    cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vNombreConcepto)
+
+                    ' Importe blindado en formato Moneda nativo de Access usando tu función global
+                    Dim paramImpTemp As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@SumaImporteAPU", OleDb.OleDbType.Currency)
+                    paramImpTemp.Value = Math.Round(ConvertirDecimalSeguro(vImporteConcepto), 2)
                     cmdMdb1cr.CommandText = vAñadir
                     Try
                         cmdMdb1cr.ExecuteNonQuery()
@@ -1481,9 +1491,19 @@ Module Funciones
                         vNombreConcepto = fila.Cells(6).Value.ToString
                         vImporteConcepto = ""
                         vImporteConcepto = fila.Cells(3).Value
-                        vAñadir = "INSERT INTO tempapu"
-                        vAñadir += "(ConceptoAPU, SumaImporteAPU) "
-                        vAñadir += "VALUES ('" & vNombreConcepto & "','" & vImporteConcepto & "')"
+                        ' 1. Diseñamos la estructura parametrizada limpia para la tabla temporal
+                        vAñadir = "INSERT INTO tempapu (ConceptoAPU, SumaImporteAPU) VALUES (?, ?)"
+                        cmdMdb1cr.CommandText = vAñadir
+
+                        ' 2. Inyectamos los parámetros en el orden exacto de los comodines '?'
+                        cmdMdb1cr.Parameters.Clear()
+
+                        ' El concepto se limpia de apóstrofes automáticamente de forma nativa
+                        cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vNombreConcepto)
+
+                        ' Importe blindado en formato Moneda nativo de Access usando tu función global
+                        Dim paramImpTemp As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@SumaImporteAPU", OleDb.OleDbType.Currency)
+                        paramImpTemp.Value = Math.Round(ConvertirDecimalSeguro(vImporteConcepto), 2)
                         cmdMdb1cr.CommandText = vAñadir
                         Try
                             cmdMdb1cr.ExecuteNonQuery()
@@ -1491,9 +1511,13 @@ Module Funciones
                             MsgBox(resManager.GetString("ErrorGrabarTemporal"))
                             MsgBox(ex.ToString)
                         End Try
-                        vAñadir = "INSERT INTO tempapu"
-                        vAñadir += "(ConceptoAPU, SumaImporteAPU) "
-                        vAñadir += "VALUES ('" & vNombreConcepto & "',' 0 ')"
+                        ' 1. Diseñamos la estructura parametrizada limpia para la fila espejo
+                        vAñadir = "INSERT INTO tempapu (ConceptoAPU, SumaImporteAPU) VALUES (?, 0)"
+                        cmdMdb1cr.CommandText = vAñadir
+
+                        ' 2. Inyectamos los parámetros en el orden exacto (solo el concepto, el 0 va fijo en el SQL)
+                        cmdMdb1cr.Parameters.Clear()
+                        cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vNombreConcepto)
                         cmdMdb1cr.CommandText = vAñadir
                         Try
                             cmdMdb1cr.ExecuteNonQuery()
@@ -1548,13 +1572,26 @@ Module Funciones
                                 vNewImporteConcepto = importe1 + importe2
 
                                 If importe1 > 0 Then
-                                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
-                                    vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                                    vAñadir2 += "And tempapu.SumaImporteAPU > 0 "
+                                    ' 1. Estructura parametrizada para Ingresos (> 0)
+                                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = ? WHERE tempapu.ConceptoAPU = ? And tempapu.SumaImporteAPU > 0"
+                                    cmdMdb1cr.CommandText = vAñadir2
+
+                                    ' 2. Inyectamos los parámetros en el orden exacto de los '?'
+                                    cmdMdb1cr.Parameters.Clear()
+                                    Dim paramSuma1 As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@SumaImporteAPU", OleDb.OleDbType.Currency)
+                                    paramSuma1.Value = Math.Round(ConvertirDecimalSeguro(vNewImporteConcepto), 2)
+                                    cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vNombreConcepto)
+
                                 ElseIf importe1 < 0 Then
-                                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = '" & vNewImporteConcepto & "' "
-                                    vAñadir2 += " WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
-                                    vAñadir2 += "And tempapu.SumaImporteAPU < 0 "
+                                    ' 3. Estructura parametrizada para Gastos (< 0)
+                                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = ? WHERE tempapu.ConceptoAPU = ? And tempapu.SumaImporteAPU < 0"
+                                    cmdMdb1cr.CommandText = vAñadir2
+
+                                    ' 4. Inyectamos los parámetros en el orden exacto de los '?'
+                                    cmdMdb1cr.Parameters.Clear()
+                                    Dim paramSuma2 As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@SumaImporteAPU", OleDb.OleDbType.Currency)
+                                    paramSuma2.Value = Math.Round(ConvertirDecimalSeguro(vNewImporteConcepto), 2)
+                                    cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vNombreConcepto)
                                 End If
                                 cmdMdb1cr.CommandText = vAñadir2
                                 Try
@@ -1645,8 +1682,21 @@ Module Funciones
                         vImporteConcepto = importeFila
 
                         ' Primer INSERT
+                        ' 1. Diseñamos la estructura parametrizada limpia para la tabla de impresión
                         vAñadir = "INSERT INTO tmpprint (FechaTMP, ConceptoTMP, DescripcionTMP, CuentaTMP, NotasTMP, ImporteTMP, SaldoTMP) " &
-                              "VALUES (" & fechaFormatoAccess & ", '', '', '', '', '" & vImporteConcepto & "', '0')"
+                              "VALUES (?, '', '', '', '', ?, 0)"
+                        cmdMdb1cr.CommandText = vAñadir
+
+                        ' 2. Inyectamos los parámetros en el orden exacto de los comodines '?'
+                        cmdMdb1cr.Parameters.Clear()
+
+                        ' Fecha pura en binario (Inmune a cualquier idioma de Windows)
+                        ' NOTA: Pásale aquí tu variable de tipo Date real (ej: miView(x)("Fecha") o vDate) en vez de fechaFormatoAccess
+                        cmdMdb1cr.Parameters.AddWithValue("@FechaTMP", vDate1)
+
+                        ' Importe blindado en formato Moneda nativo de Access usando tu función global
+                        Dim paramImpPrint As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteTMP", OleDb.OleDbType.Currency)
+                        paramImpPrint.Value = Math.Round(ConvertirDecimalSeguro(vImporteConcepto), 2)
                         cmdMdb1cr.CommandText = vAñadir
                         Try
                             cmdMdb1cr.ExecuteNonQuery()
@@ -1655,8 +1705,16 @@ Module Funciones
                         End Try
 
                         ' Segundo INSERT
+                        ' 1. Diseñamos la estructura parametrizada limpia para la inicialización
                         vAñadir = "INSERT INTO tmpprint (FechaTMP, ConceptoTMP, DescripcionTMP, CuentaTMP, NotasTMP, ImporteTMP, SaldoTMP) " &
-                              "VALUES (" & fechaFormatoAccess & ", '', '', '', '', '0', '0')"
+                              "VALUES (?, '', '', '', '', 0, 0)"
+                        cmdMdb1cr.CommandText = vAñadir
+
+                        ' 2. Inyectamos únicamente el parámetro de la fecha (los ceros van fijos en el SQL)
+                        cmdMdb1cr.Parameters.Clear()
+
+                        ' Pasamos el objeto Date puro (asegúrate de que vDate1 sea tu variable Date de esa fila)
+                        cmdMdb1cr.Parameters.AddWithValue("@FechaTMP", vDate1)
                         cmdMdb1cr.CommandText = vAñadir
                         Try
                             cmdMdb1cr.ExecuteNonQuery()
@@ -1695,12 +1753,27 @@ Module Funciones
                                 Dim vNewImporteConcepto As Decimal = vImporteConcepto + importeExistente
 
                                 ' Preparamos el UPDATE
-                                vAñadir2 = "UPDATE tmpprint SET ImporteTMP = '" & vNewImporteConcepto & "' WHERE FechaTMP = " & fechaFormatoAccess
+                                ' 1. Construimos la consulta base usando comodines '?'
+                                vAñadir2 = "UPDATE tmpprint SET ImporteTMP = ? WHERE FechaTMP = ?"
+
+                                ' 2. Añadimos la condición dinámica al texto SQL sin mezclar variables
                                 If vImporteConcepto > 0 Then
                                     vAñadir2 += " AND ImporteTMP > 0"
                                 Else
                                     vAñadir2 += " AND ImporteTMP < 0"
                                 End If
+                                cmdMdb1cr.CommandText = vAñadir2
+
+                                ' 3. Inyectamos los parámetros en el orden SECUENCIAL EXACTO de los '?'
+                                cmdMdb1cr.Parameters.Clear()
+
+                                ' Primer '?': El importe de la actualización (SET) blindado como Currency
+                                Dim paramImpPrint As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteTMP", OleDb.OleDbType.Currency)
+                                paramImpPrint.Value = Math.Round(ConvertirDecimalSeguro(vNewImporteConcepto), 2)
+
+                                ' Segundo '?': La fecha del filtro (WHERE). 
+                                ' NOTA: Pásale aquí tu variable de tipo Date real (ej: vDate1 o DateTimePicker) en lugar de fechaFormatoAccess
+                                cmdMdb1cr.Parameters.AddWithValue("@FechaTMP", vDate1)
                                 cmdMdb1cr.CommandText = vAñadir2
                                 Try
                                     cmdMdb1cr.ExecuteNonQuery()
@@ -1725,7 +1798,20 @@ Module Funciones
                                 If existeCero Then
                                     Dim vNewImporteConcepto As Decimal = vImporteConcepto + importeCeroExistente
 
-                                    vAñadir2 = "UPDATE tmpprint SET ImporteTMP = '" & vNewImporteConcepto & "' WHERE FechaTMP = " & fechaFormatoAccess & " AND ImporteTMP = 0"
+                                    ' 1. Diseñamos la estructura parametrizada limpia para la actualización
+                                    vAñadir2 = "UPDATE tmpprint SET ImporteTMP = ? WHERE FechaTMP = ? AND ImporteTMP = 0"
+                                    cmdMdb1cr.CommandText = vAñadir2
+
+                                    ' 2. Inyectamos los parámetros en el orden SECUENCIAL EXACTO de los comodines '?'
+                                    cmdMdb1cr.Parameters.Clear()
+
+                                    ' Primer '?': El importe de la actualización (SET) blindado como Currency
+                                    Dim paramImpPrint As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteTMP", OleDb.OleDbType.Currency)
+                                    paramImpPrint.Value = Math.Round(ConvertirDecimalSeguro(vNewImporteConcepto), 2)
+
+                                    ' Segundo '?': La fecha del filtro (WHERE) como objeto Date puro
+                                    ' (Recuerda apuntar a tu variable Date real de ese bucle, por ejemplo, vDate1)
+                                    cmdMdb1cr.Parameters.AddWithValue("@FechaTMP", vDate1)
                                     cmdMdb1cr.CommandText = vAñadir2
                                     Try
                                         cmdMdb1cr.ExecuteNonQuery()
@@ -1889,8 +1975,6 @@ Module Funciones
             Next
         End If
     End Sub
-
-
 
     Public Sub LimpiarTempApu()
         Dim vBorrar As String = "DELETE FROM tempapu"

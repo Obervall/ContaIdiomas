@@ -1,4 +1,5 @@
-﻿Imports System.Diagnostics
+﻿Imports System.Data
+Imports System.Diagnostics
 Imports System.Windows.Forms
 Imports ToolTip = System.Windows.Forms.ToolTip
 
@@ -165,7 +166,7 @@ Public Class IntroApuntesPeriodicos
         '******************************************
         vConcepto = CmbConcepto.Text.ToString
         drMdb1.Close()
-        cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto & "' "
+        cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto.Replace("'", "''") & "' "
         drMdb1 = cmdMdb1cr.ExecuteReader()
         drMdb1.Read()
         TxtTipoConcepto.Text = drMdb1.GetValue(2)
@@ -251,9 +252,29 @@ Public Class IntroApuntesPeriodicos
                         End If
                         vNotasAPU = TxtNota.Text
                         vCuentaAPU = CmbCuenta.Text.ToString
-                        vAñadirSql = "INSERT INTO apuper "
-                        vAñadirSql += "(FechaAPP, ConceptoAPP, DescripcionAPP, ImporteAPP, EjercicioAPP, NotasAPP, CuentaAPP) "
-                        vAñadirSql += "VALUES (#" & vDate3 & "#,'" & vConcepto & "','" & vDescripcionAPU & "','" & vImporteAPU & "','" & vDate3Year & "','" & vNotasAPU & "','" & vCuentaAPU & "')"
+                        ' 1. Diseñamos la estructura limpia para apuper usando comodines '?'
+                        vAñadirSql = "INSERT INTO apuper (FechaAPP, ConceptoAPP, DescripcionAPP, ImporteAPP, EjercicioAPP, NotasAPP, CuentaAPP) " &
+                                     "VALUES (?, ?, ?, ?, ?, ?, ?)"
+                        cmdMdb1cr.CommandText = vAñadirSql
+
+                        ' 2. Inyectamos los parámetros en el orden EXACTO de aparición del SQL
+                        cmdMdb1cr.Parameters.Clear()
+
+                        ' Fecha en formato binario puro (¡Adiós a los meses invertidos en Windows inglés!)
+                        cmdMdb1cr.Parameters.AddWithValue("@FechaAPP", vDate3)
+
+                        ' Textos libres protegidos de forma nativa contra comillas simples (')
+                        cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPP", vConcepto)
+                        cmdMdb1cr.Parameters.AddWithValue("@DescripcionAPP", vDescripcionAPU)
+
+                        ' Importe procesado por tu función global y forzado a Currency de Access
+                        Dim paramImpApuper As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteAPP", OleDb.OleDbType.Currency)
+                        paramImpApuper.Value = Math.Round(ConvertirDecimalSeguro(vImporteAPU), 2)
+
+                        ' Resto de campos del apunte periódico
+                        cmdMdb1cr.Parameters.AddWithValue("@EjercicioAPP", CInt(vDate3Year))
+                        cmdMdb1cr.Parameters.AddWithValue("@NotasAPP", vNotasAPU)
+                        cmdMdb1cr.Parameters.AddWithValue("@CuentaAPP", vCuentaAPU)
                         cmdMdb1cr.CommandText = vAñadirSql
                         Try
                             cmdMdb1cr.ExecuteNonQuery()

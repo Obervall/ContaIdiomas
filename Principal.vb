@@ -188,39 +188,6 @@ Public Class Principal
             vPantallas += 1
         Next
 
-        'If vPantallas = 1 And CantPantallas >= 2 Then
-        '    ' Configuramos la posición por defecto directamente en las variables numéricas
-        '    x = 150
-        '    y = 0
-        '    vWidth = 1139
-        '    vHeigth = 629
-        'Else
-        '    vPosicion = My.Settings.Posicion ' Ejemplo de texto: "{x=150,y=100}"
-
-        '    ' Intentamos extraer las coordenadas de forma moderna y segura
-        '    Try
-        '        ' Extraemos lo que hay entre "x=" y la coma
-        '        Dim parteX As String = vPosicion.Substring(vPosicion.IndexOf("x=") + 2)
-        '        parteX = parteX.Substring(0, parteX.IndexOf(","))
-        '        Integer.TryParse(parteX, x)
-
-        '        ' Extraemos lo que hay después del último "=" eliminando la llave de cierre "}"
-        '        Dim parteY As String = vPosicion.Substring(vPosicion.LastIndexOf("=") + 1).Replace("}", "")
-        '        Integer.TryParse(parteY, y)
-        '    Catch
-        '        ' Si el texto de configuración estuviera corrupto, asignamos una posición segura por defecto
-        '        x = 100
-        '        y = 100
-        '    End Try
-
-        '    ' PARACHOQUES: Si la posición guardada es el techo total (0), 
-        '    ' le forzamos a bajar un poco (ej. 100) para que no se quede atrapado
-        '    If y = 0 Then y = 100
-
-        '    vWidth = My.Settings.PantallaAncho
-        '    vHeigth = My.Settings.PantallaAlto
-        'End If
-
         If vPantallas = 1 And CantPantallas >= 2 Then
             vPosicion = "{x=150,y=0}"
             x = Val(Mid(vPosicion, 4, (InStrRev(vPosicion, ",") - 1)))
@@ -278,9 +245,13 @@ Public Class Principal
             Else
                 MsgBox(resManager.GetString("NoExistenRegistros") & " " & vAñoActual.ToString & ", " & rmse.GetString("SeCrearaEjercicio"))
                 drMdb1.Close()
-                tipoSql = "INSERT INTO ejercicios "
-                tipoSql += "(EjercicioEJE) "
-                tipoSql += "VALUES ('" & vAñoActual & "')"
+                ' 1. Diseñamos la estructura limpia para ejercicios usando el comodín '?'
+                tipoSql = "INSERT INTO ejercicios (EjercicioEJE) VALUES (?)"
+                cmdMdb1cr.CommandText = tipoSql
+
+                ' 2. Limpiamos parámetros e inyectamos el año como un número entero puro
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.Parameters.AddWithValue("@EjercicioEJE", CInt(vAñoActual))
                 cmdMdb1cr.CommandText = tipoSql
                 Try
                     cmdMdb1cr.ExecuteNonQuery()
@@ -386,9 +357,29 @@ Public Class Principal
                         vCuenta = drMdb1.GetValue(7).ToString
                         If vDate1 <= DateTime.Today Then
                             drMdb1.Close()
-                            vAñadirSql = "INSERT INTO apuntes "
-                            vAñadirSql += "(FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) "
-                            vAñadirSql += "VALUES (#" & vDate1 & "#,'" & vConcepto & "','" & vDescripcion & "','" & vImporte & "','" & vAñoEjercicio & "','" & vNotas & "','" & vCuenta & "')"
+                            ' 1. Diseñamos la estructura limpia para apuntes usando comodines '?'
+                            vAñadirSql = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) " &
+                                         "VALUES (?, ?, ?, ?, ?, ?, ?)"
+                            cmdMdb1cr.CommandText = vAñadirSql
+
+                            ' 2. Inyectamos los parámetros en el orden EXACTO de aparición del SQL
+                            cmdMdb1cr.Parameters.Clear()
+
+                            ' Fecha pura en binario (Evita que Windows confunda días con meses)
+                            cmdMdb1cr.Parameters.AddWithValue("@FechaAPU", vDate1)
+
+                            ' Cadenas de texto libres (Los parámetros limpian los apóstrofes solos)
+                            cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vConcepto)
+                            cmdMdb1cr.Parameters.AddWithValue("@DescripcionAPU", vDescripcion)
+
+                            ' Importe blindado en formato Moneda nativa de Access
+                            Dim paramImp As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteAPU", OleDb.OleDbType.Currency)
+                            paramImp.Value = Math.Round(ConvertirDecimalSeguro(vImporte), 2)
+
+                            ' Resto de campos del asiento contable
+                            cmdMdb1cr.Parameters.AddWithValue("@EjercicioAPU", CInt(vAñoEjercicio))
+                            cmdMdb1cr.Parameters.AddWithValue("@NotasAPU", vNotas)
+                            cmdMdb1cr.Parameters.AddWithValue("@CuentaAPU", vCuenta)
                             cmdMdb1cr.CommandText = vAñadirSql
                             Try
                                 cmdMdb1cr.ExecuteNonQuery()

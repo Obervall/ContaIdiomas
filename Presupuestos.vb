@@ -164,7 +164,7 @@ Public Class Presupuestos
         vtipoSql = "SELECT presupuesto.ConceptoPRE, presupuesto.ConceptoPRE, presupuesto.ImportePRE, presupuesto.ImportePRE, presupuesto.FDesdePRE FROM presupuesto"
         vtipoSql += " WHERE "
         vtipoSql += "presupuesto.EjercicioPRE = " & vAñoEjercicio.ToString
-        vtipoSql += " And presupuesto.ConceptoPRE = '" & CmbConcepto.Text & "' "
+        vtipoSql += " And presupuesto.ConceptoPRE = '" & CmbConcepto.Text.Replace("'", "''") & "' "
         vtipoSql += " ORDER BY presupuesto.ConceptoPRE ASC, presupuesto.FDesdePRE ASC"
         vtipoGrid = "PRESUPUESTOS"
 

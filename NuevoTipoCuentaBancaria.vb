@@ -72,10 +72,16 @@ Public Class NuevoTipoCuentaBancaria
                     TxtNombre.Select()
                 Else
                     drMdb1.Close()
-                    vtipoSql = "INSERT INTO tipocuentas "
-                    vtipoSql += "(CodigoTIP, DescripcionTIP) "
-                    vtipoSql += "VALUES ('" & vTxtNombre & "','" & vTxtDescripcion & "')"
+                    ' 1. Diseñamos la estructura limpia para tipocuentas usando comodines '?'
+                    vtipoSql = "INSERT INTO tipocuentas (CodigoTIP, DescripcionTIP) VALUES (?, ?)"
+                    cmdMdb1cr.CommandText = vtipoSql
 
+                    ' 2. Limpiamos y asignamos los parámetros en el orden exacto del SQL
+                    cmdMdb1cr.Parameters.Clear()
+
+                    ' Los parámetros limpian los apóstrofes solos automáticamente
+                    cmdMdb1cr.Parameters.AddWithValue("@CodigoTIP", vTxtNombre.Trim())
+                    cmdMdb1cr.Parameters.AddWithValue("@DescripcionTIP", vTxtDescripcion.Trim())
                     cmdMdb1cr.CommandText = vtipoSql
                     Try
                         cmdMdb1cr.ExecuteNonQuery()

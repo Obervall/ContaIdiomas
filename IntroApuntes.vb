@@ -146,7 +146,7 @@ Public Class IntroApuntes
         If vIntro = "NO" Then
             vConcepto = CmbConcepto.Text.ToString
             drMdb1.Close()
-            cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto & "' ORDER BY conceptos.CodigoCON ASC"
+            cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto.Replace("'", "''") & "' ORDER BY conceptos.CodigoCON ASC"
             drMdb1 = cmdMdb1cr.ExecuteReader()
             drMdb1.Read()
             If drMdb1.HasRows Then
@@ -552,7 +552,7 @@ Public Class IntroApuntes
                     MsgBox(rmse.GetString("ErrorGrabarRegistro") & ": " & ex.ToString, vbExclamation, rmse.GetString("$this.Text"))
                 End Try
 
-                ' --- TU REFRESH DE PASTEBIN EXACTO (Mismo Orden e Ifs) ---
+                ' --- TU REFRESH DE PASTEBIN CORREGIDO PARA INTERNACIONAL ---
                 vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
                 vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
 
@@ -563,12 +563,14 @@ Public Class IntroApuntes
                     vtipoSql += " And apuntes.ConceptoAPU = '" & frmApuntesContables.CmbConcepto.Text & "' "
                 End If
 
-                ' Mismo If de tu Pastebin: pero asignando las variables como .Date puras
+                ' IF DE FECHAS: Forzamos el formato ISO que Access entiende en todo el mundo
                 If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
                     vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
                     vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
-                    vtipoSql += " And apuntes.FechaAPU >= #" & vDate1.ToString("yyyy/MM/dd") & "#"
-                    vtipoSql += " And apuntes.FechaAPU <= #" & vDate2.ToString("yyyy/MM/dd") & "#"
+
+                    ' Cambiamos las barras (/) por guiones (-) para que Access no falle nunca
+                    vtipoSql += " And apuntes.FechaAPU >= #" & vDate1.ToString("yyyy-MM-dd") & "#"
+                    vtipoSql += " And apuntes.FechaAPU <= #" & vDate2.ToString("yyyy-MM-dd") & "#"
                 End If
 
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
@@ -621,39 +623,50 @@ Public Class IntroApuntes
                     vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
                 End If
 
-                ' Tu bucle exacto con tus And/Or encadenados tal como los programaste
+                ' --- TU BUCLE CORREGIDO CON PARÉNTESIS Y FECHAS INTERNACIONALES ---
                 For i = 0 To frmApuntesContables.ListBox1.SelectedItems.Count - 1
                     vConcepto = frmApuntesContables.ListBox1.SelectedItems(i).ToString
                     If i = 0 Then
-                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
+                        ' Abrimos un paréntesis general para agrupar los bloques de conceptos
+                        vtipoSql += " And ( (apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
                         If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
                         End If
                         If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
                             vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
                             vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
-                            vtipoSql += " And apuntes.FechaAPU >= #" & vDate1.ToString("yyyy/MM/dd") & "#"
-                            vtipoSql += " And apuntes.FechaAPU <= #" & vDate2.ToString("yyyy/MM/dd") & "#"
+                            ' Cambiadas las barras por guiones para la Microsoft Store
+                            vtipoSql += " And apuntes.FechaAPU >= #" & vDate1.ToString("yyyy-MM-dd") & "#"
+                            vtipoSql += " And apuntes.FechaAPU <= #" & vDate2.ToString("yyyy-MM-dd") & "#"
                         End If
+                        vtipoSql += ") " ' Cerramos el primer bloque interno
                     Else
-                        vtipoSql += " Or "
+                        ' Cerramos el bloque anterior y abrimos el nuevo tras el OR
+                        vtipoSql += " Or ( "
                         If frmApuntesContables.BtnFechasClick = "SI" Then
                             vtipoSql += "apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
                         Else
                             vtipoSql += "apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
                         End If
-                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
+                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
                         If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
                         End If
                         If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
                             vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
                             vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
-                            vtipoSql += " And apuntes.FechaAPU >= #" & vDate1.ToString("yyyy/MM/dd") & "#"
-                            vtipoSql += " And apuntes.FechaAPU <= #" & vDate2.ToString("yyyy/MM/dd") & "#"
+                            ' Cambiadas las barras por guiones para la Microsoft Store
+                            vtipoSql += " And apuntes.FechaAPU >= #" & vDate1.ToString("yyyy-MM-dd") & "#"
+                            vtipoSql += " And apuntes.FechaAPU <= #" & vDate2.ToString("yyyy-MM-dd") & "#"
                         End If
+                        vtipoSql += ") " ' Cerramos este bloque interno
                     End If
                 Next
+
+                ' Si se seleccionó al menos un elemento, cerramos el paréntesis general que abrimos en i = 0
+                If frmApuntesContables.ListBox1.SelectedItems.Count > 0 Then
+                    vtipoSql += " ) "
+                End If
 
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
@@ -681,7 +694,7 @@ Public Class IntroApuntes
 
         If TxtImporte.Text <> "0" Then
             If frmApuntesContables.ListBox1.SelectedItems.Count = 0 Then
-                MsgBox("ListBox = 0")
+                'MsgBox("ListBox = 0")
                 vDate3 = DateTimePicker1.Value
                 vDescripcionAPU = ApostrofePorAcentoAgudo(CmbDescripcion.Text)
                 vImporteAPU = TxtImporte.Text
@@ -693,11 +706,6 @@ Public Class IntroApuntes
 
                 ' Sincronizamos vConcepto con el texto actual en pantalla antes de guardar
                 vConcepto = Trim(CmbConcepto.Text)
-
-                'vAñadirSql = "INSERT INTO apuntes "
-                'vAñadirSql += "(FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) "
-                'vAñadirSql += "VALUES (#" & vDate3.ToString("yyyy/MM/dd") & "#,'" & vConcepto & "','" & vDescripcionAPU & "','" & vImporteAPU & "','" & vAñoEjercicio & "','" & vNotasAPU & "','" & vCuentaAPU & "')"
-                'cmdMdb1cr.CommandText = vAñadirSql
 
                 ' INSERT Parametrizado seguro para evitar cuelgues de comillas o Str()
                 vAñadirSql = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) VALUES (?, ?, ?, ?, ?, ?, ?)"
@@ -739,12 +747,6 @@ Public Class IntroApuntes
                     vtipoSql += " And apuntes.FechaAPU >= #" & vDate1.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture) & "#"
                     vtipoSql += " And apuntes.FechaAPU <= #" & vDate2.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture) & "#"
                 End If
-                'If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
-                '    vDate1 = frmApuntesContables.DateTimePicker1.Value.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture)
-                '    vDate2 = frmApuntesContables.DateTimePicker2.Value.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture)
-                '    vtipoSql += " And apuntes.FechaAPU >= #" & vDate1 & "#"
-                '    vtipoSql += " And apuntes.FechaAPU <= #" & vDate2 & "#"
-                'End If
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
@@ -758,7 +760,7 @@ Public Class IntroApuntes
                     frmApuntesContables.DgvApuntes.CurrentCell = frmApuntesContables.DgvApuntes.Rows(vFila).Cells(0)
                 End If
             Else
-                MsgBox("ListBox Mayor 0")
+                'MsgBox("ListBox Mayor 0")
                 vDate3 = DateTimePicker1.Value
                 vDescripcionAPU = ApostrofePorAcentoAgudo(CmbDescripcion.Text)
                 vImporteAPU = TxtImporte.Text
@@ -771,9 +773,29 @@ Public Class IntroApuntes
                 ' Sincronizamos vConcepto con el texto actual en pantalla antes de guardar
                 vConcepto = Trim(CmbConcepto.Text)
 
-                vAñadirSql = "INSERT INTO apuntes "
-                vAñadirSql += "(FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) "
-                vAñadirSql += "VALUES (#" & vDate3.ToString("yyyy/MM/dd") & "#,'" & vConcepto & "','" & vDescripcionAPU & "','" & vImporteAPU & "','" & vAñoEjercicio & "','" & vNotasAPU & "','" & vCuentaAPU & "')"
+                ' 1. Diseñamos la estructura limpia usando comodines '?'
+                vAñadirSql = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) " &
+                             "VALUES (?, ?, ?, ?, ?, ?, ?)"
+                cmdMdb1cr.CommandText = vAñadirSql
+
+                ' 2. Inyectamos los parámetros en el orden EXACTO de aparición del SQL
+                cmdMdb1cr.Parameters.Clear()
+
+                ' Pasamos el objeto Date puro (vDate3). ¡Adiós para siempre al .ToString("yyyy/MM/dd")!
+                cmdMdb1cr.Parameters.AddWithValue("@FechaAPU", vDate3)
+
+                ' Campos de texto libres (Inmunes a apóstrofes de forma nativa)
+                cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vConcepto)
+                cmdMdb1cr.Parameters.AddWithValue("@DescripcionAPU", vDescripcionAPU)
+
+                ' Importe blindado con Currency para evitar errores de precisión en Access
+                Dim paramImp As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteAPU", OleDb.OleDbType.Currency)
+                paramImp.Value = Math.Round(ConvertirDecimalSeguro(vImporteAPU), 2)
+
+                ' Resto de variables numéricas y de texto
+                cmdMdb1cr.Parameters.AddWithValue("@EjercicioAPU", CInt(vAñoEjercicio))
+                cmdMdb1cr.Parameters.AddWithValue("@NotasAPU", vNotasAPU)
+                cmdMdb1cr.Parameters.AddWithValue("@CuentaAPU", vCuentaAPU)
                 cmdMdb1cr.CommandText = vAñadirSql
                 Try
                     cmdMdb1cr.ExecuteNonQuery()
@@ -792,9 +814,9 @@ Public Class IntroApuntes
                 For i = 0 To frmApuntesContables.ListBox1.SelectedItems.Count - 1
                     vConcepto = frmApuntesContables.ListBox1.SelectedItems(i).ToString()
                     If i = 0 Then
-                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
+                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
                         If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
                         End If
                         If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
                             ' MULTIIDIOMA: Guardamos las fechas como objetos puros
@@ -806,12 +828,6 @@ Public Class IntroApuntes
                             vtipoSql += " And apuntes.FechaAPU >= #" & vDate1.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture) & "#"
                             vtipoSql += " And apuntes.FechaAPU <= #" & vDate2.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture) & "#"
                         End If
-                        'If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
-                        '    vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
-                        '    vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
-                        '    vtipoSql += " And apuntes.FechaAPU >= #" & vDate1 & "#"
-                        '    vtipoSql += " And apuntes.FechaAPU <= #" & vDate2 & "#"
-                        'End If
                     Else
                         vtipoSql += " Or "
                         If frmApuntesContables.BtnFechasClick = "SI" Then
@@ -819,9 +835,9 @@ Public Class IntroApuntes
                         Else
                             vtipoSql += "apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
                         End If
-                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
+                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
                         If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text & "' "
+                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
                         End If
                         If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
                             vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
@@ -859,12 +875,15 @@ Public Class IntroApuntes
             vLetras = ""
             vIntro = "NO"
 
-            ' 3. Vaciamos las cajas de texto numéricas y complementarias
+            ' 1. Limpias los textos normales
             TxtImporte.Text = "0"
             TxtNota.Text = ""
-            TxtDescripcion.Text = ""
-            CmbConcepto.Text = ""
-            CmbDescripcion.Text = ""
+
+            ' 2. Forzamos la selección del primer concepto (esto dispara su evento)
+            If CmbConcepto.Items.Count > 0 Then CmbConcepto.SelectedIndex = 0
+
+            ' 3. ¡La clave! Forzamos al formulario a procesar los cambios visuales antes de seguir
+            Application.DoEvents()
 
             ' 4. Regresamos el cursor a la Fecha para arrancar de nuevo el flujo de introducción
             DateTimePicker1.Focus()

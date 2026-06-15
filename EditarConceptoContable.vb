@@ -214,8 +214,13 @@ Public Class EditarConceptoContable
 
         If respuesta = vbYes Then
             ' 5. EJECUCIÓN EN CASCADA CORREGIDA: Se asigna Y SE EJECUTA cada tabla por separado
-            vtipoSql = "DELETE FROM conceptos WHERE CodigoCON = '" & nombreOriginalBD & "'"
+            ' 1. Cambias las comillas y la variable por el "?"
+            vtipoSql = "DELETE FROM conceptos WHERE CodigoCON = ?"
             cmdMdb1cr.CommandText = vtipoSql
+
+            ' 2. Limpias y añades el parámetro de texto de forma segura
+            cmdMdb1cr.Parameters.Clear()
+            cmdMdb1cr.Parameters.AddWithValue("?", nombreOriginalBD)
             Try
                 cmdMdb1cr.ExecuteNonQuery()
                 MsgBox(frmEditarConceptoContable.rmse.GetString("EliminarConcepto3"))
@@ -224,8 +229,13 @@ Public Class EditarConceptoContable
             End Try
 
             ' B. Eliminar Registros Apuntes
-            vtipoSql = "DELETE FROM apuntes WHERE ConceptoAPU = '" & nombreOriginalBD & "'"
+            ' 1. Limpias la consulta sustituyendo las comillas por el "?"
+            vtipoSql = "DELETE FROM apuntes WHERE ConceptoAPU = ?"
             cmdMdb1cr.CommandText = vtipoSql
+
+            ' 2. Limpias los parámetros anteriores y pasas la variable de texto de forma segura
+            cmdMdb1cr.Parameters.Clear()
+            cmdMdb1cr.Parameters.AddWithValue("?", nombreOriginalBD)
             Try
                 cmdMdb1cr.ExecuteNonQuery()
                 MsgBox(frmApuntesContables.rmse.GetString("EliminarApuntes"))
@@ -233,12 +243,14 @@ Public Class EditarConceptoContable
                 MsgBox(frmApuntesContables.rmse.GetString("EliminarApuntesError") & vbNewLine & ex.Message)
             End Try
 
-            ' C. Eliminar Registros Apuntes Periódicos
-            vtipoSql = "DELETE FROM apuper"
+            ' --- CÓDIGO CORREGIDO Y SEGURO ---
+            ' 1. Dejas una sola consulta limpia con el filtro y el signo "?"
+            vtipoSql = "DELETE FROM apuper WHERE apuper.ConceptoAPP = ?"
             cmdMdb1cr.CommandText = vtipoSql
-            ' (Mantenemos tu lógica original para mapear la query de apuper)
-            vtipoSql = "DELETE FROM apuper WHERE apuper.ConceptoAPP = '" & nombreOriginalBD & "'"
-            cmdMdb1cr.CommandText = vtipoSql
+
+            ' 2. Limpias y pasas el parámetro de texto de forma segura
+            cmdMdb1cr.Parameters.Clear()
+            cmdMdb1cr.Parameters.AddWithValue("?", nombreOriginalBD)
             Try
                 cmdMdb1cr.ExecuteNonQuery()
                 MsgBox(frmApuntesPeriodicos.rmse.GetString("EliminarApuntesPeriodicos"))
@@ -247,8 +259,13 @@ Public Class EditarConceptoContable
             End Try
 
             ' D. Eliminar Registros Presupuestos
-            vtipoSql = "DELETE FROM presupuesto WHERE presupuesto.ConceptoPRE = '" & nombreOriginalBD & "'"
+            ' 1. Limpias la consulta cambiando las comillas y la variable por el "?"
+            vtipoSql = "DELETE FROM presupuesto WHERE presupuesto.ConceptoPRE = ?"
             cmdMdb1cr.CommandText = vtipoSql
+
+            ' 2. Limpias parámetros y pasas el texto de forma segura
+            cmdMdb1cr.Parameters.Clear()
+            cmdMdb1cr.Parameters.AddWithValue("?", nombreOriginalBD)
             Try
                 cmdMdb1cr.ExecuteNonQuery()
                 MsgBox(frmPresupuestos.rmse.GetString("EliminarPresupuestos"))

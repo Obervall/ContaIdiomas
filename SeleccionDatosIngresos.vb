@@ -49,11 +49,11 @@
             For i = 0 To ListBox1.SelectedItems.Count - 1
                 vConcepto = ListBox1.SelectedItems(i).ToString
                 If i = 0 Then
-                    vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
+                    vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
                 Else
                     vtipoSql += " Or "
                     vtipoSql += "apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-                    vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
+                    vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
                 End If
             Next
         Else
@@ -83,11 +83,11 @@
             For i = 0 To ListBox1.SelectedItems.Count - 1
                 vConcepto = ListBox1.SelectedItems(i).ToString
                 If i = 0 Then
-                    vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
+                    vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
                 Else
                     vtipoSql += " Or "
                     vtipoSql += "apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-                    vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto & "' "
+                    vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
                 End If
             Next
         Else
