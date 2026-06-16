@@ -269,7 +269,7 @@ Public Class Principal
             Return
         End Try
 
-        My.Settings.Version = "3.1.0"
+        My.Settings.Version = "3.1.1"
         My.Settings.Save()
 
         vActualizar = My.Settings.Actualizar
@@ -1079,7 +1079,6 @@ Public Class Principal
         End If
     End Sub
 
-
     Private Sub BtnImportarContaHogar_Click(sender As Object, e As EventArgs) Handles BtnImportarContaHogar.Click
         ImportaAntiguoContahogarToolStripMenuItem.PerformClick()
     End Sub
@@ -1326,38 +1325,54 @@ Public Class Principal
 
         TsLabelFormulario.ForeColor = Color.Red
         TsLabelFormulario.Text = rmse.GetString("ImportandoConceptos")
-        ' --- CONFIGURACIÓN DE CONSULTAS ---
-        ' Cambia Campo1, Campo2, etc., por los nombres reales de tus columnas
+
         Dim sqlSeleccionCON As String = "SELECT CodigoCON, DescripcionCON, TipoCON, NotasCON FROM CONCEPTOS"
-
-        ' Verificamos duplicidad solo por el primer campo
         Dim sqlVerificarCON As String = "SELECT COUNT(*) FROM CONCEPTOS WHERE CodigoCON = ?"
-
-        ' Insertamos en los 4 campos de la tabla destino
         Dim sqlInsercionCON As String = "INSERT INTO CONCEPTOS (CodigoCON, DescripcionCON, TipoCON, NotasCON) VALUES (?, ?, ?, ?)"
+
+        ' Consultas para la validación y borrado en el DESTINO
+        Dim sqlConceptosDestino As String = "SELECT CodigoCON FROM CONCEPTOS"
+        Dim sqlCheckApuntesDestino As String = "SELECT COUNT(*) FROM APUNTES WHERE ConceptoAPU = ?"
+        Dim sqlCheckApuperDestino As String = "SELECT COUNT(*) FROM APUPER WHERE ConceptoAPP = ?"
+        Dim sqlEliminarDestino As String = "DELETE FROM CONCEPTOS WHERE CodigoCON = ?"
+
+        ' === LISTA FIJA DE PROTECCIÓN (TUS CONCEPTOS DE MUESTRA ORIGINALES) === 
+        ' Escribe aquí en mayúsculas los 33 códigos exactos que metes de fábrica en la mdb
+        Dim conceptosMuestra As New System.Collections.Generic.List(Of String)(New String() {
+            "AGUA", "ALIMENTACION", "CANAL+", "CASA", "CLIENTE00", "COMUNIDAD", "DECESOS", "EL CORTE INGLES", "ESTETICA", "FARMACIA", "GAS NATURAL", "GASOLINA", "GASTOS BANCARIOS",
+            "HACIENDA", "IMPUESTO 1", "IMPUESTO 2", "IMPUESTO 3", "IMPUESTO 4", "IMPUESTO 5", "INTERESES", "JARDIN", "LUZ",
+            "OCIO", "PENSION", "REGULARITZACIO 1", "REGULARITZACIO 2", "SEGURO CASA", "SEGURO COCHE", "SEGURO MOTO", "TELEFONO", "VARIOS", "VEHICULOS"
+        })
+
+        Dim conceptosMDBAplicacion As New System.Collections.Generic.List(Of String)()
+        Dim conceptosAEliminarDestino As New System.Collections.Generic.List(Of String)()
 
         Using connOrigen As New OleDbConnection(connOrigenString), connDestino As New OleDbConnection(connDestinoString)
             Try
                 connOrigen.Open()
                 connDestino.Open()
+
+                ' === FASE 1: IMPORTACIÓN (ORIGEN A DESTINO) ===
                 Dim cmdOrigen As New OleDbCommand(sqlSeleccionCON, connOrigen)
                 Dim reader As OleDbDataReader = cmdOrigen.ExecuteReader()
-                ' Configurar comando de verificación (solo 1 parámetro de texto)
+
                 Dim cmdCheck As New OleDbCommand(sqlVerificarCON, connDestino)
                 cmdCheck.Parameters.Add("?", OleDbType.VarChar)
-                ' Configurar comando de inserción (4 parámetros de texto)
+
                 Dim cmdInsert As New OleDbCommand(sqlInsercionCON, connDestino)
                 For i As Integer = 1 To 4
                     cmdInsert.Parameters.Add("?", OleDbType.VarChar)
                 Next
+
                 Dim insertados As Integer = 0
                 Dim omitidos As Integer = 0
+
                 While reader.Read()
-                    ' 1. Validar duplicado usando solo el primer campo
-                    cmdCheck.Parameters(0).Value = reader("CodigoCON").ToString()
-                    ' 2. Si el conteo es 0, no existe, procedemos a insertar
+                    Dim codigoActual As String = reader("CodigoCON").ToString()
+                    cmdCheck.Parameters(0).Value = codigoActual
+
                     If CInt(cmdCheck.ExecuteScalar()) = 0 Then
-                        cmdInsert.Parameters(0).Value = reader("CodigoCON").ToString()
+                        cmdInsert.Parameters(0).Value = codigoActual
                         cmdInsert.Parameters(1).Value = reader("DescripcionCON").ToString()
                         cmdInsert.Parameters(2).Value = reader("TipoCON").ToString()
                         cmdInsert.Parameters(3).Value = reader("NotasCON").ToString()
@@ -1368,9 +1383,53 @@ Public Class Principal
                     End If
                 End While
                 reader.Close()
+
+                ' === FASE 2: ENCONTRAR MUESTRAS EN EL DESTINO ===
+                Dim cmdTodosDestino As New OleDbCommand(sqlConceptosDestino, connDestino)
+                Dim readerDestino As OleDbDataReader = cmdTodosDestino.ExecuteReader()
+                While readerDestino.Read()
+                    Dim codDestino As String = readerDestino("CodigoCON").ToString().ToUpper()
+
+                    ' FILTRO SEGURO: Solo nos interesa si es uno de tus 33 conceptos de fábrica originales
+                    If conceptosMuestra.Contains(codDestino) Then
+                        conceptosMDBAplicacion.Add(codDestino)
+                    End If
+                End While
+                readerDestino.Close()
+
+                ' === FASE 3: COMPROBAR APUNTES EN EL DESTINO ===
+                Dim cmdApuntesDestino As New OleDbCommand(sqlCheckApuntesDestino, connDestino)
+                cmdApuntesDestino.Parameters.Add("?", OleDbType.VarChar)
+
+                Dim cmdApuperDestino As New OleDbCommand(sqlCheckApuperDestino, connDestino)
+                cmdApuperDestino.Parameters.Add("?", OleDbType.VarChar)
+
+                For Each codDestino As String In conceptosMDBAplicacion
+                    cmdApuntesDestino.Parameters(0).Value = codDestino
+                    cmdApuperDestino.Parameters(0).Value = codDestino
+
+                    Dim totalApuntes As Integer = CInt(cmdApuntesDestino.ExecuteScalar()) + CInt(cmdApuperDestino.ExecuteScalar())
+
+                    ' Si es de fábrica Y nadie lo ha usado en el destino, va a la lista de borrado
+                    If totalApuntes = 0 Then
+                        conceptosAEliminarDestino.Add(codDestino)
+                    End If
+                Next
+
+                ' === FASE 4: BORRADO SEGURO DE LAS MUESTRAS VACÍAS ===
+                If conceptosAEliminarDestino.Count > 0 Then
+                    Using cmdDeleteDestino As New OleDbCommand(sqlEliminarDestino, connDestino)
+                        cmdDeleteDestino.Parameters.Add("?", OleDbType.VarChar)
+                        For Each codBorrar As String In conceptosAEliminarDestino
+                            cmdDeleteDestino.Parameters(0).Value = codBorrar
+                            cmdDeleteDestino.ExecuteNonQuery()
+                        Next
+                    End Using
+                End If
+
                 MsgBox(rmse.GetString("TransferenciaConceptos") & ". " & insertados.ToString() & " " & rmse.GetString("RegistrosCopiados") & ", " & omitidos.ToString() & " " & rmse.GetString("RegistrosOmitidos") & ".", MsgBoxStyle.Information, rmse.GetString("$this.Text"))
             Catch ex As Exception
-                MsgBox(rmse.GetString("ErrorTransferenciaConceptos") & ":  " & ex.Message, MsgBoxStyle.Critical, rmse.GetString("Error"))
+                MsgBox("Error en la transferencia:   " & ex.Message, MsgBoxStyle.Critical, "Error")
             End Try
         End Using
 
