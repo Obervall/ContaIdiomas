@@ -127,22 +127,22 @@
     <value>Records</value>
   </data>
   <data name="GroupBox2.Text" xml:space="preserve">
-    <value>Edition</value>
+    <value>Edit</value>
   </data>
   <data name="GroupBox3.Text" xml:space="preserve">
     <value>Information</value>
   </data>
   <data name="BtnSalir.Text" xml:space="preserve">
-    <value>Go out</value>
+    <value>Exit</value>
   </data>
   <data name="GroupBox8.Text" xml:space="preserve">
-    <value>Displace</value>
+    <value>Navigation</value>
   </data>
   <data name="Label9.Text" xml:space="preserve">
     <value>Balance:</value>
   </data>
   <data name="Label8.Text" xml:space="preserve">
-    <value>Bills:</value>
+    <value>Expenses:</value>
   </data>
   <data name="Label7.Text" xml:space="preserve">
     <value>Income:</value>

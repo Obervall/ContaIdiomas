@@ -127,7 +127,7 @@
     <value>Information</value>
   </data>
   <data name="BtnSalir.Text" xml:space="preserve">
-    <value>Go out</value>
+    <value>Exit</value>
   </data>
   <data name="Label3.Text" xml:space="preserve">
     <value>Concept:</value>
@@ -136,10 +136,10 @@
     <value>Concepts</value>
   </data>
   <data name="GroupBox8.Text" xml:space="preserve">
-    <value>Displace</value>
+    <value>Navigation</value>
   </data>
   <data name="GroupBox2.Text" xml:space="preserve">
-    <value>Edition</value>
+    <value>Edit</value>
   </data>
   <data name="LblDesviacion.Text" xml:space="preserve">
     <value>Annual Deviation:</value>

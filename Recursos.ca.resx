@@ -313,9 +313,6 @@ No s'Eliminen de la Base de Dades</value>
   <data name="CASA" xml:space="preserve">
     <value>CASA</value>
   </data>
-  <data name="CLIENTE00" xml:space="preserve">
-    <value>CLIENTE00</value>
-  </data>
   <data name="COMUNIDAD" xml:space="preserve">
     <value>COMUNITAT</value>
   </data>
@@ -411,9 +408,6 @@ No s'Eliminen de la Base de Dades</value>
   </data>
   <data name="Desc_CASA" xml:space="preserve">
     <value>Utils Casa</value>
-  </data>
-  <data name="Desc_CLIENTE00" xml:space="preserve">
-    <value>Client Vario</value>
   </data>
   <data name="Desc_COMUNIDAD" xml:space="preserve">
     <value>Comunitat Pàrquing</value>
@@ -684,5 +678,11 @@ que l'arxiu no estigui obert</value>
   </data>
   <data name="Vacio" xml:space="preserve">
     <value>Sense Programar..</value>
+  </data>
+  <data name="CLIENTE00" xml:space="preserve">
+    <value>CLIENT</value>
+  </data>
+  <data name="Desc_CLIENTE00" xml:space="preserve">
+    <value>Client</value>
   </data>
 </root>

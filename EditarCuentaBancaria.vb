@@ -113,14 +113,14 @@ Public Class EditarCuentaBancaria
         vTxtNombre = TxtNombre.Text
         Dim respuesta As MsgBoxResult = MsgBox(rmse.GetString("EliminarCuenta") & " " & vTxtNombre & " " & rmse.GetString("EliminarCuenta2"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("LblEliminando"))
         If respuesta = vbYes Then
-            ' Nota: Tus consultas DELETE son seguras porque filtran por "NombreCUE",
-            ' la cual es una cadena de texto propia del usuario y libre de traducciones.
-            ' Eliminar Registro Cuentas
-            ' 1. Defines la consulta con el "?" y la asignas una sola vez
+
+            ' Variable para medir si realmente se borró algo en los apuntes
+            Dim filasAfectadas As Integer = 0
+
+            ' --- 1. ELIMINAR REGISTRO CUENTAS ---
             vtipoSql = "DELETE FROM cuentas WHERE cuentas.NombreCUE = ?"
             cmdMdb1cr.CommandText = vtipoSql
 
-            ' 2. Limpias parámetros y pasas el texto de forma segura
             cmdMdb1cr.Parameters.Clear()
             cmdMdb1cr.Parameters.AddWithValue("?", vTxtNombre)
             Try
@@ -130,32 +130,39 @@ Public Class EditarCuentaBancaria
                 MsgBox(rmse.GetString("EliminarCuenta4") & vbNewLine & ex.Message)
                 Exit Sub ' Si no se pudo eliminar la cuenta, no intentamos eliminar los apuntes relacionados
             End Try
-            ' Eliminar Registros Apuntes
-            ' 1. Defines la consulta con el "?" y la asignas una sola vez
+
+            ' --- 2. ELIMINAR REGISTROS APUNTES ---
             vtipoSql = "DELETE FROM apuntes WHERE apuntes.CuentaAPU = ?"
             cmdMdb1cr.CommandText = vtipoSql
 
-            ' 2. Limpias parámetros y pasas el texto de forma segura
             cmdMdb1cr.Parameters.Clear()
             cmdMdb1cr.Parameters.AddWithValue("?", vTxtNombre)
             Try
-                cmdMdb1cr.ExecuteNonQuery()
-                MsgBox(frmApuntesContables.rmse.GetString("EliminarApuntes"))
+                ' Capturamos cuántos apuntes reales se eliminan
+                filasAfectadas = cmdMdb1cr.ExecuteNonQuery()
+
+                ' FILTRO: Solo muestra el MsgBox si realmente existían y se borraron apuntes
+                If filasAfectadas > 0 Then
+                    MsgBox(frmApuntesContables.rmse.GetString("EliminarApuntes"))
+                End If
             Catch ex As Exception
                 MsgBox(frmApuntesContables.rmse.GetString("EliminarApuntesError") & vbNewLine & ex.Message)
             End Try
 
-            ' Eliminar Registros Apuntes Periódicos
-            ' 1. Defines la consulta con el "?" y la asignas una sola vez
+            ' --- 3. ELIMINAR REGISTROS APUNTES PERIÓDICOS ---
             vtipoSql = "DELETE FROM apuper WHERE apuper.CuentaAPP = ?"
             cmdMdb1cr.CommandText = vtipoSql
 
-            ' 2. Limpias parámetros y pasas el texto de forma segura
             cmdMdb1cr.Parameters.Clear()
             cmdMdb1cr.Parameters.AddWithValue("?", vTxtNombre)
             Try
-                cmdMdb1cr.ExecuteNonQuery()
-                MsgBox(frmApuntesPeriodicos.rmse.GetString("EliminarApuntesPeriodicos"))
+                ' Capturamos cuántos apuntes periódicos se eliminan
+                filasAfectadas = cmdMdb1cr.ExecuteNonQuery()
+
+                ' FILTRO: Solo muestra el MsgBox si realmente existían y se borraron apuntes periódicos
+                If filasAfectadas > 0 Then
+                    MsgBox(frmApuntesPeriodicos.rmse.GetString("EliminarApuntesPeriodicos"))
+                End If
             Catch ex As Exception
                 MsgBox(frmApuntesPeriodicos.rmse.GetString("EliminarApuntesPeriodicosError") & vbNewLine & ex.Message)
             End Try

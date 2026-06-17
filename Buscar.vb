@@ -6,7 +6,6 @@ Public Class Buscar
 
     Private Sub Buscar_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
-        ActualizarTextosFormulario(Me)
 
         CmbCampos.DropDownStyle = ComboBoxStyle.DropDownList
         CmbCampos.SelectedIndex = 0

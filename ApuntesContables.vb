@@ -7,6 +7,7 @@ Imports System.Windows.Forms
 
 Public Class ApuntesContables
 
+    Private cargandoFormulario As Boolean = True
     Public vConcepto, vTxtNombre, filaActual, vPosicion As String
     Public vTxtDescripcion, BtnFechasClick, vTipoConcepto, vCodigo, carpetaPdf As String
     Public vRow, vRowSeguir, vCampo, vContador, vCantidadFilas, PrintLine, Contador, filaSelec As Integer
@@ -140,6 +141,7 @@ Public Class ApuntesContables
         vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
         vtipoGrid = "APUNTES_CONTABLES"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
+        TraducirGridApuntesBD(Me.DgvApuntes, resManager)
         If frmApuntesContables.DgvApuntes.RowCount >= 25 And My.Settings.Autorizar = "Se autoriza el uso de ContaHogar 3.0 a: Modo Demo" Then
             'MsgBox("Software No Activado, Máximo 25 Apuntes", MsgBoxStyle.Critical, "Falta Activación")
             'Close()
@@ -150,64 +152,64 @@ Public Class ApuntesContables
             DgvApuntes.CurrentCell = DgvApuntes.Rows(vFila).Cells(0)
         End If
 
-        ' Llenar el Combo Concepto y ChekedListBox1
-        '******************************************
-        cmdMdb1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.TipoCON ASC, conceptos.CodigoCON ASC"
+        ' Llenar el Combo Concepto y ListBox1 utilizando la nueva función sincronizada
+        '*******************************************************************************
+        ' IMPORTANTE: Añadimos TipoCON al SELECT para que la función pueda agrupar las cabeceras
+        cmdMdb1cr.CommandText = "SELECT CodigoCON, TipoCON FROM conceptos ORDER BY TipoCON ASC, CodigoCON ASC"
         Try
             drMdb1 = cmdMdb1cr.ExecuteReader()
-            If drMdb1.HasRows Then
-                vTipoConcepto = ""
-                vFila = 0
-                While drMdb1.Read()
-                    If vTipoConcepto <> drMdb1.GetValue(2) Then
-                        If vFila = 0 Then
-                            If drMdb1.GetValue(0) = "TRASPASO" Then
-                                ListBox1.Items.Add(resManager.GetString("TRASPASO"))
-                                CmbConcepto.Items.Add(resManager.GetString("TRASPASO"))
-                            End If
-                            'vTipoConcepto = drMdb1.GetValue(2)
-                            vFila += 1
-                        Else
-                            vTipoConcepto = drMdb1.GetValue(2)
-                            If vTipoConcepto = "GASTO" Then
-                                ListBox1.Items.Add("** " & rmse.GetString("Label8.Text") & " **")
-                            Else
-                                ListBox1.Items.Add("** " & rmse.GetString("Label7.Text") & " **")
-                            End If
-                            CmbConcepto.Items.Add(drMdb1.GetValue(0))
-                            ListBox1.Items.Add(drMdb1.GetValue(0))
-                        End If
-                    Else
-                        vFila += 1
-                        CmbConcepto.Items.Add(drMdb1.GetValue(0))
-                        ListBox1.Items.Add(drMdb1.GetValue(0))
-                    End If
-                End While
-                CmbConcepto.Text = CmbConcepto.Items(1)
-            Else
-                'MsgBox("No existen registros en " & tipoSql)
-            End If
+
+            ' LLENAMOS, TRADUCIMOS Y AGRUPAMOS AMBOS CONTROLES DE UN SOLO GOLPE
+            LlenarYTraducirControlesConceptosBD(Me.CmbConcepto, Me.ListBox1, drMdb1)
+
             drMdb1.Close()
+
+            ' Selecciona el segundo elemento de forma segura tras la carga
+            If CmbConcepto.Items.Count > 1 Then
+                CmbConcepto.SelectedIndex = 1
+            End If
+
         Catch ex As Exception
             MsgBox(ex.ToString)
+            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
         End Try
 
-        ' Llenar el Combo Cuenta
-        '***********************
-        cmdMdb1cr.CommandText = "Select * FROM cuentas ORDER BY cuentas.NombreCUE ASC"
+        ' Llenar el Combo Cuenta de forma segura y traducida
+        '***************************************************
+        cmdMdb1cr.CommandText = "SELECT NombreCUE FROM cuentas ORDER BY NombreCUE ASC"
         Try
             drMdb1 = cmdMdb1cr.ExecuteReader()
+
+            ' Limpiamos los elementos para evitar duplicados si cambia el idioma en caliente
+            CmbCuenta.Items.Clear()
+
             If drMdb1.HasRows Then
                 While drMdb1.Read()
-                    CmbCuenta.Items.Add(drMdb1.GetValue(0))
+                    Dim cuentaOriginal As String = drMdb1("NombreCUE").ToString().Trim()
+
+                    ' Generamos la clave de traducción sustituyendo espacios por guiones bajos
+                    Dim llaveBase As String = cuentaOriginal.Replace(" ", "_")
+                    Dim cuentaTraducida As String = resManager.GetString(llaveBase)
+
+                    ' Si no tiene traducción en el archivo de recursos, dejamos el nombre original de la BD
+                    If String.IsNullOrEmpty(cuentaTraducida) Then
+                        cuentaTraducida = cuentaOriginal
+                    End If
+
+                    CmbCuenta.Items.Add(cuentaTraducida)
                 End While
-                CmbCuenta.Text = CmbCuenta.Items(0)
+
+                ' SELECCIÓN SEGURA: Solo marcamos el primer elemento si realmente hay datos
+                If CmbCuenta.Items.Count > 0 Then
+                    CmbCuenta.SelectedIndex = 0
+                End If
             Else
-                'MsgBox("No existen registros en " & tipoSql)
+                CmbCuenta.Text = ""
             End If
             drMdb1.Close()
         Catch ex As Exception
-            MsgBox(ex.ToString)
+            MsgBox("Error al cargar las cuentas: " & ex.Message, MsgBoxStyle.Critical, "Error")
+            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
         End Try
 
         ' Llenar el Combo Campos
@@ -219,6 +221,8 @@ Public Class ApuntesContables
                 frmBuscar.CmbCampos.Items.Add(columna.HeaderText)
             End If
         Next
+        ' Al final del todo, avisamos que la carga terminó y los eventos ya pueden actuar
+        cargandoFormulario = False
     End Sub
 
     Private Sub BtnFiltroCuenta_Click(sender As Object, e As EventArgs) Handles BtnFiltroCuenta.Click
@@ -230,7 +234,7 @@ Public Class ApuntesContables
             vtipoSql = "Select apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
             If BtnFechasClick = "SI" Then
                 vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
-                            Else
+            Else
                 vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
             End If
             vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
@@ -246,6 +250,7 @@ Public Class ApuntesContables
             vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
             vtipoGrid = "APUNTES_CONTABLES"
             LlenarGrid(vtipoSql, vtipoGrid, "1")
+            TraducirGridApuntesBD(Me.DgvApuntes, resManager)
             If DgvApuntes.RowCount - 1 >= 0 Then
                 vFila = DgvApuntes.RowCount - 1
                 DgvApuntes.Rows(vFila).Selected = True
@@ -346,7 +351,7 @@ Public Class ApuntesContables
 
         ' Ejecución del llenado del Grid
         LlenarGrid(vtipoSql, vtipoGrid, "1")
-
+        TraducirGridApuntesBD(Me.DgvApuntes, resManager)
         ' Selección automática de la última fila
         If DgvApuntes.RowCount > 0 Then
             vFila = DgvApuntes.RowCount - 1
@@ -382,6 +387,7 @@ Public Class ApuntesContables
 
             vtipoGrid = "APUNTES_CONTABLES"
             LlenarGrid(vtipoSql, vtipoGrid, "1")
+            TraducirGridApuntesBD(Me.DgvApuntes, resManager)
             If DgvApuntes.RowCount - 1 >= 0 Then
                 vFila = DgvApuntes.RowCount - 1
                 DgvApuntes.Rows(vFila).Selected = True
@@ -438,6 +444,7 @@ Public Class ApuntesContables
             ListBox1.Visible = False
             vtipoGrid = "APUNTES_CONTABLES"
             LlenarGrid(vtipoSql, vtipoGrid, "1")
+            TraducirGridApuntesBD(Me.DgvApuntes, resManager)
             If DgvApuntes.RowCount - 1 >= 0 Then
                 vFila = DgvApuntes.RowCount - 1
                 DgvApuntes.Rows(vFila).Selected = True
@@ -463,6 +470,7 @@ Public Class ApuntesContables
             vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
             vtipoGrid = "APUNTES_CONTABLES"
             LlenarGrid(vtipoSql, vtipoGrid, "1")
+            TraducirGridApuntesBD(Me.DgvApuntes, resManager)
             If DgvApuntes.RowCount - 1 >= 0 Then
                 vFila = DgvApuntes.RowCount - 1
                 DgvApuntes.Rows(vFila).Selected = True
@@ -474,55 +482,61 @@ Public Class ApuntesContables
     Private Sub BtnSinFiltroConcepto_Click(sender As Object, e As EventArgs) Handles BtnSinFiltroConcepto.Click
         ' Llenar el Combo Concepto y ChekedListBox1
         '******************************************
-        CmbConcepto.Items.Clear()
-        ListBox1.Items.Clear()
-        cmdMdb1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.TipoCON ASC, conceptos.CodigoCON ASC"
+        ' 1. Activamos el escudo temporal para que el combo no dispare eventos contables a destiempo
+        cargandoFormulario = True
+
+        ' 2. LLENAR Y TRADUCIR CON NUESTRA FUNCIÓN MODULAR
+        cmdMdb1cr.CommandText = "SELECT CodigoCON, TipoCON, DescripcionCON FROM conceptos ORDER BY TipoCON ASC, CodigoCON ASC"
         Try
             drMdb1 = cmdMdb1cr.ExecuteReader()
-            If drMdb1.HasRows Then
-                vTipoConcepto = ""
-                vFila = 0
-                While drMdb1.Read()
-                    If vTipoConcepto <> drMdb1.GetValue(2) Then
-                        If vFila = 0 Then
-                            If drMdb1.GetValue(0) = "TRASPASO" Then
-                                ListBox1.Items.Add(resManager.GetString("TRASPASO"))
-                                CmbConcepto.Items.Add(resManager.GetString("TRASPASO"))
-                            End If
-                            'vTipoConcepto = drMdb1.GetValue(2)
-                            vFila += 1
-                        Else
-                            vTipoConcepto = drMdb1.GetValue(2)
-                            If vTipoConcepto = "GASTO" Then
-                                ListBox1.Items.Add("** " & rmse.GetString("Label8.Text") & " **")
-                            Else
-                                ListBox1.Items.Add("** " & rmse.GetString("Label7.Text") & " **")
-                            End If
 
-                            CmbConcepto.Items.Add(drMdb1.GetValue(0))
-                            ListBox1.Items.Add(drMdb1.GetValue(0))
-                        End If
-                    Else
-                        vFila += 1
-                        CmbConcepto.Items.Add(drMdb1.GetValue(0))
-                        ListBox1.Items.Add(drMdb1.GetValue(0))
-                    End If
-                End While
-                CmbConcepto.Text = CmbConcepto.Items(1)
-                vConcepto = CmbConcepto.Text.ToString
-                drMdb1.Close()
-                cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto.Replace("'", "''") & "' "
+            ' Se encarga de limpiar, rellenar, agrupar y traducir CmbConcepto y ListBox1
+            LlenarYTraducirControlesConceptosBD(Me.CmbConcepto, Me.ListBox1, drMdb1)
+
+            drMdb1.Close()
+
+            ' 3. Selección segura del segundo elemento (Items(1)) como tenías planeado
+            If CmbConcepto.Items.Count > 1 Then
+                CmbConcepto.SelectedIndex = 1
+                vConcepto = CmbConcepto.Text.ToString()
+            ElseIf CmbConcepto.Items.Count > 0 Then
+                CmbConcepto.SelectedIndex = 0
+                vConcepto = CmbConcepto.Text.ToString()
+            Else
+                vConcepto = ""
+            End If
+
+            ' 4. NUEVO: Rellenar el TxtConcepto de forma segura sin romper por traducción
+            ' En lugar de hacer un SELECT peligroso con el texto traducido, volvemos a abrir el lector 
+            ' de forma limpia o usamos una consulta controlada si hay registros.
+            If Not String.IsNullOrEmpty(vConcepto) Then
+                ' Para rellenar el TxtConcepto con la descripción, buscamos por el índice real seleccionado
+                cmdMdb1cr.CommandText = "SELECT DescripcionCON FROM conceptos ORDER BY TipoCON ASC, CodigoCON ASC"
                 drMdb1 = cmdMdb1cr.ExecuteReader()
-                drMdb1.Read()
-                TxtConcepto.Text = drMdb1.GetValue(1)
+
+                Dim contador As Integer = 0
+                Dim indiceDeseado As Integer = If(CmbConcepto.Items.Count > 1, 1, 0)
+
+                While drMdb1.Read()
+                    If contador = indiceDeseado Then
+                        TxtConcepto.Text = drMdb1("DescripcionCON").ToString()
+                        Exit While
+                    End If
+                    contador += 1
+                End While
                 drMdb1.Close()
             Else
-                'MsgBox("No existen registros en " & tipoSql)
+                TxtConcepto.Text = ""
             End If
-            drMdb1.Close()
+
         Catch ex As Exception
-            MsgBox(ex.ToString)
+            MsgBox(resManager.GetString("Error") & ": " & ex.Message, MsgBoxStyle.Critical, resManager.GetString("Error"))
+            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
         End Try
+
+        ' 5. Apagamos el escudo: el combo ya está listo para que el usuario interactúe
+        cargandoFormulario = False
+
         frmTipoInformeApuntes.RadioButton1.Enabled = True
         frmTipoInformeApuntes.RadioButton2.Enabled = True
         frmTipoInformeApuntes.RadioButton5.Enabled = False
@@ -553,6 +567,7 @@ Public Class ApuntesContables
         vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
         vtipoGrid = "APUNTES_CONTABLES"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
+        TraducirGridApuntesBD(Me.DgvApuntes, resManager)
         If DgvApuntes.RowCount - 1 >= 0 Then
             vFila = DgvApuntes.RowCount - 1
             DgvApuntes.Rows(vFila).Selected = True
@@ -637,6 +652,7 @@ Public Class ApuntesContables
             ListBox1.Visible = False
             vtipoGrid = "APUNTES_CONTABLES"
             LlenarGrid(vtipoSql, vtipoGrid, "1")
+            TraducirGridApuntesBD(Me.DgvApuntes, resManager)
             If DgvApuntes.RowCount - 1 >= 0 Then
                 vFila = DgvApuntes.RowCount - 1
                 DgvApuntes.Rows(vFila).Selected = True
@@ -662,6 +678,7 @@ Public Class ApuntesContables
             vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
             vtipoGrid = "APUNTES_CONTABLES"
             LlenarGrid(vtipoSql, vtipoGrid, "1")
+            TraducirGridApuntesBD(Me.DgvApuntes, resManager)
             If DgvApuntes.RowCount - 1 >= 0 Then
                 vFila = DgvApuntes.RowCount - 1
                 DgvApuntes.Rows(vFila).Selected = True
@@ -670,7 +687,135 @@ Public Class ApuntesContables
         End If
     End Sub
 
+    'Private Sub CmbCuenta_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbCuenta.SelectedIndexChanged
+    '    If ListBox1.SelectedItems.Count = 0 Then
+    '        If BtnFiltroCuenta.Enabled = False Then
+    '            vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
+    '            If BtnFechasClick = "SI" Then
+    '                vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
+    '            Else
+    '                vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+    '            End If
+    '            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
+    '            If BtnFiltroConcepto.Enabled = False Then
+    '                vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text.Replace("'", "''") & "' "
+    '            End If
+    '            If BtnFiltroFecha.Enabled = False Then
+    '                vDate1 = DateTimePicker1.Value.Date
+    '                vDate2 = DateTimePicker2.Value.Date
+    '                vtipoSql += " And apuntes.FechaAPU >= ?"
+    '                vtipoSql += " And apuntes.FechaAPU <= ?"
+    '            End If
+    '            vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
+    '            vtipoGrid = "APUNTES_CONTABLES"
+    '            LlenarGrid(vtipoSql, vtipoGrid, "1")
+    '            If DgvApuntes.RowCount - 1 >= 0 Then
+    '                vFila = DgvApuntes.RowCount - 1
+    '                DgvApuntes.Rows(vFila).Selected = True
+    '                DgvApuntes.CurrentCell = DgvApuntes.Rows(vFila).Cells(0)
+    '            End If
+    '        End If
+    '    Else
+    '        If BtnFiltroCuenta.Enabled = False Then
+    '            Dim i As Integer
+    '            vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM   apuntes"
+    '            If BtnFechasClick = "SI" Then
+    '                vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
+    '            Else
+    '                vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+    '            End If
+    '            For i = 0 To ListBox1.SelectedItems.Count - 1
+    '                vConcepto = ListBox1.SelectedItems(i).ToString
+    '                If i = 0 Then
+    '                    vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
+    '                    If BtnFiltroCuenta.Enabled = False Then
+    '                        vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
+    '                    End If
+    '                    If BtnFiltroFecha.Enabled = False Then
+    '                        vDate1 = DateTimePicker1.Value.Date
+    '                        vDate2 = DateTimePicker2.Value.Date
+    '                        vtipoSql += " And apuntes.FechaAPU >= ?"
+    '                        vtipoSql += " And apuntes.FechaAPU <= ?"
+    '                    End If
+    '                Else
+    '                    vtipoSql += " Or "
+    '                    If BtnFechasClick = "SI" Then
+    '                        vtipoSql += "apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
+    '                    Else
+    '                        vtipoSql += "apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+    '                    End If
+    '                    vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
+    '                    If BtnFiltroCuenta.Enabled = False Then
+    '                        vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
+    '                    End If
+    '                    If BtnFiltroFecha.Enabled = False Then
+    '                        vDate1 = DateTimePicker1.Value.Date
+    '                        vDate2 = DateTimePicker2.Value.Date
+    '                        vtipoSql += " And apuntes.FechaAPU >= ?"
+    '                        vtipoSql += " And apuntes.FechaAPU <= ?"
+    '                    End If
+    '                End If
+    '            Next
+    '            vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
+    '            vtipoGrid = "APUNTES_CONTABLES"
+    '            LlenarGrid(vtipoSql, vtipoGrid, "1")
+    '            If DgvApuntes.RowCount - 1 >= 0 Then
+    '                vFila = DgvApuntes.RowCount - 1
+    '                DgvApuntes.Rows(vFila).Selected = True
+    '                DgvApuntes.CurrentCell = DgvApuntes.Rows(vFila).Cells(0)
+    '            End If
+    '        End If
+    '    End If
+    'End Sub
+
     Private Sub CmbCuenta_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbCuenta.SelectedIndexChanged
+        ' ESCUDO: Si el formulario se está cargando o limpiando, salimos inmediatamente
+        If cargandoFormulario Then Exit Sub
+        If CmbCuenta.SelectedIndex < 0 Then Exit Sub
+
+        ' 1. RECUPERAMOS EL NOMBRE ORIGINAL DE LA CUENTA EN ESPAÑOL SEGÚN SU POSICIÓN
+        Dim cuentaOriginal As String = ""
+        cmdMdb1cr.CommandText = "SELECT NombreCUE FROM cuentas ORDER BY NombreCUE ASC"
+        Try
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            Dim contadorCuentas As Integer = 0
+            Dim indiceCuenta As Integer = CmbCuenta.SelectedIndex
+            While drMdb1.Read()
+                If contadorCuentas = indiceCuenta Then
+                    cuentaOriginal = drMdb1("NombreCUE").ToString()
+                    Exit While
+                End If
+                contadorCuentas += 1
+            End While
+            drMdb1.Close()
+        Catch ex As Exception
+            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+            MsgBox("Error al identificar la cuenta: " & ex.Message, MsgBoxStyle.Critical, "Error")
+            Exit Sub
+        End Try
+
+        ' 2. RECUPERAMOS EL CÓDIGO ORIGINAL DEL CONCEPTO SELECCIONADO EN EL COMBO (Por si se usa abajo)
+        Dim conceptoComboOriginal As String = ""
+        If CmbConcepto.SelectedIndex >= 0 Then
+            cmdMdb1cr.CommandText = "SELECT CodigoCON FROM conceptos ORDER BY TipoCON ASC, CodigoCON ASC"
+            Try
+                drMdb1 = cmdMdb1cr.ExecuteReader()
+                Dim contadorConcepto As Integer = 0
+                Dim indiceConcepto As Integer = CmbConcepto.SelectedIndex
+                While drMdb1.Read()
+                    If contadorConcepto = indiceConcepto Then
+                        conceptoComboOriginal = drMdb1("CodigoCON").ToString()
+                        Exit While
+                    End If
+                    contadorConcepto += 1
+                End While
+                drMdb1.Close()
+            Catch ex As Exception
+                If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+            End Try
+        End If
+
+        ' --- PROCESO DE FILTRADO DEL GRID ---
         If ListBox1.SelectedItems.Count = 0 Then
             If BtnFiltroCuenta.Enabled = False Then
                 vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
@@ -679,10 +824,14 @@ Public Class ApuntesContables
                 Else
                     vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
                 End If
-                vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
+
+                ' USAMOS VALORES EN ESPAÑOL ORIGINALES
+                vtipoSql += " And apuntes.CuentaAPU = '" & cuentaOriginal.Replace("'", "''") & "' "
+
                 If BtnFiltroConcepto.Enabled = False Then
-                    vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text.Replace("'", "''") & "' "
+                    vtipoSql += " And apuntes.ConceptoAPU = '" & conceptoComboOriginal.Replace("'", "''") & "' "
                 End If
+
                 If BtnFiltroFecha.Enabled = False Then
                     vDate1 = DateTimePicker1.Value.Date
                     vDate2 = DateTimePicker2.Value.Date
@@ -692,6 +841,7 @@ Public Class ApuntesContables
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
+                TraducirGridApuntesBD(Me.DgvApuntes, resManager)
                 If DgvApuntes.RowCount - 1 >= 0 Then
                     vFila = DgvApuntes.RowCount - 1
                     DgvApuntes.Rows(vFila).Selected = True
@@ -699,20 +849,60 @@ Public Class ApuntesContables
                 End If
             End If
         Else
+            ' FILTRADO MULTIPLE CON EL LISTBOX1 SELECCIONADO
             If BtnFiltroCuenta.Enabled = False Then
                 Dim i As Integer
-                vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM   apuntes"
+                vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
                 If BtnFechasClick = "SI" Then
                     vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
                 Else
                     vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
                 End If
+
                 For i = 0 To ListBox1.SelectedItems.Count - 1
-                    vConcepto = ListBox1.SelectedItems(i).ToString
+                    Dim conceptoTraducido As String = ListBox1.SelectedItems(i).ToString()
+
+                    ' Ignoramos las cabeceras estéticas (** GASTO **, etc.) para que no rompan la consulta
+                    If conceptoTraducido.StartsWith("**") Then Continue For
+
+                    ' Buscamos el código original en español correspondiente a esa posición del ListBox1
+                    Dim conceptoOriginal As String = ""
+                    Dim indiceListBox As Integer = ListBox1.SelectedIndices(i)
+
+                    ' Nota: Para sincronizar el índice del ListBox con la BD hay que descontar las cabeceras. 
+                    ' Es más seguro buscar directamente en la tabla por el orden establecido.
+                    cmdMdb1cr.CommandText = "SELECT CodigoCON FROM conceptos ORDER BY TipoCON ASC, CodigoCON ASC"
+                    Try
+                        drMdb1 = cmdMdb1cr.ExecuteReader()
+                        Dim contadorItem As Integer = 0
+                        ' Contamos los elementos reales de la BD hasta emparejar el texto traducido
+                        While drMdb1.Read()
+                            Dim codBD As String = drMdb1("CodigoCON").ToString()
+                            Dim llave As String = codBD.Replace(" ", "_")
+                            Dim trad As String = resManager.GetString(llave)
+                            If String.IsNullOrEmpty(trad) Then trad = codBD
+
+                            If codBD.ToUpper() = "TRASPASO" Then
+                                Dim tradTraspaso As String = resManager.GetString("TRASPASO")
+                                If Not String.IsNullOrEmpty(tradTraspaso) Then trad = tradTraspaso
+                            End If
+
+                            If trad = conceptoTraducido Then
+                                conceptoOriginal = codBD
+                                Exit While
+                            End If
+                        End While
+                        drMdb1.Close()
+                    Catch ex As Exception
+                        If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+                    End Try
+
+                    If String.IsNullOrEmpty(conceptoOriginal) Then conceptoOriginal = conceptoTraducido
+
                     If i = 0 Then
-                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
+                        vtipoSql += " And apuntes.ConceptoAPU = '" & conceptoOriginal.Replace("'", "''") & "' "
                         If BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
+                            vtipoSql += " And apuntes.CuentaAPU = '" & cuentaOriginal.Replace("'", "''") & "' "
                         End If
                         If BtnFiltroFecha.Enabled = False Then
                             vDate1 = DateTimePicker1.Value.Date
@@ -727,9 +917,9 @@ Public Class ApuntesContables
                         Else
                             vtipoSql += "apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
                         End If
-                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
+                        vtipoSql += " And apuntes.ConceptoAPU = '" & conceptoOriginal.Replace("'", "''") & "' "
                         If BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
+                            vtipoSql += " And apuntes.CuentaAPU = '" & cuentaOriginal.Replace("'", "''") & "' "
                         End If
                         If BtnFiltroFecha.Enabled = False Then
                             vDate1 = DateTimePicker1.Value.Date
@@ -739,9 +929,11 @@ Public Class ApuntesContables
                         End If
                     End If
                 Next
+
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
+                TraducirGridApuntesBD(Me.DgvApuntes, resManager)
                 If DgvApuntes.RowCount - 1 >= 0 Then
                     vFila = DgvApuntes.RowCount - 1
                     DgvApuntes.Rows(vFila).Selected = True
@@ -772,8 +964,8 @@ Public Class ApuntesContables
                 End If
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
-                'MsgBox(vtipoSql)
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
+                TraducirGridApuntesBD(Me.DgvApuntes, resManager)
                 If DgvApuntes.RowCount - 1 >= 0 Then
                     vFila = DgvApuntes.RowCount - 1
                     DgvApuntes.Rows(vFila).Selected = True
@@ -826,6 +1018,7 @@ Public Class ApuntesContables
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
+                TraducirGridApuntesBD(Me.DgvApuntes, resManager)
                 If DgvApuntes.RowCount - 1 >= 0 Then
                     vFila = DgvApuntes.RowCount - 1
                     DgvApuntes.Rows(vFila).Selected = True
@@ -858,6 +1051,7 @@ Public Class ApuntesContables
                 vtipoGrid = "APUNTES_CONTABLES"
                 'MsgBox(vtipoSql)
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
+                TraducirGridApuntesBD(Me.DgvApuntes, resManager)
                 If DgvApuntes.RowCount - 1 >= 0 Then
                     vFila = DgvApuntes.RowCount - 1
                     DgvApuntes.Rows(vFila).Selected = True
@@ -908,6 +1102,7 @@ Public Class ApuntesContables
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
+                TraducirGridApuntesBD(Me.DgvApuntes, resManager)
                 If DgvApuntes.RowCount - 1 >= 0 Then
                     vFila = DgvApuntes.RowCount - 1
                     DgvApuntes.Rows(vFila).Selected = True
@@ -978,6 +1173,7 @@ Public Class ApuntesContables
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
+                TraducirGridApuntesBD(Me.DgvApuntes, resManager)
                 If DgvApuntes.RowCount - 1 >= 0 Then
                     vFila = DgvApuntes.RowCount - 1
                     DgvApuntes.Rows(vFila).Selected = True
@@ -1026,6 +1222,7 @@ Public Class ApuntesContables
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
+                TraducirGridApuntesBD(Me.DgvApuntes, resManager)
                 If frmApuntesContables.DgvApuntes.RowCount - 1 >= 0 Then
                     vFila = frmApuntesContables.DgvApuntes.RowCount - 1
                     frmApuntesContables.DgvApuntes.Rows(vFila).Selected = True
@@ -1246,6 +1443,7 @@ Public Class ApuntesContables
             vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
             vtipoGrid = "APUNTES_CONTABLES"
             LlenarGrid(vtipoSql, vtipoGrid, "1")
+            TraducirGridApuntesBD(Me.DgvApuntes, resManager)
             If DgvApuntes.Rows.Count <> 0 Then
                 For Each row As DataGridViewRow In DgvApuntes.Rows
                     If CStr(row.Cells(7).Value) = vCodigo Then
@@ -1342,6 +1540,7 @@ Public Class ApuntesContables
             vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
             vtipoGrid = "APUNTES_CONTABLES"
             LlenarGrid(vtipoSql, vtipoGrid, "1")
+            TraducirGridApuntesBD(Me.DgvApuntes, resManager)
             If DgvApuntes.Rows.Count <> 0 Then
                 For Each row As DataGridViewRow In DgvApuntes.Rows
                     If CStr(row.Cells(7).Value) = vCodigo Then
@@ -1577,6 +1776,7 @@ Public Class ApuntesContables
         vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
         vtipoGrid = "APUNTES_CONTABLES"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
+        TraducirGridApuntesBD(Me.DgvApuntes, resManager)
         If DgvApuntes.RowCount - 1 >= 0 Then
             vFila = DgvApuntes.RowCount - 1
             DgvApuntes.Rows(vFila).Selected = True
@@ -1592,6 +1792,7 @@ Public Class ApuntesContables
         vBuscar = frmBuscar.CmbTextoBuscar.Text
         vCampo = frmBuscar.CmbCampos.SelectedIndex
         vRow = 0
+        If DgvApuntes.Rows.Count = 0 Then Exit Sub
         For Each row As DataGridViewRow In DgvApuntes.Rows
             If frmBuscar.ChkPrimerRegistro.Checked = True Then 'Desde el primer registro
                 If vCampo = 0 Then
@@ -1846,6 +2047,7 @@ Public Class ApuntesContables
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
+                TraducirGridApuntesBD(Me.DgvApuntes, resManager)
             End If
         End If
     End Sub
@@ -1862,6 +2064,7 @@ Public Class ApuntesContables
         vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
         vtipoGrid = "APUNTES_CONTABLES"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
+        TraducirGridApuntesBD(Me.DgvApuntes, resManager)
         LblNumRegistros.Text = resManager.GetString("SinFiltrar") ' My.Resources.Recursos.SinFiltrar
         BtnFiltroCuenta.Enabled = True
         BtnSinFiltroCuenta.Enabled = False
@@ -1920,6 +2123,7 @@ Public Class ApuntesContables
                     vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                     vtipoGrid = "APUNTES_CONTABLES"
                     LlenarGrid(vtipoSql, vtipoGrid, "1")
+                    TraducirGridApuntesBD(Me.DgvApuntes, resManager)
                 End If
             End If
         End If
@@ -1936,6 +2140,7 @@ Public Class ApuntesContables
             vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
             vtipoGrid = "APUNTES_CONTABLES"
             LlenarGrid(vtipoSql, vtipoGrid, "1")
+            TraducirGridApuntesBD(Me.DgvApuntes, resManager)
             BtnFiltroCuenta.Enabled = True
             BtnSinFiltroCuenta.Enabled = False
             BtnFiltroConcepto.Enabled = True
@@ -1958,6 +2163,7 @@ Public Class ApuntesContables
             BtnSeguirBuscando.Enabled = False
         Else
             vContador = -1
+            If DgvApuntes.Rows.Count = 0 Then Exit Sub
             For Each row As DataGridViewRow In DgvApuntes.Rows
                 vContador += 1
                 If vContador > vRow Then
@@ -2125,36 +2331,76 @@ Public Class ApuntesContables
     End Sub
 
     Private Sub CmbConcepto_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbConcepto.SelectedIndexChanged
+        ' ESCUDO: Si el formulario se está cargando, salimos inmediatamente y no hacemos nada
+        If cargandoFormulario Then Exit Sub
+
+        ' Validación de seguridad por si el combo se queda sin filas (base de datos vacía)
+        If CmbConcepto.SelectedIndex < 0 Then Exit Sub
+
         ' Se buscan Conceptos según lo seleccionado
         '******************************************
         If ListBox1.SelectedItems.Count = 0 Then
-            vConcepto = CmbConcepto.Text.ToString
-            drMdb1.Close()
-            cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto.Replace("'", "''") & "' "
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-            drMdb1.Read()
-            TxtConcepto.Text = drMdb1.GetValue(1)
-            drMdb1.Close()
+
+            Dim codigoOriginal As String = ""
+            Dim descripcionOriginal As String = ""
+
+            ' 1. NUEVO: Recuperamos los valores REALES en español desde la BD basándonos en la posición seleccionada
+            cmdMdb1cr.CommandText = "SELECT CodigoCON, DescripcionCON FROM conceptos ORDER BY TipoCON ASC, CodigoCON ASC"
+            Try
+                drMdb1 = cmdMdb1cr.ExecuteReader()
+                Dim contador As Integer = 0
+                Dim indiceSeleccionado As Integer = CmbConcepto.SelectedIndex
+
+                While drMdb1.Read()
+                    If contador = indiceSeleccionado Then
+                        codigoOriginal = drMdb1("CodigoCON").ToString()
+                        descripcionOriginal = drMdb1("DescripcionCON").ToString()
+                        Exit While
+                    End If
+                    contador += 1
+                End While
+                drMdb1.Close()
+
+                ' Asignamos la descripción original al cuadro de texto de la pantalla
+                TxtConcepto.Text = descripcionOriginal
+
+            Catch ex As Exception
+                If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+                MsgBox("Error al recuperar los datos del concepto: " & ex.Message, MsgBoxStyle.Critical, "Error")
+                Exit Sub
+            End Try
+
+            ' 2. FILTRADO DEL GRID UTILIZANDO EL CÓDIGO ORIGINAL SEGURO
             If BtnFiltroConcepto.Enabled = False Then
                 vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
+
                 If BtnFechasClick = "SI" Then
                     vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
                 Else
                     vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
                 End If
-                vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text.Replace("'", "''") & "' "
+
+                ' CRÍTICO: Filtramos por el "codigoOriginal" en español que requiere la base de datos, no por el combo traducido
+                vtipoSql += " And apuntes.ConceptoAPU = '" & codigoOriginal.Replace("'", "''") & "' "
+
                 If BtnFiltroCuenta.Enabled = False Then
                     vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
                 End If
+
                 If BtnFiltroFecha.Enabled = False Then
                     vDate1 = DateTimePicker1.Value.Date
                     vDate2 = DateTimePicker2.Value.Date
                     vtipoSql += " And apuntes.FechaAPU >= ?"
                     vtipoSql += " And apuntes.FechaAPU <= ?"
                 End If
+
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
+
+                ' Volcamos los datos filtrados en el Grid de la pantalla
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
+                TraducirGridApuntesBD(Me.DgvApuntes, resManager)
+
                 If DgvApuntes.RowCount - 1 >= 0 Then
                     vFila = DgvApuntes.RowCount - 1
                     DgvApuntes.Rows(vFila).Selected = True

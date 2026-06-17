@@ -224,7 +224,7 @@ They are not removed from the database</value>
     <value>Description</value>
   </data>
   <data name="Notas" xml:space="preserve">
-    <value>Transactions</value>
+    <value>Notes</value>
   </data>
   <data name="Tipo_Gasto" xml:space="preserve">
     <value>EXPENSE</value>
@@ -313,9 +313,6 @@ They are not removed from the database</value>
   <data name="CASA" xml:space="preserve">
     <value>HOUSE</value>
   </data>
-  <data name="CLIENTE00" xml:space="preserve">
-    <value>CLIENTE00</value>
-  </data>
   <data name="COMUNIDAD" xml:space="preserve">
     <value>COMMUNITY</value>
   </data>
@@ -367,15 +364,6 @@ They are not removed from the database</value>
   <data name="OCIO" xml:space="preserve">
     <value>LEISURE</value>
   </data>
-  <data name="PENSION" xml:space="preserve">
-    <value>PENSION</value>
-  </data>
-  <data name="REGULARITZACIO_1" xml:space="preserve">
-    <value>REGULARITZACIO 1</value>
-  </data>
-  <data name="REGULARITZACIO_2" xml:space="preserve">
-    <value>REGULARITZACIO 2</value>
-  </data>
   <data name="ROPA" xml:space="preserve">
     <value>CLOTHING</value>
   </data>
@@ -411,9 +399,6 @@ They are not removed from the database</value>
   </data>
   <data name="Desc_CASA" xml:space="preserve">
     <value>Home Utilities</value>
-  </data>
-  <data name="Desc_CLIENTE00" xml:space="preserve">
-    <value>Vario Client</value>
   </data>
   <data name="Desc_COMUNIDAD" xml:space="preserve">
     <value>Community Parking</value>
@@ -684,5 +669,20 @@ the file is not open</value>
   </data>
   <data name="Vacio" xml:space="preserve">
     <value>Without programming..</value>
+  </data>
+  <data name="REGULARITZACIO_2" xml:space="preserve">
+    <value>REGULARIZATION 2</value>
+  </data>
+  <data name="REGULARITZACIO_1" xml:space="preserve">
+    <value>REGULARIZATION 1</value>
+  </data>
+  <data name="PENSION" xml:space="preserve">
+    <value>SALARY</value>
+  </data>
+  <data name="CLIENTE00" xml:space="preserve">
+    <value>CLIENT</value>
+  </data>
+  <data name="Desc_CLIENTE00" xml:space="preserve">
+    <value>Client</value>
   </data>
 </root>

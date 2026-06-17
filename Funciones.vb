@@ -1341,6 +1341,134 @@ Module Funciones
         End Try
     End Sub
 
+    Public Sub LlenarYTraducirControlesConceptosBD(ByVal combo As ComboBox, ByVal lista As ListBox, ByVal dr As OleDbDataReader)
+        Try
+            ' Guardamos la posición que tenía seleccionada el usuario
+            Dim posicionActual As Integer = combo.SelectedIndex
+
+            combo.Items.Clear()
+            lista.Items.Clear()
+
+            Dim vTipoConcepto As String = ""
+
+            ' Recorremos el DataReader traduciendo cada registro sobre la marcha
+            While dr.Read()
+                Dim codigoOriginal As String = dr("CodigoCON").ToString().Trim()
+                Dim tipoOriginal As String = dr("TipoCON").ToString().Trim().ToUpper()
+
+                ' Generamos la clave idéntica reemplazando los espacios
+                Dim llaveBase As String = codigoOriginal.Replace(" ", "_")
+                Dim codigoTraducido As String = resManager.GetString(llaveBase)
+
+                ' Si no tiene traducción, dejamos el original
+                If String.IsNullOrEmpty(codigoTraducido) Then codigoTraducido = codigoOriginal
+
+                ' Caso especial para el Traspaso del sistema
+                If codigoOriginal.ToUpper() = "TRASPASO" Then
+                    Dim tradTraspaso As String = resManager.GetString("TRASPASO")
+                    If Not String.IsNullOrEmpty(tradTraspaso) Then codigoTraducido = tradTraspaso
+                End If
+
+                ' --- AGREGAR CABECERAS DE GRUPO EXCLUSIVAS PARA EL LISTBOX ---
+                ' Comprobamos si ha cambiado el tipo de concepto (GASTO / INGRESO / ESPECIAL)
+                If vTipoConcepto <> tipoOriginal Then
+                    vTipoConcepto = tipoOriginal
+
+                    Select Case vTipoConcepto
+                        Case "GASTO"
+                            lista.Items.Add("** " & frmApuntesContables.rmse.GetString("Label8.Text") & " **")
+                        Case "INGRESO"
+                            lista.Items.Add("** " & frmApuntesContables.rmse.GetString("Label7.Text") & " **")
+                        Case "ESPECIAL"
+                            lista.Items.Add("** " & resManager.GetString("Tipo_Especial") & " **")
+                    End Select
+                End If
+
+                ' --- LLENADO SINCRONIZADO ---
+                combo.Items.Add(codigoTraducido)
+                lista.Items.Add(codigoTraducido)
+            End While
+
+            ' Restauramos la posición de forma segura para evitar desbordamientos en mdb vacías
+            If posicionActual >= 0 AndAlso posicionActual < combo.Items.Count Then
+                combo.SelectedIndex = posicionActual
+            ElseIf combo.Items.Count > 0 Then
+                combo.SelectedIndex = 0
+            End If
+        Catch ex As Exception
+            ' Evita cuelgues visuales si el volcado falla
+        End Try
+    End Sub
+
+    Public Sub LlenarYTraducirComboConceptosBD(ByVal combo As ComboBox, ByVal dr As OleDbDataReader, ByVal res As System.Resources.ResourceManager)
+        Try
+            Dim posicionActual As Integer = combo.SelectedIndex
+            combo.Items.Clear()
+
+            ' Recorremos el DataReader traduciendo cada registro sobre la marcha
+            While dr.Read()
+                Dim codigoOriginal As String = dr("CodigoCON").ToString().Trim()
+                Dim llaveBase As String = codigoOriginal.Replace(" ", "_")
+
+                ' Buscamos la traducción usando el gestor de recursos que le enviamos
+                Dim codigoTraducido As String = res.GetString(llaveBase)
+                If String.IsNullOrEmpty(codigoTraducido) Then codigoTraducido = codigoOriginal
+
+                ' Caso especial para el Traspaso del sistema
+                If codigoOriginal.ToUpper() = "TRASPASO" Then
+                    Dim tradTraspaso As String = res.GetString("TRASPASO")
+                    If Not String.IsNullOrEmpty(tradTraspaso) Then codigoTraducido = tradTraspaso
+                End If
+
+                combo.Items.Add(codigoTraducido)
+            End While ' <--- Totalmente corregido con End While
+
+            ' Selección segura para evitar errores en bases de datos vacías
+            If posicionActual >= 0 AndAlso posicionActual < combo.Items.Count Then
+                combo.SelectedIndex = posicionActual
+            ElseIf combo.Items.Count > 0 Then
+                combo.SelectedIndex = 0
+            End If
+        Catch ex As Exception
+            ' Evita cuelgues si el volcado de la base de datos falla
+        End Try
+    End Sub
+
+    Public Sub TraducirGridApuntesBD(ByVal dgv As DataGridView, ByVal res As System.Resources.ResourceManager)
+        Try
+            If dgv IsNot Nothing AndAlso dgv.Rows.Count > 0 Then
+                For Each fila As DataGridViewRow In dgv.Rows
+                    If Not fila.IsNewRow Then
+                        ' 1. Traducir Columna (1): Concepto
+                        If fila.Cells(1).Value IsNot Nothing Then
+                            Dim conOriginal As String = fila.Cells(1).Value.ToString().Trim()
+                            Dim llaveBase As String = conOriginal.Replace(" ", "_")
+                            Dim conTraducido As String = res.GetString(llaveBase)
+
+                            If conOriginal.ToUpper() = "TRASPASO" Then
+                                Dim tradTraspaso As String = res.GetString("TRASPASO")
+                                If Not String.IsNullOrEmpty(tradTraspaso) Then conTraducido = tradTraspaso
+                            End If
+
+                            If Not String.IsNullOrEmpty(conTraducido) Then fila.Cells(1).Value = conTraducido
+                        End If
+
+                        ' 2. Traducir Columna (2): Descripción
+                        If fila.Cells(2).Value IsNot Nothing AndAlso fila.Cells(1).Value IsNot Nothing Then
+                            Dim conOriginal As String = fila.Cells(1).Value.ToString().Trim()
+                            Dim llaveDesc As String = "Desc_" & conOriginal.Replace(" ", "_")
+                            Dim tradDesc As String = res.GetString(llaveDesc)
+
+                            If Not String.IsNullOrEmpty(tradDesc) Then fila.Cells(2).Value = tradDesc
+                        End If
+                    End If
+                Next
+            End If
+        Catch ex As Exception
+            ' Evita cuelgues si el Grid se está repintando
+        End Try
+    End Sub
+
     Public Function ObtenerClaveNeutral(textoTraducido As String, rm As System.Resources.ResourceManager) As String
         ' 1. Evitamos buscar si el texto viene vacío o nulo
         If String.IsNullOrEmpty(textoTraducido) OrElse rm Is Nothing Then Return ""

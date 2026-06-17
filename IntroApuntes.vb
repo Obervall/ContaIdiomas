@@ -1,5 +1,6 @@
 ﻿Imports System.Collections.Generic
 Imports System.Data
+Imports System.Data.OleDb
 Imports System.Diagnostics
 Imports System.Drawing
 Imports System.Globalization
@@ -9,6 +10,7 @@ Imports ToolTip = System.Windows.Forms.ToolTip
 
 Public Class IntroApuntes
 
+    Private cargandoFormulario As Boolean = True
     Public vConcepto, vtipoSql, vtipoGrid As String
     Public vDescripcionAPU, vNotasAPU, vCuentaAPU, strText, vIntro, vLetras, vCombo, vDescripcion As String
     Public vImporteAPU As Double
@@ -82,51 +84,119 @@ Public Class IntroApuntes
 
         CmbConcepto.DropDownStyle = ComboBoxStyle.DropDownList
 
-        ' Llenar el Combo Concepto
-        '*************************
-        cmdMdb1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
-        Try
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-            If drMdb1.HasRows Then
-                While drMdb1.Read()
-                    CmbConcepto.Items.Add(drMdb1.GetValue(0))
-                End While
-                CmbConcepto.Text = CmbConcepto.Items(0)
-            Else
-                'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
-            End If
-            drMdb1.Close()
-        Catch ex As Exception
-            MsgBox(ex.ToString)
-        End Try
-
         ' Llenar el Combo Descripción
         '****************************
         LlenarDescripcion()
 
-        ' Llenar el Combo Cuenta
-        '***********************
-        drMdb1.Close()
-        cmdMdb1cr.CommandText = "SELECT * FROM cuentas ORDER BY cuentas.NombreCUE ASC"
+        '' Llenar el Combo Concepto
+        ''*************************
+        'cmdMdb1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
+        'Try
+        '    drMdb1 = cmdMdb1cr.ExecuteReader()
+        '    If drMdb1.HasRows Then
+        '        While drMdb1.Read()
+        '            CmbConcepto.Items.Add(drMdb1.GetValue(0))
+        '        End While
+        '        CmbConcepto.Text = CmbConcepto.Items(0)
+        '    Else
+        '        'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
+        '    End If
+        '    drMdb1.Close()
+        'Catch ex As Exception
+        '    MsgBox(ex.ToString)
+        'End Try
+
+        '' Llenar el Combo Cuenta
+        ''***********************
+        'drMdb1.Close()
+        'cmdMdb1cr.CommandText = "SELECT * FROM cuentas ORDER BY cuentas.NombreCUE ASC"
+        'Try
+        '    drMdb1 = cmdMdb1cr.ExecuteReader()
+        '    If drMdb1.HasRows Then
+        '        While drMdb1.Read()
+        '            CmbCuenta.Items.Add(drMdb1.GetValue(0))
+        '        End While
+        '        If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
+        '            CmbCuenta.Text = CmbCuenta.Items(frmApuntesContables.CmbCuenta.SelectedIndex)
+        '        Else
+        '            CmbCuenta.Text = CmbCuenta.Items(0)
+        '        End If
+        '    Else
+        '        'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
+        '    End If
+        '    drMdb1.Close()
+        'Catch ex As Exception
+        '    MsgBox(ex.ToString)
+        'End Try
+        'TxtImporte.Text = 0
+
+        ' Llenar el Combo Concepto de forma segura y traducida (IntroApuntes)
+        '******************************************************************
+        ' IMPORTANTE: Reutilizamos nuestra función modular que ya creamos
+        cmdMdb1cr.CommandText = "SELECT CodigoCON FROM conceptos ORDER BY TipoCON ASC, CodigoCON ASC"
         Try
             drMdb1 = cmdMdb1cr.ExecuteReader()
+
+            ' La función limpia, rellena y traduce el combo automáticamente
+            LlenarYTraducirComboConceptosBD(Me.CmbConcepto, drMdb1, resManager)
+
+            drMdb1.Close()
+
+            ' Selección por defecto segura para evitar desbordamientos
+            If CmbConcepto.Items.Count > 0 Then
+                CmbConcepto.SelectedIndex = 0
+            End If
+        Catch ex As Exception
+            MsgBox("Error al cargar conceptos en introducción: " & ex.Message, MsgBoxStyle.Critical, "Error")
+            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+        End Try
+
+        ' Llenar el Combo Cuenta de forma segura y traducida (IntroApuntes)
+        '******************************************************************
+        cmdMdb1cr.CommandText = "SELECT NombreCUE FROM cuentas ORDER BY NombreCUE ASC"
+        Try
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            CmbCuenta.Items.Clear()
+
             If drMdb1.HasRows Then
                 While drMdb1.Read()
-                    CmbCuenta.Items.Add(drMdb1.GetValue(0))
+                    Dim cuentaOriginal As String = drMdb1("NombreCUE").ToString().Trim()
+                    Dim llaveBase As String = cuentaOriginal.Replace(" ", "_")
+                    Dim cuentaTraducida As String = resManager.GetString(llaveBase)
+
+                    If String.IsNullOrEmpty(cuentaTraducida) Then cuentaTraducida = cuentaOriginal
+                    CmbCuenta.Items.Add(cuentaTraducida)
                 End While
-                If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
-                    CmbCuenta.Text = CmbCuenta.Items(frmApuntesContables.CmbCuenta.SelectedIndex)
-                Else
-                    CmbCuenta.Text = CmbCuenta.Items(0)
+
+                ' SELECCIÓN INTELIGENTE Y SEGURA DE LA CUENTA
+                If CmbCuenta.Items.Count > 0 Then
+                    ' Si en la pantalla principal hay una cuenta seleccionada y el filtro está activo, heredamos esa misma posición
+                    If frmApuntesContables.BtnFiltroCuenta.Enabled = False AndAlso frmApuntesContables.CmbCuenta.SelectedIndex >= 0 AndAlso frmApuntesContables.CmbCuenta.SelectedIndex < CmbCuenta.Items.Count Then
+                        CmbCuenta.SelectedIndex = frmApuntesContables.CmbCuenta.SelectedIndex
+                    Else
+                        CmbCuenta.SelectedIndex = 0
+                    End If
                 End If
             Else
-                'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
+                CmbCuenta.Text = ""
             End If
             drMdb1.Close()
         Catch ex As Exception
-            MsgBox(ex.ToString)
+            MsgBox("Error al cargar cuentas en introducción: " & ex.Message, MsgBoxStyle.Critical, "Error")
+            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
         End Try
-        TxtImporte.Text = 0
+
+        TxtImporte.Text = "0"
+
+        ' APAGAMOS EL ESCUDO: El formulario ya está cargado del todo
+        cargandoFormulario = False
+
+        ' SELECCIÓN SEGUNDO ELEMENTO: Forzamos el índice 1 (el siguiente de Transfer)
+        If CmbConcepto.Items.Count > 1 Then
+            CmbConcepto.SelectedIndex = 1 ' Esto disparará automáticamente el evento con las traducciones
+        ElseIf CmbConcepto.Items.Count > 0 Then
+            CmbConcepto.SelectedIndex = 0
+        End If
     End Sub
 
     Private Sub CmbConcepto_MouseClick(sender As Object, e As MouseEventArgs) Handles CmbConcepto.MouseClick
@@ -136,25 +206,69 @@ Public Class IntroApuntes
         ' (Nos aseguramos comprobando si la lista ya está abierta o abriéndola suavemente)
         If CmbConcepto.Items.Count <> 0 AndAlso Not CmbConcepto.DroppedDown Then
             CmbConcepto.DroppedDown = True
-            CmbConcepto.SelectedIndex = 0
+            'CmbConcepto.SelectedIndex = 0
         End If
     End Sub
 
     Private Sub CmbConcepto_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbConcepto.SelectedIndexChanged
+        ' 1. ESCUDO DE CARGA: Si el formulario se está iniciando o el combo está vacío, salimos inmediatamente
+        If cargandoFormulario Then Exit Sub
+        If CmbConcepto.SelectedIndex < 0 Then Exit Sub
+
         ' Se buscan Conceptos según lo seleccionado para mostrar su descripción y tipo en los cuadros de abajo
         '*****************************************************************************************************
         If vIntro = "NO" Then
-            vConcepto = CmbConcepto.Text.ToString
-            drMdb1.Close()
-            cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto.Replace("'", "''") & "' ORDER BY conceptos.CodigoCON ASC"
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-            drMdb1.Read()
-            If drMdb1.HasRows Then
-                TxtTipoConcepto.Text = drMdb1.GetValue(2)
-                CmbDescripcion.Text = drMdb1.GetValue(1)
-                TxtDescripcion.Text = drMdb1.GetValue(1)
+            Try
+                ' 2. NUEVO: Recuperamos los valores REALES en español desde la BD basándonos en la posición del índice
+                ' Usamos el mismo orden exacto con el que se llenó el ComboBox originalmente
+                cmdMdb1cr.CommandText = "SELECT CodigoCON, DescripcionCON, TipoCON FROM conceptos ORDER BY TipoCON ASC, CodigoCON ASC"
+                drMdb1 = cmdMdb1cr.ExecuteReader()
+
+                Dim contador As Integer = 0
+                Dim indiceSeleccionado As Integer = CmbConcepto.SelectedIndex
+                Dim codigoOriginal As String = ""
+                Dim descripcionOriginal As String = ""
+                Dim tipoOriginal As String = ""
+
+                While drMdb1.Read()
+                    If contador = indiceSeleccionado Then
+                        codigoOriginal = drMdb1("CodigoCON").ToString()
+                        descripcionOriginal = drMdb1("DescripcionCON").ToString()
+                        tipoOriginal = drMdb1("TipoCON").ToString()
+                        Exit While
+                    End If
+                    contador += 1
+                End While
                 drMdb1.Close()
-            End If
+                ' 3. NUEVO: Traducir y asignar los textos a la interfaz de forma segura
+                If Not String.IsNullOrEmpty(codigoOriginal) Then
+                    vConcepto = codigoOriginal ' Guardamos el código original en español para la BD
+
+                    ' --- TRADUCIR EL TIPO (Gasto / Ingreso / Especial) ---
+                    Dim tradTipo As String = ""
+                    Select Case tipoOriginal.ToUpper()
+                        Case "GASTO" : tradTipo = resManager.GetString("Tipo_Gasto")
+                        Case "INGRESO" : tradTipo = resManager.GetString("Tipo_Ingreso")
+                        Case "ESPECIAL" : tradTipo = resManager.GetString("Tipo_Especial")
+                    End Select
+                    If String.IsNullOrEmpty(tradTipo) Then tradTipo = tipoOriginal
+                    TxtTipoConcepto.Text = tradTipo
+
+                    ' --- TRADUCIR LAS DESCRIPCIONES (Desc_NOMBRE) ---
+                    Dim llaveDesc As String = "Desc_" & codigoOriginal.Replace(" ", "_")
+                    Dim tradDesc As String = resManager.GetString(llaveDesc)
+
+                    ' Si no tiene traducción en el ResX, dejamos la descripción original de la BD
+                    If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
+
+                    CmbDescripcion.Text = tradDesc
+                    TxtDescripcion.Text = tradDesc
+                End If
+
+            Catch ex As Exception
+                If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+                MsgBox("Error al sincronizar el concepto: " & ex.Message, MsgBoxStyle.Critical, "Error")
+            End Try
         End If
     End Sub
 
@@ -305,6 +419,7 @@ Public Class IntroApuntes
 
             vtipoGrid = "APUNTES_CONTABLES"
             LlenarGrid(vtipoSql, vtipoGrid, "1")
+            TraducirGridApuntesBD(frmApuntesContables.DgvApuntes, resManager)
 
             Return True
         Catch ex As Exception
@@ -528,7 +643,31 @@ Public Class IntroApuntes
                 vDate3 = DateTimePicker1.Value.Date ' Guardamos como objeto Date puro
                 vDescripcionAPU = CmbDescripcion.Text.Trim()
                 vNotasAPU = TxtNota.Text
-                vCuentaAPU = CmbCuenta.Text.ToString
+                'vCuentaAPU = CmbCuenta.Text.ToString
+                ' --- RECUPERAR NOMBRE DE CUENTA EN ESPAÑOL SEGURO ---
+                vCuentaAPU = ""
+                If CmbCuenta.SelectedIndex >= 0 Then
+                    cmdMdb1cr.CommandText = "SELECT NombreCUE FROM cuentas ORDER BY NombreCUE ASC"
+                    Try
+                        Dim drCuentaGuardar As OleDbDataReader = cmdMdb1cr.ExecuteReader()
+                        Dim contCUE As Integer = 0
+                        While drCuentaGuardar.Read()
+                            If contCUE = CmbCuenta.SelectedIndex Then
+                                vCuentaAPU = drCuentaGuardar("NombreCUE").ToString()
+                                Exit While
+                            End If
+                            contCUE += 1
+                        End While
+                        drCuentaGuardar.Close()
+                    Catch ex As Exception
+                        ' Si falla por cualquier motivo, dejamos el texto del combo como salvavidas
+                        vCuentaAPU = CmbCuenta.Text.ToString()
+                    End Try
+                Else
+                    vCuentaAPU = CmbCuenta.Text.ToString()
+                End If
+                ' -----------------------------------------------------
+
 
                 ' INSERT Parametrizado seguro para evitar cuelgues de comillas o Str()
                 vAñadirSql = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) VALUES (?, ?, ?, ?, ?, ?, ?)"
@@ -576,6 +715,8 @@ Public Class IntroApuntes
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
+                TraducirGridApuntesBD(frmApuntesContables.DgvApuntes, resManager)
+
 
                 vFilaActual = frmApuntesContables.DgvApuntes.CurrentRow.Index
                 If vFilaActual = frmApuntesContables.DgvApuntes.RowCount - 1 Then
@@ -590,7 +731,31 @@ Public Class IntroApuntes
                 vDate3 = DateTimePicker1.Value.Date
                 vDescripcionAPU = CmbDescripcion.Text.Trim()
                 vNotasAPU = TxtNota.Text
-                vCuentaAPU = CmbCuenta.Text.ToString
+                'vCuentaAPU = CmbCuenta.Text.ToString
+                ' --- RECUPERAR NOMBRE DE CUENTA EN ESPAÑOL SEGURO ---
+                vCuentaAPU = ""
+                If CmbCuenta.SelectedIndex >= 0 Then
+                    cmdMdb1cr.CommandText = "SELECT NombreCUE FROM cuentas ORDER BY NombreCUE ASC"
+                    Try
+                        Dim drCuentaGuardar As OleDbDataReader = cmdMdb1cr.ExecuteReader()
+                        Dim contCUE As Integer = 0
+                        While drCuentaGuardar.Read()
+                            If contCUE = CmbCuenta.SelectedIndex Then
+                                vCuentaAPU = drCuentaGuardar("NombreCUE").ToString()
+                                Exit While
+                            End If
+                            contCUE += 1
+                        End While
+                        drCuentaGuardar.Close()
+                    Catch ex As Exception
+                        ' Si falla por cualquier motivo, dejamos el texto del combo como salvavidas
+                        vCuentaAPU = CmbCuenta.Text.ToString()
+                    End Try
+                Else
+                    vCuentaAPU = CmbCuenta.Text.ToString()
+                End If
+                ' -----------------------------------------------------
+
 
                 ' INSERT Parametrizado idéntico para la rama B
                 vAñadirSql = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) VALUES (?, ?, ?, ?, ?, ?, ?)"
@@ -671,6 +836,7 @@ Public Class IntroApuntes
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
+                TraducirGridApuntesBD(frmApuntesContables.DgvApuntes, resManager)
 
                 If frmApuntesContables.DgvApuntes.RowCount - 1 >= 0 Then
                     vFila = frmApuntesContables.DgvApuntes.RowCount - 1
@@ -702,7 +868,31 @@ Public Class IntroApuntes
                     vImporteAPU = "-" & vImporteAPU.ToString
                 End If
                 vNotasAPU = TxtNota.Text
-                vCuentaAPU = CmbCuenta.Text.ToString
+                'vCuentaAPU = CmbCuenta.Text.ToString
+                ' --- RECUPERAR NOMBRE DE CUENTA EN ESPAÑOL SEGURO ---
+                vCuentaAPU = ""
+                If CmbCuenta.SelectedIndex >= 0 Then
+                    cmdMdb1cr.CommandText = "SELECT NombreCUE FROM cuentas ORDER BY NombreCUE ASC"
+                    Try
+                        Dim drCuentaGuardar As OleDbDataReader = cmdMdb1cr.ExecuteReader()
+                        Dim contCUE As Integer = 0
+                        While drCuentaGuardar.Read()
+                            If contCUE = CmbCuenta.SelectedIndex Then
+                                vCuentaAPU = drCuentaGuardar("NombreCUE").ToString()
+                                Exit While
+                            End If
+                            contCUE += 1
+                        End While
+                        drCuentaGuardar.Close()
+                    Catch ex As Exception
+                        ' Si falla por cualquier motivo, dejamos el texto del combo como salvavidas
+                        vCuentaAPU = CmbCuenta.Text.ToString()
+                    End Try
+                Else
+                    vCuentaAPU = CmbCuenta.Text.ToString()
+                End If
+                ' -----------------------------------------------------
+
 
                 ' Sincronizamos vConcepto con el texto actual en pantalla antes de guardar
                 vConcepto = Trim(CmbConcepto.Text)
@@ -750,6 +940,7 @@ Public Class IntroApuntes
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
+                TraducirGridApuntesBD(frmApuntesContables.DgvApuntes, resManager)
 
                 ' Enfoque seguro al último registro añadido
                 frmApuntesContables.DgvApuntes.Refresh()
@@ -768,7 +959,31 @@ Public Class IntroApuntes
                     vImporteAPU = "-" & vImporteAPU.ToString
                 End If
                 vNotasAPU = TxtNota.Text
-                vCuentaAPU = CmbCuenta.Text.ToString
+                'vCuentaAPU = CmbCuenta.Text.ToString
+                ' --- RECUPERAR NOMBRE DE CUENTA EN ESPAÑOL SEGURO ---
+                vCuentaAPU = ""
+                If CmbCuenta.SelectedIndex >= 0 Then
+                    cmdMdb1cr.CommandText = "SELECT NombreCUE FROM cuentas ORDER BY NombreCUE ASC"
+                    Try
+                        Dim drCuentaGuardar As OleDbDataReader = cmdMdb1cr.ExecuteReader()
+                        Dim contCUE As Integer = 0
+                        While drCuentaGuardar.Read()
+                            If contCUE = CmbCuenta.SelectedIndex Then
+                                vCuentaAPU = drCuentaGuardar("NombreCUE").ToString()
+                                Exit While
+                            End If
+                            contCUE += 1
+                        End While
+                        drCuentaGuardar.Close()
+                    Catch ex As Exception
+                        ' Si falla por cualquier motivo, dejamos el texto del combo como salvavidas
+                        vCuentaAPU = CmbCuenta.Text.ToString()
+                    End Try
+                Else
+                    vCuentaAPU = CmbCuenta.Text.ToString()
+                End If
+                ' -----------------------------------------------------
+
 
                 ' Sincronizamos vConcepto con el texto actual en pantalla antes de guardar
                 vConcepto = Trim(CmbConcepto.Text)
@@ -851,6 +1066,7 @@ Public Class IntroApuntes
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
+                TraducirGridApuntesBD(frmApuntesContables.DgvApuntes, resManager)
 
                 ' Enfoque seguro al último registro añadido en modo ListBox
                 frmApuntesContables.DgvApuntes.Refresh()
@@ -879,8 +1095,12 @@ Public Class IntroApuntes
             TxtImporte.Text = "0"
             TxtNota.Text = ""
 
-            ' 2. Forzamos la selección del primer concepto (esto dispara su evento)
-            If CmbConcepto.Items.Count > 0 Then CmbConcepto.SelectedIndex = 0
+            ' NUEVO: Forzar de forma segura la selección del segundo concepto tras guardar
+            If CmbConcepto.Items.Count > 1 Then
+                CmbConcepto.SelectedIndex = 1 ' Salta al segundo elemento (el siguiente de Transfer)
+            ElseIf CmbConcepto.Items.Count > 0 Then
+                CmbConcepto.SelectedIndex = 0
+            End If
 
             ' 3. ¡La clave! Forzamos al formulario a procesar los cambios visuales antes de seguir
             Application.DoEvents()

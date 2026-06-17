@@ -313,9 +313,6 @@ No se Eliminan de la Base de Datos</value>
   <data name="CASA" xml:space="preserve">
     <value>CASA</value>
   </data>
-  <data name="CLIENTE00" xml:space="preserve">
-    <value>CLIENTE00</value>
-  </data>
   <data name="COMUNIDAD" xml:space="preserve">
     <value>COMUNIDAD</value>
   </data>
@@ -371,10 +368,10 @@ No se Eliminan de la Base de Datos</value>
     <value>PENSION</value>
   </data>
   <data name="REGULARITZACIO_1" xml:space="preserve">
-    <value>REGULARITZACIO 1</value>
+    <value>REGULARIZACION 1</value>
   </data>
   <data name="REGULARITZACIO_2" xml:space="preserve">
-    <value>REGULARITZACIO 2</value>
+    <value>REGULARIZACION 2</value>
   </data>
   <data name="ROPA" xml:space="preserve">
     <value>ROPA</value>
@@ -411,9 +408,6 @@ No se Eliminan de la Base de Datos</value>
   </data>
   <data name="Desc_CASA" xml:space="preserve">
     <value>Utiles Casa</value>
-  </data>
-  <data name="Desc_CLIENTE00" xml:space="preserve">
-    <value>Cliente Vario</value>
   </data>
   <data name="Desc_COMUNIDAD" xml:space="preserve">
     <value>Comunidad Parking</value>
@@ -684,5 +678,11 @@ que el archivo no esté abierto</value>
   </data>
   <data name="Vacio" xml:space="preserve">
     <value>Sin Programar..</value>
+  </data>
+  <data name="CLIENTE00" xml:space="preserve">
+    <value>CLIENTE</value>
+  </data>
+  <data name="Desc_CLIENTE00" xml:space="preserve">
+    <value>Cliente</value>
   </data>
 </root>

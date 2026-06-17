@@ -121,7 +121,7 @@
     <value>Account:</value>
   </data>
   <data name="GroupBox2.Text" xml:space="preserve">
-    <value>Edition</value>
+    <value>Edit</value>
   </data>
   <data name="Label5.Text" xml:space="preserve">
     <value>From:</value>
@@ -133,7 +133,7 @@
     <value>Income:</value>
   </data>
   <data name="BtnSalir.Text" xml:space="preserve">
-    <value>Go out</value>
+    <value>Exit</value>
   </data>
   <data name="GroupBox3.Text" xml:space="preserve">
     <value>Information</value>
@@ -160,7 +160,7 @@
     <value>Concepts</value>
   </data>
   <data name="GroupBox8.Text" xml:space="preserve">
-    <value>Displace</value>
+    <value>Navigation</value>
   </data>
   <data name="GroupBox4.Text" xml:space="preserve">
     <value>Accounts</value>
@@ -169,7 +169,7 @@
     <value>Totals</value>
   </data>
   <data name="Label8.Text" xml:space="preserve">
-    <value>Bills:</value>
+    <value>Expenses:</value>
   </data>
   <data name="Label6.Text" xml:space="preserve">
     <value>Until:</value>

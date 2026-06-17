@@ -314,7 +314,7 @@ No se Eliminan de la Base de Datos</value>
     <value>CASA</value>
   </data>
   <data name="CLIENTE00" xml:space="preserve">
-    <value>CLIENTE00</value>
+    <value>CLIENTE</value>
   </data>
   <data name="COMUNIDAD" xml:space="preserve">
     <value>COMUNIDAD</value>
@@ -417,7 +417,7 @@ No se Eliminan de la Base de Datos</value>
     <value>Utiles Casa</value>
   </data>
   <data name="Desc_CLIENTE00" xml:space="preserve">
-    <value>Cliente Vario</value>
+    <value>Cliente</value>
   </data>
   <data name="Desc_COMUNIDAD" xml:space="preserve">
     <value>Comunidad Parking</value>

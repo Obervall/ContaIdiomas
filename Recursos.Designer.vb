@@ -227,7 +227,7 @@ Friend Class Recursos
     End Property
     
     '''<summary>
-    '''  Busca una cadena traducida similar a CLIENTE00.
+    '''  Busca una cadena traducida similar a CLIENTE.
     '''</summary>
     Friend Shared ReadOnly Property CLIENTE00() As String
         Get
@@ -344,7 +344,7 @@ Friend Class Recursos
     End Property
     
     '''<summary>
-    '''  Busca una cadena traducida similar a Cliente Vario.
+    '''  Busca una cadena traducida similar a Cliente.
     '''</summary>
     Friend Shared ReadOnly Property Desc_CLIENTE00() As String
         Get

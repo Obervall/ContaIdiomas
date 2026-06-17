@@ -313,9 +313,6 @@ Ils ne sont pas supprimés de la base de données</value>
   <data name="CASA" xml:space="preserve">
     <value>MAISON</value>
   </data>
-  <data name="CLIENTE00" xml:space="preserve">
-    <value>CLIENTE00</value>
-  </data>
   <data name="COMUNIDAD" xml:space="preserve">
     <value>COMMUNAUTÉ</value>
   </data>
@@ -370,12 +367,6 @@ Ils ne sont pas supprimés de la base de données</value>
   <data name="PENSION" xml:space="preserve">
     <value>PENSION</value>
   </data>
-  <data name="REGULARITZACIO_1" xml:space="preserve">
-    <value>REGULARITZACIO 1</value>
-  </data>
-  <data name="REGULARITZACIO_2" xml:space="preserve">
-    <value>REGULARITZACIO 2</value>
-  </data>
   <data name="ROPA" xml:space="preserve">
     <value>VÊTEMENTS</value>
   </data>
@@ -411,9 +402,6 @@ Ils ne sont pas supprimés de la base de données</value>
   </data>
   <data name="Desc_CASA" xml:space="preserve">
     <value>Utilités domestiques</value>
-  </data>
-  <data name="Desc_CLIENTE00" xml:space="preserve">
-    <value>Vario Client</value>
   </data>
   <data name="Desc_COMUNIDAD" xml:space="preserve">
     <value>Parking communautaire</value>
@@ -684,5 +672,17 @@ le fichier n’est pas ouvert</value>
   </data>
   <data name="Vacio" xml:space="preserve">
     <value>Sans programmation..</value>
+  </data>
+  <data name="REGULARITZACIO_1" xml:space="preserve">
+    <value>RÉGULARISATION 1</value>
+  </data>
+  <data name="REGULARITZACIO_2" xml:space="preserve">
+    <value>RÉGULARISATION 2</value>
+  </data>
+  <data name="CLIENTE00" xml:space="preserve">
+    <value>CLIENT</value>
+  </data>
+  <data name="Desc_CLIENTE00" xml:space="preserve">
+    <value>Client</value>
   </data>
 </root>

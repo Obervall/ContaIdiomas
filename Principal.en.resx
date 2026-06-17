@@ -183,7 +183,7 @@
     <value>244, 26</value>
   </data>
   <data name="SalirMenu.Text" xml:space="preserve">
-    <value>Go out</value>
+    <value>Exit</value>
   </data>
   <data name="SalirMenu.ToolTipText" xml:space="preserve">
     <value>Exit Application</value>
