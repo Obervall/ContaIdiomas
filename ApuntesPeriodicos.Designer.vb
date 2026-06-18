@@ -38,7 +38,6 @@ Partial Class ApuntesPeriodicos
         Me.BtnImprimir = New System.Windows.Forms.Button()
         Me.BtnSeguirBuscando = New System.Windows.Forms.Button()
         Me.BtnBuscarRegistro = New System.Windows.Forms.Button()
-        Me.BtnSalir = New System.Windows.Forms.Button()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
         Me.BtnSinFiltroCuenta = New System.Windows.Forms.Button()
         Me.BtnFiltroCuenta = New System.Windows.Forms.Button()
@@ -70,6 +69,7 @@ Partial Class ApuntesPeriodicos
         Me.BtnSiguiente = New System.Windows.Forms.Button()
         Me.BtnAnterior = New System.Windows.Forms.Button()
         Me.BtnPrimero = New System.Windows.Forms.Button()
+        Me.BtnSalir = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -179,12 +179,6 @@ Partial Class ApuntesPeriodicos
         resources.ApplyResources(Me.BtnBuscarRegistro, "BtnBuscarRegistro")
         Me.BtnBuscarRegistro.Name = "BtnBuscarRegistro"
         Me.BtnBuscarRegistro.UseVisualStyleBackColor = True
-        '
-        'BtnSalir
-        '
-        resources.ApplyResources(Me.BtnSalir, "BtnSalir")
-        Me.BtnSalir.Name = "BtnSalir"
-        Me.BtnSalir.UseVisualStyleBackColor = True
         '
         'GroupBox4
         '
@@ -398,17 +392,24 @@ Partial Class ApuntesPeriodicos
         Me.BtnPrimero.Name = "BtnPrimero"
         Me.BtnPrimero.UseVisualStyleBackColor = True
         '
+        'BtnSalir
+        '
+        Me.BtnSalir.FlatAppearance.BorderColor = System.Drawing.Color.Red
+        resources.ApplyResources(Me.BtnSalir, "BtnSalir")
+        Me.BtnSalir.Name = "BtnSalir"
+        Me.BtnSalir.UseVisualStyleBackColor = True
+        '
         'ApuntesPeriodicos
         '
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.BtnSalir)
         Me.Controls.Add(Me.GroupBox8)
         Me.Controls.Add(Me.DgvApuper)
         Me.Controls.Add(Me.GroupBox7)
         Me.Controls.Add(Me.GroupBox6)
         Me.Controls.Add(Me.GroupBox5)
         Me.Controls.Add(Me.GroupBox4)
-        Me.Controls.Add(Me.BtnSalir)
         Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
@@ -437,7 +438,6 @@ Partial Class ApuntesPeriodicos
     Friend WithEvents GroupBox1 As Windows.Forms.GroupBox
     Friend WithEvents GroupBox2 As Windows.Forms.GroupBox
     Friend WithEvents GroupBox3 As Windows.Forms.GroupBox
-    Friend WithEvents BtnSalir As Windows.Forms.Button
     Friend WithEvents TxtNumRegistros As Windows.Forms.TextBox
     Friend WithEvents LblNumRegistros As Windows.Forms.Label
     Friend WithEvents Label1 As Windows.Forms.Label
@@ -481,4 +481,5 @@ Partial Class ApuntesPeriodicos
     Friend WithEvents BtnAnterior As Windows.Forms.Button
     Friend WithEvents BtnPrimero As Windows.Forms.Button
     Friend WithEvents BtnEliminaSeleccion As Windows.Forms.Button
+    Friend WithEvents BtnSalir As Windows.Forms.Button
 End Class

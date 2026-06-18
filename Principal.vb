@@ -1336,7 +1336,7 @@ Public Class Principal
         Dim sqlCheckApuperDestino As String = "SELECT COUNT(*) FROM APUPER WHERE ConceptoAPP = ?"
         Dim sqlEliminarDestino As String = "DELETE FROM CONCEPTOS WHERE CodigoCON = ?"
 
-        ' === LISTA FIJA DE PROTECCIÓN (TUS CONCEPTOS DE MUESTRA ORIGINALES) === 
+        ' === LISTA FIJA DE PROTECCIÓN (TUS CONCEPTOS DE MUESTRA ORIGINALES) LISTA CONCEPTOS === 
         ' Escribe aquí en mayúsculas los 33 códigos exactos que metes de fábrica en la mdb
         Dim conceptosMuestra As New System.Collections.Generic.List(Of String)(New String() {
             "AGUA", "ALIMENTACION", "CANAL+", "CASA", "CLIENTE00", "COMUNIDAD", "DECESOS", "EL CORTE INGLES", "ESTETICA", "FARMACIA", "GAS NATURAL", "GASOLINA", "GASTOS BANCARIOS",

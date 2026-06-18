@@ -685,4 +685,13 @@ que l'arxiu no estigui obert</value>
   <data name="Desc_CLIENTE00" xml:space="preserve">
     <value>Client</value>
   </data>
+  <data name="BotonSi" xml:space="preserve">
+    <value>Sí</value>
+  </data>
+  <data name="BotonNo" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="BotonAceptar" xml:space="preserve">
+    <value>Acceptar</value>
+  </data>
 </root>

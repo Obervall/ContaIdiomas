@@ -14,7 +14,7 @@ Public Class EditarApuntesPeriodicos
 
     Private Sub EditarApuntesPeriodicos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
-        ActualizarTextosFormulario(Me)
+        'ActualizarTextosFormulario(Me)
 
         Label7.Text = vMoneda
         Dim TL(8) As ToolTip

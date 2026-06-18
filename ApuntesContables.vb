@@ -4,6 +4,7 @@ Imports System.Diagnostics
 Imports System.Drawing
 Imports System.IO
 Imports System.Windows.Forms
+Imports MessageBox = ContaHogar.MsgBoxTraductorGlobal
 
 Public Class ApuntesContables
 
@@ -227,6 +228,8 @@ Public Class ApuntesContables
 
     Private Sub BtnFiltroCuenta_Click(sender As Object, e As EventArgs) Handles BtnFiltroCuenta.Click
         If ListBox1.SelectedItems.Count <> 0 Then
+            ' Prueba del algodón
+            'MsgBoxTraductorGlobal.Show(rmse.GetString("MsgAviso1"), rmse.GetString("MsgText1"), MessageBoxButtons.OK, MessageBoxIcon.Information)
             MessageBox.Show(rmse.GetString("MsgAviso1"), rmse.GetString("MsgText1"), MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
             BtnFiltroCuenta.Enabled = False
@@ -280,7 +283,7 @@ Public Class ApuntesContables
 
     Private Sub BtnFiltroConcepto_Click(sender As Object, e As EventArgs) Handles BtnFiltroConcepto.Click
 
-        ' 1. Inicialización de la consulta base
+        ' 1. Inicialización de la consulta base (Mantenemos las dos columnas iguales para tus cálculos de saldo)
         vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes WHERE "
 
         ' 2. Aplicamos la condición base del Ejercicio/Fechas
@@ -300,29 +303,23 @@ Public Class ApuntesContables
             BtnFiltroConcepto.Enabled = False
             BtnSinFiltroConcepto.Enabled = True
 
-            ' Creamos una lista para almacenar los conceptos procesados
+            ' Creamos una lista para almacenar los conceptos reales tal y como están en la base de datos
             Dim listaConceptos As New List(Of String)
 
             For i As Integer = 0 To ListBox1.SelectedItems.Count - 1
-                Dim textoOriginal As String = Convert.ToString(ListBox1.SelectedItems(i))
-                Dim claveObtenida As String = ObtenerClaveNeutral(textoOriginal, resManager)
+                ' LEEMOS EL TEXTO REAL: Necesitamos el texto limpio, NO la clave traducida del archivo .resx
+                Dim vConceptoReal As String = Convert.ToString(ListBox1.SelectedItems(i))
 
-                If claveObtenida.StartsWith("Desc_", StringComparison.OrdinalIgnoreCase) Then
-                    claveObtenida = ""
+                ' Duplicamos las comillas simples por si el concepto contiene alguna (ej: Foster's -> Foster''s)
+                If Not String.IsNullOrEmpty(vConceptoReal) Then
+                    listaConceptos.Add("'" & vConceptoReal.Replace("'", "''") & "'")
                 End If
-
-                If Not String.IsNullOrEmpty(claveObtenida) Then
-                    vConcepto = claveObtenida
-                Else
-                    vConcepto = textoOriginal
-                End If
-
-                ' Duplicamos las comillas simples por si el concepto del usuario contiene alguna (ej: Foster's)
-                listaConceptos.Add("'" & vConcepto.Replace("'", "''") & "'")
             Next
 
-            ' El resultado será: And apuntes.ConceptoAPU IN ('ADESLAS', 'ADESLAS 2', 'LUZ')
-            vtipoSql += " And apuntes.ConceptoAPU IN (" & String.Join(",", listaConceptos) & ") "
+            ' El resultado final será: And apuntes.ConceptoAPU IN ('LUZ', 'AGUA', 'GAS')
+            If listaConceptos.Count > 0 Then
+                vtipoSql += " And apuntes.ConceptoAPU IN (" & String.Join(",", listaConceptos) & ") "
+            End If
 
         Else ' No hay selección múltiple, usamos el ComboBox individual
             BtnFiltroConcepto.Enabled = False
@@ -338,11 +335,15 @@ Public Class ApuntesContables
         If BtnFiltroFecha.Enabled = False Then
             vDate1 = DateTimePicker1.Value.Date
             vDate2 = DateTimePicker2.Value.Date
-            vtipoSql += " And apuntes.FechaAPU >= ?"
-            vtipoSql += " And apuntes.FechaAPU <= ?"
+
+            ' RECOMENDACIÓN PARA ACCESS (MDB):
+            ' Como concatenamos un "IN (...)" dinámico antes, usar los signos '?' puede descolocar los parámetros.
+            ' Inyectar las fechas con el formato nativo de Access (#MM/dd/yyyy#) es 100% infalible en estos casos:
+            vtipoSql += " And apuntes.FechaAPU >= #" & vDate1.ToString("MM/dd/yyyy") & "#"
+            vtipoSql += " And apuntes.FechaAPU <= #" & vDate2.ToString("MM/dd/yyyy") & "#"
         End If
 
-        ' 5. Cierre de la consulta y ejecución
+        ' 5. Cierre de la consulta y ordenación
         vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
 
         BtnFiltroChekedList.Enabled = False
@@ -352,6 +353,7 @@ Public Class ApuntesContables
         ' Ejecución del llenado del Grid
         LlenarGrid(vtipoSql, vtipoGrid, "1")
         TraducirGridApuntesBD(Me.DgvApuntes, resManager)
+
         ' Selección automática de la última fila
         If DgvApuntes.RowCount > 0 Then
             vFila = DgvApuntes.RowCount - 1
@@ -359,6 +361,89 @@ Public Class ApuntesContables
             DgvApuntes.CurrentCell = DgvApuntes.Rows(vFila).Cells(0)
         End If
     End Sub
+
+
+    'Private Sub BtnFiltroConcepto_Click(sender As Object, e As EventArgs) Handles BtnFiltroConcepto.Click
+
+    '    ' 1. Inicialización de la consulta base
+    '    vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes WHERE "
+
+    '    ' 2. Aplicamos la condición base del Ejercicio/Fechas
+    '    If BtnFechasClick = "SI" Then
+    '        vtipoSql += "apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
+    '    Else
+    '        vtipoSql += "apuntes.EjercicioAPU = " & vAñoEjercicio.ToString & " "
+    '    End If
+
+    '    ' 3. GESTIÓN DE CONCEPTOS (Multiselección o Simple)
+    '    If ListBox1.SelectedItems.Count <> 0 Then ' Listbox con multiselección activo
+    '        TxtConcepto.Text = rmse.GetString("MsgText3")
+    '        CmbConcepto.Items.Clear()
+    '        CmbConcepto.Items.Add(rmse.GetString("MsgText4"))
+    '        CmbConcepto.Text = CmbConcepto.Items(0)
+
+    '        BtnFiltroConcepto.Enabled = False
+    '        BtnSinFiltroConcepto.Enabled = True
+
+    '        ' Creamos una lista para almacenar los conceptos procesados
+    '        Dim listaConceptos As New List(Of String)
+
+    '        For i As Integer = 0 To ListBox1.SelectedItems.Count - 1
+    '            Dim textoOriginal As String = Convert.ToString(ListBox1.SelectedItems(i))
+    '            Dim claveObtenida As String = ObtenerClaveNeutral(textoOriginal, resManager)
+
+    '            If claveObtenida.StartsWith("Desc_", StringComparison.OrdinalIgnoreCase) Then
+    '                claveObtenida = ""
+    '            End If
+
+    '            If Not String.IsNullOrEmpty(claveObtenida) Then
+    '                vConcepto = claveObtenida
+    '            Else
+    '                vConcepto = textoOriginal
+    '            End If
+
+    '            ' Duplicamos las comillas simples por si el concepto del usuario contiene alguna (ej: Foster's)
+    '            listaConceptos.Add("'" & vConcepto.Replace("'", "''") & "'")
+    '        Next
+
+    '        ' El resultado será: And apuntes.ConceptoAPU IN ('ADESLAS', 'ADESLAS 2', 'LUZ')
+    '        vtipoSql += " And apuntes.ConceptoAPU IN (" & String.Join(",", listaConceptos) & ") "
+
+    '    Else ' No hay selección múltiple, usamos el ComboBox individual
+    '        BtnFiltroConcepto.Enabled = False
+    '        BtnSinFiltroConcepto.Enabled = True
+    '        vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text.Replace("'", "''") & "' "
+    '    End If
+
+    '    ' 4. FILTROS ADICIONALES (Se aplican UNA SOLA VEZ para toda la consulta)
+    '    If BtnFiltroCuenta.Enabled = False Then
+    '        vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
+    '    End If
+
+    '    If BtnFiltroFecha.Enabled = False Then
+    '        vDate1 = DateTimePicker1.Value.Date
+    '        vDate2 = DateTimePicker2.Value.Date
+    '        vtipoSql += " And apuntes.FechaAPU >= ?"
+    '        vtipoSql += " And apuntes.FechaAPU <= ?"
+    '    End If
+
+    '    ' 5. Cierre de la consulta y ejecución
+    '    vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
+
+    '    BtnFiltroChekedList.Enabled = False
+    '    ListBox1.Visible = False
+    '    vtipoGrid = "APUNTES_CONTABLES"
+
+    '    ' Ejecución del llenado del Grid
+    '    LlenarGrid(vtipoSql, vtipoGrid, "1")
+    '    TraducirGridApuntesBD(Me.DgvApuntes, resManager)
+    '    ' Selección automática de la última fila
+    '    If DgvApuntes.RowCount > 0 Then
+    '        vFila = DgvApuntes.RowCount - 1
+    '        DgvApuntes.Rows(vFila).Selected = True
+    '        DgvApuntes.CurrentCell = DgvApuntes.Rows(vFila).Cells(0)
+    '    End If
+    'End Sub
 
     Private Sub BtnFiltroFecha_Click(sender As Object, e As EventArgs) Handles BtnFiltroFecha.Click
         If ListBox1.SelectedItems.Count <> 0 Then

@@ -6,9 +6,8 @@ Public Class EditarCuentaBancaria
     Public filaActual As Integer
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
-    Private Sub EditarConceptoContable_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub EditarCuentaBancaria_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
-        ActualizarTextosFormulario(Me)
 
         Dim TL(4) As ToolTip
         TL(0) = New ToolTip

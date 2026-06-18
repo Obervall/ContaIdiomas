@@ -198,7 +198,7 @@
     <value>Toolbar</value>
   </data>
   <data name="BarraDeHerramientasMenu.ToolTipText" xml:space="preserve">
-    <value>Hide/See Toolbar</value>
+    <value>Hide/View Toolbar</value>
   </data>
   <data name="BarraDeEstadoMenu.Size" type="System.Drawing.Size, System.Drawing">
     <value>262, 26</value>
@@ -216,13 +216,13 @@
     <value>Bar and Menu with Colors</value>
   </data>
   <data name="BarraYMenuConColores.ToolTipText" xml:space="preserve">
-    <value>Hide/See Colors in Bar and Menu</value>
+    <value>Hide/View Colors in Bar and Menu</value>
   </data>
   <data name="VerToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>47, 24</value>
   </data>
   <data name="VerToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;See</value>
+    <value>&amp;View</value>
   </data>
   <data name="ConceptosContablesToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -286,7 +286,7 @@
 </value>
   </data>
   <data name="VerApuntesToolStripMenuItem.Text" xml:space="preserve">
-    <value>See Transactions</value>
+    <value>View Transactions</value>
   </data>
   <data name="VerApuntesToolStripMenuItem.ToolTipText" xml:space="preserve">
     <value>Add, Edit, Delete or Consult Transactions</value>
@@ -374,7 +374,7 @@
     <value>236, 26</value>
   </data>
   <data name="VerDesviaciónPresupuestosToolStripMenuItem.Text" xml:space="preserve">
-    <value>See Budget Deviation</value>
+    <value>View Budget Deviation</value>
   </data>
   <data name="VerDesviaciónPresupuestosToolStripMenuItem.ToolTipText" xml:space="preserve">
     <value>Show Budget Chart and Deviation</value>
@@ -977,7 +977,7 @@
     <value>46, 24</value>
   </data>
   <data name="AyudaToolStripMenuItem.Text" xml:space="preserve">
-    <value>Aid</value>
+    <value>Help</value>
   </data>
   <data name="VactualVDisponible.Size" type="System.Drawing.Size, System.Drawing">
     <value>242, 24</value>
@@ -7818,7 +7818,7 @@
     <value>Database Flushing Is Going to Start</value>
   </data>
   <data name="MsgNoVaciarBD" xml:space="preserve">
-    <value>The ITEMS and ACCOUNTING ACCOUNTS are not eliminated</value>
+    <value>The ITEMS and ACCOUNTING ACCOUNTS are not Deleted</value>
   </data>
   <data name="ApuntesContablesVaciado" xml:space="preserve">
     <value>Accounting Entries, Emptying!</value>
@@ -7830,7 +7830,7 @@
     <value>Budgets, Emptying!</value>
   </data>
   <data name="ArchivoToolStripMenuItem.Text" xml:space="preserve">
-    <value>Home</value>
+    <value>File</value>
   </data>
   <data name="ListadoApuntesOrdenadoFechas" xml:space="preserve">
     <value>List of Transactions Sorted by Date</value>

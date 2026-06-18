@@ -221,15 +221,15 @@ Mit F6: Grillnotizen aktualisieren und Filter entfernen</value>
   <data name="MsgText1" xml:space="preserve">
     <value>Filterhinweis</value>
   </data>
-  <data name="MsgAviso1" xml:space="preserve">
-    <value>Es gibt mehrere ausgewählte Konzepte.
-Filter Primer per Comptes i Dates,
-després per Conceptes Divers</value>
-  </data>
   <data name="RutaExcelExiste" xml:space="preserve">
     <value>Pfad C existiert bereits:\HomeAccount3.0\Excel</value>
   </data>
   <data name="RutaExcelCreada" xml:space="preserve">
     <value>Pfad C:\HomeAccount3.0\Excel, erstellt</value>
+  </data>
+  <data name="MsgAviso1" xml:space="preserve">
+    <value>Es gibt mehrere ausgewählte Konzepte.
+Filtern Sie zuerst nach Konten und Daten,
+dann von Miscellaneous Concepts</value>
   </data>
 </root>

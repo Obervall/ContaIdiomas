@@ -11,6 +11,7 @@ Imports System.Reflection
 Imports System.Resources
 Imports System.Threading
 Imports System.Windows.Forms
+Imports MessageBox = ContaHogar.MsgBoxTraductorGlobal
 
 Module Funciones
 
@@ -108,6 +109,13 @@ Module Funciones
         Thread.CurrentThread.CurrentCulture = cultura
         Thread.CurrentThread.CurrentUICulture = cultura
 
+        ' Assignem els botons traduits a la nostra classe personalitzada
+        ' (Revisa que "BotoAceptar", etc. coincideixin amb les Keys del teu fitxer .resx)
+        MsgBoxTraductorGlobal.TextBotoOk = resManager.GetString("BotonAceptar")
+        MsgBoxTraductorGlobal.TextBotoCancel = resManager.GetString("ToolTipCancelar")
+        MsgBoxTraductorGlobal.TextBotoYes = resManager.GetString("BotonSi")
+        MsgBoxTraductorGlobal.TextBotoNo = resManager.GetString("BotonNo")
+
         ' Refrescamos todos los formularios que estén abiertos en este momento
         For Each f As Form In Application.OpenForms
             ActualizarTextosFormulario(f)
@@ -131,7 +139,7 @@ Module Funciones
             Dim txtExercici As String = resManager.GetString("Ejercicio")
 
             If txtTitol IsNot Nothing AndAlso txtVersio IsNot Nothing AndAlso txtExercici IsNot Nothing Then
-                f.Text = String.Format("{0}  -  {1}: {2}  -  {3}: {4}",
+                f.Text = String.Format("{0}  -  {1}:  {2}  -  {3}: {4}",
                                             txtTitol,
                                             txtVersio,
                                             My.Settings.Version,

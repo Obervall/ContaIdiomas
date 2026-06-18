@@ -221,15 +221,15 @@ Amb F6: Refresca la Parrilla Apunts i Quita Filtres</value>
   <data name="MsgText1" xml:space="preserve">
     <value>Avís de Filtres</value>
   </data>
-  <data name="MsgAviso1" xml:space="preserve">
-    <value>Hi ha Diversos Conceptes Seleccionats.
-Filtrar Primer per Comptes i Dates,
-després per Conceptes Diversos</value>
-  </data>
   <data name="RutaExcelExiste" xml:space="preserve">
     <value>Ja existeix la Ruta C:\ContaHogar3.0\Excel</value>
   </data>
   <data name="RutaExcelCreada" xml:space="preserve">
     <value>Ruta C:\ContaHogar3.0\Excel, Creada</value>
+  </data>
+  <data name="MsgAviso1" xml:space="preserve">
+    <value>Hi ha Diversos Conceptes Seleccionats.
+Filtrar Primer per Comptes i Dates,
+després per Conceptes Diversos</value>
   </data>
 </root>

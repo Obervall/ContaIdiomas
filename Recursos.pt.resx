@@ -685,4 +685,13 @@ O arquivo não está aberto</value>
   <data name="Desc_CLIENTE00" xml:space="preserve">
     <value>Cliente</value>
   </data>
+  <data name="BotonSi" xml:space="preserve">
+    <value>Sim</value>
+  </data>
+  <data name="BotonNo" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="BotonAceptar" xml:space="preserve">
+    <value>Aceite</value>
+  </data>
 </root>

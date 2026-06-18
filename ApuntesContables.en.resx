@@ -210,10 +210,10 @@ With F6: Refresh the Data Grid and Remove Filters</value>
     <value>Transferring from one Account to another</value>
   </data>
   <data name="MsgText3" xml:space="preserve">
-    <value>Various selected concepts</value>
+    <value>Miscellaneous selected concepts</value>
   </data>
   <data name="MsgText4" xml:space="preserve">
-    <value>VARIOUS CONCEPTS</value>
+    <value>MISCELLANEOUS CONCEPTS</value>
   </data>
   <data name="MsgText2" xml:space="preserve">
     <value>Introduction of Transactions</value>
@@ -221,15 +221,15 @@ With F6: Refresh the Data Grid and Remove Filters</value>
   <data name="MsgText1" xml:space="preserve">
     <value>Filter Notice</value>
   </data>
-  <data name="MsgAviso1" xml:space="preserve">
-    <value>There are several selected concepts.
-Filter Primer per Comptes i Dates,
-després per Conceptes Divers</value>
-  </data>
   <data name="RutaExcelExiste" xml:space="preserve">
     <value>Path C already exists:\HomeAccount3.0\Excel</value>
   </data>
   <data name="RutaExcelCreada" xml:space="preserve">
     <value>Path C:\HomeAccount3.0\Excel, Created</value>
+  </data>
+  <data name="MsgAviso1" xml:space="preserve">
+    <value>There are several selected concepts.
+Filter First by Accounts and Dates,
+then by Miscellaneous Concepts</value>
   </data>
 </root>

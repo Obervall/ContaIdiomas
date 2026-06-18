@@ -9,7 +9,6 @@ Public Class EditarConceptoContable
 
     Private Sub EditarConceptoContable_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
-        ActualizarTextosFormulario(Me)
 
         TL(0) = New ToolTip
         TL(0).SetToolTip(Me.BtnAceptar, resManager.GetString("ToolTipAceptar"))

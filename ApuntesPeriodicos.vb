@@ -8,7 +8,7 @@ Public Class ApuntesPeriodicos
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub ApuntesPeriodicos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ActualizarTextosFormulario(Me)
+        'ActualizarTextosFormulario(Me)
         Me.KeyPreview = True
         ' 1. Convertimos el año base de forma segura
         Dim anioBase As Integer
@@ -866,6 +866,10 @@ Public Class ApuntesPeriodicos
         End If
     End Sub
 
+    Private Sub BtnSalir_Click_1(sender As Object, e As EventArgs) Handles BtnSalir.Click
+        Me.Close()
+    End Sub
+
     Private Sub BtnSiguiente_Click(sender As Object, e As EventArgs) Handles BtnSiguiente.Click
         vFilaActual = DgvApuper.CurrentRow.Index
         If vFilaActual = DgvApuper.RowCount - 1 Then
@@ -893,10 +897,6 @@ Public Class ApuntesPeriodicos
         Proceso.StartInfo.FileName = "calc.exe"
         Proceso.StartInfo.Arguments = ""
         Proceso.Start()
-    End Sub
-
-    Private Sub BtnSalir_Click(sender As Object, e As EventArgs) Handles BtnSalir.Click
-        Me.Close()
     End Sub
 
     Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing

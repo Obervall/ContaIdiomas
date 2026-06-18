@@ -582,8 +582,8 @@ Con F6: Refresca la Parrilla Apuntes y Quita Filtros</value>
   </data>
   <data name="MsgAviso1" xml:space="preserve">
     <value>Hay Diversos Conceptos Seleccionados.
-Filtrar Primer per Comptes i Dates,
-després per Conceptes Diversos</value>
+Filtrar Primero por Cuentas y Fechas,
+después por Conceptos Diversos</value>
   </data>
   <data name="RutaExcelExiste" xml:space="preserve">
     <value>Ya existe la Ruta C:\ContaHogar3.0\Excel</value>

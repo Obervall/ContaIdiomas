@@ -13,7 +13,7 @@ Public Class EditarApuntes
 
     Private Sub EditarApuntes_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
-        ActualizarTextosFormulario(Me)
+        'ActualizarTextosFormulario(Me)
 
         Label7.Text = vMoneda
         TL(0) = New ToolTip

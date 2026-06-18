@@ -693,4 +693,13 @@ que el archivo no esté abierto</value>
   <data name="Vacio" xml:space="preserve">
     <value>Sin Programar..</value>
   </data>
+  <data name="BotonSi" xml:space="preserve">
+    <value>Sí</value>
+  </data>
+  <data name="BotonNo" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="BotonAceptar" xml:space="preserve">
+    <value>Aceptar</value>
+  </data>
 </root>

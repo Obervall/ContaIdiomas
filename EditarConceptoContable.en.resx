@@ -130,7 +130,7 @@
     <value>Name:</value>
   </data>
   <data name="Label2.Text" xml:space="preserve">
-    <value>Guy:</value>
+    <value>Type:</value>
   </data>
   <data name="GroupBox1.Text" xml:space="preserve">
     <value>Accounting Concept Data: </value>
@@ -142,16 +142,16 @@
     <value>Accept</value>
   </data>
   <data name="BtnEliminar.Text" xml:space="preserve">
-    <value>Eliminate</value>
+    <value>Delete</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Edit Accounting Concept</value>
   </data>
   <data name="LblEliminando" xml:space="preserve">
-    <value>ELIMINATE ACCOUNTING CONCEPT !!</value>
+    <value>DELETE ACCOUNTING CONCEPT !!</value>
   </data>
   <data name="EliminarConcepto" xml:space="preserve">
-    <value>Are You Sure to Eliminate the Accounting Concept</value>
+    <value>Are You Sure to Delete the Accounting Concept</value>
   </data>
   <data name="EliminarConcepto2" xml:space="preserve">
     <value>and all his Transactions of All the Exercises?.</value>
@@ -166,7 +166,7 @@
     <value>Description of the Concept</value>
   </data>
   <data name="ConceptoSistemaNoBorrar" xml:space="preserve">
-    <value>System Concept, Cannot Be Eliminated</value>
+    <value>System Concept, Cannot Be Deleted</value>
   </data>
   <data name="Concepto_No_Editable" xml:space="preserve">
     <value>This Concept is Not Editable, It Belongs to the System</value>

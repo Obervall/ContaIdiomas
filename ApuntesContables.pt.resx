@@ -221,15 +221,15 @@ Com F6: atualize as notas da grade de lançamentos e remova os filtros</value>
   <data name="MsgText1" xml:space="preserve">
     <value>Aviso de Filtro</value>
   </data>
-  <data name="MsgAviso1" xml:space="preserve">
-    <value>Existem vários conceitos selecionados.
-Filter Primer per Comptes i Dates,
-després per Conceptes Divers</value>
-  </data>
   <data name="RutaExcelExiste" xml:space="preserve">
     <value>O Caminho C já existe:\HomeAccount3.0\Excel</value>
   </data>
   <data name="RutaExcelCreada" xml:space="preserve">
     <value>Caminho C:\HomeAccount3.0\Excel, Criado</value>
+  </data>
+  <data name="MsgAviso1" xml:space="preserve">
+    <value>Existem vários conceitos selecionados.
+Filtre primeiro por Relatos e Datas,
+depois por Conceitos Diversos</value>
   </data>
 </root>

@@ -173,6 +173,33 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Aceptar.
+    '''</summary>
+    Friend Shared ReadOnly Property BotonAceptar() As String
+        Get
+            Return ResourceManager.GetString("BotonAceptar", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a No.
+    '''</summary>
+    Friend Shared ReadOnly Property BotonNo() As String
+        Get
+            Return ResourceManager.GetString("BotonNo", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Sí.
+    '''</summary>
+    Friend Shared ReadOnly Property BotonSi() As String
+        Get
+            Return ResourceManager.GetString("BotonSi", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Añade, Edita, Borra o Consulta Conceptos.
     '''</summary>
     Friend Shared ReadOnly Property BtnConcepto() As String

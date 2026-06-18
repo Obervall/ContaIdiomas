@@ -107,6 +107,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
+    <Import Include="MessageBox = ContaHogar.MsgBoxTraductorGlobal" />
     <Import Include="Microsoft.VisualBasic" />
     <Import Include="System" />
   </ItemGroup>
@@ -247,6 +248,7 @@
     <Compile Include="IntroApuntesPeriodicos.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="MessageBoxLocalitzat.vb" />
     <Compile Include="Module1.vb" />
     <Compile Include="NuevoTipoCuentaBancaria.Designer.vb">
       <DependentUpon>NuevoTipoCuentaBancaria.vb</DependentUpon>

@@ -145,7 +145,7 @@
     <value>Cancel</value>
   </data>
   <data name="BtnEliminar.Text" xml:space="preserve">
-    <value>Eliminate</value>
+    <value>Delete</value>
   </data>
   <data name="BtnAceptar.Text" xml:space="preserve">
     <value>Accept</value>
