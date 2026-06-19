@@ -631,19 +631,34 @@ Public Class IntroApuntes
         End If
 
         If TxtImporte.Text <> "0" Then
-            ' --- TU LÓGICA DE IMPORTE ADAPTADA CON TU FUNCIÓN GLOBAL ---
-            Dim importeDecimal As Decimal = ConvertirDecimalSeguro(TxtImporte.Text)
-            If TxtTipoConcepto.Text = "GASTO" Then
-                vImporteAPU = -Math.Abs(importeDecimal)
-            Else
-                vImporteAPU = Math.Abs(importeDecimal)
-            End If
-
             If frmApuntesContables.ListBox1.SelectedItems.Count = 0 Then
                 vDate3 = DateTimePicker1.Value.Date ' Guardamos como objeto Date puro
                 vDescripcionAPU = CmbDescripcion.Text.Trim()
+
+                ' 1. Convertimos el texto de la caja a un número Decimal limpio y seguro
+                Dim importeNumerico As Decimal = ConvertirDecimalSeguro(TxtImporte.Text)
+
+                ' 2. Conseguimos el texto exacto que hay en la pantalla (pasado a MAYÚSCULAS)
+                Dim tipoEnPantalla As String = TxtTipoConcepto.Text.Trim().ToUpper()
+
+                ' 3. Recuperamos la traducción oficial en inglés (o el idioma activo) usando tu KEY real: "Tipo_Gasto"
+                Dim tipoTraducido As String = ""
+                If resManager IsNot Nothing Then
+                    tipoTraducido = resManager.GetString("Tipo_Gasto")
+                End If
+
+                ' 4. EVALUACIÓN DE IDIOMA SEGURA: ¿Es "GASTO" en español o coincide con la traducción?
+                If tipoEnPantalla = "GASTO" OrElse (tipoTraducido <> "" AndAlso tipoEnPantalla = tipoTraducido.Trim().ToUpper()) Then
+                    ' Si es un gasto y el usuario lo escribió en positivo, lo convertimos a negativo matemáticamente
+                    If importeNumerico > 0 Then
+                        importeNumerico = importeNumerico * -1
+                    End If
+                End If
+
+                ' Asignamos el valor numérico final a tu variable global
+                vImporteAPU = importeNumerico
                 vNotasAPU = TxtNota.Text
-                'vCuentaAPU = CmbCuenta.Text.ToString
+
                 ' --- RECUPERAR NOMBRE DE CUENTA EN ESPAÑOL SEGURO ---
                 vCuentaAPU = ""
                 If CmbCuenta.SelectedIndex >= 0 Then
@@ -666,8 +681,6 @@ Public Class IntroApuntes
                 Else
                     vCuentaAPU = CmbCuenta.Text.ToString()
                 End If
-                ' -----------------------------------------------------
-
 
                 ' INSERT Parametrizado seguro para evitar cuelgues de comillas o Str()
                 vAñadirSql = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) VALUES (?, ?, ?, ?, ?, ?, ?)"
@@ -678,8 +691,15 @@ Public Class IntroApuntes
                 cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vConcepto)
                 cmdMdb1cr.Parameters.AddWithValue("@DescripcionAPU", vDescripcionAPU)
 
+                ' 1. Nos aseguramos de que el valor sea un tipo Decimal puro de .NET (conservando el negativo)
+                Dim importeFinalDecimal As Decimal = ConvertirDecimalSeguro(vImporteAPU)
+
+                ' 2. Redondeamos de forma matemática estricta asegurando que NO se pierda el signo menos
+                importeFinalDecimal = Math.Round(importeFinalDecimal, 2, MidpointRounding.AwayFromZero)
+
+                ' 3. Definimos el parámetro como Currency pero le inyectamos el valor Decimal nativo directo
                 Dim paramImp1 As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteAPU", OleDb.OleDbType.Currency)
-                paramImp1.Value = Math.Round(vImporteAPU, 2)
+                paramImp1.Value = importeFinalDecimal
 
                 cmdMdb1cr.Parameters.AddWithValue("@EjercicioAPU", CInt(vAñoEjercicio))
                 cmdMdb1cr.Parameters.AddWithValue("@NotasAPU", vNotasAPU)
@@ -691,7 +711,6 @@ Public Class IntroApuntes
                     MsgBox(rmse.GetString("ErrorGrabarRegistro") & ": " & ex.ToString, vbExclamation, rmse.GetString("$this.Text"))
                 End Try
 
-                ' --- TU REFRESH DE PASTEBIN CORREGIDO PARA INTERNACIONAL ---
                 vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
                 vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
 
@@ -707,9 +726,8 @@ Public Class IntroApuntes
                     vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
                     vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
 
-                    ' Cambiamos las barras (/) por guiones (-) para que Access no falle nunca
-                    vtipoSql += " And apuntes.FechaAPU >= #" & vDate1.ToString("yyyy-MM-dd") & "#"
-                    vtipoSql += " And apuntes.FechaAPU <= #" & vDate2.ToString("yyyy-MM-dd") & "#"
+                    vtipoSql += " And apuntes.FechaAPU >= ?"
+                    vtipoSql += " And apuntes.FechaAPU <= ?"
                 End If
 
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
@@ -726,12 +744,34 @@ Public Class IntroApuntes
                     frmApuntesContables.DgvApuntes.Rows(vFila).Selected = True
                     frmApuntesContables.DgvApuntes.CurrentCell = frmApuntesContables.DgvApuntes.Rows(vFila).Cells(0)
                 End If
-                ' --- RAMA B DE TU PASTEBIN TOTALMENTE INTACTA ---
             Else
                 vDate3 = DateTimePicker1.Value.Date
                 vDescripcionAPU = CmbDescripcion.Text.Trim()
+
+                ' 1. Convertimos el texto de la caja a un número Decimal limpio y seguro
+                Dim importeNumerico As Decimal = ConvertirDecimalSeguro(TxtImporte.Text)
+
+                ' 2. Conseguimos el texto exacto que hay en la pantalla (pasado a MAYÚSCULAS)
+                Dim tipoEnPantalla As String = TxtTipoConcepto.Text.Trim().ToUpper()
+
+                ' 3. Recuperamos la traducción oficial en inglés (o el idioma activo) usando tu KEY real: "Tipo_Gasto"
+                Dim tipoTraducido As String = ""
+                If resManager IsNot Nothing Then
+                    tipoTraducido = resManager.GetString("Tipo_Gasto")
+                End If
+
+                ' 4. EVALUACIÓN DE IDIOMA SEGURA: ¿Es "GASTO" en español o coincide con la traducción?
+                If tipoEnPantalla = "GASTO" OrElse (tipoTraducido <> "" AndAlso tipoEnPantalla = tipoTraducido.Trim().ToUpper()) Then
+                    ' Si es un gasto y el usuario lo escribió en positivo, lo convertimos a negativo matemáticamente
+                    If importeNumerico > 0 Then
+                        importeNumerico = importeNumerico * -1
+                    End If
+                End If
+
+                ' Asignamos el valor numérico final a tu variable global
+                vImporteAPU = importeNumerico
                 vNotasAPU = TxtNota.Text
-                'vCuentaAPU = CmbCuenta.Text.ToString
+
                 ' --- RECUPERAR NOMBRE DE CUENTA EN ESPAÑOL SEGURO ---
                 vCuentaAPU = ""
                 If CmbCuenta.SelectedIndex >= 0 Then
@@ -754,8 +794,6 @@ Public Class IntroApuntes
                 Else
                     vCuentaAPU = CmbCuenta.Text.ToString()
                 End If
-                ' -----------------------------------------------------
-
 
                 ' INSERT Parametrizado idéntico para la rama B
                 vAñadirSql = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) VALUES (?, ?, ?, ?, ?, ?, ?)"
@@ -766,12 +804,15 @@ Public Class IntroApuntes
                 cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vConcepto)
                 cmdMdb1cr.Parameters.AddWithValue("@DescripcionAPU", vDescripcionAPU)
 
-                Dim paramImp2 As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteAPU", OleDb.OleDbType.Currency)
-                paramImp2.Value = Math.Round(vImporteAPU, 2)
+                ' 1. Nos aseguramos de que el valor sea un tipo Decimal puro de .NET (conservando el negativo)
+                Dim importeFinalDecimal As Decimal = ConvertirDecimalSeguro(vImporteAPU)
 
-                cmdMdb1cr.Parameters.AddWithValue("@EjercicioAPU", CInt(vAñoEjercicio))
-                cmdMdb1cr.Parameters.AddWithValue("@NotasAPU", vNotasAPU)
-                cmdMdb1cr.Parameters.AddWithValue("@CuentaAPU", vCuentaAPU)
+                ' 2. Redondeamos de forma matemática estricta asegurando que NO se pierda el signo menos
+                importeFinalDecimal = Math.Round(importeFinalDecimal, 2, MidpointRounding.AwayFromZero)
+
+                ' 3. Definimos el parámetro como Currency pero le inyectamos el valor Decimal nativo directo
+                Dim paramImp1 As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteAPU", OleDb.OleDbType.Currency)
+                paramImp1.Value = importeFinalDecimal
 
                 Try
                     cmdMdb1cr.ExecuteNonQuery()
@@ -801,8 +842,8 @@ Public Class IntroApuntes
                             vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
                             vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
                             ' Cambiadas las barras por guiones para la Microsoft Store
-                            vtipoSql += " And apuntes.FechaAPU >= #" & vDate1.ToString("yyyy-MM-dd") & "#"
-                            vtipoSql += " And apuntes.FechaAPU <= #" & vDate2.ToString("yyyy-MM-dd") & "#"
+                            vtipoSql += " And apuntes.FechaAPU >= ?"
+                            vtipoSql += " And apuntes.FechaAPU <= ?"
                         End If
                         vtipoSql += ") " ' Cerramos el primer bloque interno
                     Else
@@ -820,9 +861,9 @@ Public Class IntroApuntes
                         If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
                             vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
                             vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
-                            ' Cambiadas las barras por guiones para la Microsoft Store
-                            vtipoSql += " And apuntes.FechaAPU >= #" & vDate1.ToString("yyyy-MM-dd") & "#"
-                            vtipoSql += " And apuntes.FechaAPU <= #" & vDate2.ToString("yyyy-MM-dd") & "#"
+
+                            vtipoSql += " And apuntes.FechaAPU >= ?"
+                            vtipoSql += " And apuntes.FechaAPU <= ?"
                         End If
                         vtipoSql += ") " ' Cerramos este bloque interno
                     End If
@@ -863,12 +904,31 @@ Public Class IntroApuntes
                 'MsgBox("ListBox = 0")
                 vDate3 = DateTimePicker1.Value
                 vDescripcionAPU = ApostrofePorAcentoAgudo(CmbDescripcion.Text)
-                vImporteAPU = TxtImporte.Text
-                If TxtTipoConcepto.Text = "GASTO" Then
-                    vImporteAPU = "-" & vImporteAPU.ToString
+
+                ' 1. Convertimos el texto de la caja a un número Decimal limpio y seguro
+                Dim importeNumerico As Decimal = ConvertirDecimalSeguro(TxtImporte.Text)
+
+                ' 2. Conseguimos el texto exacto que hay en la pantalla (pasado a MAYÚSCULAS)
+                Dim tipoEnPantalla As String = TxtTipoConcepto.Text.Trim().ToUpper()
+
+                ' 3. Recuperamos la traducción oficial en inglés (o el idioma activo) usando tu KEY real: "Tipo_Gasto"
+                Dim tipoTraducido As String = ""
+                If resManager IsNot Nothing Then
+                    tipoTraducido = resManager.GetString("Tipo_Gasto")
                 End If
+
+                ' 4. EVALUACIÓN DE IDIOMA SEGURA: ¿Es "GASTO" en español o coincide con la traducción?
+                If tipoEnPantalla = "GASTO" OrElse (tipoTraducido <> "" AndAlso tipoEnPantalla = tipoTraducido.Trim().ToUpper()) Then
+                    ' Si es un gasto y el usuario lo escribió en positivo, lo convertimos a negativo matemáticamente
+                    If importeNumerico > 0 Then
+                        importeNumerico = importeNumerico * -1
+                    End If
+                End If
+
+                ' Asignamos el valor numérico final a tu variable global
+                vImporteAPU = importeNumerico
                 vNotasAPU = TxtNota.Text
-                'vCuentaAPU = CmbCuenta.Text.ToString
+
                 ' --- RECUPERAR NOMBRE DE CUENTA EN ESPAÑOL SEGURO ---
                 vCuentaAPU = ""
                 If CmbCuenta.SelectedIndex >= 0 Then
@@ -891,8 +951,6 @@ Public Class IntroApuntes
                 Else
                     vCuentaAPU = CmbCuenta.Text.ToString()
                 End If
-                ' -----------------------------------------------------
-
 
                 ' Sincronizamos vConcepto con el texto actual en pantalla antes de guardar
                 vConcepto = Trim(CmbConcepto.Text)
@@ -906,8 +964,15 @@ Public Class IntroApuntes
                 cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vConcepto)
                 cmdMdb1cr.Parameters.AddWithValue("@DescripcionAPU", vDescripcionAPU)
 
+                ' 1. Nos aseguramos de que el valor sea un tipo Decimal puro de .NET (conservando el negativo)
+                Dim importeFinalDecimal As Decimal = ConvertirDecimalSeguro(vImporteAPU)
+
+                ' 2. Redondeamos de forma matemática estricta asegurando que NO se pierda el signo menos
+                importeFinalDecimal = Math.Round(importeFinalDecimal, 2, MidpointRounding.AwayFromZero)
+
+                ' 3. Definimos el parámetro como Currency pero le inyectamos el valor Decimal nativo directo
                 Dim paramImp1 As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteAPU", OleDb.OleDbType.Currency)
-                paramImp1.Value = Math.Round(vImporteAPU, 2)
+                paramImp1.Value = importeFinalDecimal
 
                 cmdMdb1cr.Parameters.AddWithValue("@EjercicioAPU", CInt(vAñoEjercicio))
                 cmdMdb1cr.Parameters.AddWithValue("@NotasAPU", vNotasAPU)
@@ -932,10 +997,9 @@ Public Class IntroApuntes
                     vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
                     vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
 
-                    ' Forzamos el formato universal 'yyyy-MM-dd' con guiones. 
                     ' Así, Access nunca confundirá el día con el mes en ningún Windows del mundo.
-                    vtipoSql += " And apuntes.FechaAPU >= #" & vDate1.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture) & "#"
-                    vtipoSql += " And apuntes.FechaAPU <= #" & vDate2.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture) & "#"
+                    vtipoSql += " And apuntes.FechaAPU >= ?"
+                    vtipoSql += " And apuntes.FechaAPU <= ?"
                 End If
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
@@ -951,15 +1015,34 @@ Public Class IntroApuntes
                     frmApuntesContables.DgvApuntes.CurrentCell = frmApuntesContables.DgvApuntes.Rows(vFila).Cells(0)
                 End If
             Else
-                'MsgBox("ListBox Mayor 0")
+                'MsgBox("ListBox Mayor a 0")
                 vDate3 = DateTimePicker1.Value
                 vDescripcionAPU = ApostrofePorAcentoAgudo(CmbDescripcion.Text)
-                vImporteAPU = TxtImporte.Text
-                If TxtTipoConcepto.Text = "GASTO" Then
-                    vImporteAPU = "-" & vImporteAPU.ToString
+
+                ' 1. Convertimos el texto de la caja a un número Decimal limpio y seguro
+                Dim importeNumerico As Decimal = ConvertirDecimalSeguro(TxtImporte.Text)
+
+                ' 2. Conseguimos el texto exacto que hay en la pantalla (pasado a MAYÚSCULAS)
+                Dim tipoEnPantalla As String = TxtTipoConcepto.Text.Trim().ToUpper()
+
+                ' 3. Recuperamos la traducción oficial en inglés (o el idioma activo) usando tu KEY real: "Tipo_Gasto"
+                Dim tipoTraducido As String = ""
+                If resManager IsNot Nothing Then
+                    tipoTraducido = resManager.GetString("Tipo_Gasto")
                 End If
+
+                ' 4. EVALUACIÓN DE IDIOMA SEGURA: ¿Es "GASTO" en español o coincide con la traducción?
+                If tipoEnPantalla = "GASTO" OrElse (tipoTraducido <> "" AndAlso tipoEnPantalla = tipoTraducido.Trim().ToUpper()) Then
+                    ' Si es un gasto y el usuario lo escribió en positivo, lo convertimos a negativo matemáticamente
+                    If importeNumerico > 0 Then
+                        importeNumerico = importeNumerico * -1
+                    End If
+                End If
+
+                ' Asignamos el valor numérico final a tu variable global
+                vImporteAPU = importeNumerico
                 vNotasAPU = TxtNota.Text
-                'vCuentaAPU = CmbCuenta.Text.ToString
+
                 ' --- RECUPERAR NOMBRE DE CUENTA EN ESPAÑOL SEGURO ---
                 vCuentaAPU = ""
                 If CmbCuenta.SelectedIndex >= 0 Then
@@ -982,8 +1065,6 @@ Public Class IntroApuntes
                 Else
                     vCuentaAPU = CmbCuenta.Text.ToString()
                 End If
-                ' -----------------------------------------------------
-
 
                 ' Sincronizamos vConcepto con el texto actual en pantalla antes de guardar
                 vConcepto = Trim(CmbConcepto.Text)
@@ -998,20 +1079,23 @@ Public Class IntroApuntes
 
                 ' Pasamos el objeto Date puro (vDate3). ¡Adiós para siempre al .ToString("yyyy/MM/dd")!
                 cmdMdb1cr.Parameters.AddWithValue("@FechaAPU", vDate3)
-
-                ' Campos de texto libres (Inmunes a apóstrofes de forma nativa)
                 cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vConcepto)
                 cmdMdb1cr.Parameters.AddWithValue("@DescripcionAPU", vDescripcionAPU)
 
-                ' Importe blindado con Currency para evitar errores de precisión en Access
-                Dim paramImp As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteAPU", OleDb.OleDbType.Currency)
-                paramImp.Value = Math.Round(ConvertirDecimalSeguro(vImporteAPU), 2)
+                ' 1. Nos aseguramos de que el valor sea un tipo Decimal puro de .NET (conservando el negativo)
+                Dim importeFinalDecimal As Decimal = ConvertirDecimalSeguro(vImporteAPU)
 
-                ' Resto de variables numéricas y de texto
+                ' 2. Redondeamos de forma matemática estricta asegurando que NO se pierda el signo menos
+                importeFinalDecimal = Math.Round(importeFinalDecimal, 2, MidpointRounding.AwayFromZero)
+
+                ' 3. Definimos el parámetro como Currency pero le inyectamos el valor Decimal nativo directo
+                Dim paramImp1 As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteAPU", OleDb.OleDbType.Currency)
+                paramImp1.Value = importeFinalDecimal
+
                 cmdMdb1cr.Parameters.AddWithValue("@EjercicioAPU", CInt(vAñoEjercicio))
                 cmdMdb1cr.Parameters.AddWithValue("@NotasAPU", vNotasAPU)
                 cmdMdb1cr.Parameters.AddWithValue("@CuentaAPU", vCuentaAPU)
-                cmdMdb1cr.CommandText = vAñadirSql
+
                 Try
                     cmdMdb1cr.ExecuteNonQuery()
                 Catch ex As Exception
@@ -1040,8 +1124,8 @@ Public Class IntroApuntes
 
                             ' Forzamos el formato universal 'yyyy-MM-dd' con guiones. 
                             ' Así, Access nunca confundirá el día con el mes en ningún Windows del mundo.
-                            vtipoSql += " And apuntes.FechaAPU >= #" & vDate1.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture) & "#"
-                            vtipoSql += " And apuntes.FechaAPU <= #" & vDate2.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture) & "#"
+                            vtipoSql += " And apuntes.FechaAPU >= ?"
+                            vtipoSql += " And apuntes.FechaAPU <= ?"
                         End If
                     Else
                         vtipoSql += " Or "
@@ -1057,8 +1141,8 @@ Public Class IntroApuntes
                         If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
                             vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
                             vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
-                            vtipoSql += " And apuntes.FechaAPU >= #" & vDate1 & "#"
-                            vtipoSql += " And apuntes.FechaAPU <= #" & vDate2 & "#"
+                            vtipoSql += " And apuntes.FechaAPU >= ?"
+                            vtipoSql += " And apuntes.FechaAPU <= ?"
                         End If
                     End If
                 Next

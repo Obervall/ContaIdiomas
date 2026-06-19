@@ -233,7 +233,6 @@ Public Class GraficosConceptos
     End Sub
 
     Private Sub TsBtnPastel_Click(sender As Object, e As EventArgs) Handles TsBtnPastel.Click
-
         ' Encendemos únicamente el Pastel
         TsBtnPastel.Checked = True
         TsBtnColumnas.Checked = False
@@ -248,8 +247,14 @@ Public Class GraficosConceptos
         Chart1.Series("Gastos").ChartType = SeriesChartType.Pie
         Chart1.Series("Ingresos").ChartType = SeriesChartType.Pie
 
-        ' Obligatorio para que no se quede fijo con la palabra "Gastos" en ningún idioma
-        Chart1.Series("Gastos").LegendText = "#VALX"
+        ' Forzamos a las porciones del pastel a mostrar el porcentaje internamente
+        Chart1.Series("Gastos").Label = "#PERCENT"
+
+        ' Tooltip general para cuando pasas el ratón sobre el dibujo del pastel
+        Chart1.Series("Gastos").ToolTip = "#VALX: #VAL"
+
+        ' IMPORTANTE: Limpiamos cualquier propiedad residual que confunda a la leyenda
+        Chart1.Series("Gastos").LegendText = ""
         Chart1.Series("Gastos").Points.Clear()
         Chart1.Series("Ingresos").Points.Clear()
 
@@ -276,14 +281,20 @@ Public Class GraficosConceptos
                 End If
             End If
 
-            ' 3. ENVIAMOS LOS DATOS YA TRADUCIDOS AL GRÁFICO
+            ' 3. ENVIAMOS LOS DATOS Y ASIGNAMOS LA LEYENDA INDIVIDUALMENTE A CADA PUNTO
+            Dim indicePunto As Integer
+
             If importePuro <= 0 Then
-                Chart1.Series("Gastos").Points.AddXY(conceptoTraducidoVisual, Math.Abs(importePuro))
+                indicePunto = Chart1.Series("Gastos").Points.AddXY(conceptoTraducidoVisual, Math.Abs(importePuro))
             Else
-                ' Si deseas pintar los ingresos en el mismo pastel, se añaden a la misma serie de arriba 
-                ' o a la suya propia si controlas visibilidades. Aquí lo añadimos a Gastos en valor absoluto para que sume al pastel:
-                Chart1.Series("Gastos").Points.AddXY(conceptoTraducidoVisual, importePuro)
+                indicePunto = Chart1.Series("Gastos").Points.AddXY(conceptoTraducidoVisual, importePuro)
             End If
+
+            ' --- EL TRUCO MAESTRO ---
+            ' Asignamos el texto traducido directamente a la propiedad LegendText de ESTE punto concreto
+            Chart1.Series("Gastos").Points(indicePunto).LegendText = conceptoTraducidoVisual
+            ' Tooltip específico para el cuadro de la leyenda de este concepto
+            Chart1.Series("Gastos").Points(indicePunto).LegendToolTip = conceptoTraducidoVisual & ": " & Math.Abs(importePuro).ToString()
         Next
     End Sub
 

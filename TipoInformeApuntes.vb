@@ -12,8 +12,6 @@ Public Class TipoInformeApuntes
 
 
     Private Sub TipoInformeApuntes_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ActualizarTextosFormulario(Me)
-
         If frmApuntesContables.BtnFiltroChekedList.Enabled = False Then
             frmTipoInformeApuntes.RadioButton2.Enabled = False
             frmTipoInformeApuntes.RadioButton5.Enabled = True
@@ -528,8 +526,6 @@ Public Class TipoInformeApuntes
             PrintDocument1.Print()
         End If
     End Sub
-
-
 
     Private Sub PrintDocument1_PrintPage(sender As Object, e As PrintPageEventArgs) Handles PrintDocument1.PrintPage
         'Cualquier variable que desees que conserve su valor debes declararla fuera del Printdocument

@@ -62,8 +62,8 @@ Public Class TipoInformeApuntesPeriodicos
             frmImprimirForm.LblTitulo.Text += "  " & frmApuntesPeriodicos.CmbCuenta.Text & "."
         End If
         If frmApuntesPeriodicos.BtnFiltroFecha.Enabled = False Then
-            vtipoSql += " And apuper.FechaAPP >= #" & vDate1 & "#"
-            vtipoSql += " And apuper.FechaAPP <= #" & vDate2 & "#"
+            vtipoSql += " And apuper.FechaAPP >= ?"
+            vtipoSql += " And apuper.FechaAPP <= ?"
             frmImprimirForm.LblTitulo.Text += "  FECHAS."
             frmImprimirForm.LblEntreFechas.Text = "Desde: " & frmApuntesPeriodicos.DateTimePicker1.Value & "    Hasta: " & frmApuntesPeriodicos.DateTimePicker2.Value
         End If
@@ -204,8 +204,8 @@ Public Class TipoInformeApuntesPeriodicos
                 vtipoSql += " And apuper.CuentaAPP = '" & frmApuntesPeriodicos.CmbCuenta.Text & "' "
             End If
             If frmApuntesPeriodicos.BtnFiltroFecha.Enabled = False Then
-                vtipoSql += " And apuper.FechaAPP >= #" & vDate1 & "#"
-                vtipoSql += " And apuper.FechaAPP <= #" & vDate2 & "#"
+                vtipoSql += " And apuper.FechaAPP >= ?"
+                vtipoSql += " And apuper.FechaAPP <= ?"
             End If
             vtipoSql += " ORDER BY apuper.CuentaAPP ASC"
             LlenarGrid(vtipoSql, "PRINT_CUENTAS_PERIODICAS", "3")  'Agrupado por Cuentas
@@ -320,8 +320,8 @@ Public Class TipoInformeApuntesPeriodicos
                 vtipoSql += " And apuper.CuentaAPP = '" & frmApuntesPeriodicos.CmbCuenta.Text & "' "
             End If
             If frmApuntesPeriodicos.BtnFiltroFecha.Enabled = False Then
-                vtipoSql += " And apuper.FechaAPP >= #" & vDate1 & "#"
-                vtipoSql += " And apuper.FechaAPP <= #" & vDate2 & "#"
+                vtipoSql += " And apuper.FechaAPP >= ?"
+                vtipoSql += " And apuper.FechaAPP <= ?"
             End If
             vtipoSql += " ORDER BY apuper.FechaAPP ASC"
             LlenarGrid(vtipoSql, "PRINT_CUENTAS_PERIODICAS", "3")  'Agrupado por Cuentas

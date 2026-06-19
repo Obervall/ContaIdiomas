@@ -299,8 +299,8 @@ Public Class IntroApuntesPeriodicos
                     If frmApuntesPeriodicos.BtnFiltroFecha.Enabled = False Then
                         vDate1 = frmApuntesPeriodicos.DateTimePicker1.Value
                         vDate2 = frmApuntesPeriodicos.DateTimePicker2.Value
-                        vtipoSql += " And apuper.FechaAPP >= #" & vDate1 & "#"
-                        vtipoSql += " And apuper.FechaAPP <= #" & vDate2 & "#"
+                        vtipoSql += " And apuper.FechaAPP >= ?"
+                        vtipoSql += " And apuper.FechaAPP <= ?"
                     End If
                     vtipoSql += " ORDER BY apuper.FechaAPP ASC"
                     vtipoGrid = "APUNTES_PERIODICOS"

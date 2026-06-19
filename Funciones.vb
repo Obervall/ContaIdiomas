@@ -310,8 +310,10 @@ Module Funciones
         opcion = tipoopc
         If vgrid = "APUNTES_CONTABLES" Then
             Using adp As New OleDbDataAdapter(linSql, conexion1)
-                adp.SelectCommand.Parameters.Add(New OleDbParameter("@fecha1", OleDbType.Date)).Value = vDate1
-                adp.SelectCommand.Parameters.Add(New OleDbParameter("@fecha2", OleDbType.Date)).Value = vDate2
+                If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
+                    adp.SelectCommand.Parameters.Add(New OleDbParameter("@fecha1", OleDbType.Date)).Value = vDate1
+                    adp.SelectCommand.Parameters.Add(New OleDbParameter("@fecha2", OleDbType.Date)).Value = vDate2
+                End If
                 Dim Tabla As New DataTable
                 adp.Fill(Tabla)
                 frmApuntesContables.DgvApuntes.DataSource = Nothing
@@ -376,16 +378,21 @@ Module Funciones
             'frmApuntesContables.DgvApuntes.Columns.Insert(5, columna)
 
         ElseIf vgrid = "PRINT_APUNTES_CONTABLES" Then
-            Dim adp As New OleDbDataAdapter(linSql, conexion1)
-            Dim Tabla As New DataTable
-            adp.Fill(Tabla)
-            frmImprimirForm.DgvApuntes.DataSource = ""
-            frmImprimirForm.DgvApuntes.DataSource = Tabla
+            Using adp As New OleDbDataAdapter(linSql, conexion1)
+                If frmApuntesPeriodicos.BtnFiltroFecha.Enabled = False Then
+                    adp.SelectCommand.Parameters.Add(New OleDbParameter("@fecha1", OleDbType.Date)).Value = vDate1
+                    adp.SelectCommand.Parameters.Add(New OleDbParameter("@fecha2", OleDbType.Date)).Value = vDate2
+                End If
+                Dim Tabla As New DataTable
+                adp.Fill(Tabla)
+                frmImprimirForm.DgvApuntes.DataSource = Nothing
+                frmImprimirForm.DgvApuntes.DataSource = Tabla
+            End Using
 
         ElseIf vgrid = "PRINT_INFORME_APUNTES" Then
             Using adp As New OleDbDataAdapter(linSql, conexion1)
-                adp.SelectCommand.Parameters.Add(New OleDbParameter("fecha", OleDbType.Date)).Value = vDate1
-                adp.SelectCommand.Parameters.Add(New OleDbParameter("fecha", OleDbType.Date)).Value = vDate2
+                adp.SelectCommand.Parameters.Add(New OleDbParameter("@fecha1", OleDbType.Date)).Value = vDate1
+                adp.SelectCommand.Parameters.Add(New OleDbParameter("@fecha2", OleDbType.Date)).Value = vDate2
                 Dim Tabla As New DataTable
                 adp.Fill(Tabla)
                 frmImprimirForm.DgvApuntes.DataSource = ""
@@ -407,8 +414,10 @@ Module Funciones
 
         ElseIf vgrid = "APUNTES_PERIODICOS" Then
             Using adp As New OleDbDataAdapter(linSql, conexion1)
-                adp.SelectCommand.Parameters.Add(New OleDbParameter("fecha", OleDbType.Date)).Value = vDate1
-                adp.SelectCommand.Parameters.Add(New OleDbParameter("fecha", OleDbType.Date)).Value = vDate2
+                If frmApuntesPeriodicos.BtnFiltroFecha.Enabled = False Then
+                    adp.SelectCommand.Parameters.Add(New OleDbParameter("@fecha1", OleDbType.Date)).Value = vDate1
+                    adp.SelectCommand.Parameters.Add(New OleDbParameter("@fecha2", OleDbType.Date)).Value = vDate2
+                End If
                 Dim Tabla As New DataTable
                 adp.Fill(Tabla)
                 frmApuntesPeriodicos.DgvApuper.DataSource = ""
@@ -614,12 +623,16 @@ Module Funciones
             frmImprimirForm.LblTotal.Text = String.Format("{0}: {1} {2}", resManager.GetString("TOTAL"), vValor.ToString("N2"), vMoneda)
 
         ElseIf vgrid = "PRINT_CUENTAS_PERIODICAS" Then
-            Dim adp As New OleDbDataAdapter(linSql, conexion1)
-            Dim Tabla As New DataTable
-            adp.Fill(Tabla)
-            frmImprimirForm.DgvApuntes.DataSource = ""
-            frmImprimirForm.DgvApuntes.DataSource = Tabla
-
+            Using adp As New OleDbDataAdapter(linSql, conexion1)
+                If frmApuntesPeriodicos.BtnFiltroFecha.Enabled = False Then
+                    adp.SelectCommand.Parameters.Add(New OleDbParameter("@fecha1", OleDbType.Date)).Value = vDate1
+                    adp.SelectCommand.Parameters.Add(New OleDbParameter("@fecha2", OleDbType.Date)).Value = vDate2
+                End If
+                Dim Tabla As New DataTable
+                adp.Fill(Tabla)
+                frmImprimirForm.DgvApuntes.DataSource = ""
+                frmImprimirForm.DgvApuntes.DataSource = Tabla
+            End Using
 
         ElseIf vgrid = "PRESUPUESTOS" Then
             Dim adp As New OleDbDataAdapter(linSql, conexion1)
@@ -1811,7 +1824,7 @@ Module Funciones
                     Dim fechaFila As DateTime = Convert.ToDateTime(fila.Cells(0).Value)
 
                     ' Formateamos la fecha al estándar universal que Access entiende siempre (#aaaa-mm-dd#)
-                    Dim fechaFormatoAccess As String = "#" & fechaFila.ToString("yyyy-MM-dd") & "#"
+                    'Dim fechaFormatoAccess As String = "#" & fechaFila.ToString("yyyy-MM-dd") & "#"
 
                     If vFechaConcepto <> fechaFila Then
                         vFechaConcepto = fechaFila
@@ -1828,7 +1841,7 @@ Module Funciones
 
                         ' Fecha pura en binario (Inmune a cualquier idioma de Windows)
                         ' NOTA: Pásale aquí tu variable de tipo Date real (ej: miView(x)("Fecha") o vDate) en vez de fechaFormatoAccess
-                        cmdMdb1cr.Parameters.AddWithValue("@FechaTMP", vDate1)
+                        cmdMdb1cr.Parameters.AddWithValue("@FechaTMP", fechaFila)
 
                         ' Importe blindado en formato Moneda nativo de Access usando tu función global
                         Dim paramImpPrint As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteTMP", OleDb.OleDbType.Currency)
@@ -1849,8 +1862,8 @@ Module Funciones
                         ' 2. Inyectamos únicamente el parámetro de la fecha (los ceros van fijos en el SQL)
                         cmdMdb1cr.Parameters.Clear()
 
-                        ' Pasamos el objeto Date puro (asegúrate de que vDate1 sea tu variable Date de esa fila)
-                        cmdMdb1cr.Parameters.AddWithValue("@FechaTMP", vDate1)
+                        ' Pasamos el objeto Date puro (asegúrate de que fechaFila sea tu variable Date de esa fila)
+                        cmdMdb1cr.Parameters.AddWithValue("@FechaTMP", fechaFila)
                         cmdMdb1cr.CommandText = vAñadir
                         Try
                             cmdMdb1cr.ExecuteNonQuery()
@@ -1862,7 +1875,7 @@ Module Funciones
                         cmdMdb1cr.CommandType = CommandType.Text
 
                         ' Construimos el SELECT filtrando por signo
-                        cmdMdb1cr.CommandText = "SELECT ImporteTMP FROM tmpprint WHERE FechaTMP = " & fechaFormatoAccess
+                        cmdMdb1cr.CommandText = "SELECT ImporteTMP FROM tmpprint WHERE FechaTMP = ?"
                         If vImporteConcepto > 0 Then
                             cmdMdb1cr.CommandText += " AND ImporteTMP > 0"
                         Else
@@ -1908,8 +1921,8 @@ Module Funciones
                                 paramImpPrint.Value = Math.Round(ConvertirDecimalSeguro(vNewImporteConcepto), 2)
 
                                 ' Segundo '?': La fecha del filtro (WHERE). 
-                                ' NOTA: Pásale aquí tu variable de tipo Date real (ej: vDate1 o DateTimePicker) en lugar de fechaFormatoAccess
-                                cmdMdb1cr.Parameters.AddWithValue("@FechaTMP", vDate1)
+                                ' NOTA: Pásale aquí tu variable de tipo Date real (ej: fechaFila o DateTimePicker) en lugar de fechaFormatoAccess
+                                cmdMdb1cr.Parameters.AddWithValue("@FechaTMP", fechaFila)
                                 cmdMdb1cr.CommandText = vAñadir2
                                 Try
                                     cmdMdb1cr.ExecuteNonQuery()
@@ -1917,7 +1930,11 @@ Module Funciones
                                     MsgBox(resManager.GetString("ErrorGrabarTemporal") & vbCrLf & ex.Message)
                                 End Try
                             Else ' NO existe registro con ese signo, buscamos el que tiene importe = 0
-                                cmdMdb1cr.CommandText = "SELECT ImporteTMP FROM tmpprint WHERE FechaTMP = " & fechaFormatoAccess & " AND ImporteTMP = 0"
+                                cmdMdb1cr.CommandText = "SELECT ImporteTMP FROM tmpprint WHERE FechaTMP = ? AND ImporteTMP = 0"
+
+                                ' 2. ¡OBLIGATORIO!: Limpiamos parámetros previos e inyectamos el nuevo
+                                cmdMdb1cr.Parameters.Clear()
+                                cmdMdb1cr.Parameters.AddWithValue("@FechaTMP", fechaFila) ' Usamos la fecha de la fila actual
 
                                 Dim existeCero As Boolean = False
                                 Dim importeCeroExistente As Decimal = 0
@@ -1946,8 +1963,8 @@ Module Funciones
                                     paramImpPrint.Value = Math.Round(ConvertirDecimalSeguro(vNewImporteConcepto), 2)
 
                                     ' Segundo '?': La fecha del filtro (WHERE) como objeto Date puro
-                                    ' (Recuerda apuntar a tu variable Date real de ese bucle, por ejemplo, vDate1)
-                                    cmdMdb1cr.Parameters.AddWithValue("@FechaTMP", vDate1)
+                                    ' (Recuerda apuntar a tu variable Date real de ese bucle, por ejemplo, fechaFila)
+                                    cmdMdb1cr.Parameters.AddWithValue("@FechaTMP", fechaFila)
                                     cmdMdb1cr.CommandText = vAñadir2
                                     Try
                                         cmdMdb1cr.ExecuteNonQuery()
