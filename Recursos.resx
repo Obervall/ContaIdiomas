@@ -322,10 +322,6 @@ No se Eliminan de la Base de Datos</value>
   <data name="DECESOS" xml:space="preserve">
     <value>DECESOS</value>
   </data>
-  <data name="EL_CORTE_INGLES" xml:space="preserve">
-    <value></value>
-    <comment>@Invariant</comment>
-  </data>
   <data name="ESTETICA" xml:space="preserve">
     <value>ESTETICA</value>
   </data>
@@ -424,10 +420,6 @@ No se Eliminan de la Base de Datos</value>
   </data>
   <data name="Desc_DECESOS" xml:space="preserve">
     <value>Decesos</value>
-  </data>
-  <data name="Desc_EL_CORTE_INGLES" xml:space="preserve">
-    <value></value>
-    <comment>@Invariant</comment>
   </data>
   <data name="Desc_ESTETICA" xml:space="preserve">
     <value>Estética y Peluquería</value>
@@ -701,5 +693,11 @@ que el archivo no esté abierto</value>
   </data>
   <data name="BotonAceptar" xml:space="preserve">
     <value>Aceptar</value>
+  </data>
+  <data name="EL_CORTE_INGLES" xml:space="preserve">
+    <value>EL CORTE INGLES</value>
+  </data>
+  <data name="Desc_EL_CORTE_INGLES" xml:space="preserve">
+    <value>El Corte Inglés</value>
   </data>
 </root>

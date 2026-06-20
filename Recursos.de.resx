@@ -694,4 +694,10 @@ Die Datei ist nicht geöffnet</value>
   <data name="BotonAceptar" xml:space="preserve">
     <value>Akzeptieren</value>
   </data>
+  <data name="EL_CORTE_INGLES" xml:space="preserve">
+    <value>EL CORTE INGLES</value>
+  </data>
+  <data name="Desc_EL_CORTE_INGLES" xml:space="preserve">
+    <value>El Corte Inglés</value>
+  </data>
 </root>

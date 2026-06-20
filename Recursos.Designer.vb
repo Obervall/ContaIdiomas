@@ -398,7 +398,7 @@ Friend Class Recursos
     End Property
     
     '''<summary>
-    '''  Busca una cadena traducida similar a .
+    '''  Busca una cadena traducida similar a El Corte Inglés.
     '''</summary>
     Friend Shared ReadOnly Property Desc_EL_CORTE_INGLES() As String
         Get
@@ -677,7 +677,7 @@ Friend Class Recursos
     End Property
     
     '''<summary>
-    '''  Busca una cadena traducida similar a .
+    '''  Busca una cadena traducida similar a EL CORTE INGLES.
     '''</summary>
     Friend Shared ReadOnly Property EL_CORTE_INGLES() As String
         Get

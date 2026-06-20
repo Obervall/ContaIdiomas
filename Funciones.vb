@@ -1362,64 +1362,121 @@ Module Funciones
         End Try
     End Sub
 
-    Public Sub LlenarYTraducirControlesConceptosBD(ByVal combo As ComboBox, ByVal lista As ListBox, ByVal dr As OleDbDataReader)
-        Try
-            ' Guardamos la posición que tenía seleccionada el usuario
-            Dim posicionActual As Integer = combo.SelectedIndex
+    'Public Sub LlenarYTraducirControlesConceptosBD(ByVal combo As ComboBox, ByVal lista As ListBox, ByVal dr As OleDbDataReader)
+    '    Try
+    '        ' Guardamos la posición que tenía seleccionada el usuario
+    '        Dim posicionActual As Integer = combo.SelectedIndex
 
-            combo.Items.Clear()
+    '        combo.Items.Clear()
+    '        lista.Items.Clear()
+
+    '        Dim vTipoConcepto As String = ""
+
+    '        ' Recorremos el DataReader traduciendo cada registro sobre la marcha
+    '        While dr.Read()
+    '            Dim codigoOriginal As String = dr("CodigoCON").ToString().Trim()
+    '            Dim tipoOriginal As String = dr("TipoCON").ToString().Trim().ToUpper()
+
+    '            ' Generamos la clave idéntica reemplazando los espacios
+    '            Dim llaveBase As String = codigoOriginal.Replace(" ", "_")
+    '            Dim codigoTraducido As String = resManager.GetString(llaveBase)
+
+    '            ' Si no tiene traducción, dejamos el original
+    '            If String.IsNullOrEmpty(codigoTraducido) Then codigoTraducido = codigoOriginal
+
+    '            ' Caso especial para el Traspaso del sistema
+    '            If codigoOriginal.ToUpper() = "TRASPASO" Then
+    '                Dim tradTraspaso As String = resManager.GetString("TRASPASO")
+    '                If Not String.IsNullOrEmpty(tradTraspaso) Then codigoTraducido = tradTraspaso
+    '            End If
+
+    '            ' --- AGREGAR CABECERAS DE GRUPO EXCLUSIVAS PARA EL LISTBOX ---
+    '            ' Comprobamos si ha cambiado el tipo de concepto (GASTO / INGRESO / ESPECIAL)
+    '            If vTipoConcepto <> tipoOriginal Then
+    '                vTipoConcepto = tipoOriginal
+
+    '                Select Case vTipoConcepto
+    '                    Case "GASTO"
+    '                        lista.Items.Add("** " & frmApuntesContables.rmse.GetString("Label8.Text") & " **")
+    '                    Case "INGRESO"
+    '                        lista.Items.Add("** " & frmApuntesContables.rmse.GetString("Label7.Text") & " **")
+    '                    Case "ESPECIAL"
+    '                        lista.Items.Add("** " & resManager.GetString("Tipo_Especial") & " **")
+    '                End Select
+    '            End If
+
+    '            ' --- LLENADO SINCRONIZADO ---
+    '            combo.Items.Add(codigoTraducido)
+    '            lista.Items.Add(codigoTraducido)
+    '        End While
+
+    '        ' Restauramos la posición de forma segura para evitar desbordamientos en mdb vacías
+    '        If posicionActual >= 0 AndAlso posicionActual < combo.Items.Count Then
+    '            combo.SelectedIndex = posicionActual
+    '        ElseIf combo.Items.Count > 0 Then
+    '            combo.SelectedIndex = 0
+    '        End If
+    '    Catch ex As Exception
+    '        ' Evita cuelgues visuales si el volcado falla
+    '    End Try
+    'End Sub
+
+    Public Sub LlenarYTraducirControlesConceptosBD(ByVal combo As ComboBox, ByVal lista As ListBox, ByVal reader As OleDb.OleDbDataReader)
+        Try
+            ' 1. Creamos una tabla en memoria y volcamos TODO el contenido del Reader de golpe
+            Dim dt As New DataTable()
+            dt.Load(reader) ' Esto lee el IdConceptoCON, CodigoCON, DescripcionCON, etc.
+
+            ' 2. Añadimos la columna virtual para el texto que verá el usuario
+            dt.Columns.Add("TextoTraducido", GetType(String))
+
+            ' 3. Limpiamos el ListBox antes de rellenarlo
             lista.Items.Clear()
 
-            Dim vTipoConcepto As String = ""
+            ' 4. Hacemos el bucle a través de la tabla para traducir (sustituye al antiguo While reader.Read)
+            For Each fila As DataRow In dt.Rows
+                Dim codigoOriginal As String = fila("CodigoCON").ToString().Trim()
+                Dim descOriginal As String = fila("DescripcionCON").ToString()
+                Dim textoFinal As String = descOriginal ' Salvavidas por defecto
 
-            ' Recorremos el DataReader traduciendo cada registro sobre la marcha
-            While dr.Read()
-                Dim codigoOriginal As String = dr("CodigoCON").ToString().Trim()
-                Dim tipoOriginal As String = dr("TipoCON").ToString().Trim().ToUpper()
-
-                ' Generamos la clave idéntica reemplazando los espacios
-                Dim llaveBase As String = codigoOriginal.Replace(" ", "_")
-                Dim codigoTraducido As String = resManager.GetString(llaveBase)
-
-                ' Si no tiene traducción, dejamos el original
-                If String.IsNullOrEmpty(codigoTraducido) Then codigoTraducido = codigoOriginal
-
-                ' Caso especial para el Traspaso del sistema
-                If codigoOriginal.ToUpper() = "TRASPASO" Then
-                    Dim tradTraspaso As String = resManager.GetString("TRASPASO")
-                    If Not String.IsNullOrEmpty(tradTraspaso) Then codigoTraducido = tradTraspaso
+                ' Buscamos la traducción en tus recursos (.resx)
+                If resManager IsNot Nothing Then
+                    ' 1. EL TRUCO CONTRA ESPACIOS DOBLES: Reemplazamos bucles de espacios dobles por uno solo
+                    Dim textoLimpio As String = codigoOriginal.Trim()
+                    'While textoLimpio.Contains("  ")
+                    '    textoLimpio = textoLimpio.Replace("  ", " ")
+                    'End While
+                    ' 2. Ahora que seguro solo hay UN espacio, hacemos el cambio a guion bajo
+                    Dim claveRecurso As String = textoLimpio.Replace(" ", "_")
+                    Dim traduccion As String = resManager.GetString(claveRecurso)
+                    If Not String.IsNullOrEmpty(traduccion) Then
+                        textoFinal = traduccion
+                    End If
                 End If
 
-                ' --- AGREGAR CABECERAS DE GRUPO EXCLUSIVAS PARA EL LISTBOX ---
-                ' Comprobamos si ha cambiado el tipo de concepto (GASTO / INGRESO / ESPECIAL)
-                If vTipoConcepto <> tipoOriginal Then
-                    vTipoConcepto = tipoOriginal
+                ' Guardamos el texto traducido en la columna que usará el Combo
+                fila("TextoTraducido") = textoFinal
 
-                    Select Case vTipoConcepto
-                        Case "GASTO"
-                            lista.Items.Add("** " & frmApuntesContables.rmse.GetString("Label8.Text") & " **")
-                        Case "INGRESO"
-                            lista.Items.Add("** " & frmApuntesContables.rmse.GetString("Label7.Text") & " **")
-                        Case "ESPECIAL"
-                            lista.Items.Add("** " & resManager.GetString("Tipo_Especial") & " **")
-                    End Select
-                End If
+                ' Rellenamos el ListBox en el mismo orden exacto
+                lista.Items.Add(textoFinal)
+            Next
 
-                ' --- LLENADO SINCRONIZADO ---
-                combo.Items.Add(codigoTraducido)
-                lista.Items.Add(codigoTraducido)
-            End While
+            ' 5. Vinculamos la tabla al Combo para que guarde el ID numérico en secreto
+            ' --- ORDEN CORRECTO Y SEGURO ---
+            ' 1. Primero le decimos qué columna oculta guarda el número
+            combo.ValueMember = "IdConceptoCON"
 
-            ' Restauramos la posición de forma segura para evitar desbordamientos en mdb vacías
-            If posicionActual >= 0 AndAlso posicionActual < combo.Items.Count Then
-                combo.SelectedIndex = posicionActual
-            ElseIf combo.Items.Count > 0 Then
-                combo.SelectedIndex = 0
-            End If
+            ' 2. Segundo le decimos qué columna virtual tiene el texto traducido
+            combo.DisplayMember = "TextoTraducido"
+
+            ' 3. ¡AL FINAL! Enlazamos la tabla. Así el combo sabe qué pintar desde el primer milisegundo
+            combo.DataSource = dt
+
         Catch ex As Exception
-            ' Evita cuelgues visuales si el volcado falla
+            MsgBox("Error en el módulo al sincronizar los controles: " & ex.Message, MsgBoxStyle.Critical)
         End Try
     End Sub
+
 
     Public Sub LlenarYTraducirComboConceptosBD(ByVal combo As ComboBox, ByVal dr As OleDbDataReader, ByVal res As System.Resources.ResourceManager)
         Try
@@ -2173,5 +2230,56 @@ Module Funciones
         End If
         Return importeResultado
     End Function
+
+    Public Sub LlenarComboConceptosGenerico(ByVal combo As ComboBox)
+        ' 1. ¡CORREGIDO!: Sincronizados los nombres de las columnas. Usamos IdConceptoCON tanto en el SELECT como en el ORDER BY
+        cmdMdb1cr.CommandText = "SELECT IdConceptoCON, CodigoCON, DescripcionCON FROM conceptos ORDER BY TipoCON ASC, IdConceptoCON ASC"
+
+        Dim dtConceptos As New DataTable()
+
+        Try
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            dtConceptos.Load(drMdb1)
+            drMdb1.Close()
+
+            ' Creamos la columna virtual para el texto traducido que verá el usuario
+            dtConceptos.Columns.Add("TextoTraducido", GetType(String))
+
+            ' Recorremos las filas para traducir cada concepto
+            For Each fila As DataRow In dtConceptos.Rows
+                Dim codigoOriginal As String = fila("CodigoCON").ToString().Trim()
+                Dim descOriginal As String = fila("DescripcionCON").ToString()
+                Dim textoFinal As String = descOriginal ' Salvavidas por defecto
+
+                ' Si tenemos el gestor de recursos, buscamos la traducción del concepto
+                If resManager IsNot Nothing Then
+                    ' 1. EL TRUCO CONTRA ESPACIOS DOBLES: Reemplazamos bucles de espacios dobles por uno solo
+                    Dim textoLimpio As String = codigoOriginal.Trim()
+                    'While textoLimpio.Contains("  ")
+                    '    textoLimpio = textoLimpio.Replace("  ", " ")
+                    'End While
+                    ' 2. Ahora que seguro solo hay UN espacio, hacemos el cambio a guion bajo
+                    Dim claveRecurso As String = textoLimpio.Replace(" ", "_")
+                    Dim traduccion As String = resManager.GetString(claveRecurso)
+
+                    If Not String.IsNullOrEmpty(traduccion) Then
+                        textoFinal = traduccion
+                    End If
+                End If
+
+                fila("TextoTraducido") = textoFinal
+            Next
+
+            ' 2. VINCULAMOS AL COMBOBOX PASADO POR PARÁMETRO (Con el orden óptimo de Windows Forms)
+            combo.ValueMember = "IdConceptoCON"       ' El número oculto (1, 2, 3...)
+            combo.DisplayMember = "TextoTraducido"   ' Lo que VE el usuario
+            combo.DataSource = dtConceptos            ' Al final enlazamos los datos
+
+        Catch ex As Exception
+            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+            MsgBox("Error al cargar los conceptos: " & ex.Message, MsgBoxStyle.Critical)
+        End Try
+    End Sub
+
 
 End Module

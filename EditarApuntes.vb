@@ -3,6 +3,7 @@ Imports System.Windows.Forms
 
 Public Class EditarApuntes
 
+    Private cargandoFormulario As Boolean = True
     Public vConcepto, vtipoSql, vtipoGrid As String
     Public vDescripcionAPU, vNotasAPU, vCuentaAPU As String
     Public vCodigoAPU As Integer
@@ -12,8 +13,8 @@ Public Class EditarApuntes
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub EditarApuntes_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        cargandoFormulario = True
         Me.KeyPreview = True
-        'ActualizarTextosFormulario(Me)
 
         Label7.Text = vMoneda
         TL(0) = New ToolTip
@@ -37,22 +38,24 @@ Public Class EditarApuntes
 
         ' Llenar el Combo Concepto
         '*************************
-        cmdMdb1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
-        Try
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-            If drMdb1.HasRows Then
-                While drMdb1.Read()
-                    CmbConcepto.Items.Add(drMdb1.GetValue(0))
-                End While
-                CmbConcepto.Text = CmbConcepto.Items(0)
-            Else
-                'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
-            End If
-            drMdb1.Close()
-        Catch ex As Exception
-            'MsgBox("Error al llenar el Combo Concepto")
-            MsgBox(ex.ToString)
-        End Try
+        LlenarComboConceptosGenerico(Me.CmbConcepto)
+
+        'cmdMdb1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
+        'Try
+        '    drMdb1 = cmdMdb1cr.ExecuteReader()
+        '    If drMdb1.HasRows Then
+        '        While drMdb1.Read()
+        '            CmbConcepto.Items.Add(drMdb1.GetValue(0))
+        '        End While
+        '        CmbConcepto.Text = CmbConcepto.Items(0)
+        '    Else
+        '        'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
+        '    End If
+        '    drMdb1.Close()
+        'Catch ex As Exception
+        '    'MsgBox("Error al llenar el Combo Concepto")
+        '    MsgBox(ex.ToString)
+        'End Try
 
         ' Llenar el Combo Descripción
         '****************************
@@ -137,6 +140,7 @@ Public Class EditarApuntes
             BtnAceptar.Enabled = False
             BtnEliminar.Select()
         End If
+        cargandoFormulario = False
     End Sub
 
     Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click

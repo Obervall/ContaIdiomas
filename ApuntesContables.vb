@@ -153,27 +153,57 @@ Public Class ApuntesContables
             DgvApuntes.CurrentCell = DgvApuntes.Rows(vFila).Cells(0)
         End If
 
-        ' Llenar el Combo Concepto y ListBox1 utilizando la nueva función sincronizada
+        ' Llenar el Combo Concepto y ListBox1 utilizando la función sincronizada
         '*******************************************************************************
-        ' IMPORTANTE: Añadimos TipoCON al SELECT para que la función pueda agrupar las cabeceras
-        cmdMdb1cr.CommandText = "SELECT CodigoCON, TipoCON FROM conceptos ORDER BY TipoCON ASC, CodigoCON ASC"
+        ' 1. SQL adaptado para traer el IdConceptoCON y el CodigoCON que necesita la nueva lógica
+        cmdMdb1cr.CommandText = "SELECT IdConceptoCON, CodigoCON, DescripcionCON FROM conceptos ORDER BY TipoCON ASC, IdConceptoCON ASC"
+
         Try
+            ' 2. Abrimos el lector original de siempre
             drMdb1 = cmdMdb1cr.ExecuteReader()
 
-            ' LLENAMOS, TRADUCIMOS Y AGRUPAMOS AMBOS CONTROLES DE UN SOLO GOLPE
+            ' 3. Encendemos tu escudo protector antes de rellenar
+            cargandoFormulario = True
+
+            ' 4. ¡CORREGIDO!: Le pasamos el drMdb1 (Reader) que la función de tu módulo espera recibir
             LlenarYTraducirControlesConceptosBD(Me.CmbConcepto, Me.ListBox1, drMdb1)
 
+            ' 5. Apagamos el escudo tras la carga y cerramos el lector
+            cargandoFormulario = False
             drMdb1.Close()
 
-            ' Selecciona el segundo elemento de forma segura tras la carga
+            ' Selecciona el segundo elemento de forma segura tras la carga (Tu lógica B)
             If CmbConcepto.Items.Count > 1 Then
                 CmbConcepto.SelectedIndex = 1
             End If
 
         Catch ex As Exception
-            MsgBox(ex.ToString)
             If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+            MsgBox("Error al procesar conceptos: " & ex.Message, MsgBoxStyle.Critical)
         End Try
+
+
+        '' Llenar el Combo Concepto y ListBox1 utilizando la nueva función sincronizada
+        ''*******************************************************************************
+        '' IMPORTANTE: Añadimos TipoCON al SELECT para que la función pueda agrupar las cabeceras
+        'cmdMdb1cr.CommandText = "SELECT CodigoCON, TipoCON FROM conceptos ORDER BY TipoCON ASC, CodigoCON ASC"
+        'Try
+        '    drMdb1 = cmdMdb1cr.ExecuteReader()
+
+        '    ' LLENAMOS, TRADUCIMOS Y AGRUPAMOS AMBOS CONTROLES DE UN SOLO GOLPE
+        '    LlenarYTraducirControlesConceptosBD(Me.CmbConcepto, Me.ListBox1, drMdb1)
+
+        '    drMdb1.Close()
+
+        '    ' Selecciona el segundo elemento de forma segura tras la carga
+        '    If CmbConcepto.Items.Count > 1 Then
+        '        CmbConcepto.SelectedIndex = 1
+        '    End If
+
+        'Catch ex As Exception
+        '    MsgBox(ex.ToString)
+        '    If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+        'End Try
 
         ' Llenar el Combo Cuenta de forma segura y traducida
         '***************************************************
