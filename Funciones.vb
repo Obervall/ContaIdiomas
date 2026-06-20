@@ -186,123 +186,270 @@ Module Funciones
         End If
     End Sub
 
-    Public Function IniciarSaldosIniciales(vAny As String) As Boolean
-        vAñoEjercicio = vAny
-        vConceptoAPU = "SALDO"
+    'Public Function IniciarSaldosIniciales(vAny As String) As Boolean
+    '    vAñoEjercicio = vAny
+    '    vConceptoAPU = "SALDO"
 
-        ' Creamos una única estructura de conexión para todo el procedimiento
-        Using conexion As New OleDbConnection(conexion1.ConnectionString) '[1]
+    '    ' Creamos una única estructura de conexión para todo el procedimiento
+    '    Using conexion As New OleDbConnection(conexion1.ConnectionString) '[1]
+    '        Try
+    '            conexion.Open()
+    '            ' =================================================================
+    '            ' PASO 1: BORRADO (Usando la misma conexión limpia)
+    '            ' =================================================================
+    '            Dim sqlDelete As String = "DELETE FROM apuntes WHERE ConceptoAPU = ? And EjercicioAPU = ?"
+    '            Using cmdDelete As New OleDbCommand(sqlDelete, conexion)
+    '                cmdDelete.Parameters.AddWithValue("@concepto", vConceptoAPU)
+    '                cmdDelete.Parameters.AddWithValue("@ejercicio", CInt(vAñoEjercicio))
+    '                cmdDelete.ExecuteNonQuery()
+    '            End Using
+
+    '            ' =================================================================
+    '            ' PASO 2: CARGA DE DATOS HISTÓRICOS
+    '            ' =================================================================
+    '            Dim sqlSelect As String =
+    '            "SELECT A.EjercicioAPU, A.CuentaAPU, SUM(A.ImporteAPU) AS SumaAño " &
+    '            "FROM (Ejercicios AS E INNER JOIN Apuntes AS A ON E.EjercicioEJE = A.EjercicioAPU) " &
+    '            "WHERE E.EjercicioEJE < ? AND A.ConceptoAPU <> 'SALDO' " &
+    '            "GROUP BY A.EjercicioAPU, A.CuentaAPU " &
+    '            "ORDER BY A.EjercicioAPU ASC"
+
+    '            Dim dtMovimientos As New DataTable()
+    '            Using cmdSelect As New OleDbCommand(sqlSelect, conexion)
+    '                cmdSelect.Parameters.AddWithValue("@AñoSeleccionado", vAñoEjercicio)
+    '                Using adaptador As New OleDbDataAdapter(cmdSelect)
+    '                    adaptador.Fill(dtMovimientos)
+    '                End Using
+    '            End Using
+
+    '            ' =================================================================
+    '            ' PASO 3: PROCESAMIENTO EN MEMORIA
+    '            ' =================================================================
+    '            Dim saldosAcumulados As New Dictionary(Of String, Decimal)()
+
+    '            For Each fila As DataRow In dtMovimientos.Rows
+    '                Dim cuenta As String = fila("CuentaAPU").ToString()
+    '                Dim importeAño As Decimal = Convert.ToDecimal(fila("SumaAño"))
+
+    '                If saldosAcumulados.ContainsKey(cuenta) Then
+    '                    saldosAcumulados(cuenta) += importeAño
+    '                Else
+    '                    saldosAcumulados.Add(cuenta, importeAño)
+    '                End If
+    '            Next
+
+    '            ' Si no hay saldos, salimos de la función cerrando la conexión automáticamente [1]
+    '            If saldosAcumulados.Count = 0 Then
+    '                vAviso = True
+    '                Return False
+    '            Else
+    '                vAviso = False
+    '            End If
+
+    '            ' =================================================================
+    '            ' PASO 4: INSERCIÓN DE LOS NUEVOS SALDOS INICIALES
+    '            ' =================================================================
+    '            Dim fechaSaldoInicial As New Date(CInt(vAñoEjercicio), 1, 1)
+    '            Dim sqlInsert As String =
+    '            "INSERT INTO Apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, CuentaAPU) " &
+    '            "VALUES (?, ?, ?, ?, ?, ?)"
+
+    '            ' Forzamos confirmación síncrona en el motor Access para evitar búferes retrasados
+    '            Using comandoConfig As New OleDbCommand("SET FORCED COMMIT TRUE", conexion)
+    '                Try : comandoConfig.ExecuteNonQuery() : Catch : End Try
+    '            End Using
+
+    '            Using cmdInsert As New OleDbCommand(sqlInsert, conexion)
+    '                ' Parámetros configurados con tipos explícitos en orden estricto
+    '                cmdInsert.Parameters.Add("@Fecha", OleDbType.Date)
+    '                cmdInsert.Parameters.Add("@Concepto", OleDbType.VarWChar)
+    '                cmdInsert.Parameters.Add("@Descripcion", OleDbType.VarWChar)
+    '                cmdInsert.Parameters.Add("@Importe", OleDbType.Currency)
+    '                cmdInsert.Parameters.Add("@Ejercicio", OleDbType.Integer)
+    '                cmdInsert.Parameters.Add("@Cuenta", OleDbType.VarWChar)
+
+    '                ' Ejecutamos todo bajo una transacción atómica segura
+    '                Using transaccion As OleDbTransaction = conexion.BeginTransaction()
+    '                    cmdInsert.Transaction = transaccion
+
+    '                    For Each par In saldosAcumulados
+    '                        Dim cuenta As String = par.Key
+    '                        Dim saldoFinalPasado As Decimal = par.Value
+
+    '                        If saldoFinalPasado <> 0 Then
+    '                            cmdInsert.Parameters("@Fecha").Value = fechaSaldoInicial
+    '                            cmdInsert.Parameters("@Concepto").Value = "SALDO"
+    '                            cmdInsert.Parameters("@Descripcion").Value = "Saldo Inicial"
+    '                            cmdInsert.Parameters("@Importe").Value = saldoFinalPasado
+    '                            cmdInsert.Parameters("@Ejercicio").Value = CInt(vAñoEjercicio)
+    '                            cmdInsert.Parameters("@Cuenta").Value = cuenta
+    '                            cmdInsert.ExecuteNonQuery()
+    '                        End If
+    '                    Next
+
+    '                    ' Confirmamos y volcamos inmediatamente los datos al archivo físico (.mdb)
+    '                    transaccion.Commit()
+    '                End Using
+    '            End Using
+
+    '            ' El proceso se completó de forma totalmente síncrona y real
+    '            Return True
+
+    '        Catch ex As Exception
+    '            MessageBox.Show(resManager.GetString("ErrorInsertarSaldos") & " " & ex.Message,
+    '                        resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
+    '            Return False
+    '        End Try
+    '    End Using ' [1] <-- Aquí se cierra de golpe cualquier rastro de la conexión, liberando el archivo físico
+    'End Function
+
+    Public Function IniciarSaldosIniciales(vAny As String) As Boolean
+        Dim exito As Boolean = False
+        Dim vAñoEjercicio As Integer = CInt(vAny)
+        Dim conexionString As String = conexion1.ConnectionString
+
+        Using conexion As New OleDbConnection(conexionString)
             Try
                 conexion.Open()
 
                 ' =================================================================
-                ' PASO 1: BORRADO (Usando la misma conexión limpia)
+                ' PASO PREVIO: BUSCAR EL ID NUMÉRICO DEL CONCEPTO "SALDO"
+                ' =================================================================
+                Dim idConceptoSaldo As Integer = 0
+                Dim sqlBuscarID As String = "SELECT IdConceptoCON FROM conceptos WHERE CodigoCON = 'SALDO'"
+
+                Using cmdBuscar As New OleDbCommand(sqlBuscarID, conexion)
+                    Dim resultado = cmdBuscar.ExecuteScalar()
+                    If resultado IsNot Nothing AndAlso Not IsDBNull(resultado) Then
+                        idConceptoSaldo = Convert.ToInt32(resultado)
+                    End If
+                End Using
+
+                ' Escudo de seguridad por si la tabla de conceptos está totalmente vacía
+                If idConceptoSaldo = 0 Then
+                    MsgBox("Error: No se ha encontrado el concepto 'SALDO' en la base de datos.", MsgBoxStyle.Critical)
+                    Return False
+                End If
+
+
+                ' =================================================================
+                ' PASO 1: BORRADO (Filtrando por el ID numérico del saldo)
                 ' =================================================================
                 Dim sqlDelete As String = "DELETE FROM apuntes WHERE ConceptoAPU = ? And EjercicioAPU = ?"
                 Using cmdDelete As New OleDbCommand(sqlDelete, conexion)
-                    cmdDelete.Parameters.AddWithValue("@concepto", vConceptoAPU)
-                    cmdDelete.Parameters.AddWithValue("@ejercicio", CInt(vAñoEjercicio))
+                    cmdDelete.Parameters.Add("@concepto", OleDbType.Integer).Value = idConceptoSaldo
+                    cmdDelete.Parameters.Add("@ejercicio", OleDbType.Integer).Value = vAñoEjercicio
                     cmdDelete.ExecuteNonQuery()
                 End Using
 
-                ' =================================================================
-                ' PASO 2: CARGA DE DATOS HISTÓRICOS
-                ' =================================================================
-                Dim sqlSelect As String =
-                "SELECT A.EjercicioAPU, A.CuentaAPU, SUM(A.ImporteAPU) AS SumaAño " &
-                "FROM (Ejercicios AS E INNER JOIN Apuntes AS A ON E.EjercicioEJE = A.EjercicioAPU) " &
-                "WHERE E.EjercicioEJE < ? AND A.ConceptoAPU <> 'SALDO' " &
-                "GROUP BY A.EjercicioAPU, A.CuentaAPU " &
-                "ORDER BY A.EjercicioAPU ASC"
 
-                Dim dtMovimientos As New DataTable()
+                ' =================================================================
+                ' PASO 2: SELECCIÓN Y CÁLCULO DEL SALDO ACUMULADO ANTERIOR
+                ' =================================================================
+                ' Filtramos excluyendo el ID numérico del saldo: A.ConceptoAPU <> ?
+                Dim sqlSelect As String = "SELECT A.CuentaAPU, A.ImporteAPU " &
+                                      "FROM apuntes AS A " &
+                                      "INNER JOIN ejercicios AS E ON A.EjercicioAPU = E.EjercicioEJE " &
+                                      "WHERE E.EjercicioEJE < ? AND A.ConceptoAPU <> ?"
+
+                ' Diccionario donde la clave es el ID de la cuenta (Integer) y el valor es el saldo (Decimal)
+                Dim saldosPorCuenta As New Dictionary(Of Integer, Decimal)()
+
                 Using cmdSelect As New OleDbCommand(sqlSelect, conexion)
-                    cmdSelect.Parameters.AddWithValue("@AñoSeleccionado", vAñoEjercicio)
-                    Using adaptador As New OleDbDataAdapter(cmdSelect)
-                        adaptador.Fill(dtMovimientos)
+                    cmdSelect.Parameters.Add("@ejercicioLimite", OleDbType.Integer).Value = vAñoEjercicio
+                    cmdSelect.Parameters.Add("@conceptoSaldoID", OleDbType.Integer).Value = idConceptoSaldo
+
+                    Using dr As OleDbDataReader = cmdSelect.ExecuteReader()
+                        While dr.Read()
+                            ' Capturamos el ID de la cuenta como número entero
+                            Dim idCuenta As Integer = Convert.ToInt32(dr("CuentaAPU"))
+                            Dim importe As Decimal = ConvertirDecimalSeguro(dr("ImporteAPU"))
+
+                            If saldosPorCuenta.ContainsKey(idCuenta) Then
+                                saldosPorCuenta(idCuenta) += importe
+                            Else
+                                saldosPorCuenta.Add(idCuenta, importe)
+                            End If
+                        End While
                     End Using
                 End Using
 
-                ' =================================================================
-                ' PASO 3: PROCESAMIENTO EN MEMORIA
-                ' =================================================================
-                Dim saldosAcumulados As New Dictionary(Of String, Decimal)()
 
-                For Each fila As DataRow In dtMovimientos.Rows
-                    Dim cuenta As String = fila("CuentaAPU").ToString()
-                    Dim importeAño As Decimal = Convert.ToDecimal(fila("SumaAño"))
+                ' =================================================================
+                ' PASO 3: TRADUCCIÓN Y CONFIGURACIÓN DE LA DESCRIPCIÓN VISUAL
+                ' =================================================================
+                Dim textoDescripcionApertura As String = "Saldo Inicial"
 
-                    If saldosAcumulados.ContainsKey(cuenta) Then
-                        saldosAcumulados(cuenta) += importeAño
-                    Else
-                        saldosAcumulados.Add(cuenta, importeAño)
+                ' Buscamos la traducción usando tu KEY exacta "PalabraSaldo"
+                If resManager IsNot Nothing Then
+                    Dim tradSaldo As String = resManager.GetString("PalabraSaldo")
+
+                    If Not String.IsNullOrEmpty(tradSaldo) Then
+                        If tradSaldo.ToUpper() = "SALDO" Then
+                            ' Si devuelve "SALDO" (Español), forzamos el formato limpio tipo título
+                            textoDescripcionApertura = "Saldo Inicial"
+                        Else
+                            ' Si devuelve "BALANCE" (Inglés) o similar, lo pasamos a minúsculas con la primera letra en Mayúscula
+                            textoDescripcionApertura = StrConv(tradSaldo, VbStrConv.ProperCase) & " Inicial"
+                        End If
                     End If
-                Next
-
-                ' Si no hay saldos, salimos de la función cerrando la conexión automáticamente [1]
-                If saldosAcumulados.Count = 0 Then
-                    vAviso = True
-                    Return False
-                Else
-                    vAviso = False
                 End If
 
+                ' Añadimos el año para que quede redondo (Ej: "Saldo Inicial 2026")
+                Dim descripcionFinal As String = textoDescripcionApertura & " " & vAñoEjercicio.ToString()
+
+
                 ' =================================================================
-                ' PASO 4: INSERCIÓN DE LOS NUEVOS SALDOS INICIALES
+                ' PASO 4: GRABACIÓN DE LOS NUEVOS SALDOS INICIALES
                 ' =================================================================
-                Dim fechaSaldoInicial As New Date(CInt(vAñoEjercicio), 1, 1)
-                Dim sqlInsert As String =
-                "INSERT INTO Apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, CuentaAPU) " &
-                "VALUES (?, ?, ?, ?, ?, ?)"
+                If saldosPorCuenta.Count > 0 Then
+                    Dim sqlInsert As String = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) VALUES (?, ?, ?, ?, ?, ?, ?)"
 
-                ' Forzamos confirmación síncrona en el motor Access para evitar búferes retrasados
-                Using comandoConfig As New OleDbCommand("SET FORCED COMMIT TRUE", conexion)
-                    Try : comandoConfig.ExecuteNonQuery() : Catch : End Try
-                End Using
+                    Using cmdInsert As New OleDbCommand(sqlInsert, conexion)
+                        ' Definimos los parámetros secuenciales strictly tipados para Access
+                        cmdInsert.Parameters.Add("@Fecha", OleDbType.Date)
+                        cmdInsert.Parameters.Add("@Concepto", OleDbType.Integer)
+                        cmdInsert.Parameters.Add("@Descripcion", OleDbType.VarWChar)
+                        cmdInsert.Parameters.Add("@Importe", OleDbType.Currency)
+                        cmdInsert.Parameters.Add("@Ejercicio", OleDbType.Integer)
+                        cmdInsert.Parameters.Add("@Notas", OleDbType.VarWChar)
+                        cmdInsert.Parameters.Add("@Cuenta", OleDbType.Integer)
 
-                Using cmdInsert As New OleDbCommand(sqlInsert, conexion)
-                    ' Parámetros configurados con tipos explícitos en orden estricto
-                    cmdInsert.Parameters.Add("@Fecha", OleDbType.Date)
-                    cmdInsert.Parameters.Add("@Concepto", OleDbType.VarWChar)
-                    cmdInsert.Parameters.Add("@Descripcion", OleDbType.VarWChar)
-                    cmdInsert.Parameters.Add("@Importe", OleDbType.Currency)
-                    cmdInsert.Parameters.Add("@Ejercicio", OleDbType.Integer)
-                    cmdInsert.Parameters.Add("@Cuenta", OleDbType.VarWChar)
+                        ' Asignamos los valores fijos que no cambian dentro del bucle
+                        Dim fechaSaldo As New DateTime(vAñoEjercicio, 1, 1)
+                        cmdInsert.Parameters("@Fecha").Value = fechaSaldo
+                        cmdInsert.Parameters("@Concepto").Value = idConceptoSaldo
+                        cmdInsert.Parameters("@Descripcion").Value = descripcionFinal
+                        cmdInsert.Parameters("@Ejercicio").Value = vAñoEjercicio
+                        cmdInsert.Parameters("@Notas").Value = "Asiento automático de apertura"
 
-                    ' Ejecutamos todo bajo una transacción atómica segura
-                    Using transaccion As OleDbTransaction = conexion.BeginTransaction()
-                        cmdInsert.Transaction = transaccion
+                        ' Recorremos las cuentas para insertar el saldo acumulado de cada una
+                        For Each par As KeyValuePair(Of Integer, Decimal) In saldosPorCuenta
+                            Dim idCuenta As Integer = par.Key
+                            Dim saldoAcumulado As Decimal = Math.Round(par.Value, 2, MidpointRounding.AwayFromZero)
 
-                        For Each par In saldosAcumulados
-                            Dim cuenta As String = par.Key
-                            Dim saldoFinalPasado As Decimal = par.Value
+                            ' Parámetros variables de cada iteración
+                            cmdInsert.Parameters("@Importe").Value = saldoAcumulado
+                            cmdInsert.Parameters("@Cuenta").Value = idCuenta
 
-                            If saldoFinalPasado <> 0 Then
-                                cmdInsert.Parameters("@Fecha").Value = fechaSaldoInicial
-                                cmdInsert.Parameters("@Concepto").Value = "SALDO"
-                                cmdInsert.Parameters("@Descripcion").Value = "Saldo Inicial"
-                                cmdInsert.Parameters("@Importe").Value = saldoFinalPasado
-                                cmdInsert.Parameters("@Ejercicio").Value = CInt(vAñoEjercicio)
-                                cmdInsert.Parameters("@Cuenta").Value = cuenta
-                                cmdInsert.ExecuteNonQuery()
-                            End If
+                            cmdInsert.ExecuteNonQuery()
                         Next
-
-                        ' Confirmamos y volcamos inmediatamente los datos al archivo físico (.mdb)
-                        transaccion.Commit()
                     End Using
-                End Using
+                End If
 
-                ' El proceso se completó de forma totalmente síncrona y real
-                Return True
+                exito = True
 
             Catch ex As Exception
-                MessageBox.Show(resManager.GetString("ErrorInsertarSaldos") & " " & ex.Message,
-                            resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
-                Return False
+                MsgBox("Error crítico al procesar los saldos iniciales: " & ex.Message, MsgBoxStyle.Critical)
+                exito = False
+            Finally
+                If conexion.State = ConnectionState.Open Then conexion.Close()
             End Try
-        End Using ' [1] <-- Aquí se cierra de golpe cualquier rastro de la conexión, liberando el archivo físico
+        End Using
+
+        Return exito
     End Function
+
 
     Public Sub LlenarGrid(ByRef tipoSql As String, tipoGrid As String, tipoopc As String)
         linSql = tipoSql.ToString
@@ -363,6 +510,13 @@ Module Funciones
                 .Columns(6).HeaderText = resManager.GetString("Cuenta") ' "Cuenta"
                 .Columns(7).Width = 0
                 .Columns(7).HeaderText = resManager.GetString("Codigo") ' "Código"
+                ' --- SIFÓN DE SEGURIDAD CONTAHOGAR 4.0 ---
+                ' Ocultamos por completo las columnas técnicas que usa el traductor por debajo
+                If .ColumnCount > 8 Then
+                    .Columns(8).Visible = False  ' CodigoCON
+                    .Columns(9).Visible = False  ' DescripcionCON
+                    .Columns(10).Visible = False ' NombreCUE
+                End If
             End With
             If frmApuntesContables.DgvApuntes.ColumnCount > 0 Then
                 frmApuntesContables.DgvApuntes.Columns(frmApuntesContables.DgvApuntes.ColumnCount - 1).Visible = False
@@ -1421,59 +1575,148 @@ Module Funciones
     '    End Try
     'End Sub
 
-    Public Sub LlenarYTraducirControlesConceptosBD(ByVal combo As ComboBox, ByVal lista As ListBox, ByVal reader As OleDb.OleDbDataReader)
-        Try
-            ' 1. Creamos una tabla en memoria y volcamos TODO el contenido del Reader de golpe
-            Dim dt As New DataTable()
-            dt.Load(reader) ' Esto lee el IdConceptoCON, CodigoCON, DescripcionCON, etc.
+    'Public Sub LlenarYTraducirControlesConceptosBD(ByVal combo As ComboBox, ByVal lista As ListBox, ByVal reader As OleDb.OleDbDataReader)
+    '    Try
+    '        ' 1. Creamos una tabla en memoria y volcamos TODO el contenido del Reader de golpe
+    '        Dim dt As New DataTable()
+    '        dt.Load(reader) ' Esto lee el IdConceptoCON, CodigoCON, DescripcionCON, etc.
 
-            ' 2. Añadimos la columna virtual para el texto que verá el usuario
+    '        ' 2. Añadimos la columna virtual para el texto que verá el usuario
+    '        dt.Columns.Add("TextoTraducido", GetType(String))
+
+    '        ' 3. Limpiamos el ListBox antes de rellenarlo
+    '        lista.Items.Clear()
+
+    '        ' 4. Hacemos el bucle a través de la tabla para traducir (sustituye al antiguo While reader.Read)
+    '        For Each fila As DataRow In dt.Rows
+    '            Dim codigoOriginal As String = fila("CodigoCON").ToString().Trim()
+    '            Dim descOriginal As String = fila("DescripcionCON").ToString()
+    '            Dim textoFinal As String = descOriginal ' Salvavidas por defecto
+
+    '            ' Buscamos la traducción en tus recursos (.resx)
+    '            If resManager IsNot Nothing Then
+    '                ' 1. EL TRUCO CONTRA ESPACIOS DOBLES: Reemplazamos bucles de espacios dobles por uno solo
+    '                Dim textoLimpio As String = codigoOriginal.Trim()
+    '                'While textoLimpio.Contains("  ")
+    '                '    textoLimpio = textoLimpio.Replace("  ", " ")
+    '                'End While
+    '                ' 2. Ahora que seguro solo hay UN espacio, hacemos el cambio a guion bajo
+    '                Dim claveRecurso As String = textoLimpio.Replace(" ", "_")
+    '                Dim traduccion As String = resManager.GetString(claveRecurso)
+    '                If Not String.IsNullOrEmpty(traduccion) Then
+    '                    textoFinal = traduccion
+    '                End If
+    '            End If
+
+    '            ' Guardamos el texto traducido en la columna que usará el Combo
+    '            fila("TextoTraducido") = textoFinal
+
+    '            ' Rellenamos el ListBox en el mismo orden exacto
+    '            lista.Items.Add(textoFinal)
+    '        Next
+
+    '        ' 5. Vinculamos la tabla al Combo para que guarde el ID numérico en secreto
+    '        ' --- ORDEN CORRECTO Y SEGURO ---
+    '        ' 1. Primero le decimos qué columna oculta guarda el número
+    '        combo.ValueMember = "IdConceptoCON"
+
+    '        ' 2. Segundo le decimos qué columna virtual tiene el texto traducido
+    '        combo.DisplayMember = "TextoTraducido"
+
+    '        ' 3. ¡AL FINAL! Enlazamos la tabla. Así el combo sabe qué pintar desde el primer milisegundo
+    '        combo.DataSource = dt
+
+    '    Catch ex As Exception
+    '        MsgBox("Error en el módulo al sincronizar los controles: " & ex.Message, MsgBoxStyle.Critical)
+    '    End Try
+    'End Sub
+
+    Public Sub LlenarYTraducirControlesConceptosBD(ByVal combo As ComboBox, ByVal lista As ListBox, ByVal dr As OleDb.OleDbDataReader)
+        Try
+            ' Guardamos la posición que tenía seleccionada el usuario
+            Dim posicionActual As Integer = combo.SelectedIndex
+
+            ' 1. Volcamos el Reader en un DataTable interno para poder usar DataSource
+            Dim dt As New DataTable()
+            dt.Load(dr) ' Esto cierra el reader automáticamente al terminar de cargar
+
+            ' 2. Añadimos la columna virtual para el texto traducido del Combo
             dt.Columns.Add("TextoTraducido", GetType(String))
 
-            ' 3. Limpiamos el ListBox antes de rellenarlo
+            ' Limpiamos los controles antes de empezar
             lista.Items.Clear()
 
-            ' 4. Hacemos el bucle a través de la tabla para traducir (sustituye al antiguo While reader.Read)
+            Dim vTipoConcepto As String = ""
+
+            ' 3. Recorremos las filas de la tabla en memoria
             For Each fila As DataRow In dt.Rows
+                Dim idConcepto As Integer = Convert.ToInt32(fila("IdConceptoCON"))
                 Dim codigoOriginal As String = fila("CodigoCON").ToString().Trim()
                 Dim descOriginal As String = fila("DescripcionCON").ToString()
-                Dim textoFinal As String = descOriginal ' Salvavidas por defecto
+                Dim tipoOriginal As String = ""
 
-                ' Buscamos la traducción en tus recursos (.resx)
-                If resManager IsNot Nothing Then
-                    ' 1. EL TRUCO CONTRA ESPACIOS DOBLES: Reemplazamos bucles de espacios dobles por uno solo
-                    Dim textoLimpio As String = codigoOriginal.Trim()
-                    'While textoLimpio.Contains("  ")
-                    '    textoLimpio = textoLimpio.Replace("  ", " ")
-                    'End While
-                    ' 2. Ahora que seguro solo hay UN espacio, hacemos el cambio a guion bajo
-                    Dim claveRecurso As String = textoLimpio.Replace(" ", "_")
-                    Dim traduccion As String = resManager.GetString(claveRecurso)
-                    If Not String.IsNullOrEmpty(traduccion) Then
-                        textoFinal = traduccion
-                    End If
+                ' Si incluiste TipoCON en tu SELECT, lo leemos de forma segura
+                If dt.Columns.Contains("TipoCON") Then
+                    tipoOriginal = fila("TipoCON").ToString().Trim().ToUpper()
                 End If
 
-                ' Guardamos el texto traducido en la columna que usará el Combo
-                fila("TextoTraducido") = textoFinal
+                ' --- TRADUCCIÓN DEL CONCEPTO (Tu lógica Invariant) ---
+                Dim codigoTraducido As String = ""
+                If resManager IsNot Nothing Then
+                    Dim textoLimpio As String = codigoOriginal.Trim()
+                    Dim claveRecurso As String = textoLimpio.Replace(" ", "_")
+                    codigoTraducido = resManager.GetString(claveRecurso)
+                End If
 
-                ' Rellenamos el ListBox en el mismo orden exacto
-                lista.Items.Add(textoFinal)
+                ' Si no tiene traducción, dejamos la descripción por defecto de la BD
+                If String.IsNullOrEmpty(codigoTraducido) Then codigoTraducido = descOriginal
+
+                ' Caso especial para el Traspaso del sistema (Tu regla de negocio)
+                If codigoOriginal.ToUpper() = "TRASPASO" Then
+                    Dim tradTraspaso As String = ""
+                    If resManager IsNot Nothing Then tradTraspaso = resManager.GetString("TRASPASO")
+                    If Not String.IsNullOrEmpty(tradTraspaso) Then codigoTraducido = tradTraspaso
+                End If
+
+                ' Guardamos el texto final traducido en la fila de nuestra tabla para el Combo
+                fila("TextoTraducido") = codigoTraducido
+
+                ' --- AGREGAR CABECERAS DE GRUPO EXCLUSIVAS PARA EL LISTBOX ---
+                If tipoOriginal <> "" AndAlso vTipoConcepto <> tipoOriginal Then
+                    vTipoConcepto = tipoOriginal
+
+                    Select Case vTipoConcepto
+                        Case "GASTO"
+                            lista.Items.Add("** " & resManager.GetString("Tipo_Gasto") & " **")
+                        Case "INGRESO"
+                            lista.Items.Add("** " & resManager.GetString("Tipo_Ingreso") & " **")
+                        Case "ESPECIAL"
+                            If resManager IsNot Nothing Then
+                                lista.Items.Add("** " & resManager.GetString("Tipo_Especial") & " **")
+                            End If
+                    End Select
+                End If
+
+                ' --- LLENADO DEL LISTBOX ---
+                ' El ListBox se llena a mano con los textos (incluyendo las cabeceras que se saltó el combo)
+                lista.Items.Add(codigoTraducido)
             Next
 
-            ' 5. Vinculamos la tabla al Combo para que guarde el ID numérico en secreto
-            ' --- ORDEN CORRECTO Y SEGURO ---
-            ' 1. Primero le decimos qué columna oculta guarda el número
-            combo.ValueMember = "IdConceptoCON"
+            ' 4. VINCULAMOS LA TABLA AL COMBOBOX (Con el orden óptimo de Windows Forms)
+            combo.ValueMember = "IdConceptoCON"       ' El número oculto (1, 2, 3...)
+            combo.DisplayMember = "TextoTraducido"   ' Lo que el usuario lee
+            combo.DataSource = dt                    ' Enlazamos los datos
 
-            ' 2. Segundo le decimos qué columna virtual tiene el texto traducido
-            combo.DisplayMember = "TextoTraducido"
-
-            ' 3. ¡AL FINAL! Enlazamos la tabla. Así el combo sabe qué pintar desde el primer milisegundo
-            combo.DataSource = dt
+            ' 5. Restauramos la posición de forma segura
+            If posicionActual >= 0 AndAlso posicionActual < combo.Items.Count Then
+                combo.SelectedIndex = posicionActual
+            ElseIf combo.Items.Count > 0 Then
+                combo.SelectedIndex = 0
+            End If
 
         Catch ex As Exception
-            MsgBox("Error en el módulo al sincronizar los controles: " & ex.Message, MsgBoxStyle.Critical)
+            ' Evita cuelgues visuales si el volcado falla
+            MsgBox("Error al sincronizar controles: " & ex.Message, MsgBoxStyle.Critical)
         End Try
     End Sub
 
@@ -1512,40 +1755,128 @@ Module Funciones
         End Try
     End Sub
 
-    Public Sub TraducirGridApuntesBD(ByVal dgv As DataGridView, ByVal res As System.Resources.ResourceManager)
+    Public Sub TraducirGridApuntesBD(ByVal dgv As DataGridView, ByVal resManager As System.Resources.ResourceManager)
         Try
-            If dgv IsNot Nothing AndAlso dgv.Rows.Count > 0 Then
-                For Each fila As DataGridViewRow In dgv.Rows
-                    If Not fila.IsNewRow Then
-                        ' 1. Traducir Columna (1): Concepto
-                        If fila.Cells(1).Value IsNot Nothing Then
-                            Dim conOriginal As String = fila.Cells(1).Value.ToString().Trim()
-                            Dim llaveBase As String = conOriginal.Replace(" ", "_")
-                            Dim conTraducido As String = res.GetString(llaveBase)
+            If dgv.Rows.Count = 0 Then Exit Sub
 
-                            If conOriginal.ToUpper() = "TRASPASO" Then
-                                Dim tradTraspaso As String = res.GetString("TRASPASO")
-                                If Not String.IsNullOrEmpty(tradTraspaso) Then conTraducido = tradTraspaso
-                            End If
+            For Each row As DataGridViewRow In dgv.Rows
+                If row.IsNewRow Then Continue For
 
-                            If Not String.IsNullOrEmpty(conTraducido) Then fila.Cells(1).Value = conTraducido
-                        End If
+                Dim filaData As DataRowView = CType(row.DataBoundItem, DataRowView)
 
-                        ' 2. Traducir Columna (2): Descripción
-                        If fila.Cells(2).Value IsNot Nothing AndAlso fila.Cells(1).Value IsNot Nothing Then
-                            Dim conOriginal As String = fila.Cells(1).Value.ToString().Trim()
-                            Dim llaveDesc As String = "Desc_" & conOriginal.Replace(" ", "_")
-                            Dim tradDesc As String = res.GetString(llaveDesc)
+                If filaData IsNot Nothing Then
 
-                            If Not String.IsNullOrEmpty(tradDesc) Then fila.Cells(2).Value = tradDesc
+                    ' =============================================================
+                    ' 1. TRADUCCIÓN Y MAYÚSCULAS EN CONCEPT (Celda 1) - CORREGIDO
+                    ' =============================================================
+                    ' Leemos el código tal y como viene de la base de datos (Ej: "REGULARITZACIO 1" o "WATER")
+                    Dim codigoCON As String = filaData("CodigoCON").ToString().Trim()
+
+                    ' De entrada, el texto visible será el código en mayúsculas sin guiones para que quede limpio
+                    Dim conceptoVisual As String = codigoCON.Replace("_", " ").ToUpper()
+
+                    If resManager IsNot Nothing Then
+                        ' ¡EL TRUCO MAESTRO!: Convertimos los espacios en guiones bajos para que coincida 
+                        ' exactamente con tu llave del .resx ("REGULARITZACIO_1")
+                        Dim claveConceptoRecurso As String = codigoCON.Replace(" ", "_")
+
+                        ' Buscamos en el archivo de recursos con la clave normalizada
+                        Dim traduccion As String = resManager.GetString(claveConceptoRecurso)
+
+                        ' Si encuentra la traducción (Ej: en inglés), la forzamos a MAYÚSCULAS
+                        If Not String.IsNullOrEmpty(traduccion) Then
+                            conceptoVisual = traduccion.Trim().ToUpper()
                         End If
                     End If
-                Next
-            End If
+
+                    ' Estampamos el concepto final en la celda visible (Celda 1)
+                    row.Cells(1).Value = conceptoVisual
+
+                    ' =============================================================
+                    ' 2. TRADUCCIÓN DE LA CUENTA VISIBLE CON TU ESTRUCTURA "Nom_" (Celda 6)
+                    ' =============================================================
+                    ' ¡CORREGIDO!: Leemos de la columna de soporte limpia que viaja en el SELECT
+                    Dim nombreCUE As String = filaData("NombreCUEReal").ToString().Trim()
+                    Dim cuentaVisual As String = nombreCUE
+
+                    If resManager IsNot Nothing Then
+                        Dim claveBase As String = nombreCUE.Replace(" ", "_")
+
+                        ' Buscamos con el prefijo "Nom_" (Ex: Nom_CAJA_EFECTIVO, Nom_BBVA)
+                        Dim tradCuenta As String = resManager.GetString("Nom_" & claveBase)
+
+                        ' Si no encuentra con Nom_, busca la clave limpia (Cuentas de usuario)
+                        If String.IsNullOrEmpty(tradCuenta) Then
+                            tradCuenta = resManager.GetString(claveBase)
+                        End If
+
+                        If Not String.IsNullOrEmpty(tradCuenta) Then
+                            cuentaVisual = tradCuenta
+                        End If
+                    End If
+
+                    ' Reemplazamos la celda de la pantalla con el texto final ordenado
+                    row.Cells(6).Value = cuentaVisual
+
+                    ' =============================================================
+                    ' 3. TRADUCCIÓN DE DESCRIPCIONES AUTOMÁTICAS DEL SISTEMA (Celda 2)
+                    ' =============================================================
+                    Dim descRealAPU As String = filaData("DescripcionAPU").ToString().Trim()
+
+                    ' Si la descripción es una palabra clave automática del sistema (empieza por SYS_)
+                    If descRealAPU.StartsWith("SYS_") AndAlso resManager IsNot Nothing Then
+                        ' Buscamos la traducción en el .resx (ej: tener una key llamada SYS_REGULARIZACION_INC)
+                        Dim descTraducida As String = resManager.GetString(descRealAPU)
+
+                        If Not String.IsNullOrEmpty(descTraducida) Then
+                            ' Sobreescribimos la celda de la pantalla con el idioma activo
+                            row.Cells(2).Value = descTraducida
+                        End If
+                    End If
+
+                End If
+            Next
+
         Catch ex As Exception
-            ' Evita cuelgues si el Grid se está repintando
+            ' Evita parpadeos en el repintado
         End Try
     End Sub
+
+
+    'Public Sub TraducirGridApuntesBD(ByVal dgv As DataGridView, ByVal res As System.Resources.ResourceManager)
+    '    Try
+    '        If dgv IsNot Nothing AndAlso dgv.Rows.Count > 0 Then
+    '            For Each fila As DataGridViewRow In dgv.Rows
+    '                If Not fila.IsNewRow Then
+    '                    ' 1. Traducir Columna (1): Concepto
+    '                    If fila.Cells(1).Value IsNot Nothing Then
+    '                        Dim conOriginal As String = fila.Cells(1).Value.ToString().Trim()
+    '                        Dim llaveBase As String = conOriginal.Replace(" ", "_")
+    '                        Dim conTraducido As String = res.GetString(llaveBase)
+
+    '                        If conOriginal.ToUpper() = "TRASPASO" Then
+    '                            Dim tradTraspaso As String = res.GetString("TRASPASO")
+    '                            If Not String.IsNullOrEmpty(tradTraspaso) Then conTraducido = tradTraspaso
+    '                        End If
+
+    '                        If Not String.IsNullOrEmpty(conTraducido) Then fila.Cells(1).Value = conTraducido
+    '                    End If
+
+    '                    ' 2. Traducir Columna (2): Descripción
+    '                    If fila.Cells(2).Value IsNot Nothing AndAlso fila.Cells(1).Value IsNot Nothing Then
+    '                        Dim conOriginal As String = fila.Cells(1).Value.ToString().Trim()
+    '                        Dim llaveDesc As String = "Desc_" & conOriginal.Replace(" ", "_")
+    '                        Dim tradDesc As String = res.GetString(llaveDesc)
+
+    '                        If Not String.IsNullOrEmpty(tradDesc) Then fila.Cells(2).Value = tradDesc
+    '                    End If
+    '                End If
+    '            Next
+    '        End If
+    '    Catch ex As Exception
+    '        ' Evita cuelgues si el Grid se está repintando
+    '    End Try
+    'End Sub
 
     Public Function ObtenerClaveNeutral(textoTraducido As String, rm As System.Resources.ResourceManager) As String
         ' 1. Evitamos buscar si el texto viene vacío o nulo
@@ -2232,7 +2563,7 @@ Module Funciones
     End Function
 
     Public Sub LlenarComboConceptosGenerico(ByVal combo As ComboBox)
-        ' 1. ¡CORREGIDO!: Sincronizados los nombres de las columnas. Usamos IdConceptoCON tanto en el SELECT como en el ORDER BY
+        ' 1. Sincronizados los nombres de las columnas.
         cmdMdb1cr.CommandText = "SELECT IdConceptoCON, CodigoCON, DescripcionCON FROM conceptos ORDER BY TipoCON ASC, IdConceptoCON ASC"
 
         Dim dtConceptos As New DataTable()
@@ -2281,5 +2612,52 @@ Module Funciones
         End Try
     End Sub
 
+    Public Sub LlenarComboCuentasGenerico(ByVal combo As ComboBox)
+        ' 1. SQL adaptado: traemos el IdCUE y el NombreCUE de tu nueva tabla cuentas
+        cmdMdb1cr.CommandText = "SELECT IdCuentasCUE, NombreCUE FROM cuentas ORDER BY NombreCUE ASC"
+
+        Dim dtCuentas As New DataTable()
+
+        Try
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            dtCuentas.Load(drMdb1)
+            drMdb1.Close()
+
+            ' Creamos la columna virtual para el texto traducido que verá el usuario
+            dtCuentas.Columns.Add("NombreTraducido", GetType(String))
+
+            ' Recorremos las filas para traducir cada cuenta de forma directa e invariant
+            For Each fila As DataRow In dtCuentas.Rows
+                Dim nombreOriginal As String = fila("NombreCUE").ToString().Trim()
+                Dim textoFinal As String = nombreOriginal ' Salvavidas por defecto
+
+                ' Si tenemos el gestor de recursos, buscamos la traducción de la cuenta
+                If resManager IsNot Nothing Then
+                    Dim textoLimpio As String = nombreOriginal.Trim()
+                    'While textoLimpio.Contains("  ")
+                    '    textoLimpio = textoLimpio.Replace("  ", " ")
+                    'End While
+                    ' 2. Ahora que seguro solo hay UN espacio, hacemos el cambio a guion bajo
+                    Dim claveRecurso As String = textoLimpio.Replace(" ", "_")
+                    Dim traduccion As String = resManager.GetString(claveRecurso)
+
+                    If Not String.IsNullOrEmpty(traduccion) Then
+                        textoFinal = traduccion
+                    End If
+                End If
+
+                fila("NombreTraducido") = textoFinal
+            Next
+
+            ' 2. VINCULAMOS AL COMBOBOX (Con el orden óptimo e idéntico de Windows Forms)
+            combo.ValueMember = "IdCuentasCUE"             ' El número oculto (1, 2, 3...) de tu Access
+            combo.DisplayMember = "NombreTraducido" ' Lo que VE el usuario en la pantalla
+            combo.DataSource = dtCuentas            ' Al final de todo enlazamos los datos
+
+        Catch ex As Exception
+            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+            MsgBox("Error al cargar las cuentas desde el módulo: " & ex.Message, MsgBoxStyle.Critical)
+        End Try
+    End Sub
 
 End Module

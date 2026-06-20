@@ -302,7 +302,6 @@ Public Class Principal
             VactualVDisponible.Visible = True
             VactualVDisponible.Text = resManager.GetString("VersionInstalada") & " " & My.Settings.Version & " - " & resManager.GetString("VersionDisponible") & " " & vNuevaVersion
         End If
-
         'Iniciar los Saldos Iniciales del Ejercicio
         IniciarSaldosIniciales(vAñoEjercicio)
 

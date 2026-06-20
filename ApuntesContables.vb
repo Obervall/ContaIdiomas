@@ -137,7 +137,36 @@ Public Class ApuntesContables
 
         ' Llenar Grid de APUNTES al cargra el programa
         '**********************************************
-        vtipoSql = "Select apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
+        'vtipoSql = "Select apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
+
+        ' CONSULTA RE AJUSTADA A CONTAHOGAR 4.0 (Respetando el orden estricto de tus columnas visibles)
+        ' Celda 0: FechaAPU
+        ' Celda 1: ConceptoAPU -> (Aquí sobreescribiremos el texto traducido)
+        ' Celda 2: DescripcionAPU
+        ' Celda 3: ImporteAPU
+        ' Celda 4: ImporteAPU (Para el saldo acumulado)
+        ' Celda 5: NotasAPU
+        ' Celda 6: CuentaAPU -> (Aquí sobreescribiremos el texto de la cuenta)
+        ' Celda 7: CodigoAPU (El ID del apunte)
+        ' Celdas 8, 9, 10: Columnas técnicas ocultas para las traducciones
+        ' CONSULTA BLINDADA CON ALIAS CONTAHOGAR 4.0
+        ' CONSULTA INTEGRAL CONTAHOGAR 4.0 (Textos en zonas visibles, IDs al final)
+        ' CONSULTA INTEGRAL DEFINTIVA CONTAHOGAR 4.0
+        vtipoSql = "SELECT apuntes.FechaAPU As [FechaAPU], " &
+           "conceptos.DescripcionCON As [ConceptoAPU], " & ' Celda 1 (Texto visible)
+           "apuntes.DescripcionAPU As [DescripcionAPU], " & ' Celda 2
+           "apuntes.ImporteAPU As [ImporteAPU], " &       ' Celda 3
+           "apuntes.ImporteAPU As [SaldoAPU], " &         ' Celda 4
+           "apuntes.NotasAPU As [NotasAPU], " &           ' Celda 5
+           "cuentas.NombreCUE As [CuentaAPU], " &         ' Celda 6 (Texto visible)
+           "apuntes.CodigoAPU As [CodigoAPU], " &         ' Celda 7
+           "conceptos.CodigoCON As [CodigoCON], " &       ' Celda 8 (Soporte)
+           "conceptos.DescripcionCON As [DescCONReal], " & ' Celda 9 (Soporte)
+           "cuentas.NombreCUE As [NombreCUEReal] " &       ' Celda 10 (Soporte limpia para el traductor)
+           "FROM (apuntes " &
+           "INNER JOIN conceptos ON apuntes.ConceptoAPU = conceptos.IdConceptoCON) " &
+           "INNER JOIN cuentas ON apuntes.CuentaAPU = cuentas.IdCuentasCUE"
+
         vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
         vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
         vtipoGrid = "APUNTES_CONTABLES"
@@ -156,91 +185,47 @@ Public Class ApuntesContables
         ' Llenar el Combo Concepto y ListBox1 utilizando la función sincronizada
         '*******************************************************************************
         ' 1. SQL adaptado para traer el IdConceptoCON y el CodigoCON que necesita la nueva lógica
-        cmdMdb1cr.CommandText = "SELECT IdConceptoCON, CodigoCON, DescripcionCON FROM conceptos ORDER BY TipoCON ASC, IdConceptoCON ASC"
+        cmdMdb1cr.CommandText = "SELECT IdConceptoCON, CodigoCON, DescripcionCON, TipoCON FROM conceptos ORDER BY TipoCON ASC, IdConceptoCON ASC"
 
         Try
             ' 2. Abrimos el lector original de siempre
             drMdb1 = cmdMdb1cr.ExecuteReader()
-
             ' 3. Encendemos tu escudo protector antes de rellenar
             cargandoFormulario = True
-
             ' 4. ¡CORREGIDO!: Le pasamos el drMdb1 (Reader) que la función de tu módulo espera recibir
             LlenarYTraducirControlesConceptosBD(Me.CmbConcepto, Me.ListBox1, drMdb1)
-
             ' 5. Apagamos el escudo tras la carga y cerramos el lector
             cargandoFormulario = False
             drMdb1.Close()
-
             ' Selecciona el segundo elemento de forma segura tras la carga (Tu lógica B)
             If CmbConcepto.Items.Count > 1 Then
                 CmbConcepto.SelectedIndex = 1
             End If
-
         Catch ex As Exception
             If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
             MsgBox("Error al procesar conceptos: " & ex.Message, MsgBoxStyle.Critical)
         End Try
 
-
-        '' Llenar el Combo Concepto y ListBox1 utilizando la nueva función sincronizada
-        ''*******************************************************************************
-        '' IMPORTANTE: Añadimos TipoCON al SELECT para que la función pueda agrupar las cabeceras
-        'cmdMdb1cr.CommandText = "SELECT CodigoCON, TipoCON FROM conceptos ORDER BY TipoCON ASC, CodigoCON ASC"
-        'Try
-        '    drMdb1 = cmdMdb1cr.ExecuteReader()
-
-        '    ' LLENAMOS, TRADUCIMOS Y AGRUPAMOS AMBOS CONTROLES DE UN SOLO GOLPE
-        '    LlenarYTraducirControlesConceptosBD(Me.CmbConcepto, Me.ListBox1, drMdb1)
-
-        '    drMdb1.Close()
-
-        '    ' Selecciona el segundo elemento de forma segura tras la carga
-        '    If CmbConcepto.Items.Count > 1 Then
-        '        CmbConcepto.SelectedIndex = 1
-        '    End If
-
-        'Catch ex As Exception
-        '    MsgBox(ex.ToString)
-        '    If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-        'End Try
-
-        ' Llenar el Combo Cuenta de forma segura y traducida
-        '***************************************************
-        cmdMdb1cr.CommandText = "SELECT NombreCUE FROM cuentas ORDER BY NombreCUE ASC"
+        ' Llenar el Combo Cuenta de forma segura y traducida (ContaHogar 4.0)
+        '******************************************************************
         Try
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-
-            ' Limpiamos los elementos para evitar duplicados si cambia el idioma en caliente
-            CmbCuenta.Items.Clear()
-
-            If drMdb1.HasRows Then
-                While drMdb1.Read()
-                    Dim cuentaOriginal As String = drMdb1("NombreCUE").ToString().Trim()
-
-                    ' Generamos la clave de traducción sustituyendo espacios por guiones bajos
-                    Dim llaveBase As String = cuentaOriginal.Replace(" ", "_")
-                    Dim cuentaTraducida As String = resManager.GetString(llaveBase)
-
-                    ' Si no tiene traducción en el archivo de recursos, dejamos el nombre original de la BD
-                    If String.IsNullOrEmpty(cuentaTraducida) Then
-                        cuentaTraducida = cuentaOriginal
-                    End If
-
-                    CmbCuenta.Items.Add(cuentaTraducida)
-                End While
-
-                ' SELECCIÓN SEGURA: Solo marcamos el primer elemento si realmente hay datos
-                If CmbCuenta.Items.Count > 0 Then
-                    CmbCuenta.SelectedIndex = 0
-                End If
+            ' 1. Encendemos tu escudo protector antes de rellenar para evitar eventos prematuros
+            cargandoFormulario = True
+            ' 2. Llamamos a la función genérica de tu módulo pasándole TU combo de la pantalla
+            LlenarComboCuentasGenerico(Me.CmbCuenta)
+            ' 3. Apagamos tu escudo protector
+            cargandoFormulario = False
+            ' 4. SELECCIÓN SEGURA: Si el combo tiene datos, seleccionamos el primero; si no, lo vaciamos
+            If CmbCuenta.Items.Count > 0 Then
+                CmbCuenta.SelectedIndex = 0
             Else
+                CmbCuenta.SelectedIndex = -1
                 CmbCuenta.Text = ""
             End If
-            drMdb1.Close()
         Catch ex As Exception
-            MsgBox("Error al cargar las cuentas: " & ex.Message, MsgBoxStyle.Critical, "Error")
-            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+            ' En caso de un error general en el formulario, apagamos el escudo como salvavidas
+            cargandoFormulario = False
+            MsgBox("Error al cargar las cuentas en la pantalla: " & ex.Message, MsgBoxStyle.Critical, "Error")
         End Try
 
         ' Llenar el Combo Campos

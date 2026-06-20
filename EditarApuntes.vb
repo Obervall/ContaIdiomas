@@ -36,26 +36,12 @@ Public Class EditarApuntes
         TL(8) = New ToolTip
         TL(8).SetToolTip(Me.BtnCalculadora, resManager.GetString("ToolTipCalculadora"))
 
+        cargandoFormulario = True
         ' Llenar el Combo Concepto
         '*************************
         LlenarComboConceptosGenerico(Me.CmbConcepto)
-
-        'cmdMdb1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
-        'Try
-        '    drMdb1 = cmdMdb1cr.ExecuteReader()
-        '    If drMdb1.HasRows Then
-        '        While drMdb1.Read()
-        '            CmbConcepto.Items.Add(drMdb1.GetValue(0))
-        '        End While
-        '        CmbConcepto.Text = CmbConcepto.Items(0)
-        '    Else
-        '        'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
-        '    End If
-        '    drMdb1.Close()
-        'Catch ex As Exception
-        '    'MsgBox("Error al llenar el Combo Concepto")
-        '    MsgBox(ex.ToString)
-        'End Try
+        LlenarComboCuentasGenerico(Me.CmbCuenta)
+        cargandoFormulario = False
 
         ' Llenar el Combo Descripción
         '****************************
@@ -95,33 +81,36 @@ Public Class EditarApuntes
             MsgBox(ex.ToString)
         End Try
 
-        ' Llenar el Combo Cuenta
-        '***********************
-        cmdMdb1cr.CommandText = "SELECT * FROM cuentas ORDER BY cuentas.NombreCUE ASC"
-        Try
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-            If drMdb1.HasRows Then
-                While drMdb1.Read()
-                    CmbCuenta.Items.Add(drMdb1.GetValue(0))
-                End While
-                CmbCuenta.Text = CmbCuenta.Items(0)
-            Else
-                'MsgBox("No existen registros en " & tipoSql)
-            End If
-            drMdb1.Close()
-        Catch ex As Exception
-            'MsgBox("Error al llenar el Combo Cuenta")
-            MsgBox(ex.ToString)
-        End Try
+        '' Llenar el Combo Cuenta
+        ''***********************
+        'cmdMdb1cr.CommandText = "SELECT * FROM cuentas ORDER BY cuentas.NombreCUE ASC"
+        'Try
+        '    drMdb1 = cmdMdb1cr.ExecuteReader()
+        '    If drMdb1.HasRows Then
+        '        While drMdb1.Read()
+        '            CmbCuenta.Items.Add(drMdb1.GetValue(0))
+        '        End While
+        '        CmbCuenta.Text = CmbCuenta.Items(0)
+        '    Else
+        '        'MsgBox("No existen registros en " & tipoSql)
+        '    End If
+        '    drMdb1.Close()
+        'Catch ex As Exception
+        '    'MsgBox("Error al llenar el Combo Cuenta")
+        '    MsgBox(ex.ToString)
+        'End Try
 
         filaActual = frmApuntesContables.DgvApuntes.CurrentRow.Index
         DateTimePicker1.Text = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(0).Value.ToString
-        CmbConcepto.Text = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(1).Value.ToString
+        ' --- CORRECCIÓN CRÍTICA DE ASIGNACIÓN POR ID NUMÉRICO ---
+        ' Usamos SelectedValue pasándole el ID numérico puro que viene del DataGridView
+        ' Buscamos los IDs numéricos reales en las nuevas columnas ocultas del SELECT (9 y 10)
+        CmbConcepto.SelectedValue = Convert.ToInt32(frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(9).Value)
+        CmbCuenta.SelectedValue = Convert.ToInt32(frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(10).Value)
         CmbDescripcion.Text = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(2).Value.ToString
         vimporteAPU = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(3).Value
         TxtImporte.Text = Math.Abs(vimporteAPU).ToString("N2")
         TxtNota.Text = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(5).Value.ToString
-        CmbCuenta.Text = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(6).Value.ToString
         vCodigoAPU = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(7).Value
 
         If vEditar = "SI" Then
@@ -309,4 +298,5 @@ Public Class EditarApuntes
     Private Sub CmbCuenta_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbCuenta.KeyPress
         e.KeyChar = Char.ToUpper(e.KeyChar)
     End Sub
+
 End Class

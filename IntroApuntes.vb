@@ -88,108 +88,38 @@ Public Class IntroApuntes
         '****************************
         LlenarDescripcion()
 
-        '' Llenar el Combo Concepto
-        ''*************************
-        'cmdMdb1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
-        'Try
-        '    drMdb1 = cmdMdb1cr.ExecuteReader()
-        '    If drMdb1.HasRows Then
-        '        While drMdb1.Read()
-        '            CmbConcepto.Items.Add(drMdb1.GetValue(0))
-        '        End While
-        '        CmbConcepto.Text = CmbConcepto.Items(0)
-        '    Else
-        '        'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
-        '    End If
-        '    drMdb1.Close()
-        'Catch ex As Exception
-        '    MsgBox(ex.ToString)
-        'End Try
-
-        '' Llenar el Combo Cuenta
-        ''***********************
-        'drMdb1.Close()
-        'cmdMdb1cr.CommandText = "SELECT * FROM cuentas ORDER BY cuentas.NombreCUE ASC"
-        'Try
-        '    drMdb1 = cmdMdb1cr.ExecuteReader()
-        '    If drMdb1.HasRows Then
-        '        While drMdb1.Read()
-        '            CmbCuenta.Items.Add(drMdb1.GetValue(0))
-        '        End While
-        '        If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
-        '            CmbCuenta.Text = CmbCuenta.Items(frmApuntesContables.CmbCuenta.SelectedIndex)
-        '        Else
-        '            CmbCuenta.Text = CmbCuenta.Items(0)
-        '        End If
-        '    Else
-        '        'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
-        '    End If
-        '    drMdb1.Close()
-        'Catch ex As Exception
-        '    MsgBox(ex.ToString)
-        'End Try
-        'TxtImporte.Text = 0
-
         ' Llenar el Combo Concepto de forma segura y traducida (IntroApuntes)
         '******************************************************************
-        ' IMPORTANTE: Reutilizamos nuestra función modular que ya creamos
-        cmdMdb1cr.CommandText = "SELECT CodigoCON FROM conceptos ORDER BY TipoCON ASC, CodigoCON ASC"
         Try
-            drMdb1 = cmdMdb1cr.ExecuteReader()
+            cargandoFormulario = True
 
-            ' La función limpia, rellena y traduce el combo automáticamente
-            LlenarYTraducirComboConceptosBD(Me.CmbConcepto, drMdb1, resManager)
+            ' 2. Llamamos a las dos funciones genéricas del módulo pasándole los combos de esta pantalla
+            LlenarComboConceptosGenerico(Me.CmbConcepto)
+            LlenarComboCuentasGenerico(Me.CmbCuenta) ' (Si también tienes el combo de cuentas aquí)
 
-            drMdb1.Close()
+            ' 3. Apagamos el escudo
+            cargandoFormulario = False
 
             ' Selección por defecto segura para evitar desbordamientos
             If CmbConcepto.Items.Count > 0 Then
                 CmbConcepto.SelectedIndex = 0
             End If
-        Catch ex As Exception
-            MsgBox("Error al cargar conceptos en introducción: " & ex.Message, MsgBoxStyle.Critical, "Error")
-            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-        End Try
 
-        ' Llenar el Combo Cuenta de forma segura y traducida (IntroApuntes)
-        '******************************************************************
-        cmdMdb1cr.CommandText = "SELECT NombreCUE FROM cuentas ORDER BY NombreCUE ASC"
-        Try
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-            CmbCuenta.Items.Clear()
-
-            If drMdb1.HasRows Then
-                While drMdb1.Read()
-                    Dim cuentaOriginal As String = drMdb1("NombreCUE").ToString().Trim()
-                    Dim llaveBase As String = cuentaOriginal.Replace(" ", "_")
-                    Dim cuentaTraducida As String = resManager.GetString(llaveBase)
-
-                    If String.IsNullOrEmpty(cuentaTraducida) Then cuentaTraducida = cuentaOriginal
-                    CmbCuenta.Items.Add(cuentaTraducida)
-                End While
-
-                ' SELECCIÓN INTELIGENTE Y SEGURA DE LA CUENTA
-                If CmbCuenta.Items.Count > 0 Then
-                    ' Si en la pantalla principal hay una cuenta seleccionada y el filtro está activo, heredamos esa misma posición
-                    If frmApuntesContables.BtnFiltroCuenta.Enabled = False AndAlso frmApuntesContables.CmbCuenta.SelectedIndex >= 0 AndAlso frmApuntesContables.CmbCuenta.SelectedIndex < CmbCuenta.Items.Count Then
-                        CmbCuenta.SelectedIndex = frmApuntesContables.CmbCuenta.SelectedIndex
-                    Else
-                        CmbCuenta.SelectedIndex = 0
-                    End If
+            ' SELECCIÓN INTELIGENTE Y SEGURA DE LA CUENTA
+            If CmbCuenta.Items.Count > 0 Then
+                ' Si en la pantalla principal hay una cuenta seleccionada y el filtro está activo, heredamos esa misma posición
+                If frmApuntesContables.BtnFiltroCuenta.Enabled = False AndAlso frmApuntesContables.CmbCuenta.SelectedIndex >= 0 AndAlso frmApuntesContables.CmbCuenta.SelectedIndex < CmbCuenta.Items.Count Then
+                    CmbCuenta.SelectedIndex = frmApuntesContables.CmbCuenta.SelectedIndex
+                Else
+                    CmbCuenta.SelectedIndex = 0
                 End If
-            Else
-                CmbCuenta.Text = ""
             End If
-            drMdb1.Close()
         Catch ex As Exception
-            MsgBox("Error al cargar cuentas en introducción: " & ex.Message, MsgBoxStyle.Critical, "Error")
+            MsgBox("Error al cargar conceptos o cuentas en introducción: " & ex.Message, MsgBoxStyle.Critical, "Error")
             If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
         End Try
 
         TxtImporte.Text = "0"
-
-        ' APAGAMOS EL ESCUDO: El formulario ya está cargado del todo
-        cargandoFormulario = False
 
         ' SELECCIÓN SEGUNDO ELEMENTO: Forzamos el índice 1 (el siguiente de Transfer)
         If CmbConcepto.Items.Count > 1 Then

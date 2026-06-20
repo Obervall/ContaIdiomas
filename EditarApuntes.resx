@@ -250,7 +250,7 @@
 </value>
   </data>
   <data name="BtnHoy.Location" type="System.Drawing.Point, System.Drawing">
-    <value>273, 58</value>
+    <value>289, 58</value>
   </data>
   <data name="BtnHoy.Size" type="System.Drawing.Size, System.Drawing">
     <value>34, 34</value>
@@ -389,7 +389,7 @@
     <value>137, 62</value>
   </data>
   <data name="DateTimePicker1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 27</value>
+    <value>142, 27</value>
   </data>
   <data name="DateTimePicker1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -819,35 +819,5 @@
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="LblEliminando" xml:space="preserve">
-    <value>¡¡ ELIMINAR APUNTE CONTABLE !!</value>
-  </data>
-  <data name="MsgBoxEliminarApunte" xml:space="preserve">
-    <value>¿Estas seguro de Eliminar el Apunte Contable seleccionado?</value>
-  </data>
-  <data name="MsgBoxRegistroBorrado" xml:space="preserve">
-    <value>Registro Apunte Contable, Borrado!!</value>
-  </data>
-  <data name="MsgBoxErrorEliminarRegistro" xml:space="preserve">
-    <value>Error al Eliminar Registro Apunte Contable</value>
-  </data>
-  <data name="MsgBoxNoHayImporte" xml:space="preserve">
-    <value>NO hay Cantidad en Importe</value>
-  </data>
-  <data name="MsgBoxErrorInsertar" xml:space="preserve">
-    <value>Error al procesar el apunte</value>
-  </data>
-  <data name="ToolTipSeleccionarConcepto" xml:space="preserve">
-    <value>Seleccionar el Concepto al que se refiere el Apunte</value>
-  </data>
-  <data name="ToolTipSeleccionarCuenta" xml:space="preserve">
-    <value>Seleccionar la Cuenta a la que se refiere el Apunte</value>
-  </data>
-  <data name="ToolTipSeleccionarDescripcion" xml:space="preserve">
-    <value>Introducir una descripción para el Apunte</value>
-  </data>
-  <data name="ToolTipIngresarImporte" xml:space="preserve">
-    <value>Importe del Apunte</value>
   </data>
 </root>
