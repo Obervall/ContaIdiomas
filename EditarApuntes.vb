@@ -81,30 +81,16 @@ Public Class EditarApuntes
             MsgBox(ex.ToString)
         End Try
 
-        '' Llenar el Combo Cuenta
-        ''***********************
-        'cmdMdb1cr.CommandText = "SELECT * FROM cuentas ORDER BY cuentas.NombreCUE ASC"
-        'Try
-        '    drMdb1 = cmdMdb1cr.ExecuteReader()
-        '    If drMdb1.HasRows Then
-        '        While drMdb1.Read()
-        '            CmbCuenta.Items.Add(drMdb1.GetValue(0))
-        '        End While
-        '        CmbCuenta.Text = CmbCuenta.Items(0)
-        '    Else
-        '        'MsgBox("No existen registros en " & tipoSql)
-        '    End If
-        '    drMdb1.Close()
-        'Catch ex As Exception
-        '    'MsgBox("Error al llenar el Combo Cuenta")
-        '    MsgBox(ex.ToString)
-        'End Try
-
         filaActual = frmApuntesContables.DgvApuntes.CurrentRow.Index
         DateTimePicker1.Text = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(0).Value.ToString
         ' --- CORRECCIÓN CRÍTICA DE ASIGNACIÓN POR ID NUMÉRICO ---
         ' Usamos SelectedValue pasándole el ID numérico puro que viene del DataGridView
         ' Buscamos los IDs numéricos reales en las nuevas columnas ocultas del SELECT (9 y 10)
+
+        MsgBox(frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(9).Value.ToString)
+        MsgBox(frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(10).Value.ToString)
+
+
         CmbConcepto.SelectedValue = Convert.ToInt32(frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(9).Value)
         CmbCuenta.SelectedValue = Convert.ToInt32(frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(10).Value)
         CmbDescripcion.Text = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(2).Value.ToString

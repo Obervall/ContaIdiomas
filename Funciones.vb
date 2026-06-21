@@ -510,17 +510,14 @@ Module Funciones
                 .Columns(6).HeaderText = resManager.GetString("Cuenta") ' "Cuenta"
                 .Columns(7).Width = 0
                 .Columns(7).HeaderText = resManager.GetString("Codigo") ' "Código"
-                ' --- SIFÓN DE SEGURIDAD CONTAHOGAR 4.0 ---
                 ' Ocultamos por completo las columnas técnicas que usa el traductor por debajo
-                If .ColumnCount > 8 Then
-                    .Columns(8).Visible = False  ' CodigoCON
-                    .Columns(9).Visible = False  ' DescripcionCON
-                    .Columns(10).Visible = False ' NombreCUE
+                If .ColumnCount >= 11 Then
+                    .Columns(7).Visible = False  ' [CodigoAPU] (Mejor que Width = 0 por seguridad)
+                    .Columns(8).Visible = False  ' IdConceptoCON
+                    .Columns(9).Visible = False ' DescripcionCON
+                    .Columns(10).Visible = False ' IdCuentaCUE
                 End If
             End With
-            If frmApuntesContables.DgvApuntes.ColumnCount > 0 Then
-                frmApuntesContables.DgvApuntes.Columns(frmApuntesContables.DgvApuntes.ColumnCount - 1).Visible = False
-            End If
             'Llama a la función
             DgvApuntesContables(3, 4)
 
@@ -1516,121 +1513,6 @@ Module Funciones
         End Try
     End Sub
 
-    'Public Sub LlenarYTraducirControlesConceptosBD(ByVal combo As ComboBox, ByVal lista As ListBox, ByVal dr As OleDbDataReader)
-    '    Try
-    '        ' Guardamos la posición que tenía seleccionada el usuario
-    '        Dim posicionActual As Integer = combo.SelectedIndex
-
-    '        combo.Items.Clear()
-    '        lista.Items.Clear()
-
-    '        Dim vTipoConcepto As String = ""
-
-    '        ' Recorremos el DataReader traduciendo cada registro sobre la marcha
-    '        While dr.Read()
-    '            Dim codigoOriginal As String = dr("CodigoCON").ToString().Trim()
-    '            Dim tipoOriginal As String = dr("TipoCON").ToString().Trim().ToUpper()
-
-    '            ' Generamos la clave idéntica reemplazando los espacios
-    '            Dim llaveBase As String = codigoOriginal.Replace(" ", "_")
-    '            Dim codigoTraducido As String = resManager.GetString(llaveBase)
-
-    '            ' Si no tiene traducción, dejamos el original
-    '            If String.IsNullOrEmpty(codigoTraducido) Then codigoTraducido = codigoOriginal
-
-    '            ' Caso especial para el Traspaso del sistema
-    '            If codigoOriginal.ToUpper() = "TRASPASO" Then
-    '                Dim tradTraspaso As String = resManager.GetString("TRASPASO")
-    '                If Not String.IsNullOrEmpty(tradTraspaso) Then codigoTraducido = tradTraspaso
-    '            End If
-
-    '            ' --- AGREGAR CABECERAS DE GRUPO EXCLUSIVAS PARA EL LISTBOX ---
-    '            ' Comprobamos si ha cambiado el tipo de concepto (GASTO / INGRESO / ESPECIAL)
-    '            If vTipoConcepto <> tipoOriginal Then
-    '                vTipoConcepto = tipoOriginal
-
-    '                Select Case vTipoConcepto
-    '                    Case "GASTO"
-    '                        lista.Items.Add("** " & frmApuntesContables.rmse.GetString("Label8.Text") & " **")
-    '                    Case "INGRESO"
-    '                        lista.Items.Add("** " & frmApuntesContables.rmse.GetString("Label7.Text") & " **")
-    '                    Case "ESPECIAL"
-    '                        lista.Items.Add("** " & resManager.GetString("Tipo_Especial") & " **")
-    '                End Select
-    '            End If
-
-    '            ' --- LLENADO SINCRONIZADO ---
-    '            combo.Items.Add(codigoTraducido)
-    '            lista.Items.Add(codigoTraducido)
-    '        End While
-
-    '        ' Restauramos la posición de forma segura para evitar desbordamientos en mdb vacías
-    '        If posicionActual >= 0 AndAlso posicionActual < combo.Items.Count Then
-    '            combo.SelectedIndex = posicionActual
-    '        ElseIf combo.Items.Count > 0 Then
-    '            combo.SelectedIndex = 0
-    '        End If
-    '    Catch ex As Exception
-    '        ' Evita cuelgues visuales si el volcado falla
-    '    End Try
-    'End Sub
-
-    'Public Sub LlenarYTraducirControlesConceptosBD(ByVal combo As ComboBox, ByVal lista As ListBox, ByVal reader As OleDb.OleDbDataReader)
-    '    Try
-    '        ' 1. Creamos una tabla en memoria y volcamos TODO el contenido del Reader de golpe
-    '        Dim dt As New DataTable()
-    '        dt.Load(reader) ' Esto lee el IdConceptoCON, CodigoCON, DescripcionCON, etc.
-
-    '        ' 2. Añadimos la columna virtual para el texto que verá el usuario
-    '        dt.Columns.Add("TextoTraducido", GetType(String))
-
-    '        ' 3. Limpiamos el ListBox antes de rellenarlo
-    '        lista.Items.Clear()
-
-    '        ' 4. Hacemos el bucle a través de la tabla para traducir (sustituye al antiguo While reader.Read)
-    '        For Each fila As DataRow In dt.Rows
-    '            Dim codigoOriginal As String = fila("CodigoCON").ToString().Trim()
-    '            Dim descOriginal As String = fila("DescripcionCON").ToString()
-    '            Dim textoFinal As String = descOriginal ' Salvavidas por defecto
-
-    '            ' Buscamos la traducción en tus recursos (.resx)
-    '            If resManager IsNot Nothing Then
-    '                ' 1. EL TRUCO CONTRA ESPACIOS DOBLES: Reemplazamos bucles de espacios dobles por uno solo
-    '                Dim textoLimpio As String = codigoOriginal.Trim()
-    '                'While textoLimpio.Contains("  ")
-    '                '    textoLimpio = textoLimpio.Replace("  ", " ")
-    '                'End While
-    '                ' 2. Ahora que seguro solo hay UN espacio, hacemos el cambio a guion bajo
-    '                Dim claveRecurso As String = textoLimpio.Replace(" ", "_")
-    '                Dim traduccion As String = resManager.GetString(claveRecurso)
-    '                If Not String.IsNullOrEmpty(traduccion) Then
-    '                    textoFinal = traduccion
-    '                End If
-    '            End If
-
-    '            ' Guardamos el texto traducido en la columna que usará el Combo
-    '            fila("TextoTraducido") = textoFinal
-
-    '            ' Rellenamos el ListBox en el mismo orden exacto
-    '            lista.Items.Add(textoFinal)
-    '        Next
-
-    '        ' 5. Vinculamos la tabla al Combo para que guarde el ID numérico en secreto
-    '        ' --- ORDEN CORRECTO Y SEGURO ---
-    '        ' 1. Primero le decimos qué columna oculta guarda el número
-    '        combo.ValueMember = "IdConceptoCON"
-
-    '        ' 2. Segundo le decimos qué columna virtual tiene el texto traducido
-    '        combo.DisplayMember = "TextoTraducido"
-
-    '        ' 3. ¡AL FINAL! Enlazamos la tabla. Así el combo sabe qué pintar desde el primer milisegundo
-    '        combo.DataSource = dt
-
-    '    Catch ex As Exception
-    '        MsgBox("Error en el módulo al sincronizar los controles: " & ex.Message, MsgBoxStyle.Critical)
-    '    End Try
-    'End Sub
-
     Public Sub LlenarYTraducirControlesConceptosBD(ByVal combo As ComboBox, ByVal lista As ListBox, ByVal dr As OleDb.OleDbDataReader)
         Try
             ' Guardamos la posición que tenía seleccionada el usuario
@@ -1755,7 +1637,7 @@ Module Funciones
         End Try
     End Sub
 
-    Public Sub TraducirGridApuntesBD(ByVal dgv As DataGridView, ByVal resManager As System.Resources.ResourceManager)
+    Public Sub TraducirGridApuntesBD(ByVal dgv As DataGridView)
         Try
             If dgv.Rows.Count = 0 Then Exit Sub
 
@@ -1767,45 +1649,45 @@ Module Funciones
                 If filaData IsNot Nothing Then
 
                     ' =============================================================
-                    ' 1. TRADUCCIÓN Y MAYÚSCULAS EN CONCEPT (Celda 1) - CORREGIDO
+                    ' 1. TRADUCCIÓN DE CONCEPTO (Celda 1) - USANDO EL CÓDIGO ESTABLE
                     ' =============================================================
-                    ' Leemos el código tal y como viene de la base de datos (Ej: "REGULARITZACIO 1" o "WATER")
+                    ' Leemos el código alfanumérico de la celda 8 (Ej: "REGULARITZACIO_1")
                     Dim codigoCON As String = filaData("CodigoCON").ToString().Trim()
 
-                    ' De entrada, el texto visible será el código en mayúsculas sin guiones para que quede limpio
-                    Dim conceptoVisual As String = codigoCON.Replace("_", " ").ToUpper()
+                    ' Por defecto, si no hay traducción, se queda el texto original de la BD
+                    Dim conceptoVisual As String = filaData("ConceptoAPU").ToString().Trim().ToUpper()
 
-                    If resManager IsNot Nothing Then
-                        ' ¡EL TRUCO MAESTRO!: Convertimos los espacios en guiones bajos para que coincida 
-                        ' exactamente con tu llave del .resx ("REGULARITZACIO_1")
-                        Dim claveConceptoRecurso As String = codigoCON.Replace(" ", "_")
+                    If resManager IsNot Nothing AndAlso Not String.IsNullOrEmpty(codigoCON) Then
+                        ' Forzamos guiones bajos por si acaso para emparejar con el .resx
+                        Dim claveRecurso As String = codigoCON.Replace(" ", "_")
+                        Dim traduccion As String = resManager.GetString(claveRecurso)
 
-                        ' Buscamos en el archivo de recursos con la clave normalizada
-                        Dim traduccion As String = resManager.GetString(claveConceptoRecurso)
-
-                        ' Si encuentra la traducción (Ej: en inglés), la forzamos a MAYÚSCULAS
                         If Not String.IsNullOrEmpty(traduccion) Then
                             conceptoVisual = traduccion.Trim().ToUpper()
                         End If
                     End If
 
-                    ' Estampamos el concepto final en la celda visible (Celda 1)
+                    ' Sobreescribimos la celda visible con el idioma correcto
                     row.Cells(1).Value = conceptoVisual
 
+
                     ' =============================================================
-                    ' 2. TRADUCCIÓN DE LA CUENTA VISIBLE CON TU ESTRUCTURA "Nom_" (Celda 6)
+                    ' 2. DESCRIPCIÓN (Celda 2) - SE RESPETA LO QUE COMENTAS
                     ' =============================================================
-                    ' ¡CORREGIDO!: Leemos de la columna de soporte limpia que viaja en el SELECT
-                    Dim nombreCUE As String = filaData("NombreCUEReal").ToString().Trim()
+                    ' No hacemos nada aquí. El DataBinding ya habrá pintado automáticamente
+                    ' el campo apuntes.DescripcionAPU original o modificado por el usuario.
+
+
+                    ' =============================================================
+                    ' 3. TRADUCCIÓN DE CUENTA (Celda 6)
+                    ' =============================================================
+                    Dim nombreCUE As String = filaData("CuentaAPU").ToString().Trim()
                     Dim cuentaVisual As String = nombreCUE
 
-                    If resManager IsNot Nothing Then
+                    If resManager IsNot Nothing AndAlso Not String.IsNullOrEmpty(nombreCUE) Then
                         Dim claveBase As String = nombreCUE.Replace(" ", "_")
-
-                        ' Buscamos con el prefijo "Nom_" (Ex: Nom_CAJA_EFECTIVO, Nom_BBVA)
                         Dim tradCuenta As String = resManager.GetString("Nom_" & claveBase)
 
-                        ' Si no encuentra con Nom_, busca la clave limpia (Cuentas de usuario)
                         If String.IsNullOrEmpty(tradCuenta) Then
                             tradCuenta = resManager.GetString(claveBase)
                         End If
@@ -1815,68 +1697,15 @@ Module Funciones
                         End If
                     End If
 
-                    ' Reemplazamos la celda de la pantalla con el texto final ordenado
                     row.Cells(6).Value = cuentaVisual
-
-                    ' =============================================================
-                    ' 3. TRADUCCIÓN DE DESCRIPCIONES AUTOMÁTICAS DEL SISTEMA (Celda 2)
-                    ' =============================================================
-                    Dim descRealAPU As String = filaData("DescripcionAPU").ToString().Trim()
-
-                    ' Si la descripción es una palabra clave automática del sistema (empieza por SYS_)
-                    If descRealAPU.StartsWith("SYS_") AndAlso resManager IsNot Nothing Then
-                        ' Buscamos la traducción en el .resx (ej: tener una key llamada SYS_REGULARIZACION_INC)
-                        Dim descTraducida As String = resManager.GetString(descRealAPU)
-
-                        If Not String.IsNullOrEmpty(descTraducida) Then
-                            ' Sobreescribimos la celda de la pantalla con el idioma activo
-                            row.Cells(2).Value = descTraducida
-                        End If
-                    End If
 
                 End If
             Next
 
         Catch ex As Exception
-            ' Evita parpadeos en el repintado
+            ' Previene errores visuales durante el rediseño del grid
         End Try
     End Sub
-
-
-    'Public Sub TraducirGridApuntesBD(ByVal dgv As DataGridView, ByVal res As System.Resources.ResourceManager)
-    '    Try
-    '        If dgv IsNot Nothing AndAlso dgv.Rows.Count > 0 Then
-    '            For Each fila As DataGridViewRow In dgv.Rows
-    '                If Not fila.IsNewRow Then
-    '                    ' 1. Traducir Columna (1): Concepto
-    '                    If fila.Cells(1).Value IsNot Nothing Then
-    '                        Dim conOriginal As String = fila.Cells(1).Value.ToString().Trim()
-    '                        Dim llaveBase As String = conOriginal.Replace(" ", "_")
-    '                        Dim conTraducido As String = res.GetString(llaveBase)
-
-    '                        If conOriginal.ToUpper() = "TRASPASO" Then
-    '                            Dim tradTraspaso As String = res.GetString("TRASPASO")
-    '                            If Not String.IsNullOrEmpty(tradTraspaso) Then conTraducido = tradTraspaso
-    '                        End If
-
-    '                        If Not String.IsNullOrEmpty(conTraducido) Then fila.Cells(1).Value = conTraducido
-    '                    End If
-
-    '                    ' 2. Traducir Columna (2): Descripción
-    '                    If fila.Cells(2).Value IsNot Nothing AndAlso fila.Cells(1).Value IsNot Nothing Then
-    '                        Dim conOriginal As String = fila.Cells(1).Value.ToString().Trim()
-    '                        Dim llaveDesc As String = "Desc_" & conOriginal.Replace(" ", "_")
-    '                        Dim tradDesc As String = res.GetString(llaveDesc)
-
-    '                        If Not String.IsNullOrEmpty(tradDesc) Then fila.Cells(2).Value = tradDesc
-    '                    End If
-    '                End If
-    '            Next
-    '        End If
-    '    Catch ex As Exception
-    '        ' Evita cuelgues si el Grid se está repintando
-    '    End Try
-    'End Sub
 
     Public Function ObtenerClaveNeutral(textoTraducido As String, rm As System.Resources.ResourceManager) As String
         ' 1. Evitamos buscar si el texto viene vacío o nulo
@@ -2614,7 +2443,7 @@ Module Funciones
 
     Public Sub LlenarComboCuentasGenerico(ByVal combo As ComboBox)
         ' 1. SQL adaptado: traemos el IdCUE y el NombreCUE de tu nueva tabla cuentas
-        cmdMdb1cr.CommandText = "SELECT IdCuentasCUE, NombreCUE FROM cuentas ORDER BY NombreCUE ASC"
+        cmdMdb1cr.CommandText = "SELECT IdCuentaCUE, NombreCUE FROM cuentas ORDER BY NombreCUE ASC"
 
         Dim dtCuentas As New DataTable()
 
@@ -2650,7 +2479,7 @@ Module Funciones
             Next
 
             ' 2. VINCULAMOS AL COMBOBOX (Con el orden óptimo e idéntico de Windows Forms)
-            combo.ValueMember = "IdCuentasCUE"             ' El número oculto (1, 2, 3...) de tu Access
+            combo.ValueMember = "IdCuentaCUE"             ' El número oculto (1, 2, 3...) de tu Access
             combo.DisplayMember = "NombreTraducido" ' Lo que VE el usuario en la pantalla
             combo.DataSource = dtCuentas            ' Al final de todo enlazamos los datos
 
@@ -2659,5 +2488,11 @@ Module Funciones
             MsgBox("Error al cargar las cuentas desde el módulo: " & ex.Message, MsgBoxStyle.Critical)
         End Try
     End Sub
+
+    Public ReadOnly Property ConceptosMuestraSistema As New List(Of String)(New String() {
+    "AGUA", "ALIMENTACION", "CANAL+", "CASA", "CLIENTE00", "COMUNIDAD", "DECESOS", "EL CORTE INGLES", "ESTETICA", "FARMACIA", "GASNATURAL", "GASOLINA", "GASTOS BANCARIOS",
+    "HACIENDA", "IMPUESTO 1", "IMPUESTO 2", "IMPUESTO 3", "IMPUESTO 4", "IMPUESTO 5", "INTERESES", "JARDIN", "LUZ",
+    "OCIO", "PENSION", "REGULARITZACIO 1", "REGULARITZACIO 2", "SEGURO CASA", "SEGURO COCHE", "SEGURO MOTO", "TELEFONO", "VARIOS", "VEHICULOS"
+})
 
 End Module

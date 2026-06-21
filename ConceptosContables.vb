@@ -379,85 +379,174 @@ Public Class ConceptosContables
     End Sub
 
     Private Sub BtnEditarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEditarRegistro.Click
+        ' 1. Obtener la fila seleccionada
         filaActual = frmConceptosContables.DgvConceptos.CurrentRow.Index
-        vTxtNombre = frmConceptosContables.DgvConceptos.Rows(filaActual).Cells(1).Value.ToString
 
-        ' --- VALIDACIÓN: PROTEGER CONCEPTOS DE MUESTRA (OPTIMIZADO) ---
-        Dim esConceptoDeMuestra As Boolean = False
-        Dim textoCelda As String = vTxtNombre.Trim().ToUpper()
+        ' 2. LEER EL CÓDIGO REAL: La columna "Code" es la Celda 1 de tu Grid (siempre viaja el original, ej: APOTHEKE)
+        Dim codigoCelda As String = frmConceptosContables.DgvConceptos.Rows(filaActual).Cells(1).Value.ToString().Trim().ToUpper()
 
-        ' 1. Si el sistema está en español, la llave coincide directamente en mayúsculas/guiones
-        Dim llaveBase As String = textoCelda.Replace(" ", "_")
+        ' =========================================================================
+        ' 3. REVERTIR EL IDIOMA PARA COMPARAR CON TU LISTA EN ESPAÑOL
+        ' =========================================================================
+        Dim codigoEnEspañol As String = codigoCelda ' Por defecto asumimos que es ese
 
-        If resManager.GetString(llaveBase) IsNot Nothing OrElse resManager.GetString("Desc_" & llaveBase) IsNot Nothing Then
-            esConceptoDeMuestra = True
-        Else
-            ' 2. Si está en otro idioma, buscamos qué llave del ResX coincide con el texto traducido de la celda.
-            ' Usamos CurrentUICulture (idioma de la interfaz) en lugar de CurrentCulture (formatos de fecha/números).
-            Dim resSet As System.Resources.ResourceSet = resManager.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
+        ' Si el sistema no está en español, buscamos la llave original (.Key) en el .resx
+        ' que coincide con la palabra traducida que hay en la celda
+        Dim resSet As System.Resources.ResourceSet = resManager.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
+        If resSet IsNot Nothing Then
+            For Each dict As System.Collections.DictionaryEntry In resSet
+                Dim valorTraducido As String = dict.Value?.ToString().Trim().ToUpper()
 
-            If resSet IsNot Nothing Then
-                For Each dict As System.Collections.DictionaryEntry In resSet
-                    Dim valorTraducido As String = dict.Value?.ToString().Trim().ToUpper()
-
-                    If valorTraducido = textoCelda Then
-                        esConceptoDeMuestra = True
-                        Exit For
-                    End If
-                Next
-            End If
+                ' Si el texto de la celda (ej: "APOTHEKE") coincide con la traducción del .resx
+                If valorTraducido = codigoCelda Then
+                    ' La llave (.Key) es el nombre original en español (ej: "FARMACIA")
+                    codigoEnEspañol = dict.Key.ToString().Replace("_", " ").ToUpper()
+                    Exit For
+                End If
+            Next
         End If
 
-        'Colocar un codigo para que revise si el vTxtNombre existe realmente en la tabla Conceptos en CodigoCON (0)
-        'si existe esConceptoDeMuestra pasa a False
-        Dim queryVerificar As String = "SELECT COUNT(*) FROM Conceptos WHERE CodigoCON = ?"
-        Try
-            Using cmd As New OleDb.OleDbCommand(queryVerificar, conexion1)
-                ' Asignamos directamente vTxtNombre como parámetro tal como indicas
-                cmd.Parameters.Add("?", OleDb.OleDbType.VarChar).Value = vTxtNombre
-                Dim conteo As Integer = Convert.ToInt32(cmd.ExecuteScalar())
-                ' Si el conteo es mayor a 0, significa que existe y pasa a False
-                If conteo > 0 Then
-                    esConceptoDeMuestra = False
-                End If
-            End Using
-        Catch ex As Exception
-            MessageBox.Show(ex.Message, resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
+        ' =========================================================================
+        ' 4. VALIDACIÓN DE BLOQUEO DE EDICIÓN USANDO LA LISTA GLOBAL DEL MÓDULO
+        ' =========================================================================
+        ' Apuntamos directamente a ConceptosMuestraSistema que está en tu módulo
+        If ConceptosMuestraSistema.Contains(codigoEnEspañol) Then
+            Dim msgAviso As String = resManager.GetString("AvisoConceptoProtegido")
+            If String.IsNullOrEmpty(msgAviso) Then msgAviso = "Los conceptos predeterminados del sistema están protegidos contra modificaciones."
+            MessageBox.Show(msgAviso, resManager.GetString("Aviso"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub ' Se frena en seco: bloquea por completo la edición
+        End If
 
-        If esConceptoDeMuestra Then
+        ' =========================================================================
+        ' 5. VALIDACIÓN DE BLOQUEO DE EDICIÓN (BLINDADA CONTRA ESPACIOS)
+        ' =========================================================================
+        ' Eliminamos cualquier guion bajo y espacio para comparar cadenas limpias (Ej: "GASNATURAL")
+        Dim textoValidarLimpio As String = codigoEnEspañol.Replace("_", "").Replace(" ", "").Trim().ToUpper()
+
+        If ConceptosMuestraSistema.Contains(textoValidarLimpio) Then
             Dim msgAviso As String = resManager.GetString("AvisoConceptoProtegido")
             If String.IsNullOrEmpty(msgAviso) Then msgAviso = "Los conceptos predeterminados del sistema están protegidos contra modificaciones."
             MessageBox.Show(msgAviso, resManager.GetString("Aviso"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
-        ' Comprobamos si existe un identificador asociado.
+        '' =========================================================================
+        '' 5. VALIDACIÓN DE BLOQUEO DE EDICIÓN (LISTA DEL MÓDULO)
+        '' =========================================================================
+        '' Apuntamos directamente a la lista global que creamos en tu módulo
+        'If ConceptosMuestraSistema.Contains(codigoEnEspañol) Then
+        '    Dim msgAviso As String = resManager.GetString("AvisoConceptoProtegido")
+        '    If String.IsNullOrEmpty(msgAviso) Then msgAviso = "Los conceptos predeterminados del sistema están protegidos contra modificaciones."
+        '    MessageBox.Show(msgAviso, resManager.GetString("Aviso"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        '    Exit Sub ' Se frena en seco: bloquea por completo la edición
+        'End If
+
+
+        ' 6. ABRIR FORMULARIO DE EDICIÓN MODAL (Si es un concepto creado por el usuario, sí le deja pasar)
+        vTxtNombre = codigoCelda
         If ((frmEditarConceptoContable Is Nothing) OrElse (Not frmEditarConceptoContable.IsHandleCreated)) Then
             frmEditarConceptoContable = New EditarConceptoContable
         End If
-        ' Llamamos al formulario de manera modal.
-        If vEditar = "NO" Then
-            vEditar = "SI"  ' Editar
-        Else
-            vEditar = "SI"
-        End If
+
+        vEditar = "SI"
         frmEditarConceptoContable.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
         frmEditarConceptoContable.Dispose()
+
+        ' 7. REFRESCAR EL GRID (Tu código de recarga habitual)
         vtipoSql = "SELECT conceptos.TipoCON, conceptos.CodigoCON, conceptos.DescripcionCON, conceptos.NotasCON FROM conceptos"
         If BtnFiltroTipoConcepto.Enabled = False Then
-            vtipoSql += " WHERE "
-            vtipoSql += "conceptos.TipoCON = '" & CmbTipoConcepto.Text & "' "
+            vtipoSql += " WHERE conceptos.TipoCON = '" & CmbTipoConcepto.Text & "' "
         End If
         vtipoSql += " ORDER BY conceptos.CodigoCON ASC"
         vtipoGrid = "CONCEPTOS_CONTABLES"
+
         LlenarGrid(vtipoSql, vtipoGrid, "1")
         TraducirCeldasDelGrid()
+
         DgvConceptos.CurrentCell = DgvConceptos.Rows(filaActual).Cells(0)
         DgvConceptos.Rows(filaActual).Selected = True
     End Sub
+
+    'Private Sub BtnEditarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEditarRegistro.Click
+    '    filaActual = frmConceptosContables.DgvConceptos.CurrentRow.Index
+    '    vTxtNombre = frmConceptosContables.DgvConceptos.Rows(filaActual).Cells(1).Value.ToString
+
+    '    ' --- VALIDACIÓN: PROTEGER CONCEPTOS DE MUESTRA (OPTIMIZADO) ---
+    '    Dim esConceptoDeMuestra As Boolean = False
+    '    Dim textoCelda As String = vTxtNombre.Trim().ToUpper()
+
+    '    ' 1. Si el sistema está en español, la llave coincide directamente en mayúsculas/guiones
+    '    Dim llaveBase As String = textoCelda.Replace(" ", "_")
+
+    '    If resManager.GetString(llaveBase) IsNot Nothing OrElse resManager.GetString("Desc_" & llaveBase) IsNot Nothing Then
+    '        esConceptoDeMuestra = True
+    '    Else
+    '        ' 2. Si está en otro idioma, buscamos qué llave del ResX coincide con el texto traducido de la celda.
+    '        ' Usamos CurrentUICulture (idioma de la interfaz) en lugar de CurrentCulture (formatos de fecha/números).
+    '        Dim resSet As System.Resources.ResourceSet = resManager.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
+
+    '        If resSet IsNot Nothing Then
+    '            For Each dict As System.Collections.DictionaryEntry In resSet
+    '                Dim valorTraducido As String = dict.Value?.ToString().Trim().ToUpper()
+
+    '                If valorTraducido = textoCelda Then
+    '                    esConceptoDeMuestra = True
+    '                    Exit For
+    '                End If
+    '            Next
+    '        End If
+    '    End If
+
+    '    'Colocar un codigo para que revise si el vTxtNombre existe realmente en la tabla Conceptos en CodigoCON (0)
+    '    'si existe esConceptoDeMuestra pasa a False
+    '    Dim queryVerificar As String = "SELECT COUNT(*) FROM Conceptos WHERE CodigoCON = ?"
+    '    Try
+    '        Using cmd As New OleDb.OleDbCommand(queryVerificar, conexion1)
+    '            ' Asignamos directamente vTxtNombre como parámetro tal como indicas
+    '            cmd.Parameters.Add("?", OleDb.OleDbType.VarChar).Value = vTxtNombre
+    '            Dim conteo As Integer = Convert.ToInt32(cmd.ExecuteScalar())
+    '            ' Si el conteo es mayor a 0, significa que existe y pasa a False
+    '            If conteo > 0 Then
+    '                esConceptoDeMuestra = False
+    '            End If
+    '        End Using
+    '    Catch ex As Exception
+    '        MessageBox.Show(ex.Message, resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
+    '    End Try
+
+    '    If esConceptoDeMuestra Then
+    '        Dim msgAviso As String = resManager.GetString("AvisoConceptoProtegido")
+    '        If String.IsNullOrEmpty(msgAviso) Then msgAviso = "Los conceptos predeterminados del sistema están protegidos contra modificaciones."
+    '        MessageBox.Show(msgAviso, resManager.GetString("Aviso"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
+    '        Exit Sub
+    '    End If
+
+    '    ' Comprobamos si existe un identificador asociado.
+    '    If ((frmEditarConceptoContable Is Nothing) OrElse (Not frmEditarConceptoContable.IsHandleCreated)) Then
+    '        frmEditarConceptoContable = New EditarConceptoContable
+    '    End If
+    '    ' Llamamos al formulario de manera modal.
+    '    If vEditar = "NO" Then
+    '        vEditar = "SI"  ' Editar
+    '    Else
+    '        vEditar = "SI"
+    '    End If
+    '    frmEditarConceptoContable.ShowDialog()
+    '    'MessageBox.Show("Se ha cerrado el formulario.")
+    '    ' Destruimos el formulario.
+    '    frmEditarConceptoContable.Dispose()
+    '    vtipoSql = "SELECT conceptos.TipoCON, conceptos.CodigoCON, conceptos.DescripcionCON, conceptos.NotasCON FROM conceptos"
+    '    If BtnFiltroTipoConcepto.Enabled = False Then
+    '        vtipoSql += " WHERE "
+    '        vtipoSql += "conceptos.TipoCON = '" & CmbTipoConcepto.Text & "' "
+    '    End If
+    '    vtipoSql += " ORDER BY conceptos.CodigoCON ASC"
+    '    vtipoGrid = "CONCEPTOS_CONTABLES"
+    '    LlenarGrid(vtipoSql, vtipoGrid, "1")
+    '    TraducirCeldasDelGrid()
+    '    DgvConceptos.CurrentCell = DgvConceptos.Rows(filaActual).Cells(0)
+    '    DgvConceptos.Rows(filaActual).Selected = True
+    'End Sub
 
     Private Sub BtnEliminarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEliminarRegistro.Click
         filaActual = frmConceptosContables.DgvConceptos.CurrentRow.Index

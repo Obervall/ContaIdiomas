@@ -137,9 +137,7 @@ Public Class ApuntesContables
 
         ' Llenar Grid de APUNTES al cargra el programa
         '**********************************************
-        'vtipoSql = "Select apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
-
-        ' CONSULTA RE AJUSTADA A CONTAHOGAR 4.0 (Respetando el orden estricto de tus columnas visibles)
+        ' CONSULTA RE AJUSTADA (Respetando el orden estricto de tus columnas visibles)
         ' Celda 0: FechaAPU
         ' Celda 1: ConceptoAPU -> (Aquí sobreescribiremos el texto traducido)
         ' Celda 2: DescripcionAPU
@@ -149,10 +147,24 @@ Public Class ApuntesContables
         ' Celda 6: CuentaAPU -> (Aquí sobreescribiremos el texto de la cuenta)
         ' Celda 7: CodigoAPU (El ID del apunte)
         ' Celdas 8, 9, 10: Columnas técnicas ocultas para las traducciones
-        ' CONSULTA BLINDADA CON ALIAS CONTAHOGAR 4.0
-        ' CONSULTA INTEGRAL CONTAHOGAR 4.0 (Textos en zonas visibles, IDs al final)
-        ' CONSULTA INTEGRAL DEFINTIVA CONTAHOGAR 4.0
-        vtipoSql = "SELECT apuntes.FechaAPU As [FechaAPU], " &
+        ' CONSULTA BLINDADA CON ALIAS
+        ' CONSULTA INTEGRAL (Textos en zonas visibles, IDs al final)
+        ' CONSULTA INTEGRAL DEFINTIVA
+        'vtipoSql = "SELECT apuntes.FechaAPU As [FechaAPU], " &
+        '   "conceptos.DescripcionCON As [ConceptoAPU], " & ' Celda 1 (Texto visible)
+        '   "apuntes.DescripcionAPU As [DescripcionAPU], " & ' Celda 2
+        '   "apuntes.ImporteAPU As [ImporteAPU], " &       ' Celda 3
+        '   "apuntes.ImporteAPU As [SaldoAPU], " &         ' Celda 4
+        '   "apuntes.NotasAPU As [NotasAPU], " &           ' Celda 5
+        '   "cuentas.NombreCUE As [CuentaAPU], " &         ' Celda 6 (Texto visible)
+        '   "apuntes.CodigoAPU As [CodigoAPU], " &         ' Celda 7
+        '   "conceptos.CodigoCON As [CodigoCON], " &       ' Celda 8 (Soporte)
+        '   "conceptos.DescripcionCON As [DescCONReal], " & ' Celda 9 (Soporte)
+        '   "cuentas.NombreCUE As [NombreCUEReal] " &       ' Celda 10 (Soporte limpia para el traductor)
+        '   "FROM (apuntes " &
+        '   "INNER JOIN conceptos ON apuntes.ConceptoAPU = conceptos.IdConceptoCON) " &
+        '   "INNER JOIN cuentas ON apuntes.CuentaAPU = cuentas.IdCuentaCUE"
+        vtipoSql = "SELECT apuntes.FechaAPU As [FechaAPU], " &  'Celda 0
            "conceptos.DescripcionCON As [ConceptoAPU], " & ' Celda 1 (Texto visible)
            "apuntes.DescripcionAPU As [DescripcionAPU], " & ' Celda 2
            "apuntes.ImporteAPU As [ImporteAPU], " &       ' Celda 3
@@ -160,18 +172,18 @@ Public Class ApuntesContables
            "apuntes.NotasAPU As [NotasAPU], " &           ' Celda 5
            "cuentas.NombreCUE As [CuentaAPU], " &         ' Celda 6 (Texto visible)
            "apuntes.CodigoAPU As [CodigoAPU], " &         ' Celda 7
-           "conceptos.CodigoCON As [CodigoCON], " &       ' Celda 8 (Soporte)
-           "conceptos.DescripcionCON As [DescCONReal], " & ' Celda 9 (Soporte)
-           "cuentas.NombreCUE As [NombreCUEReal] " &       ' Celda 10 (Soporte limpia para el traductor)
+           "conceptos.CodigoCON As [CodigoCON], " &       ' Celda 8 (¡CORREGIDO! Clave estable para resManager)
+           "apuntes.ConceptoAPU As [IdConceptoCON], " &   ' Celda 9 (ID numérico concepto para guardar)
+           "apuntes.CuentaAPU As [IdCuentaCUE] " &        ' Celda 10 (ID numérico cuenta para guardar)
            "FROM (apuntes " &
            "INNER JOIN conceptos ON apuntes.ConceptoAPU = conceptos.IdConceptoCON) " &
-           "INNER JOIN cuentas ON apuntes.CuentaAPU = cuentas.IdCuentasCUE"
+           "INNER JOIN cuentas ON apuntes.CuentaAPU = cuentas.IdCuentaCUE"
 
         vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
         vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
         vtipoGrid = "APUNTES_CONTABLES"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
-        TraducirGridApuntesBD(Me.DgvApuntes, resManager)
+        TraducirGridApuntesBD(Me.DgvApuntes)
         If frmApuntesContables.DgvApuntes.RowCount >= 25 And My.Settings.Autorizar = "Se autoriza el uso de ContaHogar 3.0 a: Modo Demo" Then
             'MsgBox("Software No Activado, Máximo 25 Apuntes", MsgBoxStyle.Critical, "Falta Activación")
             'Close()
@@ -206,8 +218,8 @@ Public Class ApuntesContables
             MsgBox("Error al procesar conceptos: " & ex.Message, MsgBoxStyle.Critical)
         End Try
 
-        ' Llenar el Combo Cuenta de forma segura y traducida (ContaHogar 4.0)
-        '******************************************************************
+        ' Llenar el Combo Cuenta de forma segura y traducida
+        '***************************************************
         Try
             ' 1. Encendemos tu escudo protector antes de rellenar para evitar eventos prematuros
             cargandoFormulario = True
@@ -250,7 +262,6 @@ Public Class ApuntesContables
 
     Private Sub BtnFiltroCuenta_Click(sender As Object, e As EventArgs) Handles BtnFiltroCuenta.Click
         If ListBox1.SelectedItems.Count <> 0 Then
-            ' Prueba del algodón
             'MsgBoxTraductorGlobal.Show(rmse.GetString("MsgAviso1"), rmse.GetString("MsgText1"), MessageBoxButtons.OK, MessageBoxIcon.Information)
             MessageBox.Show(rmse.GetString("MsgAviso1"), rmse.GetString("MsgText1"), MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
@@ -275,7 +286,7 @@ Public Class ApuntesContables
             vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
             vtipoGrid = "APUNTES_CONTABLES"
             LlenarGrid(vtipoSql, vtipoGrid, "1")
-            TraducirGridApuntesBD(Me.DgvApuntes, resManager)
+            TraducirGridApuntesBD(Me.DgvApuntes)
             If DgvApuntes.RowCount - 1 >= 0 Then
                 vFila = DgvApuntes.RowCount - 1
                 DgvApuntes.Rows(vFila).Selected = True
@@ -374,7 +385,7 @@ Public Class ApuntesContables
 
         ' Ejecución del llenado del Grid
         LlenarGrid(vtipoSql, vtipoGrid, "1")
-        TraducirGridApuntesBD(Me.DgvApuntes, resManager)
+        TraducirGridApuntesBD(Me.DgvApuntes)
 
         ' Selección automática de la última fila
         If DgvApuntes.RowCount > 0 Then
@@ -411,7 +422,7 @@ Public Class ApuntesContables
 
             vtipoGrid = "APUNTES_CONTABLES"
             LlenarGrid(vtipoSql, vtipoGrid, "1")
-            TraducirGridApuntesBD(Me.DgvApuntes, resManager)
+            TraducirGridApuntesBD(Me.DgvApuntes)
             If DgvApuntes.RowCount - 1 >= 0 Then
                 vFila = DgvApuntes.RowCount - 1
                 DgvApuntes.Rows(vFila).Selected = True
@@ -468,7 +479,7 @@ Public Class ApuntesContables
             ListBox1.Visible = False
             vtipoGrid = "APUNTES_CONTABLES"
             LlenarGrid(vtipoSql, vtipoGrid, "1")
-            TraducirGridApuntesBD(Me.DgvApuntes, resManager)
+            TraducirGridApuntesBD(Me.DgvApuntes)
             If DgvApuntes.RowCount - 1 >= 0 Then
                 vFila = DgvApuntes.RowCount - 1
                 DgvApuntes.Rows(vFila).Selected = True
@@ -494,7 +505,7 @@ Public Class ApuntesContables
             vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
             vtipoGrid = "APUNTES_CONTABLES"
             LlenarGrid(vtipoSql, vtipoGrid, "1")
-            TraducirGridApuntesBD(Me.DgvApuntes, resManager)
+            TraducirGridApuntesBD(Me.DgvApuntes)
             If DgvApuntes.RowCount - 1 >= 0 Then
                 vFila = DgvApuntes.RowCount - 1
                 DgvApuntes.Rows(vFila).Selected = True
@@ -591,7 +602,7 @@ Public Class ApuntesContables
         vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
         vtipoGrid = "APUNTES_CONTABLES"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
-        TraducirGridApuntesBD(Me.DgvApuntes, resManager)
+        TraducirGridApuntesBD(Me.DgvApuntes)
         If DgvApuntes.RowCount - 1 >= 0 Then
             vFila = DgvApuntes.RowCount - 1
             DgvApuntes.Rows(vFila).Selected = True
@@ -676,7 +687,7 @@ Public Class ApuntesContables
             ListBox1.Visible = False
             vtipoGrid = "APUNTES_CONTABLES"
             LlenarGrid(vtipoSql, vtipoGrid, "1")
-            TraducirGridApuntesBD(Me.DgvApuntes, resManager)
+            TraducirGridApuntesBD(Me.DgvApuntes)
             If DgvApuntes.RowCount - 1 >= 0 Then
                 vFila = DgvApuntes.RowCount - 1
                 DgvApuntes.Rows(vFila).Selected = True
@@ -702,7 +713,7 @@ Public Class ApuntesContables
             vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
             vtipoGrid = "APUNTES_CONTABLES"
             LlenarGrid(vtipoSql, vtipoGrid, "1")
-            TraducirGridApuntesBD(Me.DgvApuntes, resManager)
+            TraducirGridApuntesBD(Me.DgvApuntes)
             If DgvApuntes.RowCount - 1 >= 0 Then
                 vFila = DgvApuntes.RowCount - 1
                 DgvApuntes.Rows(vFila).Selected = True
@@ -784,7 +795,7 @@ Public Class ApuntesContables
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
-                TraducirGridApuntesBD(Me.DgvApuntes, resManager)
+                TraducirGridApuntesBD(Me.DgvApuntes)
                 If DgvApuntes.RowCount - 1 >= 0 Then
                     vFila = DgvApuntes.RowCount - 1
                     DgvApuntes.Rows(vFila).Selected = True
@@ -876,7 +887,7 @@ Public Class ApuntesContables
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
-                TraducirGridApuntesBD(Me.DgvApuntes, resManager)
+                TraducirGridApuntesBD(Me.DgvApuntes)
                 If DgvApuntes.RowCount - 1 >= 0 Then
                     vFila = DgvApuntes.RowCount - 1
                     DgvApuntes.Rows(vFila).Selected = True
@@ -908,7 +919,7 @@ Public Class ApuntesContables
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
-                TraducirGridApuntesBD(Me.DgvApuntes, resManager)
+                TraducirGridApuntesBD(Me.DgvApuntes)
                 If DgvApuntes.RowCount - 1 >= 0 Then
                     vFila = DgvApuntes.RowCount - 1
                     DgvApuntes.Rows(vFila).Selected = True
@@ -961,7 +972,7 @@ Public Class ApuntesContables
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
-                TraducirGridApuntesBD(Me.DgvApuntes, resManager)
+                TraducirGridApuntesBD(Me.DgvApuntes)
                 If DgvApuntes.RowCount - 1 >= 0 Then
                     vFila = DgvApuntes.RowCount - 1
                     DgvApuntes.Rows(vFila).Selected = True
@@ -994,7 +1005,7 @@ Public Class ApuntesContables
                 vtipoGrid = "APUNTES_CONTABLES"
                 'MsgBox(vtipoSql)
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
-                TraducirGridApuntesBD(Me.DgvApuntes, resManager)
+                TraducirGridApuntesBD(Me.DgvApuntes)
                 If DgvApuntes.RowCount - 1 >= 0 Then
                     vFila = DgvApuntes.RowCount - 1
                     DgvApuntes.Rows(vFila).Selected = True
@@ -1045,7 +1056,7 @@ Public Class ApuntesContables
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
-                TraducirGridApuntesBD(Me.DgvApuntes, resManager)
+                TraducirGridApuntesBD(Me.DgvApuntes)
                 If DgvApuntes.RowCount - 1 >= 0 Then
                     vFila = DgvApuntes.RowCount - 1
                     DgvApuntes.Rows(vFila).Selected = True
@@ -1116,7 +1127,7 @@ Public Class ApuntesContables
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
-                TraducirGridApuntesBD(Me.DgvApuntes, resManager)
+                TraducirGridApuntesBD(Me.DgvApuntes)
                 If DgvApuntes.RowCount - 1 >= 0 Then
                     vFila = DgvApuntes.RowCount - 1
                     DgvApuntes.Rows(vFila).Selected = True
@@ -1165,7 +1176,7 @@ Public Class ApuntesContables
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
-                TraducirGridApuntesBD(Me.DgvApuntes, resManager)
+                TraducirGridApuntesBD(Me.DgvApuntes)
                 If frmApuntesContables.DgvApuntes.RowCount - 1 >= 0 Then
                     vFila = frmApuntesContables.DgvApuntes.RowCount - 1
                     frmApuntesContables.DgvApuntes.Rows(vFila).Selected = True
@@ -1387,7 +1398,7 @@ Public Class ApuntesContables
             vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
             vtipoGrid = "APUNTES_CONTABLES"
             LlenarGrid(vtipoSql, vtipoGrid, "1")
-            TraducirGridApuntesBD(Me.DgvApuntes, resManager)
+            TraducirGridApuntesBD(Me.DgvApuntes)
             If DgvApuntes.Rows.Count <> 0 Then
                 For Each row As DataGridViewRow In DgvApuntes.Rows
                     If CStr(row.Cells(7).Value) = vCodigo Then
@@ -1484,7 +1495,7 @@ Public Class ApuntesContables
             vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
             vtipoGrid = "APUNTES_CONTABLES"
             LlenarGrid(vtipoSql, vtipoGrid, "1")
-            TraducirGridApuntesBD(Me.DgvApuntes, resManager)
+            TraducirGridApuntesBD(Me.DgvApuntes)
             If DgvApuntes.Rows.Count <> 0 Then
                 For Each row As DataGridViewRow In DgvApuntes.Rows
                     If CStr(row.Cells(7).Value) = vCodigo Then
@@ -1720,7 +1731,7 @@ Public Class ApuntesContables
         vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
         vtipoGrid = "APUNTES_CONTABLES"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
-        TraducirGridApuntesBD(Me.DgvApuntes, resManager)
+        TraducirGridApuntesBD(Me.DgvApuntes)
         If DgvApuntes.RowCount - 1 >= 0 Then
             vFila = DgvApuntes.RowCount - 1
             DgvApuntes.Rows(vFila).Selected = True
@@ -1991,7 +2002,7 @@ Public Class ApuntesContables
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
-                TraducirGridApuntesBD(Me.DgvApuntes, resManager)
+                TraducirGridApuntesBD(Me.DgvApuntes)
             End If
         End If
     End Sub
@@ -2008,7 +2019,7 @@ Public Class ApuntesContables
         vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
         vtipoGrid = "APUNTES_CONTABLES"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
-        TraducirGridApuntesBD(Me.DgvApuntes, resManager)
+        TraducirGridApuntesBD(Me.DgvApuntes)
         LblNumRegistros.Text = resManager.GetString("SinFiltrar") ' My.Resources.Recursos.SinFiltrar
         BtnFiltroCuenta.Enabled = True
         BtnSinFiltroCuenta.Enabled = False
@@ -2067,7 +2078,7 @@ Public Class ApuntesContables
                     vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                     vtipoGrid = "APUNTES_CONTABLES"
                     LlenarGrid(vtipoSql, vtipoGrid, "1")
-                    TraducirGridApuntesBD(Me.DgvApuntes, resManager)
+                    TraducirGridApuntesBD(Me.DgvApuntes)
                 End If
             End If
         End If
@@ -2084,7 +2095,7 @@ Public Class ApuntesContables
             vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
             vtipoGrid = "APUNTES_CONTABLES"
             LlenarGrid(vtipoSql, vtipoGrid, "1")
-            TraducirGridApuntesBD(Me.DgvApuntes, resManager)
+            TraducirGridApuntesBD(Me.DgvApuntes)
             BtnFiltroCuenta.Enabled = True
             BtnSinFiltroCuenta.Enabled = False
             BtnFiltroConcepto.Enabled = True
@@ -2354,7 +2365,7 @@ Public Class ApuntesContables
 
                 ' Volcamos los datos filtrados en el Grid de la pantalla
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
-                TraducirGridApuntesBD(Me.DgvApuntes, resManager)
+                TraducirGridApuntesBD(Me.DgvApuntes)
 
                 If DgvApuntes.RowCount - 1 >= 0 Then
                     vFila = DgvApuntes.RowCount - 1

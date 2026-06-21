@@ -700,4 +700,7 @@ que l'arxiu no estigui obert</value>
   <data name="Desc_EL_CORTE_INGLES" xml:space="preserve">
     <value>El Corte Inglés</value>
   </data>
+  <data name="Existentes" xml:space="preserve">
+    <value>Existents</value>
+  </data>
 </root>

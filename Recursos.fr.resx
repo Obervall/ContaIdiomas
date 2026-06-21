@@ -257,7 +257,7 @@ Ils ne sont pas supprimés de la base de données</value>
     <value>Numéro</value>
   </data>
   <data name="Saldo" xml:space="preserve">
-    <value>Équilibre</value>
+    <value>Solde</value>
   </data>
   <data name="ErrorAlEjecutar" xml:space="preserve">
     <value>Exécution par erreur</value>
@@ -554,7 +554,7 @@ Ils ne sont pas supprimés de la base de données</value>
     <value>Jusqu’à</value>
   </data>
   <data name="TotalIngresos" xml:space="preserve">
-    <value>Chiffre d’affaires total</value>
+    <value>Total des revenus</value>
   </data>
   <data name="TotalGastos" xml:space="preserve">
     <value>Dépenses totales</value>
@@ -611,7 +611,7 @@ Ils ne sont pas supprimés de la base de données</value>
     <value>Mois</value>
   </data>
   <data name="ErrorEjecutarSaldo" xml:space="preserve">
-    <value>Équilibre des erreurs :</value>
+    <value>Erreur de calcul du solde:</value>
   </data>
   <data name="ToolTipF6" xml:space="preserve">
     <value>Rafraîchissement de la grille des notes et suppression des filtres</value>
@@ -699,5 +699,8 @@ le fichier n’est pas ouvert</value>
   </data>
   <data name="Desc_EL_CORTE_INGLES" xml:space="preserve">
     <value>El Corte Inglés</value>
+  </data>
+  <data name="Existentes" xml:space="preserve">
+    <value>Existant</value>
   </data>
 </root>

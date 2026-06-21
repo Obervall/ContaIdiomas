@@ -193,7 +193,7 @@
     <value>Aucun mouvement de revenus n’a été enregistré</value>
   </data>
   <data name="TotalIngresos" xml:space="preserve">
-    <value>CHIFFRE D’AFFAIRES TOTAL</value>
+    <value>TOTAL DES REVENUS</value>
   </data>
   <data name="NoHayGastos" xml:space="preserve">
     <value>Aucun mouvement de dépenses n’a été enregistré</value>

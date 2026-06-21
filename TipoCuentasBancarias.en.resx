@@ -136,7 +136,7 @@
     <value>Navigation</value>
   </data>
   <data name="CmbTipoConcepto.Items" xml:space="preserve">
-    <value>SPENT</value>
+    <value>EXPENSE</value>
   </data>
   <data name="CmbTipoConcepto.Items1" xml:space="preserve">
     <value>INCOME</value>

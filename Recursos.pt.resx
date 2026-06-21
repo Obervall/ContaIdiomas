@@ -700,4 +700,7 @@ O arquivo não está aberto</value>
   <data name="Desc_EL_CORTE_INGLES" xml:space="preserve">
     <value>El Corte Inglés</value>
   </data>
+  <data name="Existentes" xml:space="preserve">
+    <value>Existentes</value>
+  </data>
 </root>

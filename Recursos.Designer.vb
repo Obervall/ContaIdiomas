@@ -832,6 +832,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Existentes.
+    '''</summary>
+    Friend Shared ReadOnly Property Existentes() As String
+        Get
+            Return ResourceManager.GetString("Existentes", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Éxito.
     '''</summary>
     Friend Shared ReadOnly Property Exito() As String

@@ -349,7 +349,7 @@ Public Class IntroApuntes
 
             vtipoGrid = "APUNTES_CONTABLES"
             LlenarGrid(vtipoSql, vtipoGrid, "1")
-            TraducirGridApuntesBD(frmApuntesContables.DgvApuntes, resManager)
+            TraducirGridApuntesBD(frmApuntesContables.DgvApuntes)
 
             Return True
         Catch ex As Exception
@@ -663,7 +663,7 @@ Public Class IntroApuntes
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
-                TraducirGridApuntesBD(frmApuntesContables.DgvApuntes, resManager)
+                TraducirGridApuntesBD(frmApuntesContables.DgvApuntes)
 
 
                 vFilaActual = frmApuntesContables.DgvApuntes.CurrentRow.Index
@@ -807,7 +807,7 @@ Public Class IntroApuntes
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
-                TraducirGridApuntesBD(frmApuntesContables.DgvApuntes, resManager)
+                TraducirGridApuntesBD(frmApuntesContables.DgvApuntes)
 
                 If frmApuntesContables.DgvApuntes.RowCount - 1 >= 0 Then
                     vFila = frmApuntesContables.DgvApuntes.RowCount - 1
@@ -934,7 +934,7 @@ Public Class IntroApuntes
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
-                TraducirGridApuntesBD(frmApuntesContables.DgvApuntes, resManager)
+                TraducirGridApuntesBD(frmApuntesContables.DgvApuntes)
 
                 ' Enfoque seguro al último registro añadido
                 frmApuntesContables.DgvApuntes.Refresh()
@@ -1080,7 +1080,7 @@ Public Class IntroApuntes
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
-                TraducirGridApuntesBD(frmApuntesContables.DgvApuntes, resManager)
+                TraducirGridApuntesBD(frmApuntesContables.DgvApuntes)
 
                 ' Enfoque seguro al último registro añadido en modo ListBox
                 frmApuntesContables.DgvApuntes.Refresh()

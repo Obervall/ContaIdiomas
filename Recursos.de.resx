@@ -254,7 +254,7 @@ Sie werden nicht aus der Datenbank entfernt</value>
     <value>Anzahl</value>
   </data>
   <data name="Saldo" xml:space="preserve">
-    <value>Gleichgewicht</value>
+    <value>Saldo</value>
   </data>
   <data name="ErrorAlEjecutar" xml:space="preserve">
     <value>Fehler laufen</value>
@@ -699,5 +699,8 @@ Die Datei ist nicht geöffnet</value>
   </data>
   <data name="Desc_EL_CORTE_INGLES" xml:space="preserve">
     <value>El Corte Inglés</value>
+  </data>
+  <data name="Existentes" xml:space="preserve">
+    <value>Existenz</value>
   </data>
 </root>
