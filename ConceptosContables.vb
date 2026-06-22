@@ -385,22 +385,47 @@ Public Class ConceptosContables
         ' 2. LEER EL CÓDIGO REAL: La columna "Code" es la Celda 1 de tu Grid (siempre viaja el original, ej: APOTHEKE)
         Dim codigoCelda As String = frmConceptosContables.DgvConceptos.Rows(filaActual).Cells(1).Value.ToString().Trim().ToUpper()
 
+        '' =========================================================================
+        '' 3. REVERTIR EL IDIOMA PARA COMPARAR CON TU LISTA EN ESPAÑOL
+        '' =========================================================================
+        'Dim codigoEnEspañol As String = codigoCelda ' Por defecto asumimos que es ese
+
+        '' Si el sistema no está en español, buscamos la llave original (.Key) en el .resx
+        '' que coincide con la palabra traducida que hay en la celda
+        'Dim resSet As System.Resources.ResourceSet = resManager.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
+        'If resSet IsNot Nothing Then
+        '    For Each dict As System.Collections.DictionaryEntry In resSet
+        '        Dim valorTraducido As String = dict.Value?.ToString().Trim().ToUpper()
+
+        '        ' Si el texto de la celda (ej: "APOTHEKE") coincide con la traducción del .resx
+        '        If valorTraducido = codigoCelda Then
+        '            ' La llave (.Key) es el nombre original en español (ej: "FARMACIA")
+        '            codigoEnEspañol = dict.Key.ToString().Replace("_", " ").ToUpper()
+        '            Exit For
+        '        End If
+        '    Next
+        'End If
+
         ' =========================================================================
-        ' 3. REVERTIR EL IDIOMA PARA COMPARAR CON TU LISTA EN ESPAÑOL
+        ' 3. REVERTIR EL IDIOMA PARA COMPARAR CON TU LISTA EN ESPAÑOL (CORREGIDO)
         ' =========================================================================
         Dim codigoEnEspañol As String = codigoCelda ' Por defecto asumimos que es ese
 
-        ' Si el sistema no está en español, buscamos la llave original (.Key) en el .resx
-        ' que coincide con la palabra traducida que hay en la celda
         Dim resSet As System.Resources.ResourceSet = resManager.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
         If resSet IsNot Nothing Then
             For Each dict As System.Collections.DictionaryEntry In resSet
+                Dim llaveKey As String = dict.Key.ToString()
+
+                ' ¡EL FILTRO FILTRADO MAESTRO!: Si la llave empieza por "Desc_", la ignoramos 
+                ' por completo y saltamos al siguiente elemento del bucle
+                If llaveKey.StartsWith("Desc_", StringComparison.OrdinalIgnoreCase) Then Continue For
+
                 Dim valorTraducido As String = dict.Value?.ToString().Trim().ToUpper()
 
-                ' Si el texto de la celda (ej: "APOTHEKE") coincide con la traducción del .resx
+                ' Si el texto de la celda coincide con la traducción del .resx
                 If valorTraducido = codigoCelda Then
-                    ' La llave (.Key) es el nombre original en español (ej: "FARMACIA")
-                    codigoEnEspañol = dict.Key.ToString().Replace("_", " ").ToUpper()
+                    ' Como ya filtramos "Desc_", aquí la llave SIEMPRE será la limpia (Ej: "GAS_NATURAL")
+                    codigoEnEspañol = llaveKey.Replace("_", " ").ToUpper()
                     Exit For
                 End If
             Next
@@ -417,12 +442,23 @@ Public Class ConceptosContables
             Exit Sub ' Se frena en seco: bloquea por completo la edición
         End If
 
+
+
+        '' Si la llave del recurso empieza por "Desc_", le cortamos EXACTAMENTE los primeros 5 caracteres
+        'If llaveEncontrada.StartsWith("Desc_", StringComparison.OrdinalIgnoreCase) Then
+        '    codigoEnEspañol = llaveEncontrada.Substring(5).Replace("_", " ").ToUpper()
+        'Else
+        '    codigoEnEspañol = llaveEncontrada.Replace("_", " ").ToUpper()
+        'End If
+
+
+
+
         ' =========================================================================
         ' 5. VALIDACIÓN DE BLOQUEO DE EDICIÓN (BLINDADA CONTRA ESPACIOS)
         ' =========================================================================
         ' Eliminamos cualquier guion bajo y espacio para comparar cadenas limpias (Ej: "GASNATURAL")
         Dim textoValidarLimpio As String = codigoEnEspañol.Replace("_", "").Replace(" ", "").Trim().ToUpper()
-
         If ConceptosMuestraSistema.Contains(textoValidarLimpio) Then
             Dim msgAviso As String = resManager.GetString("AvisoConceptoProtegido")
             If String.IsNullOrEmpty(msgAviso) Then msgAviso = "Los conceptos predeterminados del sistema están protegidos contra modificaciones."

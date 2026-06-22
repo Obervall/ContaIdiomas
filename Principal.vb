@@ -94,6 +94,7 @@ Public Class Principal
     End Sub
 
     Private Sub Principal_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
         RefrescarMenus()
 
         '' Esto te mostrará en la ventana de "Salida" los nombres exactos detectados
@@ -227,6 +228,9 @@ Public Class Principal
 
         tipoDsn = "AccessMdb" ' Se conecta a Mdb
         Conectarse(tipoDsn)
+
+        VerificarYActualizarEstructuraBD()
+
 
         'Buscamos Ejercicio
         '******************
@@ -1335,14 +1339,6 @@ Public Class Principal
         Dim sqlCheckApuperDestino As String = "SELECT COUNT(*) FROM APUPER WHERE ConceptoAPP = ?"
         Dim sqlEliminarDestino As String = "DELETE FROM CONCEPTOS WHERE CodigoCON = ?"
 
-        ' === LISTA FIJA DE PROTECCIÓN (TUS CONCEPTOS DE MUESTRA ORIGINALES) LISTA CONCEPTOS === 
-        ' Escribe aquí en mayúsculas los 33 códigos exactos que metes de fábrica en la mdb
-        Dim conceptosMuestra As New System.Collections.Generic.List(Of String)(New String() {
-            "AGUA", "ALIMENTACION", "CANAL+", "CASA", "CLIENTE00", "COMUNIDAD", "DECESOS", "EL CORTE INGLES", "ESTETICA", "FARMACIA", "GAS NATURAL", "GASOLINA", "GASTOS BANCARIOS",
-            "HACIENDA", "IMPUESTO 1", "IMPUESTO 2", "IMPUESTO 3", "IMPUESTO 4", "IMPUESTO 5", "INTERESES", "JARDIN", "LUZ",
-            "OCIO", "PENSION", "REGULARITZACIO 1", "REGULARITZACIO 2", "SEGURO CASA", "SEGURO COCHE", "SEGURO MOTO", "TELEFONO", "VARIOS", "VEHICULOS"
-        })
-
         Dim conceptosMDBAplicacion As New System.Collections.Generic.List(Of String)()
         Dim conceptosAEliminarDestino As New System.Collections.Generic.List(Of String)()
 
@@ -1390,7 +1386,7 @@ Public Class Principal
                     Dim codDestino As String = readerDestino("CodigoCON").ToString().ToUpper()
 
                     ' FILTRO SEGURO: Solo nos interesa si es uno de tus 33 conceptos de fábrica originales
-                    If conceptosMuestra.Contains(codDestino) Then
+                    If ConceptosMuestraSistema.Contains(codDestino) Then
                         conceptosMDBAplicacion.Add(codDestino)
                     End If
                 End While

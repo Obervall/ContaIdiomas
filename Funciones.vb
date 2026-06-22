@@ -1648,27 +1648,50 @@ Module Funciones
 
                 If filaData IsNot Nothing Then
 
-                    ' =============================================================
-                    ' 1. TRADUCCIÓN DE CONCEPTO (Celda 1) - USANDO EL CÓDIGO ESTABLE
-                    ' =============================================================
-                    ' Leemos el código alfanumérico de la celda 8 (Ej: "REGULARITZACIO_1")
+                    ' =========================================================================
+                    ' 1. TRADUCCIÓN DE CONCEPTO (Celda 1 visible - CORREGIDO)
+                    ' =========================================================================
+                    ' Leemos el código alfanumérico estable de la base de datos (Ej: "REGULARITZACIO_1")
                     Dim codigoCON As String = filaData("CodigoCON").ToString().Trim()
 
-                    ' Por defecto, si no hay traducción, se queda el texto original de la BD
-                    Dim conceptoVisual As String = filaData("ConceptoAPU").ToString().Trim().ToUpper()
+                    ' Por defecto, el texto visual será el título original en mayúsculas sin guiones
+                    Dim conceptoVisual As String = codigoCON.Replace("_", " ").ToUpper()
 
                     If resManager IsNot Nothing AndAlso Not String.IsNullOrEmpty(codigoCON) Then
-                        ' Forzamos guiones bajos por si acaso para emparejar con el .resx
                         Dim claveRecurso As String = codigoCON.Replace(" ", "_")
                         Dim traduccion As String = resManager.GetString(claveRecurso)
 
+                        ' Si el resManager encuentra el título traducido (Ej: "PHONE"), lo usamos
                         If Not String.IsNullOrEmpty(traduccion) Then
                             conceptoVisual = traduccion.Trim().ToUpper()
                         End If
                     End If
 
-                    ' Sobreescribimos la celda visible con el idioma correcto
+                    ' IMPACTAR: Forzamos el título en la Celda 1 (Columna de Concepto)
                     row.Cells(1).Value = conceptoVisual
+
+
+                    '' =============================================================
+                    '' 1. TRADUCCIÓN DE CONCEPTO (Celda 1) - USANDO EL CÓDIGO ESTABLE
+                    '' =============================================================
+                    '' Leemos el código alfanumérico de la celda 8 (Ej: "REGULARITZACIO_1")
+                    'Dim codigoCON As String = filaData("CodigoCON").ToString().Trim()
+
+                    '' Por defecto, si no hay traducción, se queda el texto original de la BD
+                    'Dim conceptoVisual As String = filaData("ConceptoAPU").ToString().Trim().ToUpper()
+
+                    'If resManager IsNot Nothing AndAlso Not String.IsNullOrEmpty(codigoCON) Then
+                    '    ' Forzamos guiones bajos por si acaso para emparejar con el .resx
+                    '    Dim claveRecurso As String = codigoCON.Replace(" ", "_")
+                    '    Dim traduccion As String = resManager.GetString(claveRecurso)
+
+                    '    If Not String.IsNullOrEmpty(traduccion) Then
+                    '        conceptoVisual = traduccion.Trim().ToUpper()
+                    '    End If
+                    'End If
+
+                    '' Sobreescribimos la celda visible con el idioma correcto
+                    'row.Cells(1).Value = conceptoVisual
 
 
                     ' =============================================================
@@ -2489,10 +2512,186 @@ Module Funciones
         End Try
     End Sub
 
+    ' === LISTA FIJA DE PROTECCIÓN (TUS CONCEPTOS DE MUESTRA ORIGINALES) LISTA CONCEPTOS === 
+    ' Escribe aquí en mayúsculas los 33 códigos exactos que metes de fábrica en la mdb
     Public ReadOnly Property ConceptosMuestraSistema As New List(Of String)(New String() {
     "AGUA", "ALIMENTACION", "CANAL+", "CASA", "CLIENTE00", "COMUNIDAD", "DECESOS", "EL CORTE INGLES", "ESTETICA", "FARMACIA", "GASNATURAL", "GASOLINA", "GASTOS BANCARIOS",
     "HACIENDA", "IMPUESTO 1", "IMPUESTO 2", "IMPUESTO 3", "IMPUESTO 4", "IMPUESTO 5", "INTERESES", "JARDIN", "LUZ",
     "OCIO", "PENSION", "REGULARITZACIO 1", "REGULARITZACIO 2", "SEGURO CASA", "SEGURO COCHE", "SEGURO MOTO", "TELEFONO", "VARIOS", "VEHICULOS"
 })
+
+    Public Sub VerificarYActualizarEstructuraBD()
+        Dim necesitaActualizar As Boolean = False
+
+        Try
+            cmdMdb1cr.Connection = conexion1
+            cmdMdb1cr.CommandText = "SELECT TOP 1 ConceptoAPU FROM apuntes"
+            cmdMdb1cr.Parameters.Clear()
+
+            Using adapter As New OleDb.OleDbDataAdapter(cmdMdb1cr)
+                Dim dtPrueba As New DataTable()
+                adapter.Fill(dtPrueba)
+                If dtPrueba.Columns("ConceptoAPU").DataType = GetType(String) Then
+                    necesitaActualizar = True
+                End If
+            End Using
+        Catch ex As Exception
+            Exit Sub
+        End Try
+
+        If Not necesitaActualizar Then Exit Sub
+
+        ' =========================================================================
+        ' PROCESO DE MIGRACIÓN BLINDADO POR SOFTWARE
+        ' =========================================================================
+        Try
+            ' 1. Crear columnas temporales en la tabla apuntes
+            Try
+                cmdMdb1cr.CommandText = "ALTER TABLE apuntes ADD COLUMN ConceptoAPU_NEW INTEGER"
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.ExecuteNonQuery()
+            Catch ex As Exception
+                ' Campo ya existente
+            End Try
+
+            Try
+                cmdMdb1cr.CommandText = "ALTER TABLE apuntes ADD COLUMN CuentaAPU_NEW INTEGER"
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.ExecuteNonQuery()
+            Catch ex As Exception
+                ' Campo ya existente
+            End Try
+
+            ' 2. LEER CONCEPTOS ORIGINALES Y ASIGNAR ID CORRELATIVO EN MEMORIA
+            ' Usamos SOLO "CodigoCON" que sabemos por la imagen que existe seguro
+            cmdMdb1cr.CommandText = "SELECT CodigoCON FROM conceptos ORDER BY CodigoCON"
+            cmdMdb1cr.Parameters.Clear()
+
+            Dim listaConceptos As New List(Of KeyValuePair(Of Integer, String))()
+            Dim contadorConcepto As Integer = 1 ' Generamos el ID numérico nosotros mismos
+
+            Using reader As OleDb.OleDbDataReader = cmdMdb1cr.ExecuteReader()
+                While reader.Read()
+                    Dim codigo As String = reader("CodigoCON").ToString().Trim()
+                    listaConceptos.Add(New KeyValuePair(Of Integer, String)(contadorConcepto, codigo))
+                    contadorConcepto += 1
+                End While
+            End Using
+
+            ' Volcar los IDs generados a la tabla apuntes
+            For Each item In listaConceptos
+                cmdMdb1cr.CommandText = "UPDATE apuntes SET ConceptoAPU_NEW = ? WHERE ConceptoAPU = ?"
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.Parameters.AddWithValue("?", item.Key)    ' Número generado (1, 2, 3...)
+                cmdMdb1cr.Parameters.AddWithValue("?", item.Value)  ' Texto original (Ej: "ADESLAS")
+                cmdMdb1cr.ExecuteNonQuery()
+            Next
+
+            ' 3. LEER CUENTAS ORIGINALES Y ASIGNAR ID CORRELATIVO EN MEMORIA
+            ' Usamos SOLO "NombreCUE" que sabemos por la imagen que existe seguro
+            cmdMdb1cr.CommandText = "SELECT NombreCUE FROM cuentas ORDER BY NombreCUE"
+            cmdMdb1cr.Parameters.Clear()
+
+            Dim listaCuentas As New List(Of KeyValuePair(Of Integer, String))()
+            Dim contadorCuenta As Integer = 1 ' Generamos el ID numérico nosotros mismos
+
+            Using reader As OleDb.OleDbDataReader = cmdMdb1cr.ExecuteReader()
+                While reader.Read()
+                    Dim nombre As String = reader("NombreCUE").ToString().Trim()
+                    listaCuentas.Add(New KeyValuePair(Of Integer, String)(contadorCuenta, nombre))
+                    contadorCuenta += 1
+                End While
+            End Using
+
+            ' Volcar los IDs generados a la tabla apuntes
+            For Each item In listaCuentas
+                cmdMdb1cr.CommandText = "UPDATE apuntes SET CuentaAPU_NEW = ? WHERE CuentaAPU = ?"
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.Parameters.AddWithValue("?", item.Key)    ' Número generado (1, 2, 3...)
+                cmdMdb1cr.Parameters.AddWithValue("?", item.Value)  ' Texto original (Ej: "BBVA")
+                cmdMdb1cr.ExecuteNonQuery()
+            Next
+
+            ' 4. REESTRUCTURACIÓN FINAL SEGURA DE LA TABLA APUNTES
+            cmdMdb1cr.CommandText = "ALTER TABLE apuntes DROP COLUMN ConceptoAPU"
+            cmdMdb1cr.Parameters.Clear()
+            cmdMdb1cr.ExecuteNonQuery()
+
+            cmdMdb1cr.CommandText = "ALTER TABLE apuntes DROP COLUMN CuentaAPU"
+            cmdMdb1cr.Parameters.Clear()
+            cmdMdb1cr.ExecuteNonQuery()
+
+            cmdMdb1cr.CommandText = "ALTER TABLE apuntes ADD COLUMN ConceptoAPU INTEGER"
+            cmdMdb1cr.Parameters.Clear()
+            cmdMdb1cr.ExecuteNonQuery()
+
+            cmdMdb1cr.CommandText = "ALTER TABLE apuntes ADD COLUMN CuentaAPU INTEGER"
+            cmdMdb1cr.Parameters.Clear()
+            cmdMdb1cr.ExecuteNonQuery()
+
+            ' Movemos los números reales guardados en las NEW a las definitivas
+            cmdMdb1cr.CommandText = "UPDATE apuntes SET ConceptoAPU = ConceptoAPU_NEW, CuentaAPU = CuentaAPU_NEW"
+            cmdMdb1cr.Parameters.Clear()
+            cmdMdb1cr.ExecuteNonQuery()
+
+            ' Limpieza de columnas temporales
+            cmdMdb1cr.CommandText = "ALTER TABLE apuntes DROP COLUMN ConceptoAPU_NEW"
+            cmdMdb1cr.Parameters.Clear()
+            cmdMdb1cr.ExecuteNonQuery()
+
+            cmdMdb1cr.CommandText = "ALTER TABLE apuntes DROP COLUMN CuentaAPU_NEW"
+            cmdMdb1cr.Parameters.Clear()
+            cmdMdb1cr.ExecuteNonQuery()
+
+            ' =========================================================================
+            ' PASO FINAL: ACTUALIZACIÓN DE LAS TABLAS MAESTROS (CONCEPTOS Y CUENTAS)
+            ' =========================================================================
+
+            ' --- A. ACTUALIZAR TABLA CONCEPTOS ---
+            ' 1. Intentamos añadir la columna numérica por si no existe en el diseño nuevo
+            Try
+                cmdMdb1cr.CommandText = "ALTER TABLE conceptos ADD COLUMN IdConceptoCON INTEGER"
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.ExecuteNonQuery()
+            Catch ex As Exception
+                ' Si ya existe el campo de diseño, continúa
+            End Try
+
+            ' 2. Sincronizamos los mismos IDs numéricos correlativos basados en el orden alfabético
+            For Each item In listaConceptos
+                cmdMdb1cr.CommandText = "UPDATE conceptos SET IdConceptoCON = ? WHERE CodigoCON = ?"
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.Parameters.AddWithValue("?", item.Key)    ' El número correlativo (1, 2, 3...)
+                cmdMdb1cr.Parameters.AddWithValue("?", item.Value)  ' El código de texto (Ej: "ADESLAS") [2026-03-31_17-48]
+                cmdMdb1cr.ExecuteNonQuery()
+            Next
+
+
+            ' --- B. ACTUALIZAR TABLA CUENTAS ---
+            ' 1. Intentamos añadir la columna numérica por si no existe
+            Try
+                cmdMdb1cr.CommandText = "ALTER TABLE cuentas ADD COLUMN IdCuentaCUE INTEGER"
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.ExecuteNonQuery()
+            Catch ex As Exception
+                ' Si ya existe el campo de diseño, continúa
+            End Try
+
+            ' 2. Sincronizamos los mismos IDs numéricos correlativos basados en el orden alfabético
+            For Each item In listaCuentas
+                cmdMdb1cr.CommandText = "UPDATE cuentas SET IdCuentaCUE = ? WHERE NombreCUE = ?"
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.Parameters.AddWithValue("?", item.Key)    ' El número correlativo (1, 2, 3...)
+                cmdMdb1cr.Parameters.AddWithValue("?", item.Value)  ' El nombre de texto (Ej: "BBVA") [2026-03-31_17-48]
+                cmdMdb1cr.ExecuteNonQuery()
+            Next
+
+
+            MsgBox("La base de datos se ha actualizado correctamente conservando todos tus apuntes.", vbInformation, "Actualización Completada")
+
+        Catch ex As Exception
+            MsgBox("Error crítico en migración: " & ex.Message, vbCritical)
+        End Try
+    End Sub
 
 End Module
