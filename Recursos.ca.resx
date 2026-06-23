@@ -703,4 +703,19 @@ que l'arxiu no estigui obert</value>
   <data name="Existentes" xml:space="preserve">
     <value>Existents</value>
   </data>
+  <data name="Atencion" xml:space="preserve">
+    <value>Atenció</value>
+  </data>
+  <data name="ConceptoYRegistrosEliminados" xml:space="preserve">
+    <value>El concepte i tots els seus registres vinculats han estat eliminats correctament</value>
+  </data>
+  <data name="ErrorConceptoYRegistrosEliminados" xml:space="preserve">
+    <value>Error durant l' eliminació en cascada</value>
+  </data>
+  <data name="ErrorRecuperarID" xml:space="preserve">
+    <value>Error en recuperar l' identificador numèric del registre</value>
+  </data>
+  <data name="NoEncuentraRegistro" xml:space="preserve">
+    <value>No es va trobar el registre per actualitzar</value>
+  </data>
 </root>

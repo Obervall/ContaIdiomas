@@ -1,5 +1,4 @@
 ﻿Imports System.Collections.Generic
-Imports System.Data
 Imports System.Drawing
 Imports System.Windows.Forms
 Imports ToolTip = System.Windows.Forms.ToolTip
@@ -68,7 +67,7 @@ Public Class ConceptosContables
     ' --- MÉTODOS DE CONSULTA A BASE DE DATOS Y TRADUCCIÓN ---
 
     Private Sub CargarYTraducirGridCompleto()
-        vtipoSql = "SELECT conceptos.TipoCON, conceptos.CodigoCON, conceptos.DescripcionCON, conceptos.NotasCON FROM conceptos"
+        vtipoSql = "SELECT conceptos.TipoCON, conceptos.CodigoCON, conceptos.DescripcionCON, conceptos.NotasCON, conceptos.IdConceptoCON FROM conceptos"
         vtipoSql += " ORDER BY conceptos.CodigoCON ASC"
         vtipoGrid = "CONCEPTOS_CONTABLES"
 
@@ -87,7 +86,7 @@ Public Class ConceptosContables
             Case 2 : tipoParaDB = "ESPECIAL"
         End Select
 
-        vtipoSql = "SELECT conceptos.TipoCON, conceptos.CodigoCON, conceptos.DescripcionCON, conceptos.NotasCON FROM conceptos"
+        vtipoSql = "SELECT conceptos.TipoCON, conceptos.CodigoCON, conceptos.DescripcionCON, conceptos.NotasCON, conceptos.IdConceptoCON FROM conceptos"
         vtipoSql += " WHERE conceptos.TipoCON = '" & tipoParaDB & "' "
         vtipoSql += " ORDER BY conceptos.CodigoCON ASC"
         vtipoGrid = "CONCEPTOS_CONTABLES"
@@ -123,13 +122,28 @@ Public Class ConceptosContables
 
                             ' --- TRADUCIR COLUMNA (1): CodigoCON ---
                             Dim tradCodigo As String = resManager.GetString(llaveBase)
-                            If Not String.IsNullOrEmpty(tradCodigo) Then fila.Cells(1).Value = tradCodigo
+
+                            If Not String.IsNullOrEmpty(tradCodigo) Then
+                                ' Si tiene traducción (Concepto del sistema), ponemos el idioma activo
+                                fila.Cells(1).Value = tradCodigo.Trim().ToUpper()
+                            Else
+                                ' ¡EL ARREGLO VISUAL!: Si NO tiene traducción (Concepto del usuario),
+                                ' simplemente le quitamos los guiones bajos para que se vea limpio
+                                fila.Cells(1).Value = codigoOriginal.Replace("_", " ").ToUpper()
+                            End If
 
                             ' --- TRADUCIR COLUMNA (2): DescripcionCON ---
                             Dim llaveDesc As String = "Desc_" & llaveBase
                             Dim tradDesc As String = resManager.GetString(llaveDesc)
-                            If Not String.IsNullOrEmpty(tradDesc) Then fila.Cells(2).Value = tradDesc
 
+                            If Not String.IsNullOrEmpty(tradDesc) Then
+                                fila.Cells(2).Value = tradDesc
+                            Else
+                                ' ¡RESPALDO!: Si es del usuario, quitamos guiones de la descripción visual
+                                If fila.Cells(2).Value IsNot Nothing Then
+                                    fila.Cells(2).Value = fila.Cells(2).Value.ToString().Replace("_", " ")
+                                End If
+                            End If
 
                             ' --- TRADUCIR COLUMNA (3): NotasCON (Solo si el origen es ESPECIAL) ---
                             If tipoOriginal = "ESPECIAL" AndAlso fila.Cells(3).Value IsNot Nothing Then
@@ -262,7 +276,10 @@ Public Class ConceptosContables
             If coincidenciaEncontrada Then Exit For
         Next
         If Not coincidenciaEncontrada Then
-            MsgBox(resManager.GetString("MsgDatos1"), vbInformation, resManager.GetString("ToolTipBuscar"))
+            MessageBox.Show(resManager.GetString("MsgDatos1"),
+                resManager.GetString("ToolTipBuscar"),
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information)
             vRow = -1
         End If
     End Sub
@@ -308,7 +325,10 @@ Public Class ConceptosContables
     Private Sub BtnPrimero_Click(sender As Object, e As EventArgs) Handles BtnPrimero.Click
         vFilaActual = DgvConceptos.CurrentRow.Index
         If vFilaActual = 0 Then
-            MsgBox(resManager.GetString("MsgFila1"), vbInformation)
+            MessageBox.Show(resManager.GetString("MsgFila1"),
+                resManager.GetString("Atencion"),
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information)
         Else
             vFila = 0
             DgvConceptos.Rows(vFila).Selected = True
@@ -319,7 +339,10 @@ Public Class ConceptosContables
     Private Sub BtnAnterior_Click(sender As Object, e As EventArgs) Handles BtnAnterior.Click
         vFilaActual = DgvConceptos.CurrentRow.Index
         If vFilaActual = 0 Then
-            MsgBox(resManager.GetString("MsgFila1"), vbInformation)
+            MessageBox.Show(resManager.GetString("MsgFila1"),
+                resManager.GetString("Atencion"),
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information)
         Else
             vFila = vFilaActual - 1
             DgvConceptos.Rows(vFila).Selected = True
@@ -330,7 +353,10 @@ Public Class ConceptosContables
     Private Sub BtnSiguiente_Click(sender As Object, e As EventArgs) Handles BtnSiguiente.Click
         vFilaActual = DgvConceptos.CurrentRow.Index
         If vFilaActual = DgvConceptos.RowCount - 1 Then
-            MsgBox(resManager.GetString("MsgFila2"), vbInformation)
+            MessageBox.Show(resManager.GetString("MsgFila2"),
+                resManager.GetString("Atencion"),
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information)
         Else
             vFila = vFilaActual + 1
             DgvConceptos.Rows(vFila).Selected = True
@@ -341,7 +367,10 @@ Public Class ConceptosContables
     Private Sub BtnUltimo_Click(sender As Object, e As EventArgs) Handles BtnUltimo.Click
         vFilaActual = DgvConceptos.CurrentRow.Index
         If vFilaActual = DgvConceptos.RowCount - 1 Then
-            MsgBox(resManager.GetString("MsgFila2"), vbInformation)
+            MessageBox.Show(resManager.GetString("MsgFila2"),
+                resManager.GetString("Atencion"),
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information)
         Else
             vFila = DgvConceptos.RowCount - 1
             DgvConceptos.Rows(vFila).Selected = True
@@ -361,16 +390,36 @@ Public Class ConceptosContables
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
         frmNuevoConceptoContable.Dispose()
-        vtipoSql = "SELECT conceptos.TipoCON, conceptos.CodigoCON, conceptos.DescripcionCON, conceptos.NotasCON FROM conceptos"
+
+        ' =========================================================================
+        ' ✨ RECARGA INTELIGENTE: Volvemos a llenar el Grid respetando el filtro activo
+        ' =========================================================================
+        vtipoSql = "SELECT conceptos.TipoCON, conceptos.CodigoCON, conceptos.DescripcionCON, conceptos.NotasCON, conceptos.IdConceptoCON FROM conceptos"
+
+        ' Si el botón de filtro está desactivado (Enabled = False), ¡MANTENEMOS EL FILTRO ACTUAL!
         If BtnFiltroTipoConcepto.Enabled = False Then
-            vtipoSql += " WHERE "
-            vtipoSql += "conceptos.TipoCON = '" & CmbTipoConcepto.Text & "' "
+            ' Traducimos la posición del ComboBox a la palabra clave genérica de tu MDB
+            Dim tipoFiltroMDB As String
+
+            If CmbTipoConcepto.SelectedIndex = 0 Then
+                tipoFiltroMDB = "GASTO"
+            ElseIf CmbTipoConcepto.SelectedIndex = 1 Then
+                tipoFiltroMDB = "INGRESO"
+            ElseIf CmbTipoConcepto.SelectedIndex = 2 Then
+                tipoFiltroMDB = "ESPECIAL"
+            Else
+                ' Respaldo por si cambia el orden o se escribe directo
+                tipoFiltroMDB = CmbTipoConcepto.Text.Trim()
+            End If
+
+            ' Inyectamos el filtro genérico blindado en la consulta SQL
+            vtipoSql += " WHERE conceptos.TipoCON = '" & tipoFiltroMDB & "' "
         End If
         vtipoSql += " ORDER BY conceptos.CodigoCON ASC"
         vtipoGrid = "CONCEPTOS_CONTABLES"
-        LlenarGrid(vtipoSql, vtipoGrid, "1")
 
-        ' Traduce los textos de las celdas
+        ' Volvemos a llenar y traducir con la consulta correcta
+        LlenarGrid(vtipoSql, vtipoGrid, "1")
         TraducirCeldasDelGrid()
     End Sub
 
@@ -384,27 +433,6 @@ Public Class ConceptosContables
 
         ' 2. LEER EL CÓDIGO REAL: La columna "Code" es la Celda 1 de tu Grid (siempre viaja el original, ej: APOTHEKE)
         Dim codigoCelda As String = frmConceptosContables.DgvConceptos.Rows(filaActual).Cells(1).Value.ToString().Trim().ToUpper()
-
-        '' =========================================================================
-        '' 3. REVERTIR EL IDIOMA PARA COMPARAR CON TU LISTA EN ESPAÑOL
-        '' =========================================================================
-        'Dim codigoEnEspañol As String = codigoCelda ' Por defecto asumimos que es ese
-
-        '' Si el sistema no está en español, buscamos la llave original (.Key) en el .resx
-        '' que coincide con la palabra traducida que hay en la celda
-        'Dim resSet As System.Resources.ResourceSet = resManager.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
-        'If resSet IsNot Nothing Then
-        '    For Each dict As System.Collections.DictionaryEntry In resSet
-        '        Dim valorTraducido As String = dict.Value?.ToString().Trim().ToUpper()
-
-        '        ' Si el texto de la celda (ej: "APOTHEKE") coincide con la traducción del .resx
-        '        If valorTraducido = codigoCelda Then
-        '            ' La llave (.Key) es el nombre original en español (ej: "FARMACIA")
-        '            codigoEnEspañol = dict.Key.ToString().Replace("_", " ").ToUpper()
-        '            Exit For
-        '        End If
-        '    Next
-        'End If
 
         ' =========================================================================
         ' 3. REVERTIR EL IDIOMA PARA COMPARAR CON TU LISTA EN ESPAÑOL (CORREGIDO)
@@ -442,18 +470,6 @@ Public Class ConceptosContables
             Exit Sub ' Se frena en seco: bloquea por completo la edición
         End If
 
-
-
-        '' Si la llave del recurso empieza por "Desc_", le cortamos EXACTAMENTE los primeros 5 caracteres
-        'If llaveEncontrada.StartsWith("Desc_", StringComparison.OrdinalIgnoreCase) Then
-        '    codigoEnEspañol = llaveEncontrada.Substring(5).Replace("_", " ").ToUpper()
-        'Else
-        '    codigoEnEspañol = llaveEncontrada.Replace("_", " ").ToUpper()
-        'End If
-
-
-
-
         ' =========================================================================
         ' 5. VALIDACIÓN DE BLOQUEO DE EDICIÓN (BLINDADA CONTRA ESPACIOS)
         ' =========================================================================
@@ -466,18 +482,6 @@ Public Class ConceptosContables
             Exit Sub
         End If
 
-        '' =========================================================================
-        '' 5. VALIDACIÓN DE BLOQUEO DE EDICIÓN (LISTA DEL MÓDULO)
-        '' =========================================================================
-        '' Apuntamos directamente a la lista global que creamos en tu módulo
-        'If ConceptosMuestraSistema.Contains(codigoEnEspañol) Then
-        '    Dim msgAviso As String = resManager.GetString("AvisoConceptoProtegido")
-        '    If String.IsNullOrEmpty(msgAviso) Then msgAviso = "Los conceptos predeterminados del sistema están protegidos contra modificaciones."
-        '    MessageBox.Show(msgAviso, resManager.GetString("Aviso"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        '    Exit Sub ' Se frena en seco: bloquea por completo la edición
-        'End If
-
-
         ' 6. ABRIR FORMULARIO DE EDICIÓN MODAL (Si es un concepto creado por el usuario, sí le deja pasar)
         vTxtNombre = codigoCelda
         If ((frmEditarConceptoContable Is Nothing) OrElse (Not frmEditarConceptoContable.IsHandleCreated)) Then
@@ -489,9 +493,25 @@ Public Class ConceptosContables
         frmEditarConceptoContable.Dispose()
 
         ' 7. REFRESCAR EL GRID (Tu código de recarga habitual)
-        vtipoSql = "SELECT conceptos.TipoCON, conceptos.CodigoCON, conceptos.DescripcionCON, conceptos.NotasCON FROM conceptos"
+        vtipoSql = "SELECT conceptos.TipoCON, conceptos.CodigoCON, conceptos.DescripcionCON, conceptos.NotasCON, conceptos.IdConceptoCON FROM conceptos"
+        ' Si el botón de filtro está desactivado (Enabled = False), ¡MANTENEMOS EL FILTRO ACTUAL!
         If BtnFiltroTipoConcepto.Enabled = False Then
-            vtipoSql += " WHERE conceptos.TipoCON = '" & CmbTipoConcepto.Text & "' "
+            ' Traducimos la posición del ComboBox a la palabra clave genérica de tu MDB
+            Dim tipoFiltroMDB As String
+
+            If CmbTipoConcepto.SelectedIndex = 0 Then
+                tipoFiltroMDB = "GASTO"
+            ElseIf CmbTipoConcepto.SelectedIndex = 1 Then
+                tipoFiltroMDB = "INGRESO"
+            ElseIf CmbTipoConcepto.SelectedIndex = 2 Then
+                tipoFiltroMDB = "ESPECIAL"
+            Else
+                ' Respaldo por si cambia el orden o se escribe directo
+                tipoFiltroMDB = CmbTipoConcepto.Text.Trim()
+            End If
+
+            ' Inyectamos el filtro genérico blindado en la consulta SQL
+            vtipoSql += " WHERE conceptos.TipoCON = '" & tipoFiltroMDB & "' "
         End If
         vtipoSql += " ORDER BY conceptos.CodigoCON ASC"
         vtipoGrid = "CONCEPTOS_CONTABLES"
@@ -502,87 +522,6 @@ Public Class ConceptosContables
         DgvConceptos.CurrentCell = DgvConceptos.Rows(filaActual).Cells(0)
         DgvConceptos.Rows(filaActual).Selected = True
     End Sub
-
-    'Private Sub BtnEditarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEditarRegistro.Click
-    '    filaActual = frmConceptosContables.DgvConceptos.CurrentRow.Index
-    '    vTxtNombre = frmConceptosContables.DgvConceptos.Rows(filaActual).Cells(1).Value.ToString
-
-    '    ' --- VALIDACIÓN: PROTEGER CONCEPTOS DE MUESTRA (OPTIMIZADO) ---
-    '    Dim esConceptoDeMuestra As Boolean = False
-    '    Dim textoCelda As String = vTxtNombre.Trim().ToUpper()
-
-    '    ' 1. Si el sistema está en español, la llave coincide directamente en mayúsculas/guiones
-    '    Dim llaveBase As String = textoCelda.Replace(" ", "_")
-
-    '    If resManager.GetString(llaveBase) IsNot Nothing OrElse resManager.GetString("Desc_" & llaveBase) IsNot Nothing Then
-    '        esConceptoDeMuestra = True
-    '    Else
-    '        ' 2. Si está en otro idioma, buscamos qué llave del ResX coincide con el texto traducido de la celda.
-    '        ' Usamos CurrentUICulture (idioma de la interfaz) en lugar de CurrentCulture (formatos de fecha/números).
-    '        Dim resSet As System.Resources.ResourceSet = resManager.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
-
-    '        If resSet IsNot Nothing Then
-    '            For Each dict As System.Collections.DictionaryEntry In resSet
-    '                Dim valorTraducido As String = dict.Value?.ToString().Trim().ToUpper()
-
-    '                If valorTraducido = textoCelda Then
-    '                    esConceptoDeMuestra = True
-    '                    Exit For
-    '                End If
-    '            Next
-    '        End If
-    '    End If
-
-    '    'Colocar un codigo para que revise si el vTxtNombre existe realmente en la tabla Conceptos en CodigoCON (0)
-    '    'si existe esConceptoDeMuestra pasa a False
-    '    Dim queryVerificar As String = "SELECT COUNT(*) FROM Conceptos WHERE CodigoCON = ?"
-    '    Try
-    '        Using cmd As New OleDb.OleDbCommand(queryVerificar, conexion1)
-    '            ' Asignamos directamente vTxtNombre como parámetro tal como indicas
-    '            cmd.Parameters.Add("?", OleDb.OleDbType.VarChar).Value = vTxtNombre
-    '            Dim conteo As Integer = Convert.ToInt32(cmd.ExecuteScalar())
-    '            ' Si el conteo es mayor a 0, significa que existe y pasa a False
-    '            If conteo > 0 Then
-    '                esConceptoDeMuestra = False
-    '            End If
-    '        End Using
-    '    Catch ex As Exception
-    '        MessageBox.Show(ex.Message, resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
-    '    End Try
-
-    '    If esConceptoDeMuestra Then
-    '        Dim msgAviso As String = resManager.GetString("AvisoConceptoProtegido")
-    '        If String.IsNullOrEmpty(msgAviso) Then msgAviso = "Los conceptos predeterminados del sistema están protegidos contra modificaciones."
-    '        MessageBox.Show(msgAviso, resManager.GetString("Aviso"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
-    '        Exit Sub
-    '    End If
-
-    '    ' Comprobamos si existe un identificador asociado.
-    '    If ((frmEditarConceptoContable Is Nothing) OrElse (Not frmEditarConceptoContable.IsHandleCreated)) Then
-    '        frmEditarConceptoContable = New EditarConceptoContable
-    '    End If
-    '    ' Llamamos al formulario de manera modal.
-    '    If vEditar = "NO" Then
-    '        vEditar = "SI"  ' Editar
-    '    Else
-    '        vEditar = "SI"
-    '    End If
-    '    frmEditarConceptoContable.ShowDialog()
-    '    'MessageBox.Show("Se ha cerrado el formulario.")
-    '    ' Destruimos el formulario.
-    '    frmEditarConceptoContable.Dispose()
-    '    vtipoSql = "SELECT conceptos.TipoCON, conceptos.CodigoCON, conceptos.DescripcionCON, conceptos.NotasCON FROM conceptos"
-    '    If BtnFiltroTipoConcepto.Enabled = False Then
-    '        vtipoSql += " WHERE "
-    '        vtipoSql += "conceptos.TipoCON = '" & CmbTipoConcepto.Text & "' "
-    '    End If
-    '    vtipoSql += " ORDER BY conceptos.CodigoCON ASC"
-    '    vtipoGrid = "CONCEPTOS_CONTABLES"
-    '    LlenarGrid(vtipoSql, vtipoGrid, "1")
-    '    TraducirCeldasDelGrid()
-    '    DgvConceptos.CurrentCell = DgvConceptos.Rows(filaActual).Cells(0)
-    '    DgvConceptos.Rows(filaActual).Selected = True
-    'End Sub
 
     Private Sub BtnEliminarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEliminarRegistro.Click
         filaActual = frmConceptosContables.DgvConceptos.CurrentRow.Index
@@ -602,18 +541,40 @@ Public Class ConceptosContables
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
         frmEditarConceptoContable.Dispose()
-        vtipoSql = "SELECT conceptos.TipoCON, conceptos.CodigoCON, conceptos.DescripcionCON, conceptos.NotasCON FROM conceptos"
+
+        ' =========================================================================
+        ' ✨ RECARGA INTELIGENTE: Volvemos a llenar el Grid respetando el filtro activo
+        ' =========================================================================
+        vtipoSql = "SELECT conceptos.TipoCON, conceptos.CodigoCON, conceptos.DescripcionCON, conceptos.NotasCON, conceptos.IdConceptoCON FROM conceptos"
+
+        ' Si el botón de filtro está desactivado (Enabled = False), ¡MANTENEMOS EL FILTRO ACTUAL!
         If BtnFiltroTipoConcepto.Enabled = False Then
-            vtipoSql += " WHERE "
-            vtipoSql += "conceptos.TipoCON = '" & CmbTipoConcepto.Text & "' "
+            ' Traducimos la posición del ComboBox a la palabra clave genérica de tu MDB
+            Dim tipoFiltroMDB As String = ""
+
+            If CmbTipoConcepto.SelectedIndex = 0 Then
+                tipoFiltroMDB = "GASTO"
+            ElseIf CmbTipoConcepto.SelectedIndex = 1 Then
+                tipoFiltroMDB = "INGRESO"
+            ElseIf CmbTipoConcepto.SelectedIndex = 2 Then
+                tipoFiltroMDB = "ESPECIAL"
+            Else
+                ' Respaldo por si cambia el orden o se escribe directo
+                tipoFiltroMDB = CmbTipoConcepto.Text.Trim()
+            End If
+
+            ' Inyectamos el filtro genérico blindado en la consulta SQL
+            vtipoSql += " WHERE conceptos.TipoCON = '" & tipoFiltroMDB & "' "
         End If
         vtipoSql += " ORDER BY conceptos.CodigoCON ASC"
         vtipoGrid = "CONCEPTOS_CONTABLES"
+
+        ' Volvemos a llenar y traducir con la consulta correcta
         LlenarGrid(vtipoSql, vtipoGrid, "1")
         TraducirCeldasDelGrid()
+
         DgvConceptos.CurrentCell = DgvConceptos.Rows(filaActual).Cells(0)
         DgvConceptos.Rows(filaActual).Selected = True
-
     End Sub
 
     Private Sub BtnImprimir_Click(sender As Object, e As EventArgs) Handles BtnImprimir.Click
@@ -621,53 +582,91 @@ Public Class ConceptosContables
         PrintLine = 0
         Contador = 0
 
-        ' ✨ CORRECCIÓN CRÍTICA: Recuperamos la carga de datos en la plantilla 'frmImprimirForm'
-        ' Generamos la consulta SQL idéntica a la que usas en tu pantalla principal para ver los conceptos
-        Dim sqlConceptos As String = "SELECT TipoCON, CodigoCON, DescripcionCON, NotasCON FROM conceptos ORDER BY CodigoCON ASC"
+        ' =========================================================================
+        ' ✨ DINÁMICO Y FILTRADO: Construimos la consulta respetando el filtro de la pantalla
+        ' =========================================================================
+        Dim sqlConceptos As String = "SELECT TipoCON, CodigoCON, DescripcionCON, NotasCON FROM conceptos"
+
+        ' Si el botón de filtro está desactivado (Enabled = False), significa que hay un filtro activo
+        If BtnFiltroTipoConcepto.Enabled = False Then
+            ' Traducimos la posición del ComboBox a la palabra clave exacta de tu MDB
+            Dim tipoFiltroMDB As String = ""
+
+            If CmbTipoConcepto.SelectedIndex = 0 Then
+                tipoFiltroMDB = "GASTO"
+            ElseIf CmbTipoConcepto.SelectedIndex = 1 Then
+                tipoFiltroMDB = "INGRESO"
+            ElseIf CmbTipoConcepto.SelectedIndex = 2 Then
+                tipoFiltroMDB = "ESPECIAL"
+            Else
+                ' Respaldo por si cambia el orden o se escribe directo
+                tipoFiltroMDB = CmbTipoConcepto.Text.Trim()
+            End If
+
+            ' Inyectamos el filtro blindado en la consulta SQL
+            sqlConceptos += " WHERE conceptos.TipoCON = '" & tipoFiltroMDB & "' "
+        End If
+
+        sqlConceptos += " ORDER BY conceptos.CodigoCON ASC"
 
         Try
-            ' Aquí llamas a tu método del módulo (pon el nombre real de tu Sub, por ejemplo: LlenarGrid)
-            ' Le pasas la consulta SQL, el identificador del Grid "PRINT_CONCEPTOS" y tus parámetros habituales
+            ' Cargamos los datos filtrados en el Grid de la plantilla de impresión
             LlenarGrid(sqlConceptos, "PRINT_CONCEPTOS", "1")
 
-            ' Traducimos las celdas del Grid de la plantilla "al vuelo" antes de imprimir
-            ' para que salgan en el papel en el idioma que el usuario tiene activo AHORA MISMO
-            If My.Settings.CulturaUsuario IsNot Nothing AndAlso Not My.Settings.CulturaUsuario.StartsWith("es", StringComparison.OrdinalIgnoreCase) Then
-                For Each fila As DataGridViewRow In frmImprimirForm.DgvApuntes.Rows
-                    If Not fila.IsNewRow AndAlso fila.Cells(1).Value IsNot Nothing Then
-                        Dim codigoOriginal As String = fila.Cells(1).Value.ToString().Trim()
-                        Dim llaveBase As String = codigoOriginal.Replace(" ", "_")
-
-                        ' Traducir Código (Celda 1)
-                        Dim tradCodigo As String = resManager.GetString(llaveBase)
-                        If Not String.IsNullOrEmpty(tradCodigo) Then fila.Cells(1).Value = tradCodigo
-
-                        ' Traducir Descripción (Celda 2)
-                        Dim tradDesc As String = resManager.GetString("Desc_" & llaveBase)
-                        If Not String.IsNullOrEmpty(tradDesc) Then fila.Cells(2).Value = tradDesc
-
-                        ' Traducir Tipo (Celda 0)
-                        Dim tipoOriginal As String = fila.Cells(0).Value.ToString().Trim().ToUpper()
-                        Dim tradTipo As String = ""
-                        Select Case tipoOriginal
-                            Case "GASTO" : tradTipo = resManager.GetString("Tipo_Gasto")
-                            Case "INGRESO" : tradTipo = resManager.GetString("Tipo_Ingreso")
-                            Case "ESPECIAL" : tradTipo = resManager.GetString("Tipo_Especial")
-                        End Select
-                        If Not String.IsNullOrEmpty(tradTipo) Then fila.Cells(0).Value = tradTipo
-                    End If
-                Next
+            ' Comprobación de seguridad: si el Grid se quedó vacío, salimos avisando
+            If frmImprimirForm.DgvApuntes.Rows.Count = 0 Then
+                MessageBox.Show("No hay datos disponibles para imprimir con el filtro seleccionado.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
             End If
+
+            ' =========================================================================
+            ' TRADUCCIÓN Y LIMPIEZA VISUAL PARA EL PAPEL IMPRESO
+            ' =========================================================================
+            For Each fila As DataGridViewRow In frmImprimirForm.DgvApuntes.Rows
+                If Not fila.IsNewRow AndAlso fila.Cells(1).Value IsNot Nothing Then
+                    Dim codigoOriginal As String = fila.Cells(1).Value.ToString().Trim()
+                    Dim llaveBase As String = codigoOriginal.Replace(" ", "_")
+
+                    ' --- A. Traducir Tipo (Celda 0) ---
+                    Dim tipoOriginal As String = fila.Cells(0).Value.ToString().Trim().ToUpper()
+                    Dim tradTipo As String = ""
+                    Select Case tipoOriginal
+                        Case "GASTO" : tradTipo = resManager.GetString("Tipo_Gasto")
+                        Case "INGRESO" : tradTipo = resManager.GetString("Tipo_Ingreso")
+                        Case "ESPECIAL" : tradTipo = resManager.GetString("Tipo_Especial")
+                    End Select
+                    If Not String.IsNullOrEmpty(tradTipo) Then fila.Cells(0).Value = tradTipo
+
+                    ' --- B. Traducir o Limpiar Código (Celda 1) ---
+                    Dim tradCodigo As String = resManager.GetString(llaveBase)
+                    If Not String.IsNullOrEmpty(tradCodigo) Then
+                        fila.Cells(1).Value = tradCodigo.Trim().ToUpper()
+                    Else
+                        ' ¡EL ARREGLO VISUAL!: Si es propio del usuario, le quitamos los guiones para el papel
+                        fila.Cells(1).Value = codigoOriginal.Replace("_", " ").ToUpper()
+                    End If
+
+                    ' --- C. Traducir o Limpiar Descripción (Celda 2) ---
+                    Dim tradDesc As String = resManager.GetString("Desc_" & llaveBase)
+                    If Not String.IsNullOrEmpty(tradDesc) Then
+                        fila.Cells(2).Value = tradDesc
+                    Else
+                        ' Si es del usuario, quitamos guiones de la descripción para que salga limpia
+                        If fila.Cells(2).Value IsNot Nothing Then
+                            fila.Cells(2).Value = fila.Cells(2).Value.ToString().Replace("_", " ")
+                        End If
+                    End If
+                End If
+            Next
+
         Catch ex As Exception
             MsgBox(ex.Message)
             Exit Sub
         End Try
 
-
         ' 2. Lógica de lanzamiento de la impresión (Se mantiene igual a tu código original)
         Dim seHaLanzado As Boolean = False
 
-        ' En tu BtnImprimir_Click, antes de "If My.Settings.Previsualizar = True Then"
         PrintDocument1.DefaultPageSettings = New System.Drawing.Printing.PageSettings(PrintDocument1.PrinterSettings)
         Application.DoEvents() ' Fuerza a Windows a vaciar la caché visual y aplicar el idioma actual
 

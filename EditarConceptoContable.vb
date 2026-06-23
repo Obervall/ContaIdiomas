@@ -1,5 +1,4 @@
-﻿Imports System.Data
-Imports System.Windows.Forms
+﻿Imports System.Windows.Forms
 
 Public Class EditarConceptoContable
 
@@ -95,195 +94,152 @@ Public Class EditarConceptoContable
     End Sub
 
     Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click
+        ' 1. Capturamos los textos de los cuadros del formulario
         vTxtNombre = TxtNombre.Text.Trim()
-        vTxtDescripcion = TxtDescripcion.Text.Trim() ' Ya no necesitas cambiar apóstrofes si usas parámetros
+        vTxtDescripcion = TxtDescripcion.Text.Trim()
         vTxtNotas = TxtNota.Text.Trim()
 
-        ' --- TRADUCCIÓN INVERSA OPTIMIZADA ---
-        Dim codigoOriginalMDB As String = vTxtNombre
-        Dim textoBuscar As String = vTxtNombre.ToUpper()
-
-        ' Buscamos la llave original en el archivo de recursos de la interfaz actual
-        Dim resSet As System.Resources.ResourceSet = resManager.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
-
-        If resSet IsNot Nothing Then
-            For Each dict As System.Collections.DictionaryEntry In resSet
-                ' Evitamos nulos con el operador '?' y normalizamos a mayúsculas
-                Dim valorTraducido As String = dict.Value?.ToString().Trim().ToUpper()
-
-                If valorTraducido = textoBuscar Then
-                    ' Encontramos la llave original de la base de datos (Ej: "ALQUILER")
-                    codigoOriginalMDB = dict.Key.ToString()
-                    Exit For
-                End If
-            Next
-        End If
-
-        ' --- CONTROL DE CONCEPTOS PROPIOS (Ej: en catalán o personalizados) ---
-        ' Si tras buscar en el .resx encontramos una coincidencia, verificamos si es una de tus 
-        ' llaves de sistema. Si no coincide con ninguna traducción real del sistema, 
-        ' asumimos que es un concepto propio del usuario y mantenemos su texto original.
-        If codigoOriginalMDB <> vTxtNombre Then
-            ' Verificación secundaria: ¿La llave encontrada realmente existe en tu gestor de recursos?
-            If resManager.GetString(codigoOriginalMDB) Is Nothing AndAlso resManager.GetString("Desc_" & codigoOriginalMDB) Is Nothing Then
-                ' Si no es una llave del sistema, es un texto propio del usuario
-                codigoOriginalMDB = vTxtNombre
-            End If
-        End If
-
-        ' Modificar Registro usando parámetros seguros
-        ' *******************************************************
-        vtipoSql = "UPDATE conceptos SET DescripcionCON = ?, NotasCON = ? " &
-           "WHERE conceptos.CodigoCON = ?"
-
-        cmdMdb1cr.CommandText = vtipoSql
-
-        ' ¡Recuerda! En Access/OleDb el orden de los parámetros debe ser EXACTO al del SQL
-        cmdMdb1cr.Parameters.Clear()
-        cmdMdb1cr.Parameters.AddWithValue("@DescripcionCON", vTxtDescripcion) ' Soporta apóstrofes nativos (')
-        cmdMdb1cr.Parameters.AddWithValue("@NotasCON", vTxtNotas)             ' Soporta apóstrofes nativos (')
-        cmdMdb1cr.Parameters.AddWithValue("@CodigoCON", codigoOriginalMDB)   ' Filtro WHERE usando la clave recuperada
+        ' 2. OBTENER EL ID NUMÉRICO REAL DESDE EL GRID DE LA PANTALLA ANTERIOR
+        Dim idConceptoModificar As Integer
 
         Try
-            cmdMdb1cr.ExecuteNonQuery()
-            Me.Close()
+            Dim filaActual As Integer = frmConceptosContables.DgvConceptos.CurrentRow.Index
+            ' Recuperamos el Id numérico de la fila seleccionada
+            idConceptoModificar = Convert.ToInt32(frmConceptosContables.DgvConceptos.Rows(filaActual).Cells(4).Value)
         Catch ex As Exception
-            ' Mensaje de error traducido desde tu gestor de recursos
-            MessageBox.Show(resManager.GetString("ErrorModificarRegistro"),
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error)
+            MessageBox.Show("Error al recuperar el identificador del registro.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Exit Sub
+        End Try
+
+        ' 3. CONFIGURAR EL UPDATE USANDO EL ID NUMÉRICO (Inmune a problemas de guiones)
+        ' Si además quieres permitir que se edite el NOMBRE del concepto y se guarde con guion, usa la línea de abajo comentada.
+        ' De momento, modificamos solo Descripción y Notas:
+        vtipoSql = "UPDATE conceptos SET DescripcionCON = ?, NotasCON = ? WHERE IdConceptoCON = ?"
+        cmdMdb1cr.CommandText = vtipoSql
+
+        ' En Access/OleDb el orden de los parámetros debe ser STABLE y EXACTO al del SQL
+        cmdMdb1cr.Parameters.Clear()
+        cmdMdb1cr.Parameters.AddWithValue("@DescripcionCON", vTxtDescripcion)
+        cmdMdb1cr.Parameters.AddWithValue("@NotasCON", vTxtNotas)
+        cmdMdb1cr.Parameters.AddWithValue("@IdConceptoCON", idConceptoModificar) ' Filtro WHERE
+
+        Try
+            Dim filasAfectadas As Integer = cmdMdb1cr.ExecuteNonQuery()
+
+            If filasAfectadas > 0 Then
+                Me.Close() ' Guardado con éxito, cierra la ventana modal
+            Else
+                MessageBox.Show("No se encontró el registro para actualizar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
+        Catch ex As Exception
+            MessageBox.Show(resManager.GetString("ErrorModificarRegistro") & vbNewLine & ex.Message,
+                "Error",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error)
         End Try
     End Sub
 
     Private Sub BtnEliminar_Click(sender As Object, e As EventArgs) Handles BtnEliminar.Click
-        ' 1. Obtener el nombre del concepto visible que se pretende eliminar
+        ' 1. Capturamos el texto visual solo para los mensajes de la pantalla
         vTxtNombre = TxtNombre.Text.Trim()
 
-        ' 2. REVERTIR EL IDIOMA (Búsqueda inversa usando tu variable de cultura original)
-        Dim nombreOriginalBD As String = vTxtNombre
-        Dim textoBuscar As String = vTxtNombre.ToUpper()
-
-        ' .NET lee automáticamente el idioma visual que se activó en tus Preferencias
-        Dim recursos As System.Resources.ResourceSet = resManager.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
-
-        If recursos IsNot Nothing Then
-            For Each elemento As System.Collections.DictionaryEntry In recursos
-                Dim valorTraducido As String = elemento.Value?.ToString().Trim().ToUpper()
-
-                If valorTraducido = textoBuscar Then
-                    Dim llaveEncontrada As String = elemento.Key.ToString()
-
-                    ' Si la llave corresponde a una descripción (Desc_), le quitamos el prefijo
-                    If llaveEncontrada.StartsWith("Desc_", StringComparison.OrdinalIgnoreCase) Then
-                        nombreOriginalBD = llaveEncontrada.Substring(5)
-                    Else
-                        nombreOriginalBD = llaveEncontrada
-                    End If
-                    Exit For
-                End If
-            Next
-        End If
-
         ' =========================================================================
-        ' NUEVO PASO CLAVE: OBTENER EL ID NUMÉRICO DEL CONCEPTO (IdConceptoCON)
+        ' 2. OBTENER EL ID NUMÉRICO DIRECTO DESDE EL GRID DE LA PANTALLA ANTERIOR
         ' =========================================================================
-        ' Buscamos tanto el TipoCON (para proteger los especiales) como el ID real usando el Código alfanumérico estable
-        Dim vSqlVerificarEspecial As String = "SELECT IdConceptoCON, TipoCON FROM conceptos WHERE CodigoCON = ?"
-        cmdMdb1cr.CommandText = vSqlVerificarEspecial
-        cmdMdb1cr.Parameters.Clear()
-        cmdMdb1cr.Parameters.AddWithValue("?", nombreOriginalBD)
-
         Dim idConcepto As Integer = 0
-        Dim tipoOrigen As String = ""
-
         Try
-            Using reader As OleDb.OleDbDataReader = cmdMdb1cr.ExecuteReader()
-                If reader.Read() Then
-                    idConcepto = Convert.ToInt32(reader("IdConceptoCON"))
-                    tipoOrigen = reader("TipoCON").ToString().Trim().ToUpper()
-                Else
-                    ' Si por algún motivo no encuentra el concepto, cancelamos la operación
-                    MsgBox("Error: No se encontró el concepto en la base de datos.", vbCritical)
-                    Exit Sub
-                End If
-            End Using
-
-            ' Si el resultado coincide con "ESPECIAL", bloqueamos la acción por completo
-            If tipoOrigen = "ESPECIAL" Then
-                MsgBox(rmse.GetString("ConceptoSistemaNoBorrar"), vbExclamation, resManager.GetString("AccionCancelada"))
-                Exit Sub
-            End If
+            Dim filaActual As Integer = frmConceptosContables.DgvConceptos.CurrentRow.Index
+            ' Extraemos el ID numérico real guardado en la celda oculta (4)
+            idConcepto = Convert.ToInt32(frmConceptosContables.DgvConceptos.Rows(filaActual).Cells(4).Value)
         Catch ex As Exception
-            MsgBox(resManager.GetString("ErrorVerificarIntegridad") & ": " & ex.Message, vbCritical, rmse.GetString("$this.Text"))
+            MessageBox.Show("Error al recuperar el identificador para la eliminación.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End Try
 
-        ' 4. Mensaje de confirmación (Muestra el texto que el usuario entiende)
-        Dim respuesta As MsgBoxResult = MsgBox(rmse.GetString("EliminarConcepto") & " " & vTxtNombre & " " & rmse.GetString("EliminarConcepto2"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("LblEliminando"))
+        ' =========================================================================
+        ' 3. VALIDACIÓN DE PROTECCIÓN: CONCEPTOS "ESPECIAL"
+        ' =========================================================================
+        ' Consultamos el TipoCON directamente a través de su ID numérico estable
+        Dim vSqlVerificarEspecial As String = "SELECT TipoCON FROM conceptos WHERE IdConceptoCON = ?"
+        cmdMdb1cr.CommandText = vSqlVerificarEspecial
+        cmdMdb1cr.Parameters.Clear()
+        cmdMdb1cr.Parameters.AddWithValue("?", idConcepto)
 
+        Dim tipoOrigen As String = ""
+        Try
+            Dim resultado As Object = cmdMdb1cr.ExecuteScalar()
+            If resultado IsNot Nothing Then
+                tipoOrigen = resultado.ToString().Trim().ToUpper()
+            End If
+
+            ' Bloqueo absoluto si es de fábrica/sistema
+            If tipoOrigen = "ESPECIAL" Then
+                MessageBox.Show(rmse.GetString("ConceptoSistemaNoBorrar"),
+                resManager.GetString("AccionCancelada"),
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
+        Catch ex As Exception
+            MessageBox.Show(rmse.GetString("ConceptoSistemaNoBorrar"),
+                resManager.GetString("$this.Text"),
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information)
+            Exit Sub
+        End Try
+
+        ' =========================================================================
+        ' 4. MENSAJE DE CONFIRMACIÓN ÚNICO Y ADVERTENCIA EN CASCADA
+        ' =========================================================================
+        ' Construimos un mensaje claro que avise al usuario del impacto total en la base de datos
+        Dim mensajeAlerta As String = rmse.GetString("EliminarConcepto") & " [" & vTxtNombre & "] " & rmse.GetString("EliminarConcepto2") & vbNewLine & vbNewLine &
+                                  "⚠️ ADVERTENCIA: Esta acción eliminará de forma irreversible todos los apuntes históricos, " &
+                                  "apuntes periódicos y presupuestos asociados a este concepto."
+
+        Dim respuesta As MsgBoxResult = MsgBox(mensajeAlerta, vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("LblEliminando"))
+
+        ' =========================================================================
+        ' 5. EJECUCIÓN DEL BORRADO INTEGRAL POR ID NUMÉRICO
+        ' =========================================================================
         If respuesta = vbYes Then
-
-            ' =========================================================================
-            ' A. Eliminar el Registro en la tabla CONCEPTOS (Mantiene su filtro por Código)
-            ' =========================================================================
-            vtipoSql = "DELETE FROM conceptos WHERE CodigoCON = ?"
-            cmdMdb1cr.CommandText = vtipoSql
-            cmdMdb1cr.Parameters.Clear()
-            cmdMdb1cr.Parameters.AddWithValue("?", nombreOriginalBD)
             Try
+                ' A. Tabla: conceptos (¡CORREGIDO! Ahora filtra por ID numérico)
+                cmdMdb1cr.CommandText = "DELETE FROM conceptos WHERE IdConceptoCON = ?"
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.Parameters.AddWithValue("?", idConcepto)
                 cmdMdb1cr.ExecuteNonQuery()
-                MsgBox(frmEditarConceptoContable.rmse.GetString("EliminarConcepto3"))
-            Catch ex As Exception
-                MsgBox(ex.Message)
-            End Try
 
-            ' =========================================================================
-            ' B. Eliminar Registros Apuntes (¡CORREGIDO! Ahora usa el ID Numérico)
-            ' =========================================================================
-            vtipoSql = "DELETE FROM apuntes WHERE ConceptoAPU = ?"
-            cmdMdb1cr.CommandText = vtipoSql
-            cmdMdb1cr.Parameters.Clear()
-            cmdMdb1cr.Parameters.AddWithValue("?", idConcepto) ' <-- Pasamos el entero
-            Try
+                ' B. Tabla: apuntes
+                cmdMdb1cr.CommandText = "DELETE FROM apuntes WHERE ConceptoAPU = ?"
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.Parameters.AddWithValue("?", idConcepto)
                 cmdMdb1cr.ExecuteNonQuery()
-                MsgBox(frmApuntesContables.rmse.GetString("EliminarApuntes"))
-            Catch ex As Exception
-                MsgBox(frmApuntesContables.rmse.GetString("EliminarApuntesError") & vbNewLine & ex.Message)
-            End Try
 
-            ' =========================================================================
-            ' C. Eliminar Registros Apuntes Periódicos (¡Mantiene de momento la lógica de texto!)
-            ' =========================================================================
-            ' Como comentas que dejas apuper para después, sigue filtrando por texto seguro
-            vtipoSql = "DELETE FROM apuper WHERE apuper.ConceptoAPP = ?"
-            cmdMdb1cr.CommandText = vtipoSql
-            cmdMdb1cr.Parameters.Clear()
-            cmdMdb1cr.Parameters.AddWithValue("?", nombreOriginalBD)
-            Try
+                ' C. Tabla: apuper
+                cmdMdb1cr.CommandText = "DELETE FROM apuper WHERE ConceptoAPP = ?"
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.Parameters.AddWithValue("?", idConcepto)
                 cmdMdb1cr.ExecuteNonQuery()
-                MsgBox(frmApuntesPeriodicos.rmse.GetString("EliminarApuntesPeriodicos"))
-            Catch ex As Exception
-                MsgBox(frmApuntesPeriodicos.rmse.GetString("EliminarApuntesPeriodicosError") & vbNewLine & ex.Message)
-            End Try
 
-            ' =========================================================================
-            ' D. Eliminar Registros Presupuestos (¡Mantiene de momento la lógica de texto!)
-            ' =========================================================================
-            ' Sigue filtrando por texto seguro hasta que adaptes la tabla presupuesto
-            vtipoSql = "DELETE FROM presupuesto WHERE presupuesto.ConceptoPRE = ?"
-            cmdMdb1cr.CommandText = vtipoSql
-            cmdMdb1cr.Parameters.Clear()
-            cmdMdb1cr.Parameters.AddWithValue("?", nombreOriginalBD)
-            Try
+                ' D. Tabla: presupuesto
+                cmdMdb1cr.CommandText = "DELETE FROM presupuesto WHERE ConceptoPRE = ?"
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.Parameters.AddWithValue("?", idConcepto)
                 cmdMdb1cr.ExecuteNonQuery()
-                MsgBox(frmPresupuestos.rmse.GetString("EliminarPresupuestos"))
-            Catch ex As Exception
-                MsgBox(frmPresupuestos.rmse.GetString("EliminarPresupuestosError") & vbNewLine & ex.Message)
-            End Try
 
+                ' Un único mensaje final de éxito limpio, sin interrumpir con cuatro ventanas seguidas
+                MessageBox.Show(resManager.GetString("ConceptoYRegistrosEliminados"),
+                resManager.GetString("$this.Text"),
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information)
+                Me.Close() ' Cierra el formulario modal con éxito
+            Catch ex As Exception
+                MessageBox.Show(resManager.GetString("ErrorConceptoYRegistrosEliminados") & ": " & vbNewLine & ex.Message,
+                resManager.GetString("Error"),
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error)
+            End Try
         End If
-        Me.Close()
     End Sub
 
     Private Sub BtnCancelar_Click(sender As Object, e As EventArgs) Handles BtnCancelar.Click

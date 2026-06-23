@@ -8,7 +8,6 @@ Public Class EditarTipoCuentaBancaria
 
     Private Sub EditarConceptoContable_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
-        ActualizarTextosFormulario(Me)
 
         Dim TL(3) As ToolTip
         TL(0) = New ToolTip
@@ -45,29 +44,45 @@ Public Class EditarTipoCuentaBancaria
     End Sub
 
     Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click
-        vTxtNombre = TxtNombre.Text
-        vTxtDescripcion = ApostrofePorAcentoAgudo(TxtDescripcion.Text)
+        ' 1. Capturamos los textos limpios de los cuadros del formulario
+        vTxtNombre = TxtNombre.Text.Trim()
+        vTxtDescripcion = TxtDescripcion.Text.Trim() ' Los parámetros gestionan comillas y apóstrofes solos
 
-        ' Modificar Registro
-        '*******************
-        ' 1. Limpias la consulta cambiando las comillas y concatenaciones por "?"
-        vtipoSql = "UPDATE tipocuentas SET DescripcionTIP = ? WHERE tipocuentas.CodigoTIP = ?"
+        ' =========================================================================
+        ' 2. OBTENER EL ID NUMÉRICO REAL DESDE EL GRID DE LA PANTALLA ANTERIOR
+        ' =========================================================================
+        Dim idTipoModificar As Integer = 0
+        Try
+            Dim filaActual As Integer = frmTipoCuentaBancaria.DgvTipoCuentasBancarias.CurrentRow.Index
+            ' Recuperamos el Id numérico que viaja en la Celda 2 del Grid maestro
+            idTipoModificar = Convert.ToInt32(frmTipoCuentaBancaria.DgvTipoCuentasBancarias.Rows(filaActual).Cells(2).Value)
+        Catch ex As Exception
+            MessageBox.Show(resManager.GetString("ErrorRecuperarID"), resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Exit Sub
+        End Try
+
+        ' =========================================================================
+        ' 3. CONFIGURAR EL UPDATE USANDO EL ID NUMÉRICO (MÁXIMA CONSISTENCIA)
+        ' =========================================================================
+        ' Cambiamos el filtro WHERE para que busque estrictamente por el IdTipoCUE
+        vtipoSql = "UPDATE tipocuentas SET DescripcionTIP = ? WHERE IdTipoCUE = ?"
         cmdMdb1cr.CommandText = vtipoSql
 
-        ' 2. Limpias los parámetros anteriores para que no se acumulen
+        ' En Access/OleDb el orden de los parámetros debe ser EXACTO al del SQL
         cmdMdb1cr.Parameters.Clear()
+        cmdMdb1cr.Parameters.AddWithValue("@DescripcionTIP", vTxtDescripcion)
+        cmdMdb1cr.Parameters.AddWithValue("@IdTipoCUE", idTipoModificar) ' Filtro WHERE numérico
 
-        ' 3. Añades los nuevos valores en el orden exacto de los "?"
-        cmdMdb1cr.Parameters.AddWithValue("?", vTxtDescripcion)
-        cmdMdb1cr.Parameters.AddWithValue("?", vTxtNombre)
-
-        ' 4. Tu comando ya está listo para hacer el ExecuteNonQuery como siempre
         Try
-            cmdMdb1cr.ExecuteNonQuery()
-            'MsgBox("Registro, Grabado Correctamente")
-            Me.Close()
+            Dim filasAfectadas As Integer = cmdMdb1cr.ExecuteNonQuery()
+
+            If filasAfectadas > 0 Then
+                Me.Close() ' Guardado con éxito, cierra la ventana modal
+            Else
+                MessageBox.Show(resManager.GetString("NoEncuentraRegistro"), resManager.GetString("Atencion"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
         Catch ex As Exception
-            MsgBox(ex.ToString)
+            MessageBox.Show(resManager.GetString("ErrorModificarRegistro") & ": " & vbNewLine & ex.Message, resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 

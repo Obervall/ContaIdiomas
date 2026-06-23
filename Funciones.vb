@@ -640,6 +640,7 @@ Module Funciones
                 ' --- NUEVO: Hacemos que la columna 3 rellene el espacio restante del Grid ---
                 .Columns(3).AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
                 .Columns(3).HeaderText = resManager.GetString("Notas")
+                .Columns(4).Visible = False ' Oculta IdConceptoCON por completo
                 Dim vNumRegistros As String = frmConceptosContables.DgvConceptos.Rows.Count.ToString
                 frmConceptosContables.TxtNumRegistros.Text = vNumRegistros
                 If frmConceptosContables.BtnFiltroTipoConcepto.Enabled = False Then
@@ -993,7 +994,7 @@ Module Funciones
                 ' --- NUEVO: Hacemos que la columna 4 rellene el espacio restante del Grid ---
                 .Columns(1).AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
                 .Columns(1).HeaderText = resManager.GetString("Descripcion")
-
+                .Columns(2).Visible = False
                 Dim vNumRegistros As String = frmTipoCuentaBancaria.DgvTipoCuentasBancarias.Rows.Count.ToString
                 frmTipoCuentaBancaria.TxtNumRegistros.Text = vNumRegistros
             End With
@@ -2523,6 +2524,9 @@ Module Funciones
     Public Sub VerificarYActualizarEstructuraBD()
         Dim necesitaActualizar As Boolean = False
 
+        ' =========================================================================
+        ' PASO 1: DETECCIÓN AUTOMÁTICA DE LA VERSIÓN DE LA BASE DE DATOS
+        ' =========================================================================
         Try
             cmdMdb1cr.Connection = conexion1
             cmdMdb1cr.CommandText = "SELECT TOP 1 ConceptoAPU FROM apuntes"
@@ -2531,166 +2535,201 @@ Module Funciones
             Using adapter As New OleDb.OleDbDataAdapter(cmdMdb1cr)
                 Dim dtPrueba As New DataTable()
                 adapter.Fill(dtPrueba)
+                ' Si la columna ConceptoAPU sigue siendo de tipo Texto/String, hay que migrar
                 If dtPrueba.Columns("ConceptoAPU").DataType = GetType(String) Then
                     necesitaActualizar = True
                 End If
             End Using
         Catch ex As Exception
-            Exit Sub
+            Exit Sub ' Si la tabla no responde, cancelamos para evitar cuelgues
         End Try
 
+        ' Si ya es una base de datos moderna con IDs numéricos, salimos sin hacer nada
         If Not necesitaActualizar Then Exit Sub
 
         ' =========================================================================
-        ' PROCESO DE MIGRACIÓN BLINDADO POR SOFTWARE
+        ' PASO 2: MIGRACIÓN ESTRUCTURAL COMPLETA Y CONSERVACIÓN DE DATOS
         ' =========================================================================
         Try
-            ' 1. Crear columnas temporales en la tabla apuntes
-            Try
-                cmdMdb1cr.CommandText = "ALTER TABLE apuntes ADD COLUMN ConceptoAPU_NEW INTEGER"
-                cmdMdb1cr.Parameters.Clear()
-                cmdMdb1cr.ExecuteNonQuery()
-            Catch ex As Exception
-                ' Campo ya existente
-            End Try
+            ' ---------------------------------------------------------------------
+            ' A. CREACIÓN DE COLUMNAS TEMPORALES (Fase de preparación)
+            ' ---------------------------------------------------------------------
+            ' Auxiliares para Apuntes
+            Try : cmdMdb1cr.CommandText = "ALTER TABLE apuntes ADD COLUMN ConceptoAPU_NEW INTEGER" : cmdMdb1cr.ExecuteNonQuery() : Catch ex As Exception : End Try
+            Try : cmdMdb1cr.CommandText = "ALTER TABLE apuntes ADD COLUMN CuentaAPU_NEW INTEGER" : cmdMdb1cr.ExecuteNonQuery() : Catch ex As Exception : End Try
 
-            Try
-                cmdMdb1cr.CommandText = "ALTER TABLE apuntes ADD COLUMN CuentaAPU_NEW INTEGER"
-                cmdMdb1cr.Parameters.Clear()
-                cmdMdb1cr.ExecuteNonQuery()
-            Catch ex As Exception
-                ' Campo ya existente
-            End Try
+            Try : cmdMdb1cr.CommandText = "ALTER TABLE conceptos ADD COLUMN IdConceptoCON INTEGER" : cmdMdb1cr.ExecuteNonQuery() : Catch ex As Exception : End Try
+            Try : cmdMdb1cr.CommandText = "ALTER TABLE cuentas ADD COLUMN IdCuentaCUE INTEGER" : cmdMdb1cr.ExecuteNonQuery() : Catch ex As Exception : End Try
 
-            ' 2. LEER CONCEPTOS ORIGINALES Y ASIGNAR ID CORRELATIVO EN MEMORIA
-            ' Usamos SOLO "CodigoCON" que sabemos por la imagen que existe seguro
+
+            ' Auxiliares para Apuntes Periódicos (apuper)
+            Try : cmdMdb1cr.CommandText = "ALTER TABLE apuper ADD COLUMN ConceptoAPP_NEW INTEGER" : cmdMdb1cr.ExecuteNonQuery() : Catch ex As Exception : End Try
+            Try : cmdMdb1cr.CommandText = "ALTER TABLE apuper ADD COLUMN CuentaAPP_NEW INTEGER" : cmdMdb1cr.ExecuteNonQuery() : Catch ex As Exception : End Try
+
+            ' Auxiliar para Presupuestos
+            Try : cmdMdb1cr.CommandText = "ALTER TABLE presupuesto ADD COLUMN ConceptoPRE_NEW INTEGER" : cmdMdb1cr.ExecuteNonQuery() : Catch ex As Exception : End Try
+
+            ' Auxiliar para Cuentas (Enlace a Tipo de Cuenta)
+            Try : cmdMdb1cr.CommandText = "ALTER TABLE cuentas ADD COLUMN TipoCUE_NEW INTEGER" : cmdMdb1cr.ExecuteNonQuery() : Catch ex As Exception : End Try
+
+            ' Campo ID para la tabla maestra de tipos de cuentas
+            Try : cmdMdb1cr.CommandText = "ALTER TABLE tipocuentas ADD COLUMN IdTipoCUE INTEGER" : cmdMdb1cr.ExecuteNonQuery() : Catch ex As Exception : End Try
+
+
+            ' ---------------------------------------------------------------------
+            ' B. CARGA DE EQUIVALENCIAS Y ASIGNACIÓN DE IDS EN MEMORIA
+            ' ---------------------------------------------------------------------
+
+            ' 1. MAPEO DE CONCEPTOS
             cmdMdb1cr.CommandText = "SELECT CodigoCON FROM conceptos ORDER BY CodigoCON"
             cmdMdb1cr.Parameters.Clear()
-
             Dim listaConceptos As New List(Of KeyValuePair(Of Integer, String))()
-            Dim contadorConcepto As Integer = 1 ' Generamos el ID numérico nosotros mismos
-
+            Dim contadorConcepto As Integer = 1
             Using reader As OleDb.OleDbDataReader = cmdMdb1cr.ExecuteReader()
                 While reader.Read()
-                    Dim codigo As String = reader("CodigoCON").ToString().Trim()
-                    listaConceptos.Add(New KeyValuePair(Of Integer, String)(contadorConcepto, codigo))
+                    listaConceptos.Add(New KeyValuePair(Of Integer, String)(contadorConcepto, reader("CodigoCON").ToString().Trim()))
                     contadorConcepto += 1
                 End While
             End Using
 
-            ' Volcar los IDs generados a la tabla apuntes
-            For Each item In listaConceptos
-                cmdMdb1cr.CommandText = "UPDATE apuntes SET ConceptoAPU_NEW = ? WHERE ConceptoAPU = ?"
-                cmdMdb1cr.Parameters.Clear()
-                cmdMdb1cr.Parameters.AddWithValue("?", item.Key)    ' Número generado (1, 2, 3...)
-                cmdMdb1cr.Parameters.AddWithValue("?", item.Value)  ' Texto original (Ej: "ADESLAS")
-                cmdMdb1cr.ExecuteNonQuery()
-            Next
-
-            ' 3. LEER CUENTAS ORIGINALES Y ASIGNAR ID CORRELATIVO EN MEMORIA
-            ' Usamos SOLO "NombreCUE" que sabemos por la imagen que existe seguro
+            ' 2. MAPEO DE CUENTAS
             cmdMdb1cr.CommandText = "SELECT NombreCUE FROM cuentas ORDER BY NombreCUE"
             cmdMdb1cr.Parameters.Clear()
-
             Dim listaCuentas As New List(Of KeyValuePair(Of Integer, String))()
-            Dim contadorCuenta As Integer = 1 ' Generamos el ID numérico nosotros mismos
-
+            Dim contadorCuenta As Integer = 1
             Using reader As OleDb.OleDbDataReader = cmdMdb1cr.ExecuteReader()
                 While reader.Read()
-                    Dim nombre As String = reader("NombreCUE").ToString().Trim()
-                    listaCuentas.Add(New KeyValuePair(Of Integer, String)(contadorCuenta, nombre))
+                    listaCuentas.Add(New KeyValuePair(Of Integer, String)(contadorCuenta, reader("NombreCUE").ToString().Trim()))
                     contadorCuenta += 1
                 End While
             End Using
 
-            ' Volcar los IDs generados a la tabla apuntes
-            For Each item In listaCuentas
-                cmdMdb1cr.CommandText = "UPDATE apuntes SET CuentaAPU_NEW = ? WHERE CuentaAPU = ?"
-                cmdMdb1cr.Parameters.Clear()
-                cmdMdb1cr.Parameters.AddWithValue("?", item.Key)    ' Número generado (1, 2, 3...)
-                cmdMdb1cr.Parameters.AddWithValue("?", item.Value)  ' Texto original (Ej: "BBVA")
-                cmdMdb1cr.ExecuteNonQuery()
-            Next
-
-            ' 4. REESTRUCTURACIÓN FINAL SEGURA DE LA TABLA APUNTES
-            cmdMdb1cr.CommandText = "ALTER TABLE apuntes DROP COLUMN ConceptoAPU"
+            ' 3. MAPEO DE TIPOS DE CUENTAS
+            cmdMdb1cr.CommandText = "SELECT CodigoTIP FROM tipocuentas ORDER BY CodigoTIP"
             cmdMdb1cr.Parameters.Clear()
-            cmdMdb1cr.ExecuteNonQuery()
+            Dim listaTipos As New List(Of KeyValuePair(Of Integer, String))()
+            Dim contadorTipo As Integer = 1
+            Using reader As OleDb.OleDbDataReader = cmdMdb1cr.ExecuteReader()
+                While reader.Read()
+                    listaTipos.Add(New KeyValuePair(Of Integer, String)(contadorTipo, reader("CodigoTIP").ToString().Trim()))
+                    contadorTipo += 1
+                End While
+            End Using
 
-            cmdMdb1cr.CommandText = "ALTER TABLE apuntes DROP COLUMN CuentaAPU"
-            cmdMdb1cr.Parameters.Clear()
-            cmdMdb1cr.ExecuteNonQuery()
-
-            cmdMdb1cr.CommandText = "ALTER TABLE apuntes ADD COLUMN ConceptoAPU INTEGER"
-            cmdMdb1cr.Parameters.Clear()
-            cmdMdb1cr.ExecuteNonQuery()
-
-            cmdMdb1cr.CommandText = "ALTER TABLE apuntes ADD COLUMN CuentaAPU INTEGER"
-            cmdMdb1cr.Parameters.Clear()
-            cmdMdb1cr.ExecuteNonQuery()
-
-            ' Movemos los números reales guardados en las NEW a las definitivas
-            cmdMdb1cr.CommandText = "UPDATE apuntes SET ConceptoAPU = ConceptoAPU_NEW, CuentaAPU = CuentaAPU_NEW"
-            cmdMdb1cr.Parameters.Clear()
-            cmdMdb1cr.ExecuteNonQuery()
-
-            ' Limpieza de columnas temporales
-            cmdMdb1cr.CommandText = "ALTER TABLE apuntes DROP COLUMN ConceptoAPU_NEW"
-            cmdMdb1cr.Parameters.Clear()
-            cmdMdb1cr.ExecuteNonQuery()
-
-            cmdMdb1cr.CommandText = "ALTER TABLE apuntes DROP COLUMN CuentaAPU_NEW"
-            cmdMdb1cr.Parameters.Clear()
-            cmdMdb1cr.ExecuteNonQuery()
+            ' ---------------------------------------------------------------------
+            ' C. VOLCADO Y ACTUALIZACIÓN CRUZADA DE DATOS (Fase de inyección aislada)
+            ' ---------------------------------------------------------------------
 
             ' =========================================================================
-            ' PASO FINAL: ACTUALIZACIÓN DE LAS TABLAS MAESTROS (CONCEPTOS Y CUENTAS)
+            ' NUEVO: LIMPIEZA ATÓMICA DE TEXTOS A MAYÚSCULAS REALES EN LA MDB
+            ' =========================================================================
+            ' Pasamos todos los códigos de conceptos a mayúsculas fijas
+            cmdMdb1cr.CommandText = "UPDATE conceptos SET CodigoCON = UCASE(CodigoCON)"
+            cmdMdb1cr.ExecuteNonQuery()
+
+            ' Pasamos todos los nombres de tipos de cuentas a mayúsculas fijas
+            cmdMdb1cr.CommandText = "UPDATE tipocuentas SET CodigoTIP = UCASE(CodigoTIP)"
+            cmdMdb1cr.ExecuteNonQuery()
             ' =========================================================================
 
-            ' --- A. ACTUALIZAR TABLA CONCEPTOS ---
-            ' 1. Intentamos añadir la columna numérica por si no existe en el diseño nuevo
-            Try
-                cmdMdb1cr.CommandText = "ALTER TABLE conceptos ADD COLUMN IdConceptoCON INTEGER"
-                cmdMdb1cr.Parameters.Clear()
-                cmdMdb1cr.ExecuteNonQuery()
-            Catch ex As Exception
-                ' Si ya existe el campo de diseño, continúa
-            End Try
-
-            ' 2. Sincronizamos los mismos IDs numéricos correlativos basados en el orden alfabético
+            ' --- 1. INYECTAR NÚMEROS EN LA TABLA MAESTRA: conceptos ---
             For Each item In listaConceptos
                 cmdMdb1cr.CommandText = "UPDATE conceptos SET IdConceptoCON = ? WHERE CodigoCON = ?"
                 cmdMdb1cr.Parameters.Clear()
-                cmdMdb1cr.Parameters.AddWithValue("?", item.Key)    ' El número correlativo (1, 2, 3...)
-                cmdMdb1cr.Parameters.AddWithValue("?", item.Value)  ' El código de texto (Ej: "ADESLAS") [2026-03-31_17-48]
+                cmdMdb1cr.Parameters.AddWithValue("?", item.Key)    ' ID (1, 2, 3...)
+                cmdMdb1cr.Parameters.AddWithValue("?", item.Value)  ' Código Texto [2026-03-31_17-48]
                 cmdMdb1cr.ExecuteNonQuery()
             Next
 
-
-            ' --- B. ACTUALIZAR TABLA CUENTAS ---
-            ' 1. Intentamos añadir la columna numérica por si no existe
-            Try
-                cmdMdb1cr.CommandText = "ALTER TABLE cuentas ADD COLUMN IdCuentaCUE INTEGER"
-                cmdMdb1cr.Parameters.Clear()
-                cmdMdb1cr.ExecuteNonQuery()
-            Catch ex As Exception
-                ' Si ya existe el campo de diseño, continúa
-            End Try
-
-            ' 2. Sincronizamos los mismos IDs numéricos correlativos basados en el orden alfabético
+            ' --- 2. INYECTAR NÚMEROS EN LA TABLA MAESTRA: cuentas ---
             For Each item In listaCuentas
                 cmdMdb1cr.CommandText = "UPDATE cuentas SET IdCuentaCUE = ? WHERE NombreCUE = ?"
                 cmdMdb1cr.Parameters.Clear()
-                cmdMdb1cr.Parameters.AddWithValue("?", item.Key)    ' El número correlativo (1, 2, 3...)
-                cmdMdb1cr.Parameters.AddWithValue("?", item.Value)  ' El nombre de texto (Ej: "BBVA") [2026-03-31_17-48]
+                cmdMdb1cr.Parameters.AddWithValue("?", item.Key)    ' ID (1, 2, 3...)
+                cmdMdb1cr.Parameters.AddWithValue("?", item.Value)  ' Nombre Texto [2026-03-31_17-48]
                 cmdMdb1cr.ExecuteNonQuery()
             Next
 
+            ' --- 3. INYECTAR NÚMEROS EN LA TABLA MAESTRA: tipocuentas ---
+            For Each item In listaTipos
+                cmdMdb1cr.CommandText = "UPDATE tipocuentas SET IdTipoCUE = ? WHERE CodigoTIP = ?"
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.Parameters.AddWithValue("?", item.Key)    ' ID (1, 2, 3...)
+                cmdMdb1cr.Parameters.AddWithValue("?", item.Value)  ' Código Tipo Texto
+                cmdMdb1cr.ExecuteNonQuery()
+            Next
 
-            MsgBox("La base de datos se ha actualizado correctamente conservando todos tus apuntes.", vbInformation, "Actualización Completada")
+            ' --- 4. ACTUALIZAR TABLAS DE MOVIMIENTOS Y ENLACES ---
+            ' Movimientos de Conceptos
+            For Each item In listaConceptos
+                cmdMdb1cr.CommandText = "UPDATE apuntes SET ConceptoAPU_NEW = ? WHERE ConceptoAPU = ?"
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.Parameters.AddWithValue("?", item.Key) : cmdMdb1cr.Parameters.AddWithValue("?", item.Value) : cmdMdb1cr.ExecuteNonQuery()
 
+                cmdMdb1cr.CommandText = "UPDATE apuper SET ConceptoAPP_NEW = ? WHERE ConceptoAPP = ?"
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.Parameters.AddWithValue("?", item.Key) : cmdMdb1cr.Parameters.AddWithValue("?", item.Value) : cmdMdb1cr.ExecuteNonQuery()
+
+                cmdMdb1cr.CommandText = "UPDATE presupuesto SET ConceptoPRE_NEW = ? WHERE ConceptoPRE = ?"
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.Parameters.AddWithValue("?", item.Key) : cmdMdb1cr.Parameters.AddWithValue("?", item.Value) : cmdMdb1cr.ExecuteNonQuery()
+            Next
+
+            ' Movimientos de Cuentas
+            For Each item In listaCuentas
+                cmdMdb1cr.CommandText = "UPDATE apuntes SET CuentaAPU_NEW = ? WHERE CuentaAPU = ?"
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.Parameters.AddWithValue("?", item.Key) : cmdMdb1cr.Parameters.AddWithValue("?", item.Value) : cmdMdb1cr.ExecuteNonQuery()
+
+                cmdMdb1cr.CommandText = "UPDATE apuper SET CuentaAPP_NEW = ? WHERE CuentaAPP = ?"
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.Parameters.AddWithValue("?", item.Key) : cmdMdb1cr.Parameters.AddWithValue("?", item.Value) : cmdMdb1cr.ExecuteNonQuery()
+            Next
+
+            ' Enlace de Tipo de Cuenta en Cuentas
+            For Each item In listaTipos
+                cmdMdb1cr.CommandText = "UPDATE cuentas SET TipoCUE_NEW = ? WHERE TipoCUE = ?"
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.Parameters.AddWithValue("?", item.Key) : cmdMdb1cr.Parameters.AddWithValue("?", item.Value) : cmdMdb1cr.ExecuteNonQuery()
+            Next
+
+            ' ---------------------------------------------------------------------
+            ' D. REESTRUCTURACIÓN FINAL Y LIMPIEZA DE TABLAS (Fase de consolidación)
+            ' ---------------------------------------------------------------------
+
+            ' 1. Reestructurar Tabla: apuntes
+            cmdMdb1cr.CommandText = "ALTER TABLE apuntes DROP COLUMN ConceptoAPU" : cmdMdb1cr.ExecuteNonQuery()
+            cmdMdb1cr.CommandText = "ALTER TABLE apuntes DROP COLUMN CuentaAPU" : cmdMdb1cr.ExecuteNonQuery()
+            cmdMdb1cr.CommandText = "ALTER TABLE apuntes ADD COLUMN ConceptoAPU INTEGER" : cmdMdb1cr.ExecuteNonQuery()
+            cmdMdb1cr.CommandText = "ALTER TABLE apuntes ADD COLUMN CuentaAPU INTEGER" : cmdMdb1cr.ExecuteNonQuery()
+            cmdMdb1cr.CommandText = "UPDATE apuntes SET ConceptoAPU = ConceptoAPU_NEW, CuentaAPU = CuentaAPU_NEW" : cmdMdb1cr.ExecuteNonQuery()
+            cmdMdb1cr.CommandText = "ALTER TABLE apuntes DROP COLUMN ConceptoAPU_NEW" : cmdMdb1cr.ExecuteNonQuery()
+            cmdMdb1cr.CommandText = "ALTER TABLE apuntes DROP COLUMN CuentaAPU_NEW" : cmdMdb1cr.ExecuteNonQuery()
+
+            ' 2. Reestructurar Tabla: apuper
+            cmdMdb1cr.CommandText = "ALTER TABLE apuper DROP COLUMN ConceptoAPP" : cmdMdb1cr.ExecuteNonQuery()
+            cmdMdb1cr.CommandText = "ALTER TABLE apuper DROP COLUMN CuentaAPP" : cmdMdb1cr.ExecuteNonQuery()
+            cmdMdb1cr.CommandText = "ALTER TABLE apuper ADD COLUMN ConceptoAPP INTEGER" : cmdMdb1cr.ExecuteNonQuery()
+            cmdMdb1cr.CommandText = "ALTER TABLE apuper ADD COLUMN CuentaAPP INTEGER" : cmdMdb1cr.ExecuteNonQuery()
+            cmdMdb1cr.CommandText = "UPDATE apuper SET ConceptoAPP = ConceptoAPP_NEW, CuentaAPP = CuentaAPP_NEW" : cmdMdb1cr.ExecuteNonQuery()
+            cmdMdb1cr.CommandText = "ALTER TABLE apuper DROP COLUMN ConceptoAPP_NEW" : cmdMdb1cr.ExecuteNonQuery()
+            cmdMdb1cr.CommandText = "ALTER TABLE apuper DROP COLUMN CuentaAPP_NEW" : cmdMdb1cr.ExecuteNonQuery()
+
+            ' 3. Reestructurar Tabla: presupuesto
+            cmdMdb1cr.CommandText = "ALTER TABLE presupuesto DROP COLUMN ConceptoPRE" : cmdMdb1cr.ExecuteNonQuery()
+            cmdMdb1cr.CommandText = "ALTER TABLE presupuesto ADD COLUMN ConceptoPRE INTEGER" : cmdMdb1cr.ExecuteNonQuery()
+            cmdMdb1cr.CommandText = "UPDATE presupuesto SET ConceptoPRE = ConceptoPRE_NEW" : cmdMdb1cr.ExecuteNonQuery()
+            cmdMdb1cr.CommandText = "ALTER TABLE presupuesto DROP COLUMN ConceptoPRE_NEW" : cmdMdb1cr.ExecuteNonQuery()
+
+            ' 4. Reestructurar Tabla: cuentas (Enlace de tipos)
+            cmdMdb1cr.CommandText = "ALTER TABLE cuentas DROP COLUMN TipoCUE" : cmdMdb1cr.ExecuteNonQuery()
+            cmdMdb1cr.CommandText = "ALTER TABLE cuentas ADD COLUMN TipoCUE INTEGER" : cmdMdb1cr.ExecuteNonQuery()
+            cmdMdb1cr.CommandText = "UPDATE cuentas SET TipoCUE = TipoCUE_NEW" : cmdMdb1cr.ExecuteNonQuery()
+            cmdMdb1cr.CommandText = "ALTER TABLE cuentas DROP COLUMN TipoCUE_NEW" : cmdMdb1cr.ExecuteNonQuery()
+
+            MsgBox("La estructura de la base de datos se ha actualizado de manera integral a la nueva versión.", vbInformation, "Actualización Completada")
         Catch ex As Exception
-            MsgBox("Error crítico en migración: " & ex.Message, vbCritical)
+            MsgBox("Error crítico durante la reestructuración completa: " & vbNewLine & ex.Message, vbCritical, "Migración Interrumpida")
         End Try
     End Sub
 

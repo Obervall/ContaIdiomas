@@ -9,7 +9,6 @@ Public Class NuevoConceptoContable
 
     Private Sub NuevoConceptoContable_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
-        ActualizarTextosFormulario(Me)
 
         TL(0) = New ToolTip
         TL(0).SetToolTip(Me.BtnAceptar, resManager.GetString("ToolTipAceptar"))
@@ -161,7 +160,10 @@ Public Class NuevoConceptoContable
 
             ' 2. Validación de bloqueo: No permite "SALDO" en español ni su traducción internacional
             If nombreLimpio = "SALDO" OrElse (saldoTraducido <> "" AndAlso nombreLimpio = saldoTraducido) Then
-                MsgBox(rmse.GetString("NoNombreSaldo"), vbCritical, rmse.GetString("$this.Text"))
+                MessageBox.Show(rmse.GetString("NoNombreSaldo"),
+                resManager.GetString("$this.Text"),
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information)
                 TxtNombre.Select()
                 TxtNombre.SelectAll()
                 Exit Sub ' Detiene el guardado inmediatamente
@@ -206,116 +208,53 @@ Public Class NuevoConceptoContable
                 vTxtTipo = CmbTipoConcepto.Text ' Respaldo en caso de que cambies el orden
             End If
 
-            ' 4. INSERCIÓN TOTALMENTE PARAMETRIZADA Y SEGURA
-            ' Ya eliminamos la consulta SELECT previa porque nuestro DataView en memoria hizo el trabajo de forma instantánea
-            vtipoSql = "INSERT INTO conceptos (CodigoCON, DescripcionCON, TipoCON, NotasCON) VALUES (?, ?, ?, ?)"
+            ' =========================================================================
+            ' NUEVO: CALCULAR EL SIGUIENTE ID DISPONIBLE (MAX + 1)
+            ' =========================================================================
+            Dim siguienteID As Integer = 1
+            Try
+                cmdMdb1cr.CommandText = "SELECT MAX(IdConceptoCON) FROM conceptos"
+                cmdMdb1cr.Parameters.Clear()
+                Dim resultado As Object = cmdMdb1cr.ExecuteScalar()
+                If resultado IsNot DBNull.Value AndAlso resultado IsNot Nothing Then
+                    siguienteID = Convert.ToInt32(resultado) + 1
+                End If
+            Catch ex As Exception
+                siguienteID = 1 ' Respaldo por si la tabla estuviera vacía
+            End Try
+            ' =========================================================================
+
+            ' 4. INSERCIÓN TOTALMENTE PARAMETRIZADA Y SEGURA (¡Añadimos el ID!)
+            vtipoSql = "INSERT INTO conceptos (IdConceptoCON, CodigoCON, DescripcionCON, TipoCON, NotasCON) VALUES (?, ?, ?, ?, ?)"
             cmdMdb1cr.CommandText = vtipoSql
 
-            ' Limpiamos y asignamos los parámetros en el orden exacto del SQL
+            ' Limpiamos y asignamos los parámetros en el orden ESTRICTO del SQL
             cmdMdb1cr.Parameters.Clear()
-
-            ' Los parámetros limpian cualquier apóstrofe de forma automática y nativa
-            cmdMdb1cr.Parameters.AddWithValue("@CodigoCON", codigoEstableBD) ' Guardamos la clave estándar unificada
+            cmdMdb1cr.Parameters.AddWithValue("@IdConceptoCON", siguienteID) ' <--- Inyectamos el nuevo número entero
+            cmdMdb1cr.Parameters.AddWithValue("@CodigoCON", codigoEstableBD)
             cmdMdb1cr.Parameters.AddWithValue("@DescripcionCON", vTxtDescripcion.Trim())
             cmdMdb1cr.Parameters.AddWithValue("@TipoCON", vTxtTipo.Trim())
             cmdMdb1cr.Parameters.AddWithValue("@NotasCON", vTxtNotas.Trim())
 
             Try
                 cmdMdb1cr.ExecuteNonQuery()
-                Me.Close() ' Registro grabado con éxito, cierra el subformulario
-            Catch ex As Exception
-                MsgBox(ex.ToString(), vbCritical, "Error al insertar")
-            End Try
 
+                ' ¡TRUCO MAESTRO!: Añadimos el nuevo concepto también a tu tabla en memoria 
+                ' para que si el usuario sigue escribiendo, el filtro TextChanged lo detecte al vuelo
+                If dtConceptosMemoria IsNot Nothing Then
+                    dtConceptosMemoria.Rows.Add(codigoEstableBD, vTxtNombre.ToUpper())
+                End If
+
+                Me.Close()
+            Catch ex As Exception
+                MsgBox(ex.ToString(), vbCritical, resManager.GetString("Error"))
+            End Try
         Else
             ' Mensaje de error si el campo nombre está completamente vacío
             MsgBox(rmse.GetString("MsgDatosNombre"), vbCritical, rmse.GetString("$this.Text"))
             TxtNombre.Select()
         End If
     End Sub
-
-
-    'Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click
-    '    ' 1. Guardar la palabra escrita en mayúsculas y sin espacios a los lados
-    '    Dim nombreLimpio As String = TxtNombre.Text.Trim().ToUpper()
-
-    '    If nombreLimpio <> "" Then
-
-    '        ' Obtener de forma segura la traducción de "SALDO" del idioma actual (para los 6 idiomas)
-    '        Dim saldoTraducido As String = ""
-    '        Try
-    '            saldoTraducido = rmse.GetString("PalabraSaldo").Trim().ToUpper()
-    '        Catch ex As Exception
-    '            saldoTraducido = "SALDO" ' Respaldo por si no se encuentra la clave en el recurso
-    '        End Try
-
-    '        ' 2. Validación de bloqueo: No permite "SALDO" en español ni su traducción internacional
-    '        If nombreLimpio = "SALDO" OrElse (saldoTraducido <> "" AndAlso nombreLimpio = saldoTraducido) Then
-    '            MsgBox(rmse.GetString("NoNombreSaldo"), vbCritical, rmse.GetString("$this.Text"))
-    '            TxtNombre.Select()
-    '            TxtNombre.SelectAll()
-    '            Exit Sub ' Detiene el guardado inmediatamente
-    '        End If
-
-    '        ' Si pasa la validación, preparamos el resto de variables
-    '        vTxtNombre = TxtNombre.Text.Trim()
-    '        vTxtDescripcion = ApostrofePorAcentoAgudo(TxtDescripcion.Text)
-    '        vTxtNotas = TxtNota.Text
-
-    '        ' 3. Guardado multiidioma del tipo (Inamovible en la BD como GASTO o INGRESO)
-    '        ' Posición 0 suele ser Gasto/Expense y Posición 1 es Ingreso/Income
-    '        If CmbTipoConcepto.SelectedIndex = 0 Then
-    '            vTxtTipo = "GASTO"
-    '        ElseIf CmbTipoConcepto.SelectedIndex = 1 Then
-    '            vTxtTipo = "INGRESO"
-    '        Else
-    '            vTxtTipo = CmbTipoConcepto.Text ' Respaldo en caso de que cambies el orden
-    '        End If
-
-    '        ' Verificar que no se repiten Nombres en Conceptos Contables
-    '        '***********************************************************
-    '        vtipoSql = "SELECT * FROM conceptos WHERE conceptos.CodigoCON = '" & vTxtNombre & "' "
-    '        vtipoGrid = "NOMBRESEXISTENTES"
-    '        cmdMdb1cr.CommandText = vtipoSql
-
-    '        Try
-    '            drMdb1 = cmdMdb1cr.ExecuteReader()
-    '            If drMdb1.HasRows Then
-    '                drMdb1.Close()
-    '                MsgBox(resManager.GetString("Nombre") & ":  " & vTxtNombre & ", " & rmse.GetString("YaExisteConcepto"), vbOKOnly, rmse.GetString("$this.Text"))
-    '                TxtNombre.Select()
-    '            Else
-    '                drMdb1.Close()
-    '                ' 1. Diseñamos la estructura limpia para conceptos usando comodines '?'
-    '                vtipoSql = "INSERT INTO conceptos (CodigoCON, DescripcionCON, TipoCON, NotasCON) VALUES (?, ?, ?, ?)"
-    '                cmdMdb1cr.CommandText = vtipoSql
-
-    '                ' 2. Limpiamos y asignamos los parámetros en el orden exacto del SQL
-    '                cmdMdb1cr.Parameters.Clear()
-
-    '                ' Los parámetros limpian cualquier apóstrofe de forma automática y nativa
-    '                cmdMdb1cr.Parameters.AddWithValue("@CodigoCON", vTxtNombre.Trim())
-    '                cmdMdb1cr.Parameters.AddWithValue("@DescripcionCON", vTxtDescripcion.Trim())
-    '                cmdMdb1cr.Parameters.AddWithValue("@TipoCON", vTxtTipo.Trim())
-    '                cmdMdb1cr.Parameters.AddWithValue("@NotasCON", vTxtNotas.Trim())
-    '                cmdMdb1cr.CommandText = vtipoSql
-    '                Try
-    '                    cmdMdb1cr.ExecuteNonQuery()
-    '                    Me.Close() ' Registro grabado con éxito, cierra el subformulario
-    '                Catch ex As Exception
-    '                    MsgBox(ex.ToString)
-    '                End Try
-    '            End If
-    '        Catch ex As Exception
-    '            MsgBox(ex.ToString)
-    '        End Try
-
-    '    Else
-    '        ' Mensaje de error si el campo nombre está completamente vacío
-    '        MsgBox(rmse.GetString("MsgDatosNombre"), vbCritical, rmse.GetString("$this.Text"))
-    '        TxtNombre.Select()
-    '    End If
-    'End Sub
 
     Private Sub BtnCancelar_Click(sender As Object, e As EventArgs) Handles BtnCancelar.Click
         Me.Close()

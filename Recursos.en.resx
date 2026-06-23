@@ -703,4 +703,19 @@ the file is not open</value>
   <data name="Existentes" xml:space="preserve">
     <value>Existing</value>
   </data>
+  <data name="Atencion" xml:space="preserve">
+    <value>Attention</value>
+  </data>
+  <data name="ConceptoYRegistrosEliminados" xml:space="preserve">
+    <value>The concept and all of its linked records have been successfully deleted</value>
+  </data>
+  <data name="ErrorConceptoYRegistrosEliminados" xml:space="preserve">
+    <value>Error during cascading deletion</value>
+  </data>
+  <data name="ErrorRecuperarID" xml:space="preserve">
+    <value>Error retrieving the numeric identifier from the registry</value>
+  </data>
+  <data name="NoEncuentraRegistro" xml:space="preserve">
+    <value>Record not found to upgrade</value>
+  </data>
 </root>

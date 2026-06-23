@@ -43,7 +43,7 @@ Public Class TipoCuentaBancaria
 
         ' Llenar Grid de TIPO CUENTAS BANCARIAS
         '**************************************
-        vtipoSql = "SELECT tipocuentas.CodigoTIP, tipocuentas.DescripcionTIP FROM tipocuentas"
+        vtipoSql = "SELECT tipocuentas.CodigoTIP, tipocuentas.DescripcionTIP, tipocuentas.IdTipoCUE FROM tipocuentas"
         vtipoSql += " ORDER BY tipocuentas.CodigoTIP ASC"
         vtipoGrid = "TIPO_CUENTAS_BANCARIAS"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
@@ -205,6 +205,238 @@ Public Class TipoCuentaBancaria
         End If
     End Sub
 
+    Private Function TraducirDinamico(textoOriginal As String, esDescripcion As Boolean) As String
+        ' 1. Validamos que no venga vacío
+        If String.IsNullOrEmpty(textoOriginal) Then Return ""
+
+        ' 2. Formateamos el texto para que coincida con la Key de ResX Manager (ej: "Cuenta Corriente" -> "Cuenta_Corriente")
+        Dim llave As String = textoOriginal.Trim().Replace(" ", "_")
+        If esDescripcion Then llave = "Desc_" & llave
+
+        Try
+            ' 3. Buscamos en el gestor de recursos (reemplaza 'resManager' por tu objeto ResourceManager activo)
+            Dim textoTraducido As String = rmse.GetString(llave)
+
+            ' 4. Si existe traducción en el .resx la devolvemos; si no, devolvemos el texto original de la BD
+            If Not String.IsNullOrEmpty(textoTraducido) Then
+                Return textoTraducido
+            Else
+                Return textoOriginal
+            End If
+        Catch ex As Exception
+            ' En caso de cualquier error imprevisto de lectura, no rompemos la app, devolvemos el dato original
+            Return textoOriginal
+        End Try
+    End Function
+
+    Private Sub DgvTipoCuentasBancarias_DoubleClick(sender As Object, e As EventArgs) Handles DgvTipoCuentasBancarias.DoubleClick
+        BtnEditarRegistro.PerformClick()
+    End Sub
+
+    Private Sub BtnEditarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEditarRegistro.Click
+        filaActual = frmTipoCuentaBancaria.DgvTipoCuentasBancarias.CurrentRow.Index
+        vTxtNombre = frmTipoCuentaBancaria.DgvTipoCuentasBancarias.Rows(filaActual).Cells(1).Value.ToString
+
+        ' Comprobamos si existe un identificador asociado.
+        If ((frmEditarTipoCuentaBancaria Is Nothing) OrElse (Not frmEditarTipoCuentaBancaria.IsHandleCreated)) Then
+            frmEditarTipoCuentaBancaria = New EditarTipoCuentaBancaria
+        End If
+        ' Llamamos al formulario de manera modal.
+        vEditar = "SI"
+        frmEditarTipoCuentaBancaria.ShowDialog()
+        'MessageBox.Show("Se ha cerrado el formulario.")
+        ' Destruimos el formulario.
+        frmEditarTipoCuentaBancaria.Dispose()
+        vtipoSql = "SELECT tipocuentas.CodigoTIP, tipocuentas.DescripcionTIP, tipocuentas.IdTipoCUE FROM tipocuentas"
+        vtipoSql += " ORDER BY tipocuentas.CodigoTIP ASC"
+        vtipoGrid = "TIPO_CUENTAS_BANCARIAS"
+        LlenarGrid(vtipoSql, vtipoGrid, "1")
+        TraducirContenidoGridTiposCuenta(DgvTipoCuentasBancarias, rmse)
+        DgvTipoCuentasBancarias.CurrentCell = DgvTipoCuentasBancarias.Rows(filaActual).Cells(0)
+        DgvTipoCuentasBancarias.Rows(filaActual).Selected = True
+    End Sub
+
+    Private Sub BtnEliminarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEliminarRegistro.Click
+
+        ' 1. Verificar si hay alguna fila seleccionada en el Grid
+        If frmTipoCuentaBancaria.DgvTipoCuentasBancarias.CurrentRow Is Nothing Then
+            MessageBox.Show(rmse.GetString("SeleccionarTipo"), rmse.GetString("$this.Text"), MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
+
+        ' 2. Obtener la fila actual y capturar el ID y el texto visual
+        Dim filaActual As Integer = frmTipoCuentaBancaria.DgvTipoCuentasBancarias.CurrentRow.Index
+        Dim textoTraducido As String = frmTipoCuentaBancaria.DgvTipoCuentasBancarias.Rows(filaActual).Cells(0).Value.ToString().Trim()
+
+        ' =========================================================================
+        ' ✨ ADIÓS TRADUCCIÓN INVERSA: Leemos el ID numérico directo de la Celda 2
+        ' =========================================================================
+        Dim idTipoCUE As Integer = 0
+        Try
+            idTipoCUE = Convert.ToInt32(frmTipoCuentaBancaria.DgvTipoCuentasBancarias.Rows(filaActual).Cells(2).Value)
+        Catch ex As Exception
+            MessageBox.Show("Error al recuperar el identificador numérico.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Exit Sub
+        End Try
+
+        ' =========================================================================
+        ' 3. VALIDACIÓN DE INTEGRIDAD REAL USANDO EL ID NUMÉRICO
+        ' =========================================================================
+        ' Filtramos la tabla cuentas buscando el ID numérico en TipoCUE
+        Dim vSqlVerificar As String = "SELECT COUNT(*) FROM cuentas WHERE TipoCUE = ?"
+        cmdMdb1cr.CommandText = vSqlVerificar
+        cmdMdb1cr.Parameters.Clear()
+        cmdMdb1cr.Parameters.AddWithValue("?", idTipoCUE)
+
+        Dim cuentasAsociadas As Integer
+        Try
+            cuentasAsociadas = Convert.ToInt32(cmdMdb1cr.ExecuteScalar())
+        Catch ex As Exception
+            MessageBox.Show(rmse.GetString("ErrorVerificarIntegridad") & ": " & ex.Message, rmse.GetString("$this.Text"), MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Exit Sub
+        End Try
+
+        ' 4. Bloquear el borrado si está asignado a alguna cuenta activa
+        If cuentasAsociadas > 0 Then
+            Dim msgBloqueo As String = rmse.GetString("NoSePuedeEliminar") & " [" & textoTraducido & "] " &
+                                  rmse.GetString("PorqueAsignado") & " " & cuentasAsociadas & " " &
+                                  rmse.GetString("CuentaBancaria")
+            MessageBox.Show(msgBloqueo, rmse.GetString("AccionCancelada"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
+        ' =========================================================================
+        ' 5. CONFIRMACIÓN Y EJECUCIÓN DEL BORRADO POR ID
+        ' =========================================================================
+        Dim msgConfirmar As String = rmse.GetString("SeguroEliminar") & ": " & textoTraducido & "?"
+        Dim respuesta As DialogResult = MessageBox.Show(msgConfirmar, rmse.GetString("ConfirmarBorrado"), MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2)
+
+        If respuesta = DialogResult.Yes Then
+            ' Diseñamos la consulta limpia apuntando a la clave inalterable IdTipoCUE
+            Dim vtipoSql As String = "DELETE FROM tipocuentas WHERE IdTipoCUE = ?"
+            cmdMdb1cr.CommandText = vtipoSql
+            cmdMdb1cr.Parameters.Clear()
+            cmdMdb1cr.Parameters.AddWithValue("?", idTipoCUE)
+
+            Try
+                Dim filasAfectadas As Integer = cmdMdb1cr.ExecuteNonQuery()
+
+                If filasAfectadas > 0 Then
+                    MessageBox.Show(resManager.GetString("RegistroBorrado"), resManager.GetString("ToolTipEliminar"), MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Else
+                    MessageBox.Show(resManager.GetString("RegistroNoBorrado") & " " & textoTraducido, resManager.GetString("ToolTipEliminar"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                End If
+
+                ' 6. RECARGA AUTOMÁTICA DEL GRID CON FILTROS INTEGRADOS
+                vtipoSql = "SELECT tipocuentas.CodigoTIP, tipocuentas.DescripcionTIP, tipocuentas.IdTipoCUE FROM tipocuentas"
+                vtipoSql += " ORDER BY tipocuentas.CodigoTIP ASC"
+                vtipoGrid = "TIPO_CUENTAS_BANCARIAS"
+
+                LlenarGrid(vtipoSql, vtipoGrid, "1")
+                TraducirContenidoGridTiposCuenta(frmTipoCuentaBancaria.DgvTipoCuentasBancarias, rmse)
+
+            Catch ex As Exception
+                MessageBox.Show(resManager.GetString("ErrorEliminarRegistro") & ex.Message, resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+        Else
+            MessageBox.Show(resManager.GetString("AccionCancelada"), rmse.GetString("$this.Text"), MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+    End Sub
+
+    Private Sub BtnAñadirRegistro_Click(sender As Object, e As EventArgs) Handles BtnAñadirRegistro.Click
+        ' Comprobamos si existe un identificador asociado.
+        If ((frmNuevoTipoCuentaBancaria Is Nothing) OrElse (Not frmNuevoTipoCuentaBancaria.IsHandleCreated)) Then
+            frmNuevoTipoCuentaBancaria = New NuevoTipoCuentaBancaria
+        End If
+        ' Llamamos al formulario de manera modal.
+        frmNuevoTipoCuentaBancaria.ShowDialog()
+        'MessageBox.Show("Se ha cerrado el formulario.")
+        ' Destruimos el formulario.
+        frmNuevoTipoCuentaBancaria.Dispose()
+        vtipoSql = "SELECT tipocuentas.CodigoTIP, tipocuentas.DescripcionTIP, tipocuentas.IdTipoCUE FROM tipocuentas"
+        vtipoSql += " ORDER BY tipocuentas.CodigoTIP ASC"
+        vtipoGrid = "TIPO_CUENTAS_BANCARIAS"
+        LlenarGrid(vtipoSql, vtipoGrid, "1")
+        TraducirContenidoGridTiposCuenta(DgvTipoCuentasBancarias, rmse)
+    End Sub
+
+    Private Sub BtnPrimero_Click(sender As Object, e As EventArgs) Handles BtnPrimero.Click
+        vFilaActual = DgvTipoCuentasBancarias.CurrentRow.Index
+        If vFilaActual = 0 Then
+            MsgBox(resManager.GetString("MsgFila1"), vbInformation)
+        Else
+            vFila = 0
+            DgvTipoCuentasBancarias.Rows(vFila).Selected = True
+            DgvTipoCuentasBancarias.CurrentCell = DgvTipoCuentasBancarias.Rows(vFila).Cells(0)
+        End If
+    End Sub
+
+    Private Sub BtnAnterior_Click(sender As Object, e As EventArgs) Handles BtnAnterior.Click
+        vFilaActual = DgvTipoCuentasBancarias.CurrentRow.Index
+        If vFilaActual = 0 Then
+            MsgBox(resManager.GetString("MsgFila1"), vbInformation)
+        Else
+            vFila = vFilaActual - 1
+            DgvTipoCuentasBancarias.Rows(vFila).Selected = True
+            DgvTipoCuentasBancarias.CurrentCell = DgvTipoCuentasBancarias.Rows(vFila).Cells(0)
+        End If
+    End Sub
+
+    Private Sub BtnSiguiente_Click(sender As Object, e As EventArgs) Handles BtnSiguiente.Click
+        vFilaActual = DgvTipoCuentasBancarias.CurrentRow.Index
+        If vFilaActual = DgvTipoCuentasBancarias.RowCount - 1 Then
+            MsgBox(resManager.GetString("MsgFila2"), vbInformation)
+        Else
+            vFila = vFilaActual + 1
+            DgvTipoCuentasBancarias.Rows(vFila).Selected = True
+            DgvTipoCuentasBancarias.CurrentCell = DgvTipoCuentasBancarias.Rows(vFila).Cells(0)
+        End If
+    End Sub
+
+    Private Sub BtnUltimo_Click(sender As Object, e As EventArgs) Handles BtnUltimo.Click
+        vFilaActual = DgvTipoCuentasBancarias.CurrentRow.Index
+        If vFilaActual = DgvTipoCuentasBancarias.RowCount - 1 Then
+            MsgBox(resManager.GetString("MsgFila2"), vbInformation)
+        Else
+            vFila = DgvTipoCuentasBancarias.RowCount - 1
+            DgvTipoCuentasBancarias.Rows(vFila).Selected = True
+            DgvTipoCuentasBancarias.CurrentCell = DgvTipoCuentasBancarias.Rows(vFila).Cells(0)
+        End If
+    End Sub
+
+    Private Sub VerificarFiltrosDesactivados(sender As Object, e As MouseEventArgs)
+        ' Diccionario con tus botones deshabilitados y sus ToolTips correspondientes
+        Dim botonesBloqueados As New Dictionary(Of Button, ToolTip) From {
+            {Me.BtnEliminarRegistro, TL(2)},
+            {Me.BtnSeguirBuscando, TL(4)}
+        }
+
+        For Each par In botonesBloqueados
+            Dim boton As Button = par.Key
+            Dim tool As ToolTip = par.Value
+
+            If Not boton.Enabled Then
+                ' Traducimos la posición del ratón al contenedor nativo del botón (su GroupBox)
+                Dim posRatonRelativaAlBoton As Point = boton.Parent.PointToClient(Cursor.Position)
+
+                ' Si el ratón está sobre el botón desactivado
+                If boton.Bounds.Contains(posRatonRelativaAlBoton) Then
+                    ' Calculamos la posición respecto al formulario para dibujar el cartelito en el lugar correcto
+                    Dim posRatonRelativaAlForm As Point = Me.PointToClient(Cursor.Position)
+                    'tool.Show(resManager.GetString("ToolTipEliminar"), Me, posRatonRelativaAlForm.X + 15, posRatonRelativaAlForm.Y + 15)
+                    ' Cargamos dinámicamente su texto correspondiente desde tu recurso
+                    Dim textoKey As String = If(boton Is Me.BtnSeguirBuscando, "ToolTipSeguirBuscando", "ToolTipEliminar")
+                    tool.Show(resManager.GetString(textoKey), Me, posRatonRelativaAlForm.X + 15, posRatonRelativaAlForm.Y + 15)
+                    Exit Sub
+                End If
+            End If
+        Next
+
+        ' Si el ratón no está sobre ningún botón bloqueado, ocultamos los tres
+        TL(2).Hide(Me)
+        TL(4).Hide(Me)
+    End Sub
+
     Private Sub BtnImprimir_Click(sender As Object, e As EventArgs) Handles BtnImprimir.Click
         vtipoSql = "SELECT * FROM tipocuentas"
         vtipoSql += " ORDER BY tipocuentas.CodigoTIP ASC"
@@ -346,237 +578,6 @@ Public Class TipoCuentaBancaria
         frmImprimirForm.LblNumeroPagina.Text = CInt(frmImprimirForm.LblNumeroPagina.Text) + 1
         e.Graphics.DrawString(resManager.GetString("Pagina"), FuenteDetalles, Brushes.Black, frmImprimirForm.Label2.Left, e.MarginBounds.Bottom)
         e.Graphics.DrawString(frmImprimirForm.LblNumeroPagina.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.LblNumeroPagina.Left, e.MarginBounds.Bottom)
-
-    End Sub
-
-    Private Function TraducirDinamico(textoOriginal As String, esDescripcion As Boolean) As String
-        ' 1. Validamos que no venga vacío
-        If String.IsNullOrEmpty(textoOriginal) Then Return ""
-
-        ' 2. Formateamos el texto para que coincida con la Key de ResX Manager (ej: "Cuenta Corriente" -> "Cuenta_Corriente")
-        Dim llave As String = textoOriginal.Trim().Replace(" ", "_")
-        If esDescripcion Then llave = "Desc_" & llave
-
-        Try
-            ' 3. Buscamos en el gestor de recursos (reemplaza 'resManager' por tu objeto ResourceManager activo)
-            Dim textoTraducido As String = rmse.GetString(llave)
-
-            ' 4. Si existe traducción en el .resx la devolvemos; si no, devolvemos el texto original de la BD
-            If Not String.IsNullOrEmpty(textoTraducido) Then
-                Return textoTraducido
-            Else
-                Return textoOriginal
-            End If
-        Catch ex As Exception
-            ' En caso de cualquier error imprevisto de lectura, no rompemos la app, devolvemos el dato original
-            Return textoOriginal
-        End Try
-    End Function
-
-    Private Sub BtnEditarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEditarRegistro.Click
-        filaActual = frmTipoCuentaBancaria.DgvTipoCuentasBancarias.CurrentRow.Index
-        vTxtNombre = frmTipoCuentaBancaria.DgvTipoCuentasBancarias.Rows(filaActual).Cells(1).Value.ToString
-
-        ' Comprobamos si existe un identificador asociado.
-        If ((frmEditarTipoCuentaBancaria Is Nothing) OrElse (Not frmEditarTipoCuentaBancaria.IsHandleCreated)) Then
-            frmEditarTipoCuentaBancaria = New EditarTipoCuentaBancaria
-        End If
-        ' Llamamos al formulario de manera modal.
-        vEditar = "SI"
-        frmEditarTipoCuentaBancaria.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
-        frmEditarTipoCuentaBancaria.Dispose()
-        vtipoSql = "SELECT tipocuentas.CodigoTIP, tipocuentas.DescripcionTIP FROM tipocuentas"
-        vtipoSql += " ORDER BY tipocuentas.CodigoTIP ASC"
-        vtipoGrid = "TIPO_CUENTAS_BANCARIAS"
-        LlenarGrid(vtipoSql, vtipoGrid, "1")
-        TraducirContenidoGridTiposCuenta(DgvTipoCuentasBancarias, rmse)
-        DgvTipoCuentasBancarias.CurrentCell = DgvTipoCuentasBancarias.Rows(filaActual).Cells(0)
-        DgvTipoCuentasBancarias.Rows(filaActual).Selected = True
-    End Sub
-
-    Private Sub BtnEliminarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEliminarRegistro.Click
-
-        ' 1. Verificar si hay alguna fila seleccionada en el Grid
-        If frmTipoCuentaBancaria.DgvTipoCuentasBancarias.CurrentRow Is Nothing Then
-            MsgBox(rmse.GetString("SeleccionarTipo"), vbExclamation, rmse.GetString("$this.Text"))
-            Exit Sub
-        End If
-
-        ' 2. Obtener el texto del Grid y REVERTIR el idioma a su valor original de la BD
-        Dim filaActual As Integer = frmTipoCuentaBancaria.DgvTipoCuentasBancarias.CurrentRow.Index
-        Dim textoTraducido As String = frmTipoCuentaBancaria.DgvTipoCuentasBancarias.Rows(filaActual).Cells(0).Value.ToString().Trim()
-
-        ' Variable que contendrá el nombre real en la Base de Datos
-        Dim vTxtNombre As String = textoTraducido
-
-        ' Buscamos de forma inversa en el archivo de recursos (rmse)
-        Dim recursos As System.Resources.ResourceSet = rmse.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
-        If recursos IsNot Nothing Then
-            For Each elemento As System.Collections.DictionaryEntry In recursos
-                ' Si el valor traducido coincide con lo que hay en el Grid...
-                If elemento.Value.ToString().Trim().ToUpper() = textoTraducido.ToUpper() Then
-                    ' La Key encontrada (ej: "Cuenta_Corriente") la volvemos a dejar con espacios ("Cuenta Corriente")
-                    vTxtNombre = elemento.Key.ToString().Replace("_", " ")
-                    Exit For
-                End If
-            Next
-        End If
-
-        ' 3. VALIDACIÓN: Comprobar si este Tipo de Cuenta está en uso en la tabla 'cuentas'
-        Dim vSqlVerificar As String = "Select COUNT(*) FROM cuentas WHERE TipoCUE = '" & vTxtNombre & "'"
-
-        ' Reutilizamos tu comando por defecto asignándole la consulta de verificación
-        cmdMdb1cr.CommandText = vSqlVerificar
-        Dim cuentasAsociadas As Integer
-
-        Try
-            ' Ejecutamos el conteo sobre tu comando de siempre
-            cuentasAsociadas = Convert.ToInt32(cmdMdb1cr.ExecuteScalar())
-        Catch ex As Exception
-            MsgBox(rmse.GetString("ErrorVerificarIntegridad") & ": " & ex.Message, vbCritical, rmse.GetString("$this.Text"))
-            Exit Sub
-        End Try
-
-        ' 4. Bloquear el borrado si está asignado a alguna cuenta
-        If cuentasAsociadas > 0 Then
-            MsgBox(rmse.GetString("NoSePuedeEliminar") & " " & textoTraducido & " " & rmse.GetString("PorqueAsignado") & " " & cuentasAsociadas & " " & rmse.GetString("CuentaBancaria"), vbExclamation, rmse.GetString("AccionCancelada"))
-            Exit Sub
-        End If
-
-        ' 5. Confirmación de borrado seguro (mostramos el texto traducido para que el usuario lo entienda)
-        If MsgBox(rmse.GetString("SeguroEliminar") & ": " & textoTraducido & "?", vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("ConfirmarBorrado")) = vbYes Then
-            ' Limpiamos cualquier rastro de la consulta anterior en el comando
-            cmdMdb1cr.Parameters.Clear()
-
-            ' Asignamos la nueva sentencia de borrado usando el nombre original (vTxtNombre)
-            ' 1. Defines la consulta con el "?" y la asignas una sola vez
-            Dim vtipoSql As String = "DELETE FROM tipocuentas WHERE CodigoTIP = ?"
-            cmdMdb1cr.CommandText = vtipoSql
-
-            ' 2. Limpias parámetros y pasas el texto de forma segura
-            cmdMdb1cr.Parameters.Clear()
-            cmdMdb1cr.Parameters.AddWithValue("?", vTxtNombre)
-
-            Try
-                ' Ejecutamos el borrado físico
-                Dim filasAfectadas As Integer = cmdMdb1cr.ExecuteNonQuery()
-
-                ' Validamos si realmente la base de datos eliminó algo
-                If filasAfectadas > 0 Then
-                    MsgBox(resManager.GetString("RegistroBorrado"), vbInformation, resManager.GetString("ToolTipEliminar"))
-                Else
-                    MsgBox(resManager.GetString("RegistroNoBorrado") & " " & textoTraducido & vbExclamation, resManager.GetString("ToolTipEliminar"))
-                End If
-
-                ' 6. Recarga automática del Grid con tu método exacto
-                '*****************************************************
-                vtipoSql = "SELECT tipocuentas.CodigoTIP, tipocuentas.DescripcionTIP FROM tipocuentas"
-                vtipoSql += " ORDER BY tipocuentas.CodigoTIP ASC"
-                vtipoGrid = "TIPO_CUENTAS_BANCARIAS"
-                LlenarGrid(vtipoSql, vtipoGrid, "1")
-                TraducirContenidoGridTiposCuenta(frmTipoCuentaBancaria.DgvTipoCuentasBancarias, rmse)
-            Catch ex As Exception
-                MsgBox(resManager.GetString("ErrorEliminarRegistro") & ex.Message, vbCritical, resManager.GetString("Error"))
-            End Try
-        Else
-            MsgBox(resManager.GetString("AccionCancelada"), vbInformation, rmse.GetString("$this.Text"))
-        End If
-    End Sub
-
-    Private Sub BtnAñadirRegistro_Click(sender As Object, e As EventArgs) Handles BtnAñadirRegistro.Click
-        ' Comprobamos si existe un identificador asociado.
-        If ((frmNuevoTipoCuentaBancaria Is Nothing) OrElse (Not frmNuevoTipoCuentaBancaria.IsHandleCreated)) Then
-            frmNuevoTipoCuentaBancaria = New NuevoTipoCuentaBancaria
-        End If
-        ' Llamamos al formulario de manera modal.
-        frmNuevoTipoCuentaBancaria.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
-        frmNuevoTipoCuentaBancaria.Dispose()
-        vtipoSql = "SELECT tipocuentas.CodigoTIP, tipocuentas.DescripcionTIP FROM tipocuentas"
-        vtipoSql += " ORDER BY tipocuentas.CodigoTIP ASC"
-        vtipoGrid = "TIPO_CUENTAS_BANCARIAS"
-        LlenarGrid(vtipoSql, vtipoGrid, "1")
-        TraducirContenidoGridTiposCuenta(DgvTipoCuentasBancarias, rmse)
-    End Sub
-
-    Private Sub BtnPrimero_Click(sender As Object, e As EventArgs) Handles BtnPrimero.Click
-        vFilaActual = DgvTipoCuentasBancarias.CurrentRow.Index
-        If vFilaActual = 0 Then
-            MsgBox(resManager.GetString("MsgFila1"), vbInformation)
-        Else
-            vFila = 0
-            DgvTipoCuentasBancarias.Rows(vFila).Selected = True
-            DgvTipoCuentasBancarias.CurrentCell = DgvTipoCuentasBancarias.Rows(vFila).Cells(0)
-        End If
-    End Sub
-
-    Private Sub BtnAnterior_Click(sender As Object, e As EventArgs) Handles BtnAnterior.Click
-        vFilaActual = DgvTipoCuentasBancarias.CurrentRow.Index
-        If vFilaActual = 0 Then
-            MsgBox(resManager.GetString("MsgFila1"), vbInformation)
-        Else
-            vFila = vFilaActual - 1
-            DgvTipoCuentasBancarias.Rows(vFila).Selected = True
-            DgvTipoCuentasBancarias.CurrentCell = DgvTipoCuentasBancarias.Rows(vFila).Cells(0)
-        End If
-    End Sub
-
-    Private Sub BtnSiguiente_Click(sender As Object, e As EventArgs) Handles BtnSiguiente.Click
-        vFilaActual = DgvTipoCuentasBancarias.CurrentRow.Index
-        If vFilaActual = DgvTipoCuentasBancarias.RowCount - 1 Then
-            MsgBox(resManager.GetString("MsgFila2"), vbInformation)
-        Else
-            vFila = vFilaActual + 1
-            DgvTipoCuentasBancarias.Rows(vFila).Selected = True
-            DgvTipoCuentasBancarias.CurrentCell = DgvTipoCuentasBancarias.Rows(vFila).Cells(0)
-        End If
-    End Sub
-
-    Private Sub BtnUltimo_Click(sender As Object, e As EventArgs) Handles BtnUltimo.Click
-        vFilaActual = DgvTipoCuentasBancarias.CurrentRow.Index
-        If vFilaActual = DgvTipoCuentasBancarias.RowCount - 1 Then
-            MsgBox(resManager.GetString("MsgFila2"), vbInformation)
-        Else
-            vFila = DgvTipoCuentasBancarias.RowCount - 1
-            DgvTipoCuentasBancarias.Rows(vFila).Selected = True
-            DgvTipoCuentasBancarias.CurrentCell = DgvTipoCuentasBancarias.Rows(vFila).Cells(0)
-        End If
-    End Sub
-
-    Private Sub VerificarFiltrosDesactivados(sender As Object, e As MouseEventArgs)
-        ' Diccionario con tus botones deshabilitados y sus ToolTips correspondientes
-        Dim botonesBloqueados As New Dictionary(Of Button, ToolTip) From {
-            {Me.BtnEliminarRegistro, TL(2)},
-            {Me.BtnSeguirBuscando, TL(4)}
-        }
-
-        For Each par In botonesBloqueados
-            Dim boton As Button = par.Key
-            Dim tool As ToolTip = par.Value
-
-            If Not boton.Enabled Then
-                ' Traducimos la posición del ratón al contenedor nativo del botón (su GroupBox)
-                Dim posRatonRelativaAlBoton As Point = boton.Parent.PointToClient(Cursor.Position)
-
-                ' Si el ratón está sobre el botón desactivado
-                If boton.Bounds.Contains(posRatonRelativaAlBoton) Then
-                    ' Calculamos la posición respecto al formulario para dibujar el cartelito en el lugar correcto
-                    Dim posRatonRelativaAlForm As Point = Me.PointToClient(Cursor.Position)
-                    'tool.Show(resManager.GetString("ToolTipEliminar"), Me, posRatonRelativaAlForm.X + 15, posRatonRelativaAlForm.Y + 15)
-                    ' Cargamos dinámicamente su texto correspondiente desde tu recurso
-                    Dim textoKey As String = If(boton Is Me.BtnSeguirBuscando, "ToolTipSeguirBuscando", "ToolTipEliminar")
-                    tool.Show(resManager.GetString(textoKey), Me, posRatonRelativaAlForm.X + 15, posRatonRelativaAlForm.Y + 15)
-                    Exit Sub
-                End If
-            End If
-        Next
-
-        ' Si el ratón no está sobre ningún botón bloqueado, ocultamos los tres
-        TL(2).Hide(Me)
-        TL(4).Hide(Me)
     End Sub
 
 End Class

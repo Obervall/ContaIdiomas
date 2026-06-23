@@ -127,6 +127,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Atención.
+    '''</summary>
+    Friend Shared ReadOnly Property Atencion() As String
+        Get
+            Return ResourceManager.GetString("Atencion", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Aviso.
     '''</summary>
     Friend Shared ReadOnly Property Aviso() As String
@@ -304,6 +313,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property Conceptos() As String
         Get
             Return ResourceManager.GetString("Conceptos", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a El concepto y todos sus registros vinculados han sido eliminados correctamente.
+    '''</summary>
+    Friend Shared ReadOnly Property ConceptoYRegistrosEliminados() As String
+        Get
+            Return ResourceManager.GetString("ConceptoYRegistrosEliminados", resourceCulture)
         End Get
     End Property
     
@@ -724,6 +742,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Error durante la eliminación en cascada.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorConceptoYRegistrosEliminados() As String
+        Get
+            Return ResourceManager.GetString("ErrorConceptoYRegistrosEliminados", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Error al descargar la actualización.
     '''</summary>
     Friend Shared ReadOnly Property ErrorDescargarActualizacion() As String
@@ -801,6 +828,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property ErrorModificarRegistro() As String
         Get
             Return ResourceManager.GetString("ErrorModificarRegistro", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Error al recuperar el identificador numérico del registro.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorRecuperarID() As String
+        Get
+            Return ResourceManager.GetString("ErrorRecuperarID", resourceCulture)
         End Get
     End Property
     
@@ -1152,6 +1188,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property NoConectoPor() As String
         Get
             Return ResourceManager.GetString("NoConectoPor", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a No se encontró el registro para actualizar.
+    '''</summary>
+    Friend Shared ReadOnly Property NoEncuentraRegistro() As String
+        Get
+            Return ResourceManager.GetString("NoEncuentraRegistro", resourceCulture)
         End Get
     End Property
     

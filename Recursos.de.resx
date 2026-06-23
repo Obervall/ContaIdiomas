@@ -703,4 +703,19 @@ Die Datei ist nicht geöffnet</value>
   <data name="Existentes" xml:space="preserve">
     <value>Existenz</value>
   </data>
+  <data name="Atencion" xml:space="preserve">
+    <value>Achtung</value>
+  </data>
+  <data name="ConceptoYRegistrosEliminados" xml:space="preserve">
+    <value>Das Konzept und alle verknüpften Datensätze wurden erfolgreich gelöscht</value>
+  </data>
+  <data name="ErrorConceptoYRegistrosEliminados" xml:space="preserve">
+    <value>Fehler während der kaskadierenden Löschung</value>
+  </data>
+  <data name="ErrorRecuperarID" xml:space="preserve">
+    <value>Fehler beim Abrufen der numerischen Kennung aus dem Register</value>
+  </data>
+  <data name="NoEncuentraRegistro" xml:space="preserve">
+    <value>Datensatz nicht zum Upgrade gefunden</value>
+  </data>
 </root>

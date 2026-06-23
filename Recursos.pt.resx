@@ -703,4 +703,19 @@ O arquivo não está aberto</value>
   <data name="Existentes" xml:space="preserve">
     <value>Existentes</value>
   </data>
+  <data name="Atencion" xml:space="preserve">
+    <value>Atenção</value>
+  </data>
+  <data name="ConceptoYRegistrosEliminados" xml:space="preserve">
+    <value>O conceito e todos os seus registros vinculados foram eliminados com sucesso</value>
+  </data>
+  <data name="ErrorConceptoYRegistrosEliminados" xml:space="preserve">
+    <value>Erro durante a exclusão em cascata</value>
+  </data>
+  <data name="ErrorRecuperarID" xml:space="preserve">
+    <value>Erro ao recuperar o identificador numérico do registro</value>
+  </data>
+  <data name="NoEncuentraRegistro" xml:space="preserve">
+    <value>Registro não encontrado para atualizar</value>
+  </data>
 </root>

@@ -703,4 +703,19 @@ le fichier n’est pas ouvert</value>
   <data name="Existentes" xml:space="preserve">
     <value>Existant</value>
   </data>
+  <data name="Atencion" xml:space="preserve">
+    <value>Attention</value>
+  </data>
+  <data name="ConceptoYRegistrosEliminados" xml:space="preserve">
+    <value>Le concept et tous ses enregistrements liés ont été supprimés avec succès</value>
+  </data>
+  <data name="ErrorConceptoYRegistrosEliminados" xml:space="preserve">
+    <value>Erreur lors de la suppression en cascade</value>
+  </data>
+  <data name="ErrorRecuperarID" xml:space="preserve">
+    <value>Erreur lors de la récupération de l’identifiant numérique dans le registre</value>
+  </data>
+  <data name="NoEncuentraRegistro" xml:space="preserve">
+    <value>Enregistrement non trouvé pour la mise à jour</value>
+  </data>
 </root>
