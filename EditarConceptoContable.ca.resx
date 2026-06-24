@@ -171,4 +171,7 @@
   <data name="Concepto_No_Editable" xml:space="preserve">
     <value>Aquest Concepte No és Editable, pertany al Sistema</value>
   </data>
+  <data name="AdvertenciaBorradoCascada" xml:space="preserve">
+    <value>⚠️ ADVERTÈNCIA: Aquesta acció eliminarà de forma irreversible tots els apunts històrics, apunts periòdics i pressupostos associats a aquest concepte</value>
+  </data>
 </root>

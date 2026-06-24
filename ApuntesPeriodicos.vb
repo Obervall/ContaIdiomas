@@ -8,7 +8,6 @@ Public Class ApuntesPeriodicos
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub ApuntesPeriodicos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'ActualizarTextosFormulario(Me)
         Me.KeyPreview = True
         ' 1. Convertimos el año base de forma segura
         Dim anioBase As Integer

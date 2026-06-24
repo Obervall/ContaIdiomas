@@ -12,7 +12,6 @@ Public Class SeleccionFechas
 
     Private Sub SeleccionFechas_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
-        ActualizarTextosFormulario(Me)
 
         ' 1. Convertimos el año a número entero de forma segura
         Dim anio As Integer

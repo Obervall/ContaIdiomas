@@ -465,7 +465,7 @@ Public Class ConceptosContables
         ' Apuntamos directamente a ConceptosMuestraSistema que está en tu módulo
         If ConceptosMuestraSistema.Contains(codigoEnEspañol) Then
             Dim msgAviso As String = resManager.GetString("AvisoConceptoProtegido")
-            If String.IsNullOrEmpty(msgAviso) Then msgAviso = "Los conceptos predeterminados del sistema están protegidos contra modificaciones."
+            If String.IsNullOrEmpty(msgAviso) Then msgAviso = "Los conceptos predeterminados del sistema están protegidos contra modificaciones, si no se va a usar se puede Eliminar."
             MessageBox.Show(msgAviso, resManager.GetString("Aviso"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub ' Se frena en seco: bloquea por completo la edición
         End If
@@ -477,7 +477,7 @@ Public Class ConceptosContables
         Dim textoValidarLimpio As String = codigoEnEspañol.Replace("_", "").Replace(" ", "").Trim().ToUpper()
         If ConceptosMuestraSistema.Contains(textoValidarLimpio) Then
             Dim msgAviso As String = resManager.GetString("AvisoConceptoProtegido")
-            If String.IsNullOrEmpty(msgAviso) Then msgAviso = "Los conceptos predeterminados del sistema están protegidos contra modificaciones."
+            If String.IsNullOrEmpty(msgAviso) Then msgAviso = "Los conceptos predeterminados del sistema están protegidos contra modificaciones, si no se va a usar se puede Eliminar."
             MessageBox.Show(msgAviso, resManager.GetString("Aviso"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If

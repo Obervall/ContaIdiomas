@@ -262,7 +262,7 @@ No se Eliminan de la Base de Datos</value>
   <data name="ErrorAlEjecutar" xml:space="preserve">
     <value>Error al ejecutar</value>
   </data>
-  <data name="CAJA_EFECTIVO" xml:space="preserve">
+  <data name="EFECTIVO" xml:space="preserve">
     <value>CAJA EFECTIVO</value>
   </data>
   <data name="BBVA" xml:space="preserve">
@@ -271,7 +271,7 @@ No se Eliminan de la Base de Datos</value>
   <data name="OPENBANK" xml:space="preserve">
     <value>OPENBANK</value>
   </data>
-  <data name="PLAN_PENSIONES" xml:space="preserve">
+  <data name="PLAN_DE_PENSIONES" xml:space="preserve">
     <value>PLAN PENSIONES</value>
   </data>
   <data name="FinalTabla" xml:space="preserve">
@@ -367,10 +367,10 @@ No se Eliminan de la Base de Datos</value>
   <data name="PENSION" xml:space="preserve">
     <value>PENSION</value>
   </data>
-  <data name="REGULARITZACIO_1" xml:space="preserve">
+  <data name="REGULARIZACION_1" xml:space="preserve">
     <value>REGULARIZACION 1</value>
   </data>
-  <data name="REGULARITZACIO_2" xml:space="preserve">
+  <data name="REGULARIZACION_2" xml:space="preserve">
     <value>REGULARIZACION 2</value>
   </data>
   <data name="ROPA" xml:space="preserve">
@@ -463,10 +463,10 @@ No se Eliminan de la Base de Datos</value>
   <data name="Desc_PENSION" xml:space="preserve">
     <value>Pensión o Suledo</value>
   </data>
-  <data name="Desc_REGULARITZACIO_1" xml:space="preserve">
+  <data name="Desc_REGULARIZACION_1" xml:space="preserve">
     <value>Regularización de Ingresos</value>
   </data>
-  <data name="Desc_REGULARITZACIO_2" xml:space="preserve">
+  <data name="Desc_REGULARIZACION_2" xml:space="preserve">
     <value>Regularización de Gastos</value>
   </data>
   <data name="Desc_ROPA" xml:space="preserve">
@@ -502,17 +502,11 @@ No se Eliminan de la Base de Datos</value>
   <data name="TituloReporteConceptos" xml:space="preserve">
     <value>Listado de Conceptos Contables</value>
   </data>
-  <data name="Nom_BBVA" xml:space="preserve">
+  <data name="Desc_BBVA" xml:space="preserve">
     <value>BBVA</value>
   </data>
-  <data name="Nom_CAJA_EFECTIVO" xml:space="preserve">
-    <value>CAJA EFECTIVO</value>
-  </data>
-  <data name="Nom_OPENBANK" xml:space="preserve">
+  <data name="Desc_OPENBANK" xml:space="preserve">
     <value>OPENBANK</value>
-  </data>
-  <data name="Nom_PLAN_PENSIONES" xml:space="preserve">
-    <value>PLAN PENSIONES</value>
   </data>
   <data name="SaldosGeneradosExito" xml:space="preserve">
     <value>Saldos iniciales generados e insertados correctamente</value>
@@ -623,7 +617,7 @@ No se Eliminan de la Base de Datos</value>
     <value>Refrescar la Parrilla Apuntes y Quitar Filtros</value>
   </data>
   <data name="AvisoConceptoProtegido" xml:space="preserve">
-    <value>Los conceptos predeterminados del sistema están protegidos contra modificaciones</value>
+    <value>Los conceptos predeterminados del sistema están protegidos contra modificaciones, si no se va a usar se puede Eliminar</value>
   </data>
   <data name="NoConectoPor" xml:space="preserve">
     <value>No se conectó por</value>
@@ -717,5 +711,47 @@ que el archivo no esté abierto</value>
   </data>
   <data name="NoEncuentraRegistro" xml:space="preserve">
     <value>No se encontró el registro para actualizar</value>
+  </data>
+  <data name="Desc_EFECTIVO" xml:space="preserve">
+    <value>Dinero en Efectivo</value>
+  </data>
+  <data name="CUENTA_CORRIENTE" xml:space="preserve">
+    <value>CUENTA CORRIENTE</value>
+  </data>
+  <data name="CUENTA_VIVIENDA" xml:space="preserve">
+    <value>CUENTA VIVIENDA</value>
+  </data>
+  <data name="Desc_CUENTA_CORRIENTE" xml:space="preserve">
+    <value>Cuenta Corriente Bancaria</value>
+  </data>
+  <data name="Desc_CUENTA_VIVIENDA" xml:space="preserve">
+    <value>Cuenta Vivienda Habitual</value>
+  </data>
+  <data name="Desc_FONDO_DE_INVERSION" xml:space="preserve">
+    <value>Fondo de Inversión Banco</value>
+  </data>
+  <data name="FONDO_DE_INVERSION" xml:space="preserve">
+    <value>FONDO DE INVERSIÓN</value>
+  </data>
+  <data name="Desc_PLAN_DE_PENSIONES" xml:space="preserve">
+    <value>Plan de Pensiones</value>
+  </data>
+  <data name="Desc_TARJETA_DE_CREDITO" xml:space="preserve">
+    <value>Tarjeta de Crédito</value>
+  </data>
+  <data name="TARJETA_DE_CREDITO" xml:space="preserve">
+    <value>TARJETA DE CRÉDITO</value>
+  </data>
+  <data name="PLAN_PENSIONES" xml:space="preserve">
+    <value>PLAN PENSIONES</value>
+  </data>
+  <data name="Desc_PLAN_PENSIONES" xml:space="preserve">
+    <value>Plan de Pensiones</value>
+  </data>
+  <data name="CAJA_EFECTIVO" xml:space="preserve">
+    <value>CAJA EFECTIVO</value>
+  </data>
+  <data name="Desc_CAJA_EFECTIVO" xml:space="preserve">
+    <value>Efectivo en casa</value>
   </data>
 </root>

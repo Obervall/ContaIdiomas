@@ -189,14 +189,13 @@ Public Class EditarConceptoContable
         End Try
 
         ' =========================================================================
-        ' 4. MENSAJE DE CONFIRMACIÓN ÚNICO Y ADVERTENCIA EN CASCADA
+        ' 4. MENSAJE DE CONFIRMACIÓN ÚNICO MULTIIDIOMA REAL (CORREGIDO)
         ' =========================================================================
-        ' Construimos un mensaje claro que avise al usuario del impacto total en la base de datos
+        ' Combinamos el mensaje base traducido con la advertencia en cascada del .resx
         Dim mensajeAlerta As String = rmse.GetString("EliminarConcepto") & " [" & vTxtNombre & "] " & rmse.GetString("EliminarConcepto2") & vbNewLine & vbNewLine &
-                                  "⚠️ ADVERTENCIA: Esta acción eliminará de forma irreversible todos los apuntes históricos, " &
-                                  "apuntes periódicos y presupuestos asociados a este concepto."
+                                  rmse.GetString("AdvertenciaBorradoCascada")
 
-        Dim respuesta As MsgBoxResult = MsgBox(mensajeAlerta, vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("LblEliminando"))
+        Dim respuesta As MsgBoxResult = MsgBoxTraductorGlobal.MsgBox(mensajeAlerta, MsgBoxStyle.YesNo + MsgBoxStyle.Question, rmse.GetString("LblEliminando"))
 
         ' =========================================================================
         ' 5. EJECUCIÓN DEL BORRADO INTEGRAL POR ID NUMÉRICO

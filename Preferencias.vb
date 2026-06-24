@@ -9,7 +9,6 @@ Public Class Preferencias
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub Preferencias_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ActualizarTextosFormulario(Me)
 
         estaCargado = False ' Se establece la variable estaCargado a False al iniciar la carga
         ' del formulario para evitar que los eventos de cambio de las preferencias se ejecuten antes de cargar los valores.

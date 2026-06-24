@@ -87,6 +87,6 @@
     End Sub
 
     Private Sub TipoGraficoPeriodico_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ActualizarTextosFormulario(Me)
+        'ActualizarTextosFormulario(Me)
     End Sub
 End Class

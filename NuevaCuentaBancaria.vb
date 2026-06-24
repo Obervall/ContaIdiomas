@@ -9,7 +9,6 @@ Public Class NuevaCuentaBancaria
 
     Private Sub NuevaCuentaBancaria_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
-        ActualizarTextosFormulario(Me)
 
         Dim TL(4) As ToolTip
         TL(0) = New ToolTip
@@ -72,56 +71,92 @@ Public Class NuevaCuentaBancaria
     End Sub
 
     Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click
-        vTxtNombre = TxtNombre.Text
-        vTxtNumero = TxtNumero.Text
-        vTxtNotas = TxtNota.Text
+        ' 1. Capturamos los datos forzando MAYÚSCULAS en el nombre de la cuenta
+        Dim nombreCuentaMayusculas As String = TxtNombre.Text.Trim().ToUpper()
+        Dim numeroCuenta As String = TxtNumero.Text.Trim()
+        Dim notasCuenta As String = TxtNota.Text.Trim()
 
-        ' =========================================================================
-        ' EL CAMBIO CLAVE: Extraemos el valor original de Access desde el objeto oculto
-        ' =========================================================================
-        If CmbTipoCuenta.SelectedItem IsNot Nothing Then
-            Dim itemSeleccionado As ElementoCombo = CType(CmbTipoCuenta.SelectedItem, ElementoCombo)
-            vTxtTipo = itemSeleccionado.ValorInterno ' Esto guardará "AHORRO", "CORRIENTE", etc. sin importar el idioma
-        Else
-            vTxtTipo = "" ' Por si no hay nada seleccionado
+        ' Como no hay cuadro de saldo en el diseño, el saldo inicial de fábrica siempre es 0
+        Dim saldoInicial As Double = 0
+
+        ' Validamos que el nombre de la cuenta no esté vacío
+        If nombreCuentaMayusculas = "" Then
+            Dim msgVacio As String = resManager.GetString("NoHayDatos") & ": " & resManager.GetString("Nombre")
+            MessageBox.Show(msgVacio, rmse.GetString("$this.Text"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            TxtNombre.Select()
+            Exit Sub
         End If
-        ' =========================================================================
 
-        ' Verificar que no se repite Nombre/Código en Cuentas Bancarias
-        '**************************************************************
-        vtipoSql = "SELECT * FROM cuentas WHERE cuentas.NombreCUE = '" & vTxtNombre & "' "
+        ' Validamos que haya seleccionado un Tipo de Cuenta en el ComboBox
+        If CmbTipoCuenta.SelectedIndex = -1 Then
+            MessageBox.Show("Por favor, seleccione un Tipo de Cuenta válido.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            CmbTipoCuenta.Select()
+            Exit Sub
+        End If
+
+        ' =========================================================================
+        ' 2. CONTROL DE DUPLICADOS EN MAYÚSCULAS (Inmune a fallos)
+        ' =========================================================================
+        vtipoSql = "SELECT COUNT(*) FROM cuentas WHERE NombreCUE = ?"
         cmdMdb1cr.CommandText = vtipoSql
+        cmdMdb1cr.Parameters.Clear()
+        cmdMdb1cr.Parameters.AddWithValue("?", nombreCuentaMayusculas)
 
         Try
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-            If drMdb1.HasRows Then
-                drMdb1.Close()
+            Dim existe As Integer = Convert.ToInt32(cmdMdb1cr.ExecuteScalar())
+            If existe > 0 Then
+                Dim msgExiste As String = resManager.GetString("Nombre") & ": " & TxtNombre.Text.Trim() & ", " & resManager.GetString("Existe") & " " & rmse.GetString("$this.Text")
+                MessageBox.Show(msgExiste, rmse.GetString("$this.Text"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 TxtNombre.Select()
-            Else
-                drMdb1.Close()
-                ' 1. Diseñamos la estructura limpia para cuentas usando comodines '?'
-                vtipoSql = "INSERT INTO cuentas (NombreCUE, NumeroCUE, TipoCUE, NotasCUE) VALUES (?, ?, ?, ?)"
-                cmdMdb1cr.CommandText = vtipoSql
-
-                ' 2. Limpiamos y asignamos los parámetros en el orden exacto del SQL
-                cmdMdb1cr.Parameters.Clear()
-
-                ' Todos estos textos quedan protegidos automáticamente contra apóstrofes nativos
-                cmdMdb1cr.Parameters.AddWithValue("@NombreCUE", vTxtNombre.Trim())
-                cmdMdb1cr.Parameters.AddWithValue("@NumeroCUE", vTxtNumero.Trim())
-                cmdMdb1cr.Parameters.AddWithValue("@TipoCUE", vTxtTipo.Trim())
-                cmdMdb1cr.Parameters.AddWithValue("@NotasCUE", vTxtNotas.Trim())
-                cmdMdb1cr.CommandText = vtipoSql
-                Try
-                    cmdMdb1cr.ExecuteNonQuery()
-                    'MsgBox("Registro, Grabado Correctamente")
-                    Me.Close()
-                Catch ex As Exception
-                    MsgBox(ex.ToString)
-                End Try
+                TxtNombre.SelectAll()
+                Exit Sub
             End If
         Catch ex As Exception
-            MsgBox(ex.ToString)
+            MessageBox.Show("Error al verificar duplicados: " & vbNewLine & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Exit Sub
+        End Try
+
+        ' =========================================================================
+        ' 3. OBTENER EL ID NUMÉRICO DEL TIPO DE CUENTA SELECCIONADO
+        ' =========================================================================
+        ' Como la base de datos ahora guarda números enteros en TipoCUE, le sumamos 1 a la posición del ComboBox
+        Dim idTipoCuentaMDB As Integer = CmbTipoCuenta.SelectedIndex + 1
+
+        ' =========================================================================
+        ' 4. CALCULAR EL SIGUIENTE ID DISPONIBLE PARA LA CUENTA (MAX + 1)
+        ' =========================================================================
+        Dim siguienteID As Integer = 1
+        Try
+            cmdMdb1cr.CommandText = "SELECT MAX(IdCuentaCUE) FROM cuentas"
+            cmdMdb1cr.Parameters.Clear()
+            Dim resultado As Object = cmdMdb1cr.ExecuteScalar()
+            If resultado IsNot DBNull.Value AndAlso resultado IsNot Nothing Then
+                siguienteID = Convert.ToInt32(resultado) + 1
+            End If
+        Catch ex As Exception
+            siguienteID = 1
+        End Try
+
+        ' =========================================================================
+        ' 5. INSERCIÓN TOTALMENTE PARAMETRIZADA (ID, TIPO, NOMBRE, NÚMERO, NOTAS, SALDO)
+        ' =========================================================================
+        vtipoSql = "INSERT INTO cuentas (IdCuentaCUE, TipoCUE, NombreCUE, NumeroCUE, NotasCUE, SaldoCUE) VALUES (?, ?, ?, ?, ?, ?)"
+        cmdMdb1cr.CommandText = vtipoSql
+
+        ' Limpiamos y asignamos los parámetros en el orden EXACTO del SQL para Access
+        cmdMdb1cr.Parameters.Clear()
+        cmdMdb1cr.Parameters.AddWithValue("@IdCuentaCUE", siguienteID)
+        cmdMdb1cr.Parameters.AddWithValue("@TipoCUE", idTipoCuentaMDB)
+        cmdMdb1cr.Parameters.AddWithValue("@NombreCUE", nombreCuentaMayusculas)
+        cmdMdb1cr.Parameters.AddWithValue("@NumeroCUE", numeroCuenta)
+        cmdMdb1cr.Parameters.AddWithValue("@NotasCUE", notasCuenta)
+        cmdMdb1cr.Parameters.AddWithValue("@SaldoCUE", saldoInicial) ' Pasamos el 0 fijo de forma segura
+
+        Try
+            cmdMdb1cr.ExecuteNonQuery()
+            Me.Close() ' Registro grabado con éxito, cierra el subformulario modal
+        Catch ex As Exception
+            MessageBox.Show("Error al guardar la cuenta contable: " & vbNewLine & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 

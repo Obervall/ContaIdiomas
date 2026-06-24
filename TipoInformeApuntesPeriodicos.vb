@@ -12,7 +12,7 @@ Public Class TipoInformeApuntesPeriodicos
     Public Property DgvApuntes As Object
 
     Private Sub TipoInformeApuntesPeriodicos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ActualizarTextosFormulario(Me)
+        'ActualizarTextosFormulario(Me)
     End Sub
 
     Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click

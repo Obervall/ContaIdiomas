@@ -262,7 +262,7 @@ Ils ne sont pas supprimés de la base de données</value>
   <data name="ErrorAlEjecutar" xml:space="preserve">
     <value>Exécution par erreur</value>
   </data>
-  <data name="CAJA_EFECTIVO" xml:space="preserve">
+  <data name="EFECTIVO" xml:space="preserve">
     <value>CAISSE À CAISSES</value>
   </data>
   <data name="BBVA" xml:space="preserve">
@@ -271,7 +271,7 @@ Ils ne sont pas supprimés de la base de données</value>
   <data name="OPENBANK" xml:space="preserve">
     <value>OPENBANK</value>
   </data>
-  <data name="PLAN_PENSIONES" xml:space="preserve">
+  <data name="PLAN_DE_PENSIONES" xml:space="preserve">
     <value>PLAN DE RETRAITE</value>
   </data>
   <data name="FinalTabla" xml:space="preserve">
@@ -457,10 +457,10 @@ Ils ne sont pas supprimés de la base de données</value>
   <data name="Desc_PENSION" xml:space="preserve">
     <value>Maison d’hôtes ou Suledo</value>
   </data>
-  <data name="Desc_REGULARITZACIO_1" xml:space="preserve">
+  <data name="Desc_REGULARIZACION_1" xml:space="preserve">
     <value>Régularisation des revenus</value>
   </data>
-  <data name="Desc_REGULARITZACIO_2" xml:space="preserve">
+  <data name="Desc_REGULARIZACION_2" xml:space="preserve">
     <value>Régularisation des dépenses</value>
   </data>
   <data name="Desc_ROPA" xml:space="preserve">
@@ -496,17 +496,11 @@ Ils ne sont pas supprimés de la base de données</value>
   <data name="TituloReporteConceptos" xml:space="preserve">
     <value>Liste des concepts comptables</value>
   </data>
-  <data name="Nom_CAJA_EFECTIVO" xml:space="preserve">
-    <value>CAISSE À CAISSES</value>
-  </data>
-  <data name="Nom_BBVA" xml:space="preserve">
+  <data name="Desc_BBVA" xml:space="preserve">
     <value>BBVA</value>
   </data>
-  <data name="Nom_OPENBANK" xml:space="preserve">
+  <data name="Desc_OPENBANK" xml:space="preserve">
     <value>OPENBANK</value>
-  </data>
-  <data name="Nom_PLAN_PENSIONES" xml:space="preserve">
-    <value>PLAN DE RETRAITE</value>
   </data>
   <data name="SaldosGeneradosExito" xml:space="preserve">
     <value>Soldes de départ correctement générés et insérés</value>
@@ -616,9 +610,6 @@ Ils ne sont pas supprimés de la base de données</value>
   <data name="ToolTipF6" xml:space="preserve">
     <value>Rafraîchissement de la grille des notes et suppression des filtres</value>
   </data>
-  <data name="AvisoConceptoProtegido" xml:space="preserve">
-    <value>Les concepts par défaut du système sont protégés contre les modifications</value>
-  </data>
   <data name="NoConectoPor" xml:space="preserve">
     <value>Non connecté par</value>
   </data>
@@ -673,10 +664,10 @@ le fichier n’est pas ouvert</value>
   <data name="Vacio" xml:space="preserve">
     <value>Sans programmation..</value>
   </data>
-  <data name="REGULARITZACIO_1" xml:space="preserve">
+  <data name="REGULARIZACION_1" xml:space="preserve">
     <value>RÉGULARISATION 1</value>
   </data>
-  <data name="REGULARITZACIO_2" xml:space="preserve">
+  <data name="REGULARIZACION_2" xml:space="preserve">
     <value>RÉGULARISATION 2</value>
   </data>
   <data name="CLIENTE00" xml:space="preserve">
@@ -717,5 +708,50 @@ le fichier n’est pas ouvert</value>
   </data>
   <data name="NoEncuentraRegistro" xml:space="preserve">
     <value>Enregistrement non trouvé pour la mise à jour</value>
+  </data>
+  <data name="Desc_EFECTIVO" xml:space="preserve">
+    <value>Espèces</value>
+  </data>
+  <data name="Desc_CUENTA_CORRIENTE" xml:space="preserve">
+    <value>Compte courant bancaire</value>
+  </data>
+  <data name="Desc_CUENTA_VIVIENDA" xml:space="preserve">
+    <value>Compte de résidence principale</value>
+  </data>
+  <data name="Desc_FONDO_DE_INVERSION" xml:space="preserve">
+    <value>Banque de fonds d’investissement</value>
+  </data>
+  <data name="Desc_PLAN_DE_PENSIONES" xml:space="preserve">
+    <value>Régime de retraite</value>
+  </data>
+  <data name="Desc_TARJETA_DE_CREDITO" xml:space="preserve">
+    <value>Carte de crédit</value>
+  </data>
+  <data name="TARJETA_DE_CREDITO" xml:space="preserve">
+    <value>CARTE DE CRÈDIT</value>
+  </data>
+  <data name="CUENTA_CORRIENTE" xml:space="preserve">
+    <value>COMPTE COURANT</value>
+  </data>
+  <data name="CUENTA_VIVIENDA" xml:space="preserve">
+    <value>COMPTE DU LOGEMENT</value>
+  </data>
+  <data name="FONDO_DE_INVERSION" xml:space="preserve">
+    <value>FONDS D’INVESTISSEMENT</value>
+  </data>
+  <data name="PLAN_PENSIONES" xml:space="preserve">
+    <value>PLAN DE RETRAITE</value>
+  </data>
+  <data name="Desc_PLAN_PENSIONES" xml:space="preserve">
+    <value>Régime de retraite</value>
+  </data>
+  <data name="CAJA_EFECTIVO" xml:space="preserve">
+    <value>CAISSE À CAISSES</value>
+  </data>
+  <data name="Desc_CAJA_EFECTIVO" xml:space="preserve">
+    <value>Espèces à domicile</value>
+  </data>
+  <data name="AvisoConceptoProtegido" xml:space="preserve">
+    <value>Les concepts système par défaut sont protégés contre les modifications, s’ils ne sont pas utilisés ils peuvent être supprimés</value>
   </data>
 </root>

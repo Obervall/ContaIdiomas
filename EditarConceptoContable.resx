@@ -594,4 +594,7 @@
   <data name="ToolTipDescripcion" xml:space="preserve">
     <value>Descripción del Concepto</value>
   </data>
+  <data name="AdvertenciaBorradoCascada" xml:space="preserve">
+    <value>⚠️ ADVERTENCIA: Esta acción eliminará de forma irreversible todos los apuntes históricos, apuntes periódicos y presupuestos asociados a este concepto</value>
+  </data>
 </root>

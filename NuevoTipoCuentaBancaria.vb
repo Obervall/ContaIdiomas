@@ -111,65 +111,6 @@ Public Class NuevoTipoCuentaBancaria
         End If
     End Sub
 
-
-    'Private Sub TxtNombre_TextChanged(sender As Object, e As EventArgs) Handles TxtNombre.TextChanged
-    '    ' 1. Controlar las mayúsculas sin perder la posición del cursor
-    '    Dim posicionCursor As Integer = TxtNombre.SelectionStart
-    '    Dim textoMayusculas As String = TxtNombre.Text.ToUpper()
-
-    '    If TxtNombre.Text <> textoMayusculas Then
-    '        TxtNombre.Text = textoMayusculas
-    '        TxtNombre.SelectionStart = posicionCursor
-    '    End If
-
-    '    Dim vBusca As String = TxtNombre.Text.Trim()
-
-    '    ' Si el cuadro de texto está vacío, limpiamos el Grid y lo ocultamos
-    '    If vBusca = "" Then
-    '        DgvExistente.DataSource = Nothing
-    '        DgvExistente.Visible = False
-    '        Exit Sub
-    '    End If
-
-    '    Try
-    '        ' 2. FILTRADO MULTIIDIOMA: Buscamos en la columna traducida en memoria lo que coincida con la inicial
-    '        Dim vistaFiltro As New DataView(dtTiposMemoria)
-    '        vistaFiltro.RowFilter = "TipoTraducido LIKE '" & vBusca.Replace("'", "''") & "%'"
-
-    '        ' 3. ENLACE AL GRID
-    '        If vistaFiltro.Count > 0 Then
-    '            DgvExistente.DataSource = vistaFiltro.ToTable()
-    '            DgvExistente.Columns("TipoTraducido").HeaderText = "Tipos Existentes"
-
-    '            If DgvExistente.Columns.Contains("CodigoTIP") Then
-    '                DgvExistente.Columns("CodigoTIP").Visible = False
-    '            End If
-    '            DgvExistente.Visible = True
-    '        Else
-    '            DgvExistente.DataSource = Nothing
-    '            DgvExistente.Visible = False
-    '        End If
-
-    '    Catch ex As Exception
-    '        DgvExistente.DataSource = Nothing
-    '        DgvExistente.Visible = False
-    '    End Try
-    'End Sub
-
-    'Private Sub TxtNombre_TextChanged(sender As Object, e As EventArgs) Handles TxtNombre.TextChanged
-    '    Dim vBusca As String
-    '    vBusca = TxtNombre.Text.ToString
-    '    DgvExistente.Visible = True
-
-    '    ' Llenar Grid de Nombre/Código EXISTENTES en TIPO CUENTAS BANCARIAS
-    '    '******************************************************************
-    '    vtipoSql = "SELECT tipocuentas.CodigoTIP "
-    '    vtipoSql += "FROM tipocuentas WHERE tipocuentas.CodigoTIP Like '" & vBusca & "%' ORDER BY tipocuentas.CodigoTIP"
-    '    vtipoGrid = "NOMBRESEXISTENTES3"
-    '    LlenarGrid(vtipoSql, vtipoGrid, "1")
-    '    TraducirContenidoGridTiposCuenta(frmTipoCuentaBancaria.DgvTipoCuentasBancarias, rmse)
-    'End Sub
-
     Private Sub TxtNombre_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtNombre.KeyPress
         If e.KeyChar = ChrW(Keys.Enter) Then
             DgvExistente.Visible = False

@@ -52,12 +52,24 @@ Public Class CuentasBancarias
         CmbTipoCuenta.DropDownStyle = ComboBoxStyle.DropDownList
         CmbTipoCuenta.SelectedIndex = 0
 
-        ' Llenar Grid de CUENTAS
-        '***********************
-        vtipoSql = "SELECT cuentas.TipoCUE, cuentas.NombreCUE, cuentas.NumeroCUE, cuentas.NotasCUE, cuentas.NotasCUE FROM cuentas"
-        vtipoSql += " ORDER BY cuentas.NombreCUE ASC"
-        vtipoGrid = "CUENTAS_BANCARIAS"
-        LlenarGrid(vtipoSql, vtipoGrid, "1")
+        ' =========================================================================
+        ' ✨ SOLUCCIÓN DE CARGA CON INNER JOIN (Recupera el texto para el traductor)
+        ' =========================================================================
+        ' Traemos el CodigoTIP de la tabla maestra en la primera posición para tu bucle de traducción
+        vtipoSql = "SELECT tipocuentas.CodigoTIP, cuentas.NombreCUE, cuentas.NumeroCUE, cuentas.NotasCUE, cuentas.IdCuentaCUE " &
+           "FROM cuentas " &
+           "INNER JOIN tipocuentas ON cuentas.TipoCUE = tipocuentas.IdTipoCUE " &
+           "ORDER BY cuentas.NombreCUE ASC"
+
+        ' Llenamos el Grid con la estructura limpia
+        LlenarGrid(vtipoSql, "CUENTAS_BANCARIAS", "1")
+
+        ' Ocultamos el Id de la cuenta que viaja seguro en la posición 4
+        If DgvCuentas.Columns.Count > 4 Then
+            DgvCuentas.Columns(4).Visible = False
+        End If
+
+        ' Lanzamos tu rutina de traducción de siempre sobre los textos (CodigoTIP)
         TraducirColumnasGridCuentas(DgvCuentas, rmse)
 
         ' Llenar el Combo Campos
@@ -107,7 +119,7 @@ Public Class CuentasBancarias
 
                 ' Si el valor traducido coincide con lo que ve el usuario...
                 If valorTraducido = textoCombo Then
-                    ' Encontramos la clave original (ej: "CAJA EFECTIVO")
+                    ' Encontramos la clave original (ej: "EFECTIVO")
                     valorOriginalBD = elemento.Key.ToString()
                     Exit For
                 End If
@@ -446,9 +458,9 @@ Public Class CuentasBancarias
                 Exit Do
             End If
 
-            ' ✨ EL ÚNICO TRUCO: Leemos el nombre de la celda (1) y buscamos su traducción Nom_
+            ' ✨ EL ÚNICO TRUCO: Leemos el nombre de la celda (1) y buscamos su traducción Desc_
             Dim nombreCelda As String = frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(1).Value.ToString().Trim()
-            Dim tradNombre As String = resManager.GetString("Nom_" & nombreCelda.Replace(" ", "_"))
+            Dim tradNombre As String = resManager.GetString("Desc_" & nombreCelda.Replace(" ", "_"))
             Dim nombreFinal As String = If(Not String.IsNullOrEmpty(tradNombre), tradNombre, nombreCelda)
 
             ' Imprimimos los datos de las columnas principales (Usamos 'nombreFinal' en la celda 1)

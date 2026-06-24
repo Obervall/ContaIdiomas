@@ -14,7 +14,6 @@ Public Class IntroApuntesPeriodicos
 
     Private Sub IntroApuntesPeriodicos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
-        ActualizarTextosFormulario(Me)
 
         Label7.Text = vMoneda
         ' 1. Convertimos el año base de forma segura a número entero

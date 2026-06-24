@@ -171,4 +171,7 @@
   <data name="Concepto_No_Editable" xml:space="preserve">
     <value>Esse conceito não é editável, ele pertence ao sistema</value>
   </data>
+  <data name="AdvertenciaBorradoCascada" xml:space="preserve">
+    <value>⚠️ AVISO: Esta ação eliminará irreversivelmente todas as notas históricas, notas periódicas e orçamentos associados a esse conceito</value>
+  </data>
 </root>

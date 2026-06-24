@@ -171,4 +171,7 @@
   <data name="Concepto_No_Editable" xml:space="preserve">
     <value>Dieses Konzept ist nicht bearbeitbar, es gehört dem System</value>
   </data>
+  <data name="AdvertenciaBorradoCascada" xml:space="preserve">
+    <value>⚠️ WARNUNG: Diese Aktion löscht unwiderruflich alle historischen Einträge, wiederkehrenden Einträge und Budgets, die mit diesem Konzept verknüpft sind</value>
+  </data>
 </root>

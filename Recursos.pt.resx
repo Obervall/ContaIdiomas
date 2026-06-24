@@ -262,7 +262,7 @@ Eles não são removidos do banco de dados</value>
   <data name="ErrorAlEjecutar" xml:space="preserve">
     <value>Execução de Erros</value>
   </data>
-  <data name="CAJA_EFECTIVO" xml:space="preserve">
+  <data name="EFECTIVO" xml:space="preserve">
     <value>CAIXA DE DINHEIRO</value>
   </data>
   <data name="BBVA" xml:space="preserve">
@@ -271,7 +271,7 @@ Eles não são removidos do banco de dados</value>
   <data name="OPENBANK" xml:space="preserve">
     <value>OPENBANK</value>
   </data>
-  <data name="PLAN_PENSIONES" xml:space="preserve">
+  <data name="PLAN_DE_PENSIONES" xml:space="preserve">
     <value>PLANO DE PENSÃO</value>
   </data>
   <data name="FinalTabla" xml:space="preserve">
@@ -457,10 +457,10 @@ Eles não são removidos do banco de dados</value>
   <data name="Desc_PENSION" xml:space="preserve">
     <value>Casa de hóspedes ou Suledo</value>
   </data>
-  <data name="Desc_REGULARITZACIO_1" xml:space="preserve">
+  <data name="Desc_REGULARIZACION_1" xml:space="preserve">
     <value>Regularização da Renda</value>
   </data>
-  <data name="Desc_REGULARITZACIO_2" xml:space="preserve">
+  <data name="Desc_REGULARIZACION_2" xml:space="preserve">
     <value>Regularização das Despesas</value>
   </data>
   <data name="Desc_ROPA" xml:space="preserve">
@@ -496,17 +496,11 @@ Eles não são removidos do banco de dados</value>
   <data name="TituloReporteConceptos" xml:space="preserve">
     <value>Lista de conceitos contábeis</value>
   </data>
-  <data name="Nom_CAJA_EFECTIVO" xml:space="preserve">
-    <value>CAIXA DE DINHEIRO</value>
-  </data>
-  <data name="Nom_BBVA" xml:space="preserve">
+  <data name="Desc_BBVA" xml:space="preserve">
     <value>BBVA</value>
   </data>
-  <data name="Nom_OPENBANK" xml:space="preserve">
+  <data name="Desc_OPENBANK" xml:space="preserve">
     <value>OPENBANK</value>
-  </data>
-  <data name="Nom_PLAN_PENSIONES" xml:space="preserve">
-    <value>PLANO DE PENSÃO</value>
   </data>
   <data name="SaldosGeneradosExito" xml:space="preserve">
     <value>Saldos iniciais corretamente gerados e inseridos</value>
@@ -616,9 +610,6 @@ Eles não são removidos do banco de dados</value>
   <data name="ToolTipF6" xml:space="preserve">
     <value>Atualizando a grade de notas e removendo filtros</value>
   </data>
-  <data name="AvisoConceptoProtegido" xml:space="preserve">
-    <value>Os conceitos padrão do sistema são protegidos contra modificações</value>
-  </data>
   <data name="NoConectoPor" xml:space="preserve">
     <value>Não conectado por</value>
   </data>
@@ -673,10 +664,10 @@ O arquivo não está aberto</value>
   <data name="Vacio" xml:space="preserve">
     <value>Sem programação..</value>
   </data>
-  <data name="REGULARITZACIO_1" xml:space="preserve">
+  <data name="REGULARIZACION_1" xml:space="preserve">
     <value>REGULARIZAÇÀO 1</value>
   </data>
-  <data name="REGULARITZACIO_2" xml:space="preserve">
+  <data name="REGULARIZACION_2" xml:space="preserve">
     <value>REGULARIZAÇÀO 2</value>
   </data>
   <data name="CLIENTE00" xml:space="preserve">
@@ -717,5 +708,50 @@ O arquivo não está aberto</value>
   </data>
   <data name="NoEncuentraRegistro" xml:space="preserve">
     <value>Registro não encontrado para atualizar</value>
+  </data>
+  <data name="Desc_EFECTIVO" xml:space="preserve">
+    <value>Dinheiro</value>
+  </data>
+  <data name="Desc_CUENTA_CORRIENTE" xml:space="preserve">
+    <value>Conta Corrente Bancária</value>
+  </data>
+  <data name="Desc_CUENTA_VIVIENDA" xml:space="preserve">
+    <value>Conta de Residência Primária</value>
+  </data>
+  <data name="Desc_FONDO_DE_INVERSION" xml:space="preserve">
+    <value>Banco de Fundos de Investimento</value>
+  </data>
+  <data name="Desc_PLAN_DE_PENSIONES" xml:space="preserve">
+    <value>Plano de Pensão</value>
+  </data>
+  <data name="Desc_TARJETA_DE_CREDITO" xml:space="preserve">
+    <value>Cartão de Crédito</value>
+  </data>
+  <data name="CUENTA_CORRIENTE" xml:space="preserve">
+    <value>CONTA CORRENTE</value>
+  </data>
+  <data name="CUENTA_VIVIENDA" xml:space="preserve">
+    <value>CONTA DE MORADIA</value>
+  </data>
+  <data name="FONDO_DE_INVERSION" xml:space="preserve">
+    <value>FUNDO DE INVESTIMENTO</value>
+  </data>
+  <data name="TARJETA_DE_CREDITO" xml:space="preserve">
+    <value>CARTÃO DE CRÉDITO</value>
+  </data>
+  <data name="PLAN_PENSIONES" xml:space="preserve">
+    <value>PLANO DE PENSÃO</value>
+  </data>
+  <data name="Desc_PLAN_PENSIONES" xml:space="preserve">
+    <value>Plano de Pensão</value>
+  </data>
+  <data name="CAJA_EFECTIVO" xml:space="preserve">
+    <value>CAIXA DE DINHEIRO</value>
+  </data>
+  <data name="Desc_CAJA_EFECTIVO" xml:space="preserve">
+    <value>Dinheiro em casa</value>
+  </data>
+  <data name="AvisoConceptoProtegido" xml:space="preserve">
+    <value>Os conceitos padrão do sistema são protegidos contra modificações; se não forem usados, podem ser excluídos</value>
   </data>
 </root>

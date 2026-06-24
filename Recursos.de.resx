@@ -259,7 +259,7 @@ Sie werden nicht aus der Datenbank entfernt</value>
   <data name="ErrorAlEjecutar" xml:space="preserve">
     <value>Fehler laufen</value>
   </data>
-  <data name="CAJA_EFECTIVO" xml:space="preserve">
+  <data name="EFECTIVO" xml:space="preserve">
     <value>KASSE</value>
   </data>
   <data name="BBVA" xml:space="preserve">
@@ -268,8 +268,8 @@ Sie werden nicht aus der Datenbank entfernt</value>
   <data name="OPENBANK" xml:space="preserve">
     <value>OPENBANK</value>
   </data>
-  <data name="PLAN_PENSIONES" xml:space="preserve">
-    <value>RENTENPLAN</value>
+  <data name="PLAN_DE_PENSIONES" xml:space="preserve">
+    <value>RENTENVERSICHERUNG</value>
   </data>
   <data name="FinalTabla" xml:space="preserve">
     <value>Hat es ganz unten in der Tabelle geschafft</value>
@@ -454,10 +454,10 @@ Sie werden nicht aus der Datenbank entfernt</value>
   <data name="Desc_PENSION" xml:space="preserve">
     <value>Gästehaus oder Suledo</value>
   </data>
-  <data name="Desc_REGULARITZACIO_1" xml:space="preserve">
+  <data name="Desc_REGULARIZACION_1" xml:space="preserve">
     <value>Regularisierung des Einkommens</value>
   </data>
-  <data name="Desc_REGULARITZACIO_2" xml:space="preserve">
+  <data name="Desc_REGULARIZACION_2" xml:space="preserve">
     <value>Regularisierung der Ausgaben</value>
   </data>
   <data name="Desc_ROPA" xml:space="preserve">
@@ -496,17 +496,11 @@ Sie werden nicht aus der Datenbank entfernt</value>
   <data name="MsgDatos1" xml:space="preserve">
     <value>Es gibt keine Übereinstimmung mit den eingegebenen Daten</value>
   </data>
-  <data name="Nom_CAJA_EFECTIVO" xml:space="preserve">
-    <value>KASSE</value>
-  </data>
-  <data name="Nom_BBVA" xml:space="preserve">
+  <data name="Desc_BBVA" xml:space="preserve">
     <value>BBVA</value>
   </data>
-  <data name="Nom_OPENBANK" xml:space="preserve">
+  <data name="Desc_OPENBANK" xml:space="preserve">
     <value>OPENBANK</value>
-  </data>
-  <data name="Nom_PLAN_PENSIONES" xml:space="preserve">
-    <value>RENTENPLAN</value>
   </data>
   <data name="SaldosGeneradosExito" xml:space="preserve">
     <value>Korrekt generierte und eingefügte Anfangssalden</value>
@@ -616,9 +610,6 @@ Sie werden nicht aus der Datenbank entfernt</value>
   <data name="ToolTipF6" xml:space="preserve">
     <value>Das Notizraster aktualisieren und Filter entfernen</value>
   </data>
-  <data name="AvisoConceptoProtegido" xml:space="preserve">
-    <value>Systemstandardkonzepte sind vor Änderungen geschützt</value>
-  </data>
   <data name="NoConectoPor" xml:space="preserve">
     <value>Nicht verbunden durch</value>
   </data>
@@ -673,10 +664,10 @@ Die Datei ist nicht geöffnet</value>
   <data name="Vacio" xml:space="preserve">
     <value>Ohne Programmierung..</value>
   </data>
-  <data name="REGULARITZACIO_1" xml:space="preserve">
+  <data name="REGULARIZACION_1" xml:space="preserve">
     <value>REGULARISIERUNG 1</value>
   </data>
-  <data name="REGULARITZACIO_2" xml:space="preserve">
+  <data name="REGULARIZACION_2" xml:space="preserve">
     <value>REGULARISIERUNG 2</value>
   </data>
   <data name="CLIENTE00" xml:space="preserve">
@@ -717,5 +708,50 @@ Die Datei ist nicht geöffnet</value>
   </data>
   <data name="NoEncuentraRegistro" xml:space="preserve">
     <value>Datensatz nicht zum Upgrade gefunden</value>
+  </data>
+  <data name="Desc_EFECTIVO" xml:space="preserve">
+    <value>Bargeld</value>
+  </data>
+  <data name="CUENTA_CORRIENTE" xml:space="preserve">
+    <value>GIROKONTO</value>
+  </data>
+  <data name="CUENTA_VIVIENDA" xml:space="preserve">
+    <value>BAUSPARKONTO</value>
+  </data>
+  <data name="Desc_CUENTA_CORRIENTE" xml:space="preserve">
+    <value>Bankgirokonto</value>
+  </data>
+  <data name="Desc_CUENTA_VIVIENDA" xml:space="preserve">
+    <value>Hauptwohnsitzkonto</value>
+  </data>
+  <data name="Desc_FONDO_DE_INVERSION" xml:space="preserve">
+    <value>Investmentfondsbank</value>
+  </data>
+  <data name="Desc_PLAN_DE_PENSIONES" xml:space="preserve">
+    <value>Rentenversicherung</value>
+  </data>
+  <data name="Desc_TARJETA_DE_CREDITO" xml:space="preserve">
+    <value>kreditkarte</value>
+  </data>
+  <data name="TARJETA_DE_CREDITO" xml:space="preserve">
+    <value>KREDITKARTE</value>
+  </data>
+  <data name="FONDO_DE_INVERSION" xml:space="preserve">
+    <value>INVESTITIONSFONDS</value>
+  </data>
+  <data name="PLAN_PENSIONES" xml:space="preserve">
+    <value>RENTENVERSICHERUNG</value>
+  </data>
+  <data name="Desc_PLAN_PENSIONES" xml:space="preserve">
+    <value>Rentenversicherung</value>
+  </data>
+  <data name="CAJA_EFECTIVO" xml:space="preserve">
+    <value>KASSE</value>
+  </data>
+  <data name="Desc_CAJA_EFECTIVO" xml:space="preserve">
+    <value>Bargeld zu Hause</value>
+  </data>
+  <data name="AvisoConceptoProtegido" xml:space="preserve">
+    <value>Die Standardsystemkonzepte sind vor Änderungen geschützt; wenn sie nicht verwendet werden, können sie gelöscht werden</value>
   </data>
 </root>

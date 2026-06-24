@@ -13,7 +13,6 @@ Public Class TraspasoCuentas
 
     Private Sub IntroApuntes_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
-        ActualizarTextosFormulario(Me)
 
         Label7.Text = vMoneda
         TL(0) = New ToolTip

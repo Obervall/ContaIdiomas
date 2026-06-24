@@ -5,7 +5,6 @@ Public Class SeleccionEjercicio
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub SeleccionEjercicio_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ActualizarTextosFormulario(Me)
 
         ' Llenar el Combo Ejercicio
         '**************************

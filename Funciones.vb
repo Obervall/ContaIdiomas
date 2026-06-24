@@ -1348,25 +1348,36 @@ Module Funciones
                 For Each fila As DataGridViewRow In grid.Rows
                     If Not fila.IsNewRow Then
 
-                        ' --- COLUMNA (0): TipoCUE (Mixto) ---
+                        ' --- COLUMNA (0): TipoCUE (Mixto - CORREGIDO VISUAL) ---
                         If grid.Columns.Count > 0 AndAlso fila.Cells(0).Value IsNot Nothing Then
                             Dim valorTipo As String = fila.Cells(0).Value.ToString().Trim()
-                            ' Usamos el parámetro interno, que será el 'rmse' que envíes
-                            Dim tradTipo As String = manejadorRecursos.GetString(valorTipo)
+
+                            ' Normalizamos a guion bajo para buscar de forma segura en las Keys del .resx
+                            Dim llaveBase As String = valorTipo.Replace(" ", "_")
+                            Dim tradTipo As String = manejadorRecursos.GetString(llaveBase)
 
                             If Not String.IsNullOrEmpty(tradTipo) Then
                                 fila.Cells(0).Value = tradTipo
+                            Else
+                                ' ¡EL PARCHE VISUAL SEGURO!: Si no hay traducción o estamos en español,
+                                ' le quitamos los guiones bajos para que el usuario lo vea impecable
+                                fila.Cells(0).Value = valorTipo.Replace("_", " ")
                             End If
                         End If
 
-                        ' --- COLUMNA (1): NombreCUE (Mayúsculas) ---
+                        ' --- COLUMNA (1): NombreCUE (Mayúsculas - SE MANTIENE INTACTO) ---
                         If grid.Columns.Count > 1 AndAlso fila.Cells(1).Value IsNot Nothing Then
                             Dim valorNombre As String = fila.Cells(1).Value.ToString().Trim().ToUpper()
-                            ' Usamos el parámetro interno
-                            Dim tradNombre As String = manejadorRecursos.GetString(valorNombre)
+
+                            ' Normalizamos a guion bajo por si acaso tuviera espacios
+                            Dim llaveNombre As String = valorNombre.Replace(" ", "_")
+                            Dim tradNombre As String = manejadorRecursos.GetString(llaveNombre)
 
                             If Not String.IsNullOrEmpty(tradNombre) Then
                                 fila.Cells(1).Value = tradNombre
+                            Else
+                                ' Respaldo si está en español o es propio: quitamos guiones
+                                fila.Cells(1).Value = valorNombre.Replace("_", " ")
                             End If
                         End If
 
@@ -1710,7 +1721,7 @@ Module Funciones
 
                     If resManager IsNot Nothing AndAlso Not String.IsNullOrEmpty(nombreCUE) Then
                         Dim claveBase As String = nombreCUE.Replace(" ", "_")
-                        Dim tradCuenta As String = resManager.GetString("Nom_" & claveBase)
+                        Dim tradCuenta As String = resManager.GetString("Desc_" & claveBase)
 
                         If String.IsNullOrEmpty(tradCuenta) Then
                             tradCuenta = resManager.GetString(claveBase)
@@ -2513,12 +2524,20 @@ Module Funciones
         End Try
     End Sub
 
-    ' === LISTA FIJA DE PROTECCIÓN (TUS CONCEPTOS DE MUESTRA ORIGINALES) LISTA CONCEPTOS === 
+    ' === LISTA FIJA DE PROTECCIÓN (TUS CONCEPTOS DE MUESTRA ORIGINALES) LISTA CONCEPTOS Y LISTA CUENTAS=== 
     ' Escribe aquí en mayúsculas los 33 códigos exactos que metes de fábrica en la mdb
     Public ReadOnly Property ConceptosMuestraSistema As New List(Of String)(New String() {
     "AGUA", "ALIMENTACION", "CANAL+", "CASA", "CLIENTE00", "COMUNIDAD", "DECESOS", "EL CORTE INGLES", "ESTETICA", "FARMACIA", "GASNATURAL", "GASOLINA", "GASTOS BANCARIOS",
     "HACIENDA", "IMPUESTO 1", "IMPUESTO 2", "IMPUESTO 3", "IMPUESTO 4", "IMPUESTO 5", "INTERESES", "JARDIN", "LUZ",
-    "OCIO", "PENSION", "REGULARITZACIO 1", "REGULARITZACIO 2", "SEGURO CASA", "SEGURO COCHE", "SEGURO MOTO", "TELEFONO", "VARIOS", "VEHICULOS"
+    "OCIO", "PENSION", "REGULARIZACION 1", "REGULARIZACION 2", "ROPA", "SEGURO CASA", "SEGURO COCHE", "SEGURO MOTO", "TELEFONO", "VARIOS", "VEHICULOS"
+})
+
+    Public ReadOnly Property TiposCuentaMuestraSistema As New List(Of String)(New String() {
+    "CUENTACORRIENTE", "CUENTAVIVIENDA", "EFECTIVO", "FONDODEINVERSION", "PLANDEPENSIONES", "TARJETADECREDITO"
+})
+
+    Public ReadOnly Property CuentasMuestraSistema As New List(Of String)(New String() {
+    "BBVA", "CAJAEFECTIVO", "OPENBANK", "PLANPENSIONES"
 })
 
     Public Sub VerificarYActualizarEstructuraBD()
@@ -2576,11 +2595,42 @@ Module Funciones
             Try : cmdMdb1cr.CommandText = "ALTER TABLE tipocuentas ADD COLUMN IdTipoCUE INTEGER" : cmdMdb1cr.ExecuteNonQuery() : Catch ex As Exception : End Try
 
 
-            ' ---------------------------------------------------------------------
+            ' =========================================================================
             ' B. CARGA DE EQUIVALENCIAS Y ASIGNACIÓN DE IDS EN MEMORIA
+            ' =========================================================================
+
+            ' ---------------------------------------------------------------------
+            ' 1. PRIMERO UNIFICAMOS LOS TEXTOS EN LA BD FÍSICA (Antes de leer a memoria)
+            ' ---------------------------------------------------------------------
+            Try
+                ' Normalizamos los nombres antiguos con espacios o tildes al nuevo formato oficial con guion bajo
+                cmdMdb1cr.CommandText = "UPDATE tipocuentas SET CodigoTIP = 'CUENTA_CORRIENTE' WHERE CodigoTIP = 'CUENTA CORRIENTE'" : cmdMdb1cr.ExecuteNonQuery()
+                cmdMdb1cr.CommandText = "UPDATE tipocuentas SET CodigoTIP = 'CUENTA_VIVIENDA' WHERE CodigoTIP = 'CUENTA VIVIENDA'" : cmdMdb1cr.ExecuteNonQuery()
+                cmdMdb1cr.CommandText = "UPDATE tipocuentas SET CodigoTIP = 'FONDO_DE_INVERSION' WHERE CodigoTIP = 'FONDO DE INVERSION' OR CodigoTIP = 'FONDO DE INVERSIÓN'" : cmdMdb1cr.ExecuteNonQuery()
+                cmdMdb1cr.CommandText = "UPDATE tipocuentas SET CodigoTIP = 'PLAN_DE_PENSIONES' WHERE CodigoTIP = 'PLAN DE PENSIONES'" : cmdMdb1cr.ExecuteNonQuery()
+                cmdMdb1cr.CommandText = "UPDATE tipocuentas SET CodigoTIP = 'TARJETA_DE_CREDITO' WHERE CodigoTIP = 'TARJETA DE CREDITO' OR CodigoTIP = 'TARJETA DE CRÉDITO'" : cmdMdb1cr.ExecuteNonQuery()
+
+                ' Sincronizamos el campo TipoCUE de la tabla cuentas para que use los mismos guiones bajos
+                cmdMdb1cr.CommandText = "UPDATE cuentas SET TipoCUE = 'CUENTA_CORRIENTE' WHERE TipoCUE = 'CUENTA CORRIENTE'" : cmdMdb1cr.ExecuteNonQuery()
+                cmdMdb1cr.CommandText = "UPDATE cuentas SET TipoCUE = 'CUENTA_VIVIENDA' WHERE TipoCUE = 'CUENTA VIVIENDA'" : cmdMdb1cr.ExecuteNonQuery()
+                cmdMdb1cr.CommandText = "UPDATE cuentas SET TipoCUE = 'FONDO_DE_INVERSION' WHERE TipoCUE = 'FONDO DE INVERSION' OR TipoCUE = 'FONDO DE INVERSIÓN'" : cmdMdb1cr.ExecuteNonQuery()
+                cmdMdb1cr.CommandText = "UPDATE cuentas SET TipoCUE = 'PLAN_DE_PENSIONES' WHERE TipoCUE = 'PLAN DE PENSIONES'" : cmdMdb1cr.ExecuteNonQuery()
+                cmdMdb1cr.CommandText = "UPDATE cuentas SET TipoCUE = 'TARJETA_DE_CREDITO' WHERE TipoCUE = 'TARJETA DE CREDITO' OR TipoCUE = 'TARJETA DE CRÉDITO'" : cmdMdb1cr.ExecuteNonQuery()
+
+                ' Forzamos la conversión a MAYÚSCULAS puras en todo el esquema de la MDB
+                cmdMdb1cr.CommandText = "UPDATE conceptos SET CodigoCON = UCASE(CodigoCON)" : cmdMdb1cr.ExecuteNonQuery()
+                cmdMdb1cr.CommandText = "UPDATE tipocuentas SET CodigoTIP = UCASE(CodigoTIP)" : cmdMdb1cr.ExecuteNonQuery()
+                cmdMdb1cr.CommandText = "UPDATE cuentas SET TipoCUE = UCASE(TipoCUE)" : cmdMdb1cr.ExecuteNonQuery()
+                cmdMdb1cr.CommandText = "UPDATE cuentas SET NombreCUE = UCASE(NombreCUE)" : cmdMdb1cr.ExecuteNonQuery()
+            Catch ex As Exception
+                ' Evita bloqueos si algún registro no existiera en la BD de pruebas
+            End Try
+
+            ' ---------------------------------------------------------------------
+            ' 2. LEEMOS LAS TABLAS YA NORMALIZADAS PARA CREAR LAS LISTAS EN MEMORIA
             ' ---------------------------------------------------------------------
 
-            ' 1. MAPEO DE CONCEPTOS
+            ' Mapeo de Conceptos
             cmdMdb1cr.CommandText = "SELECT CodigoCON FROM conceptos ORDER BY CodigoCON"
             cmdMdb1cr.Parameters.Clear()
             Dim listaConceptos As New List(Of KeyValuePair(Of Integer, String))()
@@ -2592,7 +2642,7 @@ Module Funciones
                 End While
             End Using
 
-            ' 2. MAPEO DE CUENTAS
+            ' Mapeo de Cuentas (Aquí leerá "CAJA EFECTIVO" o "BBVA" en mayúsculas fijas)
             cmdMdb1cr.CommandText = "SELECT NombreCUE FROM cuentas ORDER BY NombreCUE"
             cmdMdb1cr.Parameters.Clear()
             Dim listaCuentas As New List(Of KeyValuePair(Of Integer, String))()
@@ -2604,7 +2654,7 @@ Module Funciones
                 End While
             End Using
 
-            ' 3. MAPEO DE TIPOS DE CUENTAS
+            ' Mapeo de Tipos de Cuentas (Leerá "EFECTIVO", "CUENTA_CORRIENTE", etc.)
             cmdMdb1cr.CommandText = "SELECT CodigoTIP FROM tipocuentas ORDER BY CodigoTIP"
             cmdMdb1cr.Parameters.Clear()
             Dim listaTipos As New List(Of KeyValuePair(Of Integer, String))()
@@ -2616,50 +2666,33 @@ Module Funciones
                 End While
             End Using
 
+
             ' ---------------------------------------------------------------------
             ' C. VOLCADO Y ACTUALIZACIÓN CRUZADA DE DATOS (Fase de inyección aislada)
             ' ---------------------------------------------------------------------
 
-            ' =========================================================================
-            ' NUEVO: LIMPIEZA ATÓMICA DE TEXTOS A MAYÚSCULAS REALES EN LA MDB
-            ' =========================================================================
-            ' Pasamos todos los códigos de conceptos a mayúsculas fijas
-            cmdMdb1cr.CommandText = "UPDATE conceptos SET CodigoCON = UCASE(CodigoCON)"
-            cmdMdb1cr.ExecuteNonQuery()
-
-            ' Pasamos todos los nombres de tipos de cuentas a mayúsculas fijas
-            cmdMdb1cr.CommandText = "UPDATE tipocuentas SET CodigoTIP = UCASE(CodigoTIP)"
-            cmdMdb1cr.ExecuteNonQuery()
-            ' =========================================================================
-
-            ' --- 1. INYECTAR NÚMEROS EN LA TABLA MAESTRA: conceptos ---
+            ' --- 1. Inyectar números en la tabla maestra: conceptos ---
             For Each item In listaConceptos
                 cmdMdb1cr.CommandText = "UPDATE conceptos SET IdConceptoCON = ? WHERE CodigoCON = ?"
                 cmdMdb1cr.Parameters.Clear()
-                cmdMdb1cr.Parameters.AddWithValue("?", item.Key)    ' ID (1, 2, 3...)
-                cmdMdb1cr.Parameters.AddWithValue("?", item.Value)  ' Código Texto [2026-03-31_17-48]
-                cmdMdb1cr.ExecuteNonQuery()
+                cmdMdb1cr.Parameters.AddWithValue("?", item.Key) : cmdMdb1cr.Parameters.AddWithValue("?", item.Value) : cmdMdb1cr.ExecuteNonQuery()
             Next
 
-            ' --- 2. INYECTAR NÚMEROS EN LA TABLA MAESTRA: cuentas ---
+            ' --- 2. Inyectar números en la tabla maestra: cuentas ---
             For Each item In listaCuentas
                 cmdMdb1cr.CommandText = "UPDATE cuentas SET IdCuentaCUE = ? WHERE NombreCUE = ?"
                 cmdMdb1cr.Parameters.Clear()
-                cmdMdb1cr.Parameters.AddWithValue("?", item.Key)    ' ID (1, 2, 3...)
-                cmdMdb1cr.Parameters.AddWithValue("?", item.Value)  ' Nombre Texto [2026-03-31_17-48]
-                cmdMdb1cr.ExecuteNonQuery()
+                cmdMdb1cr.Parameters.AddWithValue("?", item.Key) : cmdMdb1cr.Parameters.AddWithValue("?", item.Value) : cmdMdb1cr.ExecuteNonQuery()
             Next
 
-            ' --- 3. INYECTAR NÚMEROS EN LA TABLA MAESTRA: tipocuentas ---
+            ' --- 3. Inyectar números en la tabla maestra: tipocuentas ---
             For Each item In listaTipos
                 cmdMdb1cr.CommandText = "UPDATE tipocuentas SET IdTipoCUE = ? WHERE CodigoTIP = ?"
                 cmdMdb1cr.Parameters.Clear()
-                cmdMdb1cr.Parameters.AddWithValue("?", item.Key)    ' ID (1, 2, 3...)
-                cmdMdb1cr.Parameters.AddWithValue("?", item.Value)  ' Código Tipo Texto
-                cmdMdb1cr.ExecuteNonQuery()
+                cmdMdb1cr.Parameters.AddWithValue("?", item.Key) : cmdMdb1cr.Parameters.AddWithValue("?", item.Value) : cmdMdb1cr.ExecuteNonQuery()
             Next
 
-            ' --- 4. ACTUALIZAR TABLAS DE MOVIMIENTOS Y ENLACES ---
+            ' --- 4. Actualizar tablas de movimientos y enlaces históricos ---
             ' Movimientos de Conceptos
             For Each item In listaConceptos
                 cmdMdb1cr.CommandText = "UPDATE apuntes SET ConceptoAPU_NEW = ? WHERE ConceptoAPU = ?"
@@ -2686,7 +2719,7 @@ Module Funciones
                 cmdMdb1cr.Parameters.AddWithValue("?", item.Key) : cmdMdb1cr.Parameters.AddWithValue("?", item.Value) : cmdMdb1cr.ExecuteNonQuery()
             Next
 
-            ' Enlace de Tipo de Cuenta en Cuentas
+            ' Enlace de Tipo de Cuenta dentro de la tabla Cuentas
             For Each item In listaTipos
                 cmdMdb1cr.CommandText = "UPDATE cuentas SET TipoCUE_NEW = ? WHERE TipoCUE = ?"
                 cmdMdb1cr.Parameters.Clear()

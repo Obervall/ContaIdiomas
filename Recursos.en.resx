@@ -262,7 +262,7 @@ They are not removed from the database</value>
   <data name="ErrorAlEjecutar" xml:space="preserve">
     <value>Error Running</value>
   </data>
-  <data name="CAJA_EFECTIVO" xml:space="preserve">
+  <data name="EFECTIVO" xml:space="preserve">
     <value>CASH BOX</value>
   </data>
   <data name="BBVA" xml:space="preserve">
@@ -271,7 +271,7 @@ They are not removed from the database</value>
   <data name="OPENBANK" xml:space="preserve">
     <value>OPENBANK</value>
   </data>
-  <data name="PLAN_PENSIONES" xml:space="preserve">
+  <data name="PLAN_DE_PENSIONES" xml:space="preserve">
     <value>PENSION PLAN</value>
   </data>
   <data name="FinalTabla" xml:space="preserve">
@@ -454,10 +454,10 @@ They are not removed from the database</value>
   <data name="Desc_PENSION" xml:space="preserve">
     <value>Guesthouse or Suledo</value>
   </data>
-  <data name="Desc_REGULARITZACIO_1" xml:space="preserve">
+  <data name="Desc_REGULARIZACION_1" xml:space="preserve">
     <value>Regularization of Income</value>
   </data>
-  <data name="Desc_REGULARITZACIO_2" xml:space="preserve">
+  <data name="Desc_REGULARIZACION_2" xml:space="preserve">
     <value>Regularization of Expenses</value>
   </data>
   <data name="Desc_ROPA" xml:space="preserve">
@@ -493,17 +493,11 @@ They are not removed from the database</value>
   <data name="TituloReporteConceptos" xml:space="preserve">
     <value>List of Accounting Concepts</value>
   </data>
-  <data name="Nom_CAJA_EFECTIVO" xml:space="preserve">
-    <value>CASH BOX</value>
-  </data>
-  <data name="Nom_BBVA" xml:space="preserve">
+  <data name="Desc_BBVA" xml:space="preserve">
     <value>BBVA</value>
   </data>
-  <data name="Nom_OPENBANK" xml:space="preserve">
+  <data name="Desc_OPENBANK" xml:space="preserve">
     <value>OPENBANK</value>
-  </data>
-  <data name="Nom_PLAN_PENSIONES" xml:space="preserve">
-    <value>PENSION PLAN</value>
   </data>
   <data name="SaldosGeneradosExito" xml:space="preserve">
     <value>Correctly generated and inserted beginning balances</value>
@@ -613,9 +607,6 @@ They are not removed from the database</value>
   <data name="ToolTipF6" xml:space="preserve">
     <value>Refreshing the Transactions Grid and Removing Filters</value>
   </data>
-  <data name="AvisoConceptoProtegido" xml:space="preserve">
-    <value>System default concepts are protected against modifications</value>
-  </data>
   <data name="NoConectoPor" xml:space="preserve">
     <value>Not connected by</value>
   </data>
@@ -670,10 +661,10 @@ the file is not open</value>
   <data name="Vacio" xml:space="preserve">
     <value>Without programming..</value>
   </data>
-  <data name="REGULARITZACIO_2" xml:space="preserve">
+  <data name="REGULARIZACION_2" xml:space="preserve">
     <value>REGULARIZATION 2</value>
   </data>
-  <data name="REGULARITZACIO_1" xml:space="preserve">
+  <data name="REGULARIZACION_1" xml:space="preserve">
     <value>REGULARIZATION 1</value>
   </data>
   <data name="PENSION" xml:space="preserve">
@@ -717,5 +708,50 @@ the file is not open</value>
   </data>
   <data name="NoEncuentraRegistro" xml:space="preserve">
     <value>Record not found to upgrade</value>
+  </data>
+  <data name="Desc_EFECTIVO" xml:space="preserve">
+    <value>Cash</value>
+  </data>
+  <data name="CUENTA_CORRIENTE" xml:space="preserve">
+    <value>CURRENT ACCOUNT</value>
+  </data>
+  <data name="CUENTA_VIVIENDA" xml:space="preserve">
+    <value>HOUSING ACCOUNT</value>
+  </data>
+  <data name="Desc_CUENTA_CORRIENTE" xml:space="preserve">
+    <value>Bank Current Account</value>
+  </data>
+  <data name="Desc_CUENTA_VIVIENDA" xml:space="preserve">
+    <value>Primary Residence Account</value>
+  </data>
+  <data name="Desc_FONDO_DE_INVERSION" xml:space="preserve">
+    <value>Investment Fund Bank</value>
+  </data>
+  <data name="FONDO_DE_INVERSION" xml:space="preserve">
+    <value>INVESTIMENT FUND</value>
+  </data>
+  <data name="Desc_PLAN_DE_PENSIONES" xml:space="preserve">
+    <value>Pension Plan</value>
+  </data>
+  <data name="Desc_TARJETA_DE_CREDITO" xml:space="preserve">
+    <value>Credit Card</value>
+  </data>
+  <data name="TARJETA_DE_CREDITO" xml:space="preserve">
+    <value>CREDIT CARD</value>
+  </data>
+  <data name="PLAN_PENSIONES" xml:space="preserve">
+    <value>PENSION PLAN</value>
+  </data>
+  <data name="Desc_PLAN_PENSIONES" xml:space="preserve">
+    <value>Pension Plan</value>
+  </data>
+  <data name="CAJA_EFECTIVO" xml:space="preserve">
+    <value>CASH BOX</value>
+  </data>
+  <data name="Desc_CAJA_EFECTIVO" xml:space="preserve">
+    <value>Cash at home</value>
+  </data>
+  <data name="AvisoConceptoProtegido" xml:space="preserve">
+    <value>The default system concepts are protected against modifications, if they are not going to be used they can be deleted</value>
   </data>
 </root>

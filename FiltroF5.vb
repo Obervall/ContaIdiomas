@@ -6,7 +6,6 @@ Public Class FiltroF5
 
     Private Sub FiltroF5_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
-        ActualizarTextosFormulario(Me)
 
         ChkOtrosFiltros.Enabled = False
         ChkOtrosFiltros.Checked = False
