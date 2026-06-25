@@ -23,7 +23,7 @@ Public Class NuevaCuentaBancaria
         TL(4).SetToolTip(Me.TxtNombre, resManager.GetString("ToolTipNombre"))
 
         ' Aunque el combo se llame diferente en este formulario, funcionará igual:
-        CargarComboTipoCuentaGlobal(Me.CmbTipoCuenta, frmCuentasBancarias.rmse)
+        CargarComboTipoCuentaGlobal(Me.CmbTipoCuenta)
     End Sub
 
     Private Sub TxtNombre_TextChanged(sender As Object, e As EventArgs) Handles TxtNombre.TextChanged

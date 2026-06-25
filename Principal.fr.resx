@@ -7902,7 +7902,7 @@
     <value>Liste des éléments périodiques uniquement Dépenses triées par montants</value>
   </data>
   <data name="ImportandoApuntes" xml:space="preserve">
-    <value>Importation depuis Contahogar des NOTES, Attends quelques secondes...</value>
+    <value>Importation depuis Contahogar des NOTES, Attends quelques secondes</value>
   </data>
   <data name="RealizarCopiaSeguridad" xml:space="preserve">
     <value>Tu veux reculer ?
@@ -7925,7 +7925,7 @@ Il est recommandé de le faire pour éviter la perte de données. Cette action n
     <value>Erreur lors du transfert NOTES</value>
   </data>
   <data name="ImportandoApuntesPeriodicos" xml:space="preserve">
-    <value>Important depuis Contahogar, les NOTES PÉRIODIQUES, Attendez quelques secondes...</value>
+    <value>Important depuis Contahogar, les NOTES PÉRIODIQUES, Attendez quelques secondes</value>
   </data>
   <data name="TransferenciaApuntesPeriodicos" xml:space="preserve">
     <value>Transfert terminé NOTES PÉRIODIQUES</value>
@@ -8001,5 +8001,8 @@ pour pouvoir effectuer le processus d’importation</value>
     <value>Chemin C :\HomeAccount3.0, Créé.
 Copiez le fichier CHDB2.mdb de l’ancien Contahogar dans le dossier C :\ContaHogar3.0
 pour pouvoir effectuer le processus d’importation</value>
+  </data>
+  <data name="ButtonActualizar.Text" xml:space="preserve">
+    <value>Mettre à jour le bouton Excel</value>
   </data>
 </root>

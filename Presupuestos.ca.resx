@@ -151,10 +151,10 @@
     <value>Pressupostos</value>
   </data>
   <data name="EliminarPresupuestos" xml:space="preserve">
-    <value>Pressupostos, Esborrats !!</value>
+    <value>Pressupostos Esborrats!!</value>
   </data>
   <data name="EliminarPresupuestosError" xml:space="preserve">
-    <value>Error a l'Eliminar els Pressupostos relacionats amb el Concepte Comptable</value>
+    <value>Error en Eliminar els Pressupostos relacionats amb el Concepte Comptable</value>
   </data>
   <data name="Label1.Text" xml:space="preserve">
     <value>Reg.:</value>
@@ -205,7 +205,7 @@
     <value>RESULTAT NET DEL PERÍODE (Ingressos - Despeses)</value>
   </data>
   <data name="ResultadoRealNeto" xml:space="preserve">
-    <value>Resultat Real Neto</value>
+    <value>Resultat Real Net</value>
   </data>
   <data name="ResultadoPresupuestadoNeto" xml:space="preserve">
     <value>Resultat Pressupostat Net</value>

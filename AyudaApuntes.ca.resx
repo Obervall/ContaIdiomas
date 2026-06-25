@@ -122,12 +122,12 @@
 Seleccionar un Concepte, veuràs a les Descripcions 1 i 2, la que hi ha per defecte.
 
 Pas 2:
-Si la Descripció 2 del Concepte, no és la desitjada, escriu en el propìo desplegable, passaràs el text a "Buscar Descripció:" escriu mínim tres lletres i s'obrirà la Descripció 2:, amb les paraules que contenen les lletres del "Buscar Descripció:".
+Si la Descripció 2 del Concepte, no és la desitjada, escriu en el desplegable, passaràs el text a "Buscar Descripció:" escriu mínim tres lletres i s'obrirà la Descripció 2:, amb les paraules que contenen les lletres del "Buscar Descripció:".
 Per passar al desplegable, polsar Intro i amb les Fletxes moure's pel desplegable i acabar polsant Intro per saltar a l'Import.
 
 Nota:
 Pots retrocedir per modificar l'escrit.
-En el cas que vulguis guardar una nova descripció que no existeix, continua escrivint i com que no trobarà cap coincidència, et preguntarà si vols afegir aquest Text, un cop passa el Text a Descripció 2:, pots completar-lo.</value>
+En el cas que vulguis guardar una nova descripció que no existeix, continua escrivint i com que no trobarà cap coincidència, et preguntarà si vols afegir aquest Text; un cop passa el Text a Descripció 2:, pots completar-lo.</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Guia d'Introducció Ràpida</value>

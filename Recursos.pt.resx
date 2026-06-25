@@ -454,9 +454,6 @@ Eles não são removidos do banco de dados</value>
   <data name="Desc_OCIO" xml:space="preserve">
     <value>Diversão e Entretenimento</value>
   </data>
-  <data name="Desc_PENSION" xml:space="preserve">
-    <value>Casa de hóspedes ou Suledo</value>
-  </data>
   <data name="Desc_REGULARIZACION_1" xml:space="preserve">
     <value>Regularização da Renda</value>
   </data>
@@ -753,5 +750,8 @@ O arquivo não está aberto</value>
   </data>
   <data name="AvisoConceptoProtegido" xml:space="preserve">
     <value>Os conceitos padrão do sistema são protegidos contra modificações; se não forem usados, podem ser excluídos</value>
+  </data>
+  <data name="Desc_PENSION" xml:space="preserve">
+    <value>Pensão ou Salário</value>
   </data>
 </root>

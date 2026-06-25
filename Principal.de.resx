@@ -7905,7 +7905,7 @@
     <value>Liste der periodischen Posten Nur nach Beträgen sortierte Ausgaben</value>
   </data>
   <data name="ImportandoApuntes" xml:space="preserve">
-    <value>Ich importiere die NOTEN von Contahogar, warte ein paar Sekunden...</value>
+    <value>Ich importiere die NOTEN von Contahogar, warte ein paar Sekunden</value>
   </data>
   <data name="RealizarCopiaSeguridad" xml:space="preserve">
     <value>Willst du zurückgehen?
@@ -7928,7 +7928,7 @@ Es wird empfohlen, dies durchzuführen, um Datenverlust zu vermeiden. Diese Maß
     <value>Fehler während der Übertragung ANMERKUNGEN</value>
   </data>
   <data name="ImportandoApuntesPeriodicos" xml:space="preserve">
-    <value>Importiert von Contahogar, die PERIODISCHEN NOTIZEN, warte ein paar Sekunden...</value>
+    <value>Importiert von Contahogar, die PERIODISCHEN NOTIZEN, warte ein paar Sekunden</value>
   </data>
   <data name="TransferenciaApuntesPeriodicos" xml:space="preserve">
     <value>Übertragung abgeschlossen PERIODISCHE NOTEN</value>
@@ -8004,5 +8004,8 @@ um den Importprozess durchführen zu können</value>
     <value>Pfad C:\HomeAccount3.0, erstellt.
 Kopiere die CHDB2.mdb-Datei vom alten Contahogar in den Ordner C:\ContaHogar3.0
 um den Importprozess durchführen zu können</value>
+  </data>
+  <data name="ButtonActualizar.Text" xml:space="preserve">
+    <value>Excel-Schaltfläche aktualisieren</value>
   </data>
 </root>

@@ -7701,7 +7701,7 @@
     <value>Listado Apuntes Periódicos Solo Gastos Ordenado por Importes</value>
   </data>
   <data name="ImportandoApuntes" xml:space="preserve">
-    <value>Importando de Contahogar los APUNTES, Espere unos Segundos...</value>
+    <value>Importando de Contahogar los APUNTES, Espere unos Segundos</value>
   </data>
   <data name="RealizarCopiaSeguridad" xml:space="preserve">
     <value>¿Desea realizar una copia de seguridad
@@ -7724,7 +7724,7 @@ Se recomienda realizarla para evitar pérdidas de datos. Esta acción no se pued
     <value>Error durante la transferencia APUNTES</value>
   </data>
   <data name="ImportandoApuntesPeriodicos" xml:space="preserve">
-    <value>Importando de Contahogar, los APUNTES PERIÓDICOS, Espere unos Segundos...</value>
+    <value>Importando de Contahogar, los APUNTES PERIÓDICOS, Espere unos Segundos</value>
   </data>
   <data name="TransferenciaApuntesPeriodicos" xml:space="preserve">
     <value>Transferencia completada APUNTES PERIODICOS</value>
@@ -7797,5 +7797,8 @@ para poder realizar el proceso de importación</value>
     <value>Ruta C:\ContaHogar3.0, Creada.
 Copiar el archivo CHDB2.mdb del antiguo Contahogar a la carpeta C:\ContaHogar3.0
 para poder realizar el proceso de importación</value>
+  </data>
+  <data name="ButtonActualizar.Text" xml:space="preserve">
+    <value>Button Actualizar Excel</value>
   </data>
 </root>

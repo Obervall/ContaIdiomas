@@ -662,32 +662,32 @@ Module Funciones
             Dim Tabla As New DataTable
             adp.Fill(Tabla)
 
-            ' --- SOLUCIÓN: Recorremos las filas de la TABLA de datos antes de enlazar al Grid ---
+            ' --- RECORRIDO DE FILAS CON TRADUCCIÓN DE TIPOS Y NOMBRES SISTEMA ---
             For Each filaData As DataRow In Tabla.Rows
-                vNombreCuenta = filaData(1).ToString() ' Celda 1 (Nombre)
 
-                ' Buscar el Saldo de cada Cuenta Bancaria en Apuntes
+                ' =========================================================================
+                ' 3. CÁLCULO DEL SALDO POR ID (Lo que ya funcionaba impecable)
+                ' =========================================================================
+                Dim vIdCuenta As Integer = Convert.ToInt32(filaData("IdCuentaCUE"))
+
                 cmdMdb1cr.CommandText = "SELECT apuntes.ImporteAPU FROM apuntes"
-                cmdMdb1cr.CommandText += " WHERE apuntes.CuentaAPU = '" & vNombreCuenta & "' "
-                cmdMdb1cr.CommandText += "And apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+                cmdMdb1cr.CommandText += " WHERE apuntes.CuentaAPU = " & vIdCuenta
+                cmdMdb1cr.CommandText += " And apuntes.EjercicioAPU = " & vAñoEjercicio
 
                 Try
                     drMdb1 = cmdMdb1cr.ExecuteReader()
                     vSaldoCuentas = 0
                     If drMdb1.HasRows Then
                         While drMdb1.Read()
-                            ' Sumamos de forma limpia convirtiendo a Decimal
                             vSaldoCuentas += Convert.ToDecimal(drMdb1.GetValue(0))
                         End While
                     End If
                     drMdb1.Close()
                 Catch ex As Exception
                     If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-                    MsgBox(resManager.GetString("ErrorAlEjecutar") & ": " & cmdMdb1cr.CommandText & ex.Message)
+                    MsgBox(resManager.GetString("ErrorAlEjecutar") & ": " & cmdMdb1cr.CommandText & vbCrLf & ex.Message)
                 End Try
 
-                ' Guardamos el número exacto directamente en el registro de la tabla
-                ' Al calcularlo aquí, .NET sabrá que es un número real
                 filaData(3) = Math.Round(Convert.ToDecimal(vSaldoCuentas), 2)
             Next
 
@@ -716,7 +716,7 @@ Module Funciones
                 .Columns(3).DefaultCellStyle.Format = "N2"
 
                 ' Dimensiones y encabezados traducidos
-                .Columns(0).Width = 135
+                .Columns(0).Width = 150
                 .Columns(0).HeaderText = resManager.GetString("Tipo")
                 .Columns(1).Width = 200
                 .Columns(1).HeaderText = resManager.GetString("Nombre")
@@ -724,10 +724,9 @@ Module Funciones
                 .Columns(2).HeaderText = resManager.GetString("Numero")
                 .Columns(3).Width = 125
                 .Columns(3).HeaderText = resManager.GetString("Saldo") & "(" & vMoneda & ")"
-
                 .Columns(4).AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
                 .Columns(4).HeaderText = resManager.GetString("Notas")
-
+                .Columns(5).Visible = False
                 Dim vNumRegistros As String = .Rows.Count.ToString
                 frmCuentasBancarias.TxtNumRegistros.Text = vNumRegistros
                 If frmCuentasBancarias.BtnFiltroTipoCuenta.Enabled = False Then
@@ -1340,8 +1339,7 @@ Module Funciones
     ''' Traduce las columnas de cualquier Grid usando el traductor específico de cada formulario
     ''' </summary>
     ''' <param name="grid">El DataGridView a procesar</param>
-    ''' <param name="manejadorRecursos">El objeto rmse propio del formulario</param>
-    Public Sub TraducirColumnasGridCuentas(ByVal grid As DataGridView, ByVal manejadorRecursos As System.Resources.ResourceManager)
+    Public Sub TraducirColumnasGridCuentas(ByVal grid As DataGridView)
         Try
             If grid IsNot Nothing AndAlso grid.Rows.Count > 0 Then
 
@@ -1354,7 +1352,7 @@ Module Funciones
 
                             ' Normalizamos a guion bajo para buscar de forma segura en las Keys del .resx
                             Dim llaveBase As String = valorTipo.Replace(" ", "_")
-                            Dim tradTipo As String = manejadorRecursos.GetString(llaveBase)
+                            Dim tradTipo As String = resManager.GetString(llaveBase)
 
                             If Not String.IsNullOrEmpty(tradTipo) Then
                                 fila.Cells(0).Value = tradTipo
@@ -1371,7 +1369,7 @@ Module Funciones
 
                             ' Normalizamos a guion bajo por si acaso tuviera espacios
                             Dim llaveNombre As String = valorNombre.Replace(" ", "_")
-                            Dim tradNombre As String = manejadorRecursos.GetString(llaveNombre)
+                            Dim tradNombre As String = resManager.GetString(llaveNombre)
 
                             If Not String.IsNullOrEmpty(tradNombre) Then
                                 fila.Cells(1).Value = tradNombre
@@ -1380,12 +1378,11 @@ Module Funciones
                                 fila.Cells(1).Value = valorNombre.Replace("_", " ")
                             End If
                         End If
-
                     End If
                 Next
             End If
         Catch ex As Exception
-            MsgBox(resManager.GetString("ErrorAlEjecutar") & ex.Message, MsgBoxStyle.Exclamation, manejadorRecursos.GetString("$this.Text"))
+            MsgBox(resManager.GetString("ErrorAlEjecutar") & ex.Message, MsgBoxStyle.Exclamation, resManager.GetString("Error"))
         End Try
     End Sub
 
@@ -1393,8 +1390,7 @@ Module Funciones
     ''' Rellena de forma híbrida y multidioma cualquier ComboBox con los tipos de cuenta desde Access
     ''' </summary>
     ''' <param name="combo">El control ComboBox que se quiere rellenar</param>
-    ''' <param name="rm">El administrador de recursos (resManager o rmse) del formulario que llama</param>
-    Public Sub CargarComboTipoCuentaGlobal(ByVal combo As ComboBox, ByVal rm As System.ComponentModel.ComponentResourceManager)
+    Public Sub CargarComboTipoCuentaGlobal(ByVal combo As ComboBox)
         Dim textoTraducido As String = ""
         cmdMdb1cr.CommandText = "SELECT tipocuentas.CodigoTIP FROM tipocuentas ORDER BY tipocuentas.CodigoTIP ASC"
         Try
@@ -1406,7 +1402,7 @@ Module Funciones
                 While drMdb1.Read()
                     Dim valorBD As String = drMdb1.GetValue(0).ToString().Trim()
 
-                    textoTraducido = rm.GetString(valorBD)
+                    textoTraducido = resManager.GetString(valorBD)
                     If String.IsNullOrEmpty(textoTraducido) Then
                         textoTraducido = valorBD
                     End If

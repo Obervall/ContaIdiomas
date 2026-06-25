@@ -154,16 +154,16 @@
     <value>Editar Apunts</value>
   </data>
   <data name="LblEliminando" xml:space="preserve">
-    <value>ELIMINAR APUNT COMPTABLE !!</value>
+    <value>ELIMINAR APUNT COMPTABLE!!</value>
   </data>
   <data name="MsgBoxEliminarApunte" xml:space="preserve">
-    <value>¿Aquestes segur d'Eliminar l'Apunt Comptable seleccionat?</value>
+    <value>Estàs segur d'Eliminar l'Apunt Comptable seleccionat?</value>
   </data>
   <data name="MsgBoxRegistroBorrado" xml:space="preserve">
-    <value>Registre Apunt Comptable, Esborrat!!</value>
+    <value>Registre Apunt Comptable Esborrat!!</value>
   </data>
   <data name="MsgBoxErrorEliminarRegistro" xml:space="preserve">
-    <value>Error a l'Eliminar Registre Apunt Comptable</value>
+    <value>Error en Eliminar Registre Apunt Comptable</value>
   </data>
   <data name="MsgBoxNoHayImporte" xml:space="preserve">
     <value>NO hi ha Quantitat en Import</value>

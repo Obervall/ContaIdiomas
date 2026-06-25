@@ -155,8 +155,8 @@
   </data>
   <data name="MsgNombre" xml:space="preserve">
     <value>Introduir un Codi per identificar el Concepte Comptable.
-Poden ser Números (1,2,3,4..) o Lletres
-(Mas recomanable... Lleure, Cotxe, Renda, Sou,...)</value>
+Poden ser Números (1, 2, 3, 4...) o Lletres
+(Més recomanable. Lleure, Cotxe, Renda, Sou...)</value>
   </data>
   <data name="NoNombreSaldo" xml:space="preserve">
     <value>No es pot crear un Concepte amb el Nom SALDO</value>

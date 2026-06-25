@@ -142,6 +142,7 @@ Partial Class Principal
         Me.ToolStripLabel5 = New System.Windows.Forms.ToolStripLabel()
         Me.LblDonacion = New System.Windows.Forms.Label()
         Me.LblNotificacion = New System.Windows.Forms.Label()
+        Me.ButtonActualizar = New System.Windows.Forms.Button()
         Me.BarraDeMenu.SuspendLayout()
         Me.BarraDeEstado.SuspendLayout()
         Me.BarraDeHerramientas.SuspendLayout()
@@ -801,10 +802,17 @@ Partial Class Principal
         resources.ApplyResources(Me.LblNotificacion, "LblNotificacion")
         Me.LblNotificacion.Name = "LblNotificacion"
         '
+        'ButtonActualizar
+        '
+        resources.ApplyResources(Me.ButtonActualizar, "ButtonActualizar")
+        Me.ButtonActualizar.Name = "ButtonActualizar"
+        Me.ButtonActualizar.UseVisualStyleBackColor = True
+        '
         'Principal
         '
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
+        Me.Controls.Add(Me.ButtonActualizar)
         Me.Controls.Add(Me.LblNotificacion)
         Me.Controls.Add(Me.LblDonacion)
         Me.Controls.Add(Me.BarraDeHerramientas)
@@ -942,4 +950,5 @@ Partial Class Principal
     Friend WithEvents BtnImportarContaHogar As Windows.Forms.ToolStripButton
     Friend WithEvents ImportaAntiguoContahogarToolStripMenuItem As Windows.Forms.ToolStripMenuItem
     Friend WithEvents LblNotificacion As Windows.Forms.Label
+    Friend WithEvents ButtonActualizar As Windows.Forms.Button
 End Class

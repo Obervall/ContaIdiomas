@@ -208,7 +208,7 @@
     <value>Febrer:</value>
   </data>
   <data name="RdbMensual.Text" xml:space="preserve">
-    <value>Distribuir Quantitats diferents en cada mes.</value>
+    <value>Distribuir Quantitats diferents a cada mes.</value>
   </data>
   <data name="Label25.Text" xml:space="preserve">
     <value>€</value>
@@ -259,7 +259,7 @@
     <value>Abril:</value>
   </data>
   <data name="RdbAnual.Text" xml:space="preserve">
-    <value>Distribuir la quantitat anual en parts iguals en cada mes.</value>
+    <value>Distribuir la quantitat anual en parts iguals a cada mes.</value>
   </data>
   <data name="TxtAgosto.Text" xml:space="preserve">
     <value>0,00</value>
@@ -268,7 +268,7 @@
     <value>Setembre:</value>
   </data>
   <data name="AñadeEditaBorraCC" xml:space="preserve">
-    <value>Afegeix, Edita, Borra o Consulta Conceptes Comptables</value>
+    <value>Afegeix, Edita, Esborra o Consulta Conceptes Comptables</value>
   </data>
   <data name="SeleccionarConcepto" xml:space="preserve">
     <value>Seleccionar el Concepte Comptable per definir el Pressupost</value>

@@ -160,6 +160,6 @@
     <value>Registre Apunt Periòdic, Esborrat!!!</value>
   </data>
   <data name="SeguroEliminarRegistro" xml:space="preserve">
-    <value>¿Aquestes segur d'Eliminar l'Apunt Periòdic seleccionat?</value>
+    <value>Estàs segur d'Eliminar l'Apunt Periòdic seleccionat?</value>
   </data>
 </root>

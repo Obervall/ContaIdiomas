@@ -130,10 +130,10 @@
     <value>Gràfics Tipus Àrees</value>
   </data>
   <data name="TsBtnLineas.Text" xml:space="preserve">
-    <value>Linees</value>
+    <value>Línies</value>
   </data>
   <data name="TsBtnLineas.ToolTipText" xml:space="preserve">
-    <value>Gràfics Tipus Linees</value>
+    <value>Gràfics Tipus Línies</value>
   </data>
   <data name="TsBtnPastel.Text" xml:space="preserve">
     <value>Pastís</value>
@@ -145,10 +145,10 @@
     <value>ToolStrip1</value>
   </data>
   <data name="Chart1.Text" xml:space="preserve">
-    <value>Chart1</value>
+    <value>Gràfic 1</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Grafics</value>
+    <value>Gràfics</value>
   </data>
   <data name="TSBtnImprimir.Text" xml:space="preserve">
     <value>Imprimir</value>

@@ -121,7 +121,7 @@
     <value>Seleccioni els elements desitjats:</value>
   </data>
   <data name="Label2.Text" xml:space="preserve">
-    <value>(Control+Click, per a selecció multiple)</value>
+    <value>(Control+Click, per a selecció múltiple)</value>
   </data>
   <data name="BtnTodos.Text" xml:space="preserve">
     <value>Seleccionar Tots</value>

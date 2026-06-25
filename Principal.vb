@@ -1,10 +1,12 @@
-﻿Imports System.Data
+﻿Imports System.Collections.Generic
+Imports System.Data
 Imports System.Data.OleDb
 Imports System.Diagnostics
 Imports System.Drawing
 Imports System.IO
 Imports System.Linq
 Imports System.Windows.Forms
+Imports ClosedXML.Excel
 
 Public Class Principal
 
@@ -1968,6 +1970,103 @@ Public Class Principal
 
         ' Ejemplo: Mostrar la posición en la barra de título en tiempo real
         'Me.Text = $"Posición X: {posX} | Y: {posY}"
+    End Sub
+
+    'Boton para actualizar resx Manager con los excel
+
+    'Cómo adaptarlo para otros idiomas en el futuroEn el código que tienes en tu botón,
+    'solo debes localizar las líneas donde pone "G" y cambiarlas por la letra de la columna
+    'del idioma que quieras actualizar.Por ejemplo, si el Inglés está en la columna H de tus archivos de Excel,
+    'modificarías estas 3 líneas estratégicas en tu código:En la lectura de 'Casi' (Fila 27 aprox.):vb'
+    'Cambias "G" por "H" (o la letra del inglés)
+    'Dim valorG As String = wsCasi.Cell(fila, "H").GetString() 
+    'En la comparación de 'Todo' (Fila 49 aprox.):vb' Cambias "G" por "H"
+    'Dim celdaGTodo As IXLCell = wsTodo.Cell(fila, "H") 
+    'En el mensaje de éxito (Fila 62 aprox.):vbMessageBox.Show($"... en la columna H.", ...)
+    'De esta manera, el programa hará exactamente el mismo trabajo quirúrgico con el resto de idiomas,
+    'fila a fila, protegiendo las Keys duplicadas de los diferentes formularios y ahorrándote volver a
+    'pasar por todo este proceso manual.
+
+    Private Sub ButtonActualizar_Click(sender As Object, e As EventArgs) Handles ButtonActualizar.Click
+        ' 1. Configura tus rutas reales
+        Dim rutaTodo As String = "C:\Dell\Todo.xlsx"
+        Dim rutaCasi As String = "C:\Dell\Casi.xlsx"
+
+        Me.Cursor = Cursors.WaitCursor
+
+        Try
+            ' 2. Abrir archivos en memoria
+            Using wbTodo As New XLWorkbook(rutaTodo)
+                Using wbCasi As New XLWorkbook(rutaCasi)
+
+                    Dim wsTodo As IXLWorksheet = wbTodo.Worksheet(1)
+                    Dim wsCasi As IXLWorksheet = wbCasi.Worksheet(1)
+
+                    ' 3. Cargamos el archivo 'Casi' en el diccionario usando Clave Compuesta (B + C)
+                    ' Clave: "File|Key" (Ej: "\ActivarSoftware|MyKey"), Valor: Columna G (Catalán)
+                    Dim diccionarioCasi As New Dictionary(Of String, String)()
+                    Dim ultimaFilaCasi As Integer = wsCasi.LastRowUsed().RowNumber()
+
+                    For fila As Integer = 2 To ultimaFilaCasi
+                        Dim fileB As String = wsCasi.Cell(fila, "B").GetString().Trim().ToLower()
+                        Dim keyC As String = wsCasi.Cell(fila, "C").GetString().Trim().ToLower()
+                        Dim valorG As String = wsCasi.Cell(fila, "G").GetString()
+
+                        ' Creamos el identificador único compuesto
+                        Dim claveCompuesta As String = $"{fileB}|{keyC}"
+
+                        If Not String.IsNullOrEmpty(fileB) AndAlso Not String.IsNullOrEmpty(keyC) Then
+                            ' Al usar la combinación B+C no habrá duplicados, lo guardamos/actualizamos
+                            diccionarioCasi(claveCompuesta) = valorG
+                        End If
+                    Next
+
+                    ' 4. Recorrer 'Todo' y machacar diferencias comparando la Clave Compuesta
+                    Dim ultimaFilaTodo As Integer = wsTodo.LastRowUsed().RowNumber()
+                    Dim filasModificadas As Integer = 0
+
+                    For fila As Integer = 2 To ultimaFilaTodo
+                        Dim fileBTodo As String = wsTodo.Cell(fila, "B").GetString().Trim().ToLower()
+                        Dim keyCTodo As String = wsTodo.Cell(fila, "C").GetString().Trim().ToLower()
+
+                        ' Generamos la misma clave compuesta para buscar
+                        Dim claveCompuestaTodo As String = $"{fileBTodo}|{keyCTodo}"
+
+                        ' Si la combinación exacta de Formulario + Key existe en 'Casi'
+                        If diccionarioCasi.ContainsKey(claveCompuestaTodo) Then
+                            Dim valorG_Casi As String = diccionarioCasi(claveCompuestaTodo)
+                            Dim celdaGTodo As IXLCell = wsTodo.Cell(fila, "G")
+
+                            ' Si el catalán actual no coincide con el de 'Casi', se machaca
+                            If celdaGTodo.GetString() <> valorG_Casi Then
+                                celdaGTodo.SetValue(valorG_Casi)
+                                filasModificadas += 1
+                            End If
+                        End If
+                    Next
+
+                    ' 5. Guardar los cambios directamente
+                    If filasModificadas > 0 Then
+                        wbTodo.Save()
+                        MessageBox.Show($"¡Proceso completado con éxito!{Environment.NewLine}Se han machacado {filasModificadas} líneas correctamente usando la combinación de Formulario y Key.",
+                                    "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Else
+                        MessageBox.Show("El proceso terminó, pero no se encontraron diferencias para modificar en la columna G.",
+                                    "Sin cambios", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    End If
+
+                End Using
+            End Using
+
+        Catch ex As System.IO.IOException
+            MessageBox.Show($"Error de acceso: Asegúrate de cerrar los archivos de Excel.{Environment.NewLine}{Environment.NewLine}Detalle: {ex.Message}",
+                        "Archivo Bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Catch ex As Exception
+            MessageBox.Show($"Ocurrió un error inesperado: {ex.Message}",
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            Me.Cursor = Cursors.Default
+        End Try
     End Sub
 
 End Class

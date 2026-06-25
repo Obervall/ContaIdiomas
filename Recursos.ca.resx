@@ -148,7 +148,7 @@
     <value>Imprimir</value>
   </data>
   <data name="ToolTipSeguirBuscando" xml:space="preserve">
-    <value>Pulsar per Seguir Buscant o F3</value>
+    <value>Polsar per Seguir Buscant o F3</value>
   </data>
   <data name="ToolTipGraficos" xml:space="preserve">
     <value>Mostrar Gràfics</value>
@@ -188,7 +188,7 @@ No s'Eliminen de la Base de Dades</value>
     <value>Fila Primera Seleccionada</value>
   </data>
   <data name="MsgFila2" xml:space="preserve">
-    <value>Fila Ultima Seleccionada</value>
+    <value>Fila Última Seleccionada</value>
   </data>
   <data name="NoExistenRegistros" xml:space="preserve">
     <value>No hi ha registres del</value>
@@ -254,7 +254,7 @@ No s'Eliminen de la Base de Dades</value>
     <value>Nom</value>
   </data>
   <data name="Numero" xml:space="preserve">
-    <value>Nombre</value>
+    <value>Número</value>
   </data>
   <data name="Saldo" xml:space="preserve">
     <value>Saldo</value>
@@ -287,7 +287,7 @@ No s'Eliminen de la Base de Dades</value>
     <value>El registre ha estat esborrat correctament</value>
   </data>
   <data name="RegistroNoBorradoVerificar" xml:space="preserve">
-    <value>El registre no es va poder esborrar. Verifique</value>
+    <value>El registre no es va poder esborrar. Verifiqui-ho</value>
   </data>
   <data name="ErrorEliminarRegistro" xml:space="preserve">
     <value>Error en intentar eliminar el registre</value>
@@ -320,7 +320,7 @@ No s'Eliminen de la Base de Dades</value>
     <value>DECESSOS</value>
   </data>
   <data name="ESTETICA" xml:space="preserve">
-    <value>ESTETICA</value>
+    <value>ESTÈTICA</value>
   </data>
   <data name="FARMACIA" xml:space="preserve">
     <value>FARMÀCIA</value>
@@ -356,7 +356,7 @@ No s'Eliminen de la Base de Dades</value>
     <value>INTERESSOS</value>
   </data>
   <data name="JARDIN" xml:space="preserve">
-    <value>JARDIN</value>
+    <value>JARDÍ</value>
   </data>
   <data name="LUZ" xml:space="preserve">
     <value>LLUM</value>
@@ -365,7 +365,7 @@ No s'Eliminen de la Base de Dades</value>
     <value>LLEURE</value>
   </data>
   <data name="PENSION" xml:space="preserve">
-    <value>PENSION</value>
+    <value>PENSIÓ</value>
   </data>
   <data name="REGULARIZACION_1" xml:space="preserve">
     <value>REGULARITZACIO 1</value>
@@ -386,7 +386,7 @@ No s'Eliminen de la Base de Dades</value>
     <value>ASSEGURANÇA MOTO</value>
   </data>
   <data name="TELEFONO" xml:space="preserve">
-    <value>TELEFON</value>
+    <value>TELÈFON</value>
   </data>
   <data name="TRASPASO" xml:space="preserve">
     <value>TRASPÀS</value>
@@ -407,7 +407,7 @@ No s'Eliminen de la Base de Dades</value>
     <value>Canal Plus Digital</value>
   </data>
   <data name="Desc_CASA" xml:space="preserve">
-    <value>Utils Casa</value>
+    <value>Estris Casa</value>
   </data>
   <data name="Desc_COMUNIDAD" xml:space="preserve">
     <value>Comunitat Pàrquing</value>
@@ -437,7 +437,7 @@ No s'Eliminen de la Base de Dades</value>
     <value>Impost Escombraries</value>
   </data>
   <data name="Desc_IMPUESTO_2" xml:space="preserve">
-    <value>Impost Ibi</value>
+    <value>Impost IBI</value>
   </data>
   <data name="Desc_IMPUESTO_3" xml:space="preserve">
     <value>Impost Vehicle</value>
@@ -461,7 +461,7 @@ No s'Eliminen de la Base de Dades</value>
     <value>Diversió i Entreteniment</value>
   </data>
   <data name="Desc_PENSION" xml:space="preserve">
-    <value>Pensió o Suledo</value>
+    <value>Pensió o Sou</value>
   </data>
   <data name="Desc_REGULARIZACION_1" xml:space="preserve">
     <value>Regularització d'Ingressos</value>
@@ -542,10 +542,10 @@ No s'Eliminen de la Base de Dades</value>
     <value>Anar a Avui</value>
   </data>
   <data name="BtnCuenta" xml:space="preserve">
-    <value>Afegeix, Edita, Borra o Consulta Comptes Bancaris</value>
+    <value>Afegeix, Edita, Esborra o Consulta Comptes Bancaris</value>
   </data>
   <data name="BtnConcepto" xml:space="preserve">
-    <value>Afegeix, Edita, Borra o Consulta Conceptes</value>
+    <value>Afegeix, Edita, Esborra o Consulta Conceptes</value>
   </data>
   <data name="Desde" xml:space="preserve">
     <value>Des de</value>
@@ -635,15 +635,15 @@ No s'Eliminen de la Base de Dades</value>
     <value>Vols guardar una Còpia de Seguretat de la Base de Dades?</value>
   </data>
   <data name="BackupSatisfactorioBuscarActualizacio" xml:space="preserve">
-    <value>Còpia de Seguretat realitzat satisfactòriament.
+    <value>Còpia de Seguretat realitzat satisfactòriament. 
 Ara, es descarregarà l'actualització</value>
   </data>
   <data name="Backup" xml:space="preserve">
     <value>Còpia de Seguretat</value>
   </data>
   <data name="ErrorBackup" xml:space="preserve">
-    <value>Error en realitzar la Còpia de Seguretat de la Base de Dades,
-revisi que no existeixi una altra Còpia amb el mateix nom o
+    <value>Error en realitzar la Còpia de Seguretat de la Base de Dades.
+Revisi que no existeixi una altra Còpia amb el mateix nom o
 que l'arxiu no estigui obert</value>
   </data>
   <data name="AhoraDescargaActualizacion" xml:space="preserve">
@@ -665,16 +665,16 @@ que l'arxiu no estigui obert</value>
     <value>revisi la seva connexió a Internet o que l'arxiu no estigui obert</value>
   </data>
   <data name="NoConectadoRed" xml:space="preserve">
-    <value>No aquestes connectat a una xarxa per comprovar nova Versió</value>
+    <value>No estàs connectat a una xarxa per comprovar nova Versió</value>
   </data>
   <data name="Vacio" xml:space="preserve">
     <value>Sense Programar..</value>
   </data>
   <data name="CLIENTE00" xml:space="preserve">
-    <value>CLIENT</value>
+    <value>CLIENTE00</value>
   </data>
   <data name="Desc_CLIENTE00" xml:space="preserve">
-    <value>Client</value>
+    <value>Client Vario</value>
   </data>
   <data name="BotonSi" xml:space="preserve">
     <value>Sí</value>
@@ -684,12 +684,6 @@ que l'arxiu no estigui obert</value>
   </data>
   <data name="BotonAceptar" xml:space="preserve">
     <value>Acceptar</value>
-  </data>
-  <data name="EL_CORTE_INGLES" xml:space="preserve">
-    <value>EL CORTE INGLES</value>
-  </data>
-  <data name="Desc_EL_CORTE_INGLES" xml:space="preserve">
-    <value>El Corte Inglés</value>
   </data>
   <data name="Existentes" xml:space="preserve">
     <value>Existents</value>
@@ -752,6 +746,12 @@ que l'arxiu no estigui obert</value>
     <value>Efectiu a casa</value>
   </data>
   <data name="AvisoConceptoProtegido" xml:space="preserve">
-    <value>Els conceptes predeterminats del sistema estan protegits contra modificacions, si no es farà servir es pot Eliminar</value>
+    <value>Els conceptes predeterminats del sistema estan protegits contra modificacions</value>
+  </data>
+  <data name="Desc_EL_CORTE_INGLES" xml:space="preserve">
+    <value>El Corte Inglés</value>
+  </data>
+  <data name="EL_CORTE_INGLES" xml:space="preserve">
+    <value>EL CORTE INGLES</value>
   </data>
 </root>

@@ -24,7 +24,7 @@ Public Class EditarCuentaBancaria
         ' 1. LLENAR EL COMBO USANDO LA FUNCIÓN GLOBAL MULTIDIOMA
         ' ******************************************************
         CmbTipoCuenta.DropDownStyle = ComboBoxStyle.DropDownList
-        CargarComboTipoCuentaGlobal(CmbTipoCuenta, frmCuentasBancarias.rmse)
+        CargarComboTipoCuentaGlobal(CmbTipoCuenta)
         ' 2. RECUPERAR LOS DATOS DE LA FILA SELECCIONADA
         ' ******************************************************
         filaActual = frmCuentasBancarias.DgvCuentas.CurrentRow.Index

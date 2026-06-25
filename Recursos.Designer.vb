@@ -641,7 +641,7 @@ Friend Class Recursos
     End Property
     
     '''<summary>
-    '''  Busca una cadena traducida similar a Pensión o Suledo.
+    '''  Busca una cadena traducida similar a Pensión o Sueldo.
     '''</summary>
     Friend Shared ReadOnly Property Desc_PENSION() As String
         Get

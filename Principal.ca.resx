@@ -239,7 +239,7 @@
     <value>Conceptes Comptables</value>
   </data>
   <data name="ConceptosContablesToolStripMenuItem.ToolTipText" xml:space="preserve">
-    <value>Afegeix, Edita, Borra o Consulta Conceptes Comptables</value>
+    <value>Afegeix, Edita, Esborra o Consulta Conceptes Comptables</value>
   </data>
   <data name="CuentasToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -256,7 +256,7 @@
     <value>258, 26</value>
   </data>
   <data name="CuentasToolStripMenuItem.ToolTipText" xml:space="preserve">
-    <value>Afegeix, Edita, Borra o Comptes Bancaris</value>
+    <value>Afegeix, Edita, Esborra o Consulta Comptes Bancaris</value>
   </data>
   <data name="TiposDeCuentasToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -275,7 +275,7 @@
     <value>117, 24</value>
   </data>
   <data name="MantenimientosToolStripMenuItem.Text" xml:space="preserve">
-    <value>Manteniments</value>
+    <value>&amp;Manteniments</value>
   </data>
   <data name="VerApuntesToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -292,7 +292,7 @@
     <value>Veure Apunts</value>
   </data>
   <data name="VerApuntesToolStripMenuItem.ToolTipText" xml:space="preserve">
-    <value>Afegeix, Edita, Borra o Consulta Apunts</value>
+    <value>Afegeix, Edita, Esborra o Consulta Apunts</value>
   </data>
   <data name="IntroducirApuntesToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -324,7 +324,7 @@
     <value>253, 26</value>
   </data>
   <data name="IntroducirTraspasosToolStripMenuItem.Text" xml:space="preserve">
-    <value>Introducció a Traspassos</value>
+    <value>Introduir Traspassos</value>
   </data>
   <data name="IntroducirTraspasosToolStripMenuItem.ToolTipText" xml:space="preserve">
     <value>Introduir Traspassos entre Comptes</value>
@@ -351,7 +351,7 @@
     <value>Apunts Periòdics</value>
   </data>
   <data name="ApuntesPeriodicosToolStripMenuItem.ToolTipText" xml:space="preserve">
-    <value>Afegeix, Edita, Borra o Consulta Apunts Periòdics</value>
+    <value>Afegeix, Edita, Esborra o Consulta Apunts Periòdics</value>
   </data>
   <data name="ApuntesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>69, 24</value>
@@ -774,7 +774,7 @@
     <value>346, 26</value>
   </data>
   <data name="AcercaDeToolStripMenuItem.Text" xml:space="preserve">
-    <value>Sobre ...</value>
+    <value>Sobre...</value>
   </data>
   <data name="AcercaDeToolStripMenuItem.ToolTipText" xml:space="preserve">
     <value>Sobre l'Aplicació</value>
@@ -989,7 +989,7 @@
     <value>76, 20</value>
   </data>
   <data name="TsLabelFormulario.Text" xml:space="preserve">
-    <value>A Espera...</value>
+    <value>En Espera...</value>
   </data>
   <data name="BarraDeEstado.Text" xml:space="preserve">
     <value>BarraDeEstat</value>
@@ -1062,7 +1062,7 @@
 </value>
   </data>
   <data name="BtnConceptos.Text" xml:space="preserve">
-    <value>Afegeix, Edita, Borra o Consulta Conceptes Comptables</value>
+    <value>Afegeix, Edita, Esborra o Consulta Conceptes Comptables</value>
   </data>
   <data name="BtnCuentasBancarias.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1076,7 +1076,7 @@
 </value>
   </data>
   <data name="BtnCuentasBancarias.Text" xml:space="preserve">
-    <value>Afegeix, Edita, Borra o Consulta Comptes Bancaris</value>
+    <value>Afegeix, Edita, Esborra o Consulta Comptes Bancaris</value>
   </data>
   <data name="BtnTipoCuentas.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1087,7 +1087,7 @@
 </value>
   </data>
   <data name="BtnTipoCuentas.Text" xml:space="preserve">
-    <value>Afegeix, Edita, Borra o Consulta Tipus Comptes Bancaris</value>
+    <value>Afegeix, Edita, Esborra o Consulta Tipus Comptes Bancaris</value>
   </data>
   <data name="BtnApuntesContables.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1102,7 +1102,7 @@
 </value>
   </data>
   <data name="BtnApuntesContables.Text" xml:space="preserve">
-    <value>Afegeix, Edita, Borra o Consulta Apunts</value>
+    <value>Afegeix, Edita, Esborra o Consulta Apunts</value>
   </data>
   <data name="BtnIntroducirApuntes.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1141,7 +1141,7 @@
 </value>
   </data>
   <data name="BtnApuntesPeriodicos.Text" xml:space="preserve">
-    <value>Afegeix, Edita, Borra o Consulta Apunts Periòdics</value>
+    <value>Afegeix, Edita, Esborra o Consulta Apunts Periòdics</value>
   </data>
   <data name="BtnPresupuestos.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1574,7 +1574,7 @@
     <value>765, 20</value>
   </data>
   <data name="LblDonacion.Text" xml:space="preserve">
-    <value>Aquesta aplicació és gratuïta, però per poder arribar a tots vosaltres, tinc unes despeses de Certificació de Codi, agraeixo una donació. Fer Clic al Botó, Gràcies</value>
+    <value>Aquesta aplicació és gratuïta, però per poder arribar a tots vosaltres, tinc unes despeses de Certificació de Codi, agraeixo una donació. Feu Clic al Botó, Gràcies</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -7752,7 +7752,7 @@
     <value>ContaHogar 3.0</value>
   </data>
   <data name="InformesToolStripMenuItem.Text" xml:space="preserve">
-    <value>Informes</value>
+    <value>&amp;Informes</value>
   </data>
   <data name="CalculadoraToolStripMenuItem.Text" xml:space="preserve">
     <value>Calculadora</value>
@@ -7776,13 +7776,13 @@
     <value>Activar Programa</value>
   </data>
   <data name="BarraDeHerramientas.Text" xml:space="preserve">
-    <value>BarraDeHerramientas</value>
+    <value>Barra d'Eines</value>
   </data>
   <data name="LblNotificacion.Text" xml:space="preserve">
     <value>"Software en Mode Demo. Si us plau, activi l'aplicació per treure aquesta advertència."</value>
   </data>
   <data name="LblAvisoActivacion" xml:space="preserve">
-    <value>"Software en mode demo. Per favor activi el programari per treure aquesta advertència."</value>
+    <value>"Software en mode demo. Per favor, activi el programari per treure aquesta advertència."</value>
   </data>
   <data name="SeCrearaEjercicio" xml:space="preserve">
     <value>es crearà exercici</value>
@@ -7794,13 +7794,13 @@
     <value>Traspàs entre Comptes</value>
   </data>
   <data name="MsgEspera" xml:space="preserve">
-    <value>A Espera ...</value>
+    <value>En Espera ...</value>
   </data>
   <data name="CuentasToolStripMenuItem.Text" xml:space="preserve">
     <value>Comptes Bancaris</value>
   </data>
   <data name="PreguntaBackup" xml:space="preserve">
-    <value>¿Aquestes segur de RESTAURAR la Base de Dades?</value>
+    <value>Estàs segur de RESTAURAR la Base de Dades?</value>
   </data>
   <data name="RestaurarBD" xml:space="preserve">
     <value>Restaurar Base de Dades</value>
@@ -7821,7 +7821,7 @@
     <value>Error en compactar la base de dades</value>
   </data>
   <data name="MsgVaciarBD" xml:space="preserve">
-    <value>¿Aquestes assegurança de BUIDAR i INICIAR la Base de Dades d'APUNTS - APUNTS PERIODICS i PRESSUPOSTOS de l'Exercici</value>
+    <value>Estàs segur de BUIDAR i INICIAR la Base de Dades d'APUNTS - APUNTS PERIÒDICS i PRESSUPOSTOS de l'Exercici</value>
   </data>
   <data name="MsgVaciarBD2" xml:space="preserve">
     <value>Aconsello fer una Còpia de Seguretat</value>
@@ -7830,7 +7830,7 @@
     <value>S'iniciarà el Buidatge de la Base de Dades</value>
   </data>
   <data name="MsgVaciarBD3" xml:space="preserve">
-    <value>VACIAR Base de Dades</value>
+    <value>Buidar Base de Dades</value>
   </data>
   <data name="MsgNoVaciarBD" xml:space="preserve">
     <value>No s'Eliminen els CONCEPTES ni els COMPTES COMPTABLES</value>
@@ -7839,7 +7839,7 @@
     <value>Apunts Comptables, Buidatge!</value>
   </data>
   <data name="ApuntesPeriodicosVaciado" xml:space="preserve">
-    <value>Apunts Periòdics, Buidat!</value>
+    <value>Apunts Periòdics, Buidatge!</value>
   </data>
   <data name="PresupuestosVaciado" xml:space="preserve">
     <value>Pressupostos, Buidatge!</value>
@@ -7902,14 +7902,14 @@
     <value>Llistat Apunts Periòdics Només Despeses Ordenat per Imports</value>
   </data>
   <data name="ImportandoApuntes" xml:space="preserve">
-    <value>Important de Contahogar els APUNTS, Espere uns Segons...</value>
+    <value>Important de Contahogar els APUNTS, Esperi uns segons</value>
   </data>
   <data name="RealizarCopiaSeguridad" xml:space="preserve">
-    <value>¿Desitja realitzar una còpia de seguretat
+    <value>Desitja realitzar una còpia de seguretat
 de la base de dades abans d'importar els apunts?</value>
   </data>
   <data name="RecomiendaCopiaSeguridad" xml:space="preserve">
-    <value>Desitja continuar sense realitzar una còpia de seguretat?
+    <value>Desitja continuar sense realitzar una còpia de seguretat? 
 Es recomana realitzar-la per evitar pèrdues de dades. Aquesta acció no es pot desfer</value>
   </data>
   <data name="Advertencia" xml:space="preserve">
@@ -7925,16 +7925,16 @@ Es recomana realitzar-la per evitar pèrdues de dades. Aquesta acció no es pot 
     <value>Error durant la transferència APUNTS</value>
   </data>
   <data name="ImportandoApuntesPeriodicos" xml:space="preserve">
-    <value>Important de Contahogar, els APUNTS PERIÒDICS, Espere uns Segons...</value>
+    <value>Important de Contahogar els APUNTS PERIÒDICS, Esperi uns segons</value>
   </data>
   <data name="TransferenciaApuntesPeriodicos" xml:space="preserve">
-    <value>Transferència completada APUNTS PERIODICS</value>
+    <value>Transferència completada APUNTS PERIÒDICS</value>
   </data>
   <data name="ErrorTransferenciaApuntesPeriodicos" xml:space="preserve">
-    <value>Error durant la transferència APUNTS PERIODICS</value>
+    <value>Error durant la transferència APUNTS PERIÒDICS</value>
   </data>
   <data name="ImportandoEjercicios" xml:space="preserve">
-    <value>Important de Contahogar els EXERCICIS, Espere uns Segons...</value>
+    <value>Important de Contahogar els EXERCICIS, Esperi uns segons...</value>
   </data>
   <data name="TransferenciaEjercicios" xml:space="preserve">
     <value>Transferència completada EXERCICIS</value>
@@ -7946,7 +7946,7 @@ Es recomana realitzar-la per evitar pèrdues de dades. Aquesta acció no es pot 
     <value>Error durant la transferència EXERCICIS</value>
   </data>
   <data name="ImportandoConceptos" xml:space="preserve">
-    <value>Important de Contahogar, els CONCEPTES, Espere uns Segons...</value>
+    <value>Important de Contahogar, els CONCEPTES, Esperi uns segons...</value>
   </data>
   <data name="TransferenciaConceptos" xml:space="preserve">
     <value>Transferència completada CONCEPTES</value>
@@ -7955,7 +7955,7 @@ Es recomana realitzar-la per evitar pèrdues de dades. Aquesta acció no es pot 
     <value>Error durant la transferència CONCEPTES</value>
   </data>
   <data name="ImportandoCuentas" xml:space="preserve">
-    <value>Important de Contahogar, els COMPTES, Espere uns Segons...</value>
+    <value>Important de Contahogar, els COMPTES, Esperi uns segons...</value>
   </data>
   <data name="TransferenciaCuentas" xml:space="preserve">
     <value>Transferència completada COMPTES</value>
@@ -7964,7 +7964,7 @@ Es recomana realitzar-la per evitar pèrdues de dades. Aquesta acció no es pot 
     <value>Error durant la transferència COMPTES</value>
   </data>
   <data name="ImportandoPresupuestos" xml:space="preserve">
-    <value>Important de Contahogar, els PRESSUPOSTOS, Espere uns Segons...</value>
+    <value>Important de Contahogar, els PRESSUPOSTOS, Esperi uns segons...</value>
   </data>
   <data name="TransferenciaPresupuestos" xml:space="preserve">
     <value>Transferència completada PRESSUPOSTOS</value>
@@ -7976,17 +7976,17 @@ Es recomana realitzar-la per evitar pèrdues de dades. Aquesta acció no es pot 
     <value>Còpia de Seguretat realitzada satisfactòriament</value>
   </data>
   <data name="MsgImportar1" xml:space="preserve">
-    <value>Aquesta funció s'ha dissenyat per Afegir sense Duplicar les dades,
-de l'antiga Base de Dades de ContaHogar a la nova de ContaHogar 3.0
-es recomana realitzar una còpia de seguretat abans de procedir amb la importació,
+    <value>Aquesta funció s'ha dissenyat per Afegir, sense Duplicar les dades,
+de l'antiga Base de Dades de ContaHogar a la nova de ContaHogar 3.0.
+Es recomana realitzar una còpia de seguretat abans de procedir amb la importació,
 ja que aquesta acció no es pot desfer</value>
   </data>
   <data name="ImportarContahogar" xml:space="preserve">
     <value>IMPORTAR CONTAHOGAR</value>
   </data>
   <data name="ExisteCHDB2" xml:space="preserve">
-    <value>Ja existeix l'arxiu CHDB2.mdb en C:\ContaHogar3.0
-es procedirà a realitzar la importació</value>
+    <value>Ja existeix l'arxiu CHDB2.mdb en C:\ContaHogar3.0.
+Es procedirà a realitzar la importació</value>
   </data>
   <data name="NoExisteCHDB2" xml:space="preserve">
     <value>NO existeix l'arxiu CHDB2.mdb en C:\ContaHogar3.0
@@ -8001,5 +8001,8 @@ per poder realitzar el procés d'importació</value>
     <value>Ruta C:\ContaHogar3.0, Creada.
 Copiar l'arxiu CHDB2.mdb de l'antic Contahogar a la carpeta C:\ContaHogar3.0
 per poder realitzar el procés d'importació</value>
+  </data>
+  <data name="ButtonActualizar.Text" xml:space="preserve">
+    <value>Button Actualizar Excel</value>
   </data>
 </root>

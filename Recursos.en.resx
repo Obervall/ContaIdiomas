@@ -451,9 +451,6 @@ They are not removed from the database</value>
   <data name="Desc_OCIO" xml:space="preserve">
     <value>Fun &amp; Entertainment</value>
   </data>
-  <data name="Desc_PENSION" xml:space="preserve">
-    <value>Guesthouse or Suledo</value>
-  </data>
   <data name="Desc_REGULARIZACION_1" xml:space="preserve">
     <value>Regularization of Income</value>
   </data>
@@ -753,5 +750,8 @@ the file is not open</value>
   </data>
   <data name="AvisoConceptoProtegido" xml:space="preserve">
     <value>The default system concepts are protected against modifications, if they are not going to be used they can be deleted</value>
+  </data>
+  <data name="Desc_PENSION" xml:space="preserve">
+    <value>Pension or Salary</value>
   </data>
 </root>

@@ -451,9 +451,6 @@ Sie werden nicht aus der Datenbank entfernt</value>
   <data name="Desc_OCIO" xml:space="preserve">
     <value>Spaß &amp; Unterhaltung</value>
   </data>
-  <data name="Desc_PENSION" xml:space="preserve">
-    <value>Gästehaus oder Suledo</value>
-  </data>
   <data name="Desc_REGULARIZACION_1" xml:space="preserve">
     <value>Regularisierung des Einkommens</value>
   </data>
@@ -753,5 +750,8 @@ Die Datei ist nicht geöffnet</value>
   </data>
   <data name="AvisoConceptoProtegido" xml:space="preserve">
     <value>Die Standardsystemkonzepte sind vor Änderungen geschützt; wenn sie nicht verwendet werden, können sie gelöscht werden</value>
+  </data>
+  <data name="Desc_PENSION" xml:space="preserve">
+    <value>Pension oder Gehalt</value>
   </data>
 </root>

@@ -148,16 +148,16 @@
     <value>Editar Compte Bancari</value>
   </data>
   <data name="LblEliminando" xml:space="preserve">
-    <value>ELIMINAR COMPTE BANCARI !!</value>
+    <value>ELIMINAR COMPTE BANCARI!!</value>
   </data>
   <data name="EliminarCuenta" xml:space="preserve">
-    <value>¿Aquestes segur d'Eliminar el Compte Bancari</value>
+    <value>Estàs segur d'Eliminar el Compte Bancari</value>
   </data>
   <data name="EliminarCuenta2" xml:space="preserve">
     <value>i tots els seus Apunts de Tots els Exercicis?.</value>
   </data>
   <data name="EliminarCuenta3" xml:space="preserve">
-    <value>Registre Compte Bancari, Esborrada !!</value>
+    <value>Registre Compte Bancari Esborrat!!</value>
   </data>
   <data name="EliminarCuenta4" xml:space="preserve">
     <value>Error en Eliminar el Registre del Compte Bancari</value>

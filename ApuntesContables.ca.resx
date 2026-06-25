@@ -175,7 +175,7 @@
     <value>Apunts Comptables</value>
   </data>
   <data name="EliminarApuntes" xml:space="preserve">
-    <value>Apunts, Esborrats!!</value>
+    <value>Apunts Esborrats!!</value>
   </data>
   <data name="EliminarApuntesError" xml:space="preserve">
     <value>Error en Eliminar els Apunts relacionats amb el Concepte Comptable</value>
@@ -183,7 +183,7 @@
   <data name="ToolTipLabelApuntes" xml:space="preserve">
     <value>Amb Tecla Suprimir: Elimina files seleccionades
 Amb F5: Filtra per Descripció
-Amb F6: Refresca la Parrilla Apunts i Quita Filtres</value>
+Amb F6: Actualitza la graella Apunts i treu Filtres</value>
   </data>
   <data name="ToolTipListBox" xml:space="preserve">
     <value>Amb Tecla Esc: Tanca Llistat</value>
@@ -198,10 +198,10 @@ Amb F6: Refresca la Parrilla Apunts i Quita Filtres</value>
     <value>Exportar Apunts a Excel</value>
   </data>
   <data name="ToolTipAumentar" xml:space="preserve">
-    <value>Augmentar mesura del Font</value>
+    <value>Augmentar mida de la Font</value>
   </data>
   <data name="ToolTipNormal" xml:space="preserve">
-    <value>Restaurar mesura del Fomt</value>
+    <value>Restaurar mida de la Font</value>
   </data>
   <data name="ToolTipF5" xml:space="preserve">
     <value>Filtra per Descripció</value>

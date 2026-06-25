@@ -133,7 +133,7 @@
     <value>Directe a Impressora Predeterminada</value>
   </data>
   <data name="CheckBox2.Text" xml:space="preserve">
-    <value>Elegir la Impressora</value>
+    <value>Triar la Impressora</value>
   </data>
   <data name="CheckBox1.Text" xml:space="preserve">
     <value>Previsualitzar abans d'Imprimir</value>
@@ -184,7 +184,7 @@ es buscarà automàticament en iniciar el programa</value>
   </data>
   <data name="ActivarBusqueda" xml:space="preserve">
     <value>S'activarà la recerca manual d'actualitzacions,
-es buscarà en fer click al botó 'Buscar Actualització'</value>
+es buscarà en fer clic al botó 'Buscar Actualització'</value>
   </data>
   <data name="NoHayNuevaVersion" xml:space="preserve">
     <value>No hi ha noves versions disponibles. Versió actual</value>

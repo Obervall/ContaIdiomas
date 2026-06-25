@@ -7887,7 +7887,7 @@
     <value>List of Periodic Items Only Expenses Sorted by Amounts</value>
   </data>
   <data name="ImportandoApuntes" xml:space="preserve">
-    <value>Importing from Contahogar the TRANSACTIONS, Wait a Few Seconds...</value>
+    <value>Importing from Contahogar the TRANSACTIONS, Wait a Few Seconds</value>
   </data>
   <data name="RealizarCopiaSeguridad" xml:space="preserve">
     <value>Do you want to back up
@@ -7910,7 +7910,7 @@ It is recommended to perform it to avoid data loss. This action cannot be undone
     <value>Error during transfer TRANSACTIONS</value>
   </data>
   <data name="ImportandoApuntesPeriodicos" xml:space="preserve">
-    <value>Importing from Contahogar, the PERIODIC TRANSACTIONS, Wait a Few Seconds...</value>
+    <value>Importing from Contahogar, the PERIODIC TRANSACTIONS, Wait a Few Seconds</value>
   </data>
   <data name="TransferenciaApuntesPeriodicos" xml:space="preserve">
     <value>Transfer completed PERIODIC TRANSACTIONS</value>
@@ -7986,5 +7986,8 @@ to be able to carry out the import process</value>
     <value>Path C:\HomeAccount3.0, Created.
 Copy the CHDB2.mdb file from the old Contahogar to the folder C:\ContaHogar3.0
 to be able to carry out the import process</value>
+  </data>
+  <data name="ButtonActualizar.Text" xml:space="preserve">
+    <value>Update Excel button</value>
   </data>
 </root>

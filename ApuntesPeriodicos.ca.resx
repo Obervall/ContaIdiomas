@@ -121,7 +121,7 @@
     <value>(Sense Filtrar)</value>
   </data>
   <data name="Label1.Text" xml:space="preserve">
-    <value>Nº de Reg.:</value>
+    <value>Núm. de Reg.:</value>
   </data>
   <data name="GroupBox1.Text" xml:space="preserve">
     <value>Registres</value>
@@ -175,13 +175,13 @@
     <value>Apunts Periòdics</value>
   </data>
   <data name="LblApuntes.Text" xml:space="preserve">
-    <value>APUNTS PERIODICS</value>
+    <value>APUNTS PERIÒDICS</value>
   </data>
   <data name="EliminarApuntesPeriodicos" xml:space="preserve">
-    <value>Apunts Periòdics, Esborrats !!</value>
+    <value>Apunts Periòdics Esborrats!!</value>
   </data>
   <data name="EliminarApuntesPeriodicosError" xml:space="preserve">
-    <value>Error a l'Eliminar els Apunts Periòdics relacionats amb el Concepte Comptable</value>
+    <value>Error en Eliminar els Apunts Periòdics relacionats amb el Concepte Comptable</value>
   </data>
   <data name="MsgSaldos1" xml:space="preserve">
     <value>Els Saldos inicials, NO es poden Esborrar</value>
