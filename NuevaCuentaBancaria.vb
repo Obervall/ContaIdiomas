@@ -6,7 +6,6 @@ Public Class NuevaCuentaBancaria
     Public TL(4) As ToolTip
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
-
     Private Sub NuevaCuentaBancaria_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
 
@@ -112,7 +111,7 @@ Public Class NuevaCuentaBancaria
                 Exit Sub
             End If
         Catch ex As Exception
-            MessageBox.Show("Error al verificar duplicados: " & vbNewLine & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(resManager.GetString("ErrorDuplicados") & ": " & vbNewLine & ex.Message, resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End Try
 
@@ -140,9 +139,8 @@ Public Class NuevaCuentaBancaria
         ' =========================================================================
         ' 5. INSERCIÓN TOTALMENTE PARAMETRIZADA (ID, TIPO, NOMBRE, NÚMERO, NOTAS, SALDO)
         ' =========================================================================
-        vtipoSql = "INSERT INTO cuentas (IdCuentaCUE, TipoCUE, NombreCUE, NumeroCUE, NotasCUE, SaldoCUE) VALUES (?, ?, ?, ?, ?, ?)"
+        vtipoSql = "INSERT INTO cuentas (IdCuentaCUE, TipoCUE, NombreCUE, NumeroCUE, NotasCUE) VALUES (?, ?, ?, ?, ?)"
         cmdMdb1cr.CommandText = vtipoSql
-
         ' Limpiamos y asignamos los parámetros en el orden EXACTO del SQL para Access
         cmdMdb1cr.Parameters.Clear()
         cmdMdb1cr.Parameters.AddWithValue("@IdCuentaCUE", siguienteID)
@@ -150,13 +148,30 @@ Public Class NuevaCuentaBancaria
         cmdMdb1cr.Parameters.AddWithValue("@NombreCUE", nombreCuentaMayusculas)
         cmdMdb1cr.Parameters.AddWithValue("@NumeroCUE", numeroCuenta)
         cmdMdb1cr.Parameters.AddWithValue("@NotasCUE", notasCuenta)
-        cmdMdb1cr.Parameters.AddWithValue("@SaldoCUE", saldoInicial) ' Pasamos el 0 fijo de forma segura
 
         Try
+            ' Ejecutamos la inserción en Access
             cmdMdb1cr.ExecuteNonQuery()
-            Me.Close() ' Registro grabado con éxito, cierra el subformulario modal
+            ' --- 6. REFRESCAMOS EL GRID DE LA PANTALLA PRINCIPAL EN MEMORIA ---
+            Dim tabla As System.Data.DataTable = TryCast(frmCuentasBancarias.DgvCuentas.DataSource, System.Data.DataTable)
+        If tabla IsNot Nothing Then
+            ' Añadimos la fila a la memoria RAM usando el 'siguienteID' que calculamos arriba
+            ' Orden exacto del DataTable: Tipo, Nombre, Numero, Saldo, Notas, Id
+            Dim textoTipoCombo As String = CmbTipoCuenta.Text ' Captura el idioma actual (ej: "Current Account")
+            tabla.Rows.Add(textoTipoCombo, nombreCuentaMayusculas, numeroCuenta, 0.00, notasCuenta, siguienteID)
+            tabla.AcceptChanges()
+        End If
+
+        ' Recalculamos totales del formulario principal
+        Dim vNumRegistros As String = frmCuentasBancarias.DgvCuentas.Rows.Count.ToString()
+        frmCuentasBancarias.TxtNumRegistros.Text = vNumRegistros
+        DgvCuentasBancarias()
+
+        ' Cerramos la ventana modal de alta
+        Me.Close()
+
         Catch ex As Exception
-            MessageBox.Show("Error al guardar la cuenta contable: " & vbNewLine & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(resManager.GetString("ErrorGrabarRegistro") & ": " & vbNewLine & ex.Message, resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 

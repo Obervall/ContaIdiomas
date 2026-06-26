@@ -59,8 +59,8 @@ Public Class ConceptosContables
         ' 5. Llenar el Combo Campos de búsqueda usando los títulos traducidos
         frmBuscar.CmbCampos.Items.Clear()
         frmBuscar.CmbCampos.Items.Add(resManager.GetString("Todos_Los_Campos"))
-        For Each columna As DataGridViewColumn In DgvConceptos.Columns
-            frmBuscar.CmbCampos.Items.Add(columna.HeaderText)
+        For i As Integer = 0 To DgvConceptos.Columns.Count - 2
+            frmBuscar.CmbCampos.Items.Add(DgvConceptos.Columns(i).HeaderText)
         Next
     End Sub
 

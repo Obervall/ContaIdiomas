@@ -754,4 +754,16 @@ le fichier n’est pas ouvert</value>
   <data name="Desc_PENSION" xml:space="preserve">
     <value>Pension ou salaire</value>
   </data>
+  <data name="ErrorFiltrar" xml:space="preserve">
+    <value>Filtrage des erreurs à l’écran</value>
+  </data>
+  <data name="SeleccionaRegistro" xml:space="preserve">
+    <value>Sélectionnez un enregistrement à modifier ou supprimer</value>
+  </data>
+  <data name="ErrorDuplicados" xml:space="preserve">
+    <value>Vérification des erreurs pour les doublons</value>
+  </data>
+  <data name="ErrorGrabarRegistro" xml:space="preserve">
+    <value>Journal d’enregistrement des erreurs</value>
+  </data>
 </root>

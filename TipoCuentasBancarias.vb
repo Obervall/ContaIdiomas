@@ -47,14 +47,15 @@ Public Class TipoCuentaBancaria
         vtipoSql += " ORDER BY tipocuentas.CodigoTIP ASC"
         vtipoGrid = "TIPO_CUENTAS_BANCARIAS"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
-        TraducirContenidoGridTiposCuenta(DgvTipoCuentasBancarias, rmse)
+        TraducirContenidoGridTiposCuenta(DgvTipoCuentasBancarias)
 
         ' Llenar el Combo Campos
         '***********************
         frmBuscar.CmbCampos.Items.Clear()
         frmBuscar.CmbCampos.Items.Add(resManager.GetString("Todos_Los_Campos"))
-        For Each columna As DataGridViewColumn In DgvTipoCuentasBancarias.Columns
-            frmBuscar.CmbCampos.Items.Add(columna.HeaderText)
+        ' Cambiamos a bucle For desde la columna 0 hasta la penúltima (Count - 2)
+        For i As Integer = 0 To DgvTipoCuentasBancarias.Columns.Count - 2
+            frmBuscar.CmbCampos.Items.Add(DgvTipoCuentasBancarias.Columns(i).HeaderText)
         Next
     End Sub
 
@@ -251,7 +252,7 @@ Public Class TipoCuentaBancaria
         vtipoSql += " ORDER BY tipocuentas.CodigoTIP ASC"
         vtipoGrid = "TIPO_CUENTAS_BANCARIAS"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
-        TraducirContenidoGridTiposCuenta(DgvTipoCuentasBancarias, rmse)
+        TraducirContenidoGridTiposCuenta(DgvTipoCuentasBancarias)
         DgvTipoCuentasBancarias.CurrentCell = DgvTipoCuentasBancarias.Rows(filaActual).Cells(0)
         DgvTipoCuentasBancarias.Rows(filaActual).Selected = True
     End Sub
@@ -275,7 +276,7 @@ Public Class TipoCuentaBancaria
         Try
             idTipoCUE = Convert.ToInt32(frmTipoCuentaBancaria.DgvTipoCuentasBancarias.Rows(filaActual).Cells(2).Value)
         Catch ex As Exception
-            MessageBox.Show("Error al recuperar el identificador numérico.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(resManager.GetString("ErrorRecuperarID"), resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End Try
 
@@ -295,7 +296,6 @@ Public Class TipoCuentaBancaria
             MessageBox.Show(rmse.GetString("ErrorVerificarIntegridad") & ": " & ex.Message, rmse.GetString("$this.Text"), MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End Try
-
         ' 4. Bloquear el borrado si está asignado a alguna cuenta activa
         If cuentasAsociadas > 0 Then
             Dim msgBloqueo As String = rmse.GetString("NoSePuedeEliminar") & " [" & textoTraducido & "] " &
@@ -333,7 +333,7 @@ Public Class TipoCuentaBancaria
                 vtipoGrid = "TIPO_CUENTAS_BANCARIAS"
 
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
-                TraducirContenidoGridTiposCuenta(frmTipoCuentaBancaria.DgvTipoCuentasBancarias, rmse)
+                TraducirContenidoGridTiposCuenta(frmTipoCuentaBancaria.DgvTipoCuentasBancarias)
 
             Catch ex As Exception
                 MessageBox.Show(resManager.GetString("ErrorEliminarRegistro") & ex.Message, resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -357,7 +357,7 @@ Public Class TipoCuentaBancaria
         vtipoSql += " ORDER BY tipocuentas.CodigoTIP ASC"
         vtipoGrid = "TIPO_CUENTAS_BANCARIAS"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
-        TraducirContenidoGridTiposCuenta(DgvTipoCuentasBancarias, rmse)
+        TraducirContenidoGridTiposCuenta(DgvTipoCuentasBancarias)
     End Sub
 
     Private Sub BtnPrimero_Click(sender As Object, e As EventArgs) Handles BtnPrimero.Click
@@ -504,7 +504,7 @@ Public Class TipoCuentaBancaria
         e.Graphics.DrawString(textoEncabezado0, FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
 
         ' Encabezado Columna 1: Se queda igual en su posición fija
-        e.Graphics.DrawString(resManager.GetString("Descripcion") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto2.Left, frmImprimirForm.Punto2.Top - 30)
+        e.Graphics.DrawString(resManager.GetString("Descripcion") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto2.Left + 50, frmImprimirForm.Punto2.Top - 30)
 
         'imprimimos la linea debajo de los encabezados
         '*********************************************
@@ -523,7 +523,7 @@ Public Class TipoCuentaBancaria
 
             ' --- COLUMNA 0 (Tipo de cuenta - Máx 30 caracteres) ---
             Dim valorBD0 As String = frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(0).Value.ToString()
-            Dim textoCelda0 As String = TraducirDinamico(valorBD0, False) ' Busca "Cuenta_Corriente" o devuelve el texto íntegro
+            Dim textoCelda0 As String = TraducirDinamico(valorBD0, False).Replace("_", " ")
 
             If textoCelda0.Length > 30 Then
                 textoCelda0 = textoCelda0.Substring(0, 30)
@@ -553,7 +553,7 @@ Public Class TipoCuentaBancaria
                 .FormatFlags = StringFormatFlags.NoWrap
             }
 
-            Dim rectanguloCelda1 As New RectangleF(frmImprimirForm.Punto2.Left, startY, anchoDisponibleCol1, frmImprimirForm.Punto1.Height)
+            Dim rectanguloCelda1 As New RectangleF(frmImprimirForm.Punto2.Left + 50, startY, anchoDisponibleCol1, frmImprimirForm.Punto1.Height)
             e.Graphics.DrawString(textoCelda1, FuenteDetalles, Brushes.Black, rectanguloCelda1, formatoCortado)
 
             ' Control de renglones y páginas

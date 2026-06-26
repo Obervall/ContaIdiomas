@@ -157,7 +157,7 @@ Public Class NuevoTipoCuentaBancaria
                     Exit Sub
                 End If
             Catch ex As Exception
-                MessageBox.Show("Error al verificar duplicados: " & vbNewLine & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(resManager.GetString("ErrorDuplicados") & ": " & vbNewLine & ex.Message, resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End Try
 
@@ -190,7 +190,7 @@ Public Class NuevoTipoCuentaBancaria
                 cmdMdb1cr.ExecuteNonQuery()
                 Me.Close() ' Guardado impecable
             Catch ex As Exception
-                MessageBox.Show("Error al guardar el tipo de cuenta: " & vbNewLine & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(resManager.GetString("ErrorGrabarRegistro") & ": " & vbNewLine & ex.Message, resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         Else
             Dim msgVacio As String = resManager.GetString("NoHayDatos") & ": " & resManager.GetString("Nombre")

@@ -129,7 +129,7 @@ Public Class EditarConceptoContable
             If filasAfectadas > 0 Then
                 Me.Close() ' Guardado con éxito, cierra la ventana modal
             Else
-                MessageBox.Show("No se encontró el registro para actualizar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                MessageBox.Show(resManager.GetString("NoEncuentraRegistro"), resManager.GetString("Atencion"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         Catch ex As Exception
             MessageBox.Show(resManager.GetString("ErrorModificarRegistro") & vbNewLine & ex.Message,
@@ -152,7 +152,7 @@ Public Class EditarConceptoContable
             ' Extraemos el ID numérico real guardado en la celda oculta (4)
             idConcepto = Convert.ToInt32(frmConceptosContables.DgvConceptos.Rows(filaActual).Cells(4).Value)
         Catch ex As Exception
-            MessageBox.Show("Error al recuperar el identificador para la eliminación.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(resManager.GetString("ErrorRecuperarID"), resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End Try
 

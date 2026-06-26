@@ -59,6 +59,7 @@ Partial Class CuentasBancarias
         Me.Label9 = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
+        Me.BtnF6 = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -95,6 +96,7 @@ Partial Class CuentasBancarias
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.BtnF6)
         Me.GroupBox2.Controls.Add(Me.BtnEliminaSeleccion)
         Me.GroupBox2.Controls.Add(Me.BtnEditarRegistro)
         Me.GroupBox2.Controls.Add(Me.BtnAñadirRegistro)
@@ -301,6 +303,12 @@ Partial Class CuentasBancarias
         resources.ApplyResources(Me.Label7, "Label7")
         Me.Label7.Name = "Label7"
         '
+        'BtnF6
+        '
+        resources.ApplyResources(Me.BtnF6, "BtnF6")
+        Me.BtnF6.Name = "BtnF6"
+        Me.BtnF6.UseVisualStyleBackColor = True
+        '
         'CuentasBancarias
         '
         resources.ApplyResources(Me, "$this")
@@ -368,4 +376,5 @@ Partial Class CuentasBancarias
     Friend WithEvents Label9 As Windows.Forms.Label
     Friend WithEvents Label8 As Windows.Forms.Label
     Friend WithEvents Label7 As Windows.Forms.Label
+    Friend WithEvents BtnF6 As Windows.Forms.Button
 End Class

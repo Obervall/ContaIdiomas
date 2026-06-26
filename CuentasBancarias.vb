@@ -9,7 +9,7 @@ Public Class CuentasBancarias
 
     Public vtipoSql, vtipoGrid, vTxtNombre, filaActual As String
     Public vRow, vRowSeguir, vCampo, vContador, vCantidadFilas, PrintLine, Contador, filaSelec As Integer
-    Public TL(13) As ToolTip
+    Public TL(14) As ToolTip
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub CuentasBancarias_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -43,6 +43,8 @@ Public Class CuentasBancarias
         TL(12).SetToolTip(Me.BtnSiguiente, resManager.GetString("ToolTipSiguiente"))
         TL(13) = New ToolTip
         TL(13).SetToolTip(Me.BtnUltimo, resManager.GetString("ToolTipUltimo"))
+        TL(14) = New ToolTip
+        TL(14).SetToolTip(Me.BtnF6, resManager.GetString("ToolTipF6"))
 
         ' Añade una línea por cada GroupBox donde tengas estos botones:
         AddHandler Me.GroupBox3.MouseMove, AddressOf VerificarFiltrosDesactivados
@@ -77,9 +79,11 @@ Public Class CuentasBancarias
         '***********************
         frmBuscar.CmbCampos.Items.Clear()
         frmBuscar.CmbCampos.Items.Add(resManager.GetString("Todos_Los_Campos"))
-        For Each columna As DataGridViewColumn In DgvCuentas.Columns
-            If columna.Name <> "NotasCUE1" And columna.Name <> "Expr1003" Then
-                frmBuscar.CmbCampos.Items.Add(columna.HeaderText)
+        For i As Integer = 0 To DgvCuentas.Columns.Count - 2
+            Dim col As DataGridViewColumn = DgvCuentas.Columns(i)
+            ' Filtramos por nombre de columna para saltarnos las que no quieres ver
+            If col.Name <> "NotasCUE1" AndAlso col.Name <> "Expr1003" Then
+                frmBuscar.CmbCampos.Items.Add(col.HeaderText)
             End If
         Next
     End Sub
@@ -129,7 +133,7 @@ Public Class CuentasBancarias
             End If
 
         Catch ex As Exception
-            MessageBox.Show($"Error al filtrar en pantalla: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show($"{resManager.GetString("ErrorFiltrar")}: {ex.Message}", resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -270,24 +274,37 @@ Public Class CuentasBancarias
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
         frmNuevaCuentaBancaria.Dispose()
-        vtipoSql = "SELECT cuentas.TipoCUE, cuentas.NombreCUE, cuentas.NumeroCUE, cuentas.NotasCUE, cuentas.NotasCUE, cuentas.IdCuentaCUE FROM cuentas"
+        vtipoSql = "SELECT tipocuentas.CodigoTIP, cuentas.NombreCUE, cuentas.NumeroCUE, cuentas.NotasCUE, cuentas.NotasCUE, cuentas.IdCuentaCUE "
+        vtipoSql += "FROM cuentas "
         If BtnFiltroTipoCuenta.Enabled = False Then
             vtipoSql += " WHERE "
             vtipoSql += "cuentas.TipoCUE = '" & CmbTipoCuenta.Text & "' "
         End If
-        vtipoSql += " ORDER BY cuentas.NombreCUE ASC"
-        vtipoGrid = "CUENTAS_BANCARIAS"
-        LlenarGrid(vtipoSql, vtipoGrid, "1")
+        vtipoSql += "INNER JOIN tipocuentas ON cuentas.TipoCUE = tipocuentas.IdTipoCUE "
+        vtipoSql += "ORDER BY cuentas.NombreCUE ASC"
+
+        ' Llenamos el Grid con la estructura limpia
+        LlenarGrid(vtipoSql, "CUENTAS_BANCARIAS", "1")
+
+        ' Ocultamos el Id de la cuenta que viaja seguro en la posición 4
+        If DgvCuentas.Columns.Count > 5 Then
+            DgvCuentas.Columns(5).Visible = False
+        End If
+
+        ' Lanzamos tu rutina de traducción de siempre sobre los textos (CodigoTIP)
         TraducirColumnasGridCuentas(DgvCuentas)
     End Sub
 
     Private Sub BtnEliminarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEliminarRegistro.Click
+        If frmCuentasBancarias.DgvCuentas.CurrentRow Is Nothing Then
+            MsgBox(resManager.GetString("SeleccionaRegistro"), vbExclamation)
+            Exit Sub
+        End If
 
         ' Comprobamos si existe un identificador asociado.
         If ((frmEditarCuentaBancaria Is Nothing) OrElse (Not frmEditarCuentaBancaria.IsHandleCreated)) Then
             frmEditarCuentaBancaria = New EditarCuentaBancaria
         End If
-        ' Llamamos al formulario de manera modal.
         ' Llamamos al formulario de manera modal.
         If vEditar = "NO" Then
             vEditar = "NO"  ' Eliminar
@@ -298,14 +315,25 @@ Public Class CuentasBancarias
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
         frmEditarCuentaBancaria.Dispose()
-        vtipoSql = "SELECT cuentas.TipoCUE, cuentas.NombreCUE, cuentas.NumeroCUE, cuentas.NotasCUE, cuentas.NotasCUE, cuentas.IdCuentaCUE FROM cuentas"
+
+        vtipoSql = "SELECT tipocuentas.CodigoTIP, cuentas.NombreCUE, cuentas.NumeroCUE, cuentas.NotasCUE, cuentas.NotasCUE, cuentas.IdCuentaCUE "
+        vtipoSql += "FROM cuentas "
         If BtnFiltroTipoCuenta.Enabled = False Then
             vtipoSql += " WHERE "
             vtipoSql += "cuentas.TipoCUE = '" & CmbTipoCuenta.Text & "' "
         End If
-        vtipoSql += " ORDER BY  cuentas.NombreCUE ASC"
-        vtipoGrid = "CUENTAS_BANCARIAS"
-        LlenarGrid(vtipoSql, vtipoGrid, "1")
+        vtipoSql += "INNER JOIN tipocuentas ON cuentas.TipoCUE = tipocuentas.IdTipoCUE "
+        vtipoSql += "ORDER BY cuentas.NombreCUE ASC"
+
+        ' Llenamos el Grid con la estructura limpia
+        LlenarGrid(vtipoSql, "CUENTAS_BANCARIAS", "1")
+
+        ' Ocultamos el Id de la cuenta que viaja seguro en la posición 4
+        If DgvCuentas.Columns.Count > 5 Then
+            DgvCuentas.Columns(5).Visible = False
+        End If
+
+        ' Lanzamos tu rutina de traducción de siempre sobre los textos (CodigoTIP)
         TraducirColumnasGridCuentas(DgvCuentas)
     End Sub
 
@@ -357,10 +385,20 @@ Public Class CuentasBancarias
         If e.KeyCode = 117 Then 'Tecla F6
             'Vuelve a Refrecar el DataGrid y dejar los Btn de los Filtros sin Filtrar
             '************************************************************************
-            vtipoSql = "SELECT cuentas.TipoCUE, cuentas.NombreCUE, cuentas.NumeroCUE, cuentas.NotasCUE, cuentas.NotasCUE, cuentas.IdCuentaCUE FROM cuentas"
-            vtipoSql += " ORDER BY  cuentas.NombreCUE ASC"
-            vtipoGrid = "CUENTAS_BANCARIAS"
-            LlenarGrid(vtipoSql, vtipoGrid, "1")
+            vtipoSql = "SELECT tipocuentas.CodigoTIP, cuentas.NombreCUE, cuentas.NumeroCUE, cuentas.NotasCUE, cuentas.NotasCUE, cuentas.IdCuentaCUE " &
+           "FROM cuentas " &
+           "INNER JOIN tipocuentas ON cuentas.TipoCUE = tipocuentas.IdTipoCUE " &
+           "ORDER BY cuentas.NombreCUE ASC"
+
+            ' Llenamos el Grid con la estructura limpia
+            LlenarGrid(vtipoSql, "CUENTAS_BANCARIAS", "1")
+
+            ' Ocultamos el Id de la cuenta que viaja seguro en la posición 4
+            If DgvCuentas.Columns.Count > 5 Then
+                DgvCuentas.Columns(5).Visible = False
+            End If
+
+            ' Lanzamos tu rutina de traducción de siempre sobre los textos (CodigoTIP)
             TraducirColumnasGridCuentas(DgvCuentas)
 
             BtnFiltroTipoCuenta.Enabled = True
@@ -368,7 +406,16 @@ Public Class CuentasBancarias
         End If
     End Sub
 
+    Private Sub DgvCuentas_DoubleClick(sender As Object, e As EventArgs) Handles DgvCuentas.DoubleClick
+        BtnEditarRegistro.PerformClick()
+    End Sub
+
     Private Sub BtnEditarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEditarRegistro.Click
+        If frmCuentasBancarias.DgvCuentas.CurrentRow Is Nothing Then
+            MsgBox(resManager.GetString("SeleccionaRegistro"), vbExclamation)
+            Exit Sub
+        End If
+
         filaActual = frmCuentasBancarias.DgvCuentas.CurrentRow.Index
         vTxtNombre = frmCuentasBancarias.DgvCuentas.Rows(filaActual).Cells(1).Value.ToString
 
@@ -386,18 +433,49 @@ Public Class CuentasBancarias
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
         frmEditarCuentaBancaria.Dispose()
-        vtipoSql = "SELECT cuentas.TipoCUE, cuentas.NombreCUE, cuentas.NumeroCUE, cuentas.NotasCUE, cuentas.NotasCUE, cuentas.IdCuentaCUE FROM cuentas"
+        vtipoSql = "SELECT tipocuentas.CodigoTIP, cuentas.NombreCUE, cuentas.NumeroCUE, cuentas.NotasCUE, cuentas.NotasCUE, cuentas.IdCuentaCUE "
+        vtipoSql += "FROM cuentas "
         If BtnFiltroTipoCuenta.Enabled = False Then
             vtipoSql += " WHERE "
             vtipoSql += "cuentas.TipoCUE = '" & CmbTipoCuenta.Text & "' "
         End If
-        vtipoSql += " ORDER BY  cuentas.NombreCUE ASC"
-        vtipoGrid = "CUENTAS_BANCARIAS"
-        LlenarGrid(vtipoSql, vtipoGrid, "1")
+        vtipoSql += "INNER JOIN tipocuentas ON cuentas.TipoCUE = tipocuentas.IdTipoCUE "
+        vtipoSql += "ORDER BY cuentas.NombreCUE ASC"
+
+        ' Llenamos el Grid con la estructura limpia
+        LlenarGrid(vtipoSql, "CUENTAS_BANCARIAS", "1")
+
+        ' Ocultamos el Id de la cuenta que viaja seguro en la posición 4
+        If DgvCuentas.Columns.Count > 5 Then
+            DgvCuentas.Columns(5).Visible = False
+        End If
+
+        ' Lanzamos tu rutina de traducción de siempre sobre los textos (CodigoTIP)
+        TraducirColumnasGridCuentas(DgvCuentas)
+    End Sub
+
+    Private Sub BtnF6_Click(sender As Object, e As EventArgs) Handles BtnF6.Click
+        'Vuelve a Refrecar el DataGrid y dejar los Btn de los Filtros sin Filtrar
+        '************************************************************************
+        vtipoSql = "SELECT tipocuentas.CodigoTIP, cuentas.NombreCUE, cuentas.NumeroCUE, cuentas.NotasCUE, cuentas.NotasCUE, cuentas.IdCuentaCUE " &
+           "FROM cuentas " &
+           "INNER JOIN tipocuentas ON cuentas.TipoCUE = tipocuentas.IdTipoCUE " &
+           "ORDER BY cuentas.NombreCUE ASC"
+
+        ' Llenamos el Grid con la estructura limpia
+        LlenarGrid(vtipoSql, "CUENTAS_BANCARIAS", "1")
+
+        ' Ocultamos el Id de la cuenta que viaja seguro en la posición 4
+        If DgvCuentas.Columns.Count > 5 Then
+            DgvCuentas.Columns(5).Visible = False
+        End If
+
+        ' Lanzamos tu rutina de traducción de siempre sobre los textos (CodigoTIP)
         TraducirColumnasGridCuentas(DgvCuentas)
 
-        DgvCuentas.CurrentCell = DgvCuentas.Rows(filaActual).Cells(0)
-        DgvCuentas.Rows(filaActual).Selected = True
+        BtnFiltroTipoCuenta.Enabled = True
+        BtnSinFiltroTipoCuenta.Enabled = False
+
     End Sub
 
     Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
@@ -494,8 +572,8 @@ Public Class CuentasBancarias
 
     Private Sub EjecutarFiltroTipoCuenta()
         ' 1. Capturamos el texto del Combo
-        Dim textoSeleccionado As String = CmbTipoCuenta.Text.Trim()
-
+        ' Capturamos el texto del combo y duplicamos las comillas simples para proteger el catalán
+        Dim textoSeleccionado As String = CmbTipoCuenta.Text.Trim().Replace("'", "''")
         ' 2. Obtenemos la tabla de datos de forma segura
         Dim tabla As System.Data.DataTable = TryCast(frmCuentasBancarias.DgvCuentas.DataSource, System.Data.DataTable)
 
@@ -516,7 +594,7 @@ Public Class CuentasBancarias
         'Llenamos la tabla de ImprimirForm con los cálculos realizados
         '*************************************************************
         vValor = 0
-        frmImprimirForm.LblTotal.Text = resManager.GetString("TOTAL") & ": 0,00 " & vMoneda
+        frmImprimirForm.LblTotal.Text = resManager.GetString("TOTAL") & ": 0.00 " & vMoneda
         For Each fila As DataGridViewRow In frmCuentasBancarias.DgvCuentas.Rows
             ' Saltamos la fila vacía automática si existiera al final
             If fila.IsNewRow Then Continue For
@@ -606,7 +684,11 @@ Public Class CuentasBancarias
             e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(0).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
             e.Graphics.DrawString(nombreFinal, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto2.Left, startY)
             e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(2).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto3.Left, startY)
-            e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(3).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto5.Right + 40, startY, sf)
+            'e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(3).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto5.Right + 40, startY, sf)
+            Dim valorCelda As Object = frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(3).Value
+            Dim saldoFinalTexto As String = If(valorCelda IsNot Nothing AndAlso Not IsDBNull(valorCelda), Convert.ToDecimal(valorCelda).ToString("N2"), "0,00")
+
+            e.Graphics.DrawString(saldoFinalTexto, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto5.Right + 40, startY, sf)
 
             ' Avanzamos la coordenada vertical para pintar la fila de Notas
             startY += frmImprimirForm.LblFecha.Height

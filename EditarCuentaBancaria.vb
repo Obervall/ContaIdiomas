@@ -1,4 +1,5 @@
-﻿Imports System.Windows.Forms
+﻿Imports System.Data
+Imports System.Windows.Forms
 
 Public Class EditarCuentaBancaria
 
@@ -71,10 +72,24 @@ Public Class EditarCuentaBancaria
             If BtnAceptar.Enabled Then BtnAceptar.Select()
         End If
     End Sub
+
     Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click
-        vTxtNombre = TxtNombre.Text
-        vTxtNumero = TxtNumero.Text
-        vTxtNotas = TxtNota.Text
+        vTxtNombre = TxtNombre.Text.Trim()
+        vTxtNumero = TxtNumero.Text.Trim()
+        vTxtNotas = TxtNota.Text.Trim()
+
+        ' 2. OBTENER EL ID NUMÉRICO REAL DESDE EL GRID DE LA PANTALLA ANTERIOR
+        Dim idCuentaModificar As Integer
+
+        Try
+            Dim filaActual As Integer = frmCuentasBancarias.DgvCuentas.CurrentRow.Index
+            ' Recuperamos el Id numérico de la fila seleccionada
+            idCuentaModificar = Convert.ToInt32(frmCuentasBancarias.DgvCuentas.Rows(filaActual).Cells(5).Value)
+        Catch ex As Exception
+            MessageBox.Show(resManager.GetString("ErrorRecuperarID"), resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Exit Sub
+        End Try
+
         ' EXTRAEMOS EL VALOR INTERNO ORIGINAL PARA LA BASE DE DATOS
         If CmbTipoCuenta.SelectedItem IsNot Nothing Then
             Dim itemSeleccionado As ElementoCombo = CType(CmbTipoCuenta.SelectedItem, ElementoCombo)
@@ -83,10 +98,29 @@ Public Class EditarCuentaBancaria
             vTxtTipo = ""
         End If
 
+        Dim vIdTipoCUE As Integer = 0
+        If Not String.IsNullOrEmpty(vTxtTipo) Then
+            ' Creamos un comando rápido para leer solo el ID de ese tipo de cuenta
+            ' Usamos .Replace(" ", "") por si acaso el texto viene sin espacios
+            Dim cmdBuscarId As New OleDb.OleDbCommand("SELECT IdTipoCUE FROM tipocuentas WHERE CodigoTIP = ? OR Replace(CodigoTIP, ' ', '') = ?", conexion1)
+            cmdBuscarId.Parameters.AddWithValue("?", vTxtTipo)
+            cmdBuscarId.Parameters.AddWithValue("?", vTxtTipo.Replace(" ", ""))
+
+            Try
+                Dim resultado As Object = cmdBuscarId.ExecuteScalar() ' ExecuteScalar es ideal porque solo lee un número
+                If resultado IsNot Nothing AndAlso Not IsDBNull(resultado) Then
+                    ' 2. ¡EL TRUCO RAPIDO!: Buscamos el ID numérico directo en la base de datos
+                    vIdTipoCUE = Convert.ToInt32(resultado)
+                End If
+            Catch ex As Exception
+                MessageBox.Show($"{resManager.GetString("ErrorRecuperarID")}: {ex.Message}", resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+        End If
+
         ' Modificar Registro
         '*******************
         ' 1. Limpias la consulta cambiando todas las comillas por "?"
-        vtipoSql = "UPDATE cuentas SET NumeroCUE = ?, TipoCUE = ?, NotasCUE = ? WHERE cuentas.NombreCUE = ?"
+        vtipoSql = "UPDATE cuentas SET NumeroCUE = ?, TipoCUE = ?, NotasCUE = ? WHERE IdCuentaCUE = ?"
         cmdMdb1cr.CommandText = vtipoSql
 
         ' 2. Limpias los parámetros para evitar acumulaciones
@@ -94,53 +128,47 @@ Public Class EditarCuentaBancaria
 
         ' 3. Añades los 4 valores en el orden exacto de aparición
         cmdMdb1cr.Parameters.AddWithValue("?", vTxtNumero)
-        cmdMdb1cr.Parameters.AddWithValue("?", vTxtTipo)
+        cmdMdb1cr.Parameters.AddWithValue("?", vIdTipoCUE)
         cmdMdb1cr.Parameters.AddWithValue("?", vTxtNotas)
-        cmdMdb1cr.Parameters.AddWithValue("?", vTxtNombre) ' El WHERE va al final
+        cmdMdb1cr.Parameters.AddWithValue("?", idCuentaModificar) ' El WHERE va al final
         cmdMdb1cr.CommandText = vtipoSql
 
         Try
-            cmdMdb1cr.ExecuteNonQuery()
-            Me.Close()
+            Dim filasAfectadas As Integer = cmdMdb1cr.ExecuteNonQuery()
+
+            If filasAfectadas > 0 Then
+                Me.Close() ' Guardado con éxito, cierra la ventana modal
+            Else
+                MessageBox.Show(resManager.GetString("NoEncuentraRegistro"), resManager.GetString("Atencion"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
         Catch ex As Exception
-            MsgBox(resManager.GetString("ErrorModificarRegistro"))
-            MsgBox(ex.ToString)
+            MessageBox.Show(resManager.GetString("ErrorModificarRegistro") & vbNewLine & ex.Message,
+                "Error",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error)
         End Try
     End Sub
 
     Private Sub BtnEliminar_Click(sender As Object, e As EventArgs) Handles BtnEliminar.Click
-        vTxtNombre = TxtNombre.Text
-        Dim respuesta As MsgBoxResult = MsgBox(rmse.GetString("EliminarCuenta") & " " & vTxtNombre & " " & rmse.GetString("EliminarCuenta2"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("LblEliminando"))
-        If respuesta = vbYes Then
 
-            ' Variable para medir si realmente se borró algo en los apuntes
+        ' Capturamos el ID de la cuenta que viaja seguro en la celda 5 (Oculta)
+        Dim vIdCuenta As Integer = Convert.ToInt32(frmCuentasBancarias.DgvCuentas.CurrentRow.Cells(5).Value)
+        vTxtNombre = TxtNombre.Text
+
+        ' Preguntamos confirmación al usuario
+        Dim respuesta As MsgBoxResult = MsgBox(rmse.GetString("EliminarCuenta") & " " & vTxtNombre & " " & rmse.GetString("EliminarCuenta2"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("LblEliminando"))
+
+        If respuesta = vbYes Then
             Dim filasAfectadas As Integer = 0
 
-            ' --- 1. ELIMINAR REGISTRO CUENTAS ---
-            vtipoSql = "DELETE FROM cuentas WHERE cuentas.NombreCUE = ?"
-            cmdMdb1cr.CommandText = vtipoSql
-
-            cmdMdb1cr.Parameters.Clear()
-            cmdMdb1cr.Parameters.AddWithValue("?", vTxtNombre)
-            Try
-                cmdMdb1cr.ExecuteNonQuery()
-                MsgBox(rmse.GetString("EliminarCuenta3"))
-            Catch ex As Exception
-                MsgBox(rmse.GetString("EliminarCuenta4") & vbNewLine & ex.Message)
-                Exit Sub ' Si no se pudo eliminar la cuenta, no intentamos eliminar los apuntes relacionados
-            End Try
-
-            ' --- 2. ELIMINAR REGISTROS APUNTES ---
+            ' --- 1. ELIMINAR REGISTROS EN APUNTES (Clave foránea - Se borra primero por integridad) ---
+            ' Corrección: Filtramos por el ID numérico que guarda la tabla apuntes
             vtipoSql = "DELETE FROM apuntes WHERE apuntes.CuentaAPU = ?"
             cmdMdb1cr.CommandText = vtipoSql
-
             cmdMdb1cr.Parameters.Clear()
-            cmdMdb1cr.Parameters.AddWithValue("?", vTxtNombre)
+            cmdMdb1cr.Parameters.AddWithValue("?", vIdCuenta) ' ⬅️ Pasamos el ID numérico
             Try
-                ' Capturamos cuántos apuntes reales se eliminan
                 filasAfectadas = cmdMdb1cr.ExecuteNonQuery()
-
-                ' FILTRO: Solo muestra el MsgBox si realmente existían y se borraron apuntes
                 If filasAfectadas > 0 Then
                     MsgBox(frmApuntesContables.rmse.GetString("EliminarApuntes"))
                 End If
@@ -148,25 +176,55 @@ Public Class EditarCuentaBancaria
                 MsgBox(frmApuntesContables.rmse.GetString("EliminarApuntesError") & vbNewLine & ex.Message)
             End Try
 
-            ' --- 3. ELIMINAR REGISTROS APUNTES PERIÓDICOS ---
+            ' --- 2. ELIMINAR REGISTROS EN APUNTES PERIÓDICOS ---
+            ' Corrección: Filtramos por el ID numérico que guarda la tabla apuper
             vtipoSql = "DELETE FROM apuper WHERE apuper.CuentaAPP = ?"
             cmdMdb1cr.CommandText = vtipoSql
-
             cmdMdb1cr.Parameters.Clear()
-            cmdMdb1cr.Parameters.AddWithValue("?", vTxtNombre)
+            cmdMdb1cr.Parameters.AddWithValue("?", vIdCuenta) ' ⬅️ Pasamos el ID numérico
             Try
-                ' Capturamos cuántos apuntes periódicos se eliminan
                 filasAfectadas = cmdMdb1cr.ExecuteNonQuery()
-
-                ' FILTRO: Solo muestra el MsgBox si realmente existían y se borraron apuntes periódicos
                 If filasAfectadas > 0 Then
                     MsgBox(frmApuntesPeriodicos.rmse.GetString("EliminarApuntesPeriodicos"))
                 End If
             Catch ex As Exception
                 MsgBox(frmApuntesPeriodicos.rmse.GetString("EliminarApuntesPeriodicosError") & vbNewLine & ex.Message)
             End Try
+
+            ' --- 3. ELIMINAR REGISTRO MAESTRO EN CUENTAS (Se borra al final) ---
+            ' Corrección: Borramos por ID para evitar problemas si el usuario cambió el texto
+            vtipoSql = "DELETE FROM cuentas WHERE cuentas.IdCuentaCUE = ?"
+            cmdMdb1cr.CommandText = vtipoSql
+            cmdMdb1cr.Parameters.Clear()
+            cmdMdb1cr.Parameters.AddWithValue("?", vIdCuenta) ' ⬅️ Pasamos el ID numérico
+            Try
+                cmdMdb1cr.ExecuteNonQuery()
+                MsgBox(rmse.GetString("EliminarCuenta3"))
+            Catch ex As Exception
+                MsgBox(rmse.GetString("EliminarCuenta4") & vbNewLine & ex.Message)
+                Exit Sub
+            End Try
+
+            ' --- 4. ACTUALIZACIÓN INMEDIATA DEL GRID EN MEMORIA ---
+            ' Eliminamos la fila directamente del DataTable en memoria para mantener el filtro activo sin parpadeos
+            Dim tabla As System.Data.DataTable = TryCast(frmCuentasBancarias.DgvCuentas.DataSource, System.Data.DataTable)
+            If tabla IsNot Nothing Then
+                ' Buscamos la fila en la tabla de datos original que coincida con el ID eliminado
+                Dim filasAEliminar() As System.Data.DataRow = tabla.Select($"IdCuentaCUE = {vIdCuenta}")
+                If filasAEliminar.Length > 0 Then
+                    filasAEliminar(0).Delete() ' Borra la fila de la memoria
+                    tabla.AcceptChanges()     ' Confirma los cambios en el DataTable
+                End If
+            End If
+
+            ' Recalculamos contadores y totales visibles de forma automática
+            Dim vNumRegistros As String = frmCuentasBancarias.DgvCuentas.Rows.Count.ToString()
+            frmCuentasBancarias.TxtNumRegistros.Text = vNumRegistros
+            DgvCuentasBancarias()
+
+            ' Cerramos la ventana de edición/borrado
+            Me.Close()
         End If
-        Me.Close()
     End Sub
 
     Private Sub BtnCancelar_Click(sender As Object, e As EventArgs) Handles BtnCancelar.Click

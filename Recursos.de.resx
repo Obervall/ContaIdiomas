@@ -754,4 +754,16 @@ Die Datei ist nicht geöffnet</value>
   <data name="Desc_PENSION" xml:space="preserve">
     <value>Pension oder Gehalt</value>
   </data>
+  <data name="ErrorFiltrar" xml:space="preserve">
+    <value>Fehlerfilterung auf dem Bildschirm</value>
+  </data>
+  <data name="SeleccionaRegistro" xml:space="preserve">
+    <value>Wählen Sie einen Datensatz zum Bearbeiten oder Löschen aus</value>
+  </data>
+  <data name="ErrorDuplicados" xml:space="preserve">
+    <value>Fehlerprüfung auf Duplikate</value>
+  </data>
+  <data name="ErrorGrabarRegistro" xml:space="preserve">
+    <value>Fehlerspeicher-Logbuch</value>
+  </data>
 </root>

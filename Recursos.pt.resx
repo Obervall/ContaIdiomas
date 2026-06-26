@@ -754,4 +754,16 @@ O arquivo não está aberto</value>
   <data name="Desc_PENSION" xml:space="preserve">
     <value>Pensão ou Salário</value>
   </data>
+  <data name="ErrorFiltrar" xml:space="preserve">
+    <value>Filtragem de Erros na Tela</value>
+  </data>
+  <data name="SeleccionaRegistro" xml:space="preserve">
+    <value>Selecione um registro para editar ou excluir</value>
+  </data>
+  <data name="ErrorDuplicados" xml:space="preserve">
+    <value>Verificação de erros para duplicados</value>
+  </data>
+  <data name="ErrorGrabarRegistro" xml:space="preserve">
+    <value>Registro de Salvamento de Erros</value>
+  </data>
 </root>

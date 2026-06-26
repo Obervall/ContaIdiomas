@@ -754,4 +754,16 @@ que el archivo no esté abierto</value>
   <data name="Desc_CAJA_EFECTIVO" xml:space="preserve">
     <value>Efectivo en casa</value>
   </data>
+  <data name="ErrorFiltrar" xml:space="preserve">
+    <value>Error al filtrar en pantalla</value>
+  </data>
+  <data name="SeleccionaRegistro" xml:space="preserve">
+    <value>Selecciona un Registro para Editar o Eliminar</value>
+  </data>
+  <data name="ErrorDuplicados" xml:space="preserve">
+    <value>Error al verificar duplicados</value>
+  </data>
+  <data name="ErrorGrabarRegistro" xml:space="preserve">
+    <value>Error al Grabar Registro</value>
+  </data>
 </root>

@@ -716,7 +716,7 @@ que l'arxiu no estigui obert</value>
     <value>Fons d'Inversió Banc</value>
   </data>
   <data name="FONDO_DE_INVERSION" xml:space="preserve">
-    <value>Fons d'Inversió</value>
+    <value>FONS D'INVERSIÓ</value>
   </data>
   <data name="Desc_PLAN_DE_PENSIONES" xml:space="preserve">
     <value>Pla de Pensions</value>
@@ -753,5 +753,17 @@ que l'arxiu no estigui obert</value>
   </data>
   <data name="EL_CORTE_INGLES" xml:space="preserve">
     <value>EL CORTE INGLES</value>
+  </data>
+  <data name="ErrorFiltrar" xml:space="preserve">
+    <value>Error en filtrar en pantalla</value>
+  </data>
+  <data name="SeleccionaRegistro" xml:space="preserve">
+    <value>Selecciona un Registre per Editar o Eliminar</value>
+  </data>
+  <data name="ErrorDuplicados" xml:space="preserve">
+    <value>Error en verificar duplicats</value>
+  </data>
+  <data name="ErrorGrabarRegistro" xml:space="preserve">
+    <value>Error al Gravar Registre</value>
   </data>
 </root>

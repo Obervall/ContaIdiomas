@@ -754,4 +754,16 @@ the file is not open</value>
   <data name="Desc_PENSION" xml:space="preserve">
     <value>Pension or Salary</value>
   </data>
+  <data name="ErrorFiltrar" xml:space="preserve">
+    <value>Error Filtering On-Screen</value>
+  </data>
+  <data name="SeleccionaRegistro" xml:space="preserve">
+    <value>Select a Record to Edit or Delete</value>
+  </data>
+  <data name="ErrorDuplicados" xml:space="preserve">
+    <value>Error checking for duplicates</value>
+  </data>
+  <data name="ErrorGrabarRegistro" xml:space="preserve">
+    <value>Error Saving Log</value>
+  </data>
 </root>

@@ -886,6 +886,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Error al verificar duplicados.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorDuplicados() As String
+        Get
+            Return ResourceManager.GetString("ErrorDuplicados", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Error al Ejecutar Saldo:.
     '''</summary>
     Friend Shared ReadOnly Property ErrorEjecutarSaldo() As String
@@ -900,6 +909,24 @@ Friend Class Recursos
     Friend Shared ReadOnly Property ErrorEliminarRegistro() As String
         Get
             Return ResourceManager.GetString("ErrorEliminarRegistro", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Error al filtrar en pantalla.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorFiltrar() As String
+        Get
+            Return ResourceManager.GetString("ErrorFiltrar", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Error al Grabar Registro.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorGrabarRegistro() As String
+        Get
+            Return ResourceManager.GetString("ErrorGrabarRegistro", resourceCulture)
         End Get
     End Property
     
@@ -1557,6 +1584,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property SEGURO_MOTO() As String
         Get
             Return ResourceManager.GetString("SEGURO_MOTO", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Selecciona un Registro para Editar o Eliminar.
+    '''</summary>
+    Friend Shared ReadOnly Property SeleccionaRegistro() As String
+        Get
+            Return ResourceManager.GetString("SeleccionaRegistro", resourceCulture)
         End Get
     End Property
     
