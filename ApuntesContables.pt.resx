@@ -232,4 +232,10 @@ Com F6: atualize as notas da grade de lançamentos e remova os filtros</value>
 Filtre primeiro por Relatos e Datas,
 depois por Conceitos Diversos</value>
   </data>
+  <data name="MsgSaldos1" xml:space="preserve">
+    <value>Os saldos iniciais NÃO podem ser eliminados</value>
+  </data>
+  <data name="MsgSaldos2" xml:space="preserve">
+    <value>Os saldos iniciais NÃO PODEM ser editados</value>
+  </data>
 </root>

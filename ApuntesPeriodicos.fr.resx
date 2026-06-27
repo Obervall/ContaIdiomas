@@ -183,10 +183,4 @@
   <data name="EliminarApuntesPeriodicosError" xml:space="preserve">
     <value>Erreur lors de la suppression des entrées périodiques liées à l’élément comptable</value>
   </data>
-  <data name="MsgSaldos1" xml:space="preserve">
-    <value>Les soldes initiaux NE PEUVENT PAS ÊTRE SUPPRIMÉS</value>
-  </data>
-  <data name="MsgSaldos2" xml:space="preserve">
-    <value>Les soldes initiaux NE PEUVENT PAS être modifiés</value>
-  </data>
 </root>

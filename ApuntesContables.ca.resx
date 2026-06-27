@@ -232,4 +232,10 @@ Amb F6: Actualitza la graella Apunts i treu Filtres</value>
 Filtrar Primer per Comptes i Dates,
 després per Conceptes Diversos</value>
   </data>
+  <data name="MsgSaldos1" xml:space="preserve">
+    <value>Els Saldos inicials, NO es poden Esborrar</value>
+  </data>
+  <data name="MsgSaldos2" xml:space="preserve">
+    <value>Els Saldos inicials, NO es poden Editar</value>
+  </data>
 </root>

@@ -183,10 +183,4 @@
   <data name="EliminarApuntesPeriodicosError" xml:space="preserve">
     <value>Error in Deleting Periodic Entries Related to the Accounting Item</value>
   </data>
-  <data name="MsgSaldos1" xml:space="preserve">
-    <value>Opening balances CANNOT be deleted</value>
-  </data>
-  <data name="MsgSaldos2" xml:space="preserve">
-    <value>Opening balances CANNOT be edited</value>
-  </data>
 </root>

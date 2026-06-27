@@ -766,4 +766,7 @@ Die Datei ist nicht geöffnet</value>
   <data name="ErrorGrabarRegistro" xml:space="preserve">
     <value>Fehlerspeicher-Logbuch</value>
   </data>
+  <data name="SaldoInicial" xml:space="preserve">
+    <value>Eröffnungsbilanz</value>
+  </data>
 </root>

@@ -2057,4 +2057,10 @@ Con F6: Refresca la Parrilla Apuntes y Quita Filtros</value>
 Filtrar Primero por Cuentas y Fechas,
 después por Conceptos Diversos</value>
   </data>
+  <data name="MsgSaldos1" xml:space="preserve">
+    <value>Los Saldos iniciales, NO se pueden Borrar</value>
+  </data>
+  <data name="MsgSaldos2" xml:space="preserve">
+    <value>Los Saldos iniciales, NO se pueden Editar</value>
+  </data>
 </root>

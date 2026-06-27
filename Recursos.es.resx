@@ -766,4 +766,7 @@ que el archivo no esté abierto</value>
   <data name="ErrorGrabarRegistro" xml:space="preserve">
     <value>Error al Grabar Registro</value>
   </data>
+  <data name="SaldoInicial" xml:space="preserve">
+    <value>Saldo Inicial</value>
+  </data>
 </root>

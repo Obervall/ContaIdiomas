@@ -591,4 +591,10 @@ después por Conceptos Diversos</value>
   <data name="RutaExcelCreada" xml:space="preserve">
     <value>Ruta C:\ContaHogar3.0\Excel, Creada</value>
   </data>
+  <data name="MsgSaldos1" xml:space="preserve">
+    <value>Los Saldos iniciales, NO se pueden Borrar</value>
+  </data>
+  <data name="MsgSaldos2" xml:space="preserve">
+    <value>Los Saldos iniciales, NO se pueden Editar</value>
+  </data>
 </root>

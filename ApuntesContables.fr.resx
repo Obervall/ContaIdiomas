@@ -232,4 +232,10 @@ Avec F6 : Actualiser les notes du gril et supprimer les filtres</value>
 Filtrez d’abord par comptes et dates,
 puis par Concepts divers</value>
   </data>
+  <data name="MsgSaldos1" xml:space="preserve">
+    <value>Les soldes initiaux NE PEUVENT PAS ÊTRE SUPPRIMÉS</value>
+  </data>
+  <data name="MsgSaldos2" xml:space="preserve">
+    <value>Les soldes initiaux NE PEUVENT PAS être modifiés</value>
+  </data>
 </root>

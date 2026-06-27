@@ -1552,6 +1552,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Saldo Inicial.
+    '''</summary>
+    Friend Shared ReadOnly Property SaldoInicial() As String
+        Get
+            Return ResourceManager.GetString("SaldoInicial", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Saldos iniciales generados e insertados correctamente.
     '''</summary>
     Friend Shared ReadOnly Property SaldosGeneradosExito() As String

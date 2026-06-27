@@ -183,10 +183,4 @@
   <data name="EliminarApuntesPeriodicosError" xml:space="preserve">
     <value>Erro na exclusão de entradas periódicas relacionadas ao item contábil</value>
   </data>
-  <data name="MsgSaldos1" xml:space="preserve">
-    <value>Os saldos iniciais NÃO podem ser eliminados</value>
-  </data>
-  <data name="MsgSaldos2" xml:space="preserve">
-    <value>Os saldos iniciais NÃO PODEM ser editados</value>
-  </data>
 </root>

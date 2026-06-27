@@ -232,4 +232,10 @@ With F6: Refresh the Data Grid and Remove Filters</value>
 Filter First by Accounts and Dates,
 then by Miscellaneous Concepts</value>
   </data>
+  <data name="MsgSaldos1" xml:space="preserve">
+    <value>Opening balances CANNOT be deleted</value>
+  </data>
+  <data name="MsgSaldos2" xml:space="preserve">
+    <value>Opening balances CANNOT be edited</value>
+  </data>
 </root>

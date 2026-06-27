@@ -232,4 +232,10 @@ Mit F6: Grillnotizen aktualisieren und Filter entfernen</value>
 Filtern Sie zuerst nach Konten und Daten,
 dann von Miscellaneous Concepts</value>
   </data>
+  <data name="MsgSaldos1" xml:space="preserve">
+    <value>Eröffnungssalden können NICHT gelöscht werden</value>
+  </data>
+  <data name="MsgSaldos2" xml:space="preserve">
+    <value>Eröffnungssalden können NICHT bearbeitet werden</value>
+  </data>
 </root>

@@ -233,7 +233,6 @@ Public Class Principal
 
         VerificarYActualizarEstructuraBD()
 
-
         'Buscamos Ejercicio
         '******************
         vAñoActual = Date.Now.Year

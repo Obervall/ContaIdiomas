@@ -10,7 +10,7 @@ Public Module MsgBoxTraductorGlobal
     Private Declare Auto Function GetCurrentThreadId Lib "kernel32.dll" () As UInteger
 
     Private Delegate Function HookProc(ByVal nCode As Integer, ByVal wParam As IntPtr, ByVal lParam As IntPtr) As IntPtr
-    Private hHook As IntPtr
+    Private hHook As IntPtr = IntPtr.Zero
 
     ' Textos globales de los botones (Se rellenan en CambiarIdiomaGlobal)
     Public TextBotoOk As String = "OK"
@@ -46,7 +46,7 @@ Public Module MsgBoxTraductorGlobal
         Dim defNet As MessageBoxDefaultButton = CType(Buttons And &H300, MessageBoxDefaultButton)
         Dim txtTitol As String = If(Title IsNot Nothing, Title.ToString(), "")
 
-        hHook = SetWindowsHookEx(5, AddressOf HookCallback, IntPtr.Zero, GetCurrentThreadId())
+        hHook = SetWindowsHookEx(5, AddressOf HookCallback, IntPtr.Zero, CInt(GetCurrentThreadId()))
         Dim res As DialogResult = System.Windows.Forms.MessageBox.Show(Prompt.ToString(), txtTitol, btnNet, icoNet, defNet)
 
         Return CType(res, MsgBoxResult)

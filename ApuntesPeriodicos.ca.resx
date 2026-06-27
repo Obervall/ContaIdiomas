@@ -183,10 +183,4 @@
   <data name="EliminarApuntesPeriodicosError" xml:space="preserve">
     <value>Error en Eliminar els Apunts Periòdics relacionats amb el Concepte Comptable</value>
   </data>
-  <data name="MsgSaldos1" xml:space="preserve">
-    <value>Els Saldos inicials, NO es poden Esborrar</value>
-  </data>
-  <data name="MsgSaldos2" xml:space="preserve">
-    <value>Els Saldos inicials, NO es poden Editar</value>
-  </data>
 </root>
