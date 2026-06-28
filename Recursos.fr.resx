@@ -769,4 +769,25 @@ le fichier n’est pas ouvert</value>
   <data name="SaldoInicial" xml:space="preserve">
     <value>Balance d’ouverture</value>
   </data>
+  <data name="ErrorCargarCONyCUE" xml:space="preserve">
+    <value>Concepts ou comptes de chargement d’erreurs en introduction</value>
+  </data>
+  <data name="ErrorSincronizarCON" xml:space="preserve">
+    <value>Concept de synchronisation d’erreurs</value>
+  </data>
+  <data name="ErrorRefrecarCON" xml:space="preserve">
+    <value>Erreur lors du rafraîchissement de la combinaison concept</value>
+  </data>
+  <data name="ErrorLlenarCmbDescripcion" xml:space="preserve">
+    <value>Erreur remplissant la description du combo</value>
+  </data>
+  <data name="ErrorActualizarApunte" xml:space="preserve">
+    <value>Erreur mise à jour de l’entrée</value>
+  </data>
+  <data name="AvisoNoHayRegistrosEjercicio" xml:space="preserve">
+    <value>Note : Aucune entrée n’est publiée pour le compte sélectionné pour cet exercice</value>
+  </data>
+  <data name="ErrorCrearRuta" xml:space="preserve">
+    <value>Itinéraire de création d’erreur</value>
+  </data>
 </root>

@@ -2673,4 +2673,150 @@ Module Funciones
         End Try
     End Sub
 
+    Public Sub LlenarComboConceptosIntroApuntes(ByVal combo As ComboBox)
+        combo.DataSource = Nothing
+        combo.Items.Clear()
+
+        ' FILTRADO QUIRÚRGICO: Excluimos 'ESPECIAL' de la pantalla de introducción
+        Dim sql As String = "SELECT IdConceptoCON, CodigoCON, DescripcionCON FROM conceptos " &
+                            "WHERE TipoCON <> 'ESPECIAL' " &
+                            "ORDER BY TipoCON ASC, IdConceptoCON ASC"
+
+        Dim dtConceptos As New DataTable()
+
+        Using cmd As New OleDbCommand(sql, conexion1)
+            Dim dr As OleDbDataReader = Nothing
+            Try
+                dr = cmd.ExecuteReader()
+                dtConceptos.Load(dr)
+            Catch ex As Exception
+                MsgBox("Error al leer conceptos para introducción: " & ex.Message, MsgBoxStyle.Critical)
+            Finally
+                If dr IsNot Nothing AndAlso Not dr.IsClosed Then dr.Close()
+            End Try
+        End Using
+
+        ' Creamos la columna virtual para el texto del combo
+        dtConceptos.Columns.Add("TextoCombo", GetType(String))
+
+        For Each fila As DataRow In dtConceptos.Rows
+            Dim codigoOriginal As String = fila("CodigoCON").ToString().Trim()
+            Dim textoFinal As String = codigoOriginal ' 🌟 SALVAVIDAS ORIGINAL: Mantiene siempre el CodigoCON corto
+
+            ' Si existe traducción en el .resx para el código corto, la aplicamos
+            If resManager IsNot Nothing Then
+                Dim claveRecurso As String = codigoOriginal.Replace(" ", "_")
+                Dim traduccion As String = resManager.GetString(claveRecurso)
+
+                If Not String.IsNullOrEmpty(traduccion) Then
+                    textoFinal = traduccion
+                End If
+            End If
+
+            ' Caso especial para el Traspaso del sistema
+            If codigoOriginal.ToUpper() = "TRASPASO" AndAlso resManager IsNot Nothing Then
+                Dim tradTraspaso As String = resManager.GetString("TRASPASO")
+                If Not String.IsNullOrEmpty(tradTraspaso) Then textoFinal = tradTraspaso
+            End If
+
+            fila("TextoCombo") = textoFinal
+        Next
+
+        ' VINCULAMOS AL COMBOBOX CON ID NUMÉRICOS
+        combo.ValueMember = "IdConceptoCON"       ' ID numérico oculto para guardar en la BD
+        combo.DisplayMember = "TextoCombo"        ' Muestra el CodigoCON corto (o traducido)
+        combo.DataSource = dtConceptos
+    End Sub
+
+    Public Function ReemplazarPrimerInterrogante(ByVal textoOriginal As String, ByVal valorReemplazo As String) As String
+        Dim posicion As Integer = textoOriginal.IndexOf("?")
+        If posicion >= 0 Then
+            ' Cortamos la cadena en el signo '?' e inyectamos el valor real en medio
+            Return textoOriginal.Substring(0, posicion) & valorReemplazo & textoOriginal.Substring(posicion + 1)
+        End If
+        Return textoOriginal
+    End Function
+
+    Public Sub RefrescarGridApuntesContables()
+        ' 🌟 SANEAMIENTO PREVENTIVO: Limpiamos la memoria de consultas anteriores
+        cmdMdb1cr.Parameters.Clear()
+
+        ' 1. Buscamos el ID numérico real del concepto "SALDO" de forma segura y aislada
+        Dim idConceptoSaldo As Integer = 1
+        Using cmdBuscarId As New OleDb.OleDbCommand("SELECT IdConceptoCON FROM conceptos WHERE CodigoCON = 'SALDO'", conexion1)
+            Dim resId = cmdBuscarId.ExecuteScalar()
+            If resId IsNot Nothing AndAlso Not IsDBNull(resId) Then idConceptoSaldo = Convert.ToInt32(resId)
+        End Using
+
+        ' Guardamos en booleanos el estado de los filtros para no liar la SQL
+        Dim filtroCuentaActivo As Boolean = (frmApuntesContables.BtnFiltroCuenta.Enabled = False)
+        Dim filtroConceptoActivo As Boolean = (frmApuntesContables.BtnFiltroConcepto.Enabled = False)
+        Dim filtroFechaActivo As Boolean = (frmApuntesContables.BtnFiltroFecha.Enabled = False)
+
+        ' 🌟 CONSULTA SQL MAESTRA DE 11 CELDAS RELACIONALES (Nombres traducidos y legibles)
+        vtipoSql = "SELECT apuntes.FechaAPU As [FechaAPU], conceptos.DescripcionCON As [ConceptoAPU], apuntes.DescripcionAPU As [DescripcionAPU], apuntes.ImporteAPU As [ImporteAPU], apuntes.ImporteAPU As [SaldoAPU], apuntes.NotasAPU As [NotasAPU], cuentas.NombreCUE As [CuentaAPU], apuntes.CodigoAPU As [CodigoAPU], conceptos.CodigoCON As [CodigoCON], apuntes.ConceptoAPU As [IdConceptoCON], apuntes.CuentaAPU As [IdCuentaCUE] FROM (apuntes INNER JOIN conceptos ON apuntes.ConceptoAPU = conceptos.IdConceptoCON) INNER JOIN cuentas ON apuntes.CuentaAPU = cuentas.IdCuentaCUE"
+
+        ' Condición base del año contable o descarte de saldos
+        If frmApuntesContables.BtnFechasClick = "SI" Then
+            vtipoSql += $" WHERE apuntes.ConceptoAPU <> {idConceptoSaldo} And apuntes.EjercicioAPU <> 0 "
+        Else
+            vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+        End If
+
+        ' 2. CONTROL DE FILTRADO DEL LISTBOX DE CONCEPTOS (MULTISELECCIÓN)
+        If frmApuntesContables.ListBox1.SelectedItems.Count > 0 Then
+            Dim listaIds As New List(Of Integer)
+            For i As Integer = 0 To frmApuntesContables.ListBox1.SelectedItems.Count - 1
+                Dim vConceptoFila As String = frmApuntesContables.ListBox1.SelectedItems(i).ToString()
+                If vConceptoFila.StartsWith("**") Then Continue For
+
+                Dim idEncontrado As Integer = 0
+                Using cmdId As New OleDb.OleDbCommand("SELECT IdConceptoCON FROM conceptos WHERE CodigoCON = ?", conexion1)
+                    cmdId.Parameters.AddWithValue("?", vConceptoFila)
+                    Dim resId = cmdId.ExecuteScalar()
+                    If resId IsNot Nothing AndAlso Not IsDBNull(resId) Then idEncontrado = Convert.ToInt32(resId)
+                End Using
+                If idEncontrado > 0 Then listaIds.Add(idEncontrado)
+            Next
+            If listaIds.Count = 0 Then listaIds.Add(0)
+            vtipoSql += " And apuntes.ConceptoAPU IN (" & String.Join(",", listaIds) & ") "
+        Else
+            ' Filtro individual por combo de concepto si la lista lateral está vacía
+            If filtroConceptoActivo Then
+                Dim idConceptoSel As Integer = Convert.ToInt32(frmApuntesContables.CmbConcepto.SelectedValue)
+                vtipoSql += $" And apuntes.ConceptoAPU = {idConceptoSel} "
+            End If
+        End If
+
+        ' 3. FILTRO POR ID NUMÉRICO DE CUENTA
+        If filtroCuentaActivo Then
+            Dim idCuentaSel As Integer = Convert.ToInt32(frmApuntesContables.CmbCuenta.SelectedValue)
+            vtipoSql += $" And apuntes.CuentaAPU = {idCuentaSel} "
+        End If
+
+        ' 4. FILTRO DE FECHAS PARÁMETRIZADO AL FINAL DE LA SQL
+        If filtroFechaActivo Then
+            vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
+            vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
+            vtipoSql += " And apuntes.FechaAPU >= ?"
+            vtipoSql += " And apuntes.FechaAPU <= ?"
+
+            cmdMdb1cr.Parameters.AddWithValue("?", vDate1)
+            cmdMdb1cr.Parameters.AddWithValue("?", vDate2)
+        End If
+
+        vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
+        vtipoGrid = "APUNTES_CONTABLES"
+
+        LlenarGrid(vtipoSql, vtipoGrid, "1")
+        TraducirGridApuntesBD(frmApuntesContables.DgvApuntes)
+
+        ' Foco automático seguro en la última fila del Grid
+        If frmApuntesContables.DgvApuntes.RowCount > 0 Then
+            Dim ultimaFila As Integer = frmApuntesContables.DgvApuntes.RowCount - 1
+            frmApuntesContables.DgvApuntes.Rows(ultimaFila).Selected = True
+            frmApuntesContables.DgvApuntes.CurrentCell = frmApuntesContables.DgvApuntes.Rows(ultimaFila).Cells(0)
+        End If
+    End Sub
+
 End Module

@@ -1760,4 +1760,25 @@
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="ToolTipIBAN" xml:space="preserve">
+    <value>Introducir Número de Cuenta o IBAN</value>
+  </data>
+  <data name="ErrorAlLlenarComboTipoCuenta" xml:space="preserve">
+    <value>Error al llenar el Combo Tipo Cuenta</value>
+  </data>
+  <data name="Cuenta Vivienda" xml:space="preserve">
+    <value>Cuenta Vivienda</value>
+  </data>
+  <data name="ListadoCuentasBancariasFiltrado" xml:space="preserve">
+    <value>Listado de Cuentas Bancarias. Filtrado por:</value>
+  </data>
+  <data name="ListadoCuentasBancarias" xml:space="preserve">
+    <value>Listado de Cuentas Bancarias</value>
+  </data>
+  <data name="ToolTipTipoCuenta" xml:space="preserve">
+    <value>Seleccionar el Tipo de Cuenta</value>
+  </data>
+  <data name="ToolTipNombre" xml:space="preserve">
+    <value>Introducir Nombre de la Cuenta</value>
+  </data>
 </root>

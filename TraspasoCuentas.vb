@@ -4,6 +4,7 @@ Imports System.Windows.Forms
 
 Public Class TraspasoCuentas
 
+    Private cargandoFormulario As Boolean = True
     Public vConcepto, vAñadirOrigenSql, vAñadirDestinoSql As String
     Public vImporteAPU As Double
     Public vDescripcionAPU, vNotasAPU, vCuentaOrigenAPU, vCuentaDestinoAPU As String
@@ -11,7 +12,7 @@ Public Class TraspasoCuentas
     Private TL(11) As ToolTip
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
-    Private Sub IntroApuntes_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub TraspasoCuentas_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
 
         Label7.Text = vMoneda
@@ -40,45 +41,60 @@ Public Class TraspasoCuentas
         TL(11) = New ToolTip
         TL(11).SetToolTip(Me.BtnCuentaDestino, resManager.GetString("BtnCuenta"))
 
-        ' Llenar el Combo Concepto
-        '*************************
-        cmdMdb1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
+        ' Llenar los Combo
+        '*****************
         Try
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-            If drMdb1.HasRows Then
-                While drMdb1.Read()
-                    If drMdb1.GetValue(0) = "TRASPASO" Then
-                        CmbConcepto.Items.Add(drMdb1.GetValue(0))
-                    End If
-                End While
-                CmbConcepto.Text = CmbConcepto.Items(0)
-            Else
-                'MsgBox("No existen registros en " & tipoSql)
-            End If
-            drMdb1.Close()
+            ' Usamos la función exclusiva que no carga los 'ESPECIALES' si es para introducir/editar ordinarios
+            ' (O la que uses en este formulario, pero asegurando que use DataTable)
+            LlenarComboConceptosIntroApuntes(Me.CmbConcepto)
+            LlenarComboCuentasGenerico(Me.CmbCuentaOrigen)
+            LlenarComboCuentasGenerico(Me.CmbCuentaDestino)
         Catch ex As Exception
-            MsgBox(resManager.GetString("Error") & ": " & ex.ToString)
+            MsgBox(resManager.GetString("ErrorCargarCONyCUE") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
+        cargandoFormulario = False
 
-        ' Llenar el Combo Cuenta
-        '***********************
-        cmdMdb1cr.CommandText = "SELECT * FROM cuentas ORDER BY cuentas.NombreCUE ASC"
-        Try
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-            If drMdb1.HasRows Then
-                While drMdb1.Read()
-                    CmbCuentaOrigen.Items.Add(drMdb1.GetValue(0))
-                    CmbCuentaDestino.Items.Add(drMdb1.GetValue(0))
-                End While
-                CmbCuentaOrigen.Text = CmbCuentaOrigen.Items(0)
-                CmbCuentaDestino.Text = CmbCuentaOrigen.Items(0)
-            Else
-                'MsgBox("No existen registros en " & tipoSql)
-            End If
-            drMdb1.Close()
-        Catch ex As Exception
-            MsgBox(ex.ToString)
-        End Try
+
+
+        '' Llenar el Combo Concepto
+        ''*************************
+        'cmdMdb1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
+        'Try
+        '    drMdb1 = cmdMdb1cr.ExecuteReader()
+        '    If drMdb1.HasRows Then
+        '        While drMdb1.Read()
+        '            If drMdb1.GetValue(0) = "TRASPASO" Then
+        '                CmbConcepto.Items.Add(drMdb1.GetValue(0))
+        '            End If
+        '        End While
+        '        CmbConcepto.Text = CmbConcepto.Items(0)
+        '    Else
+        '        'MsgBox("No existen registros en " & tipoSql)
+        '    End If
+        '    drMdb1.Close()
+        'Catch ex As Exception
+        '    MsgBox(resManager.GetString("Error") & ": " & ex.ToString)
+        'End Try
+
+        '' Llenar el Combo Cuenta
+        ''***********************
+        'cmdMdb1cr.CommandText = "SELECT * FROM cuentas ORDER BY cuentas.NombreCUE ASC"
+        'Try
+        '    drMdb1 = cmdMdb1cr.ExecuteReader()
+        '    If drMdb1.HasRows Then
+        '        While drMdb1.Read()
+        '            CmbCuentaOrigen.Items.Add(drMdb1.GetValue(0))
+        '            CmbCuentaDestino.Items.Add(drMdb1.GetValue(0))
+        '        End While
+        '        CmbCuentaOrigen.Text = CmbCuentaOrigen.Items(0)
+        '        CmbCuentaDestino.Text = CmbCuentaOrigen.Items(0)
+        '    Else
+        '        'MsgBox("No existen registros en " & tipoSql)
+        '    End If
+        '    drMdb1.Close()
+        'Catch ex As Exception
+        '    MsgBox(ex.ToString)
+        'End Try
         TxtImporte.Text = 0
     End Sub
 

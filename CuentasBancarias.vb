@@ -253,6 +253,7 @@ Public Class CuentasBancarias
         ' Avisar al usuario si no encontró nada en todo el recorrido
         If vRow = -1 Then
             MsgBox(resManager.GetString("MsgDatos2"), MsgBoxStyle.Information, rmse.GetString("$this.Text"))
+            BtnSeguirBuscando.Enabled = False
         End If
     End Sub
 

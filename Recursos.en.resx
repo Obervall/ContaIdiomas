@@ -769,4 +769,25 @@ the file is not open</value>
   <data name="SaldoInicial" xml:space="preserve">
     <value>Opening Balance</value>
   </data>
+  <data name="ErrorCargarCONyCUE" xml:space="preserve">
+    <value>Error loading concepts or accounts in introduction</value>
+  </data>
+  <data name="ErrorSincronizarCON" xml:space="preserve">
+    <value>Error synchronizing concept</value>
+  </data>
+  <data name="ErrorRefrecarCON" xml:space="preserve">
+    <value>Error when refreshing the concept combo</value>
+  </data>
+  <data name="ErrorLlenarCmbDescripcion" xml:space="preserve">
+    <value>Error filling up the Combo Description</value>
+  </data>
+  <data name="ErrorActualizarApunte" xml:space="preserve">
+    <value>Error updating the entry</value>
+  </data>
+  <data name="AvisoNoHayRegistrosEjercicio" xml:space="preserve">
+    <value>Note: There are no entries posted for the account selected for this exercise</value>
+  </data>
+  <data name="ErrorCrearRuta" xml:space="preserve">
+    <value>Error Creating Route</value>
+  </data>
 </root>

@@ -348,7 +348,7 @@
     <value>Seleccionar la Cuenta a la que se refiere el Apunte</value>
   </data>
   <data name="SelecDescripcion" xml:space="preserve">
-    <value>Seleccionar la Descripción o Escribir para Buscar (3 mínim)</value>
+    <value>Seleccionar la Descripción o Escribir para Buscar (3 mínimo)</value>
   </data>
   <data name="ImporteAsiento" xml:space="preserve">
     <value>Importe del Apunte</value>

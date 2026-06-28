@@ -294,108 +294,102 @@ Public Class TipoInformeApuntes
         If RadioButton4.Checked = True Then 'Por Fechas
             Dim vTmpprint As String
             Dim vImporteFecha As String
-            Dim vImporteTmpprint As String = ""
-            Dim vNewImporteFechas As String
-            'Iniciamos Tabla Tmpprint
+
+            ' 1. Vaciamos físicamente la tabla temporal tmpprint de Access
             vTmpprint = "DELETE FROM tmpprint"
             cmdMdb1cr.CommandText = vTmpprint
+            cmdMdb1cr.Parameters.Clear()
             Try
                 cmdMdb1cr.ExecuteNonQuery()
-                'MsgBox("Registros Tmpprint, Borrados !!!")
             Catch ex As Exception
-                'MsgBox("Error al Borrar los Registros de Tmpprint")
                 MsgBox(ex.ToString)
             End Try
 
+            ' 2. Ordenamos la rejilla visual por fecha de forma ascendente
             frmApuntesContables.DgvApuntes.Sort(frmApuntesContables.DgvApuntes.Columns(0), System.ComponentModel.ListSortDirection.Ascending)
-            DgvApuntesContables(3, 4)
 
             vValor = 0
             vFechaTemp = CDate("01/01/1900")
+
+            ' 3. Procesamos y agrupamos los importes por día en la tabla temporal
             For Each fila As DataGridViewRow In frmApuntesContables.DgvApuntes.Rows
-                vValor += fila.Cells(3).Value
+                ' Nos saltamos la fila vacía del final del grid por seguridad
+                If fila.IsNewRow Then Continue For
+
+                ' Sumamos al total general usando conversión segura de decimales
+                vValor += ConvertirDecimalSeguro(fila.Cells(3).Value)
+
                 If vFechaTemp <> CDate(fila.Cells(0).Value) Then
+                    ' -----------------------------------------------------------------
+                    ' CAMBIO DE DÍA: INSERTAMOS UN REGISTRO LIMPIO PARA ESTA FECHA
+                    ' -----------------------------------------------------------------
                     vFechaTemp = CDate(fila.Cells(0).Value)
-                    vImporteFecha = ""
-                    vImporteFecha = fila.Cells(3).Value
-                    vAñadir = "INSERT INTO tmpprint"
-                    vAñadir += "(FechaTMP, ConceptoTMP, DescripcionTMP, CuentaTMP, NotasTMP, ImporteTMP, SaldoTMP) "
-                    vAñadir += "VALUES (?, ?, ?, ?, ?, ?, ?)"
+                    vImporteFecha = fila.Cells(3).Value.ToString()
+
+                    vAñadir = "INSERT INTO tmpprint (FechaTMP, ConceptoTMP, DescripcionTMP, CuentaTMP, NotasTMP, ImporteTMP, SaldoTMP) VALUES (?, ?, ?, ?, ?, ?, ?)"
                     cmdMdb1cr.CommandText = vAñadir
-                    cmdMdb1cr.Parameters.Clear() ' Limpia parámetros anteriores
+                    cmdMdb1cr.Parameters.Clear()
+
                     cmdMdb1cr.Parameters.Add("@fec", OleDb.OleDbType.Date).Value = vFechaTemp
                     cmdMdb1cr.Parameters.Add("@con", OleDb.OleDbType.VarWChar).Value = ""
                     cmdMdb1cr.Parameters.Add("@des", OleDb.OleDbType.VarWChar).Value = ""
                     cmdMdb1cr.Parameters.Add("@cue", OleDb.OleDbType.VarWChar).Value = ""
                     cmdMdb1cr.Parameters.Add("@not", OleDb.OleDbType.VarWChar).Value = ""
-                    cmdMdb1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = vImporteFecha
-                    cmdMdb1cr.Parameters.Add("@sal", OleDb.OleDbType.Currency).Value = vImporteFecha
+                    cmdMdb1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = ConvertirDecimalSeguro(vImporteFecha)
+                    cmdMdb1cr.Parameters.Add("@sal", OleDb.OleDbType.Currency).Value = ConvertirDecimalSeguro(vImporteFecha)
                     Try
                         cmdMdb1cr.ExecuteNonQuery()
-                        'MsgBox("Registro1, Grabado Correctamente")
                     Catch ex As Exception
-                        'MsgBox("Error al Grabar la Fecha: " & vFechaTemp)
                         MsgBox(ex.ToString)
                     End Try
                 Else
+                    ' -----------------------------------------------------------------
+                    ' MISMO DÍA: SE SUMA AL ACUMULADO DIARIO DE FORMA QUIRÚRGICA
+                    ' -----------------------------------------------------------------
                     vFechaTemp2 = vFechaTemp
-                    cmdMdb1cr.CommandType = CommandType.Text
-                    cmdMdb1cr.Parameters.Clear() ' Limpia parámetros anteriores
-                    cmdMdb1cr.CommandText = "SELECT * FROM tmpprint WHERE tmpprint.FechaTMP = ?"
+                    Dim importeAcumulado As Decimal = 0
+
+                    ' Buscamos lo que ya hay guardado en el disco duro para este día mediante ExecuteScalar
+                    cmdMdb1cr.CommandText = "SELECT ImporteTMP FROM tmpprint WHERE FechaTMP = ?"
+                    cmdMdb1cr.Parameters.Clear()
                     cmdMdb1cr.Parameters.Add("@fec", OleDb.OleDbType.Date).Value = vFechaTemp2
-                    If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
-                        vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
-                        vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
-                        cmdMdb1cr.CommandText += " And tmpprint.FechaTMP >= ?"
-                        cmdMdb1cr.CommandText += " And tmpprint.FechaTMP <= ?"
-                        cmdMdb1cr.Parameters.Add("@date1", OleDb.OleDbType.Date).Value = vDate1
-                        cmdMdb1cr.Parameters.Add("@date2", OleDb.OleDbType.Date).Value = vDate2
-                    End If
+
                     Try
-                        drMdb1 = cmdMdb1cr.ExecuteReader()
-                        If drMdb1.HasRows Then
-                            'MsgBox(cmdMdb1cr.CommandText)
-                            While drMdb1.Read()
-                                vImporteTmpprint = drMdb1.GetValue(5)
-                                'MsgBox(vImporteTmpprint)
-                            End While
-                        Else
-                            'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
+                        Dim resImporte = cmdMdb1cr.ExecuteScalar()
+                        If resImporte IsNot Nothing AndAlso Not IsDBNull(resImporte) Then
+                            importeAcumulado = ConvertirDecimalSeguro(resImporte)
                         End If
-                        drMdb1.Close()
                     Catch ex As Exception
-                        'MsgBox("Error al Leer la Fecha: " & vFechaTemp)
-                        MsgBox(ex.ToString)
+                        MsgBox("Error al leer acumulado: " & ex.Message)
                     End Try
 
-                    ' 1. Convertimos el acumulador actual a Decimal de forma segura con tu función
-                    Dim importeAcumulado As Decimal = ConvertirDecimalSeguro(vImporteTmpprint)
-
-                    ' 2. Convertimos el importe de la celda actual a Decimal de forma segura con tu función
+                    ' Sumamos el importe de la fila actual de la rejilla
                     Dim importeCelda As Decimal = ConvertirDecimalSeguro(fila.Cells(3).Value)
-
-                    ' 3. Realizamos la suma matemática exacta
                     Dim sumaTotal As Decimal = importeAcumulado + importeCelda
 
-                    ' 4. Guardamos el resultado en formato texto para tu variable de impresión
-                    vNewImporteFechas = sumaTotal.ToString(System.Globalization.CultureInfo.InvariantCulture)
-
-                    vAñadir2 = "UPDATE tmpprint SET ImporteTMP = ? WHERE tmpprint.FechaTMP = ?"
+                    ' Actualizamos el registro del día con la suma matemática exacta
+                    vAñadir2 = "UPDATE tmpprint SET ImporteTMP = ?, SaldoTMP = ? WHERE FechaTMP = ?"
                     cmdMdb1cr.CommandText = vAñadir2
                     cmdMdb1cr.Parameters.Clear()
-                    cmdMdb1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = vNewImporteFechas
+                    cmdMdb1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = sumaTotal
+                    cmdMdb1cr.Parameters.Add("@sal", OleDb.OleDbType.Currency).Value = sumaTotal
                     cmdMdb1cr.Parameters.Add("@fec", OleDb.OleDbType.Date).Value = vFechaTemp2
                     Try
                         cmdMdb1cr.ExecuteNonQuery()
-                        'MsgBox("Registro2, Grabado Correctamente")
                     Catch ex As Exception
-                        'MsgBox("Error al Actualizar la Fecha: " & vFechaTemp)
                         MsgBox(ex.ToString)
                     End Try
                 End If
             Next
+
+            ' 🌟 LA CORRECCIÓN MAESTRA: Ejecutamos tu llamada contable de formato AQUÍ,
+            ' justo cuando la tabla temporal ya se ha terminado de rellenar y ordenar por completo.
+            DgvApuntesContables(3, 4)
+
+            ' Rellenamos el total traducido de la interfaz
             frmImprimirForm.LblTotal.Text = String.Format("{0}: {1} {2}", resManager.GetString("TOTAL"), vValor.ToString("N2"), vMoneda)
-            'Llenamos la tabla Temporal con los cálculos realizados
+
+            ' 4. Volcamos la tabla temporal definitiva en el Grid del Reporte
             vtipoSql = "SELECT * FROM tmpprint ORDER BY tmpprint.FechaTMP ASC"
             LlenarGrid(vtipoSql, "PRINT_TEMP_APUNTES_FECHAS", "4")
         End If

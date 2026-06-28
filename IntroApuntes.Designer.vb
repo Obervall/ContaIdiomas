@@ -56,7 +56,6 @@ Partial Class IntroApuntes
         '
         'GroupBox1
         '
-        resources.ApplyResources(Me.GroupBox1, "GroupBox1")
         Me.GroupBox1.Controls.Add(Me.BtnAyuda)
         Me.GroupBox1.Controls.Add(Me.TxtBuscarLetras)
         Me.GroupBox1.Controls.Add(Me.Label8)
@@ -81,6 +80,7 @@ Partial Class IntroApuntes
         Me.GroupBox1.Controls.Add(Me.Label3)
         Me.GroupBox1.Controls.Add(Me.Label2)
         Me.GroupBox1.Controls.Add(Me.Label1)
+        resources.ApplyResources(Me.GroupBox1, "GroupBox1")
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.TabStop = False
         '
@@ -88,6 +88,7 @@ Partial Class IntroApuntes
         '
         resources.ApplyResources(Me.BtnAyuda, "BtnAyuda")
         Me.BtnAyuda.Name = "BtnAyuda"
+        Me.BtnAyuda.TabStop = False
         Me.BtnAyuda.UseVisualStyleBackColor = True
         '
         'TxtBuscarLetras
@@ -118,8 +119,8 @@ Partial Class IntroApuntes
         '
         'CmbDescripcion
         '
-        resources.ApplyResources(Me.CmbDescripcion, "CmbDescripcion")
         Me.CmbDescripcion.FormattingEnabled = True
+        resources.ApplyResources(Me.CmbDescripcion, "CmbDescripcion")
         Me.CmbDescripcion.Name = "CmbDescripcion"
         '
         'BtnCuenta
@@ -163,24 +164,24 @@ Partial Class IntroApuntes
         '
         'CmbCuenta
         '
-        resources.ApplyResources(Me.CmbCuenta, "CmbCuenta")
         Me.CmbCuenta.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
         Me.CmbCuenta.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
         Me.CmbCuenta.FormattingEnabled = True
+        resources.ApplyResources(Me.CmbCuenta, "CmbCuenta")
         Me.CmbCuenta.Name = "CmbCuenta"
         '
         'CmbConcepto
         '
-        resources.ApplyResources(Me.CmbConcepto, "CmbConcepto")
         Me.CmbConcepto.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
         Me.CmbConcepto.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
         Me.CmbConcepto.FormattingEnabled = True
+        resources.ApplyResources(Me.CmbConcepto, "CmbConcepto")
         Me.CmbConcepto.Name = "CmbConcepto"
         '
         'DateTimePicker1
         '
-        resources.ApplyResources(Me.DateTimePicker1, "DateTimePicker1")
         Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        resources.ApplyResources(Me.DateTimePicker1, "DateTimePicker1")
         Me.DateTimePicker1.Name = "DateTimePicker1"
         '
         'Label7

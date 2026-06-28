@@ -154,6 +154,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Aviso: No existen apuntes registrados para la cuenta seleccionada en este ejercicio.
+    '''</summary>
+    Friend Shared ReadOnly Property AvisoNoHayRegistrosEjercicio() As String
+        Get
+            Return ResourceManager.GetString("AvisoNoHayRegistrosEjercicio", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Copia de Seguridad.
     '''</summary>
     Friend Shared ReadOnly Property Backup() As String
@@ -821,6 +830,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Error al actualizar el apunte.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorActualizarApunte() As String
+        Get
+            Return ResourceManager.GetString("ErrorActualizarApunte", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Error al buscar el ejercicio.
     '''</summary>
     Friend Shared ReadOnly Property ErrorAlBuscarEjercicio() As String
@@ -859,11 +877,29 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Error al cargar conceptos o cuentas en introducción.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorCargarCONyCUE() As String
+        Get
+            Return ResourceManager.GetString("ErrorCargarCONyCUE", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Error durante la eliminación en cascada.
     '''</summary>
     Friend Shared ReadOnly Property ErrorConceptoYRegistrosEliminados() As String
         Get
             Return ResourceManager.GetString("ErrorConceptoYRegistrosEliminados", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Error al Crear Ruta.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorCrearRuta() As String
+        Get
+            Return ResourceManager.GetString("ErrorCrearRuta", resourceCulture)
         End Get
     End Property
     
@@ -967,6 +1003,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Error al llenar el Combo Descripción.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorLlenarCmbDescripcion() As String
+        Get
+            Return ResourceManager.GetString("ErrorLlenarCmbDescripcion", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Error al Modificar el Registro.
     '''</summary>
     Friend Shared ReadOnly Property ErrorModificarRegistro() As String
@@ -981,6 +1026,24 @@ Friend Class Recursos
     Friend Shared ReadOnly Property ErrorRecuperarID() As String
         Get
             Return ResourceManager.GetString("ErrorRecuperarID", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Error al refrescar el combo de conceptos.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorRefrecarCON() As String
+        Get
+            Return ResourceManager.GetString("ErrorRefrecarCON", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Error al sincronizar el concepto.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorSincronizarCON() As String
+        Get
+            Return ResourceManager.GetString("ErrorSincronizarCON", resourceCulture)
         End Get
     End Property
     

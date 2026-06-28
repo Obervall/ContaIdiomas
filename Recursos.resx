@@ -769,4 +769,25 @@ que el archivo no esté abierto</value>
   <data name="SaldoInicial" xml:space="preserve">
     <value>Saldo Inicial</value>
   </data>
+  <data name="ErrorCargarCONyCUE" xml:space="preserve">
+    <value>Error al cargar conceptos o cuentas en introducción</value>
+  </data>
+  <data name="ErrorSincronizarCON" xml:space="preserve">
+    <value>Error al sincronizar el concepto</value>
+  </data>
+  <data name="ErrorRefrecarCON" xml:space="preserve">
+    <value>Error al refrescar el combo de conceptos</value>
+  </data>
+  <data name="ErrorLlenarCmbDescripcion" xml:space="preserve">
+    <value>Error al llenar el Combo Descripción</value>
+  </data>
+  <data name="ErrorActualizarApunte" xml:space="preserve">
+    <value>Error al actualizar el apunte</value>
+  </data>
+  <data name="AvisoNoHayRegistrosEjercicio" xml:space="preserve">
+    <value>Aviso: No existen apuntes registrados para la cuenta seleccionada en este ejercicio</value>
+  </data>
+  <data name="ErrorCrearRuta" xml:space="preserve">
+    <value>Error al Crear Ruta</value>
+  </data>
 </root>

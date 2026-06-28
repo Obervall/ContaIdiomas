@@ -219,8 +219,15 @@ Public Class ApuntesContables
         '***********************
         frmBuscar.CmbCampos.Items.Clear()
         frmBuscar.CmbCampos.Items.Add(resManager.GetString("Todos_Los_Campos"))
+
+        'For i As Integer = 0 To DgvApuntes.Columns.Count - 5
+        '    Dim cabecera As String = Replace(DgvApuntes.Columns(i).HeaderText, "€", "").Trim
+        '    frmBuscar.CmbCampos.Items.Add(cabecera)
+        'Next
+
         For Each columna As DataGridViewColumn In DgvApuntes.Columns
-            If columna.Name <> "ImporteAPU" And columna.Name <> "Expr1003" And columna.Name <> "CuentaAPU" And columna.Name <> "CodigoAPU" Then
+            '            If columna.Name <> "ImporteAPU" And columna.Name <> "Expr1003" And columna.Name <> "CuentaAPU" And columna.Name <> "CodigoAPU" Then
+            If columna.Name <> "ImporteAPU" And columna.Name <> "SaldoAPU" And columna.Name <> "CuentaAPU" And columna.Name <> "CodigoAPU" And columna.Name <> "CodigoCON" And columna.Name <> "IdConceptoCON" And columna.Name <> "IdCuentaCUE" Then
                 frmBuscar.CmbCampos.Items.Add(columna.HeaderText)
             End If
         Next
@@ -254,8 +261,7 @@ Public Class ApuntesContables
             ' Si la cuenta está vacía, avisamos y frenamos
             If totalRegistros = 0 Then
                 cmdMdb1cr.Parameters.Clear()
-                'MessageBox.Show("Aviso: No existen apuntes registrados para la cuenta seleccionada en este ejercicio.",
-                'rmse.GetString("MsgText1"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                MessageBox.Show(resManager.GetString("AvisoNoHayRegistrosEjercicio"))
                 Exit Sub
             End If
 
@@ -487,145 +493,93 @@ Public Class ApuntesContables
     End Sub
 
     Private Sub BtnSinFiltroCuenta_Click(sender As Object, e As EventArgs) Handles BtnSinFiltroCuenta.Click
-        ' 🌟 SANEAMIENTO DE ENTRADA: Limpiamos la memoria de consultas previas
+        ' 🌟 SANEAMIENTO INICIAL: Vaciamos cualquier rastro de parámetros anteriores en la app
         cmdMdb1cr.Parameters.Clear()
 
+        ' 1. Activamos los estados de los botones de cuenta originales
         BtnFiltroCuenta.Enabled = True
         BtnSinFiltroCuenta.Enabled = False
 
-        ' 1. Buscamos el ID numérico real del concepto "SALDO" de forma segura y aislada
+        ' =========================================================================
+        ' 🌟 REINICIO TOTAL AUTOMÁTICO DE LOS CONCEPTOS (Evita el texto congelado)
+        ' =========================================================================
+        ' Delegamos la limpieza en el botón de concepto que ya limpia el ListBox,
+        ' apaga los estados visuales y vuelve a inyectar el DataSource real en el combo
+        BtnSinFiltroConcepto.PerformClick()
+
+        ' =========================================================================
+        ' 🌟 ADEMÁS REINICIAMOS LAS FECHAS AL AÑO COMPLETO (Enero a Diciembre)
+        ' =========================================================================
+        ' Encendemos el escudo temporal para que los calendarios no hagan consultas basura
+        cargandoFormulario = True
+
+        If BtnFechasClick = "SI" Then
+            BtnFechasClick = "NO"
+            BtnFechasFondo.Visible = False
+        End If
+
+        Dim anio As Integer
+        If Not Integer.TryParse(vAñoEjercicio, anio) Then anio = Date.Today.Year
+        vFecha1Enero = anio
+        vFecha31Diciembre = anio
+
+        DateTimePicker1.Value = New Date(anio, 1, 1)
+        DateTimePicker2.Value = New Date(anio, 12, 31)
+
+        ' Restablecemos los estados de los botones de fecha
+        BtnFiltroFecha.Enabled = True
+        BtnSinFiltroFecha.Enabled = False
+
+        ' =========================================================================
+        ' 2. EJECUTAMOS LA CONSULTA SQL MAESTRA DE 11 COLUMNAS ANUAL COMPLETA
+        ' =========================================================================
+        ' Buscamos el ID numérico real del concepto "SALDO" de forma segura y aislada
         Dim idConceptoSaldo As Integer = 1
         Using cmdBuscarId As New OleDb.OleDbCommand("SELECT IdConceptoCON FROM conceptos WHERE CodigoCON = 'SALDO'", conexion1)
             Dim resId = cmdBuscarId.ExecuteScalar()
             If resId IsNot Nothing AndAlso Not IsDBNull(resId) Then idConceptoSaldo = Convert.ToInt32(resId)
         End Using
 
-        ' Guardamos un booleano para saber si las fechas están activas
-        Dim tieneFechasActivo As Boolean = (BtnFiltroFecha.Enabled = False)
+        ' Consulta relacional limpia de fábrica (Sin filtros restrictivos secundarios cruzados)
+        vtipoSql = "SELECT apuntes.FechaAPU As [FechaAPU], " &
+                   "conceptos.DescripcionCON As [ConceptoAPU], " &
+                   "apuntes.DescripcionAPU As [DescripcionAPU], " &
+                   "apuntes.ImporteAPU As [ImporteAPU], " &
+                   "apuntes.ImporteAPU As [SaldoAPU], " &
+                   "apuntes.NotasAPU As [NotasAPU], " &
+                   "cuentas.NombreCUE As [CuentaAPU], " &
+                   "apuntes.CodigoAPU As [CodigoAPU], " &
+                   "conceptos.CodigoCON As [CodigoCON], " &
+                   "apuntes.ConceptoAPU As [IdConceptoCON], " &
+                   "apuntes.CuentaAPU As [IdCuentaCUE] " &
+                   "FROM (apuntes " &
+                   "INNER JOIN conceptos ON apuntes.ConceptoAPU = conceptos.IdConceptoCON) " &
+                   "INNER JOIN cuentas ON apuntes.CuentaAPU = cuentas.IdCuentaCUE"
 
-        ' 🌟 CONSULTA SQL MAESTRA DE 11 CELDAS (Con los INNER JOIN obligatorios para ver nombres claros)
-        Dim sqlBase As String = "SELECT apuntes.FechaAPU As [FechaAPU], conceptos.DescripcionCON As [ConceptoAPU], apuntes.DescripcionAPU As [DescripcionAPU], apuntes.ImporteAPU As [ImporteAPU], apuntes.ImporteAPU As [SaldoAPU], apuntes.NotasAPU As [NotasAPU], cuentas.NombreCUE As [CuentaAPU], apuntes.CodigoAPU As [CodigoAPU], conceptos.CodigoCON As [CodigoCON], apuntes.ConceptoAPU As [IdConceptoCON], apuntes.CuentaAPU As [IdCuentaCUE] FROM (apuntes INNER JOIN conceptos ON apuntes.ConceptoAPU = conceptos.IdConceptoCON) INNER JOIN cuentas ON apuntes.CuentaAPU = cuentas.IdCuentaCUE"
-
-        If ListBox1.SelectedItems.Count <> 0 Then
-            TxtConcepto.Text = rmse.GetString("MsgText3")
-            CmbConcepto.Items.Clear()
-            CmbConcepto.Items.Add(rmse.GetString("MsgText4"))
-            CmbConcepto.Text = CmbConcepto.Items(0)
-            Dim i As Integer
-            BtnFiltroConcepto.Enabled = False
-            BtnSinFiltroConcepto.Enabled = True
-
-            vtipoSql = sqlBase
-            If BtnFechasClick = "SI" Then
-                vtipoSql += $" WHERE apuntes.ConceptoAPU <> {idConceptoSaldo} And apuntes.EjercicioAPU <> 0 "
-            Else
-                vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-            End If
-
-            For i = 0 To ListBox1.SelectedItems.Count - 1
-                vConcepto = ListBox1.SelectedItems(i).ToString
-
-                ' Ignoramos las cabeceras estéticas (** GASTO **, etc.)
-                If vConcepto.StartsWith("**") Then Continue For
-
-                ' Buscamos el ID numérico del concepto del ListBox de forma aislada
-                Dim idConceptoFila As Integer = 0
-                Using cmdId As New OleDb.OleDbCommand("SELECT IdConceptoCON FROM conceptos WHERE CodigoCON = ?", conexion1)
-                    cmdId.Parameters.AddWithValue("?", vConcepto)
-                    Dim resId = cmdId.ExecuteScalar()
-                    If resId IsNot Nothing AndAlso Not IsDBNull(resId) Then idConceptoFila = Convert.ToInt32(resId)
-                End Using
-
-                If idConceptoFila = 0 Then Continue For
-
-                If i = 0 Then
-                    ' CORRECCIÓN: Filtro por ID numérico sin comillas
-                    vtipoSql += $" And apuntes.ConceptoAPU = {idConceptoFila} "
-
-                    If tieneFechasActivo Then
-                        vDate1 = DateTimePicker1.Value.Date
-                        vDate2 = DateTimePicker2.Value.Date
-                        vtipoSql += " And apuntes.FechaAPU >= ?"
-                        vtipoSql += " And apuntes.FechaAPU <= ?"
-                        cmdMdb1cr.Parameters.AddWithValue("?", vDate1)
-                        cmdMdb1cr.Parameters.AddWithValue("?", vDate2)
-                    End If
-                Else
-                    vtipoSql += " Or "
-                    If BtnFechasClick = "SI" Then
-                        vtipoSql += $" apuntes.ConceptoAPU <> {idConceptoSaldo} And apuntes.EjercicioAPU <> 0 "
-                    Else
-                        vtipoSql += " apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-                    End If
-
-                    vtipoSql += $" And apuntes.ConceptoAPU = {idConceptoFila} "
-
-                    If tieneFechasActivo Then
-                        vDate1 = DateTimePicker1.Value.Date
-                        vDate2 = DateTimePicker2.Value.Date
-                        vtipoSql += " And apuntes.FechaAPU >= ?"
-                        vtipoSql += " And apuntes.FechaAPU <= ?"
-                        cmdMdb1cr.Parameters.AddWithValue("?", vDate1)
-                        cmdMdb1cr.Parameters.AddWithValue("?", vDate2)
-                    End If
-                End If
-            Next
-
-            vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
-            BtnFiltroChekedList.Enabled = False
-            ListBox1.Visible = False
-            vtipoGrid = "APUNTES_CONTABLES"
-
-            LlenarGrid(vtipoSql, vtipoGrid, "1")
-            TraducirGridApuntesBD(Me.DgvApuntes)
-
-            If DgvApuntes.RowCount - 1 >= 0 Then
-                vFila = DgvApuntes.RowCount - 1
-                DgvApuntes.Rows(vFila).Selected = True
-                DgvApuntes.CurrentCell = DgvApuntes.Rows(vFila).Cells(0)
-            End If
+        ' Aplicamos el filtro base del ejercicio contable activo
+        If BtnFechasClick = "SI" Then
+            vtipoSql += $" WHERE apuntes.ConceptoAPU <> {idConceptoSaldo} And apuntes.EjercicioAPU <> 0 "
         Else
-            ' =========================================================================
-            ' LÓGICA DEL ELSE (CUANDO EL LISTBOX NO TIENE SELECCIONES)
-            ' =========================================================================
-            vtipoSql = sqlBase
-            If BtnFechasClick = "SI" Then
-                vtipoSql += $" WHERE apuntes.ConceptoAPU <> {idConceptoSaldo} And apuntes.EjercicioAPU <> 0 "
-            Else
-                vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-            End If
-
-            ' 🌟 CORRECCIÓN CLAVE: Quitamos apuntes.CuentaAPU <> '' porque ahora es Numérico. 
-            ' En su lugar, indicamos que traiga cualquier ID de cuenta válido (mayor que 0)
-            vtipoSql += " And apuntes.CuentaAPU > 0 "
-
-            ' CORRECCIÓN: Si el filtro de concepto está encendido, extraemos su ID numérico real
-            If BtnFiltroConcepto.Enabled = False Then
-                Dim idConceptoSel As Integer = Convert.ToInt32(CmbConcepto.SelectedValue)
-                vtipoSql += $" And apuntes.ConceptoAPU = {idConceptoSel} "
-            End If
-
-            If tieneFechasActivo Then
-                vDate1 = DateTimePicker1.Value.Date
-                vDate2 = DateTimePicker2.Value.Date
-                vtipoSql += " And apuntes.FechaAPU >= ?"
-                vtipoSql += " And apuntes.FechaAPU <= ?"
-                cmdMdb1cr.Parameters.AddWithValue("?", vDate1)
-                cmdMdb1cr.Parameters.AddWithValue("?", vDate2)
-            End If
-
-            vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
-            vtipoGrid = "APUNTES_CONTABLES"
-
-            LlenarGrid(vtipoSql, vtipoGrid, "1")
-            TraducirGridApuntesBD(Me.DgvApuntes)
-
-            If DgvApuntes.RowCount - 1 >= 0 Then
-                vFila = DgvApuntes.RowCount - 1
-                DgvApuntes.Rows(vFila).Selected = True
-                DgvApuntes.CurrentCell = DgvApuntes.Rows(vFila).Cells(0)
-            End If
+            vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
         End If
+
+        vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
+        vtipoGrid = "APUNTES_CONTABLES"
+
+        ' Forzamos vaciado final de parámetros de la app antes de recargar
+        cmdMdb1cr.Parameters.Clear()
+
+        LlenarGrid(vtipoSql, vtipoGrid, "1")
+        TraducirGridApuntesBD(Me.DgvApuntes)
+
+        If DgvApuntes.RowCount - 1 >= 0 Then
+            vFila = DgvApuntes.RowCount - 1
+            DgvApuntes.Rows(vFila).Selected = True
+            DgvApuntes.CurrentCell = DgvApuntes.Rows(vFila).Cells(0)
+        End If
+
+        ' Apagamos el escudo de los calendarios al terminar con éxito
+        cargandoFormulario = False
     End Sub
 
     Private Sub BtnSinFiltroConcepto_Click(sender As Object, e As EventArgs) Handles BtnSinFiltroConcepto.Click
@@ -738,7 +692,10 @@ Public Class ApuntesContables
     End Sub
 
     Private Sub BtnSinFiltroFecha_Click(sender As Object, e As EventArgs) Handles BtnSinFiltroFecha.Click
-        ' 🌟 SANEAMIENTO INICIAL: Vaciamos cualquier rastro de parámetros anteriores
+        ' 🌟 ESCUDO PROTECTOR AUTOMÁTICO: Congelamos los calendarios para que no saboteen el proceso
+        cargandoFormulario = True
+
+        ' Saneamiento inicial de parámetros residuales en la memoria de la app
         cmdMdb1cr.Parameters.Clear()
 
         If BtnFechasClick = "SI" Then
@@ -756,145 +713,76 @@ Public Class ApuntesContables
         vFecha1Enero = anio
         vFecha31Diciembre = anio
 
-        ' 3. Asignamos las fechas por defecto a los DateTimePicker
+        ' 3. Reseteamos los calendarios al año completo de enero a diciembre
+        ' (Gracias a cargandoFormulario = True, estas líneas no dispararán eventos basura)
         DateTimePicker1.Value = New Date(anio, 1, 1)
         DateTimePicker2.Value = New Date(anio, 12, 31)
 
-        ' 4. Tu lógica de botones original
+        ' 4. Tu lógica de botones original de fechas
         BtnFiltroFecha.Enabled = True
         BtnSinFiltroFecha.Enabled = False
 
-        ' 5. Buscamos el ID numérico del concepto "SALDO" de forma segura y aislada
+        ' =========================================================================
+        ' 🌟 TRUCO MAESTRO: DELEGAMOS EN TU BOTÓN DE CONCEPTO SI HAY MULTISELECCIÓN
+        ' =========================================================================
+        If ListBox1.SelectedItems.Count <> 0 Then
+            ' Cedemos el control absoluto al botón de quitar conceptos que ya es estable
+            BtnSinFiltroConcepto.PerformClick()
+
+            ' Apagamos el escudo protector y salimos limpiamente de la rutina
+            cargandoFormulario = False
+            Exit Sub
+        End If
+
+        ' =========================================================================
+        ' LÓGICA DEL ELSE (CUANDO EL USUARIO NO USABA EL LISTBOX DE CONCEPTOS)
+        ' =========================================================================
+        ' Buscamos el ID numérico real del concepto "SALDO" de forma segura y aislada
         Dim idConceptoSaldo As Integer = 1
         Using cmdBuscarId As New OleDb.OleDbCommand("SELECT IdConceptoCON FROM conceptos WHERE CodigoCON = 'SALDO'", conexion1)
             Dim resId = cmdBuscarId.ExecuteScalar()
             If resId IsNot Nothing AndAlso Not IsDBNull(resId) Then idConceptoSaldo = Convert.ToInt32(resId)
         End Using
 
-        ' 🌟 CONSULTA SQL MAESTRA DE 11 CELDAS (Saneada con alias limpios para que LlenarGrid los reconozca al vuelo)
-        Dim sqlBase As String = "SELECT apuntes.FechaAPU As FechaAPU, conceptos.DescripcionCON As ConceptoAPU, apuntes.DescripcionAPU As DescripcionAPU, apuntes.ImporteAPU As ImporteAPU, apuntes.ImporteAPU As SaldoAPU, apuntes.NotasAPU As NotasAPU, cuentas.NombreCUE As CuentaAPU, apuntes.CodigoAPU As CodigoAPU, conceptos.CodigoCON As CodigoCON, apuntes.ConceptoAPU As IdConceptoCON, apuntes.CuentaAPU As IdCuentaCUE FROM (apuntes INNER JOIN conceptos ON apuntes.ConceptoAPU = conceptos.IdConceptoCON) INNER JOIN cuentas ON apuntes.CuentaAPU = cuentas.IdCuentaCUE"
+        ' Consulta SQL Maestra de 11 celdas (Saneada para LlenarGrid)
+        Dim sqlBase As String = "SELECT apuntes.FechaAPU As [FechaAPU], conceptos.DescripcionCON As [ConceptoAPU], apuntes.DescripcionAPU As [DescripcionAPU], apuntes.ImporteAPU As [ImporteAPU], apuntes.ImporteAPU As [SaldoAPU], apuntes.NotasAPU As [NotasAPU], cuentas.NombreCUE As [CuentaAPU], apuntes.CodigoAPU As [CodigoAPU], conceptos.CodigoCON As [CodigoCON], apuntes.ConceptoAPU As [IdConceptoCON], apuntes.CuentaAPU As [IdCuentaCUE] FROM (apuntes INNER JOIN conceptos ON apuntes.ConceptoAPU = conceptos.IdConceptoCON) INNER JOIN cuentas ON apuntes.CuentaAPU = cuentas.IdCuentaCUE"
 
-        If ListBox1.SelectedItems.Count <> 0 Then
-            TxtConcepto.Text = rmse.GetString("MsgText3")
-            CmbConcepto.DataSource = Nothing
-            CmbConcepto.Items.Clear()
-            CmbConcepto.Items.Add(rmse.GetString("MsgText4"))
-            CmbConcepto.Text = CmbConcepto.Items(0)
-
-            BtnFiltroConcepto.Enabled = False
-            BtnSinFiltroConcepto.Enabled = True
-
-            vtipoSql = sqlBase
-            If BtnFechasClick = "SI" Then
-                vtipoSql += $" WHERE apuntes.ConceptoAPU <> {idConceptoSaldo} And apuntes.EjercicioAPU <> 0 "
-            Else
-                vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-            End If
-
-            ' 🌟 RECOLECCIÓN DE IDs INMUNE AL IDIOMA SELECCIONADO
-            Dim listaIdsConceptos As New List(Of Integer)
-
-            For i As Integer = 0 To ListBox1.SelectedItems.Count - 1
-                Dim vConceptoReal As String = ListBox1.SelectedItems(i).ToString().Trim()
-                If vConceptoReal.StartsWith("**") Then Continue For
-
-                Dim idConceptoFila As Integer = 0
-
-                ' 🌟 ESCUDO DE IDIOMA: Buscamos el ID ya sea emparejando por Código corto o por la Descripción larga de la BD
-                Dim sqlBuscarConcepto As String = "SELECT IdConceptoCON FROM conceptos WHERE CodigoCON = ? Or DescripcionCON = ?"
-                Using cmdId As New OleDb.OleDbCommand(sqlBuscarConcepto, conexion1)
-                    cmdId.Parameters.Clear()
-                    cmdId.Parameters.AddWithValue("?", vConceptoReal)
-                    cmdId.Parameters.AddWithValue("?", vConceptoReal)
-                    Dim resId = cmdId.ExecuteScalar()
-                    If resId IsNot Nothing AndAlso Not IsDBNull(resId) Then idConceptoFila = Convert.ToInt32(resId)
-                End Using
-
-                ' Plan B: Si tu rutina de traducción alteró mucho el texto (ej: BALANCE), buscamos en el resManager la inversa
-                If idConceptoFila = 0 AndAlso resManager IsNot Nothing Then
-                    ' Recorremos la tabla conceptos en memoria rápido para emparejar la traducción actual
-                    Using cmdAux As New OleDb.OleDbCommand("SELECT IdConceptoCON, CodigoCON, DescripcionCON FROM conceptos", conexion1)
-                        Using drAux As OleDb.OleDbDataReader = cmdAux.ExecuteReader()
-                            While drAux.Read()
-                                Dim codOriginal As String = drAux("CodigoCON").ToString().Trim()
-                                Dim clave As String = codOriginal.Replace(" ", "_")
-                                Dim trad As String = resManager.GetString(clave)
-
-                                If (Not String.IsNullOrEmpty(trad) AndAlso trad.ToUpper() = vConceptoReal.ToUpper()) OrElse codOriginal.ToUpper() = vConceptoReal.ToUpper() Then
-                                    idConceptoFila = Convert.ToInt32(drAux("IdConceptoCON"))
-                                    Exit While
-                                End If
-                            End While
-                        End Using
-                    End Using
-                End If
-
-                If idConceptoFila > 0 Then
-                    listaIdsConceptos.Add(idConceptoFila)
-                End If
-            Next
-
-            ' 🌟 INYECCIÓN DE SEGURIDAD CONTRA ARRASTRES VACÍOS: 
-            ' Si por un fallo de traducción la lista está vacía, le inyectamos un ID 0 para que no rompa la sintaxis del IN()
-            If listaIdsConceptos.Count = 0 Then listaIdsConceptos.Add(0)
-
-            ' Inyectamos la lista en el filtro IN numérico perfecto
-            vtipoSql += " And apuntes.ConceptoAPU IN (" & String.Join(",", listaIdsConceptos) & ") "
-
-            ' Si el filtro de cuenta está encendido, añadimos su ID numérico real
-            If BtnFiltroCuenta.Enabled = False Then
-                Dim idCuentaSel As Integer = Convert.ToInt32(CmbCuenta.SelectedValue)
-                vtipoSql += $" And apuntes.CuentaAPU = {idCuentaSel} "
-            End If
-
-            vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
-            vtipoGrid = "APUNTES_CONTABLES"
-
-            ' Vaciamos parámetros para que LlenarGrid reciba el comando limpio
-            cmdMdb1cr.Parameters.Clear()
-
-            LlenarGrid(vtipoSql, vtipoGrid, "1")
-            TraducirGridApuntesBD(Me.DgvApuntes)
-
-            If DgvApuntes.RowCount - 1 >= 0 Then
-                vFila = DgvApuntes.RowCount - 1
-                DgvApuntes.Rows(vFila).Selected = True
-                DgvApuntes.CurrentCell = DgvApuntes.Rows(vFila).Cells(0)
-            End If
+        vtipoSql = sqlBase
+        If BtnFechasClick = "SI" Then
+            vtipoSql += $" WHERE apuntes.ConceptoAPU <> {idConceptoSaldo} And apuntes.EjercicioAPU <> 0 "
         Else
-            ' =========================================================================
-            ' LÓGICA DEL ELSE (SIN LISTBOX FILTRADO)
-            ' =========================================================================
-            vtipoSql = sqlBase
-            If BtnFechasClick = "SI" Then
-                vtipoSql += $" WHERE apuntes.ConceptoAPU <> {idConceptoSaldo} And apuntes.EjercicioAPU <> 0 "
-            Else
-                vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-            End If
-
-            If BtnFiltroCuenta.Enabled = False Then
-                Dim idCuentaSel As Integer = Convert.ToInt32(CmbCuenta.SelectedValue)
-                vtipoSql += $" And apuntes.CuentaAPU = {idCuentaSel} "
-            End If
-            If BtnFiltroConcepto.Enabled = False Then
-                Dim idConceptoSel As Integer = Convert.ToInt32(CmbConcepto.SelectedValue)
-                vtipoSql += $" And apuntes.ConceptoAPU = {idConceptoSel} "
-            End If
-
-            vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
-            vtipoGrid = "APUNTES_CONTABLES"
-
-            cmdMdb1cr.Parameters.Clear()
-
-            LlenarGrid(vtipoSql, vtipoGrid, "1")
-            TraducirGridApuntesBD(Me.DgvApuntes)
-
-            If DgvApuntes.RowCount - 1 >= 0 Then
-                vFila = DgvApuntes.RowCount - 1
-                DgvApuntes.Rows(vFila).Selected = True
-                DgvApuntes.CurrentCell = DgvApuntes.Rows(vFila).Cells(0)
-            End If
+            vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
         End If
+
+        ' Si el filtro de cuenta sigue activo, mantenemos su ID numérico
+        If BtnFiltroCuenta.Enabled = False Then
+            Dim idCuentaSel As Integer = Convert.ToInt32(CmbCuenta.SelectedValue)
+            vtipoSql += $" And apuntes.CuentaAPU = {idCuentaSel} "
+        End If
+
+        ' Si el filtro de concepto ordinario sigue activo, mantenemos su ID numérico
+        If BtnFiltroConcepto.Enabled = False Then
+            Dim idConceptoSel As Integer = Convert.ToInt32(CmbConcepto.SelectedValue)
+            vtipoSql += $" And apuntes.ConceptoAPU = {idConceptoSel} "
+        End If
+
+        vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
+        vtipoGrid = "APUNTES_CONTABLES"
+
+        ' Doble limpieza preventiva para LlenarGrid
+        cmdMdb1cr.Parameters.Clear()
+
+        LlenarGrid(vtipoSql, vtipoGrid, "1")
+        TraducirGridApuntesBD(Me.DgvApuntes)
+
+        If DgvApuntes.RowCount - 1 >= 0 Then
+            vFila = DgvApuntes.RowCount - 1
+            DgvApuntes.Rows(vFila).Selected = True
+            DgvApuntes.CurrentCell = DgvApuntes.Rows(vFila).Cells(0)
+        End If
+
+        ' 🌟 APAGAMOS EL ESCUDO: Todo el proceso ha terminado con éxito rotundo
+        cargandoFormulario = False
     End Sub
 
     Private Sub CmbCuenta_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbCuenta.SelectedIndexChanged
@@ -937,9 +825,7 @@ Public Class ApuntesContables
 
             cmdMdb1cr.Parameters.Clear()
             LlenarGrid(vtipoSql, "APUNTES_CONTABLES", "1")
-
-            'MessageBox.Show("Aviso: No existen apuntes registrados para la cuenta seleccionada en este ejercicio.",
-            'rmse.GetString("MsgText1"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            MessageBox.Show(resManager.GetString("AvisoNoHayRegistrosEjercicio"))
             Exit Sub
         End If
 
@@ -1106,170 +992,241 @@ Public Class ApuntesContables
     End Sub
 
     Private Sub DateTimePicker1_ValueChanged(sender As Object, e As EventArgs) Handles DateTimePicker1.ValueChanged
+        ' 🌟 ESCUDO PROTECTOR: Si estamos cargando o limpiando filtros por código, salimos de inmediato
+        If cargandoFormulario Then Exit Sub
+
+        ' Si el filtro de fechas no está activo en la pantalla, no hace falta recalcular nada
+        If BtnFiltroFecha.Enabled = True Then Exit Sub
+
+        ' Saneamiento inicial de parámetros del comando general
+        cmdMdb1cr.Parameters.Clear()
+
+        ' 1. Buscamos el ID numérico real del concepto "SALDO" de forma segura y aislada
+        Dim idConceptoSaldo As Integer = 1
+        Using cmdBuscarId As New OleDb.OleDbCommand("SELECT IdConceptoCON FROM conceptos WHERE CodigoCON = 'SALDO'", conexion1)
+            Dim resId = cmdBuscarId.ExecuteScalar()
+            If resId IsNot Nothing AndAlso Not IsDBNull(resId) Then idConceptoSaldo = Convert.ToInt32(resId)
+        End Using
+
+        ' 🌟 CONSULTA SQL MAESTRA DE 11 CELDAS (Inner Joins para nombres claros)
+        Dim sqlBase As String = "SELECT apuntes.FechaAPU As [FechaAPU], conceptos.DescripcionCON As [ConceptoAPU], apuntes.DescripcionAPU As [DescripcionAPU], apuntes.ImporteAPU As [ImporteAPU], apuntes.ImporteAPU As [SaldoAPU], apuntes.NotasAPU As [NotasAPU], cuentas.NombreCUE As [CuentaAPU], apuntes.CodigoAPU As [CodigoAPU], conceptos.CodigoCON As [CodigoCON], apuntes.ConceptoAPU As [IdConceptoCON], apuntes.CuentaAPU As [IdCuentaCUE] FROM (apuntes INNER JOIN conceptos ON apuntes.ConceptoAPU = conceptos.IdConceptoCON) INNER JOIN cuentas ON apuntes.CuentaAPU = cuentas.IdCuentaCUE"
+
         If ListBox1.SelectedItems.Count = 0 Then
-            If BtnFiltroFecha.Enabled = False Then
-                vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
-                If BtnFechasClick = "SI" Then
-                    vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
-                Else
-                    vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-                End If
-                vDate1 = DateTimePicker1.Value.Date
-                vDate2 = DateTimePicker2.Value.Date
-                vtipoSql += " And apuntes.FechaAPU >= ?"
-                vtipoSql += " And apuntes.FechaAPU <= ?"
-                If BtnFiltroCuenta.Enabled = False Then
-                    vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
-                End If
-                If BtnFiltroConcepto.Enabled = False Then
-                    vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text.Replace("'", "''") & "' "
-                End If
-                vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
-                vtipoGrid = "APUNTES_CONTABLES"
-                LlenarGrid(vtipoSql, vtipoGrid, "1")
-                TraducirGridApuntesBD(Me.DgvApuntes)
-                If DgvApuntes.RowCount - 1 >= 0 Then
-                    vFila = DgvApuntes.RowCount - 1
-                    DgvApuntes.Rows(vFila).Selected = True
-                    DgvApuntes.CurrentCell = DgvApuntes.Rows(vFila).Cells(0)
-                End If
+            ' =========================================================================
+            ' LÓGICA SIN MULTISELECCIÓN EN LISTBOX
+            ' =========================================================================
+            vtipoSql = sqlBase
+            If BtnFechasClick = "SI" Then
+                vtipoSql += $" WHERE apuntes.ConceptoAPU <> {idConceptoSaldo} And apuntes.EjercicioAPU <> 0 "
             Else
-                'MsgBox("BtnFiltroFecha.Enabled = " & BtnFiltroFecha.Enabled.ToString)
+                vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+            End If
+
+            ' Filtros de IDs secundarios
+            If BtnFiltroCuenta.Enabled = False Then
+                Dim idCuentaSel As Integer = Convert.ToInt32(CmbCuenta.SelectedValue)
+                vtipoSql += $" And apuntes.CuentaAPU = {idCuentaSel} "
+            End If
+
+            If BtnFiltroConcepto.Enabled = False Then
+                Dim idConceptoSel As Integer = Convert.ToInt32(CmbConcepto.SelectedValue)
+                vtipoSql += $" And apuntes.ConceptoAPU = {idConceptoSel} "
+            End If
+
+            ' Las interrogaciones de fecha van SIEMPRE al final
+            vDate1 = DateTimePicker1.Value.Date
+            vDate2 = DateTimePicker2.Value.Date
+            vtipoSql += " And apuntes.FechaAPU >= ?"
+            vtipoSql += " And apuntes.FechaAPU <= ?"
+
+            ' Sincronizamos parámetros secuenciales ? de OleDb
+            cmdMdb1cr.Parameters.AddWithValue("?", vDate1)
+            cmdMdb1cr.Parameters.AddWithValue("?", vDate2)
+
+            vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
+            vtipoGrid = "APUNTES_CONTABLES"
+            LlenarGrid(vtipoSql, vtipoGrid, "1")
+            TraducirGridApuntesBD(Me.DgvApuntes)
+
+            If DgvApuntes.RowCount - 1 >= 0 Then
+                vFila = DgvApuntes.RowCount - 1
+                DgvApuntes.Rows(vFila).Selected = True
+                DgvApuntes.CurrentCell = DgvApuntes.Rows(vFila).Cells(0)
             End If
         Else
-            If BtnFiltroFecha.Enabled = False Then
-                Dim i As Integer
-                vtipoSql = "Select apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
-                If BtnFechasClick = "SI" Then
-                    vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
-                Else
-                    vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-                End If
-                For i = 0 To ListBox1.SelectedItems.Count - 1
-                    vConcepto = ListBox1.SelectedItems(i).ToString
-                    If i = 0 Then
-                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
-                        If BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
-                        End If
-                        If BtnFiltroFecha.Enabled = False Then
-                            vDate1 = DateTimePicker1.Value.Date
-                            vDate2 = DateTimePicker2.Value.Date
-                            vtipoSql += " And apuntes.FechaAPU >= ?"
-                            vtipoSql += " And apuntes.FechaAPU <= ?"
-                        End If
-                    Else
-                        vtipoSql += " Or "
-                        If BtnFechasClick = "SI" Then
-                            vtipoSql += "apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
-                        Else
-                            vtipoSql += "apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-                        End If
-                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
-                        If BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
-                        End If
-                        If BtnFiltroFecha.Enabled = False Then
-                            vDate1 = DateTimePicker1.Value.Date
-                            vDate2 = DateTimePicker2.Value.Date
-                            vtipoSql += " And apuntes.FechaAPU >= ?"
-                            vtipoSql += " And apuntes.FechaAPU <= ?"
-                        End If
-                    End If
-                Next
-                vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
-                vtipoGrid = "APUNTES_CONTABLES"
-                LlenarGrid(vtipoSql, vtipoGrid, "1")
-                TraducirGridApuntesBD(Me.DgvApuntes)
-                If DgvApuntes.RowCount - 1 >= 0 Then
-                    vFila = DgvApuntes.RowCount - 1
-                    DgvApuntes.Rows(vFila).Selected = True
-                    DgvApuntes.CurrentCell = DgvApuntes.Rows(vFila).Cells(0)
-                End If
+            ' =========================================================================
+            ' LÓGICA CON MULTISELECCIÓN (Convertida al IN numérico indestructible)
+            ' =========================================================================
+            vtipoSql = sqlBase
+            If BtnFechasClick = "SI" Then
+                vtipoSql += $" WHERE apuntes.ConceptoAPU <> {idConceptoSaldo} And apuntes.EjercicioAPU <> 0 "
+            Else
+                vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+            End If
+
+            ' Recolectamos los IDs de conceptos seleccionados
+            Dim listaIdsConceptos As New List(Of Integer)
+            For i As Integer = 0 To ListBox1.SelectedItems.Count - 1
+                Dim vConceptoReal As String = ListBox1.SelectedItems(i).ToString()
+                If vConceptoReal.StartsWith("**") Then Continue For
+
+                Dim idConceptoFila As Integer = 0
+                Using cmdId As New OleDb.OleDbCommand("SELECT IdConceptoCON FROM conceptos WHERE CodigoCON = ?", conexion1)
+                    cmdId.Parameters.AddWithValue("?", vConceptoReal)
+                    Dim resId = cmdId.ExecuteScalar()
+                    If resId IsNot Nothing AndAlso Not IsDBNull(resId) Then idConceptoFila = Convert.ToInt32(resId)
+                End Using
+
+                If idConceptoFila > 0 Then listaIdsConceptos.Add(idConceptoFila)
+            Next
+
+            If listaIdsConceptos.Count = 0 Then listaIdsConceptos.Add(0)
+            vtipoSql += " And apuntes.ConceptoAPU IN (" & String.Join(",", listaIdsConceptos) & ") "
+
+            ' Filtro de cuenta por ID numérico
+            If BtnFiltroCuenta.Enabled = False Then
+                Dim idCuentaSel As Integer = Convert.ToInt32(CmbCuenta.SelectedValue)
+                vtipoSql += $" And apuntes.CuentaAPU = {idCuentaSel} "
+            End If
+
+            ' Agregamos las interrogaciones de fecha al final de todo el bloque
+            vDate1 = DateTimePicker1.Value.Date
+            vDate2 = DateTimePicker2.Value.Date
+            vtipoSql += " And apuntes.FechaAPU >= ?"
+            vtipoSql += " And apuntes.FechaAPU <= ?"
+
+            cmdMdb1cr.Parameters.AddWithValue("?", vDate1)
+            cmdMdb1cr.Parameters.AddWithValue("?", vDate2)
+
+            vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
+            vtipoGrid = "APUNTES_CONTABLES"
+            LlenarGrid(vtipoSql, vtipoGrid, "1")
+            TraducirGridApuntesBD(Me.DgvApuntes)
+
+            If DgvApuntes.RowCount - 1 >= 0 Then
+                vFila = DgvApuntes.RowCount - 1
+                DgvApuntes.Rows(vFila).Selected = True
+                DgvApuntes.CurrentCell = DgvApuntes.Rows(vFila).Cells(0)
             End If
         End If
     End Sub
 
     Private Sub DateTimePicker2_ValueChanged(sender As Object, e As EventArgs) Handles DateTimePicker2.ValueChanged
+        ' 🌟 ESCUDO PROTECTOR: Si estamos cargando o limpiando filtros por código, salimos de inmediato
+        If cargandoFormulario Then Exit Sub
+
+        ' Si el filtro de fechas no está activo en la pantalla, no hace falta recalcular nada
+        If BtnFiltroFecha.Enabled = True Then Exit Sub
+
+        ' Saneamiento inicial de parámetros del comando general
+        cmdMdb1cr.Parameters.Clear()
+
+        ' 1. Buscamos el ID numérico real del concepto "SALDO" de forma segura y aislada
+        Dim idConceptoSaldo As Integer = 1
+        Using cmdBuscarId As New OleDb.OleDbCommand("SELECT IdConceptoCON FROM conceptos WHERE CodigoCON = 'SALDO'", conexion1)
+            Dim resId = cmdBuscarId.ExecuteScalar()
+            If resId IsNot Nothing AndAlso Not IsDBNull(resId) Then idConceptoSaldo = Convert.ToInt32(resId)
+        End Using
+
+        ' 🌟 CONSULTA SQL MAESTRA DE 11 CELDAS (Inner Joins para nombres claros)
+        Dim sqlBase As String = "SELECT apuntes.FechaAPU As [FechaAPU], conceptos.DescripcionCON As [ConceptoAPU], apuntes.DescripcionAPU As [DescripcionAPU], apuntes.ImporteAPU As [ImporteAPU], apuntes.ImporteAPU As [SaldoAPU], apuntes.NotasAPU As [NotasAPU], cuentas.NombreCUE As [CuentaAPU], apuntes.CodigoAPU As [CodigoAPU], conceptos.CodigoCON As [CodigoCON], apuntes.ConceptoAPU As [IdConceptoCON], apuntes.CuentaAPU As [IdCuentaCUE] FROM (apuntes INNER JOIN conceptos ON apuntes.ConceptoAPU = conceptos.IdConceptoCON) INNER JOIN cuentas ON apuntes.CuentaAPU = cuentas.IdCuentaCUE"
+
         If ListBox1.SelectedItems.Count = 0 Then
-            If BtnFiltroFecha.Enabled = False Then
-                vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
-                If BtnFechasClick = "SI" Then
-                    vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
-                Else
-                    vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-                End If
-                vDate1 = DateTimePicker1.Value.Date
-                vDate2 = DateTimePicker2.Value.Date
-                vtipoSql += " And apuntes.FechaAPU >= ?"
-                vtipoSql += " And apuntes.FechaAPU <= ?"
-                If BtnFiltroCuenta.Enabled = False Then
-                    vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
-                End If
-                If BtnFiltroConcepto.Enabled = False Then
-                    vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text.Replace("'", "''") & "' "
-                End If
-                vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
-                vtipoGrid = "APUNTES_CONTABLES"
-                'MsgBox(vtipoSql)
-                LlenarGrid(vtipoSql, vtipoGrid, "1")
-                TraducirGridApuntesBD(Me.DgvApuntes)
-                If DgvApuntes.RowCount - 1 >= 0 Then
-                    vFila = DgvApuntes.RowCount - 1
-                    DgvApuntes.Rows(vFila).Selected = True
-                    DgvApuntes.CurrentCell = DgvApuntes.Rows(vFila).Cells(0)
-                End If
+            ' =========================================================================
+            ' LÓGICA SIN MULTISELECCIÓN EN LISTBOX
+            ' =========================================================================
+            vtipoSql = sqlBase
+            If BtnFechasClick = "SI" Then
+                vtipoSql += $" WHERE apuntes.ConceptoAPU <> {idConceptoSaldo} And apuntes.EjercicioAPU <> 0 "
+            Else
+                vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+            End If
+
+            ' Filtros de IDs secundarios
+            If BtnFiltroCuenta.Enabled = False Then
+                Dim idCuentaSel As Integer = Convert.ToInt32(CmbCuenta.SelectedValue)
+                vtipoSql += $" And apuntes.CuentaAPU = {idCuentaSel} "
+            End If
+
+            If BtnFiltroConcepto.Enabled = False Then
+                Dim idConceptoSel As Integer = Convert.ToInt32(CmbConcepto.SelectedValue)
+                vtipoSql += $" And apuntes.ConceptoAPU = {idConceptoSel} "
+            End If
+
+            ' Las interrogaciones de fecha van SIEMPRE al final
+            vDate1 = DateTimePicker1.Value.Date
+            vDate2 = DateTimePicker2.Value.Date
+            vtipoSql += " And apuntes.FechaAPU >= ?"
+            vtipoSql += " And apuntes.FechaAPU <= ?"
+
+            ' Sincronizamos parámetros secuenciales ? de OleDb
+            cmdMdb1cr.Parameters.AddWithValue("?", vDate1)
+            cmdMdb1cr.Parameters.AddWithValue("?", vDate2)
+
+            vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
+            vtipoGrid = "APUNTES_CONTABLES"
+            LlenarGrid(vtipoSql, vtipoGrid, "1")
+            TraducirGridApuntesBD(Me.DgvApuntes)
+
+            If DgvApuntes.RowCount - 1 >= 0 Then
+                vFila = DgvApuntes.RowCount - 1
+                DgvApuntes.Rows(vFila).Selected = True
+                DgvApuntes.CurrentCell = DgvApuntes.Rows(vFila).Cells(0)
             End If
         Else
-            If BtnFiltroFecha.Enabled = False Then
-                Dim i As Integer
-                vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
-                If BtnFechasClick = "SI" Then
-                    vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
-                Else
-                    vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-                End If
-                For i = 0 To ListBox1.SelectedItems.Count - 1
-                    vConcepto = ListBox1.SelectedItems(i).ToString
-                    If i = 0 Then
-                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
-                        If BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
-                        End If
-                        If BtnFiltroFecha.Enabled = False Then
-                            vDate1 = DateTimePicker1.Value.Date
-                            vDate2 = DateTimePicker2.Value.Date
-                            vtipoSql += " And apuntes.FechaAPU >= ?"
-                            vtipoSql += " And apuntes.FechaAPU <= ?"
-                        End If
-                    Else
-                        vtipoSql += " Or "
-                        If BtnFechasClick = "SI" Then
-                            vtipoSql += "apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
-                        Else
-                            vtipoSql += "apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-                        End If
-                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
-                        If BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
-                        End If
-                        If BtnFiltroFecha.Enabled = False Then
-                            vDate1 = DateTimePicker1.Value.Date
-                            vDate2 = DateTimePicker2.Value.Date
-                            vtipoSql += " And apuntes.FechaAPU >= ?"
-                            vtipoSql += " And apuntes.FechaAPU <= ?"
-                        End If
-                    End If
-                Next
-                vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
-                vtipoGrid = "APUNTES_CONTABLES"
-                LlenarGrid(vtipoSql, vtipoGrid, "1")
-                TraducirGridApuntesBD(Me.DgvApuntes)
-                If DgvApuntes.RowCount - 1 >= 0 Then
-                    vFila = DgvApuntes.RowCount - 1
-                    DgvApuntes.Rows(vFila).Selected = True
-                    DgvApuntes.CurrentCell = DgvApuntes.Rows(vFila).Cells(0)
-                End If
+            ' =========================================================================
+            ' LÓGICA CON MULTISELECCIÓN (Convertida al IN numérico indestructible)
+            ' =========================================================================
+            vtipoSql = sqlBase
+            If BtnFechasClick = "SI" Then
+                vtipoSql += $" WHERE apuntes.ConceptoAPU <> {idConceptoSaldo} And apuntes.EjercicioAPU <> 0 "
+            Else
+                vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+            End If
+
+            ' Recolectamos los IDs de conceptos seleccionados
+            Dim listaIdsConceptos As New List(Of Integer)
+            For i As Integer = 0 To ListBox1.SelectedItems.Count - 1
+                Dim vConceptoReal As String = ListBox1.SelectedItems(i).ToString()
+                If vConceptoReal.StartsWith("**") Then Continue For
+
+                Dim idConceptoFila As Integer = 0
+                Using cmdId As New OleDb.OleDbCommand("SELECT IdConceptoCON FROM conceptos WHERE CodigoCON = ?", conexion1)
+                    cmdId.Parameters.AddWithValue("?", vConceptoReal)
+                    Dim resId = cmdId.ExecuteScalar()
+                    If resId IsNot Nothing AndAlso Not IsDBNull(resId) Then idConceptoFila = Convert.ToInt32(resId)
+                End Using
+
+                If idConceptoFila > 0 Then listaIdsConceptos.Add(idConceptoFila)
+            Next
+
+            If listaIdsConceptos.Count = 0 Then listaIdsConceptos.Add(0)
+            vtipoSql += " And apuntes.ConceptoAPU IN (" & String.Join(",", listaIdsConceptos) & ") "
+
+            ' Filtro de cuenta por ID numérico
+            If BtnFiltroCuenta.Enabled = False Then
+                Dim idCuentaSel As Integer = Convert.ToInt32(CmbCuenta.SelectedValue)
+                vtipoSql += $" And apuntes.CuentaAPU = {idCuentaSel} "
+            End If
+
+            ' Agregamos las interrogaciones de fecha al final de todo el bloque
+            vDate1 = DateTimePicker1.Value.Date
+            vDate2 = DateTimePicker2.Value.Date
+            vtipoSql += " And apuntes.FechaAPU >= ?"
+            vtipoSql += " And apuntes.FechaAPU <= ?"
+
+            cmdMdb1cr.Parameters.AddWithValue("?", vDate1)
+            cmdMdb1cr.Parameters.AddWithValue("?", vDate2)
+
+            vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
+            vtipoGrid = "APUNTES_CONTABLES"
+            LlenarGrid(vtipoSql, vtipoGrid, "1")
+            TraducirGridApuntesBD(Me.DgvApuntes)
+
+            If DgvApuntes.RowCount - 1 >= 0 Then
+                vFila = DgvApuntes.RowCount - 1
+                DgvApuntes.Rows(vFila).Selected = True
+                DgvApuntes.CurrentCell = DgvApuntes.Rows(vFila).Cells(0)
             End If
         End If
     End Sub
@@ -1306,243 +1263,26 @@ Public Class ApuntesContables
 
         ' Comparación totalmente segura
         If vTxtNombre.ToUpper() = palabraSaldoMayusculas Then
-            MsgBox(rmse.GetString("MsgSaldos1"))
+            MsgBox(resManager.GetString("MsgSaldos1"))
         Else
             ' Comprobamos si existe un identificador asociado.
             If ((frmEditarApuntes Is Nothing) OrElse (Not frmEditarApuntes.IsHandleCreated)) Then
                 frmEditarApuntes = New EditarApuntes
             End If
-            ' Llamamos al formulario de manera modal.
+
+            ' Llamamos al formulario de manera modal para borrar
             vEditar = "NO"  ' Eliminar
             frmEditarApuntes.ShowDialog()
             frmEditarApuntes.Dispose()
 
             ' =========================================================================
-            ' 🌟 CORRECCIÓN CRÍTICA: BUSQUEDAS EN LÍNEA INDEPENDIENTES (Cierran el DataReader)
+            ' 🌟 EXCELENTE OPTIMIZACIÓN: DISPARAMOS EL REFRESCO ÚNICO REUTILIZABLE
             ' =========================================================================
-            Dim idConceptoSaldo As Integer = 1
-            ' Usamos una estructura limpia con un comando local exclusivo
-            Using cmdBuscarId As New OleDb.OleDbCommand("SELECT IdConceptoCON FROM conceptos WHERE CodigoCON = 'SALDO'", conexion1)
-                Dim resId = cmdBuscarId.ExecuteScalar() ' ExecuteScalar lee el dato y cierra el flujo al instante
-                If resId IsNot Nothing AndAlso Not IsDBNull(resId) Then idConceptoSaldo = Convert.ToInt32(resId)
-            End Using
+            ' Borramos más de 100 líneas redundantes y delegamos todo en la rutina limpia
+            RefrescarGridApuntesContables()
 
-            Dim idCuentaSeleccionada As Integer = 0
-            If frmApuntesContables.BtnFiltroCuenta.Enabled = False AndAlso frmApuntesContables.CmbCuenta.SelectedItem IsNot Nothing Then
-                Using cmdCta As New OleDb.OleDbCommand("SELECT IdCuentaCUE FROM cuentas WHERE NombreCUE = ?", conexion1)
-                    cmdCta.Parameters.AddWithValue("?", frmApuntesContables.CmbCuenta.Text)
-                    Dim resCta = cmdCta.ExecuteScalar()
-                    If resCta IsNot Nothing AndAlso Not IsDBNull(resCta) Then idCuentaSeleccionada = Convert.ToInt32(resCta)
-                End Using
-            End If
-
-            ' Reutilizamos tu lógica base de la consulta de refresco
-            Dim sqlBase As String = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
-
-            If frmApuntesContables.ListBox1.SelectedItems.Count = 0 Then
-                vtipoSql = sqlBase
-                If BtnFechasClick = "SI" Then
-                    vtipoSql += $" WHERE apuntes.ConceptoAPU <> {idConceptoSaldo} And apuntes.EjercicioAPU <> 0 "
-                Else
-                    vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-                End If
-
-                If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
-                    vtipoSql += $" And apuntes.CuentaAPU = {idCuentaSeleccionada} "
-                End If
-
-                If frmApuntesContables.BtnFiltroConcepto.Enabled = False Then
-                    vtipoSql += " And apuntes.ConceptoAPU = '" & frmApuntesContables.CmbConcepto.Text & "' "
-                End If
-
-                If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
-                    vDate1 = frmApuntesContables.DateTimePicker1.Value
-                    vDate2 = frmApuntesContables.DateTimePicker2.Value
-                    vtipoSql += " And apuntes.FechaAPU >= ?"
-                    vtipoSql += " And apuntes.FechaAPU <= ?"
-                End If
-
-                vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
-                vtipoGrid = "APUNTES_CONTABLES"
-                LlenarGrid(vtipoSql, vtipoGrid, "1")
-                TraducirGridApuntesBD(Me.DgvApuntes)
-
-                If DgvApuntes.RowCount - 1 >= 0 Then
-                    vFila = DgvApuntes.RowCount - 1
-                    DgvApuntes.Rows(vFila).Selected = True
-                    DgvApuntes.CurrentCell = DgvApuntes.Rows(vFila).Cells(0)
-                End If
-            Else
-                Dim i As Integer
-                vtipoSql = sqlBase
-                If BtnFechasClick = "SI" Then
-                    vtipoSql += $" WHERE apuntes.ConceptoAPU <> {idConceptoSaldo} And apuntes.EjercicioAPU <> 0 "
-                Else
-                    vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-                End If
-
-                For i = 0 To frmApuntesContables.ListBox1.SelectedItems.Count - 1
-                    vConcepto = frmApuntesContables.ListBox1.SelectedItems(i).ToString
-
-                    Dim idConceptoFila As Integer = 0
-                    ' Usamos otro comando local aislado para el bucle del ListBox
-                    Using cmdCpt As New OleDb.OleDbCommand("SELECT IdConceptoCON FROM conceptos WHERE CodigoCON = ?", conexion1)
-                        cmdCpt.Parameters.AddWithValue("?", vConcepto)
-                        Dim resCpt = cmdCpt.ExecuteScalar()
-                        If resCpt IsNot Nothing AndAlso Not IsDBNull(resCpt) Then idConceptoFila = Convert.ToInt32(resCpt)
-                    End Using
-
-                    If i = 0 Then
-                        vtipoSql += $" And apuntes.ConceptoAPU = {idConceptoFila} "
-                        If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += $" And apuntes.CuentaAPU = {idCuentaSeleccionada} "
-                        End If
-                        If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
-                            vDate1 = frmApuntesContables.DateTimePicker1.Value
-                            vDate2 = frmApuntesContables.DateTimePicker2.Value
-                            vtipoSql += " And apuntes.FechaAPU >= ?"
-                            vtipoSql += " And apuntes.FechaAPU <= ?"
-                        End If
-                    Else
-                        vtipoSql += " Or "
-                        If BtnFechasClick = "SI" Then
-                            vtipoSql += $" apuntes.ConceptoAPU <> {idConceptoSaldo} And apuntes.EjercicioAPU <> 0 "
-                        Else
-                            vtipoSql += " apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-                        End If
-
-                        vtipoSql += $" And apuntes.ConceptoAPU = {idConceptoFila} "
-
-                        If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += $" And apuntes.CuentaAPU = {idCuentaSeleccionada} "
-                        End If
-                        If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
-                            vDate1 = frmApuntesContables.DateTimePicker1.Value
-                            vDate2 = frmApuntesContables.DateTimePicker2.Value
-                            vtipoSql += " And apuntes.FechaAPU >= ?"
-                            vtipoSql += " And apuntes.FechaAPU <= ?"
-                        End If
-                    End If
-                Next
-
-                vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
-                vtipoGrid = "APUNTES_CONTABLES"
-                LlenarGrid(vtipoSql, vtipoGrid, "1")
-                TraducirGridApuntesBD(Me.DgvApuntes)
-
-                If frmApuntesContables.DgvApuntes.RowCount - 1 >= 0 Then
-                    vFila = frmApuntesContables.DgvApuntes.RowCount - 1
-                    frmApuntesContables.DgvApuntes.Rows(vFila).Selected = True
-                    frmApuntesContables.DgvApuntes.CurrentCell = frmApuntesContables.DgvApuntes.Rows(vFila).Cells(0)
-                End If
-            End If
         End If
     End Sub
-
-
-    'Private Sub BtnEliminarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEliminarRegistro.Click
-    '    filaActual = frmApuntesContables.DgvApuntes.CurrentRow.Index
-    '    vTxtNombre = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(1).Value.ToString
-
-    '    Buscamos la traducción y la pasamos a Mayúsculas
-    '    Dim palabraSaldoMayusculas As String = resManager.GetString("Saldo")?.ToUpper()
-    '    If String.IsNullOrEmpty(palabraSaldoMayusculas) Then palabraSaldoMayusculas = "SALDO"
-
-    '    Comparación totalmente segura
-    '    If vTxtNombre.ToUpper() = palabraSaldoMayusculas Then
-    '        MsgBox(rmse.GetString("MsgSaldos1"))
-    '    Else
-    '        Comprobamos si existe un identificador asociado.
-    '        If ((frmEditarApuntes Is Nothing) OrElse (Not frmEditarApuntes.IsHandleCreated)) Then
-    '            frmEditarApuntes = New EditarApuntes
-    '        End If
-    '        Llamamos al formulario de manera modal.
-    '        vEditar = "NO"  ' Eliminar
-    '        frmEditarApuntes.ShowDialog()
-    '        MessageBox.Show("Se ha cerrado el formulario.")
-    '        Destruimos el formulario.
-    '        frmEditarApuntes.Dispose()
-    '        Stop
-    '        If frmApuntesContables.ListBox1.SelectedItems.Count = 0 Then
-    '            vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
-    '            If BtnFechasClick = "SI" Then
-    '                vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
-    '            Else
-    '                vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-    '            End If
-    '            If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
-    '                vtipoSql += " And apuntes.CuentaAPU = '" & frmApuntesContables.CmbCuenta.Text & "' "
-    '            End If
-    '            If frmApuntesContables.BtnFiltroConcepto.Enabled = False Then
-    '                vtipoSql += " And apuntes.ConceptoAPU = '" & frmApuntesContables.CmbConcepto.Text & "' "
-    '            End If
-    '            If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
-    '                vDate1 = frmApuntesContables.DateTimePicker1.Value
-    '                vDate2 = frmApuntesContables.DateTimePicker2.Value
-    '                vtipoSql += " And apuntes.FechaAPU >= ?"
-    '                vtipoSql += " And apuntes.FechaAPU <= ?"
-    '            End If
-    '            vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
-    '            vtipoGrid = "APUNTES_CONTABLES"
-    '            LlenarGrid(vtipoSql, vtipoGrid, "1")
-    '            TraducirGridApuntesBD(Me.DgvApuntes)
-    '            If DgvApuntes.RowCount - 1 >= 0 Then
-    '                vFila = DgvApuntes.RowCount - 1
-    '                DgvApuntes.Rows(vFila).Selected = True
-    '                DgvApuntes.CurrentCell = DgvApuntes.Rows(vFila).Cells(0)
-    '            End If
-    '        Else
-    '            Dim i As Integer
-    '            vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
-    '            If BtnFechasClick = "SI" Then
-    '                vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
-    '            Else
-    '                vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-    '            End If
-    '            For i = 0 To frmApuntesContables.ListBox1.SelectedItems.Count - 1
-    '                vConcepto = frmApuntesContables.ListBox1.SelectedItems(i).ToString
-    '                If i = 0 Then
-    '                    vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
-    '                    If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
-    '                        vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
-    '                    End If
-    '                    If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
-    '                        vDate1 = frmApuntesContables.DateTimePicker1.Value
-    '                        vDate2 = frmApuntesContables.DateTimePicker2.Value
-    '                        vtipoSql += " And apuntes.FechaAPU >= ?"
-    '                        vtipoSql += " And apuntes.FechaAPU <= ?"
-    '                    End If
-    '                Else
-    '                    vtipoSql += " Or "
-    '                    If BtnFechasClick = "SI" Then
-    '                        vtipoSql += "apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
-    '                    Else
-    '                        vtipoSql += "apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-    '                    End If
-    '                    vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
-    '                    If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
-    '                        vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
-    '                    End If
-    '                    If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
-    '                        vDate1 = frmApuntesContables.DateTimePicker1.Value
-    '                        vDate2 = frmApuntesContables.DateTimePicker2.Value
-    '                        vtipoSql += " And apuntes.FechaAPU >= ?"
-    '                        vtipoSql += " And apuntes.FechaAPU <= ?"
-    '                    End If
-    '                End If
-    '            Next
-    '            vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
-    '            vtipoGrid = "APUNTES_CONTABLES"
-    '            LlenarGrid(vtipoSql, vtipoGrid, "1")
-    '            TraducirGridApuntesBD(Me.DgvApuntes)
-    '            If frmApuntesContables.DgvApuntes.RowCount - 1 >= 0 Then
-    '                vFila = frmApuntesContables.DgvApuntes.RowCount - 1
-    '                frmApuntesContables.DgvApuntes.Rows(vFila).Selected = True
-    '                frmApuntesContables.DgvApuntes.CurrentCell = frmApuntesContables.DgvApuntes.Rows(vFila).Cells(0)
-    '            End If
-    '        End If
-    '    End If
-    'End Sub
 
     Private Sub BtnGraficos_Click(sender As Object, e As EventArgs) Handles BtnGraficos.Click
         ' Comprobamos si existe un identificador asociado.
@@ -1611,65 +1351,54 @@ Public Class ApuntesContables
         If BtnFechasClick = "NO" Then
             BtnFechasClick = "SI"
             BtnFechasFondo.Visible = True
-            cmdMdb1cr.CommandText = "SELECT * FROM ejercicios ORDER BY ejercicios.EjercicioEJE DESC"
-            Try
-                drMdb1 = cmdMdb1cr.ExecuteReader()
-                If drMdb1.HasRows Then
-                    While drMdb1.Read()
-                        ' 1. Verificamos que el valor de la base de datos no sea NULL
-                        If Not drMdb1.IsDBNull(0) Then
-                            Dim valorDb As String = drMdb1.GetValue(0).ToString()
-                            Dim anio As Integer
 
-                            ' 2. Convertimos el texto a número entero de forma segura
-                            If Integer.TryParse(valorDb, anio) Then
-                                vFecha1Enero = anio
-                            Else
-                                ' Si no es un número válido (ej. texto), asignamos año actual por seguridad
-                                vFecha1Enero = Date.Today.Year
-                            End If
-                        Else
-                            ' Si el campo en la base de datos es NULL, asignamos año actual
-                            vFecha1Enero = Date.Today.Year
-                        End If
-                    End While
+            ' 🌟 EL ATAJO DE LA NUEVA ERA: Usamos SELECT TOP 1 para que Access nos devuelva 
+            ' un único número directo (el año más alto/reciente) en microsegundos
+            cmdMdb1cr.CommandText = "SELECT TOP 1 EjercicioEJE FROM ejercicios ORDER BY EjercicioEJE DESC"
+            cmdMdb1cr.Parameters.Clear()
+
+            Try
+                ' ExecuteScalar extrae el número directo, abre y CIERRA el flujo al instante
+                Dim resAnio = cmdMdb1cr.ExecuteScalar()
+
+                If resAnio IsNot Nothing AndAlso Not IsDBNull(resAnio) Then
+                    vFecha1Enero = Convert.ToInt32(resAnio)
                 Else
-                    'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
+                    ' Salvavidas: si la tabla estuviera vacía, usamos el año actual
+                    vFecha1Enero = Date.Today.Year
                 End If
-                drMdb1.Close()
             Catch ex As Exception
-                MsgBox(ex.ToString)
+                vFecha1Enero = Date.Today.Year ' Si da error la BD, no rompemos el programa
+                MsgBox("Error al leer el ejercicio: " & ex.Message, MsgBoxStyle.Critical)
             End Try
+
+            ' Configuraciones originales de tus calendarios impecables
             DateTimePicker1.MinDate = New Date(vFecha1Enero, 1, 1)
             DateTimePicker1.Value = New Date(vFecha1Enero, 1, 1)
             DateTimePicker2.MinDate = New Date(vFecha1Enero, 1, 1)
         Else
-            ' 1. Convertimos el año a número entero de forma segura
+            ' =========================================================================
+            ' TU LÓGICA DEL ELSE (MANTENIDA PORQUE YA ESTÁ ADAPTADA Y ES PERFECTA)
+            ' =========================================================================
             Dim anio As Integer
             If Not Integer.TryParse(vAñoEjercicio, anio) Then
-                ' Salvavidas: si falla o está vacío, usa el año actual
                 anio = Date.Today.Year
             End If
 
-            ' 2. Asignamos el año a tus variables del formulario
             vFecha1Enero = anio
             vFecha31Diciembre = anio
 
-            ' 3. Creamos los objetos de fecha una sola vez para mejorar el rendimiento
             Dim fechaInicio As New Date(anio, 1, 1)
             Dim fechaFin As New Date(anio, 12, 31)
 
-            ' 4. Configuramos el primer DateTimePicker
             DateTimePicker1.MinDate = fechaInicio
             DateTimePicker1.MaxDate = fechaFin
             DateTimePicker1.Value = fechaInicio
 
-            ' 5. Configuramos el segundo DateTimePicker
             DateTimePicker2.MinDate = fechaInicio
             DateTimePicker2.MaxDate = fechaFin
             DateTimePicker2.Value = fechaFin
 
-            ' 6. Tu lógica original de la interfaz
             BtnFechasClick = "NO"
             BtnFechasFondo.Visible = False
         End If
@@ -1678,195 +1407,53 @@ Public Class ApuntesContables
     Private Sub BtnEditarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEditarRegistro.Click
         filaActual = frmApuntesContables.DgvApuntes.CurrentRow.Index
         vTxtNombre = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(1).Value.ToString
+
+        ' Rescatamos el ID único del apunte desde la celda oculta de tu nueva estructura (Celda 7 u 8 según tu Grid)
+        ' Si vCodigo sigue funcionando como buscador único, lo mantenemos intacto
         vCodigo = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(7).Value.ToString
 
-        If vTxtNombre = "SALDO" Then
-            MsgBox(rmse.GetString("MsgSaldos2"))
+        ' Comparación segura respetando las traducciones del sistema
+        Dim palabraSaldoMayusculas As String = resManager.GetString("Saldo")?.ToUpper()
+        If String.IsNullOrEmpty(palabraSaldoMayusculas) Then palabraSaldoMayusculas = "SALDO"
+
+        If vTxtNombre.ToUpper() = palabraSaldoMayusculas Then
+            MsgBox(resManager.GetString("MsgSaldos2"))
         Else
             ' Comprobamos si existe un identificador asociado.
             If ((frmEditarApuntes Is Nothing) OrElse (Not frmEditarApuntes.IsHandleCreated)) Then
                 frmEditarApuntes = New EditarApuntes
             End If
-            ' Llamamos al formulario de manera modal.
+
+            ' Llamamos al formulario de manera modal en modo edición
             vEditar = "SI"
             frmEditarApuntes.ShowDialog()
-            'MessageBox.Show("Se ha cerrado el formulario.")
-            ' Destruimos el formulario.
             frmEditarApuntes.Dispose()
-            If ListBox1.SelectedItems.Count <> 0 Then
-                Dim i As Integer
-                vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
-                If BtnFechasClick = "SI" Then
-                    vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
-                Else
-                    vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-                End If
-                For i = 0 To ListBox1.SelectedItems.Count - 1
-                    vConcepto = ListBox1.SelectedItems(i).ToString
-                    If i = 0 Then
-                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
-                        If BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
-                        End If
-                        If BtnFiltroFecha.Enabled = False Then
-                            vDate1 = DateTimePicker1.Value.Date
-                            vDate2 = DateTimePicker2.Value.Date
-                            vtipoSql += " And apuntes.FechaAPU >= ?"
-                            vtipoSql += " And apuntes.FechaAPU <= ?"
-                        End If
-                    Else
-                        vtipoSql += " Or "
-                        If BtnFechasClick = "SI" Then
-                            vtipoSql += "apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
-                        Else
-                            vtipoSql += "apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-                        End If
-                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
-                        If BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
-                        End If
-                        If BtnFiltroFecha.Enabled = False Then
-                            vDate1 = DateTimePicker1.Value.Date
-                            vDate2 = DateTimePicker2.Value.Date
-                            vtipoSql += " And apuntes.FechaAPU >= ?"
-                            vtipoSql += " And apuntes.FechaAPU <= ?"
-                        End If
-                    End If
-                Next
-            Else
-                vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
-                If BtnFechasClick = "SI" Then
-                    vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
-                Else
-                    vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-                End If
-                If BtnFiltroCuenta.Enabled = False Then
-                    vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
-                End If
-                If BtnFiltroConcepto.Enabled = False Then
-                    vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text.Replace("'", "''") & "' "
-                End If
-                If BtnFiltroFecha.Enabled = False Then
-                    vDate1 = DateTimePicker1.Value.Date
-                    vDate2 = DateTimePicker2.Value.Date
-                    vtipoSql += " And apuntes.FechaAPU >= ?"
-                    vtipoSql += " And apuntes.FechaAPU <= ?"
-                End If
-            End If
-            vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
-            vtipoGrid = "APUNTES_CONTABLES"
-            LlenarGrid(vtipoSql, vtipoGrid, "1")
-            TraducirGridApuntesBD(Me.DgvApuntes)
-            If DgvApuntes.Rows.Count <> 0 Then
+
+            ' =========================================================================
+            ' 🌟 EXCELENTE OPTIMIZACIÓN: ADIÓS AL CÓDIGO REDUNDANTE
+            ' =========================================================================
+            ' Disparamos tu rutina pública para refrescar el Grid con IDs y traducciones
+            RefrescarGridApuntesContables()
+
+            ' Reposicionamos el foco en el registro que el usuario acaba de editar
+            If DgvApuntes.Rows.Count > 0 Then
+                Dim filaEncontrada As Integer = 0
                 For Each row As DataGridViewRow In DgvApuntes.Rows
+                    ' Sincronizamos contra el código identificador único
                     If CStr(row.Cells(7).Value) = vCodigo Then
-                        vRow = row.Index
+                        filaEncontrada = row.Index
                         Exit For
-                    Else
-                        vRow = row.Index
                     End If
                 Next
-                DgvApuntes.Rows(vRow).Selected = True
-                DgvApuntes.CurrentCell = DgvApuntes.Rows(vRow).Cells(0)
+
+                DgvApuntes.Rows(filaEncontrada).Selected = True
+                DgvApuntes.CurrentCell = DgvApuntes.Rows(filaEncontrada).Cells(0)
             End If
         End If
     End Sub
 
     Private Sub DgvApuntes_DoubleClick(sender As Object, e As EventArgs) Handles DgvApuntes.DoubleClick
-        filaActual = frmApuntesContables.DgvApuntes.CurrentRow.Index
-        vTxtNombre = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(1).Value.ToString
-        vCodigo = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(7).Value.ToString
-
-        If vTxtNombre = "SALDO" Then
-            MsgBox(rmse.GetString("MsgSaldos2"))
-        Else
-            ' Comprobamos si existe un identificador asociado.
-            If ((frmEditarApuntes Is Nothing) OrElse (Not frmEditarApuntes.IsHandleCreated)) Then
-                frmEditarApuntes = New EditarApuntes
-            End If
-            ' Llamamos al formulario de manera modal.
-            vEditar = "SI"
-            frmEditarApuntes.ShowDialog()
-            'MessageBox.Show("Se ha cerrado el formulario.")
-            ' Destruimos el formulario.
-            frmEditarApuntes.Dispose()
-            If ListBox1.SelectedItems.Count <> 0 Then
-                Dim i As Integer
-                vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
-                If BtnFechasClick = "SI" Then
-                    vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
-                Else
-                    vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-                End If
-                For i = 0 To ListBox1.SelectedItems.Count - 1
-                    vConcepto = ListBox1.SelectedItems(i).ToString
-                    If i = 0 Then
-                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
-                        If BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
-                        End If
-                        If BtnFiltroFecha.Enabled = False Then
-                            vDate1 = DateTimePicker1.Value.Date
-                            vDate2 = DateTimePicker2.Value.Date
-                            vtipoSql += " And apuntes.FechaAPU >= ?"
-                            vtipoSql += " And apuntes.FechaAPU <= ?"
-                        End If
-                    Else
-                        vtipoSql += " Or "
-                        If BtnFechasClick = "SI" Then
-                            vtipoSql += "apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
-                        Else
-                            vtipoSql += "apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-                        End If
-                        vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
-                        If BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
-                        End If
-                        If BtnFiltroFecha.Enabled = False Then
-                            vDate1 = DateTimePicker1.Value.Date
-                            vDate2 = DateTimePicker2.Value.Date
-                            vtipoSql += " And apuntes.FechaAPU >= ?"
-                            vtipoSql += " And apuntes.FechaAPU <= ?"
-                        End If
-                    End If
-                Next
-            Else
-                vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
-                If BtnFechasClick = "SI" Then
-                    vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
-                Else
-                    vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-                End If
-                If BtnFiltroCuenta.Enabled = False Then
-                    vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
-                End If
-                If BtnFiltroConcepto.Enabled = False Then
-                    vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text.Replace("'", "''") & "' "
-                End If
-                If BtnFiltroFecha.Enabled = False Then
-                    vDate1 = DateTimePicker1.Value.Date
-                    vDate2 = DateTimePicker2.Value.Date
-                    vtipoSql += " And apuntes.FechaAPU >= ?"
-                    vtipoSql += " And apuntes.FechaAPU <= ?"
-                End If
-            End If
-            vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
-            vtipoGrid = "APUNTES_CONTABLES"
-            LlenarGrid(vtipoSql, vtipoGrid, "1")
-            TraducirGridApuntesBD(Me.DgvApuntes)
-            If DgvApuntes.Rows.Count <> 0 Then
-                For Each row As DataGridViewRow In DgvApuntes.Rows
-                    If CStr(row.Cells(7).Value) = vCodigo Then
-                        vRow = row.Index
-                        Exit For
-                    Else
-                        vRow = row.Index
-                    End If
-                Next
-                DgvApuntes.Rows(vRow).Selected = True
-                DgvApuntes.CurrentCell = DgvApuntes.Rows(vRow).Cells(0)
-            End If
-        End If
+        BtnEditarRegistro.PerformClick()
     End Sub
 
     Private Sub BtnImprimir_Click(sender As Object, e As EventArgs) Handles BtnImprimir.Click
@@ -1903,7 +1490,7 @@ Public Class ApuntesContables
             End If
         Catch ex As Exception
             ' Si la ruta de Preferencias apunta a un pendrive desconectado o carpeta sin permisos, detenemos el proceso
-            MessageBox.Show(rmse.GetString("ErrorCrearRuta") & " " & ex.Message, rmse.GetString("$this.Text"), MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(resManager.GetString("ErrorCrearRuta") & " " & ex.Message, rmse.GetString("$this.Text"), MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End Try
 
@@ -2182,7 +1769,15 @@ Public Class ApuntesContables
                     End If
                 ElseIf vCampo = 4 Then
                     If frmBuscar.ChkExacta.Checked = False Then
-                        If CStr(row.Cells(5).Value).ToLower.Contains(vBuscar.ToLower) Then
+
+                        ' 🌟 LA CORRECCIÓN CLAVE: Usamos .ToString() y controlamos el nulo de forma segura
+                        Dim textoNotas As String = ""
+                        If row.Cells(5).Value IsNot Nothing AndAlso Not IsDBNull(row.Cells(5).Value) Then
+                            textoNotas = row.Cells(5).Value.ToString().Trim()
+                        End If
+
+                        ' Ahora la comparación es 100% inmune a celdas vacías
+                        If textoNotas.ToLower().Contains(vBuscar.ToLower()) Then
                             row.Selected = True
                             vRow = row.Index
                             Exit For
@@ -2329,36 +1924,77 @@ Public Class ApuntesContables
     End Sub
 
     Private Sub BtnFiltroF5_Click(sender As Object, e As EventArgs) Handles BtnFiltroF5.Click
-        'Filtra Apuntes por la Descripción Seleccionada
-        '**********************************************
+        ' Filtra Apuntes por la Descripción Seleccionada
+        ' **********************************************
         If DgvApuntes.Rows.Count > 1 Then
             filaActual = frmApuntesContables.DgvApuntes.CurrentRow.Index
             vTxtDescripcion = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(2).Value.ToString
-            ' Llamamos al formulario de manera modal.
+
+            ' Llamamos al formulario de manera modal
             frmFiltroF5.ShowDialog()
+
             If frmFiltroF5.TxtFiltro.Text <> "" Then
+                ' 🌟 SANEAMIENTO PREVENTIVO: Limpiamos la memoria de consultas anteriores
+                cmdMdb1cr.Parameters.Clear()
+
                 vTxtDescripcion = frmFiltroF5.TxtFiltro.Text
-                vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
+
+                ' Buscamos el ID numérico real del concepto "SALDO" de forma segura y aislada
+                Dim idConceptoSaldo As Integer = 1
+                Using cmdBuscarId As New OleDb.OleDbCommand("SELECT IdConceptoCON FROM conceptos WHERE CodigoCON = 'SALDO'", conexion1)
+                    Dim resId = cmdBuscarId.ExecuteScalar()
+                    If resId IsNot Nothing AndAlso Not IsDBNull(resId) Then idConceptoSaldo = Convert.ToInt32(resId)
+                End Using
+
+                ' 🌟 CONSULTA SQL MAESTRA DE 11 CELDAS (Inner Joins para nombres legibles y traducidos)
+                Dim sqlBase As String = "SELECT apuntes.FechaAPU As [FechaAPU], conceptos.DescripcionCON As [ConceptoAPU], apuntes.DescripcionAPU As [DescripcionAPU], apuntes.ImporteAPU As [ImporteAPU], apuntes.ImporteAPU As [SaldoAPU], apuntes.NotasAPU As [NotasAPU], cuentas.NombreCUE As [CuentaAPU], apuntes.CodigoAPU As [CodigoAPU], conceptos.CodigoCON As [CodigoCON], apuntes.ConceptoAPU As [IdConceptoCON], apuntes.CuentaAPU As [IdCuentaCUE] FROM (apuntes INNER JOIN conceptos ON apuntes.ConceptoAPU = conceptos.IdConceptoCON) INNER JOIN cuentas ON apuntes.CuentaAPU = cuentas.IdCuentaCUE"
+                vtipoSql = sqlBase
+
                 If BtnFechasClick = "SI" Then
-                    vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
+                    vtipoSql += $" WHERE apuntes.ConceptoAPU <> {idConceptoSaldo} And apuntes.EjercicioAPU <> 0 "
                 Else
                     vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
                 End If
-                vtipoSql += " And apuntes.DescripcionAPU LIKE '%" & vTxtDescripcion & "%' "
+
+                ' Aplicamos la búsqueda por texto mediante el LIKE (Duplicando comillas por seguridad)
+                vtipoSql += " And apuntes.DescripcionAPU LIKE '%" & vTxtDescripcion.Replace("'", "''") & "%' "
+
+                ' Lógica de filtros secundarios cruzados saneados a IDs numéricos
+                Dim tieneFechasActivo As Boolean = False
+
                 If frmFiltroF5.ChkOtrosFiltros.Checked = True And frmFiltroF5.ChkOtrosFiltros.Enabled = True Then
+                    ' CORRECCIÓN: Filtro por ID de cuenta directo sin comillas
                     If BtnFiltroCuenta.Enabled = False Then
-                        vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
+                        Dim idCuentaSel As Integer = Convert.ToInt32(CmbCuenta.SelectedValue)
+                        vtipoSql += $" And apuntes.CuentaAPU = {idCuentaSel} "
                     End If
+
+                    ' CORRECCIÓN: Filtro por ID de concepto directo sin comillas
                     If BtnFiltroConcepto.Enabled = False Then
-                        vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text.Replace("'", "''") & "' "
+                        Dim idConceptoSel As Integer = Convert.ToInt32(CmbConcepto.SelectedValue)
+                        vtipoSql += $" And apuntes.ConceptoAPU = {idConceptoSel} "
                     End If
+
+                    ' Si las fechas están encendidas, guardamos el booleano para inyectar al final de la SQL
                     If BtnFiltroFecha.Enabled = False Then
-                        vtipoSql += " And apuntes.FechaAPU >= ?"
-                        vtipoSql += " And apuntes.FechaAPU <= ?"
+                        tieneFechasActivo = True
                     End If
                 End If
+
+                ' 🌟 CRÍTICO: Las interrogaciones de fecha van siempre al final absoluto del WHERE lineal de OleDb
+                If tieneFechasActivo Then
+                    vDate1 = DateTimePicker1.Value.Date
+                    vDate2 = DateTimePicker2.Value.Date
+                    vtipoSql += " And apuntes.FechaAPU >= ?"
+                    vtipoSql += " And apuntes.FechaAPU <= ?"
+
+                    cmdMdb1cr.Parameters.AddWithValue("?", vDate1)
+                    cmdMdb1cr.Parameters.AddWithValue("?", vDate2)
+                End If
+
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
                 vtipoGrid = "APUNTES_CONTABLES"
+
                 LlenarGrid(vtipoSql, vtipoGrid, "1")
                 TraducirGridApuntesBD(Me.DgvApuntes)
             End If
@@ -2368,12 +2004,22 @@ Public Class ApuntesContables
     Private Sub BtnF6_Click(sender As Object, e As EventArgs) Handles BtnF6.Click
         'Vuelve a Refrecar el DataGrid y dejar los Btn de los Filtros sin Filtrar
         '************************************************************************
-        vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
-        If BtnFechasClick = "SI" Then
-            vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
-        Else
-            vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-        End If
+        vtipoSql = "SELECT apuntes.FechaAPU As [FechaAPU], " &  'Celda 0
+           "conceptos.DescripcionCON As [ConceptoAPU], " & ' Celda 1 (Texto visible)
+           "apuntes.DescripcionAPU As [DescripcionAPU], " & ' Celda 2
+           "apuntes.ImporteAPU As [ImporteAPU], " &       ' Celda 3
+           "apuntes.ImporteAPU As [SaldoAPU], " &         ' Celda 4
+           "apuntes.NotasAPU As [NotasAPU], " &           ' Celda 5
+           "cuentas.NombreCUE As [CuentaAPU], " &         ' Celda 6 (Texto visible)
+           "apuntes.CodigoAPU As [CodigoAPU], " &         ' Celda 7
+           "conceptos.CodigoCON As [CodigoCON], " &       ' Celda 8 (¡CORREGIDO! Clave estable para resManager)
+           "apuntes.ConceptoAPU As [IdConceptoCON], " &   ' Celda 9 (ID numérico concepto para guardar)
+           "apuntes.CuentaAPU As [IdCuentaCUE] " &        ' Celda 10 (ID numérico cuenta para guardar)
+           "FROM (apuntes " &
+           "INNER JOIN conceptos ON apuntes.ConceptoAPU = conceptos.IdConceptoCON) " &
+           "INNER JOIN cuentas ON apuntes.CuentaAPU = cuentas.IdCuentaCUE"
+
+        vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
         vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
         vtipoGrid = "APUNTES_CONTABLES"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
@@ -2472,7 +2118,7 @@ Public Class ApuntesContables
     Private Sub SeguirF3()
         vCantidadFilas = DgvApuntes.RowCount
         If vRow + 1 = vCantidadFilas Then
-            MsgBox(rmse.GetString("MsgDatos2"))
+            MsgBox(resManager.GetString("MsgDatos2"))
             BtnSeguirBuscando.Enabled = False
         Else
             vContador = -1
@@ -2574,7 +2220,7 @@ Public Class ApuntesContables
                 End If
             Next
             If vRowSeguir = -1 Then
-                MsgBox(rmse.GetString("MsgDatos2"))
+                MsgBox(resManager.GetString("MsgDatos2"))
                 BtnSeguirBuscando.Enabled = False
             Else
                 vRow = vRowSeguir

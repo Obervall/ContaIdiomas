@@ -769,4 +769,25 @@ O arquivo não está aberto</value>
   <data name="SaldoInicial" xml:space="preserve">
     <value>Balanço de abertura</value>
   </data>
+  <data name="ErrorCargarCONyCUE" xml:space="preserve">
+    <value>Conceitos ou contas de carregamento de erros na introdução</value>
+  </data>
+  <data name="ErrorSincronizarCON" xml:space="preserve">
+    <value>Conceito de sincronização de erros</value>
+  </data>
+  <data name="ErrorRefrecarCON" xml:space="preserve">
+    <value>Erro ao atualizar a combinação de conceitos</value>
+  </data>
+  <data name="ErrorLlenarCmbDescripcion" xml:space="preserve">
+    <value>Erro preenchendo a Descrição do Combo</value>
+  </data>
+  <data name="ErrorActualizarApunte" xml:space="preserve">
+    <value>Erro atualizando a entrada</value>
+  </data>
+  <data name="AvisoNoHayRegistrosEjercicio" xml:space="preserve">
+    <value>Nota: Não há inscrições publicadas para a conta selecionada para este exercício</value>
+  </data>
+  <data name="ErrorCrearRuta" xml:space="preserve">
+    <value>Rota de Criação de Erro</value>
+  </data>
 </root>
