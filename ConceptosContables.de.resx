@@ -121,7 +121,7 @@
     <value>(Ungefiltert)</value>
   </data>
   <data name="Label1.Text" xml:space="preserve">
-    <value>Zul.:</value>
+    <value>Eintr.:</value>
   </data>
   <data name="GroupBox1.Text" xml:space="preserve">
     <value>Aufzeichnungen</value>
@@ -170,5 +170,8 @@
   </data>
   <data name="Nota_TRASPASO" xml:space="preserve">
     <value>Konzept des Systems für die Überweisung zwischen Bankkonten, verwendet für Geldautomatenabhebungen...</value>
+  </data>
+  <data name="Nota_SALDO" xml:space="preserve">
+    <value>Systemkonzept für die Eröffnungsbilanz</value>
   </data>
 </root>

@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="LblEditando.Text" xml:space="preserve">
-    <value>APUNTE CONTABLE</value>
+    <value>EDITANDO APUNTE CONTABLE</value>
   </data>
   <data name="Label7.Text" xml:space="preserve">
     <value>€</value>
@@ -161,5 +161,11 @@
   </data>
   <data name="SeguroEliminarRegistro" xml:space="preserve">
     <value>¿Estas seguro de Eliminar el Apunte Periódico seleccionado?</value>
+  </data>
+  <data name="LblEliminando" xml:space="preserve">
+    <value>¡¡ ELIMINAR APUNTE PERIÓDICO !!</value>
+  </data>
+  <data name="ErrorEliminarApuntePeriodico" xml:space="preserve">
+    <value>Error al eliminar el apunte periódico</value>
   </data>
 </root>

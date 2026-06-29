@@ -157,7 +157,7 @@
     <value>Erreur lors de la suppression des budgets liés à l’élément comptable</value>
   </data>
   <data name="Label1.Text" xml:space="preserve">
-    <value>Règ.:</value>
+    <value>Reg.:</value>
   </data>
   <data name="Concepto" xml:space="preserve">
     <value>Concept</value>

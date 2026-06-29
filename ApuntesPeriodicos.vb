@@ -1,13 +1,19 @@
-﻿Imports System.Diagnostics
+﻿Imports System.Data
+Imports System.Data.OleDb
+Imports System.Diagnostics
 Imports System.Windows.Forms
 
 Public Class ApuntesPeriodicos
 
+    Private cargandoFormulario As Boolean = True
     Public vConcepto, vtipoSql, vtipoGrid, vTxtNombre As String
     Public vRow, vRowSeguir, vCampo, vContador, vCantidadFilas, filaSelec As Integer
+    Public TL(19) As ToolTip
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub ApuntesPeriodicos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        cargandoFormulario = True
+
         Me.KeyPreview = True
         ' 1. Convertimos el año base de forma segura
         Dim anioBase As Integer
@@ -39,363 +45,266 @@ Public Class ApuntesPeriodicos
         DateTimePicker1.Value = fechaInicio
         DateTimePicker2.Value = fechaFin
 
-        Dim TL(15) As ToolTip
         TL(0) = New ToolTip
-        TL(0).SetToolTip(Me.BtnFiltroCuenta, "Aplica el filtro a los Registros")
+        TL(0).SetToolTip(Me.BtnFiltroCuenta, resManager.GetString("ToolTipAplicarFiltro"))
         TL(1) = New ToolTip
-        TL(1).SetToolTip(Me.BtnSinFiltroCuenta, "Quitar el filtro a los Registros")
+        TL(1).SetToolTip(Me.BtnSinFiltroCuenta, resManager.GetString("ToolTipQuitarFiltro"))
         TL(2) = New ToolTip
-        TL(2).SetToolTip(Me.BtnFiltroConcepto, "Aplica el filtro a los Registros")
+        TL(2).SetToolTip(Me.BtnFiltroConcepto, resManager.GetString("ToolTipAplicarFiltro"))
         TL(3) = New ToolTip
-        TL(3).SetToolTip(Me.BtnSinFiltroConcepto, "Quitar el filtro a los Registros")
+        TL(3).SetToolTip(Me.BtnSinFiltroConcepto, resManager.GetString("ToolTipQuitarFiltro"))
         TL(4) = New ToolTip
-        TL(4).SetToolTip(Me.BtnFiltroFecha, "Aplica el filtro a los Registros")
+        TL(4).SetToolTip(Me.BtnFiltroFecha, resManager.GetString("ToolTipAplicarFiltro"))
         TL(5) = New ToolTip
-        TL(5).SetToolTip(Me.BtnSinFiltroFecha, "Quitar el filtro a los Registros")
+        TL(5).SetToolTip(Me.BtnSinFiltroFecha, resManager.GetString("ToolTipQuitarFiltro"))
         TL(6) = New ToolTip
-        TL(6).SetToolTip(Me.BtnAñadirRegistro, "Añadir Registro")
+        TL(6).SetToolTip(Me.BtnAñadirRegistro, resManager.GetString("ToolTipAñadir"))
         TL(7) = New ToolTip
-        TL(7).SetToolTip(Me.BtnEditarRegistro, "Editar Registro")
+        TL(7).SetToolTip(Me.BtnEditarRegistro, resManager.GetString("ToolTipEditar"))
         TL(8) = New ToolTip
-        TL(8).SetToolTip(Me.BtnEliminarRegistro, "Eliminar Registro")
+        TL(8).SetToolTip(Me.BtnEliminarRegistro, resManager.GetString("ToolTipEliminar"))
         TL(9) = New ToolTip
-        TL(9).SetToolTip(Me.BtnBuscarRegistro, "Buscar")
+        TL(9).SetToolTip(Me.BtnBuscarRegistro, resManager.GetString("ToolTipBuscar"))
         TL(10) = New ToolTip
-        TL(10).SetToolTip(Me.BtnSeguirBuscando, "Pulsar para Seguir Buscando o F3")
+        TL(10).SetToolTip(Me.BtnSeguirBuscando, resManager.GetString("ToolTipSeguirBuscando"))
         TL(11) = New ToolTip
-        TL(11).SetToolTip(Me.BtnImprimir, "Imprimir")
+        TL(11).SetToolTip(Me.BtnImprimir, resManager.GetString("ToolTipImprimir"))
         TL(12) = New ToolTip
-        TL(12).SetToolTip(Me.BtnGraficos, "Mostrar Gráficos")
+        TL(12).SetToolTip(Me.BtnGraficos, resManager.GetString("ToolTipGraficos"))
         TL(13) = New ToolTip
-        TL(13).SetToolTip(Me.BtnCalculadora, "Activar la Calculadora")
+        TL(13).SetToolTip(Me.BtnCalculadora, resManager.GetString("ToolTipCalculadora"))
         TL(14) = New ToolTip
-        TL(14).SetToolTip(Me.BtnSalir, "Salir de Apuntes Contables")
+        TL(14).SetToolTip(Me.BtnSalir, resManager.GetString("ToolTipSalir"))
         TL(15) = New ToolTip
-        TL(15).SetToolTip(Me.BtnEliminaSeleccion, "Suprimir las Filas Seleccionadas de la parilla, " & vbCrLf & "No se eliminan de la Base de Datos")
+        TL(15).SetToolTip(Me.BtnPrimero, resManager.GetString("ToolTipPrimero"))
+        TL(16) = New ToolTip
+        TL(16).SetToolTip(Me.BtnAnterior, resManager.GetString("ToolTipAnterior"))
+        TL(17) = New ToolTip
+        TL(17).SetToolTip(Me.BtnSiguiente, resManager.GetString("ToolTipSiguiente"))
+        TL(18) = New ToolTip
+        TL(18).SetToolTip(Me.BtnUltimo, resManager.GetString("ToolTipUltimo"))
+        TL(19) = New ToolTip
+        TL(19).SetToolTip(Me.BtnEliminaSeleccion, resManager.GetString("ToolTipEliminaSeleccion"))
 
-        ' Llenar Grid de APUNTES al cargra el programa
-        '**********************************************
-        vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper"
+        cmdMdb1cr.Parameters.Clear()
+
+        ' =========================================================================
+        ' 🌟 1. CONSULTA SQL MAESTRA RELACIONAL (Tu diseño perfecto adaptado a apuper)
+        ' =========================================================================
+        ' Traemos las 11 celdas biológicas para que la rejilla muestre nombres claros en mayúsculas
+        vtipoSql = "SELECT apuper.FechaAPP As [FechaAPP], " &
+                   "conceptos.DescripcionCON As [ConceptoAPP], " &
+                   "apuper.DescripcionAPP As [DescripcionAPP], " &
+                   "apuper.ImporteAPP As [ImporteAPP], " &
+                   "apuper.ImporteAPP As [SaldoAPP], " &
+                   "apuper.NotasAPP As [NotasAPP], " &
+                   "cuentas.NombreCUE As [CuentaAPP], " &
+                   "apuper.CodigoAPP As [CodigoAPP], " & ' Tu Autonumérico identificador único
+                   "conceptos.CodigoCON As [CodigoCON], " &
+                   "apuper.ConceptoAPP As [IdConceptoCON], " &
+                   "apuper.CuentaAPP As [IdCuentaCUE] " &
+                   "FROM (apuper " &
+                   "INNER JOIN conceptos ON apuper.ConceptoAPP = conceptos.IdConceptoCON) " &
+                   "INNER JOIN cuentas ON apuper.CuentaAPP = cuentas.IdCuentaCUE"
+
         vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
-        vtipoSql += " ORDER BY apuper.FechaAPP ASC"
+        vtipoSql += " ORDER BY apuper.FechaAPP ASC" ', apuper.ImporteAPP ASC"
+
         vtipoGrid = "APUNTES_PERIODICOS"
+
+        ' Volcamos los datos relacionales traducidos en tu DataGridView
         LlenarGrid(vtipoSql, vtipoGrid, "1")
+        TraducirGridApuntesBD(Me.DgvApuper)
 
-        ' Llenar el Combo Concepto
-        '*************************
-        cmdMdb1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
+        ' =========================================================================
+        ' 🌟 RECARGA DE COMBOS DE LA NUEVA ERA (Inmune a NullReference y Ordenado A-Z)
+        ' =========================================================================
         Try
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-            If drMdb1.HasRows Then
-                While drMdb1.Read()
-                    CmbConcepto.Items.Add(drMdb1.GetValue(0))
-                End While
-                CmbConcepto.Text = CmbConcepto.Items(0)
-            Else
-                'MsgBox("No existen registros en " & tipoSql)
-            End If
-            drMdb1.Close()
-        Catch ex As Exception
-            MsgBox(ex.ToString)
-        End Try
+            ' 2. LLAMADA SEGURA: Usamos la nueva función exclusiva para combos sin ListBox
+            LlenarComboConceptosSueltosBD(Me.CmbConcepto)
 
-        ' Llenar el Combo Cuenta
-        '***********************
-        cmdMdb1cr.CommandText = "SELECT * FROM cuentas ORDER BY cuentas.NombreCUE ASC"
-        Try
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-            If drMdb1.HasRows Then
-                While drMdb1.Read()
-                    CmbCuenta.Items.Add(drMdb1.GetValue(0))
-                End While
-                CmbCuenta.Text = CmbCuenta.Items(0)
-            Else
-                'MsgBox("No existen registros en " & tipoSql)
+            ' 3. Llamamos a la función genérica de tu módulo para las cuentas
+            LlenarComboCuentasGenerico(Me.CmbCuenta)
+
+            ' 4. Apagamos el escudo tras la carga exitosa en memoria RAM
+            cargandoFormulario = False
+
+            ' 5. SELECCIÓN INICIAL SEGURA: Forzamos el vaivén para sincronizar descripciones
+            If CmbConcepto.Items.Count > 0 Then
+                CmbConcepto.SelectedIndex = -1
+                CmbConcepto.SelectedIndex = 0
             End If
-            drMdb1.Close()
+            If CmbCuenta.Items.Count > 0 Then
+                CmbCuenta.SelectedIndex = -1
+                CmbCuenta.SelectedIndex = 0
+            End If
+
         Catch ex As Exception
-            MsgBox(ex.ToString)
+            cargandoFormulario = False
+            MsgBox("Error al inicializar los combos periódicos: " & ex.Message, MsgBoxStyle.Critical)
         End Try
 
         ' Llenar el Combo Campos
         '***********************
         frmBuscar.CmbCampos.Items.Clear()
         frmBuscar.CmbCampos.Items.Add(resManager.GetString("Todos_Los_Campos"))
+
         For Each columna As DataGridViewColumn In DgvApuper.Columns
-            If columna.Name <> "ImporteAPP" And columna.Name <> "ImporteAPP1" And columna.Name <> "CuentaAPP" And columna.Name <> "CodigoAPP" Then
+            If columna.Name <> "ImporteAPP" And columna.Name <> "SaldoAPP" And columna.Name <> "CuentaAPP" And columna.Name <> "CodigoAPP" And columna.Name <> "CodigoCON" And columna.Name <> "IdConceptoCON" And columna.Name <> "IdCuentaCUE" Then
                 frmBuscar.CmbCampos.Items.Add(columna.HeaderText)
             End If
         Next
+
+        ' 🌟 PASO CRÍTICO 2: Apagamos el escudo al terminar con éxito
+        cargandoFormulario = False
     End Sub
 
     Private Sub BtnFiltroCuenta_Click(sender As Object, e As EventArgs) Handles BtnFiltroCuenta.Click
+        ' 1. Modificamos el estado estético de los botones de la pantalla
         BtnFiltroCuenta.Enabled = False
         BtnSinFiltroCuenta.Enabled = True
-        vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper"
-        vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
-        vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text.Replace("'", "''") & "' "
-        If BtnFiltroConcepto.Enabled = False Then
-            vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text.Replace("'", "''") & "' "
-        End If
-        If BtnFiltroFecha.Enabled = False Then
-            vDate1 = DateTimePicker1.Value.Date
-            vDate2 = DateTimePicker2.Value.Date
-            vtipoSql += " And apuper.FechaAPP >= ?"
-            vtipoSql += " And apuper.FechaAPP <= ?"
-        End If
-        vtipoSql += " ORDER BY apuper.FechaAPP ASC"
-        vtipoGrid = "APUNTES_PERIODICOS"
-        LlenarGrid(vtipoSql, vtipoGrid, "1")
+
+        ' 2. 🚀 TRUCO MAESTRO: Delegamos todo en la rutina unificada relacional a IDs
+        RefrescarGridApuntesPeriodicos()
     End Sub
 
     Private Sub BtnFiltroConcepto_Click(sender As Object, e As EventArgs) Handles BtnFiltroConcepto.Click
+        ' 1. Modificamos el estado estético de los botones de la pantalla
         BtnFiltroConcepto.Enabled = False
         BtnSinFiltroConcepto.Enabled = True
-        vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper"
-        vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
-        vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text.Replace("'", "''") & "' "
-        If BtnFiltroCuenta.Enabled = False Then
-            vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text.Replace("'", "''") & "' "
-        End If
-        If BtnFiltroFecha.Enabled = False Then
-            vDate1 = DateTimePicker1.Value.Date
-            vDate2 = DateTimePicker2.Value.Date
-            vtipoSql += " And apuper.FechaAPP >= ?"
-            vtipoSql += " And apuper.FechaAPP <= ?"
-        End If
-        vtipoSql += " ORDER BY apuper.FechaAPP ASC"
-        vtipoGrid = "APUNTES_PERIODICOS"
-        LlenarGrid(vtipoSql, vtipoGrid, "1")
+
+        ' 2. 🚀 TRUCO MAESTRO: Delegamos todo en la rutina unificada relacional a IDs
+        RefrescarGridApuntesPeriodicos()
     End Sub
 
     Private Sub BtnFiltroFecha_Click(sender As Object, e As EventArgs) Handles BtnFiltroFecha.Click
+        ' 1. Modificamos el estado estético de los botones de la pantalla
         BtnFiltroFecha.Enabled = False
         BtnSinFiltroFecha.Enabled = True
-        vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper"
-        vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
-        vDate1 = DateTimePicker1.Value.Date
-        vDate2 = DateTimePicker2.Value.Date
-        vtipoSql += " And apuper.FechaAPP >= ?"
-        vtipoSql += " And apuper.FechaAPP <= ?"
-        If BtnFiltroCuenta.Enabled = False Then
-            vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text.Replace("'", "''") & "' "
-        End If
-        If BtnFiltroConcepto.Enabled = False Then
-            vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text.Replace("'", "''") & "' "
-        End If
-        vtipoSql += " ORDER BY apuper.FechaAPP ASC"
-        vtipoGrid = "APUNTES_PERIODICOS"
-        LlenarGrid(vtipoSql, vtipoGrid, "1")
+
+        ' 2. 🚀 TRUCO MAESTRO: Delegamos todo en la rutina unificada relacional a IDs
+        RefrescarGridApuntesPeriodicos()
     End Sub
 
     Private Sub BtnSinFiltroCuenta_Click(sender As Object, e As EventArgs) Handles BtnSinFiltroCuenta.Click
+        ' 1. Restauramos el estado estético de la botonería
         BtnFiltroCuenta.Enabled = True
         BtnSinFiltroCuenta.Enabled = False
-        vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper"
-        vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
-        vtipoSql += " And apuper.CuentaAPP <> '' "
-        If BtnFiltroConcepto.Enabled = False Then
-            vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text.Replace("'", "''") & "' "
-        End If
-        If BtnFiltroFecha.Enabled = False Then
-            vDate1 = DateTimePicker1.Value.Date
-            vDate2 = DateTimePicker2.Value.Date
-            vtipoSql += " And apuper.FechaAPP >= ?"
-            vtipoSql += " And apuper.FechaAPP <= ?"
-        End If
-        vtipoSql += " ORDER BY apuper.FechaAPP ASC"
-        vtipoGrid = "APUNTES_PERIODICOS"
-        LlenarGrid(vtipoSql, vtipoGrid, "1")
+
+        ' 2. 🚀 TRUCO MAESTRO: Delegamos todo en la rutina unificada relacional a IDs
+        RefrescarGridApuntesPeriodicos()
     End Sub
 
     Private Sub BtnSinFiltroConcepto_Click(sender As Object, e As EventArgs) Handles BtnSinFiltroConcepto.Click
-        ' Llenar el Combo Concepto
-        '*************************
-        cmdMdb1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
-        Try
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-            If drMdb1.HasRows Then
-                While drMdb1.Read()
-                    CmbConcepto.Items.Add(drMdb1.GetValue(0))
-                End While
-                CmbConcepto.Text = CmbConcepto.Items(0)
-            Else
-                'MsgBox("No existen registros en " & tipoSql)
-            End If
-            drMdb1.Close()
-        Catch ex As Exception
-            MsgBox(ex.ToString)
-        End Try
+        ' 1. Restauramos el estado estético de la botonería
+        ' 🌟 ¡CORREGIDO!: Eliminamos el bucle While destructivo que borraba los IDs del combo
         BtnFiltroConcepto.Enabled = True
         BtnSinFiltroConcepto.Enabled = False
-        vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper"
-        vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
-        vtipoSql += " And apuper.ConceptoAPP <> '' "
-        If BtnFiltroCuenta.Enabled = False Then
-            vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text.Replace("'", "''") & "' "
-        End If
-        If BtnFiltroFecha.Enabled = False Then
-            vDate1 = DateTimePicker1.Value.Date
-            vDate2 = DateTimePicker2.Value.Date
-            vtipoSql += " And apuper.FechaAPP >= ?"
-            vtipoSql += " And apuper.FechaAPP <= ?"
-        End If
-        vtipoSql += " ORDER BY apuper.FechaAPP ASC"
-        vtipoGrid = "APUNTES_PERIODICOS"
-        LlenarGrid(vtipoSql, vtipoGrid, "1")
+
+        ' 2. 🚀 TRUCO MAESTRO: Delegamos todo en la rutina unificada relacional a IDs
+        RefrescarGridApuntesPeriodicos()
     End Sub
 
     Private Sub BtnSinFiltroFecha_Click(sender As Object, e As EventArgs) Handles BtnSinFiltroFecha.Click
+        ' 1. Devolvemos los calendarios a sus límites anuales por defecto
         DateTimePicker1.Value = New Date(vFecha1Enero, 1, 1)
         DateTimePicker2.Value = New Date(vFecha31Diciembre, 12, 31)
+
+        ' 2. Restauramos el estado estético de la botonería
         BtnFiltroFecha.Enabled = True
         BtnSinFiltroFecha.Enabled = False
-        vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper"
-        vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
-        If BtnFiltroCuenta.Enabled = False Then
-            vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text.Replace("'", "''") & "' "
-        End If
-        If BtnFiltroConcepto.Enabled = False Then
-            vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text.Replace("'", "''") & "' "
-        End If
-        vtipoSql += " ORDER BY apuper.FechaAPP ASC"
-        vtipoGrid = "APUNTES_PERIODICOS"
-        LlenarGrid(vtipoSql, vtipoGrid, "1")
+
+        ' 3. 🚀 TRUCO MAESTRO: Delegamos todo en la rutina unificada relacional a IDs
+        RefrescarGridApuntesPeriodicos()
     End Sub
 
     Private Sub CmbCuenta_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbCuenta.SelectedIndexChanged
+        ' 🌟 ESCUDO PROTECTOR: Bloquea ejecuciones prematuras en el Load
+        If cargandoFormulario Then Exit Sub
+        If CmbCuenta.SelectedIndex < 0 Then Exit Sub
+
+        ' Si el botón de filtro de cuenta está activo, refrescamos la rejilla
         If BtnFiltroCuenta.Enabled = False Then
-            vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper"
-            vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
-            vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text.Replace("'", "''") & "' "
-            If BtnFiltroConcepto.Enabled = False Then
-                vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text.Replace("'", "''") & "' "
-            End If
-            If BtnFiltroFecha.Enabled = False Then
-                vDate1 = DateTimePicker1.Value.Date
-                vDate2 = DateTimePicker2.Value.Date
-                vtipoSql += " And apuper.FechaAPP >= ?"
-                vtipoSql += " And apuper.FechaAPP <= ?"
-            End If
-            vtipoSql += " ORDER BY apuper.FechaAPP ASC"
-            vtipoGrid = "APUNTES_PERIODICOS"
-            LlenarGrid(vtipoSql, vtipoGrid, "1")
-        End If
-    End Sub
-
-    Private Sub DateTimePicker1_ValueChanged(sender As Object, e As EventArgs) Handles DateTimePicker1.ValueChanged
-        If BtnFiltroFecha.Enabled = False Then
-            vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper"
-            vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
-            vDate1 = DateTimePicker1.Value.Date
-            vDate2 = DateTimePicker2.Value.Date
-            vtipoSql += " And apuper.FechaAPP >= ?"
-            vtipoSql += " And apuper.FechaAPP <= ?"
-            If BtnFiltroCuenta.Enabled = False Then
-                vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text.Replace("'", "''") & "' "
-            End If
-            If BtnFiltroConcepto.Enabled = False Then
-                vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text.Replace("'", "''") & "' "
-            End If
-            vtipoSql += " ORDER BY apuper.FechaAPP ASC"
-            vtipoGrid = "APUNTES_PERIODICOS"
-            LlenarGrid(vtipoSql, vtipoGrid, "1")
-        End If
-    End Sub
-
-    Private Sub DateTimePicker2_ValueChanged(sender As Object, e As EventArgs) Handles DateTimePicker2.ValueChanged
-        If BtnFiltroFecha.Enabled = False Then
-            vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper"
-            vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
-            vDate1 = DateTimePicker1.Value.Date
-            vDate2 = DateTimePicker2.Value.Date
-            vtipoSql += " And apuper.FechaAPP >= ?"
-            vtipoSql += " And apuper.FechaAPP <= ?"
-            If BtnFiltroCuenta.Enabled = False Then
-                vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text.Replace("'", "''") & "' "
-            End If
-            If BtnFiltroConcepto.Enabled = False Then
-                vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text.Replace("'", "''") & "' "
-            End If
-            vtipoSql += " ORDER BY apuper.FechaAPP ASC"
-            vtipoGrid = "APUNTES_PERIODICOS"
-            LlenarGrid(vtipoSql, vtipoGrid, "1")
+            RefrescarGridApuntesPeriodicos()
         End If
     End Sub
 
     Private Sub CmbConcepto_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbConcepto.SelectedIndexChanged
-        ' Se buscan Conceptos según lo seleccionado
-        '******************************************
-        vConcepto = CmbConcepto.Text.ToString
-        drMdb1.Close()
-        cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto.Replace("'", "''") & "' "
-        drMdb1 = cmdMdb1cr.ExecuteReader()
-        drMdb1.Read()
-        TxtConcepto.Text = drMdb1.GetValue(1)
-        drMdb1.Close()
-        If BtnFiltroConcepto.Enabled = False Then
-            vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper"
-            vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
-            vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text.Replace("'", "''") & "' "
-            If BtnFiltroCuenta.Enabled = False Then
-                vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text.Replace("'", "''") & "' "
+        ' 🌟 ESCUDO PROTECTOR: Bloquea ejecuciones prematuras en el Load
+        If cargandoFormulario Then Exit Sub
+        If CmbConcepto.SelectedIndex < 0 Then Exit Sub
+
+        Try
+            ' Extraemos los datos de la fila seleccionada directamente desde la RAM
+            If CmbConcepto.SelectedItem IsNot Nothing Then
+                Dim filaSeleccionada As DataRowView = CType(CmbConcepto.SelectedItem, DataRowView)
+
+                ' Rellenamos el cuadro de texto del concepto de forma limpia
+                TxtConcepto.Text = filaSeleccionada("CodigoCON").ToString().Trim()
             End If
-            If BtnFiltroFecha.Enabled = False Then
-                vDate1 = DateTimePicker1.Value.Date
-                vDate2 = DateTimePicker2.Value.Date
-                vtipoSql += " And apuper.FechaAPP >= ?"
-                vtipoSql += " And apuper.FechaAPP <= ?"
+
+            ' Si el botón de filtro de concepto está activo, refrescamos la rejilla
+            If BtnFiltroConcepto.Enabled = False Then
+                RefrescarGridApuntesPeriodicos()
             End If
-            vtipoSql += " ORDER BY apuper.FechaAPP ASC"
-            vtipoGrid = "APUNTES_PERIODICOS"
-            LlenarGrid(vtipoSql, vtipoGrid, "1")
+
+        Catch ex As Exception
+            ' Manejo silencioso de interfaz
+        End Try
+    End Sub
+
+    Private Sub DateTimePicker1_ValueChanged(sender As Object, e As EventArgs) Handles DateTimePicker1.ValueChanged
+        ' 🌟 ESCUDO PROTECTOR: Si el formulario está cargando o reseteando fechas, salimos
+        If cargandoFormulario Then Exit Sub
+
+        ' Si el botón de filtro de fecha está activo, refrescamos la rejilla con IDs
+        If BtnFiltroFecha.Enabled = False Then
+            ' 🚀 TRUCO MAESTRO: Delegamos todo en la rutina unificada relacional
+            RefrescarGridApuntesPeriodicos()
+        End If
+    End Sub
+
+    Private Sub DateTimePicker2_ValueChanged(sender As Object, e As EventArgs) Handles DateTimePicker2.ValueChanged
+        ' 🌟 ESCUDO PROTECTOR: Si el formulario está cargando o reseteando fechas, salimos
+        If cargandoFormulario Then Exit Sub
+
+        ' Si el botón de filtro de fecha está activo, refrescamos la rejilla con IDs
+        If BtnFiltroFecha.Enabled = False Then
+            ' 🚀 TRUCO MAESTRO: Delegamos todo en la rutina unificada relacional
+            RefrescarGridApuntesPeriodicos()
         End If
     End Sub
 
     Private Sub BtnEliminarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEliminarRegistro.Click
+        ' 1. Validamos de forma preventiva que haya una fila seleccionada en la rejilla
+        If frmApuntesPeriodicos.DgvApuper.CurrentRow Is Nothing Then Exit Sub
+
         filaActual = frmApuntesPeriodicos.DgvApuper.CurrentRow.Index
-        vTxtNombre = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(1).Value.ToString
+        vTxtNombre = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(1).Value.ToString()
 
         ' Comprobamos si existe un identificador asociado.
         If ((frmEditarApuntesPeriodicos Is Nothing) OrElse (Not frmEditarApuntesPeriodicos.IsHandleCreated)) Then
             frmEditarApuntesPeriodicos = New EditarApuntesPeriodicos
         End If
-        ' Llamamos al formulario de manera modal.
+
+        ' Llamamos al formulario de manera modal en modo borrado
         vEditar = "NO"  ' Eliminar
         frmEditarApuntesPeriodicos.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
         frmEditarApuntesPeriodicos.Dispose()
 
-        vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper"
-        vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
-        If frmApuntesPeriodicos.BtnFiltroCuenta.Enabled = False Then
-            vtipoSql += " And apuper.CuentaAPP = '" & frmApuntesPeriodicos.CmbCuenta.Text & "' "
-        End If
-        If frmApuntesPeriodicos.BtnFiltroConcepto.Enabled = False Then
-            vtipoSql += " And apuper.ConceptoAPP = '" & frmApuntesPeriodicos.CmbConcepto.Text & "' "
-        End If
-        If frmApuntesPeriodicos.BtnFiltroFecha.Enabled = False Then
-            vDate1 = frmApuntesPeriodicos.DateTimePicker1.Value.Date
-            vDate2 = frmApuntesPeriodicos.DateTimePicker2.Value.Date
-            vtipoSql += " And apuper.FechaAPP >= ?"
-            vtipoSql += " And apuper.FechaAPP <= ?"
-        End If
-        vtipoSql += " ORDER BY apuper.FechaAPP ASC"
-        vtipoGrid = "APUNTES_PERIODICOS"
-        LlenarGrid(vtipoSql, vtipoGrid, "1")
-    End Sub
+        ' =========================================================================
+        ' 🌟 OPTIMIZACIÓN DE LA NUEVA ERA: REUTILIZACIÓN TOTAL
+        ' =========================================================================
+        ' Borramos más de 20 líneas redundantes y delegamos todo en la rutina limpia.
+        ' Ella se encargará de recalcular los filtros con IDs y pintar el Grid relacional
+        RefrescarGridApuntesPeriodicos()
 
-    Private Sub BtnImprimir_Click(sender As Object, e As EventArgs) Handles BtnImprimir.Click
-        ' Comprobamos si existe un identificador asociado.
-        If ((frmTipoInformeApuntesPeriodicos Is Nothing) OrElse (Not frmTipoInformeApuntesPeriodicos.IsHandleCreated)) Then
-            frmTipoInformeApuntesPeriodicos = New TipoInformeApuntesPeriodicos
+        ' Foco automático seguro en la última fila del Grid tras el refresco
+        If frmApuntesPeriodicos.DgvApuper.RowCount > 0 Then
+            Dim ultimaFila As Integer = frmApuntesPeriodicos.DgvApuper.RowCount - 1
+            frmApuntesPeriodicos.DgvApuper.Rows(ultimaFila).Selected = True
+            frmApuntesPeriodicos.DgvApuper.CurrentCell = frmApuntesPeriodicos.DgvApuper.Rows(ultimaFila).Cells(0)
         End If
-        ' Llamamos al formulario de manera modal.
-        frmTipoInformeApuntesPeriodicos.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
-        frmTipoInformeApuntesPeriodicos.Dispose()
     End Sub
 
     Private Sub BtnGraficos_Click(sender As Object, e As EventArgs) Handles BtnGraficos.Click
@@ -433,38 +342,34 @@ Public Class ApuntesPeriodicos
     End Sub
 
     Private Sub BtnEditarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEditarRegistro.Click
+        ' 1. Validamos de forma preventiva que haya una fila seleccionada en la rejilla
+        If frmApuntesPeriodicos.DgvApuper.CurrentRow Is Nothing Then Exit Sub
+
         filaActual = frmApuntesPeriodicos.DgvApuper.CurrentRow.Index
-        vTxtNombre = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(1).Value.ToString
+        vTxtNombre = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(1).Value.ToString()
 
         ' Comprobamos si existe un identificador asociado.
         If ((frmEditarApuntesPeriodicos Is Nothing) OrElse (Not frmEditarApuntesPeriodicos.IsHandleCreated)) Then
             frmEditarApuntesPeriodicos = New EditarApuntesPeriodicos
         End If
-        ' Llamamos al formulario de manera modal.
+
+        ' Llamamos al formulario de manera modal en modo edición
         vEditar = "SI"
         frmEditarApuntesPeriodicos.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
         frmEditarApuntesPeriodicos.Dispose()
-        vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper"
-        vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
-        If BtnFiltroCuenta.Enabled = False Then
-            vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text.Replace("'", "''") & "' "
+
+        ' =========================================================================
+        ' 🌟 OPTIMIZACIÓN DE LA NUEVA ERA: REUTILIZACIÓN TOTAL
+        ' =========================================================================
+        ' Borramos todo el laberinto de líneas duplicadas y delegamos en la rutina limpia
+        RefrescarGridApuntesPeriodicos()
+
+        ' 2. REPOSICIONAMIENTO SEGURO: Volvemos a colocar el cursor en la fila editada
+        ' Validamos que la fila siga existiendo tras el refresco para evitar desbordamientos
+        If DgvApuper.Rows.Count > 0 AndAlso filaActual < DgvApuper.Rows.Count Then
+            DgvApuper.Rows(filaActual).Selected = True
+            DgvApuper.CurrentCell = DgvApuper.Rows(filaActual).Cells(0)
         End If
-        If BtnFiltroConcepto.Enabled = False Then
-            vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text.Replace("'", "''") & "' "
-        End If
-        If BtnFiltroFecha.Enabled = False Then
-            vDate1 = DateTimePicker1.Value.Date
-            vDate2 = DateTimePicker2.Value.Date
-            vtipoSql += " And apuper.FechaAPP >= ?"
-            vtipoSql += " And apuper.FechaAPP <= ?"
-        End If
-        vtipoSql += " ORDER BY apuper.FechaAPP ASC"
-        vtipoGrid = "APUNTES_PERIODICOS"
-        LlenarGrid(vtipoSql, vtipoGrid, "1")
-        DgvApuper.CurrentCell = DgvApuper.Rows(filaActual).Cells(0)
-        DgvApuper.Rows(filaActual).Selected = True
     End Sub
 
     Private Sub BtnBuscarRegistro_Click(sender As Object, e As EventArgs) Handles BtnBuscarRegistro.Click
@@ -906,38 +811,40 @@ Public Class ApuntesPeriodicos
     End Sub
 
     Private Sub DgvApuper_DoubleClick(sender As Object, e As EventArgs) Handles DgvApuper.DoubleClick
-        filaActual = frmApuntesPeriodicos.DgvApuper.CurrentRow.Index
-        vTxtNombre = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(1).Value.ToString
+        BtnEditarRegistro.PerformClick()
 
-        ' Comprobamos si existe un identificador asociado.
-        If ((frmEditarApuntesPeriodicos Is Nothing) OrElse (Not frmEditarApuntesPeriodicos.IsHandleCreated)) Then
-            frmEditarApuntesPeriodicos = New EditarApuntesPeriodicos
-        End If
-        ' Llamamos al formulario de manera modal.
-        vEditar = "SI"
-        frmEditarApuntesPeriodicos.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
-        frmEditarApuntesPeriodicos.Dispose()
-        vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper"
-        vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
-        If BtnFiltroCuenta.Enabled = False Then
-            vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text.Replace("'", "''") & "' "
-        End If
-        If BtnFiltroConcepto.Enabled = False Then
-            vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text.Replace("'", "''") & "' "
-        End If
-        If BtnFiltroFecha.Enabled = False Then
-            vDate1 = DateTimePicker1.Value.Date
-            vDate2 = DateTimePicker2.Value.Date
-            vtipoSql += " And apuper.FechaAPP >= ?"
-            vtipoSql += " And apuper.FechaAPP <= ?"
-        End If
-        vtipoSql += " ORDER BY apuper.FechaAPP ASC"
-        vtipoGrid = "APUNTES_PERIODICOS"
-        LlenarGrid(vtipoSql, vtipoGrid, "1")
-        DgvApuper.CurrentCell = DgvApuper.Rows(filaActual).Cells(0)
-        DgvApuper.Rows(filaActual).Selected = True
+        'filaActual = frmApuntesPeriodicos.DgvApuper.CurrentRow.Index
+        'vTxtNombre = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(1).Value.ToString
+
+        '' Comprobamos si existe un identificador asociado.
+        'If ((frmEditarApuntesPeriodicos Is Nothing) OrElse (Not frmEditarApuntesPeriodicos.IsHandleCreated)) Then
+        '    frmEditarApuntesPeriodicos = New EditarApuntesPeriodicos
+        'End If
+        '' Llamamos al formulario de manera modal.
+        'vEditar = "SI"
+        'frmEditarApuntesPeriodicos.ShowDialog()
+        ''MessageBox.Show("Se ha cerrado el formulario.")
+        '' Destruimos el formulario.
+        'frmEditarApuntesPeriodicos.Dispose()
+        'vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper"
+        'vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
+        'If BtnFiltroCuenta.Enabled = False Then
+        '    vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text.Replace("'", "''") & "' "
+        'End If
+        'If BtnFiltroConcepto.Enabled = False Then
+        '    vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text.Replace("'", "''") & "' "
+        'End If
+        'If BtnFiltroFecha.Enabled = False Then
+        '    vDate1 = DateTimePicker1.Value.Date
+        '    vDate2 = DateTimePicker2.Value.Date
+        '    vtipoSql += " And apuper.FechaAPP >= ?"
+        '    vtipoSql += " And apuper.FechaAPP <= ?"
+        'End If
+        'vtipoSql += " ORDER BY apuper.FechaAPP ASC"
+        'vtipoGrid = "APUNTES_PERIODICOS"
+        'LlenarGrid(vtipoSql, vtipoGrid, "1")
+        'DgvApuper.CurrentCell = DgvApuper.Rows(filaActual).Cells(0)
+        'DgvApuper.Rows(filaActual).Selected = True
     End Sub
 
     Private Sub CmbConcepto_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbConcepto.KeyPress
@@ -947,4 +854,61 @@ Public Class ApuntesPeriodicos
     Private Sub CmbCuenta_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbCuenta.KeyPress
         e.KeyChar = Char.ToUpper(e.KeyChar)
     End Sub
+
+    Private Sub BtnImprimir_Click(sender As Object, e As EventArgs) Handles BtnImprimir.Click
+        ' Comprobamos si existe un identificador asociado.
+        If ((frmTipoInformeApuntesPeriodicos Is Nothing) OrElse (Not frmTipoInformeApuntesPeriodicos.IsHandleCreated)) Then
+            frmTipoInformeApuntesPeriodicos = New TipoInformeApuntesPeriodicos
+        End If
+        ' Llamamos al formulario de manera modal.
+        frmTipoInformeApuntesPeriodicos.ShowDialog()
+        'MessageBox.Show("Se ha cerrado el formulario.")
+        ' Destruimos el formulario.
+        frmTipoInformeApuntesPeriodicos.Dispose()
+    End Sub
+
+    Public Sub RefrescarGridApuntesPeriodicos()
+        ' 🌟 SANEAMIENTO PREVENTIVO: Limpiamos la memoria de consultas anteriores
+        cmdMdb1cr.Parameters.Clear()
+
+        ' Guardamos en booleanos el estado de tus botones de filtro de la pantalla
+        Dim filtroCuentaActivo As Boolean = (BtnFiltroCuenta.Enabled = False)
+        Dim filtroConceptoActivo As Boolean = (BtnFiltroConcepto.Enabled = False)
+        Dim filtroFechaActivo As Boolean = (BtnFiltroFecha.Enabled = False)
+
+        ' 🌟 CONSULTA SQL MAESTRA RELACIONAL DE 11 CELDAS (Nombres traducidos y legibles)
+        vtipoSql = "SELECT apuper.FechaAPP As [FechaAPU], conceptos.DescripcionCON As [ConceptoAPU], apuper.DescripcionAPP As [DescripcionAPU], apuper.ImporteAPP As [ImporteAPU], apuper.ImporteAPP As [SaldoAPU], apuper.NotasAPP As [NotasAPU], cuentas.NombreCUE As [CuentaAPU], apuper.CodigoAPP As [CodigoAPU], conceptos.CodigoCON As [CodigoCON], apuper.ConceptoAPP As [IdConceptoCON], apuper.CuentaAPP As [IdCuentaCUE] FROM (apuper INNER JOIN conceptos ON apuper.ConceptoAPP = conceptos.IdConceptoCON) INNER JOIN cuentas ON apuper.CuentaAPP = cuentas.IdCuentaCUE"
+
+        vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
+
+        ' 1. FILTRO POR ID NUMÉRICO DE CUENTA (SelectedValue puro de la RAM)
+        If filtroCuentaActivo AndAlso CmbCuenta.SelectedValue IsNot Nothing Then
+            Dim idCuentaSel As Integer = Convert.ToInt32(CmbCuenta.SelectedValue)
+            vtipoSql += $" And apuper.CuentaAPP = {idCuentaSel} "
+        End If
+
+        ' 2. FILTRO POR ID NUMÉRICO DE CONCEPTO (SelectedValue puro de la RAM)
+        If filtroConceptoActivo AndAlso CmbConcepto.SelectedValue IsNot Nothing Then
+            Dim idConceptoSel As Integer = Convert.ToInt32(CmbConcepto.SelectedValue)
+            vtipoSql += $" And apuper.ConceptoAPP = {idConceptoSel} "
+        End If
+
+        ' 3. FILTRO DE FECHAS PARÁMETRIZADO AL FINAL DE LA SQL
+        If filtroFechaActivo Then
+            vDate1 = DateTimePicker1.Value.Date
+            vDate2 = DateTimePicker2.Value.Date
+            vtipoSql += " And apuper.FechaAPP >= ?"
+            vtipoSql += " And apuper.FechaAPP <= ?"
+
+            cmdMdb1cr.Parameters.AddWithValue("?", vDate1)
+            cmdMdb1cr.Parameters.AddWithValue("?", vDate2)
+        End If
+
+        vtipoSql += " ORDER BY apuper.FechaAPP ASC"
+        vtipoGrid = "APUNTES_PERIODICOS"
+
+        LlenarGrid(vtipoSql, vtipoGrid, "1")
+        TraducirGridApuntesBD(Me.DgvApuper)
+    End Sub
+
 End Class

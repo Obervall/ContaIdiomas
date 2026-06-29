@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="LblEditando.Text" xml:space="preserve">
-    <value>NOTA CONTABILÍSTICA</value>
+    <value>EDITANDO ENTRADA CONTÁBIL</value>
   </data>
   <data name="Label7.Text" xml:space="preserve">
     <value>€</value>
@@ -161,5 +161,11 @@
   </data>
   <data name="SeguroEliminarRegistro" xml:space="preserve">
     <value>Você tem certeza de que vai deletar a Entrada Periódica selecionada?</value>
+  </data>
+  <data name="LblEliminando" xml:space="preserve">
+    <value>APAGUE A NOTA PERIÓDICA!!</value>
+  </data>
+  <data name="ErrorEliminarApuntePeriodico" xml:space="preserve">
+    <value>Erro ao excluir uma entrada periódica</value>
   </data>
 </root>

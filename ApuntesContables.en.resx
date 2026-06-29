@@ -148,7 +148,7 @@
     <value>Dates</value>
   </data>
   <data name="Label1.Text" xml:space="preserve">
-    <value>Reg.:</value>
+    <value>Rec.:</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Accounting Entries</value>

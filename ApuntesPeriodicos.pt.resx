@@ -121,7 +121,7 @@
     <value>(Não filtrado)</value>
   </data>
   <data name="Label1.Text" xml:space="preserve">
-    <value>Reg. Não.:</value>
+    <value>Reg.:</value>
   </data>
   <data name="GroupBox1.Text" xml:space="preserve">
     <value>Registros</value>

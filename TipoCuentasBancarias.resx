@@ -223,7 +223,7 @@
     <value>0</value>
   </data>
   <data name="Label1.Text" xml:space="preserve">
-    <value>Nº de Reg.:</value>
+    <value>Reg.:</value>
   </data>
   <data name="&gt;&gt;Label1.Name" xml:space="preserve">
     <value>Label1</value>

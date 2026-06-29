@@ -14,6 +14,7 @@ Public Class Buscar
     End Sub
 
     Private Sub BtnCancelar_Click(sender As Object, e As EventArgs) Handles BtnCancelar.Click
+        Me.DialogResult = DialogResult.Cancel
         Me.Close()
     End Sub
 
@@ -27,6 +28,7 @@ Public Class Buscar
     Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click
         vBuscar = CmbTextoBuscar.Text
         CmbTextoBuscar.Items.Add(vBuscar)
+        Me.DialogResult = DialogResult.OK
         Me.Close()
     End Sub
 

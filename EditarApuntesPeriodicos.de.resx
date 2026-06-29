@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="LblEditando.Text" xml:space="preserve">
-    <value>BUCHHALTUNGSHINWEIS</value>
+    <value>BEARBEITUNG DES BUCHHALTUNGSEINTRAGS</value>
   </data>
   <data name="Label7.Text" xml:space="preserve">
     <value>€</value>
@@ -161,5 +161,11 @@
   </data>
   <data name="SeguroEliminarRegistro" xml:space="preserve">
     <value>Bist du sicher, dass du den ausgewählten periodischen Eintrag löschst?</value>
+  </data>
+  <data name="LblEliminando" xml:space="preserve">
+    <value>PERIODISCHE NOTIZ LÖSCHEN!!</value>
+  </data>
+  <data name="ErrorEliminarApuntePeriodico" xml:space="preserve">
+    <value>Fehler beim Löschen periodischer Eintrag</value>
   </data>
 </root>

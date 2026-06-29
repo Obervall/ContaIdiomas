@@ -157,7 +157,7 @@
     <value>Error in Deleting Budgets Related to the Accounting Item</value>
   </data>
   <data name="Label1.Text" xml:space="preserve">
-    <value>Reg.:</value>
+    <value>Rec.:</value>
   </data>
   <data name="Concepto" xml:space="preserve">
     <value>Concept</value>

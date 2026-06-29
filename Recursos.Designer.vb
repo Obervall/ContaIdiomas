@@ -713,6 +713,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Saldo inicial.
+    '''</summary>
+    Friend Shared ReadOnly Property Desc_SALDO() As String
+        Get
+            Return ResourceManager.GetString("Desc_SALDO", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Seguro Casa.
     '''</summary>
     Friend Shared ReadOnly Property Desc_SEGURO_CASA() As String
@@ -913,6 +922,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Error al cargar descripciones históricas.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorCargarDescripciones() As String
+        Get
+            Return ResourceManager.GetString("ErrorCargarDescripciones", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Error durante la eliminación en cascada.
     '''</summary>
     Friend Shared ReadOnly Property ErrorConceptoYRegistrosEliminados() As String
@@ -999,6 +1017,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property ErrorGrabarTemporal() As String
         Get
             Return ResourceManager.GetString("ErrorGrabarTemporal", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Error al inicializar los desplegables de edición periódica.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorIniciaDesplegables() As String
+        Get
+            Return ResourceManager.GetString("ErrorIniciaDesplegables", resourceCulture)
         End Get
     End Property
     

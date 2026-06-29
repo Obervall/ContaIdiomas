@@ -121,7 +121,7 @@
     <value>Ohne Filter</value>
   </data>
   <data name="Label1.Text" xml:space="preserve">
-    <value>Zeile.:</value>
+    <value>Eintr.:</value>
   </data>
   <data name="GroupBox1.Text" xml:space="preserve">
     <value>Register</value>

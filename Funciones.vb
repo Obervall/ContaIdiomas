@@ -477,7 +477,7 @@ Module Funciones
                 End If
                 Dim Tabla As New DataTable
                 adp.Fill(Tabla)
-                frmApuntesPeriodicos.DgvApuper.DataSource = ""
+                frmApuntesPeriodicos.DgvApuper.DataSource = Nothing
                 frmApuntesPeriodicos.DgvApuper.DataSource = Tabla
             End Using
             With frmApuntesPeriodicos.DgvApuper
@@ -486,6 +486,9 @@ Module Funciones
                 .DefaultCellStyle.BackColor = Color.White
                 .DefaultCellStyle.SelectionForeColor = Color.White
                 .DefaultCellStyle.SelectionBackColor = Color.Blue
+                .ScrollBars = ScrollBars.Both
+                .AllowUserToResizeColumns = True
+                .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
                 ' arreglamos columnas
                 '********************
                 .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
@@ -501,21 +504,28 @@ Module Funciones
                 .Columns(4).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight
                 .Columns(0).DefaultCellStyle.Format = "dd/MM/yyyy"
                 .Columns(0).Width = 100
-                .Columns(0).HeaderText = "Fecha"
-                .Columns(1).Width = 200
-                .Columns(1).HeaderText = "Concepto"
-                .Columns(2).Width = 250
-                .Columns(2).HeaderText = "Descripción"
-                .Columns(3).Width = 100
-                .Columns(3).HeaderText = "Importe(" & vMoneda & ")"
-                .Columns(4).Width = 90
-                .Columns(4).HeaderText = "Saldo(" & vMoneda & ")"
-                .Columns(5).Width = 145
-                .Columns(5).HeaderText = "Notas"
+                .Columns(0).HeaderText = resManager.GetString("Fecha") ' "Fecha"
+                .Columns(1).Width = 150
+                .Columns(1).HeaderText = resManager.GetString("Concepto") ' "Concepto"
+                .Columns(2).Width = 200
+                .Columns(2).HeaderText = resManager.GetString("Descripcion") ' "Descripción"
+                .Columns(3).Width = 120
+                .Columns(3).HeaderText = resManager.GetString("Importe") & " " & vMoneda
+                .Columns(4).Width = 120
+                .Columns(4).HeaderText = resManager.GetString("Saldo") & " " & vMoneda
+                .Columns(5).Width = 140
+                .Columns(5).HeaderText = resManager.GetString("Notas") ' "Notas"
                 .Columns(6).Width = 140
-                .Columns(6).HeaderText = "Cuenta"
+                .Columns(6).HeaderText = resManager.GetString("Cuenta") ' "Cuenta"
                 .Columns(7).Width = 0
-                .Columns(7).HeaderText = "Código"
+                .Columns(7).HeaderText = resManager.GetString("Codigo") ' "Código"
+                ' Ocultamos por completo las columnas técnicas que usa el traductor por debajo
+                If .ColumnCount >= 11 Then
+                    .Columns(7).Visible = False  ' [CodigoAPU] (Mejor que Width = 0 por seguridad)
+                    .Columns(8).Visible = False  ' IdConceptoCON
+                    .Columns(9).Visible = False ' DescripcionCON
+                    .Columns(10).Visible = False ' IdCuentaCUE
+                End If
             End With
             'Llama a la función
             DgvApuntesPeriodicos()
@@ -2922,5 +2932,60 @@ Module Funciones
             Return MsgBoxResult.No
         End If
     End Function
+
+    ''' <summary>
+    ''' Llama, traduce y ordena de la A a la Z un combo de conceptos de forma relacional pura (Con IDs)
+    ''' </summary>
+    Public Sub LlenarComboConceptosSueltosBD(ByVal combo As ComboBox)
+        If combo Is Nothing Then Exit Sub
+
+        combo.DataSource = Nothing
+        combo.Items.Clear()
+
+        ' Consulta limpia para traer tus campos de fábrica
+        Dim sql As String = "SELECT IdConceptoCON, CodigoCON, DescripcionCON, TipoCON FROM conceptos ORDER BY CodigoCON ASC"
+        Dim dtConceptos As New DataTable()
+
+        Using cmd As New OleDbCommand(sql, conexion1)
+            Dim dr As OleDbDataReader = Nothing
+            Try
+                dr = cmd.ExecuteReader()
+                dtConceptos.Load(dr)
+            Catch ex As Exception
+                MsgBox("Error al leer conceptos desde el módulo: " & ex.Message, MsgBoxStyle.Critical)
+            Finally
+                If dr IsNot Nothing AndAlso Not dr.IsClosed Then dr.Close()
+            End Try
+        End Using
+
+        ' Creamos la columna virtual para el texto traducido que verá el usuario
+        dtConceptos.Columns.Add("TextoComboCON", GetType(String))
+
+        ' Recorremos las filas para traducir cada concepto con tu resManager
+        For Each fila As DataRow In dtConceptos.Rows
+            Dim codigoOriginal As String = fila("CodigoCON").ToString().Trim()
+            Dim descOriginal As String = fila("DescripcionCON").ToString()
+            Dim textoFinal As String = codigoOriginal ' Salvavidas por defecto
+
+            If resManager IsNot Nothing Then
+                Dim claveRecurso As String = codigoOriginal.Replace(" ", "_")
+                Dim traduccion As String = resManager.GetString(claveRecurso)
+
+                If Not String.IsNullOrEmpty(traduccion) Then
+                    textoFinal = traduccion
+                End If
+            End If
+
+            fila("TextoComboCON") = textoFinal
+        Next
+
+        ' 🌟 TU DESEO CUMPLIDO: Ordenamos alfabéticamente por la traducción en la memoria RAM
+        dtConceptos.DefaultView.Sort = "TextoComboCON ASC"
+
+        ' Vinculamos al ComboBox de forma relacional pura (Con el orden óptimo de Windows Forms)
+        combo.ValueMember = "IdConceptoCON"         ' El número oculto (1, 2, 3...)
+        combo.DisplayMember = "TextoComboCON"       ' Lo que VE el usuario (Traducido y en orden A-Z)
+        combo.DataSource = dtConceptos.DefaultView  ' Enlazamos la vista ordenada de la RAM
+    End Sub
 
 End Module

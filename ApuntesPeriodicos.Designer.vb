@@ -70,6 +70,7 @@ Partial Class ApuntesPeriodicos
         Me.BtnAnterior = New System.Windows.Forms.Button()
         Me.BtnPrimero = New System.Windows.Forms.Button()
         Me.BtnSalir = New System.Windows.Forms.Button()
+        Me.LblApuntes = New System.Windows.Forms.Label()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -349,8 +350,8 @@ Partial Class ApuntesPeriodicos
         Me.DgvApuper.AllowUserToAddRows = False
         Me.DgvApuper.AllowUserToDeleteRows = False
         Me.DgvApuper.AllowUserToResizeRows = False
-        Me.DgvApuper.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         resources.ApplyResources(Me.DgvApuper, "DgvApuper")
+        Me.DgvApuper.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DgvApuper.Name = "DgvApuper"
         Me.DgvApuper.ReadOnly = True
         Me.DgvApuper.RowHeadersVisible = False
@@ -399,10 +400,16 @@ Partial Class ApuntesPeriodicos
         Me.BtnSalir.Name = "BtnSalir"
         Me.BtnSalir.UseVisualStyleBackColor = True
         '
+        'LblApuntes
+        '
+        resources.ApplyResources(Me.LblApuntes, "LblApuntes")
+        Me.LblApuntes.Name = "LblApuntes"
+        '
         'ApuntesPeriodicos
         '
         resources.ApplyResources(Me, "$this")
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
+        Me.Controls.Add(Me.LblApuntes)
         Me.Controls.Add(Me.BtnSalir)
         Me.Controls.Add(Me.GroupBox8)
         Me.Controls.Add(Me.DgvApuper)
@@ -432,6 +439,7 @@ Partial Class ApuntesPeriodicos
         CType(Me.DgvApuper, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox8.ResumeLayout(False)
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -482,4 +490,5 @@ Partial Class ApuntesPeriodicos
     Friend WithEvents BtnPrimero As Windows.Forms.Button
     Friend WithEvents BtnEliminaSeleccion As Windows.Forms.Button
     Friend WithEvents BtnSalir As Windows.Forms.Button
+    Friend WithEvents LblApuntes As Windows.Forms.Label
 End Class

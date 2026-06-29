@@ -1,10 +1,11 @@
-﻿Imports System.Collections.Generic
-Imports System.Data
+﻿Imports System.Data
+Imports System.Data.OleDb
 Imports System.Diagnostics
 Imports System.Windows.Forms
 
 Public Class EditarApuntesPeriodicos
 
+    Private cargandoFormulario As Boolean = True
     Public vConcepto, vtipoSql, vtipoGrid As String
     Public vDescripcionAPU, vNotasAPU, vCuentaAPU As String
     Public vCodigoAPU As Integer
@@ -18,113 +19,93 @@ Public Class EditarApuntesPeriodicos
         Label7.Text = vMoneda
         Dim TL(8) As ToolTip
         TL(0) = New ToolTip
-        TL(0).SetToolTip(Me.BtnHoy, "Ir a Hoy")
+        TL(0).SetToolTip(Me.BtnHoy, resManager.GetString("IrAHoy"))
         TL(1) = New ToolTip
-        TL(1).SetToolTip(Me.BtnEliminar, "Eliminar Registro")
+        TL(1).SetToolTip(Me.BtnEliminar, resManager.GetString("ToolTipEliminar"))
         TL(2) = New ToolTip
-        TL(2).SetToolTip(Me.BtnAceptar, "Aceptar")
+        TL(2).SetToolTip(Me.BtnAceptar, resManager.GetString("ToolTipAceptar"))
         TL(3) = New ToolTip
-        TL(3).SetToolTip(Me.BtnCancelar, "Cancelar la introducción del Apunte")
+        TL(3).SetToolTip(Me.BtnCancelar, resManager.GetString("ToolTipCancelar"))
         TL(4) = New ToolTip
-        TL(4).SetToolTip(Me.CmbConcepto, "Seleccionar el Concepto a la que se refiere la transacción")
+        TL(4).SetToolTip(Me.CmbConcepto, frmEditarApuntes.rmse.GetString("ToolTipSeleccionarConcepto"))
         TL(5) = New ToolTip
-        TL(5).SetToolTip(Me.CmbCuenta, "Seleccionar la Cuenta a la que se refiere la transacción")
+        TL(5).SetToolTip(Me.CmbCuenta, frmEditarApuntes.rmse.GetString("ToolTipSeleccionarCuenta"))
         TL(6) = New ToolTip
-        TL(6).SetToolTip(Me.CmbDescripcion, "Introducir una descripción para el Asiento")
+        TL(6).SetToolTip(Me.CmbDescripcion, frmEditarApuntes.rmse.GetString("ToolTipSeleccionarDescripcion"))
         TL(7) = New ToolTip
-        TL(7).SetToolTip(Me.TxtImporte, "Importe del Asiento")
+        TL(7).SetToolTip(Me.TxtImporte, frmEditarApuntes.rmse.GetString("ToolTipIngresarImporte"))
         TL(8) = New ToolTip
-        TL(8).SetToolTip(Me.BtnCalculadora, "Activar la Calculadora")
+        TL(8).SetToolTip(Me.BtnCalculadora, resManager.GetString("ToolTipCalculadora"))
 
-        ' Llenar el Combo Concepto
-        '*************************
-        cmdMdb1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
+        ' =========================================================================
+        ' 🌟 CARGA DE COMBOS DE LA NUEVA ERA (Con Idiomas, Orden A-Z e IDs Numéricos)
+        ' =========================================================================
+        ' 1. Encendemos tu escudo protector antes de rellenar los componentes
+        cargandoFormulario = True
+        cmdMdb1cr.Parameters.Clear()
+
         Try
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-            If drMdb1.HasRows Then
-                While drMdb1.Read()
-                    CmbConcepto.Items.Add(drMdb1.GetValue(0))
-                End While
-                CmbConcepto.Text = CmbConcepto.Items(0)
-            Else
-                'MsgBox("No existen registros en " & tipoSql)
-            End If
-            drMdb1.Close()
+            ' 2. LLAMADAS SEGURAS: Usamos tus funciones de módulo que cargan DataTables e IDs en microsegundos
+            LlenarComboConceptosSueltosBD(Me.CmbConcepto)
+            LlenarComboCuentasGenerico(Me.CmbCuenta)
         Catch ex As Exception
-            MsgBox(ex.ToString)
+            MsgBox(resManager.GetString("ErrorIniciaDesplegables") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
 
-        ' Llenar el Combo Descripción
-        '****************************
-        cmdMdb1cr.CommandText = "SELECT * FROM apuntes ORDER BY apuntes.DescripcionAPU ASC"
+        ' 3. Llenar el Combo Descripción (Optimizado a la velocidad del rayo con DISTINCT directo de Access)
+        cmdMdb1cr.CommandText = "SELECT DISTINCT DescripcionAPU FROM apuntes WHERE DescripcionAPU <> 'Saldo Inicial' And DescripcionAPU Is Not Null ORDER BY DescripcionAPU ASC"
+        CmbDescripcion.Items.Clear()
         Try
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-            If drMdb1.HasRows Then
-                primero = 1
-                While drMdb1.Read()
-                    If Trim(drMdb1.GetValue(3)) <> "Saldo Inicial" Then
-                        If primero = 1 Then
-                            CmbDescripcion.Items.Add(Trim(drMdb1.GetValue(3)))
-                            primero = 2
-                        Else
-                            nuevo = 0
-                            For i = 0 To CmbDescripcion.Items.Count - 1
-                                If Trim(drMdb1.GetValue(3)) = Trim(CmbDescripcion.Items(i)) Then
-                                    nuevo = 0
-                                    Exit For
-                                Else
-                                    nuevo = 1
-                                End If
-                            Next
-                            If nuevo = 1 Then
-                                CmbDescripcion.Items.Add(Trim(drMdb1.GetValue(3)))
-                                nuevo = 0
-                            End If
-                        End If
+            Using dr As OleDbDataReader = cmdMdb1cr.ExecuteReader()
+                While dr.Read()
+                    Dim descLimpia As String = dr("DescripcionAPU").ToString().Trim()
+                    If Not String.IsNullOrEmpty(descLimpia) Then
+                        CmbDescripcion.Items.Add(descLimpia)
                     End If
                 End While
-            Else
-                'MsgBox("No existen registros en " & tipoSql)
-            End If
-            drMdb1.Close()
+            End Using
         Catch ex As Exception
-            MsgBox(ex.ToString)
+            MsgBox(resManager.GetString("ErrorCargarDescripciones") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
 
-        ' Llenar el Combo Cuenta
-        '***********************
-        cmdMdb1cr.CommandText = "SELECT * FROM cuentas ORDER BY cuentas.NombreCUE ASC"
-        Try
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-            If drMdb1.HasRows Then
-                While drMdb1.Read()
-                    CmbCuenta.Items.Add(drMdb1.GetValue(0))
-                End While
-                CmbCuenta.Text = CmbCuenta.Items(0)
-            Else
-                'MsgBox("No existen registros en " & tipoSql)
-            End If
-            drMdb1.Close()
-        Catch ex As Exception
-            MsgBox(ex.ToString)
-        End Try
-
+        ' =========================================================================
+        ' 🌟 SINCRONIZACIÓN BIOLÓGICA CON LA REJILLA DE ATRÁS POR IDs NUMÉRICOS
+        ' =========================================================================
         filaActual = frmApuntesPeriodicos.DgvApuper.CurrentRow.Index
-        DateTimePicker1.Text = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(0).Value.ToString
-        CmbConcepto.Text = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(1).Value.ToString
-        CmbDescripcion.Text = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(2).Value.ToString
-        vimporteAPU = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(3).Value.ToString
-        vimporteAPU = vimporteAPU
-        TxtImporte.Text = Math.Abs(vimporteAPU).ToString("N2")
-        TxtNota.Text = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(5).Value.ToString
-        CmbCuenta.Text = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(6).Value.ToString
+
+        ' Volcamos los textos directos y la fecha limpia
+        DateTimePicker1.Value = Convert.ToDateTime(frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(0).Value)
+        CmbDescripcion.Text = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(2).Value.ToString()
+        TxtNota.Text = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(5).Value.ToString()
+
+        ' Rescatamos el ID Autonumérico único de este apunte periódico (Celda 7)
         vCodigoAPU = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(7).Value
 
+        ' 🌟 CORRECCIÓN MAESTRA: Seleccionamos en los combos por su ID numérico oculto
+        ' usando SelectedValue. Así viajan emparejados de forma indestructible.
+        ' (Leemos los IDs desde las celdas 9 y 10 de tu macro-consulta relacional de atrás)
+        Dim idConceptoFila As Integer = Convert.ToInt32(frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(9).Value)
+        Dim idCuentaFila As Integer = Convert.ToInt32(frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(10).Value)
+
+        CmbConcepto.SelectedValue = idConceptoFila
+        CmbCuenta.SelectedValue = idCuentaFila
+
+        ' Formateo seguro de los importes contables decimales
+        vimporteAPU = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(3).Value.ToString()
+        Dim importeDecimal As Decimal = ConvertirDecimalSeguro(vimporteAPU)
+        TxtImporte.Text = Math.Abs(importeDecimal).ToString("N2")
+
+        ' 4. Apagamos el escudo protector de forma segura tras la asignación
+        cargandoFormulario = False
+
+        ' =========================================================================
+        ' INTERFAZ ESTÉTICA SEGÚN MODO: EDICIÓN O ELIMINACIÓN (Lógica original perfecta)
+        ' =========================================================================
         If vEditar = "SI" Then
-            LblEditando.Text = "EDITANDO APUNTE PERIODICO"
+            LblEditando.Text = rmse.GetString("LblEditando.Text")
             BtnEliminar.Enabled = False
         Else
-            LblEditando.Text = "¡¡ ELIMINAR APUNTE PERIODICO !!"
+            LblEditando.Text = rmse.GetString("LblEliminando")
             DateTimePicker1.Enabled = False
             CmbConcepto.Enabled = False
             CmbDescripcion.Enabled = False
@@ -137,38 +118,84 @@ Public Class EditarApuntesPeriodicos
     End Sub
 
     Private Sub BtnEliminar_Click(sender As Object, e As EventArgs) Handles BtnEliminar.Click
+        ' 1. Cuadro de confirmación original traducido desde tus recursos (.resx)
         Dim respuesta As MsgBoxResult = MsgBox(rmse.GetString("SeguroEliminarRegistro"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("$this.Text"))
+
         If respuesta = vbYes Then
-            ' Eliminar Registro Apunte
-            vtipoSql = "DELETE FROM apuper"
-            vtipoSql += " WHERE apuper.CodigoAPP = " & CInt(vCodigoAPU)
-            cmdMdb1cr.CommandText = vtipoSql
+            ' 🌟 BORRADO FÍSICO PARAMETRIZADO INDESTRUCTIBLE (Nueva Era Relacional)
+            ' Usamos el comodín '?' para inyectar el ID de forma nativa en el motor de Access
+            cmdMdb1cr.CommandText = "DELETE FROM apuper WHERE CodigoAPP = ?"
+            cmdMdb1cr.Parameters.Clear()
+
+            ' Pasamos el ID Autonumérico único de este apunte periódico (vCodigoAPU)
+            cmdMdb1cr.Parameters.Add("@id", OleDb.OleDbType.Integer).Value = Convert.ToInt32(vCodigoAPU)
 
             Try
                 cmdMdb1cr.ExecuteNonQuery()
                 MsgBox(rmse.GetString("RegistroApuntePeriódicoBorrado"))
             Catch ex As Exception
-                MsgBox(ex.ToString)
+                MsgBox(rmse.GetString("ErrorEliminarApuntePeriodico") & ": " & ex.Message, MsgBoxStyle.Critical)
             End Try
         Else
-            frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Selected = True
-            frmApuntesPeriodicos.DgvApuper.CurrentCell = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(0)
+            ' Si cancela, devolvemos el foco a su sitio original en la rejilla de atrás
+            If frmApuntesPeriodicos.DgvApuper.Rows.Count > 0 AndAlso filaActual < frmApuntesPeriodicos.DgvApuper.Rows.Count Then
+                frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Selected = True
+                frmApuntesPeriodicos.DgvApuper.CurrentCell = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(0)
+            End If
         End If
+
         Me.Close()
     End Sub
 
     Private Sub CmbConcepto_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbConcepto.SelectedIndexChanged
+        ' 🌟 ESCUDO PROTECTOR AUTOMÁTICO: Si el formulario está cargando o limpiando, salimos en microsegundos
+        If cargandoFormulario Then Exit Sub
+        If CmbConcepto.SelectedIndex < 0 Then Exit Sub
 
-        ' Se buscan Conceptos según lo seleccionado
-        '******************************************
-        vConcepto = CmbConcepto.Text.ToString
-        drMdb1.Close()
-        cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto.Replace("'", "''") & "' "
-        drMdb1 = cmdMdb1cr.ExecuteReader()
-        drMdb1.Read()
-        TxtTipoConcepto.Text = drMdb1.GetValue(2)
-        CmbDescripcion.Text = drMdb1.GetValue(1)
-        drMdb1.Close()
+        Try
+            Dim codigoOriginal As String = ""
+            Dim descripcionOriginal As String = ""
+            Dim tipoOriginal As String = ""
+
+            ' 🌟 EXTRACCIÓN MAESTRA DESDE MEMORIA (Cero consultas DataReader a Access)
+            ' Convertimos el ítem seleccionado en un DataRowView para leer sus columnas ocultas en la RAM
+            If CmbConcepto.SelectedItem IsNot Nothing Then
+                Dim filaSeleccionada As DataRowView = CType(CmbConcepto.SelectedItem, DataRowView)
+
+                codigoOriginal = filaSeleccionada("CodigoCON").ToString().Trim()
+                descripcionOriginal = filaSeleccionada("DescripcionCON").ToString().Trim()
+
+                If filaSeleccionada.Row.Table.Columns.Contains("TipoCON") Then
+                    tipoOriginal = filaSeleccionada("TipoCON").ToString().Trim()
+                End If
+            End If
+
+            If Not String.IsNullOrEmpty(codigoOriginal) Then
+                ' Almacenamos el código en tu variable global para tus lógicas de fábrica
+                vConcepto = codigoOriginal
+
+                ' --- TRADUCIR EL TIPO (Gasto / Ingreso / Especial) ---
+                Dim tradTipo As String = ""
+                Select Case tipoOriginal.ToUpper()
+                    Case "GASTO" : tradTipo = resManager.GetString("Tipo_Gasto")
+                    Case "INGRESO" : tradTipo = resManager.GetString("Tipo_Ingreso")
+                    Case "ESPECIAL" : tradTipo = resManager.GetString("Tipo_Especial")
+                End Select
+                If String.IsNullOrEmpty(tradTipo) Then tradTipo = tipoOriginal
+                TxtTipoConcepto.Text = tradTipo
+
+                ' --- TRADUCIR LAS DESCRIPCIONES AUTOMÁTICAS (Desc_NOMBRE) ---
+                Dim llaveDesc As String = "Desc_" & codigoOriginal.Replace(" ", "_")
+                Dim tradDesc As String = resManager.GetString(llaveDesc)
+
+                ' Si no tiene traducción en el ResX, dejamos la descripción genérica de la BD
+                If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
+                CmbDescripcion.Text = tradDesc
+            End If
+
+        Catch ex As Exception
+            ' Evita cuelgues visuales si el combo parpadea en la carga
+        End Try
     End Sub
 
     Private Sub TxtImporte_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtImporte.KeyPress
@@ -206,8 +233,8 @@ Public Class EditarApuntesPeriodicos
         Dim importeDecimal As Decimal = ConvertirDecimalSeguro(TxtImporte.Text)
 
         If importeDecimal <> 0 Then
-            ' 3. Aplicamos el signo aritmético puro (sin concatenar texto "-")
-            If TxtTipoConcepto.Text = "GASTO" Then
+            ' 🌟 PROTECCIÓN DE IDIOMA: Comparamos con el texto original y traducido para que el signo no falle jamás
+            If TxtTipoConcepto.Text.ToUpper() = "GASTO" OrElse TxtTipoConcepto.Text = resManager.GetString("Tipo_Gasto") Then
                 vimporteAPU = -Math.Abs(importeDecimal)
             Else
                 vimporteAPU = Math.Abs(importeDecimal)
@@ -215,83 +242,52 @@ Public Class EditarApuntesPeriodicos
 
             vDate3 = DateTimePicker1.Value.Date
 
-            ' --- FASE 1: EJECUCIÓN DEL UPDATE PARAMETRIZADO ---
+            ' 🌟 EXTRAEMOS LOS IDs NUMÉRICOS PUROS DESDE LOS COMBOS (Nueva era relacional)
+            Dim idConceptoEditado As Integer = Convert.ToInt32(CmbConcepto.SelectedValue)
+            Dim idCuentaEditada As Integer = Convert.ToInt32(CmbCuenta.SelectedValue)
+
+            ' =========================================================================
+            ' 🌟 FASE 1: EJECUCIÓN DEL UPDATE PARAMETRIZADO CON IDs
+            ' =========================================================================
             vtipoSql = "UPDATE apuper SET FechaAPP = ?, ConceptoAPP = ?, DescripcionAPP = ?, ImporteAPP = ?, CuentaAPP = ?, NotasAPP = ? " &
-                       "WHERE apuper.CodigoAPP = ?"
+                       "WHERE CodigoAPP = ?"
             cmdMdb1cr.CommandText = vtipoSql
 
             ' Los parámetros de Access se asocian estrictamente por el orden de los comodines '?'
             cmdMdb1cr.Parameters.Clear()
-            cmdMdb1cr.Parameters.AddWithValue("@FechaAPP", vDate3)
-            cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPP", CmbConcepto.Text.Trim())
-            cmdMdb1cr.Parameters.AddWithValue("@DescripcionAPP", CmbDescripcion.Text.Trim())
+            cmdMdb1cr.Parameters.Add("@fec", OleDb.OleDbType.Date).Value = vDate3
+            cmdMdb1cr.Parameters.Add("@con", OleDb.OleDbType.Integer).Value = idConceptoEditado ' ID Numérico
+            cmdMdb1cr.Parameters.Add("@des", OleDb.OleDbType.VarWChar).Value = CmbDescripcion.Text.Trim()
 
             ' Forzamos formato Currency para evitar conflictos de precisión decimal en Access
             Dim paramImp As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteAPP", OleDb.OleDbType.Currency)
             paramImp.Value = Math.Round(vimporteAPU, 2)
 
-            cmdMdb1cr.Parameters.AddWithValue("@CuentaAPP", CmbCuenta.Text.Trim())
-            cmdMdb1cr.Parameters.AddWithValue("@NotasAPP", TxtNota.Text.Trim())
-            cmdMdb1cr.Parameters.AddWithValue("@CodigoAPP", CInt(vCodigoAPU))
+            cmdMdb1cr.Parameters.Add("@cue", OleDb.OleDbType.Integer).Value = idCuentaEditada     ' ID Numérico
+            cmdMdb1cr.Parameters.Add("@not", OleDb.OleDbType.VarWChar).Value = TxtNota.Text.Trim()
+            cmdMdb1cr.Parameters.Add("@id", OleDb.OleDbType.Integer).Value = Convert.ToInt32(vCodigoAPU)
 
             Try
                 cmdMdb1cr.ExecuteNonQuery()
-                Me.Close()
             Catch ex As Exception
-                MessageBox.Show("Error al actualizar registro: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                Exit Sub ' Si falla el guardado, detenemos el flujo para no romper la grilla
+                MessageBox.Show(resManager.GetString("ErrorActualizarApunte") & ": " & ex.Message, resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub ' Si falla el guardado, detenemos el flujo para no corromper la grilla
             End Try
 
+            ' =========================================================================
+            ' 🌟 FASE 2: REUTILIZACIÓN TOTAL (Borramos 50 líneas basura de filtros manuales)
+            ' =========================================================================
+            ' Delegamos en la rutina mágica unificada de la pantalla principal de periódicos
+            frmApuntesPeriodicos.RefrescarGridApuntesPeriodicos()
 
-            ' --- FASE 2: REFRESCO DE LA GRILLA DINÁMICA Y PARAMETRIZADA ---
-            ' Iniciamos la consulta base
-            vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper " &
-                       "WHERE apuper.EjercicioAPP = ?"
-
-            ' Preparamos una lista temporal para guardar los valores de los parámetros en orden de aparición
-            Dim valoresFiltros As New List(Of Object)()
-            valoresFiltros.Add(CInt(vAñoEjercicio)) ' El primer '?' corresponde al Ejercicio
-
-            ' Filtro Cuenta
-            If frmApuntesPeriodicos.BtnFiltroCuenta.Enabled = False Then
-                vtipoSql += " And apuper.CuentaAPP = ?"
-                valoresFiltros.Add(frmApuntesPeriodicos.CmbCuenta.Text.Trim())
+            ' Reposicionamos la fila seleccionada por el usuario de forma 100% segura
+            If frmApuntesPeriodicos.DgvApuper.Rows.Count > 0 AndAlso filaActual < frmApuntesPeriodicos.DgvApuper.Rows.Count Then
+                frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Selected = True
+                frmApuntesPeriodicos.DgvApuper.CurrentCell = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(0)
             End If
 
-            ' Filtro Concepto
-            If frmApuntesPeriodicos.BtnFiltroConcepto.Enabled = False Then
-                vtipoSql += " And apuper.ConceptoAPP = ?"
-                valoresFiltros.Add(frmApuntesPeriodicos.CmbConcepto.Text.Trim())
-            End If
-
-            ' Filtro Fechas (¡Adiós almohadillas!)
-            If frmApuntesPeriodicos.BtnFiltroFecha.Enabled = False Then
-                vDate1 = frmApuntesPeriodicos.DateTimePicker1.Value.Date
-                vDate2 = frmApuntesPeriodicos.DateTimePicker2.Value.Date
-                vtipoSql += " And apuper.FechaAPP >= ?"
-                vtipoSql += " And apuper.FechaAPP <= ?"
-                valoresFiltros.Add(vDate1)
-                valoresFiltros.Add(vDate2)
-            End If
-
-            vtipoSql += " ORDER BY apuper.FechaAPP ASC, apuper.ImporteAPP ASC"
-            cmdMdb1cr.CommandText = vtipoSql
-
-            ' Inyectamos los parámetros en el comando siguiendo el orden secuencial exacto
-            cmdMdb1cr.Parameters.Clear()
-            For idx As Integer = 0 To valoresFiltros.Count - 1
-                cmdMdb1cr.Parameters.AddWithValue("@P" & idx, valoresFiltros(idx))
-            Next
-
-            ' Cargamos los datos limpios en el Grid
-            vtipoGrid = "APUNTES_PERIODICOS"
-            LlenarGrid(vtipoSql, vtipoGrid, "1")
-
-            ' Reposicionamos la fila seleccionada por el usuario de forma segura
-            If frmApuntesPeriodicos.DgvApuper.Rows.Count > 0 AndAlso vFilaActual < frmApuntesPeriodicos.DgvApuper.Rows.Count Then
-                frmApuntesPeriodicos.DgvApuper.Rows(vFilaActual).Selected = True
-                frmApuntesPeriodicos.DgvApuper.CurrentCell = frmApuntesPeriodicos.DgvApuper.Rows(vFilaActual).Cells(0)
-            End If
+            ' Cerramos la ventana modal de edición con éxito
+            Me.Close()
         Else
             MessageBox.Show(frmIntroApuntes.rmse.GetString("NoQuantityAmount"), "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             TxtImporte.Select()

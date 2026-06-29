@@ -124,7 +124,7 @@
     <value>Concept:</value>
   </data>
   <data name="LblEditando.Text" xml:space="preserve">
-    <value>ACCOUNTING NOTE</value>
+    <value>EDITING ACCOUNTING ENTRY</value>
   </data>
   <data name="Label7.Text" xml:space="preserve">
     <value>€</value>
@@ -161,5 +161,11 @@
   </data>
   <data name="SeguroEliminarRegistro" xml:space="preserve">
     <value>Are you sure to Delete the selected Periodic Entry?</value>
+  </data>
+  <data name="LblEliminando" xml:space="preserve">
+    <value>DELETE PERIODIC NOTE !!</value>
+  </data>
+  <data name="ErrorEliminarApuntePeriodico" xml:space="preserve">
+    <value>Error Deleting Periodic Entry</value>
   </data>
 </root>

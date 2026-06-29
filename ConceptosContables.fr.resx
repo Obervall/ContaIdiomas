@@ -121,7 +121,7 @@
     <value>(Non filtré)</value>
   </data>
   <data name="Label1.Text" xml:space="preserve">
-    <value>Rég.:</value>
+    <value>Reg.:</value>
   </data>
   <data name="GroupBox1.Text" xml:space="preserve">
     <value>Enregistrements</value>
@@ -170,5 +170,8 @@
   </data>
   <data name="Nota_TRASPASO" xml:space="preserve">
     <value>Concept de système de transfert entre comptes bancaires, utilisé pour les retraits aux distributeurs automatiques...</value>
+  </data>
+  <data name="Nota_SALDO" xml:space="preserve">
+    <value>Concept système pour l’Équilibre d’ouverture</value>
   </data>
 </root>

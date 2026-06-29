@@ -150,7 +150,7 @@
     <value>118</value>
   </data>
   <data name="LblEditando.Text" xml:space="preserve">
-    <value>APUNTE CONTABLE</value>
+    <value>EDITANDO APUNTE CONTABLE</value>
   </data>
   <data name="LblEditando.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
@@ -250,7 +250,7 @@
 </value>
   </data>
   <data name="BtnHoy.Location" type="System.Drawing.Point, System.Drawing">
-    <value>273, 46</value>
+    <value>306, 46</value>
   </data>
   <data name="BtnHoy.Size" type="System.Drawing.Size, System.Drawing">
     <value>34, 34</value>
@@ -274,7 +274,7 @@
     <value>False</value>
   </data>
   <data name="TxtTipoConcepto.Location" type="System.Drawing.Point, System.Drawing">
-    <value>398, 95</value>
+    <value>398, 93</value>
   </data>
   <data name="TxtTipoConcepto.Size" type="System.Drawing.Size, System.Drawing">
     <value>135, 27</value>
@@ -389,7 +389,7 @@
     <value>137, 50</value>
   </data>
   <data name="DateTimePicker1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 27</value>
+    <value>163, 27</value>
   </data>
   <data name="DateTimePicker1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -437,7 +437,7 @@
     <value>14, 278</value>
   </data>
   <data name="Label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 16</value>
+    <value>120, 27</value>
   </data>
   <data name="Label6.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -461,10 +461,10 @@
     <value>11</value>
   </data>
   <data name="Label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 232</value>
+    <value>14, 229</value>
   </data>
   <data name="Label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 16</value>
+    <value>120, 22</value>
   </data>
   <data name="Label5.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -488,10 +488,10 @@
     <value>12</value>
   </data>
   <data name="Label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 186</value>
+    <value>11, 187</value>
   </data>
   <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 16</value>
+    <value>120, 28</value>
   </data>
   <data name="Label4.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -518,7 +518,7 @@
     <value>14, 140</value>
   </data>
   <data name="Label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 16</value>
+    <value>120, 25</value>
   </data>
   <data name="Label3.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -542,10 +542,10 @@
     <value>14</value>
   </data>
   <data name="Label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 94</value>
+    <value>14, 96</value>
   </data>
   <data name="Label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 16</value>
+    <value>120, 27</value>
   </data>
   <data name="Label2.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -569,10 +569,10 @@
     <value>15</value>
   </data>
   <data name="Label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 48</value>
+    <value>11, 53</value>
   </data>
   <data name="Label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 16</value>
+    <value>120, 29</value>
   </data>
   <data name="Label1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -820,5 +820,11 @@
   </data>
   <data name="SeguroEliminarRegistro" xml:space="preserve">
     <value>¿Estas seguro de Eliminar el Apunte Periódico seleccionado?</value>
+  </data>
+  <data name="LblEliminando" xml:space="preserve">
+    <value>¡¡ ELIMINAR APUNTE PERIÓDICO !!</value>
+  </data>
+  <data name="ErrorEliminarApuntePeriodico" xml:space="preserve">
+    <value>Error al eliminar el apunte periódico</value>
   </data>
 </root>

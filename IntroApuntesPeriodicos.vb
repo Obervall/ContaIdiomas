@@ -1,10 +1,12 @@
 ﻿Imports System.Data
+Imports System.Data.OleDb
 Imports System.Diagnostics
 Imports System.Windows.Forms
 Imports ToolTip = System.Windows.Forms.ToolTip
 
 Public Class IntroApuntesPeriodicos
 
+    Private cargandoFormulario As Boolean = True
     Public vConcepto, vtipoSql, vtipoGrid As String
     Public vDescripcionAPU, vNotasAPU, vCuentaAPU, vAnexo, vbOK As String
     Public vNumeroPagos, vDate3Year As Integer
@@ -13,6 +15,10 @@ Public Class IntroApuntesPeriodicos
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub IntroApuntesPeriodicos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ' Encendemos el escudo protector al inicio del método para congelar los eventos
+        cargandoFormulario = True
+        cmdMdb1cr.Parameters.Clear()
+
         Me.KeyPreview = True
 
         Label7.Text = vMoneda
@@ -51,7 +57,7 @@ Public Class IntroApuntesPeriodicos
 
         Dim TL(12) As ToolTip
         TL(0) = New ToolTip
-        TL(0).SetToolTip(Me.BtnHoy, "Ir a Hoy")
+        TL(0).SetToolTip(Me.BtnHoy, resManager.GetString("IrAHoy"))
         TL(1) = New ToolTip
         TL(1).SetToolTip(Me.DateTimePicker1, "Seleccionar la Fecha del Primer Pago/Cobro")
         TL(2) = New ToolTip
@@ -69,115 +75,196 @@ Public Class IntroApuntesPeriodicos
         TL(8) = New ToolTip
         TL(8).SetToolTip(Me.BtnCalculadora, "Activar la Calculadora")
         TL(9) = New ToolTip
-        TL(9).SetToolTip(Me.BtnConcepto, "Añade, Edita, Borra o Consulta Conceptos Contables")
+        TL(9).SetToolTip(Me.BtnConcepto, resManager.GetString("BtnConcepto"))
         TL(10) = New ToolTip
-        TL(10).SetToolTip(Me.BtnCuenta, "Añade, Edita, Borra o Consulta Cuentas Bancarias")
+        TL(10).SetToolTip(Me.BtnCuenta, resManager.GetString("BtnCuenta"))
         TL(11) = New ToolTip
         TL(11).SetToolTip(Me.TxtNumeroPagos, "Introducir el Número de Pagos/Cobros que se harán en este Apunte Periódico")
         TL(12) = New ToolTip
         TL(12).SetToolTip(Me.CmbPeriocidad, "Seleccionar el Periodo entre cada Pago/Cobro")
 
-        ' Llenar el Combo Concepto
-        '*************************
-        cmdMdb1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
+        ' =========================================================================
+        ' 🌟 CARGA DE COMBOS DE LA NUEVA ERA (Con Idiomas, Orden A-Z e IDs Numéricos)
+        ' =========================================================================
+
+        ' 1. Llenar el Combo Concepto (Excluyendo 'TRASPASO', Traducido y Ordenado A-Z)
+        ' -----------------------------------------------------------------------------
+        ' Leemos el IdConceptoCON y el CodigoCON para amarrar la base de datos relacional
+        cmdMdb1cr.CommandText = "SELECT IdConceptoCON, CodigoCON FROM conceptos WHERE CodigoCON <> 'TRASPASO'"
+
+        Dim dtConceptos As New DataTable()
         Try
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-            If drMdb1.HasRows Then
-                While drMdb1.Read()
-                    If drMdb1.GetValue(0) <> "TRASPASO" Then
-                        CmbConcepto.Items.Add(drMdb1.GetValue(0))
-                    End If
-                End While
-                If frmApuntesPeriodicos.BtnFiltroConcepto.Enabled = False Then
-                    CmbConcepto.Text = CmbConcepto.Items(frmApuntesPeriodicos.CmbConcepto.SelectedIndex)
-                Else
-                    CmbConcepto.Text = CmbConcepto.Items(0)
+            Using dr As OleDbDataReader = cmdMdb1cr.ExecuteReader()
+                dtConceptos.Load(dr) ' Absorbe los datos en bloque y libera a Access al instante
+            End Using
+
+            ' Creamos la columna virtual para el texto traducido
+            dtConceptos.Columns.Add("TextoComboCON", GetType(String))
+
+            For Each fila As DataRow In dtConceptos.Rows
+                Dim codigoOriginal As String = fila("CodigoCON").ToString().Trim()
+                Dim textoFinal As String = codigoOriginal
+
+                If resManager IsNot Nothing Then
+                    Dim claveRecurso As String = codigoOriginal.Replace(" ", "_")
+                    Dim traduccion As String = resManager.GetString(claveRecurso)
+                    If Not String.IsNullOrEmpty(traduccion) Then textoFinal = traduccion
                 End If
+                fila("TextoComboCON") = textoFinal
+            Next
+
+            ' Ordenamos alfabéticamente por la traducción en la memoria RAM
+            dtConceptos.DefaultView.Sort = "TextoComboCON ASC"
+
+            CmbConcepto.DataSource = Nothing
+            CmbConcepto.ValueMember = "IdConceptoCON"   ' ID numérico oculto para guardar en la BD
+            CmbConcepto.DisplayMember = "TextoComboCON"  ' Texto traducido visible en orden A-Z
+            CmbConcepto.DataSource = dtConceptos.DefaultView
+
+            ' Aplicamos tu sincronización inteligente con la pantalla de atrás si venía filtrado
+            If frmApuntesPeriodicos.BtnFiltroConcepto.Enabled = False Then
+                CmbConcepto.SelectedValue = frmApuntesPeriodicos.CmbConcepto.SelectedValue
             Else
-                'MsgBox("No existen registros en " & tipoSql)
+                If CmbConcepto.Items.Count > 0 Then CmbConcepto.SelectedIndex = 0
             End If
-            drMdb1.Close()
         Catch ex As Exception
-            MsgBox(ex.ToString)
+            MsgBox("Error al cargar conceptos periódicos: " & ex.Message, MsgBoxStyle.Critical)
         End Try
 
-        ' Llenar el Combo Descripción
-        '****************************
-        cmdMdb1cr.CommandText = "SELECT * FROM apuntes ORDER BY apuntes.DescripcionAPU ASC"
+        ' 2. Llenar el Combo Descripción (Optimizado a la velocidad del rayo con DISTINCT)
+        ' -----------------------------------------------------------------------------
+        ' Delegamos el descarte de duplicados en Access en un milisegundo, eliminando el bucle pesado
+        cmdMdb1cr.CommandText = "SELECT DISTINCT DescripcionAPU FROM apuntes WHERE DescripcionAPU <> 'Saldo Inicial' And DescripcionAPU Is Not Null ORDER BY DescripcionAPU ASC"
+
+        CmbDescripcion.Items.Clear()
         Try
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-            If drMdb1.HasRows Then
-                primero = 1
-                While drMdb1.Read()
-                    If Trim(drMdb1.GetValue(3)) <> "Saldo Inicial" Then
-                        If primero = 1 Then
-                            CmbDescripcion.Items.Add(Trim(drMdb1.GetValue(3)))
-                            primero = 2
-                        Else
-                            nuevo = 0
-                            For i = 0 To CmbDescripcion.Items.Count - 1
-                                If Trim(drMdb1.GetValue(3)) = Trim(CmbDescripcion.Items(i)) Then
-                                    nuevo = 0
-                                    Exit For
-                                Else
-                                    nuevo = 1
-                                End If
-                            Next
-                            If nuevo = 1 Then
-                                CmbDescripcion.Items.Add(Trim(drMdb1.GetValue(3)))
-                                nuevo = 0
-                            End If
-                        End If
+            Using dr As OleDbDataReader = cmdMdb1cr.ExecuteReader()
+                While dr.Read()
+                    Dim descLimpia As String = dr("DescripcionAPU").ToString().Trim()
+                    If Not String.IsNullOrEmpty(descLimpia) Then
+                        CmbDescripcion.Items.Add(descLimpia)
                     End If
                 End While
-            Else
-                'MsgBox("No existen registros en " & tipoSql)
-            End If
-            drMdb1.Close()
+            End Using
         Catch ex As Exception
-            MsgBox(ex.ToString)
+            MsgBox("Error al cargar descripciones periódicas: " & ex.Message, MsgBoxStyle.Critical)
         End Try
 
-        ' Llenar el Combo Cuenta
-        '***********************
-        cmdMdb1cr.CommandText = "SELECT * FROM cuentas ORDER BY cuentas.NombreCUE ASC"
+        ' 3. Llenar el Combo Cuenta (Traducido por resManager y Ordenado A-Z)
+        ' -----------------------------------------------------------------------------
+        cmdMdb1cr.CommandText = "SELECT IdCuentaCUE, NombreCUE FROM cuentas"
+
+        Dim dtCuentas As New DataTable()
         Try
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-            If drMdb1.HasRows Then
-                While drMdb1.Read()
-                    CmbCuenta.Items.Add(drMdb1.GetValue(0))
-                End While
-                CmbCuenta.Text = CmbCuenta.Items(0)
+            Using dr As OleDbDataReader = cmdMdb1cr.ExecuteReader()
+                dtCuentas.Load(dr)
+            End Using
+
+            dtCuentas.Columns.Add("TextoComboCUE", GetType(String))
+
+            For Each fila As DataRow In dtCuentas.Rows
+                Dim nombreOriginal As String = fila("NombreCUE").ToString().Trim()
+                Dim textoFinal As String = nombreOriginal
+
+                If resManager IsNot Nothing Then
+                    Dim claveRecurso As String = nombreOriginal.Replace(" ", "_")
+                    Dim traduccion As String = resManager.GetString(claveRecurso)
+                    If Not String.IsNullOrEmpty(traduccion) Then textoFinal = traduccion
+                End If
+                fila("TextoComboCUE") = textoFinal
+            Next
+
+            ' Ordenamos alfabéticamente por la traducción en la memoria RAM
+            dtCuentas.DefaultView.Sort = "TextoComboCUE ASC"
+
+            CmbCuenta.DataSource = Nothing
+            CmbCuenta.ValueMember = "IdCuentaCUE"    ' ID numérico oculto para guardar en la BD
+            CmbCuenta.DisplayMember = "TextoComboCUE" ' Texto traducido visible en orden A-Z
+            CmbCuenta.DataSource = dtCuentas.DefaultView
+
+            ' Sincronización inteligente con la pantalla de atrás si venía filtrado
+            If frmApuntesPeriodicos.BtnFiltroCuenta.Enabled = False Then
+                CmbCuenta.SelectedValue = frmApuntesPeriodicos.CmbCuenta.SelectedValue
             Else
-                'MsgBox("No existen registros en " & tipoSql)
+                If CmbCuenta.Items.Count > 0 Then CmbCuenta.SelectedIndex = 0
             End If
-            drMdb1.Close()
         Catch ex As Exception
-            MsgBox(ex.ToString)
+            MsgBox("Error al cargar cuentas periódicas: " & ex.Message, MsgBoxStyle.Critical)
         End Try
-        TxtImporte.Text = 0
+
+        ' 4. Valores e interfaz por defecto (Tus líneas originales impecables)
+        TxtImporte.Text = "0"
+
+        ' Apagamos el escudo protector de forma segura al finalizar la inyección
+        cargandoFormulario = False
+
         CmbConcepto.Select()
-        CmbPeriocidad.Text = CmbPeriocidad.Items(3)
+
+        ' Ajustamos de forma segura la periodicidad por defecto
+        If CmbPeriocidad.Items.Count > 3 Then
+            CmbPeriocidad.Text = CmbPeriocidad.Items(3).ToString()
+        End If
     End Sub
 
     Private Sub CmbConcepto_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbConcepto.SelectedIndexChanged
-        ' Se buscan Conceptos según lo seleccionado
-        '******************************************
-        vConcepto = CmbConcepto.Text.ToString
-        drMdb1.Close()
-        cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto.Replace("'", "''") & "' "
-        drMdb1 = cmdMdb1cr.ExecuteReader()
-        drMdb1.Read()
-        TxtTipoConcepto.Text = drMdb1.GetValue(2)
-        CmbDescripcion.Text = drMdb1.GetValue(1)
-        If TxtTipoConcepto.Text = "GASTO" Then
-            LblNumeroPagosCobros.Text = "Nº de Pagos:"
-            LblFechaPagoCobro.Text = "1er Pago:"
-        Else
-            LblNumeroPagosCobros.Text = "Nº de Cobros:"
-            LblFechaPagoCobro.Text = "1er Cobro:"
-        End If
-        drMdb1.Close()
+        ' 🌟 ESCUDO PROTECTOR AUTOMÁTICO: Si el formulario se está cargando o limpiando, salimos de inmediato
+        If cargandoFormulario Then Exit Sub
+        If CmbConcepto.SelectedIndex < 0 Then Exit Sub
+
+        Try
+            Dim codigoOriginal As String = ""
+            Dim descripcionOriginal As String = ""
+            Dim tipoOriginal As String = ""
+
+            ' 🌟 EXTRACCIÓN MAESTRA DESDE MEMORIA (Cero consultas DataReader a Access)
+            ' Convertimos el ítem seleccionado en un DataRowView para leer sus columnas ocultas
+            If CmbConcepto.SelectedItem IsNot Nothing Then
+                Dim filaSeleccionada As DataRowView = CType(CmbConcepto.SelectedItem, DataRowView)
+
+                codigoOriginal = filaSeleccionada("CodigoCON").ToString().Trim()
+                descripcionOriginal = filaSeleccionada("DescripcionCON").ToString().Trim()
+
+                If filaSeleccionada.Row.Table.Columns.Contains("TipoCON") Then
+                    tipoOriginal = filaSeleccionada("TipoCON").ToString().Trim()
+                End If
+            End If
+
+            If Not String.IsNullOrEmpty(codigoOriginal) Then
+                ' Almacenamos el código en tu variable global para tus lógicas de fábrica
+                vConcepto = codigoOriginal
+
+                ' --- TRADUCIR EL TIPO (Gasto / Ingreso / Especial) ---
+                Dim tradTipo As String = ""
+                Select Case tipoOriginal.ToUpper()
+                    Case "GASTO" : tradTipo = resManager.GetString("Tipo_Gasto")
+                    Case "INGRESO" : tradTipo = resManager.GetString("Tipo_Ingreso")
+                    Case "ESPECIAL" : tradTipo = resManager.GetString("Tipo_Especial")
+                End Select
+                If String.IsNullOrEmpty(tradTipo) Then tradTipo = tipoOriginal
+                TxtTipoConcepto.Text = tradTipo
+
+                ' --- CAMBIO DINÁMICO DE ETIQUETAS SEGÚN EL SIGNO CONTABLE ---
+                ' Evaluamos con el tipo original en mayúsculas para que sea 100% inmune al idioma activo
+                If tipoOriginal.ToUpper() = "GASTO" Then
+                    LblNumeroPagosCobros.Text = "Nº de Pagos:"
+                    LblFechaPagoCobro.Text = "1er Pago:"
+                Else
+                    LblNumeroPagosCobros.Text = "Nº de Cobros:"
+                    LblFechaPagoCobro.Text = "1er Cobro:"
+                End If
+
+                ' --- TRADUCIR LAS DESCRIPCIONES AUTOMÁTICAS (Desc_NOMBRE) ---
+                Dim llaveDesc As String = "Desc_" & codigoOriginal.Replace(" ", "_")
+                Dim tradDesc As String = resManager.GetString(llaveDesc)
+
+                ' Si no tiene traducción en el ResX, dejamos la descripción genérica de la BD
+                If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
+                CmbDescripcion.Text = tradDesc
+            End If
+
+        Catch ex As Exception
+            ' Evita cuelgues visuales si el combo parpadea en la carga
+        End Try
     End Sub
 
     Private Sub TxtDescripcion_KeyPress(sender As Object, e As KeyPressEventArgs)
@@ -212,98 +299,93 @@ Public Class IntroApuntesPeriodicos
     End Sub
 
     Private Sub BtnAceptarSalir_Click(sender As Object, e As EventArgs) Handles BtnAceptarSalir.Click
-        If CmbDescripcion.Text <> "" Then
-            If TxtNumeroPagos.Text <> "" Then
-                If TxtImporte.Text <> "" And TxtImporte.Text <> "0" Then
-                    'Las veces que se tiene que guardar = Nº de Pagos/Cobros
-                    vNumeroPagos = TxtNumeroPagos.Text
-                    For i = 0 To vNumeroPagos - 1
-                        If CmbPeriocidad.Text = "Diaria" Then
-                            vDate3 = DateTimePicker1.Value.Date.AddDays(i)
-                        End If
-                        If CmbPeriocidad.Text = "Semanal" Then
-                            vDate3 = DateTimePicker1.Value.Date.AddDays(i * 7)
-                        End If
-                        If CmbPeriocidad.Text = "Quincenal" Then
-                            vDate3 = DateTimePicker1.Value.Date.AddDays(i * 15)
-                        End If
-                        If CmbPeriocidad.Text = "Mensual" Then
-                            vDate3 = DateTimePicker1.Value.Date.AddMonths(i)
-                        End If
-                        If CmbPeriocidad.Text = "Bimensual" Then
-                            vDate3 = DateTimePicker1.Value.Date.AddMonths(i * 2)
-                        End If
-                        If CmbPeriocidad.Text = "Trimestral" Then
-                            vDate3 = DateTimePicker1.Value.Date.AddMonths(i * 3)
-                        End If
-                        If CmbPeriocidad.Text = "Semestral" Then
-                            vDate3 = DateTimePicker1.Value.Date.AddMonths(i * 6)
-                        End If
-                        If CmbPeriocidad.Text = "Anual" Then
-                            vDate3 = DateTimePicker1.Value.Date.AddYears(i)
-                        End If
-                        vDate3Year = Date.Now.Year
-                        vAnexo = (i + 1).ToString
-                        vDescripcionAPU = CmbDescripcion.Text & "  (" & vAnexo & " de " & vNumeroPagos.ToString & ")".ToString
-                        vImporteAPU = TxtImporte.Text
-                        If TxtTipoConcepto.Text = "GASTO" Then
-                            vImporteAPU = "-" & vImporteAPU.ToString
-                        End If
-                        vNotasAPU = TxtNota.Text
-                        vCuentaAPU = CmbCuenta.Text.ToString
-                        ' 1. Diseñamos la estructura limpia para apuper usando comodines '?'
+        If CmbDescripcion.Text.Trim() <> "" Then
+            If TxtNumeroPagos.Text.Trim() <> "" Then
+                If TxtImporte.Text.Trim() <> "" And TxtImporte.Text.Trim() <> "0" Then
+
+                    ' 1. EXTRAEMOS LOS IDs NUMÉRICOS PUROS DESDE LOS COMBOS (Nueva era relacional)
+                    Dim idConcepto As Integer = Convert.ToInt32(CmbConcepto.SelectedValue)
+                    Dim idCuenta As Integer = Convert.ToInt32(CmbCuenta.SelectedValue)
+
+                    ' 2. Procesamos el número de vencimientos a generar
+                    Dim numPagos As Integer = 0
+                    If Not Integer.TryParse(TxtNumeroPagos.Text, numPagos) Then numPagos = 1
+
+                    ' 3. Procesamos los importes contables en formato Decimal seguro
+                    Dim importeBase As Decimal = ConvertirDecimalSeguro(TxtImporte.Text)
+                    ' Usamos ToUpper para que la validación del signo sea 100% inmune a mayúsculas/minúsculas
+                    If TxtTipoConcepto.Text.ToUpper() = "GASTO" OrElse TxtTipoConcepto.Text = resManager.GetString("Tipo_Gasto") Then
+                        importeBase = -Math.Abs(importeBase)
+                    Else
+                        importeBase = Math.Abs(importeBase)
+                    End If
+
+                    vNotasAPU = TxtNota.Text.Trim()
+                    vbOK = "NO"
+
+                    ' 🌟 EL BUCLE MAESTRO: Generamos cada uno de los vencimientos futuros
+                    For i As Integer = 0 To numPagos - 1
+
+                        ' 🌟 PROTECCIÓN DE IDIOMA: Evaluamos por SelectedIndex (posición fija) para que no falle 
+                        ' si la palabra "Mensual" cambia a "Mensual" en catalán o "Monthly" en inglés
+                        Select Case CmbPeriocidad.SelectedIndex
+                            Case 0 ' Diaria
+                                vDate3 = DateTimePicker1.Value.Date.AddDays(i)
+                            Case 1 ' Semanal
+                                vDate3 = DateTimePicker1.Value.Date.AddDays(i * 7)
+                            Case 2 ' Quincenal
+                                vDate3 = DateTimePicker1.Value.Date.AddDays(i * 15)
+                            Case 3 ' Mensual
+                                vDate3 = DateTimePicker1.Value.Date.AddMonths(i)
+                            Case 4 ' Bimensual
+                                vDate3 = DateTimePicker1.Value.Date.AddMonths(i * 2)
+                            Case 5 ' Trimestral
+                                vDate3 = DateTimePicker1.Value.Date.AddMonths(i * 3)
+                            Case 6 ' Semestral
+                                vDate3 = DateTimePicker1.Value.Date.AddMonths(i * 6)
+                            Case 7 ' Anual
+                                vDate3 = DateTimePicker1.Value.Date.AddYears(i)
+                            Case Else
+                                vDate3 = DateTimePicker1.Value.Date.AddMonths(i) ' Por defecto mensual
+                        End Select
+
+                        ' Forzamos a que el año del ejercicio sea el año real que le corresponde al vencimiento calculado
+                        Dim anioEjercicioVencimiento As Integer = vDate3.Year
+
+                        vAnexo = (i + 1).ToString()
+                        vDescripcionAPU = CmbDescripcion.Text.Trim() & "  (" & vAnexo & " de " & numPagos.ToString() & ")"
+
+                        ' 4. Diseñamos la estructura limpia para apuper usando comodines '?'
                         vAñadirSql = "INSERT INTO apuper (FechaAPP, ConceptoAPP, DescripcionAPP, ImporteAPP, EjercicioAPP, NotasAPP, CuentaAPP) " &
                                      "VALUES (?, ?, ?, ?, ?, ?, ?)"
                         cmdMdb1cr.CommandText = vAñadirSql
-
-                        ' 2. Inyectamos los parámetros en el orden EXACTO de aparición del SQL
                         cmdMdb1cr.Parameters.Clear()
 
-                        ' Fecha en formato binario puro (¡Adiós a los meses invertidos en Windows inglés!)
-                        cmdMdb1cr.Parameters.AddWithValue("@FechaAPP", vDate3)
+                        ' 5. Inyectamos los parámetros en el orden EXACTO de aparición del SQL
+                        cmdMdb1cr.Parameters.Add("@fec", OleDb.OleDbType.Date).Value = vDate3
+                        cmdMdb1cr.Parameters.Add("@con", OleDb.OleDbType.Integer).Value = idConcepto       ' ID Numérico
+                        cmdMdb1cr.Parameters.Add("@des", OleDb.OleDbType.VarWChar).Value = vDescripcionAPU
+                        cmdMdb1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = Math.Round(importeBase, 2)
+                        cmdMdb1cr.Parameters.Add("@eje", OleDb.OleDbType.Integer).Value = anioEjercicioVencimiento
+                        cmdMdb1cr.Parameters.Add("@not", OleDb.OleDbType.VarWChar).Value = vNotasAPU
+                        cmdMdb1cr.Parameters.Add("@cue", OleDb.OleDbType.Integer).Value = idCuenta         ' ID Numérico
 
-                        ' Textos libres protegidos de forma nativa contra comillas simples (')
-                        cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPP", vConcepto)
-                        cmdMdb1cr.Parameters.AddWithValue("@DescripcionAPP", vDescripcionAPU)
-
-                        ' Importe procesado por tu función global y forzado a Currency de Access
-                        Dim paramImpApuper As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteAPP", OleDb.OleDbType.Currency)
-                        paramImpApuper.Value = Math.Round(ConvertirDecimalSeguro(vImporteAPU), 2)
-
-                        ' Resto de campos del apunte periódico
-                        cmdMdb1cr.Parameters.AddWithValue("@EjercicioAPP", CInt(vDate3Year))
-                        cmdMdb1cr.Parameters.AddWithValue("@NotasAPP", vNotasAPU)
-                        cmdMdb1cr.Parameters.AddWithValue("@CuentaAPP", vCuentaAPU)
-                        cmdMdb1cr.CommandText = vAñadirSql
                         Try
                             cmdMdb1cr.ExecuteNonQuery()
                             vbOK = "SI"
                         Catch ex As Exception
-                            MsgBox(rmse.GetString("ErrorGrabarApuntePeriodico") & ": " & (i + 1).ToString)
-                            MsgBox(ex.ToString)
+                            MsgBox(rmse.GetString("ErrorGrabarApuntePeriodico") & ": " & (i + 1).ToString() & vbCrLf & ex.Message, MsgBoxStyle.Critical)
                         End Try
                     Next
+
+                    ' =========================================================================
+                    ' 🌟 REFRESCAMOS LA REJILLA DE ATRÁS AUTOMÁTICAMENTE ANTES DE SALIR
+                    ' =========================================================================
+                    ' Reutilizamos tu rutina estrella que calcula los filtros con IDs y pinta el Grid relacional
                     If vbOK = "SI" Then
-                        'MsgBox("Registro, Grabado Correctamente")
+                        frmApuntesPeriodicos.RefrescarGridApuntesPeriodicos()
                     End If
 
-                    vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper"
-                    vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
-                    If frmApuntesPeriodicos.BtnFiltroCuenta.Enabled = False Then
-                        vtipoSql += " And apuper.CuentaAPP = '" & frmApuntesPeriodicos.CmbCuenta.Text & "' "
-                    End If
-                    If frmApuntesPeriodicos.BtnFiltroConcepto.Enabled = False Then
-                        vtipoSql += " And apuper.ConceptoAPP = '" & frmApuntesPeriodicos.CmbConcepto.Text & "' "
-                    End If
-                    If frmApuntesPeriodicos.BtnFiltroFecha.Enabled = False Then
-                        vDate1 = frmApuntesPeriodicos.DateTimePicker1.Value
-                        vDate2 = frmApuntesPeriodicos.DateTimePicker2.Value
-                        vtipoSql += " And apuper.FechaAPP >= ?"
-                        vtipoSql += " And apuper.FechaAPP <= ?"
-                    End If
-                    vtipoSql += " ORDER BY apuper.FechaAPP ASC"
-                    vtipoGrid = "APUNTES_PERIODICOS"
-                    LlenarGrid(vtipoSql, vtipoGrid, "1")
                     Me.Close()
                 Else
                     MsgBox(frmIntroApuntes.rmse.GetString("NoCantidadImporte"), vbExclamation)

@@ -823,4 +823,13 @@ the file is not open</value>
   <data name="ErrorLeerEjercicio" xml:space="preserve">
     <value>Error reading the exercise</value>
   </data>
+  <data name="Desc_SALDO" xml:space="preserve">
+    <value>Opening Balance</value>
+  </data>
+  <data name="ErrorCargarDescripciones" xml:space="preserve">
+    <value>Error loading historical descriptions</value>
+  </data>
+  <data name="ErrorIniciaDesplegables" xml:space="preserve">
+    <value>Error initializing periodic edition drop-downs</value>
+  </data>
 </root>

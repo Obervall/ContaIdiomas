@@ -823,4 +823,13 @@ Die Datei ist nicht geöffnet</value>
   <data name="ErrorLeerEjercicio" xml:space="preserve">
     <value>Fehler beim Lesen der Übung</value>
   </data>
+  <data name="Desc_SALDO" xml:space="preserve">
+    <value>Eröffnungsbilanz</value>
+  </data>
+  <data name="ErrorCargarDescripciones" xml:space="preserve">
+    <value>Fehlergeladene historische Beschreibungen</value>
+  </data>
+  <data name="ErrorIniciaDesplegables" xml:space="preserve">
+    <value>Fehler beim Initialisieren periodischer Editions-Dropdowns</value>
+  </data>
 </root>
