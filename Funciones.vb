@@ -2292,6 +2292,57 @@ Module Funciones
         Return importeResultado
     End Function
 
+    Public Sub LlenarComboConceptoExclusivoTraspaso(ByVal combo As ComboBox)
+        combo.DataSource = Nothing
+        combo.Items.Clear()
+
+        ' 1. Buscamos de forma directa el registro exacto de 'TRASPASO' en tu Access
+        Dim sql As String = "SELECT IdConceptoCON, CodigoCON, DescripcionCON FROM conceptos WHERE CodigoCON = 'TRASPASO'"
+
+        Dim dtConceptos As New DataTable()
+
+        Using cmd As New OleDbCommand(sql, conexion1)
+            Dim dr As OleDbDataReader = Nothing
+            Try
+                dr = cmd.ExecuteReader()
+                dtConceptos.Load(dr)
+            Catch ex As Exception
+                MsgBox("Error al localizar el concepto TRASPASO: " & ex.Message, MsgBoxStyle.Critical)
+            Finally
+                If dr IsNot Nothing AndAlso Not dr.IsClosed Then dr.Close()
+            End Try
+        End Using
+
+        ' 2. Si existe el registro, le aplicamos tu traducción oficial (.resx)
+        If dtConceptos.Rows.Count > 0 Then
+            dtConceptos.Columns.Add("TextoCombo", GetType(String))
+
+            Dim fila As DataRow = dtConceptos.Rows(0)
+            Dim codigoOriginal As String = fila("CodigoCON").ToString().Trim()
+            Dim textoFinal As String = codigoOriginal ' Mantiene "TRASPASO" por defecto
+
+            ' Si tu archivo de recursos tiene traducida la palabra, la hereda
+            If resManager IsNot Nothing Then
+                Dim trad As String = resManager.GetString("TRASPASO")
+                If Not String.IsNullOrEmpty(trad) Then textoFinal = trad
+            End If
+
+            fila("TextoCombo") = textoFinal
+
+            ' 3. Vinculamos de golpe el combo con el ID numérico correspondiente
+            combo.ValueMember = "IdConceptoCON"       ' Mantiene el ID numérico real de la BD
+            combo.DisplayMember = "TextoCombo"        ' Enseña la palabra limpia (TRASPASO)
+            combo.DataSource = dtConceptos
+
+            ' Forzamos la selección del único elemento y bloqueamos el combo por seguridad
+            combo.SelectedIndex = 0
+            combo.Enabled = False ' 🌟 Opcional: Bloquea el combo para que sea meramente informativo
+        Else
+            MsgBox("Atención: No se ha encontrado el concepto obligatorio 'TRASPASO' en la base de datos.", MsgBoxStyle.Exclamation)
+        End If
+    End Sub
+
+
     Public Sub LlenarComboConceptosGenerico(ByVal combo As ComboBox)
         ' 1. Sincronizados los nombres de las columnas.
         cmdMdb1cr.CommandText = "SELECT IdConceptoCON, CodigoCON, DescripcionCON FROM conceptos ORDER BY TipoCON ASC, IdConceptoCON ASC"
@@ -2818,5 +2869,58 @@ Module Funciones
             frmApuntesContables.DgvApuntes.CurrentCell = frmApuntesContables.DgvApuntes.Rows(ultimaFila).Cells(0)
         End If
     End Sub
+
+    ''' <summary>
+    ''' Muestra un cuadro de confirmación Sí/No adaptado al 100% al idioma del resManager
+    ''' </summary>
+    Public Function ConfirmarAccionTraducida(ByVal mensaje As String, ByVal titulo As String) As MsgBoxResult
+        ' Forzamos la traducción de las palabras clave usando tu gestor de recursos
+        Dim textoSi As String = If(resManager?.GetString("SI"), "Sí")
+        Dim textoNo As String = If(resManager?.GetString("NO"), "No")
+
+        ' Si estás en catalán y tus archivos .resx tienen "Sí" y "No", las heredará.
+        ' Si no, puedes forzar un desvío rápido por código si detectas el idioma:
+        ' If vIdiomaActivo = "ca" Then textoSi = "Sí" : textoNo = "No"
+
+        ' Creamos un formulario temporal ligero sobre la marcha (Cero archivos de diseño .vb)
+        Dim frm As New Form()
+        Dim lbl As New Label()
+        Dim btnSi As New Button()
+        Dim btnNo As New Button()
+
+        frm.Text = titulo
+        lbl.Text = mensaje
+        btnSi.Text = textoSi
+        btnNo.Text = textoNo
+
+        ' Configuramos las respuestas lógicas de .NET
+        btnSi.DialogResult = DialogResult.Yes
+        btnNo.DialogResult = DialogResult.No
+
+        ' --- Estética rápida y limpia ---
+        frm.Size = New Size(400, 160)
+        frm.FormBorderStyle = FormBorderStyle.FixedDialog
+        frm.MaximizeBox = False
+        frm.MinimizeBox = False
+        frm.StartPosition = FormStartPosition.CenterScreen
+
+        lbl.SetBounds(20, 20, 350, 40)
+        btnSi.SetBounds(180, 80, 90, 30)
+        btnNo.SetBounds(280, 80, 90, 30)
+
+        frm.Controls.AddRange(New Control() {lbl, btnSi, btnNo})
+        frm.AcceptButton = btnSi
+        frm.CancelButton = btnNo
+
+        ' Mostramos la ventana y capturamos la respuesta del usuario
+        Dim resultado As DialogResult = frm.ShowDialog()
+        frm.Dispose()
+
+        If resultado = DialogResult.Yes Then
+            Return MsgBoxResult.Yes
+        Else
+            Return MsgBoxResult.No
+        End If
+    End Function
 
 End Module

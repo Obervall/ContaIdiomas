@@ -790,4 +790,37 @@ que el archivo no esté abierto</value>
   <data name="ErrorCrearRuta" xml:space="preserve">
     <value>Error al Crear Ruta</value>
   </data>
+  <data name="Origen" xml:space="preserve">
+    <value>Origen</value>
+  </data>
+  <data name="Destino" xml:space="preserve">
+    <value>Destino</value>
+  </data>
+  <data name="ErrorLlenarConceptos" xml:space="preserve">
+    <value>Error al llenar Conceptos</value>
+  </data>
+  <data name="ErrorLlenarCuentas" xml:space="preserve">
+    <value>Error al llenar Cuentas</value>
+  </data>
+  <data name="MsgConfirmarBorradoSingular" xml:space="preserve">
+    <value>¿Está completamente seguro de que desea eliminar FÍSICAMENTE de la Base de Datos el apunte seleccionado?</value>
+  </data>
+  <data name="MsgConfirmarBorradoPlural" xml:space="preserve">
+    <value>¿Está completamente seguro de que desea eliminar FÍSICAMENTE de la Base de Datos los {0} apuntes seleccionados?</value>
+  </data>
+  <data name="ConfirmarBorrado" xml:space="preserve">
+    <value>Confirmar Borrado Múltiple</value>
+  </data>
+  <data name="ErrorBorrarFilaID" xml:space="preserve">
+    <value>Error al borrar la fila con ID {0}:</value>
+  </data>
+  <data name="MsgLoteEliminadoExito" xml:space="preserve">
+    <value>Operación completada. Se han eliminado {0} registros físicos de la Base de Datos</value>
+  </data>
+  <data name="TituloBorradoFinalizado" xml:space="preserve">
+    <value>Borrado Finalizado</value>
+  </data>
+  <data name="ErrorLeerEjercicio" xml:space="preserve">
+    <value>Error al leer el ejercicio</value>
+  </data>
 </root>

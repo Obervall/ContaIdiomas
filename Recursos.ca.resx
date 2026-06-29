@@ -790,4 +790,37 @@ que l'arxiu no estigui obert</value>
   <data name="ErrorCrearRuta" xml:space="preserve">
     <value>Error en Crear Ruta</value>
   </data>
+  <data name="MsgConfirmarBorradoSingular" xml:space="preserve">
+    <value>¿Está completament segur de que desitja eliminar FÍSICAMENT de la Base de Dades l'apunt seleccionat?</value>
+  </data>
+  <data name="MsgConfirmarBorradoPlural" xml:space="preserve">
+    <value>¿Está completament segur de que desitja eliminar FÍSICAMENT de la Base de Dades els {0} apunts seleccionats?</value>
+  </data>
+  <data name="Origen" xml:space="preserve">
+    <value>Origen</value>
+  </data>
+  <data name="Destino" xml:space="preserve">
+    <value>Destinació</value>
+  </data>
+  <data name="ErrorLlenarConceptos" xml:space="preserve">
+    <value>Error en omplir Conceptes</value>
+  </data>
+  <data name="ErrorLlenarCuentas" xml:space="preserve">
+    <value>Error en omplir Comptes</value>
+  </data>
+  <data name="ConfirmarBorrado" xml:space="preserve">
+    <value>Confirmar Esborrat Múltiple</value>
+  </data>
+  <data name="ErrorBorrarFilaID" xml:space="preserve">
+    <value>Error en esborrar la fila amb ID {0}:</value>
+  </data>
+  <data name="MsgLoteEliminadoExito" xml:space="preserve">
+    <value>Operació completada. S'han eliminat {0} registres físics de la Base de Dades</value>
+  </data>
+  <data name="TituloBorradoFinalizado" xml:space="preserve">
+    <value>Esborrat Finalitzat</value>
+  </data>
+  <data name="ErrorLeerEjercicio" xml:space="preserve">
+    <value>Error en llegir l' exercici</value>
+  </data>
 </root>

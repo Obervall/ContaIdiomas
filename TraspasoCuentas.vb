@@ -13,6 +13,7 @@ Public Class TraspasoCuentas
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub TraspasoCuentas_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        cargandoFormulario = True
         Me.KeyPreview = True
 
         Label7.Text = vMoneda
@@ -46,68 +47,49 @@ Public Class TraspasoCuentas
         Try
             ' Usamos la función exclusiva que no carga los 'ESPECIALES' si es para introducir/editar ordinarios
             ' (O la que uses en este formulario, pero asegurando que use DataTable)
-            LlenarComboConceptosIntroApuntes(Me.CmbConcepto)
+            LlenarComboConceptoExclusivoTraspaso(Me.CmbConcepto)
             LlenarComboCuentasGenerico(Me.CmbCuentaOrigen)
             LlenarComboCuentasGenerico(Me.CmbCuentaDestino)
         Catch ex As Exception
             MsgBox(resManager.GetString("ErrorCargarCONyCUE") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
-        cargandoFormulario = False
-
-
-
-        '' Llenar el Combo Concepto
-        ''*************************
-        'cmdMdb1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
-        'Try
-        '    drMdb1 = cmdMdb1cr.ExecuteReader()
-        '    If drMdb1.HasRows Then
-        '        While drMdb1.Read()
-        '            If drMdb1.GetValue(0) = "TRASPASO" Then
-        '                CmbConcepto.Items.Add(drMdb1.GetValue(0))
-        '            End If
-        '        End While
-        '        CmbConcepto.Text = CmbConcepto.Items(0)
-        '    Else
-        '        'MsgBox("No existen registros en " & tipoSql)
-        '    End If
-        '    drMdb1.Close()
-        'Catch ex As Exception
-        '    MsgBox(resManager.GetString("Error") & ": " & ex.ToString)
-        'End Try
-
-        '' Llenar el Combo Cuenta
-        ''***********************
-        'cmdMdb1cr.CommandText = "SELECT * FROM cuentas ORDER BY cuentas.NombreCUE ASC"
-        'Try
-        '    drMdb1 = cmdMdb1cr.ExecuteReader()
-        '    If drMdb1.HasRows Then
-        '        While drMdb1.Read()
-        '            CmbCuentaOrigen.Items.Add(drMdb1.GetValue(0))
-        '            CmbCuentaDestino.Items.Add(drMdb1.GetValue(0))
-        '        End While
-        '        CmbCuentaOrigen.Text = CmbCuentaOrigen.Items(0)
-        '        CmbCuentaDestino.Text = CmbCuentaOrigen.Items(0)
-        '    Else
-        '        'MsgBox("No existen registros en " & tipoSql)
-        '    End If
-        '    drMdb1.Close()
-        'Catch ex As Exception
-        '    MsgBox(ex.ToString)
-        'End Try
         TxtImporte.Text = 0
+        cargandoFormulario = False
     End Sub
 
     Private Sub CmbConcepto_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbConcepto.SelectedIndexChanged
-        ' Se buscan Conceptos según lo seleccionado
-        '******************************************
-        vConcepto = CmbConcepto.Text.ToString
-        drMdb1.Close()
-        cmdMdb1cr.CommandText = "SELECT * FROM conceptos Where conceptos.CodigoCON = '" & vConcepto.Replace("'", "''") & "' "
-        drMdb1 = cmdMdb1cr.ExecuteReader()
-        drMdb1.Read()
-        TxtTipoConcepto.Text = drMdb1.GetValue(2)
-        drMdb1.Close()
+        ' 🌟 ESCUDO PROTECTOR AUTOMÁTICO: Si el formulario se está iniciando o limpiando, salimos de inmediato
+        If cargandoFormulario Then Exit Sub
+        If CmbConcepto.SelectedIndex < 0 Then Exit Sub
+
+        Try
+            Dim tipoOriginal As String = ""
+
+            ' 🌟 EXTRACCIÓN MAESTRA DESDE MEMORIA (Cero consultas DataReader a Access)
+            ' Como el combo está enlazado a un DataTable, convertimos el ítem actual en un DataRowView
+            If CmbConcepto.SelectedItem IsNot Nothing Then
+                Dim filaSeleccionada As DataRowView = CType(CmbConcepto.SelectedItem, DataRowView)
+
+                ' Leemos la columna TipoCON directamente de la memoria caché de la app
+                If filaSeleccionada.Row.Table.Columns.Contains("TipoCON") Then
+                    tipoOriginal = filaSeleccionada("TipoCON").ToString().Trim()
+                End If
+            End If
+
+            ' Sincronizamos y traducimos el tipo a la interfaz de forma dócil y limpia
+            Dim tradTipo As String = ""
+            Select Case tipoOriginal.ToUpper()
+                Case "GASTO" : tradTipo = resManager.GetString("Tipo_Gasto")
+                Case "INGRESO" : tradTipo = resManager.GetString("Tipo_Ingreso")
+                Case "ESPECIAL" : tradTipo = resManager.GetString("Tipo_Especial")
+            End Select
+
+            If String.IsNullOrEmpty(tradTipo) Then tradTipo = tipoOriginal
+            TxtTipoConcepto.Text = tradTipo
+
+        Catch ex As Exception
+            MsgBox(resManager.GetString("ErrorSincronizarCON") & ": " & ex.Message, MsgBoxStyle.Critical, resManager.GetString("Error"))
+        End Try
     End Sub
 
     Private Sub TxtDescripcion_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtDescripcion.KeyPress
@@ -142,79 +124,83 @@ Public Class TraspasoCuentas
     End Sub
 
     Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click
-        If CmbCuentaOrigen.Text <> CmbCuentaDestino.Text Then
-            If TxtDescripcion.Text <> "" Then
-                If TxtImporte.Text <> "" And TxtImporte.Text <> "0" Then
-                    vConcepto = CmbConcepto.Text ' & " ORIGEN"
-                    vDescripcionAPU = ApostrofePorAcentoAgudo(TxtDescripcion.Text)
-                    vImporteAPU = TxtImporte.Text
-                    vImporteAPU = "-" & vImporteAPU.ToString
-                    vNotasAPU = TxtNota.Text
-                    vCuentaOrigenAPU = CmbCuentaOrigen.Text.ToString
-                    ' 1. Diseñamos la estructura limpia usando comodines '?'
+        ' 🌟 COMPARACIÓN DE SEGURIDAD: Comparamos los IDs numéricos directamente para saber si son la misma cuenta
+        If CmbCuentaOrigen.SelectedValue IsNot Nothing AndAlso CmbCuentaDestino.SelectedValue IsNot Nothing AndAlso
+           CmbCuentaOrigen.SelectedValue.ToString() <> CmbCuentaDestino.SelectedValue.ToString() Then
+
+            If TxtDescripcion.Text.Trim() <> "" Then
+                If TxtImporte.Text.Trim() <> "" And TxtImporte.Text.Trim() <> "0" Then
+
+                    ' 1. EXTRAEMOS LOS IDs NUMÉRICOS PUROS DESDE LOS COMBOS (Nueva era relacional)
+                    Dim idConcepto As Integer = Convert.ToInt32(CmbConcepto.SelectedValue)
+                    Dim idCuentaOrigen As Integer = Convert.ToInt32(CmbCuentaOrigen.SelectedValue)
+                    Dim idCuentaDestino As Integer = Convert.ToInt32(CmbCuentaDestino.SelectedValue)
+
+                    ' 2. Capturamos los textos limpios (¡Los parámetros ya protegen los apóstrofes solos!)
+                    vDescripcionAPU = TxtDescripcion.Text.Trim()
+                    vNotasAPU = TxtNota.Text.Trim()
+
+                    ' 3. Procesamos los importes contables en formato Decimal seguro
+                    Dim importeOrigen As Decimal = -Math.Abs(ConvertirDecimalSeguro(TxtImporte.Text))
+                    Dim importeDestino As Decimal = Math.Abs(ConvertirDecimalSeguro(TxtImporte.Text))
+
+                    ' =========================================================================
+                    ' 🌟 TRASPASO RAMA 1: GRABACIÓN DE LA CUENTA ORIGEN (NEGATIVO)
+                    ' =========================================================================
                     vAñadirOrigenSql = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) " &
                                        "VALUES (?, ?, ?, ?, ?, ?, ?)"
                     cmdMdb1cr.CommandText = vAñadirOrigenSql
-
-                    ' 2. Inyectamos los parámetros en el orden EXACTO de aparición del SQL
                     cmdMdb1cr.Parameters.Clear()
 
-                    ' Fecha pura en binario (¡Adiós almohadillas # y formatos de texto!)
-                    cmdMdb1cr.Parameters.AddWithValue("@FechaAPU", DtpOrigen.Value.Date)
+                    ' Inyectamos los parámetros en estricto orden biológico de los signos '?'
+                    cmdMdb1cr.Parameters.Add("@fec", OleDb.OleDbType.Date).Value = DtpOrigen.Value.Date
+                    cmdMdb1cr.Parameters.Add("@con", OleDb.OleDbType.Integer).Value = idConcepto       ' ID Numérico
+                    cmdMdb1cr.Parameters.Add("@des", OleDb.OleDbType.VarWChar).Value = vDescripcionAPU
+                    cmdMdb1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = Math.Round(importeOrigen, 2)
+                    cmdMdb1cr.Parameters.Add("@eje", OleDb.OleDbType.Integer).Value = Convert.ToInt32(vAñoEjercicio)
+                    cmdMdb1cr.Parameters.Add("@not", OleDb.OleDbType.VarWChar).Value = vNotasAPU
+                    cmdMdb1cr.Parameters.Add("@cue", OleDb.OleDbType.Integer).Value = idCuentaOrigen   ' ID Numérico
 
-                    ' Cadenas de texto libres (Los parámetros limpian los apóstrofes solos automáticamente)
-                    cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vConcepto)
-                    cmdMdb1cr.Parameters.AddWithValue("@DescripcionAPU", vDescripcionAPU)
-
-                    ' Importe blindado en formato Moneda para que Access no sature su precisión decimal
-                    Dim paramImpOrigen As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteAPU", OleDb.OleDbType.Currency)
-                    paramImpOrigen.Value = Math.Round(ConvertirDecimalSeguro(vImporteAPU), 2)
-
-                    ' Resto de campos del apunte
-                    cmdMdb1cr.Parameters.AddWithValue("@EjercicioAPU", CInt(vAñoEjercicio))
-                    cmdMdb1cr.Parameters.AddWithValue("@NotasAPU", vNotasAPU)
-                    cmdMdb1cr.Parameters.AddWithValue("@CuentaAPU", vCuentaOrigenAPU)
-                    cmdMdb1cr.CommandText = vAñadirOrigenSql
                     Try
                         cmdMdb1cr.ExecuteNonQuery()
                         MsgBox(rmse.GetString("RegistroOrigenGrabadoCorrectamente"))
                     Catch ex As Exception
-                        MsgBox(resManager.GetString("Error") & ": " & ex.ToString)
+                        MsgBox(resManager.GetString("Error") & resManager.GetString("Origen") & ": " & ex.Message, MsgBoxStyle.Critical)
                     End Try
 
-                    vConcepto = CmbConcepto.Text '  & " DESTINO"
-                    vImporteAPU = TxtImporte.Text
-                    vCuentaDestinoAPU = CmbCuentaDestino.Text.ToString
-                    ' 1. Diseñamos la estructura limpia de destino usando comodines '?'
+                    ' =========================================================================
+                    ' 🌟 TRASPASO RAMA 2: GRABACIÓN DE LA CUENTA DESTINO (POSITIVO)
+                    ' =========================================================================
                     vAñadirDestinoSql = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) " &
                                         "VALUES (?, ?, ?, ?, ?, ?, ?)"
                     cmdMdb1cr.CommandText = vAñadirDestinoSql
-
-                    ' 2. Inyectamos los parámetros en el orden EXACTO de aparición del SQL
                     cmdMdb1cr.Parameters.Clear()
 
-                    ' Fecha de destino pura en binario (Inmune al cambio de idioma de Windows)
-                    cmdMdb1cr.Parameters.AddWithValue("@FechaAPU", DtpDestino.Value.Date)
+                    ' Inyectamos los parámetros en estricto orden para el contraasiento
+                    cmdMdb1cr.Parameters.Add("@fec", OleDb.OleDbType.Date).Value = DtpDestino.Value.Date
+                    cmdMdb1cr.Parameters.Add("@con", OleDb.OleDbType.Integer).Value = idConcepto       ' ID Numérico
+                    cmdMdb1cr.Parameters.Add("@des", OleDb.OleDbType.VarWChar).Value = vDescripcionAPU
+                    cmdMdb1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = Math.Round(importeDestino, 2)
+                    cmdMdb1cr.Parameters.Add("@eje", OleDb.OleDbType.Integer).Value = Convert.ToInt32(vAñoEjercicio)
+                    cmdMdb1cr.Parameters.Add("@not", OleDb.OleDbType.VarWChar).Value = vNotasAPU
+                    cmdMdb1cr.Parameters.Add("@cue", OleDb.OleDbType.Integer).Value = idCuentaDestino  ' ID Numérico
 
-                    ' Cadenas de texto protegidas automáticamente por .NET
-                    cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vConcepto)
-                    cmdMdb1cr.Parameters.AddWithValue("@DescripcionAPU", vDescripcionAPU)
-
-                    ' Importe de destino formateado como Moneda nativa de Access
-                    Dim paramImpDestino As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteAPU", OleDb.OleDbType.Currency)
-                    paramImpDestino.Value = Math.Round(ConvertirDecimalSeguro(vImporteAPU), 2)
-
-                    ' Resto de campos del contraasiento
-                    cmdMdb1cr.Parameters.AddWithValue("@EjercicioAPU", CInt(vAñoEjercicio))
-                    cmdMdb1cr.Parameters.AddWithValue("@NotasAPU", vNotasAPU)
-                    cmdMdb1cr.Parameters.AddWithValue("@CuentaAPU", vCuentaDestinoAPU)
-                    cmdMdb1cr.CommandText = vAñadirDestinoSql
                     Try
                         cmdMdb1cr.ExecuteNonQuery()
                         MsgBox(rmse.GetString("RegistroDestinoGrabadoCorrectamente"))
                     Catch ex As Exception
-                        MsgBox(resManager.GetString("Error") & ": " & ex.ToString)
+                        MsgBox(resManager.GetString("Error") & resManager.GetString("Destino") & ": " & ex.Message, MsgBoxStyle.Critical)
                     End Try
+
+                    ' =========================================================================
+                    ' 🌟 REFRESCAMOS LA REJILLA DE ATRÁS AUTOMÁTICAMENTE ANTES DE SALIR
+                    ' =========================================================================
+                    ' Reutilizamos la rutina mágica global que creamos ayer para que la pantalla principal
+                    ' se actualice al instante con los dos nuevos apuntes sin escribir código repetido
+                    If TypeOf frmApuntesContables Is Form Then
+                        RefrescarGridApuntesContables()
+                    End If
+
                     Me.Close()
                 Else
                     MsgBox(rmse.GetString("NoHayImporte") & "...", vbExclamation)

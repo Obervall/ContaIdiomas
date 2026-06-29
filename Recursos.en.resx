@@ -790,4 +790,37 @@ the file is not open</value>
   <data name="ErrorCrearRuta" xml:space="preserve">
     <value>Error Creating Route</value>
   </data>
+  <data name="Origen" xml:space="preserve">
+    <value>Origin</value>
+  </data>
+  <data name="Destino" xml:space="preserve">
+    <value>Destination</value>
+  </data>
+  <data name="ErrorLlenarConceptos" xml:space="preserve">
+    <value>Error filling in Concepts</value>
+  </data>
+  <data name="ErrorLlenarCuentas" xml:space="preserve">
+    <value>Error filling out Accounts</value>
+  </data>
+  <data name="MsgConfirmarBorradoSingular" xml:space="preserve">
+    <value>Are you completely sure that you want to PHYSICALLY delete the selected entry from the Database?</value>
+  </data>
+  <data name="MsgConfirmarBorradoPlural" xml:space="preserve">
+    <value>Are you completely sure that you want to PHYSICALLY delete the selected {0} notes from the Database?</value>
+  </data>
+  <data name="ConfirmarBorrado" xml:space="preserve">
+    <value>Confirm Multiple Erase</value>
+  </data>
+  <data name="ErrorBorrarFilaID" xml:space="preserve">
+    <value>Error deleting row with ID {0}:</value>
+  </data>
+  <data name="MsgLoteEliminadoExito" xml:space="preserve">
+    <value>Operation completed. Physical records have been deleted from {0} Database</value>
+  </data>
+  <data name="TituloBorradoFinalizado" xml:space="preserve">
+    <value>Deletion Completed</value>
+  </data>
+  <data name="ErrorLeerEjercicio" xml:space="preserve">
+    <value>Error reading the exercise</value>
+  </data>
 </root>

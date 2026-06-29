@@ -790,4 +790,37 @@ O arquivo não está aberto</value>
   <data name="ErrorCrearRuta" xml:space="preserve">
     <value>Rota de Criação de Erro</value>
   </data>
+  <data name="Origen" xml:space="preserve">
+    <value>Origem</value>
+  </data>
+  <data name="Destino" xml:space="preserve">
+    <value>Destino</value>
+  </data>
+  <data name="ErrorLlenarConceptos" xml:space="preserve">
+    <value>Preenchimento de erros em conceitos</value>
+  </data>
+  <data name="ErrorLlenarCuentas" xml:space="preserve">
+    <value>Erro ao preencher contas</value>
+  </data>
+  <data name="MsgConfirmarBorradoSingular" xml:space="preserve">
+    <value>Você tem certeza absoluta de que quer DELETAR FISICAMENTE a entrada selecionada do Banco de Dados?</value>
+  </data>
+  <data name="MsgConfirmarBorradoPlural" xml:space="preserve">
+    <value>Você tem certeza absoluta de que quer DELETAR FISICAMENTE as notas selecionadas de {0} do Banco de Dados?</value>
+  </data>
+  <data name="ConfirmarBorrado" xml:space="preserve">
+    <value>Confirmar Apagamento Múltiplo</value>
+  </data>
+  <data name="ErrorBorrarFilaID" xml:space="preserve">
+    <value>Erro ao excluir linha com ID {0}:</value>
+  </data>
+  <data name="MsgLoteEliminadoExito" xml:space="preserve">
+    <value>Operação concluída. Registros físicos foram excluídos do {0} Banco de Dados</value>
+  </data>
+  <data name="TituloBorradoFinalizado" xml:space="preserve">
+    <value>Exclusão Concluída</value>
+  </data>
+  <data name="ErrorLeerEjercicio" xml:space="preserve">
+    <value>Erro na leitura do exercício</value>
+  </data>
 </root>

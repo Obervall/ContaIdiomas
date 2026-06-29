@@ -790,4 +790,37 @@ Die Datei ist nicht geöffnet</value>
   <data name="ErrorCrearRuta" xml:space="preserve">
     <value>Fehler erstellte Route</value>
   </data>
+  <data name="Origen" xml:space="preserve">
+    <value>Ursprung</value>
+  </data>
+  <data name="Destino" xml:space="preserve">
+    <value>Ziel</value>
+  </data>
+  <data name="ErrorLlenarConceptos" xml:space="preserve">
+    <value>Fehlerausfüllen von Konzepten</value>
+  </data>
+  <data name="ErrorLlenarCuentas" xml:space="preserve">
+    <value>Fehler beim Ausfüllen von Konten</value>
+  </data>
+  <data name="MsgConfirmarBorradoSingular" xml:space="preserve">
+    <value>Bist du dir ganz sicher, dass du den ausgewählten Eintrag PHYSISCH aus der Datenbank löschen möchtest?</value>
+  </data>
+  <data name="MsgConfirmarBorradoPlural" xml:space="preserve">
+    <value>Bist du dir ganz sicher, dass du die ausgewählten {0} Notizen PHYSISCH aus der Datenbank löschen möchtest?</value>
+  </data>
+  <data name="ConfirmarBorrado" xml:space="preserve">
+    <value>Mehrfaches Löschen bestätigen</value>
+  </data>
+  <data name="ErrorBorrarFilaID" xml:space="preserve">
+    <value>Fehler löscht Zeile mit ID {0}:</value>
+  </data>
+  <data name="MsgLoteEliminadoExito" xml:space="preserve">
+    <value>Operation abgeschlossen. Physische Datensätze wurden aus {0} Datenbank gelöscht</value>
+  </data>
+  <data name="TituloBorradoFinalizado" xml:space="preserve">
+    <value>Löschung abgeschlossen</value>
+  </data>
+  <data name="ErrorLeerEjercicio" xml:space="preserve">
+    <value>Fehler beim Lesen der Übung</value>
+  </data>
 </root>

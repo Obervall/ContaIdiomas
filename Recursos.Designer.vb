@@ -335,6 +335,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Confirmar Borrado Múltiple.
+    '''</summary>
+    Friend Shared ReadOnly Property ConfirmarBorrado() As String
+        Get
+            Return ResourceManager.GetString("ConfirmarBorrado", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Cuenta.
     '''</summary>
     Friend Shared ReadOnly Property Cuenta() As String
@@ -803,6 +812,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Destino.
+    '''</summary>
+    Friend Shared ReadOnly Property Destino() As String
+        Get
+            Return ResourceManager.GetString("Destino", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a CAJA EFECTIVO.
     '''</summary>
     Friend Shared ReadOnly Property EFECTIVO() As String
@@ -873,6 +891,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property ErrorBackup() As String
         Get
             Return ResourceManager.GetString("ErrorBackup", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Error al borrar la fila con ID {0}:.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorBorrarFilaID() As String
+        Get
+            Return ResourceManager.GetString("ErrorBorrarFilaID", resourceCulture)
         End Get
     End Property
     
@@ -985,6 +1012,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Error al leer el ejercicio.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorLeerEjercicio() As String
+        Get
+            Return ResourceManager.GetString("ErrorLeerEjercicio", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Error al leer históricos.
     '''</summary>
     Friend Shared ReadOnly Property ErrorLeerHistoricos() As String
@@ -1008,6 +1044,24 @@ Friend Class Recursos
     Friend Shared ReadOnly Property ErrorLlenarCmbDescripcion() As String
         Get
             Return ResourceManager.GetString("ErrorLlenarCmbDescripcion", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Error al llenar Conceptos.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorLlenarConceptos() As String
+        Get
+            Return ResourceManager.GetString("ErrorLlenarConceptos", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Error al llenar Cuentas.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorLlenarCuentas() As String
+        Get
+            Return ResourceManager.GetString("ErrorLlenarCuentas", resourceCulture)
         End Get
     End Property
     
@@ -1345,6 +1399,24 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a ¿Está completamente seguro de que desea eliminar FÍSICAMENTE de la Base de Datos los {0} apuntes seleccionados?.
+    '''</summary>
+    Friend Shared ReadOnly Property MsgConfirmarBorradoPlural() As String
+        Get
+            Return ResourceManager.GetString("MsgConfirmarBorradoPlural", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a ¿Está completamente seguro de que desea eliminar FÍSICAMENTE de la Base de Datos el apunte seleccionado?.
+    '''</summary>
+    Friend Shared ReadOnly Property MsgConfirmarBorradoSingular() As String
+        Get
+            Return ResourceManager.GetString("MsgConfirmarBorradoSingular", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a No hay ninguna Coincidencia con los datos Introducidos.
     '''</summary>
     Friend Shared ReadOnly Property MsgDatos1() As String
@@ -1386,6 +1458,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property MsgFila2() As String
         Get
             Return ResourceManager.GetString("MsgFila2", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Operación completada. Se han eliminado {0} registros físicos de la Base de Datos.
+    '''</summary>
+    Friend Shared ReadOnly Property MsgLoteEliminadoExito() As String
+        Get
+            Return ResourceManager.GetString("MsgLoteEliminadoExito", resourceCulture)
         End Get
     End Property
     
@@ -1485,6 +1566,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property OPENBANK() As String
         Get
             Return ResourceManager.GetString("OPENBANK", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Origen.
+    '''</summary>
+    Friend Shared ReadOnly Property Origen() As String
+        Get
+            Return ResourceManager.GetString("Origen", resourceCulture)
         End Get
     End Property
     
@@ -1764,6 +1854,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property TitolApp() As String
         Get
             Return ResourceManager.GetString("TitolApp", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Borrado Finalizado.
+    '''</summary>
+    Friend Shared ReadOnly Property TituloBorradoFinalizado() As String
+        Get
+            Return ResourceManager.GetString("TituloBorradoFinalizado", resourceCulture)
         End Get
     End Property
     

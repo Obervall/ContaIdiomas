@@ -540,7 +540,6 @@ Partial Class ApuntesContables
     Friend WithEvents TxtNumRegistros As Windows.Forms.TextBox
     Friend WithEvents LblNumRegistros As Windows.Forms.Label
     Friend WithEvents Label1 As Windows.Forms.Label
-    Friend WithEvents BtnTraspasarRegistro As Windows.Forms.Button
     Friend WithEvents BtnEditarRegistro As Windows.Forms.Button
     Friend WithEvents BtnEliminarRegistro As Windows.Forms.Button
     Friend WithEvents BtnAñadirRegistro As Windows.Forms.Button
@@ -593,4 +592,5 @@ Partial Class ApuntesContables
     Friend WithEvents PrintDocument1 As Drawing.Printing.PrintDocument
     Friend WithEvents BtnAumentar As Windows.Forms.Button
     Friend WithEvents BtnNormal As Windows.Forms.Button
+    Public WithEvents BtnTraspasarRegistro As Windows.Forms.Button
 End Class

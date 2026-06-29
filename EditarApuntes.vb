@@ -47,7 +47,6 @@ Public Class EditarApuntes
         Catch ex As Exception
             MsgBox(resManager.GetString("ErrorCargarCONyCUE") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
-        cargandoFormulario = False
 
         ' Llenar el Combo Descripción (Optimizado a la velocidad del rayo)
         '*****************************************************************
@@ -104,7 +103,7 @@ Public Class EditarApuntes
             BtnAceptar.Enabled = False
             BtnEliminar.Select()
         End If
-        cargandoFormulario = False
+
         ' Truco del vaivén maestro: Obligamos a que pinte la descripción larga UNA SOLA VEZ en el arranque
         If CmbConcepto.Items.Count > 0 Then
             ' Si tienes guardado qué concepto tenía la fila, lo heredas (ej: asignando su posición o ID)
@@ -124,6 +123,7 @@ Public Class EditarApuntes
         Dim descripcionRealGrid As String = frmApuntesContables.DgvApuntes.Rows(filaPrincipal).Cells(2).Value.ToString()
 
         CmbDescripcion.Text = descripcionRealGrid
+        cargandoFormulario = False
     End Sub
 
     Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click

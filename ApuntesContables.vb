@@ -190,7 +190,7 @@ Public Class ApuntesContables
             End If
         Catch ex As Exception
             If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-            MsgBox("Error al procesar conceptos: " & ex.Message, MsgBoxStyle.Critical)
+            MsgBox(resManager.GetString("ErrorLlenarConceptos") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
 
         ' Llenar el Combo Cuenta de forma segura y traducida
@@ -212,7 +212,7 @@ Public Class ApuntesContables
         Catch ex As Exception
             ' En caso de un error general en el formulario, apagamos el escudo como salvavidas
             cargandoFormulario = False
-            MsgBox("Error al cargar las cuentas en la pantalla: " & ex.Message, MsgBoxStyle.Critical, "Error")
+            MsgBox(resManager.GetString("ErrorLlenarCuentas") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
 
         ' Llenar el Combo Campos
@@ -220,13 +220,7 @@ Public Class ApuntesContables
         frmBuscar.CmbCampos.Items.Clear()
         frmBuscar.CmbCampos.Items.Add(resManager.GetString("Todos_Los_Campos"))
 
-        'For i As Integer = 0 To DgvApuntes.Columns.Count - 5
-        '    Dim cabecera As String = Replace(DgvApuntes.Columns(i).HeaderText, "€", "").Trim
-        '    frmBuscar.CmbCampos.Items.Add(cabecera)
-        'Next
-
         For Each columna As DataGridViewColumn In DgvApuntes.Columns
-            '            If columna.Name <> "ImporteAPU" And columna.Name <> "Expr1003" And columna.Name <> "CuentaAPU" And columna.Name <> "CodigoAPU" Then
             If columna.Name <> "ImporteAPU" And columna.Name <> "SaldoAPU" And columna.Name <> "CuentaAPU" And columna.Name <> "CodigoAPU" And columna.Name <> "CodigoCON" And columna.Name <> "IdConceptoCON" And columna.Name <> "IdCuentaCUE" Then
                 frmBuscar.CmbCampos.Items.Add(columna.HeaderText)
             End If
@@ -315,7 +309,6 @@ Public Class ApuntesContables
     End Sub
 
     Private Sub ListBox1_KeyDown(sender As Object, e As KeyEventArgs) Handles ListBox1.KeyDown
-        'MsgBox(e.KeyCode)
         If e.KeyCode = 27 Then  'Tecla Esc
             'Quitar todos los checked
             For i = 0 To ListBox1.Items.Count - 1
@@ -1254,34 +1247,124 @@ Public Class ApuntesContables
     End Sub
 
     Private Sub BtnEliminarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEliminarRegistro.Click
-        filaActual = frmApuntesContables.DgvApuntes.CurrentRow.Index
-        vTxtNombre = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(1).Value.ToString
+        ' 1. Validamos que haya al menos una fila seleccionada de verdad en la rejilla
+        If DgvApuntes.SelectedRows.Count = 0 Then
+            MsgBox("Por favor, seleccione primero las filas que desea eliminar utilizando las celdas de la izquierda.", MsgBoxStyle.Information)
+            Exit Sub
+        End If
 
-        ' Buscamos la traducción y la pasamos a Mayúsculas
-        Dim palabraSaldoMayusculas As String = resManager.GetString("Saldo")?.ToUpper()
-        If String.IsNullOrEmpty(palabraSaldoMayusculas) Then palabraSaldoMayusculas = "SALDO"
-
-        ' Comparación totalmente segura
-        If vTxtNombre.ToUpper() = palabraSaldoMayusculas Then
-            MsgBox(resManager.GetString("MsgSaldos1"))
+        ' 2. CUADRO DE CONFIRMACIÓN: Preguntamos antes de extirpar de la BD el lote completo
+        ' =========================================================================
+        ' 🌟 ADAPTACIÓN INTERNACIONAL DE MENSAJES MEDIANTE PLANTILLAS (resManager)
+        ' =========================================================================
+        Dim mensajeConfirmacion As String = ""
+        Dim totalFilas As Integer = DgvApuntes.SelectedRows.Count
+        If totalFilas = 1 Then
+            ' Recuperamos el molde singular de fábrica (No necesita inyectar números)
+            Dim plantillaSingular As String = resManager.GetString("MsgConfirmarBorradoSingular")
+            ' Salvavidas por si la Key no estuviera escrita en el .resx
+            If String.IsNullOrEmpty(plantillaSingular) Then
+                plantillaSingular = "¿Está completamente seguro de que desea eliminar FÍSICAMENTE de la Base de Datos el apunte seleccionado?"
+            End If
+            mensajeConfirmacion = plantillaSingular
         Else
-            ' Comprobamos si existe un identificador asociado.
-            If ((frmEditarApuntes Is Nothing) OrElse (Not frmEditarApuntes.IsHandleCreated)) Then
-                frmEditarApuntes = New EditarApuntes
+            ' Recuperamos el molde plural que contiene el comodín {0}
+            Dim plantillaPlural As String = resManager.GetString("MsgConfirmarBorradoPlural")
+            ' Salvavidas por si la Key no estuviera escrita en el .resx
+            If String.IsNullOrEmpty(plantillaPlural) Then
+                plantillaPlural = "¿Está completamente seguro de que desea eliminar FÍSICAMENTE de la Base de Datos los {0} apuntes seleccionados?"
+            End If
+            ' 🌟 EL TRUCO .NET: String.Format inyecta el número 'totalFilas' en el lugar del '{0}'
+            mensajeConfirmacion = String.Format(plantillaPlural, totalFilas)
+        End If
+        ' 🌟 LA CORRECCIÓN CLAVE: Llamamos al confirmador inmune al idioma de Windows para que no salga YES en vez de SI
+        Dim tituloVentana As String = If(resManager?.GetString("ConfirmarBorrado"), "Confirmar Borrado Múltiple")
+        If ConfirmarAccionTraducida(mensajeConfirmacion, tituloVentana) = MsgBoxResult.No Then
+            Exit Sub
+        End If
+
+        ' 3. Buscamos el ID numérico del concepto "SALDO" para blindarlo contra borrados accidentales
+        Dim idConceptoSaldo As Integer = 1
+        Using cmdBuscarId As New OleDb.OleDbCommand("SELECT IdConceptoCON FROM conceptos WHERE CodigoCON = 'SALDO'", conexion1)
+            Dim resId = cmdBuscarId.ExecuteScalar()
+            If resId IsNot Nothing AndAlso Not IsDBNull(resId) Then idConceptoSaldo = Convert.ToInt32(resId)
+        End Using
+
+        Dim contadorBorrados As Integer = 0
+
+        ' =========================================================================
+        ' 🌟 PUNTO 3 REPARADO: BUCLE PARA RECOLECTAR TODOS LOS IDs SELECCIONADOS
+        ' =========================================================================
+        For Each fila As DataGridViewRow In DgvApuntes.SelectedRows
+            ' Saltamos la fila vacía del final del grid por seguridad
+            If fila.IsNewRow Then Continue For
+
+            ' ESCUDO DE SEGURIDAD 1: Validamos que la fila tenga conceptos reales y que no sea SALDO
+            If fila.Cells(9).Value IsNot Nothing AndAlso Not IsDBNull(fila.Cells(9).Value) Then
+                Dim idConceptoFila As Integer = Convert.ToInt32(fila.Cells(9).Value)
+                If idConceptoFila = idConceptoSaldo Then Continue For ' Si incluye el SALDO inicial, pasa de largo y lo salva
             End If
 
-            ' Llamamos al formulario de manera modal para borrar
-            vEditar = "NO"  ' Eliminar
-            frmEditarApuntes.ShowDialog()
-            frmEditarApuntes.Dispose()
+            ' ESCUDO DE SEGURIDAD 2: Rescatamos el ID físico único de esta fila (Celda 7)
+            If fila.Cells(7).Value IsNot Nothing AndAlso Not IsDBNull(fila.Cells(7).Value) Then
+                Dim idRegistroFisico As Integer = Convert.ToInt32(fila.Cells(7).Value)
 
-            ' =========================================================================
-            ' 🌟 EXCELENTE OPTIMIZACIÓN: DISPARAMOS EL REFRESCO ÚNICO REUTILIZABLE
-            ' =========================================================================
-            ' Borramos más de 100 líneas redundantes y delegamos todo en la rutina limpia
-            RefrescarGridApuntesContables()
+                ' Lanzamos la sentencia DELETE individual para cada ID del lote de forma ultra rápida
+                Using cmdDelete As New OleDb.OleDbCommand("DELETE FROM apuntes WHERE CodigoAPU = ?", conexion1)
+                    cmdDelete.Parameters.Clear()
+                    cmdDelete.Parameters.Add("@id", OleDb.OleDbType.Integer).Value = idRegistroFisico
 
+                    Try
+                        cmdDelete.ExecuteNonQuery()
+                        contadorBorrados += 1
+                    Catch ex As Exception
+                        ' 🌟 Recuperamos el molde del .resx de forma segura
+                        Dim plantillaError As String = resManager.GetString("ErrorBorrarFilaID")
+
+                        ' Salvavidas por si acaso la Key no estuviera escrita todavía
+                        If String.IsNullOrEmpty(plantillaError) Then
+                            plantillaError = "Error al borrar la fila con ID {0}: "
+                        End If
+
+                        ' Fusionamos el ID con el texto traducido y le pegamos el mensaje nativo del sistema (ex.Message)
+                        Dim mensajeFinal As String = String.Format(plantillaError, idRegistroFisico) & ex.Message
+
+                        MsgBox(mensajeFinal, MsgBoxStyle.Critical, resManager.GetString("Error"))
+                    End Try
+                End Using
+            End If
+        Next
+
+        ' =========================================================================
+        ' 4. REFRESCAMOS Y RECALCULAMOS LA INTERFAZ DE FORMA AUTOMÁTICA
+        ' =========================================================================
+        ' Refrescamos la rejilla con tu rutina estrella de las 11 celdas relacionales
+        RefrescarGridApuntesContables()
+
+        ' Volvemos a calcular la columna de saldos acumulados de la pantalla al céntimo
+        DgvApuntesContables(3, 4)
+
+        ' Avisamos del resultado final al usuario
+        ' =========================================================================
+        ' 🌟 MENSAJE DE ÉXITO FINAL INTERNACIONALIZADO (resManager)
+        ' =========================================================================
+        ' 1. Recuperamos la plantilla del mensaje del .resx
+        Dim plantillaExito As String = resManager.GetString("MsgLoteEliminadoExito")
+        If String.IsNullOrEmpty(plantillaExito) Then
+            plantillaExito = "Operación completada. Se han eliminado {0} registros físicos de la Base de Datos."
         End If
+
+        ' 2. Recuperamos el título de la ventana del .resx
+        Dim tituloExito As String = resManager.GetString("TituloBorradoFinalizado")
+        If String.IsNullOrEmpty(tituloExito) Then
+            tituloExito = "Borrado Finalizado"
+        End If
+
+        ' 3. Fusionamos el número de borrados con la plantilla correspondiente
+        Dim mensajeFinalExito As String = String.Format(plantillaExito, contadorBorrados)
+
+        ' Mostramos el aviso final dócil y traducido
+        MsgBox(mensajeFinalExito, MsgBoxStyle.Information, tituloExito)
     End Sub
 
     Private Sub BtnGraficos_Click(sender As Object, e As EventArgs) Handles BtnGraficos.Click
@@ -1297,53 +1380,58 @@ Public Class ApuntesContables
     End Sub
 
     Private Sub BtnEliminaSeleccion_Click(sender As Object, e As EventArgs) Handles BtnEliminaSeleccion.Click
-        'Elimina las Filas Seleccionadas
-        '*******************************
-        For Each r As DataGridViewRow In DgvApuntes.SelectedRows
-            If DgvApuntes.Rows.Count > 1 Then
-                DgvApuntes.Rows.Remove(r)
-            End If
-        Next
-        If DgvApuntes.Rows.Count > 1 Then
-            filaSelec = DgvApuntes.CurrentRow.Index
-            For i = 0 To DgvApuntes.Rows.Count - 1
-                DgvApuntes.Rows(i).Selected = False
+        ' Elimina Visualmente las Filas Seleccionadas desde la memoria RAM
+        ' *******************************************************************
+        If DgvApuntes.SelectedRows.Count > 0 Then
+
+            ' 🌟 CAMBIO DE LA NUEVA ERA: Borramos de la memoria RAM (DataTable) y no de la rejilla visual
+            ' Recorremos al revés o de forma directa las filas seleccionadas
+            For i As Integer = DgvApuntes.SelectedRows.Count - 1 To 0 Step -1
+                Dim fila As DataGridViewRow = DgvApuntes.SelectedRows(i)
+
+                ' Nos saltamos la fila vacía del final por seguridad
+                If fila.IsNewRow Then Continue For
+
+                ' Extraemos el enlace de datos puro de la fila y lo eliminamos de la RAM
+                If fila.DataBoundItem IsNot Nothing Then
+                    Dim rowView As DataRowView = CType(fila.DataBoundItem, DataRowView)
+                    rowView.Delete() ' Se borra del DataTable en la RAM, pero NO hace el DELETE en Access
+                End If
             Next
-            'Variable que guardara el valor
-            'Dim iTotal As Integer = Me.DgvApuntes.Rows.Count 'ITotal toma el valor del numero de registros que tiene la tabla
-            'Definimos la variable i para controlar el ciclo for
-            'Definimos del ciclo que va desde que i vale cero hasta que i valga itotal menos uno, osea el penultimo regsitro de la tabla
-            DgvApuntesContables(3, 4)
-            DgvApuntes.Select()
-            DgvApuntes.CurrentRow.Selected = True
-            DgvApuntes.Refresh()
+
+            ' 2. Tu excelente bloque contable de recalculo se queda intacto y dócil
+            If DgvApuntes.Rows.Count > 0 Then
+                ' Limpiamos selecciones fantasma
+                For i = 0 To DgvApuntes.Rows.Count - 1
+                    DgvApuntes.Rows(i).Selected = False
+                Next
+
+                ' Vuelve a calcular la columna de saldos acumulados con lo que queda vivo en la pantalla
+                DgvApuntesContables(3, 4)
+
+                DgvApuntes.Select()
+                ' 🌟 LA CORRECCIÓN CLAVE: Calculamos de forma dinámica el índice de la ÚLTIMA fila
+                Dim ultimaFilaViva As Integer = DgvApuntes.Rows.Count - 1
+
+                ' Validamos que el índice sea válido (mayor o igual a 0) para evitar desbordamientos
+                If ultimaFilaViva >= 0 Then
+                    DgvApuntes.Rows(ultimaFilaViva).Selected = True
+                    DgvApuntes.CurrentCell = DgvApuntes.Rows(ultimaFilaViva).Cells(0)
+                End If
+                DgvApuntes.Refresh()
+            End If
         End If
     End Sub
 
     Private Sub DgvApuntes_KeyDown(sender As Object, e As KeyEventArgs) Handles DgvApuntes.KeyDown
-        'MsgBox(e.KeyCode)
-        'Elimina las Filas Seleccionadas
-        '*******************************
-        If e.KeyCode = 46 Then  'Tecla Supr
-            For Each r As DataGridViewRow In DgvApuntes.SelectedRows
-                If DgvApuntes.Rows.Count > 1 Then
-                    DgvApuntes.Rows.Remove(r)
-                End If
-            Next
-            If DgvApuntes.Rows.Count > 1 Then
-                filaSelec = DgvApuntes.CurrentRow.Index
-                For i = 0 To DgvApuntes.Rows.Count - 1
-                    DgvApuntes.Rows(i).Selected = False
-                Next
-                'Variable que guardara el valor
-                'Dim iTotal As Integer = Me.DgvApuntes.Rows.Count 'ITotal toma el valor del numero de registros que tiene la tabla
-                'Definimos la variable i para controlar el ciclo for
-                'Definimos del ciclo que va desde que i vale cero hasta que i valga itotal menos uno, osea el penultimo regsitro de la tabla
-                DgvApuntesContables(3, 4)
-                DgvApuntes.Select()
-                DgvApuntes.CurrentRow.Selected = True
-                DgvApuntes.Refresh()
-            End If
+        ' 🌟 LA CORRECCIÓN CLAVE: Detectamos si el usuario pulsa la tecla SUPR (Delete)
+        If e.KeyCode = Keys.Delete OrElse e.KeyCode = 46 Then
+            ' Evitamos que Windows Forms aplique su borrado visual interno basura
+            e.SuppressKeyPress = True
+
+            ' 🚀 TRUCO MAESTRO DE REUTILIZACIÓN: Disparamos tu botón unificado de borrado físico masivo
+            ' que ya pide confirmación traducida, salva el SALDO inicial y recalcula los céntimos
+            BtnEliminarRegistro.PerformClick()
         End If
     End Sub
 
@@ -1369,7 +1457,7 @@ Public Class ApuntesContables
                 End If
             Catch ex As Exception
                 vFecha1Enero = Date.Today.Year ' Si da error la BD, no rompemos el programa
-                MsgBox("Error al leer el ejercicio: " & ex.Message, MsgBoxStyle.Critical)
+                MsgBox(resManager.GetString("") & ": " & ex.Message, MsgBoxStyle.Critical)
             End Try
 
             ' Configuraciones originales de tus calendarios impecables
@@ -1644,43 +1732,28 @@ Public Class ApuntesContables
         PrbExport.Visible = False
     End Sub
 
-    Private Sub BtnTraspasarRegistro_Click(sender As Object, e As EventArgs) Handles BtnTraspasarRegistro.Click
+    Public Sub BtnTraspasarRegistro_Click(sender As Object, e As EventArgs) Handles BtnTraspasarRegistro.Click
         ' Comprobamos si existe un identificador asociado.
         If ((frmTraspasoCuentas Is Nothing) OrElse (Not frmTraspasoCuentas.IsHandleCreated)) Then
             frmTraspasoCuentas = New TraspasoCuentas
         End If
-        ' Llamamos al formulario de manera modal.
-        frmTraspasoCuentas.ShowDialog()
-        vFilaActual = frmApuntesContables.DgvApuntes.RowCount - 1
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
+
+        ' 🌟 LA CORRECCIÓN CLAVE: Capturamos la respuesta de la ventana al cerrarse
+        Dim respuesta As DialogResult = frmTraspasoCuentas.ShowDialog()
+
+        ' Destruimos el formulario de la memoria RAM limpiamente
         frmTraspasoCuentas.Dispose()
-        vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
-        If BtnFechasClick = "SI" Then
-            vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
-        Else
-            vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-        End If
-        If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
-            vtipoSql += " And apuntes.CuentaAPU = '" & frmApuntesContables.CmbCuenta.Text & "' "
-        End If
-        If frmApuntesContables.BtnFiltroConcepto.Enabled = False Then
-            vtipoSql += " And apuntes.ConceptoAPU = '" & frmApuntesContables.CmbConcepto.Text & "' "
-        End If
-        If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
-            vDate1 = frmApuntesContables.DateTimePicker1.Value
-            vDate2 = frmApuntesContables.DateTimePicker2.Value
-            vtipoSql += " And apuntes.FechaAPU >= ?"
-            vtipoSql += " And apuntes.FechaAPU <= ?"
-        End If
-        vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
-        vtipoGrid = "APUNTES_CONTABLES"
-        LlenarGrid(vtipoSql, vtipoGrid, "1")
-        TraducirGridApuntesBD(Me.DgvApuntes)
-        If DgvApuntes.RowCount - 1 >= 0 Then
-            vFila = DgvApuntes.RowCount - 1
-            DgvApuntes.Rows(vFila).Selected = True
-            DgvApuntes.CurrentCell = DgvApuntes.Rows(vFila).Cells(0)
+
+        ' 🌟 SÓLO SI EL USUARIO GRABÓ (OK): Ejecutamos el refresco y movemos el foco
+        ' Si el usuario pulsó Cancelar o cerró la x, pasamos de largo en silencio y la pantalla no se enfada
+        If respuesta = DialogResult.OK Then
+            RefrescarGridApuntesContables()
+
+            If frmApuntesContables.DgvApuntes.RowCount > 0 Then
+                vFilaActual = frmApuntesContables.DgvApuntes.RowCount - 1
+                frmApuntesContables.DgvApuntes.Rows(vFilaActual).Selected = True
+                frmApuntesContables.DgvApuntes.CurrentCell = frmApuntesContables.DgvApuntes.Rows(vFilaActual).Cells(0)
+            End If
         End If
     End Sub
 
@@ -2044,74 +2117,40 @@ Public Class ApuntesContables
     End Sub
 
     Private Sub ApuntesContables_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+        ' =========================================================================
+        ' 🌟 ATAJO GENERAL DE TECLADO UNIFICADO (REUTILIZACIÓN TOTAL)
+        ' =========================================================================
+
+        ' 1. CONTROL DE LA TECLA F3: Continuar la búsqueda parcial de texto
         If BtnSeguirBuscando.Enabled = True Then
             If e.KeyCode = Keys.F3 Then
                 SeguirF3()
             End If
         End If
 
-        If e.KeyCode = 116 And frmApuntesContables.DgvApuntes.RowCount > 0 Then 'Tecla F5 y con Filas Existentes
-            'Filtra Apuntes por la Descripción Seleccionada
-            '**********************************************
-            If DgvApuntes.Rows.Count > 1 Then
-                filaActual = frmApuntesContables.DgvApuntes.CurrentRow.Index
-                vTxtDescripcion = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(2).Value.ToString
-                ' Llamamos al formulario de manera modal.
-                frmFiltroF5.ShowDialog()
-                If frmFiltroF5.TxtFiltro.Text <> "" Then
-                    vTxtDescripcion = frmFiltroF5.TxtFiltro.Text
-                    vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
-                    If BtnFechasClick = "SI" Then
-                        vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
-                    Else
-                        vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-                    End If
-                    vtipoSql += " And apuntes.DescripcionAPU LIKE '%" & vTxtDescripcion & "%' "
-                    If frmFiltroF5.ChkOtrosFiltros.Checked = True And frmFiltroF5.ChkOtrosFiltros.Enabled = True Then
-                        If BtnFiltroCuenta.Enabled = False Then
-                            vtipoSql += " And apuntes.CuentaAPU = '" & CmbCuenta.Text.Replace("'", "''") & "' "
-                        End If
-                        If BtnFiltroConcepto.Enabled = False Then
-                            vtipoSql += " And apuntes.ConceptoAPU = '" & CmbConcepto.Text.Replace("'", "''") & "' "
-                        End If
-                        If BtnFiltroFecha.Enabled = False Then
-                            vtipoSql += " And apuntes.FechaAPU >= ?"
-                            vtipoSql += " And apuntes.FechaAPU <= ?"
-                        End If
-                    End If
-                    vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
-                    vtipoGrid = "APUNTES_CONTABLES"
-                    LlenarGrid(vtipoSql, vtipoGrid, "1")
-                    TraducirGridApuntesBD(Me.DgvApuntes)
-                End If
+        ' 2. CONTROL DE LA TECLA F5 (116): Filtro rápido por descripción
+        ' Delegamos directamente en el botón que ya busca por IDs, LIKE y parámetros limpios
+        If (e.KeyCode = Keys.F5 OrElse e.KeyCode = 116) AndAlso DgvApuntes.RowCount > 0 Then
+            e.SuppressKeyPress = True ' Evitamos que Windows haga ruidos raros de sistema
+
+            If BtnFiltroF5.Enabled Then
+                BtnFiltroF5.PerformClick()
             End If
         End If
 
-        If e.KeyCode = 117 Then 'Tecla F6
-            'Vuelve a Refrecar el DataGrid y dejar los Btn de los Filtros sin Filtrar
-            '************************************************************************
-            vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
-            If BtnFechasClick = "SI" Then
-                vtipoSql += " WHERE apuntes.ConceptoAPU <> 'SALDO' And apuntes.EjercicioAPU <> 0 "
-            Else
-                vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+        ' 3. CONTROL DE LA TECLA F6 (117): Limpieza total y refresco general anual
+        ' Delegamos en el botón que quita los filtros, apaga escudos y repinta el ejercicio
+        If e.KeyCode = Keys.F6 OrElse e.KeyCode = 117 Then
+            e.SuppressKeyPress = True
+
+            If BtnF6.Enabled Then
+                BtnF6.PerformClick()
             End If
-            vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
-            vtipoGrid = "APUNTES_CONTABLES"
-            LlenarGrid(vtipoSql, vtipoGrid, "1")
-            TraducirGridApuntesBD(Me.DgvApuntes)
-            BtnFiltroCuenta.Enabled = True
-            BtnSinFiltroCuenta.Enabled = False
-            BtnFiltroConcepto.Enabled = True
-            BtnSinFiltroConcepto.Enabled = False
-            BtnFiltroFecha.Enabled = True
-            BtnSinFiltroFecha.Enabled = False
-            BtnFiltroChekedList.Enabled = True
-            If DgvApuntes.RowCount - 1 >= 0 Then
-                vFila = DgvApuntes.RowCount - 1
-                DgvApuntes.Rows(vFila).Selected = True
-                DgvApuntes.CurrentCell = DgvApuntes.Rows(vFila).Cells(0)
-            End If
+
+            '' Cambia 'BtnSinFiltroFecha' por el botón físico que uses en tu pantalla para resetear
+            'If BtnSinFiltroFecha.Enabled Then
+            '    BtnSinFiltroFecha.PerformClick()
+            'End If
         End If
     End Sub
 

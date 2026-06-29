@@ -790,4 +790,37 @@ le fichier n’est pas ouvert</value>
   <data name="ErrorCrearRuta" xml:space="preserve">
     <value>Itinéraire de création d’erreur</value>
   </data>
+  <data name="Origen" xml:space="preserve">
+    <value>Origine</value>
+  </data>
+  <data name="Destino" xml:space="preserve">
+    <value>Destination</value>
+  </data>
+  <data name="ErrorLlenarConceptos" xml:space="preserve">
+    <value>Remplissage d’erreurs dans les concepts</value>
+  </data>
+  <data name="ErrorLlenarCuentas" xml:space="preserve">
+    <value>Erreur lors du remplissage des comptes</value>
+  </data>
+  <data name="MsgConfirmarBorradoSingular" xml:space="preserve">
+    <value>Êtes-vous absolument sûr de vouloir PHYSIQUEMENT supprimer l’entrée sélectionnée de la base de données ?</value>
+  </data>
+  <data name="MsgConfirmarBorradoPlural" xml:space="preserve">
+    <value>Êtes-vous absolument sûr de vouloir SUPPRIMER PHYSIQUEMENT les notes de {0} sélectionnées de la base de données ?</value>
+  </data>
+  <data name="ConfirmarBorrado" xml:space="preserve">
+    <value>Confirmer l’effacement multiple</value>
+  </data>
+  <data name="ErrorBorrarFilaID" xml:space="preserve">
+    <value>Erreur de suppression de ligne avec ID {0} :</value>
+  </data>
+  <data name="MsgLoteEliminadoExito" xml:space="preserve">
+    <value>Opération terminée. Les enregistrements physiques ont été supprimés de {0} base de données</value>
+  </data>
+  <data name="TituloBorradoFinalizado" xml:space="preserve">
+    <value>Suppression terminée</value>
+  </data>
+  <data name="ErrorLeerEjercicio" xml:space="preserve">
+    <value>Erreur de lecture de l’exercice</value>
+  </data>
 </root>

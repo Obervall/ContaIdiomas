@@ -475,22 +475,27 @@ Public Class Principal
     End Sub
 
     Private Sub BtnTraspasoCuentas_Click(sender As Object, e As EventArgs) Handles BtnTraspasoCuentas.Click
-        IntroducirTraspasosToolStripMenuItem.PerformClick()
+        ' 🌟 LA CORRECCIÓN CLAVE: Buscamos de forma segura la ventana activa en el sistema
+        ' Si la variable global es Nothing o se cerró, volvemos a instanciarla para que no dé el NullReference
+        If frmApuntesContables Is Nothing OrElse frmApuntesContables.IsDisposed Then
+            frmApuntesContables = New ApuntesContables
+        End If
+
+        ' Ahora que es 100% seguro que el objeto existe en la RAM, invocamos la apertura
+        frmApuntesContables.BtnTraspasarRegistro_Click(Nothing, Nothing)
     End Sub
 
     Private Sub IntroducirTraspasosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles IntroducirTraspasosToolStripMenuItem.Click
-        TsLabelFormulario.Text = rmse.GetString("IntroducirTraspasosToolStripMenuItem.Text")
-        ' Comprobamos si existe un identificador asociado.
-        If ((frmTraspasoCuentas Is Nothing) OrElse (Not frmTraspasoCuentas.IsHandleCreated)) Then
-            frmTraspasoCuentas = New TraspasoCuentas
+        ' 🌟 LA CORRECCIÓN CLAVE: Buscamos de forma segura la ventana activa en el sistema
+        ' Si la variable global es Nothing o se cerró, volvemos a instanciarla para que no dé el NullReference
+        If frmApuntesContables Is Nothing OrElse frmApuntesContables.IsDisposed Then
+            frmApuntesContables = New ApuntesContables
         End If
-        ' Llamamos al formulario de manera modal.
-        frmTraspasoCuentas.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
-        frmTraspasoCuentas.Dispose()
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+
+        ' Ahora que es 100% seguro que el objeto existe en la RAM, invocamos la apertura
+        frmApuntesContables.BtnTraspasarRegistro_Click(Nothing, Nothing)
     End Sub
+
 
     Private Sub BtnApuntesPeriodicos_Click(sender As Object, e As EventArgs) Handles BtnApuntesPeriodicos.Click
         ApuntesPeriodicosToolStripMenuItem.PerformClick()
