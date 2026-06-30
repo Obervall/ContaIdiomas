@@ -90,23 +90,35 @@ Public Class IntroApuntes
         ' Llenar el Combo Concepto de forma segura y traducida (IntroApuntes)
         '******************************************************************
         Try
+            ' 1. Encendemos tu escudo protector antes de rellenar los componentes
             cargandoFormulario = True
 
-            ' 2. Llamamos a las dos funciones genéricas del módulo pasándole los combos de esta pantalla
-            LlenarComboConceptosIntroApuntes(Me.CmbConcepto)
-            LlenarComboCuentasGenerico(Me.CmbCuenta) ' (Si también tienes el combo de cuentas aquí)
+            ' 🌟 CABLE A: Cargamos el ComboBox de forma independiente ordenado de la A a la Z puro
+            LlenarComboConceptosSueltosBD(Me.CmbConcepto)
 
-            ' 3. Apagamos el escudo
+            ' 🌟 CABLE B: Cargamos el combo de cuentas genérico de tu módulo (Si lo tienes en esta pantalla)
+            LlenarComboCuentasGenerico(Me.CmbCuenta)
+
+            ' 2. Apagamos el escudo tras la inyección exitosa en la memoria RAM
             cargandoFormulario = False
 
-            ' SELECCIÓN INTELIGENTE Y SEGURA DE LA CUENTA
-            If CmbCuenta.Items.Count > 0 Then
-                ' Si en la pantalla principal hay una cuenta seleccionada y el filtro está activo, heredamos esa misma posición
-                If frmApuntesContables.BtnFiltroCuenta.Enabled = False AndAlso frmApuntesContables.CmbCuenta.SelectedIndex >= 0 AndAlso frmApuntesContables.CmbCuenta.SelectedIndex < CmbCuenta.Items.Count Then
-                    CmbCuenta.SelectedIndex = frmApuntesContables.CmbCuenta.SelectedIndex
+            ' =========================================================================
+            ' 🌟 SINCRONIZACIÓN INTELIGENTE DE CONCEPTOS DE ATRÁS CONTRA IDs
+            ' =========================================================================
+            ' Verificamos si la pantalla de extractos de atrás existe en la RAM para heredar su filtro
+            If frmApuntesContables IsNot Nothing AndAlso frmApuntesContables.IsHandleCreated Then
+
+                ' Si en la pantalla principal el usuario ya tenía filtrado un concepto, 
+                ' lo pre-seleccionamos automáticamente en esta ventana usando su ID numérico entero
+                If frmApuntesContables.BtnFiltroConcepto.Enabled = False Then
+                    CmbConcepto.SelectedValue = frmApuntesContables.CmbConcepto.SelectedValue
                 Else
-                    CmbCuenta.SelectedIndex = 0
+                    If CmbConcepto.Items.Count > 0 Then CmbConcepto.SelectedIndex = 0
                 End If
+
+            Else
+                ' Plan B (Carga Aislada): Si entramos directo, marcamos el primer concepto de la lista
+                If CmbConcepto.Items.Count > 0 Then CmbConcepto.SelectedIndex = 0
             End If
         Catch ex As Exception
             MsgBox(resManager.GetString("ErrorCargarCONyCUE") & ": " & ex.Message, MsgBoxStyle.Critical, resManager.GetString("Error"))

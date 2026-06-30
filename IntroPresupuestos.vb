@@ -1,23 +1,29 @@
-﻿Imports System.Data.OleDb
+﻿Imports System.Data
+Imports System.Data.OleDb
 Imports System.Windows.Forms
 
 Public Class IntroPresupuestos
 
+    Private cargandoFormulario As Boolean = True
     Public vConcepto, vtipoSql, vFDesde, vBorrarPresu As String
     Public vMensual, vAnual, vEnero, vFebrero, vMarzo, vAbril, vMayo, vJunio, vSaldoAnualPresupuesto, vImporte As Double
     Public vJulio, vAgosto, vSeptiembre, vOctubre, vNoviembre, vDiciembre As Double
     Public TL(18) As ToolTip
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
-    Private Sub IntroApuntes_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub IntroPresupuestos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ' 🌟 PASO CRÍTICO 1: Encendemos el escudo de carga para congelar eventos automáticos
+        cargandoFormulario = True
         Me.KeyPreview = True
-        ' Optimización: Bucle dinámico para las etiquetas dentro del GroupBox de meses
+        cmdMdb1cr.Parameters.Clear()
+
+        ' Optimización: Bucle dinámico para las etiquetas dentro del GroupBox de meses (Tu lógica perfecta)
         For i As Integer = 16 To 28
             Dim lbl() As Control = Me.Controls.Find("Label" & i, True)
             If lbl.Length > 0 Then lbl(0).Text = vMoneda
         Next
 
-        ' Inicialización centralizada de ToolTips
+        ' Inicialización centralizada de ToolTips (Mantenida tu excelente lógica .NET de fábrica)
         Dim controlesToolTip As Control() = {
             BtnConcepto, BtnAceptar, BtnCancelar, CmbConcepto, TxtAnual,
             TxtEnero, TxtFebrero, TxtMarzo, TxtAbril, TxtMayo, TxtJunio,
@@ -37,24 +43,39 @@ Public Class IntroPresupuestos
             TL(i).SetToolTip(controlesToolTip(i), rmse.GetString(clavesToolTip(i)))
         Next
 
-        ' Llenar el Combo Concepto
-        '*************************
-        cmdMdb1cr.CommandText = "SELECT * FROM conceptos ORDER BY conceptos.CodigoCON ASC"
+        ' =========================================================================
+        ' 🌟 LLENAR EL COMBO CONCEPTO (Internacionalizado, con IDs y Orden A-Z)
+        ' =========================================================================
+        ' Invocamos de forma magistral la función exclusiva de módulo para combos sueltos
         Try
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-            If drMdb1.HasRows Then
-                While drMdb1.Read()
-                    CmbConcepto.Items.Add(drMdb1.GetValue(0))
-                End While
-                CmbConcepto.Text = CmbConcepto.Items(0)
+            LlenarComboConceptosSueltosBD(Me.CmbConcepto)
+
+            ' =========================================================================
+            ' 🌟 SINCRO INTELIGENTE BLINDADA CONTRA NULLREFERENCE (Tu escudo de la Nueva Era)
+            ' =========================================================================
+            ' Verificamos de forma biológica que el formulario frmPresupuestos exista, 
+            ' esté cargado en la memoria RAM y su ventana visual haya sido creada (IsHandleCreated)
+            If frmPresupuestos IsNot Nothing AndAlso frmPresupuestos.IsHandleCreated Then
+
+                ' Si la pantalla de atrás está viva, heredamos su filtro de forma segura
+                If frmPresupuestos.BtnFiltroConcepto.Enabled = False Then
+                    CmbConcepto.SelectedValue = frmPresupuestos.CmbConcepto.SelectedValue
+                Else
+                    If CmbConcepto.Items.Count > 0 Then CmbConcepto.SelectedIndex = 0
+                End If
+
             Else
-                'MsgBox("No existen registros en " & tipoSql)
+                ' 🧰 PLAN B (Carga Aislada Segura): Si la pantalla de atrás no existe o se cerró, 
+                ' seleccionamos la primera fila del desplegable de forma local sin provocar errores
+                If CmbConcepto.Items.Count > 0 Then CmbConcepto.SelectedIndex = 0
             End If
-            drMdb1.Close()
         Catch ex As Exception
-            MsgBox(ex.ToString)
+            MsgBox("Error al inicializar los conceptos del presupuesto: " & ex.Message, MsgBoxStyle.Critical)
         End Try
 
+        ' =========================================================================
+        ' COMPORTAMIENTO INICIAL DE LOS MANDOS (Tu excelente lógica de fábrica)
+        ' =========================================================================
         If RdbAnual.Checked = True Then
             GBoxAnual.Enabled = True
             GBoxMensual.Enabled = False
@@ -67,49 +88,81 @@ Public Class IntroPresupuestos
             TxtEnero.Select()
             TxtEnero.SelectAll()
         End If
+
+        ' Llamamos a tu macro que rellena los cuadros de texto si venían datos heredados
         LlenarTextBox()
+
+        ' 🌟 PASO CRÍTICO 2: Apagamos el escudo. La pantalla está lista y dócil en la RAM
+        cargandoFormulario = False
     End Sub
 
     Private Sub CmbConcepto_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbConcepto.SelectedIndexChanged
-        ' Aseguramos que haya un concepto seleccionado
-        If CmbConcepto.SelectedIndex = -1 Then Exit Sub
-        vConcepto = CmbConcepto.Text.ToString().Trim()
+        ' 🌟 ESCUDO PROTECTOR AUTOMÁTICO: Si el formulario se está iniciando o limpiando, salimos de inmediato
+        If cargandoFormulario Then Exit Sub
+        If CmbConcepto.SelectedIndex < 0 Then Exit Sub
 
-        ' 1. Buscamos los datos estáticos del concepto (Tipo y Descripción) usando un comando limpio
-        Dim sqlConcepto As String = "SELECT TipoCON, DescripcionCON FROM conceptos WHERE CodigoCON = ?"
+        Try
+            Dim idConceptoSel As Integer = 0
+            Dim codigoOriginal As String = ""
+            Dim descripcionOriginal As String = ""
+            Dim tipoOriginal As String = ""
 
-        Using conexion As New OleDbConnection(conexion1.ConnectionString)
-            Using cmd As New OleDbCommand(sqlConcepto, conexion)
-                cmd.Parameters.AddWithValue("@cod", vConcepto)
-                Try
-                    conexion.Open()
-                    Using dr As OleDbDataReader = cmd.ExecuteReader()
-                        If dr.Read() Then
-                            TxtTipoConcepto.Text = dr("TipoCON").ToString()
-                            TxtDescripcion.Text = dr("DescripcionCON").ToString()
-                        End If
-                    End Using
-                Catch ex As Exception
-                    MsgBox(ex.Message)
-                End Try
-            End Using
-        End Using
+            ' 🌟 EXTRACCIÓN MAESTRA DESDE MEMORIA (Cero consultas DataReader a Access, cero bloqueos)
+            ' Convertimos el ítem seleccionado en un DataRowView para leer sus columnas ocultas en la RAM
+            If CmbConcepto.SelectedItem IsNot Nothing Then
+                Dim filaSeleccionada As DataRowView = CType(CmbConcepto.SelectedItem, DataRowView)
 
-        ' 2. Enfocamos la caja correspondiente según la selección
-        If RdbAnual.Checked = True Then
-            TxtAnual.Select()
-            TxtAnual.SelectAll()
-        Else
-            TxtEnero.Select()
-            TxtEnero.SelectAll()
-        End If
+                idConceptoSel = Convert.ToInt32(filaSeleccionada("IdConceptoCON"))
+                codigoOriginal = filaSeleccionada("CodigoCON").ToString().Trim()
+                descripcionOriginal = filaSeleccionada("DescripcionCON").ToString().Trim()
 
-        ' 3. Rellenamos las 12 cajas mensuales con lo que haya en los presupuestos
-        LlenarTextBox()
+                If filaSeleccionada.Row.Table.Columns.Contains("TipoCON") Then
+                    tipoOriginal = filaSeleccionada("TipoCON").ToString().Trim()
+                End If
+            End If
+
+            If idConceptoSel > 0 Then
+                ' Sincronizamos tus variables globales de fábrica
+                vConcepto = codigoOriginal
+
+                ' --- TRADUCIR EL TIPO (Gasto / Ingreso / Especial) ---
+                Dim tradTipo As String = ""
+                Select Case tipoOriginal.ToUpper()
+                    Case "GASTO" : tradTipo = resManager.GetString("Tipo_Gasto")
+                    Case "INGRESO" : tradTipo = resManager.GetString("Tipo_Ingreso")
+                    Case "ESPECIAL" : tradTipo = resManager.GetString("Tipo_Especial")
+                End Select
+                If String.IsNullOrEmpty(tradTipo) Then tradTipo = tipoOriginal
+                TxtTipoConcepto.Text = tradTipo
+
+                ' --- TRADUCIR LAS DESCRIPCIONES AUTOMÁTICAS (Desc_NOMBRE) ---
+                Dim llaveDesc As String = "Desc_" & codigoOriginal.Replace(" ", "_")
+                Dim tradDesc As String = resManager.GetString(llaveDesc)
+
+                ' Si no tiene traducción en el ResX, dejamos la descripción genérica de la BD
+                If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
+                TxtDescripcion.Text = tradDesc
+
+                ' 2. Enfocamos la caja correspondiente según la selección (Tu lógica impecable)
+                If RdbAnual.Checked = True Then
+                    TxtAnual.Select()
+                    TxtAnual.SelectAll()
+                Else
+                    TxtEnero.Select()
+                    TxtEnero.SelectAll()
+                End If
+
+                ' 3. Rellenamos las 12 cajas mensuales con lo que haya en los presupuestos
+                LlenarTextBox()
+            End If
+
+        Catch ex As Exception
+            ' Evita cuelgues visuales si el combo parpadea en la carga
+        End Try
     End Sub
 
     Public Sub LlenarTextBox()
-        ' 1. Ponemos todas las cajas a cero por defecto usando un array para no repetir líneas
+        ' 1. Ponemos todas las cajas a cero por defecto usando un array para no repetir líneas (Tu lógica perfecta)
         Dim cajasMeses As TextBox() = {TxtEnero, TxtFebrero, TxtMarzo, TxtAbril, TxtMayo, TxtJunio,
                                        TxtJulio, TxtAgosto, TxtSeptiembre, TxtOctubre, TxtNoviembre, TxtDiciembre}
 
@@ -122,13 +175,25 @@ Public Class IntroPresupuestos
         Dim importesMensuales(11) As Double
         Dim sumaAnual As Double = 0
 
-        ' 2. Consulta SQL sobre tu estructura MDB actual
+        ' 🌟 CORRECCIÓN CRÍTICA: Capturamos el ID numérico real oculto del combo en vez de la variable de texto
+        Dim idConceptoActual As Integer = 0
+        If CmbConcepto.SelectedValue IsNot Nothing Then
+            idConceptoActual = Convert.ToInt32(CmbConcepto.SelectedValue)
+        End If
+
+        ' Si no hay ningún concepto seleccionado de verdad, abortamos la carga para evitar fallos
+        If idConceptoActual = 0 Then Exit Sub
+
+        ' 2. Consulta SQL parametrizada sobre tu estructura relacional con comodines '?'
         vtipoSql = "SELECT ImportePRE, FDesdePRE FROM presupuesto WHERE EjercicioPRE = ? AND ConceptoPRE = ?"
 
         Using conexion As New OleDbConnection(conexion1.ConnectionString)
             Using cmd As New OleDbCommand(vtipoSql, conexion)
-                cmd.Parameters.AddWithValue("@eje", CInt(vAñoEjercicio))
-                cmd.Parameters.AddWithValue("@con", vConcepto)
+                cmd.Parameters.Clear()
+
+                ' Los parámetros de Access se asocian estrictamente por el orden de los comodines '?'
+                cmd.Parameters.Add("@eje", OleDb.OleDbType.Integer).Value = Convert.ToInt32(vAñoEjercicio)
+                cmd.Parameters.Add("@con", OleDb.OleDbType.Integer).Value = idConceptoActual ' Inyectamos el ID entero puro
 
                 Try
                     conexion.Open()
@@ -136,14 +201,14 @@ Public Class IntroPresupuestos
 
                         ' Recorremos los registros que existan en tu MDB para este presupuesto
                         While dr.Read()
-                            Dim importe As Double = Convert.ToDouble(dr("ImportePRE"))
+                            ' Forzamos una conversión limpia y segura inmune al signo contable
+                            Dim importe As Double = Math.Abs(Convert.ToDouble(dr("ImportePRE")))
                             Dim fecha As Date = Convert.ToDateTime(dr("FDesdePRE"))
                             Dim mes As Integer = fecha.Month ' Extrae el número de mes (1 al 12)
 
                             sumaAnual += importe
 
                             ' Guardamos en el array y asignamos a la caja correspondiente de forma automática
-                            ' sin Select Case
                             If mes >= 1 AndAlso mes <= 12 Then
                                 importesMensuales(mes - 1) = importe
                                 cajasMeses(mes - 1).Text = importe.ToString("N2")
@@ -153,12 +218,11 @@ Public Class IntroPresupuestos
                         ' Mostramos la suma total acumulada en la casilla Anual
                         TxtAnual.Text = sumaAnual.ToString("N2")
 
-                        ' 3. DETECTAR AUTOMÁTICAMENTE SI ERA REPARTO ANUAL O MENSUAL
+                        ' 3. DETECTAR AUTOMÁTICAMENTE SI ERA REPARTO ANUAL O MENSUAL (Tu excelente lógica intacta)
                         Dim todosIguales As Boolean = True
                         Dim primerImporte As Double = importesMensuales(0)
 
                         For i As Integer = 1 To 11
-                            ' Si un solo mes es diferente al primero, es un presupuesto mensual personalizado
                             If importesMensuales(i) <> primerImporte Then
                                 todosIguales = False
                                 Exit For
@@ -186,49 +250,43 @@ Public Class IntroPresupuestos
 
                     End Using
                 Catch ex As Exception
-                    MsgBox(ex.Message)
+                    MsgBox("Error al leer importes mensuales: " & ex.Message, MsgBoxStyle.Critical)
                 End Try
             End Using
         End Using
     End Sub
 
     Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click
-        ' 1. Validar que tengamos un concepto contable seleccionado
-        Dim concepto As String = CmbConcepto.Text.Trim()
-        If String.IsNullOrEmpty(concepto) Then
+        ' 1. Validar que tengamos un concepto contable seleccionado de forma segura
+        Dim idConcepto As Integer = 0
+        If CmbConcepto.SelectedValue IsNot Nothing Then
+            idConcepto = Convert.ToInt32(CmbConcepto.SelectedValue)
+        End If
+
+        If idConcepto = 0 Then
             MessageBox.Show(rmse.GetString("SeleccionarCC"), resManager.GetString("Aviso"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
-        ' 2. Mapeamos los valores de las cajas de texto a un array numérico en memoria (0 = Ene, 11 = Dic)
+        ' 2. Mapeamos los valores de las cajas de texto a un array numérico en memoria (Tu excelente reparto de céntimos)
         Dim importesMensuales(11) As Double
 
         If RdbAnual.Checked Then
-            ' Si es anual, dividimos el total entre 12 y redondeamos de forma limpia
             Dim totalAnual As Double = 0
             Double.TryParse(TxtAnual.Text, totalAnual)
-            ' 1. Convertimos el total anual a Decimal antes de hacer la división
             Dim totalDecimal As Decimal = Convert.ToDecimal(totalAnual)
             Dim importeRepartido As Decimal = Math.Round(totalDecimal / 12D, 2)
 
-            ' 2. Llenamos los primeros 11 meses con el valor redondeado
             Dim acumuladoPrimerosMeses As Decimal = 0.0D
             For i As Integer = 0 To 10
-                ' Si importesMensuales exige Double, usamos Convert pero sobre el número YA redondeado
                 importesMensuales(i) = Convert.ToDouble(importeRepartido)
                 acumuladoPrimerosMeses += importeRepartido
             Next
 
-            ' 3. El último mes se queda con el pico exacto del presupuesto contable
             Dim ultimoMesDecimal As Decimal = totalDecimal - acumuladoPrimerosMeses
             importesMensuales(11) = Convert.ToDouble(ultimoMesDecimal)
-
-            'Dim importeRepartido As Decimal = Math.Round(Convert.ToDecimal(totalAnual / 12), 2)
-            'For i As Integer = 0 To 11
-            '    importesMensuales(i) = Convert.ToDouble(importeRepartido)
-            'Next
         Else
-            ' Si es mensual, parseamos cada una de las 12 cajas de tu formulario
+            ' Si es mensual, parseamos cada una de las 12 cajas de tu formulario de siempre
             Double.TryParse(TxtEnero.Text, importesMensuales(0))
             Double.TryParse(TxtFebrero.Text, importesMensuales(1))
             Double.TryParse(TxtMarzo.Text, importesMensuales(2))
@@ -243,40 +301,41 @@ Public Class IntroPresupuestos
             Double.TryParse(TxtDiciembre.Text, importesMensuales(11))
         End If
 
-        ' 3. GRABACIÓN SEGURA EN LA MDB ACTUAL DE LOS USUARIOS
+        ' 3. GRABACIÓN SEGURA EN LA MDB ACTUAL DE LOS USUARIOS (Con Transacción Limpia)
         Using conexion As New OleDbConnection(conexion1.ConnectionString)
             Try
                 conexion.Open()
 
-                ' Abrimos una transacción para asegurar la operación en bloque
                 Using transaccion As OleDbTransaction = conexion.BeginTransaction()
 
-                    ' PLAN A: Limpiamos cualquier presupuesto anterior que tuviera este concepto en este año
+                    ' 🌟 PLAN A: Limpiamos cualquier presupuesto anterior que tuviera este ID numérico de concepto en este año
+                    ' Usamos los comodines '?' puros en el orden biológico correcto de Access
                     Dim sqlDelete As String = "DELETE FROM presupuesto WHERE ConceptoPRE = ? AND EjercicioPRE = ?"
                     Using cmdDelete As New OleDbCommand(sqlDelete, conexion, transaccion)
-                        cmdDelete.Parameters.AddWithValue("@con", concepto)
-                        cmdDelete.Parameters.AddWithValue("@eje", CInt(vAñoEjercicio))
+                        cmdDelete.Parameters.Clear()
+                        cmdDelete.Parameters.Add("@con", OleDbType.Integer).Value = idConcepto
+                        cmdDelete.Parameters.Add("@eje", OleDbType.Integer).Value = Convert.ToInt32(vAñoEjercicio)
                         cmdDelete.ExecuteNonQuery()
                     End Using
 
-                    ' PLAN B: Inserción masiva de las 12 mensualidades con tus nombres de columna reales
+                    ' 🌟 PLAN B: Inserción masiva de las 12 mensualidades relacionales por IDs
                     Dim sqlInsert As String = "INSERT INTO presupuesto (ConceptoPRE, ImportePRE, EjercicioPRE, FDesdePRE) VALUES (?, ?, ?, ?)"
                     Using cmdInsert As New OleDbCommand(sqlInsert, conexion, transaccion)
 
-                        ' Declaramos parámetros tipados para evitar fallos de comillas y formatos de fecha de Access
-                        cmdInsert.Parameters.Add("@con", OleDbType.VarWChar)
+                        ' Declaramos parámetros con tipos estrictos fijos para el motor relacional
+                        cmdInsert.Parameters.Clear()
+                        cmdInsert.Parameters.Add("@con", OleDbType.Integer) ' 🌟 Cambiado a Integer para recibir el ID numérico
                         cmdInsert.Parameters.Add("@imp", OleDbType.Double)
                         cmdInsert.Parameters.Add("@eje", OleDbType.Integer)
                         cmdInsert.Parameters.Add("@fec", OleDbType.Date)
 
                         ' Ejecutamos el bucle para los 12 meses del año
                         For mes As Integer = 1 To 12
-                            ' Generamos la fecha del primer día de cada mes (01/01/Año, 01/02/Año...)
-                            Dim fechaMes As New Date(CInt(vAñoEjercicio), mes, 1)
+                            Dim fechaMes As New Date(Convert.ToInt32(vAñoEjercicio), mes, 1)
 
-                            cmdInsert.Parameters(0).Value = concepto
+                            cmdInsert.Parameters(0).Value = idConcepto
                             cmdInsert.Parameters(1).Value = importesMensuales(mes - 1)
-                            cmdInsert.Parameters(2).Value = CInt(vAñoEjercicio)
+                            cmdInsert.Parameters(2).Value = Convert.ToInt32(vAñoEjercicio)
                             cmdInsert.Parameters(3).Value = fechaMes
 
                             cmdInsert.ExecuteNonQuery()
@@ -286,14 +345,24 @@ Public Class IntroPresupuestos
                     ' Si todo ha ido bien sin errores, consolidamos los cambios en el archivo físico .mdb
                     transaccion.Commit()
 
-                    ' Opcional: Si quieres usar tu lógica de resManager para el mensaje de éxito
+                    ' =========================================================================
+                    ' 🌟 REFRESCAMOS LA REJILLA DE ATRÁS AUTOMÁTICAMENTE ANTES DE SALIR
+                    ' =========================================================================
+                    ' Forzamos a la pantalla principal a ejecutar su macro-consulta relacional con INNER JOIN
+                    ' para que los 12 meses aparezcan listados en unas mayúsculas perfectas de inmediato
+                    If TypeOf frmPresupuestos Is Form Then
+                        frmPresupuestos.BtnF6.PerformClick() ' 🚀 El atajo F6 limpia filtros y recarga todo el año relacional
+                    End If
+
+                    ' Mensaje de éxito original impecable
                     Dim msgExito As String = rmse.GetString("PresupuestoGuardado")
+                    If String.IsNullOrEmpty(msgExito) Then msgExito = "Presupuesto guardado correctamente."
                     MessageBox.Show(msgExito, resManager.GetString("Éxito"), MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                     Me.Close()
                 End Using
             Catch ex As Exception
-                MessageBox.Show(ex.Message, resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("Error al grabar el presupuesto: " & ex.Message, resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         End Using
     End Sub
@@ -327,25 +396,23 @@ Public Class IntroPresupuestos
     Private Sub CalcularSumaMensualidades()
         ' Solo actuamos si está seleccionada la opción de introducción Mensual
         If RdbMensual.Checked Then
-            Dim suma As Double = 0
-            Dim temp As Double = 0
+            Dim sumaAcumulada As Decimal = 0
 
-            ' Sumamos el valor de cada caja de texto de forma segura
-            If Double.TryParse(TxtEnero.Text, temp) Then PointToSuma(suma, temp)
-            If Double.TryParse(TxtFebrero.Text, temp) Then PointToSuma(suma, temp)
-            If Double.TryParse(TxtMarzo.Text, temp) Then PointToSuma(suma, temp)
-            If Double.TryParse(TxtAbril.Text, temp) Then PointToSuma(suma, temp)
-            If Double.TryParse(TxtMayo.Text, temp) Then PointToSuma(suma, temp)
-            If Double.TryParse(TxtJunio.Text, temp) Then PointToSuma(suma, temp)
-            If Double.TryParse(TxtJulio.Text, temp) Then PointToSuma(suma, temp)
-            If Double.TryParse(TxtAgosto.Text, temp) Then PointToSuma(suma, temp)
-            If Double.TryParse(TxtSeptiembre.Text, temp) Then PointToSuma(suma, temp)
-            If Double.TryParse(TxtOctubre.Text, temp) Then PointToSuma(suma, temp)
-            If Double.TryParse(TxtNoviembre.Text, temp) Then PointToSuma(suma, temp)
-            If Double.TryParse(TxtDiciembre.Text, temp) Then PointToSuma(suma, temp)
+            ' 1. Creamos un array en caliente con tus 12 cajas mensuales del formulario
+            Dim cajasMeses As TextBox() = {TxtEnero, TxtFebrero, TxtMarzo, TxtAbril, TxtMayo, TxtJunio,
+                                           TxtJulio, TxtAgosto, TxtSeptiembre, TxtOctubre, TxtNoviembre, TxtDiciembre}
 
-            ' Mostramos el resultado totalizado en la caja anual
-            TxtAnual.Text = suma.ToString("N2")
+            ' 2. El bucle maestro recorre las cajas y acumula los importes de forma 100% segura
+            For Each txt In cajasMeses
+                Dim valorCaja As Decimal = 0
+                ' ConvertirDecimalSeguro limpia los puntos y comas según el idioma regional del Windows del usuario
+                If Decimal.TryParse(txt.Text.Trim(), valorCaja) Then
+                    sumaAcumulada += valorCaja
+                End If
+            Next
+
+            ' 3. Mostramos el resultado totalizado con formato contable de dos decimales
+            TxtAnual.Text = sumaAcumulada.ToString("N2")
         End If
     End Sub
 
@@ -354,23 +421,26 @@ Public Class IntroPresupuestos
         total += valor
     End Sub
 
-    ' Enlazamos las 12 cajas al mismo evento para ahorrar código
+    ' Enlazamos las 12 cajas al mismo evento para ahorrar código (Tu excelente arquitectura)
     Private Sub TxtMeses_Leave(sender As Object, e As EventArgs) Handles _
     TxtEnero.Leave, TxtFebrero.Leave, TxtMarzo.Leave, TxtAbril.Leave,
     TxtMayo.Leave, TxtJunio.Leave, TxtJulio.Leave, TxtAgosto.Leave,
     TxtSeptiembre.Leave, TxtOctubre.Leave, TxtNoviembre.Leave, TxtDiciembre.Leave
 
-        Dim txt As TextBox = CType(sender, TextBox)
-        Dim valor As Double = 0
+        ' 🌟 ESCUDO PROTECTOR AUTOMÁTICO: Si la pantalla está inyectando datos desde el Load, pasamos de largo
+        If cargandoFormulario Then Exit Sub
 
-        ' Damos formato de moneda a la caja en la que estábamos parados
-        If Double.TryParse(txt.Text.Trim(), valor) Then
+        Dim txt As TextBox = CType(sender, TextBox)
+        Dim valor As Decimal = 0
+
+        ' 🌟 CORRECCIÓN DE PRECISIÓN: Damos formato contable exacto usando Decimal
+        If Decimal.TryParse(txt.Text.Trim(), valor) Then
             txt.Text = valor.ToString("N2")
         Else
             txt.Text = "0,00"
         End If
 
-        ' Recalculamos el total anual reflejado en la pantalla
+        ' Recalculamos el total anual reflejado en la pantalla de forma legal y segura
         CalcularSumaMensualidades()
     End Sub
 
@@ -379,21 +449,26 @@ Public Class IntroPresupuestos
     TxtMayo.Enter, TxtJunio.Enter, TxtJulio.Enter, TxtAgosto.Enter,
     TxtSeptiembre.Enter, TxtOctubre.Enter, TxtNoviembre.Enter, TxtDiciembre.Enter
 
-        Dim txt As TextBox = CType(sender, TextBox)
-        Dim valor As Double = 0
+        If cargandoFormulario Then Exit Sub
 
-        ' Al entrar, quitamos los puntos de millar para facilitar la escritura manual
-        If Double.TryParse(txt.Text.Trim(), valor) Then
+        Dim txt As TextBox = CType(sender, TextBox)
+        Dim valor As Decimal = 0
+
+        ' Al entrar, quitamos los puntos de millar para facilitar la escritura manual sin perder precisión
+        If Decimal.TryParse(txt.Text.Trim(), valor) Then
             If valor = 0 Then
                 txt.Text = "" ' Si es cero, vaciamos la caja para que no tenga que borrar el "0,00"
             Else
-                txt.Text = valor.ToString("F2") ' Formato limpio sin separador de miles (ej: 1250,00)
+                txt.Text = valor.ToString("F2") ' Formato limpio sin separador de miles (ej: 1250.00)
             End If
         End If
         txt.SelectAll()
     End Sub
 
     Private Sub RdbAnual_CheckedChanged(sender As Object, e As EventArgs) Handles RdbAnual.CheckedChanged, RdbMensual.CheckedChanged
+        ' 🌟 ESCUDO PROTECTOR AUTOMÁTICO: Evita disparos en falso que vuelven loco al procesador durante el arranque
+        If cargandoFormulario Then Exit Sub
+
         ' 1. Habilitamos o deshabilitamos los contenedores visuales según el RadioButton activo
         GBoxAnual.Enabled = RdbAnual.Checked
         GBoxMensual.Enabled = RdbMensual.Checked
@@ -435,39 +510,53 @@ Public Class IntroPresupuestos
     End Sub
 
     Private Sub TxtAnual_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtAnual.KeyPress
+        ' 1. EL TRUCO DEL TECLADO NUMÉRICO: Reemplazamos el punto por la coma ARRIBA DEL TODO 
+        ' para que cuando el código intente parsear el número, ya tenga el signo decimal correcto
+        If e.KeyChar = "."c Then
+            e.KeyChar = ","c
+        End If
+
         SoloNumerosConPunto(e)
 
         If e.KeyChar = ChrW(Keys.Enter) Then
-            ' 1. Convertir el texto a número de forma segura (eliminando el formateo si ya existiera)
-            Dim importeAnualPure As Double = 0
-            Double.TryParse(TxtAnual.Text, importeAnualPure)
+            ' Evitamos el pitido molesto de Windows al pulsar Enter de forma inmediata
+            e.Handled = True
+
+            ' Convertir el texto a número de forma segura en Decimal
+            Dim importeAnualPure As Decimal = 0
+            Decimal.TryParse(TxtAnual.Text.Trim(), importeAnualPure)
 
             ' Guardamos en tu variable global y formateamos la caja anual
-            vAnual = importeAnualPure
-            TxtAnual.Text = vAnual.ToString("N2")
+            vAnual = Convert.ToDouble(importeAnualPure)
+            TxtAnual.Text = importeAnualPure.ToString("N2")
 
-            ' 2. Calcular el reparto mensual exacto
-            vMensual = vAnual / 12
-            Dim textoMensualFormateado As String = vMensual.ToString("N2")
-            ' 3. Asignar el valor a tus 12 variables globales de meses
-            vEnero = vMensual : vFebrero = vMensual : vMarzo = vMensual : vAbril = vMensual
-            vMayo = vMensual : vJunio = vMensual : vJulio = vMensual : vAgosto = vMensual
-            vSeptiembre = vMensual : vOctubre = vMensual : vNoviembre = vMensual : vDiciembre = vMensual
+            ' Calcular el reparto mensual exacto usando aritmética estricta de Decimal
+            Dim importeRepartido As Decimal = Math.Round(importeAnualPure / 12D, 2)
 
-            ' 4. Rellenar las 12 cajas de la interfaz usando un bucle limpio
+            ' Llenamos los primeros 11 meses con el valor redondeado y ajustamos el pico en el último (Idéntico a tu botón Aceptar)
+            Dim acumuladoPrimerosMeses As Decimal = 0.0D
+            Dim importesMensuales(11) As Double
+
+            For i As Integer = 0 To 10
+                importesMensuales(i) = Convert.ToDouble(importeRepartido)
+                acumuladoPrimerosMeses += importeRepartido
+            Next
+            importesMensuales(11) = Convert.ToDouble(importeAnualPure - acumuladoPrimerosMeses)
+
+            ' Sincronizamos tus 12 variables globales de fábrica con precisión
+            vEnero = importesMensuales(0) : vFebrero = importesMensuales(1) : vMarzo = importesMensuales(2) : vAbril = importesMensuales(3)
+            vMayo = importesMensuales(4) : vJunio = importesMensuales(5) : vJulio = importesMensuales(6) : vAgosto = importesMensuales(7)
+            vSeptiembre = importesMensuales(8) : vOctubre = importesMensuales(9) : vNoviembre = importesMensuales(10) : vDiciembre = importesMensuales(11)
+
+            ' Rellenar las 12 cajas de la interfaz usando tu array limpio
             Dim cajasMeses As TextBox() = {TxtEnero, TxtFebrero, TxtMarzo, TxtAbril, TxtMayo, TxtJunio,
-                                       TxtJulio, TxtAgosto, TxtSeptiembre, TxtOctubre, TxtNoviembre, TxtDiciembre}
+                                           TxtJulio, TxtAgosto, TxtSeptiembre, TxtOctubre, TxtNoviembre, TxtDiciembre}
 
-            For Each txt In cajasMeses
-                txt.Text = textoMensualFormateado
+            For idx As Integer = 0 To 11
+                cajasMeses(idx).Text = importesMensuales(idx).ToString("N2")
             Next
 
             RdbMensual.Select()
-        End If
-
-        ' Reemplazo del punto por la coma para el teclado numérico
-        If e.KeyChar = "."c Then
-            e.KeyChar = ","c
         End If
     End Sub
 
@@ -476,43 +565,45 @@ Public Class IntroPresupuestos
     TxtMayo.KeyPress, TxtJunio.KeyPress, TxtJulio.KeyPress, TxtAgosto.KeyPress,
     TxtSeptiembre.KeyPress, TxtOctubre.KeyPress, TxtNoviembre.KeyPress, TxtDiciembre.KeyPress
 
-        SoloNumerosConPunto(e)
-
-        ' Reemplazo del punto por la coma para el teclado numérico
+        ' 1. EL TRUCO DEL TECLADO NUMÉRICO: Reemplazamos el punto por la coma ARRIBA DEL TODO
         If e.KeyChar = "."c Then
             e.KeyChar = ","c
         End If
 
+        SoloNumerosConPunto(e)
+
         If e.KeyChar = ChrW(Keys.Enter) Then
+            ' Evitamos el pitido molesto de Windows al pulsar Enter de forma inmediata
+            e.Handled = True
+
             Dim txt As TextBox = CType(sender, TextBox)
-            Dim valorIngresado As Double = 0
-            Double.TryParse(txt.Text, valorIngresado)
+            Dim valorIngresado As Decimal = 0
+            Decimal.TryParse(txt.Text.Trim(), valorIngresado)
 
             ' Formateamos la caja actual inmediatamente
             txt.Text = valorIngresado.ToString("N2")
 
-            ' Controlamos el foco siguiente y guardamos en la variable global correcta según la caja pulsada
+            ' Controlamos el foco siguiente y guardamos en la variable global (Tu fantástica matriz de saltos)
+            Dim numDouble As Double = Convert.ToDouble(valorIngresado)
             Select Case txt.Name
-                Case "TxtEnero" : vEnero = valorIngresado : TxtFebrero.Select()
-                Case "TxtFebrero" : vFebrero = valorIngresado : TxtMarzo.Select()
-                Case "TxtMarzo" : vMarzo = valorIngresado : TxtAbril.Select()
-                Case "TxtAbril" : vAbril = valorIngresado : TxtMayo.Select()
-                Case "TxtMayo" : vMayo = valorIngresado : TxtJunio.Select()
-                Case "TxtJunio" : vJunio = valorIngresado : TxtJulio.Select()
-                Case "TxtJulio" : vJulio = valorIngresado : TxtAgosto.Select()
-                Case "TxtAgosto" : vAgosto = valorIngresado : TxtSeptiembre.Select()
-                Case "TxtSeptiembre" : vSeptiembre = valorIngresado : TxtOctubre.Select()
-                Case "TxtOctubre" : vOctubre = valorIngresado : TxtNoviembre.Select()
-                Case "TxtNoviembre" : vNoviembre = valorIngresado : TxtDiciembre.Select()
-                Case "TxtDiciembre" : vDiciembre = valorIngresado : BtnAceptar.Select()
+                Case "TxtEnero" : vEnero = numDouble : TxtFebrero.Select()
+                Case "TxtFebrero" : vFebrero = numDouble : TxtMarzo.Select()
+                Case "TxtMarzo" : vMarzo = numDouble : TxtAbril.Select()
+                Case "TxtAbril" : vAbril = numDouble : TxtMayo.Select()
+                Case "TxtMayo" : vMayo = numDouble : TxtJunio.Select()
+                Case "TxtJunio" : vJunio = numDouble : TxtJulio.Select()
+                Case "TxtJulio" : vJulio = numDouble : TxtAgosto.Select()
+                Case "TxtAgosto" : vAgosto = numDouble : TxtSeptiembre.Select()
+                Case "TxtSeptiembre" : vSeptiembre = numDouble : TxtOctubre.Select()
+                Case "TxtOctubre" : vOctubre = numDouble : TxtNoviembre.Select()
+                Case "TxtNoviembre" : vNoviembre = numDouble : TxtDiciembre.Select()
+                Case "TxtDiciembre" : vDiciembre = numDouble : BtnAceptar.Select()
             End Select
 
-            ' Calculamos la suma total usando tus variables globales actualizadas
-            vAnual = vEnero + vFebrero + vMarzo + vAbril + vMayo + vJunio + vJulio + vAgosto + vSeptiembre + vOctubre + vNoviembre + vDiciembre
-            TxtAnual.Text = vAnual.ToString("N2")
-
-            ' Evitamos el pitido molesto de Windows al pulsar Enter
-            e.Handled = True
+            ' Calculamos la suma total usando tus variables globales y guardando en Decimal para no perder céntimos
+            Dim sumaDecimal As Decimal = Convert.ToDecimal(vEnero + vFebrero + vMarzo + vAbril + vMayo + vJunio + vJulio + vAgosto + vSeptiembre + vOctubre + vNoviembre + vDiciembre)
+            vAnual = Convert.ToDouble(sumaDecimal)
+            TxtAnual.Text = sumaDecimal.ToString("N2")
         End If
     End Sub
 

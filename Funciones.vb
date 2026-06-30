@@ -374,10 +374,10 @@ Module Funciones
             End Using
             With frmApuntesContables.DgvApuntes
                 .DefaultCellStyle.Font = New Font("Tahoma", 9)
-                .DefaultCellStyle.ForeColor = Color.Black
-                .DefaultCellStyle.BackColor = Color.White
-                .DefaultCellStyle.SelectionForeColor = Color.White
-                .DefaultCellStyle.SelectionBackColor = Color.Blue
+                .DefaultCellStyle.ForeColor = System.Drawing.Color.Black
+                .DefaultCellStyle.BackColor = System.Drawing.Color.White
+                .DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White
+                .DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Blue
                 .ScrollBars = ScrollBars.Both
                 .AllowUserToResizeColumns = True
                 .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
@@ -390,11 +390,11 @@ Module Funciones
                 '********************
                 .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
                 .Columns(4).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
-                .Columns(0).DefaultCellStyle.ForeColor = Color.DarkGreen
-                .Columns(1).DefaultCellStyle.ForeColor = Color.DarkBlue
-                .Columns(2).DefaultCellStyle.ForeColor = Color.DarkBlue
-                .Columns(4).DefaultCellStyle.ForeColor = Color.DarkBlue
-                .Columns(5).DefaultCellStyle.ForeColor = Color.DarkBlue
+                .Columns(0).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkGreen
+                .Columns(1).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkBlue
+                .Columns(2).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkBlue
+                .Columns(4).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkBlue
+                .Columns(5).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkBlue
                 .Columns(3).DefaultCellStyle.Format = "N2"
                 .Columns(4).DefaultCellStyle.Format = "N2"
                 .Columns(3).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight
@@ -482,10 +482,10 @@ Module Funciones
             End Using
             With frmApuntesPeriodicos.DgvApuper
                 .DefaultCellStyle.Font = New Font("Tahoma", 9)
-                .DefaultCellStyle.ForeColor = Color.Black
-                .DefaultCellStyle.BackColor = Color.White
-                .DefaultCellStyle.SelectionForeColor = Color.White
-                .DefaultCellStyle.SelectionBackColor = Color.Blue
+                .DefaultCellStyle.ForeColor = System.Drawing.Color.Black
+                .DefaultCellStyle.BackColor = System.Drawing.Color.White
+                .DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White
+                .DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Blue
                 .ScrollBars = ScrollBars.Both
                 .AllowUserToResizeColumns = True
                 .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
@@ -493,11 +493,11 @@ Module Funciones
                 '********************
                 .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
                 .Columns(4).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
-                .Columns(0).DefaultCellStyle.ForeColor = Color.DarkGreen
-                .Columns(1).DefaultCellStyle.ForeColor = Color.DarkBlue
-                .Columns(2).DefaultCellStyle.ForeColor = Color.DarkBlue
-                .Columns(4).DefaultCellStyle.ForeColor = Color.DarkBlue
-                .Columns(5).DefaultCellStyle.ForeColor = Color.DarkBlue
+                .Columns(0).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkGreen
+                .Columns(1).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkBlue
+                .Columns(2).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkBlue
+                .Columns(4).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkBlue
+                .Columns(5).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkBlue
                 .Columns(3).DefaultCellStyle.Format = "N2"
                 .Columns(4).DefaultCellStyle.Format = "N2"
                 .Columns(3).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight
@@ -538,15 +538,15 @@ Module Funciones
             frmConceptosContables.DgvConceptos.DataSource = Tabla
             With frmConceptosContables.DgvConceptos
                 .DefaultCellStyle.Font = New Font("Tahoma", 9)
-                .DefaultCellStyle.ForeColor = Color.Black
-                .DefaultCellStyle.BackColor = Color.White
-                .DefaultCellStyle.SelectionForeColor = Color.White
-                .DefaultCellStyle.SelectionBackColor = Color.Blue
+                .DefaultCellStyle.ForeColor = System.Drawing.Color.Black
+                .DefaultCellStyle.BackColor = System.Drawing.Color.White
+                .DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White
+                .DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Blue
                 ' arreglamos columnas
                 '********************
-                .Columns(1).DefaultCellStyle.ForeColor = Color.DarkBlue
-                .Columns(2).DefaultCellStyle.ForeColor = Color.DarkBlue
-                .Columns(3).DefaultCellStyle.ForeColor = Color.DarkBlue
+                .Columns(1).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkBlue
+                .Columns(2).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkBlue
+                .Columns(3).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkBlue
                 .Columns(0).Width = 100
                 .Columns(0).HeaderText = resManager.GetString("Tipo") ' My.Resources.Recursos.Tipo
                 .Columns(1).Width = 200
@@ -613,20 +613,20 @@ Module Funciones
 
             With frmCuentasBancarias.DgvCuentas
                 .DefaultCellStyle.Font = New Font("Tahoma", 9)
-                .DefaultCellStyle.ForeColor = Color.Black
-                .DefaultCellStyle.BackColor = Color.White
-                .DefaultCellStyle.SelectionForeColor = Color.White
-                .DefaultCellStyle.SelectionBackColor = Color.Blue
+                .DefaultCellStyle.ForeColor = System.Drawing.Color.Black
+                .DefaultCellStyle.BackColor = System.Drawing.Color.White
+                .DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White
+                .DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Blue
 
                 ' Configuración de alineaciones y colores
                 .Columns(2).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
-                .Columns(0).DefaultCellStyle.ForeColor = Color.DarkGreen
-                .Columns(1).DefaultCellStyle.ForeColor = Color.DarkBlue
-                .Columns(2).DefaultCellStyle.ForeColor = Color.DarkBlue
+                .Columns(0).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkGreen
+                .Columns(1).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkBlue
+                .Columns(2).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkBlue
                 .Columns(2).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight
                 .Columns(3).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight
                 .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
-                .Columns(3).DefaultCellStyle.ForeColor = Color.DarkBlue
+                .Columns(3).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkBlue
 
                 ' TRUCO MAESTRO: Forzamos el formato N2 ahora que la columna contiene números puros
                 .Columns(3).DefaultCellStyle.Format = "N2"
@@ -711,19 +711,19 @@ Module Funciones
 
             With frmPresupuestos.DgvPresupuestos
                 .DefaultCellStyle.Font = New Font("Tahoma", 9)
-                .DefaultCellStyle.ForeColor = Color.Black
-                .DefaultCellStyle.BackColor = Color.White
-                .DefaultCellStyle.SelectionForeColor = Color.White
-                .DefaultCellStyle.SelectionBackColor = Color.Blue
+                .DefaultCellStyle.ForeColor = System.Drawing.Color.Black
+                .DefaultCellStyle.BackColor = System.Drawing.Color.White
+                .DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White
+                .DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Blue
 
-                ' Configuramos las cabeceras fijas en castellano tal cual tu código base
-                .Columns(0).Width = 175
+                ' Configuramos las cabeceras fijas relacionales (Las 5 columnas originales)
+                .Columns(0).Width = 160
                 .Columns(0).HeaderText = resManager.GetString("Concepto")
-                .Columns(0).DefaultCellStyle.ForeColor = Color.DarkBlue
+                .Columns(0).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkBlue
 
                 .Columns(1).Width = 100
                 .Columns(1).HeaderText = frmPresupuestos.rmse.GetString("Mes")
-                .Columns(1).DefaultCellStyle.ForeColor = Color.DarkBlue
+                .Columns(1).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkBlue
 
                 .Columns(2).Width = 97
                 .Columns(2).HeaderText = resManager.GetString("Realidad")
@@ -732,10 +732,17 @@ Module Funciones
 
                 .Columns(3).Width = 97
                 .Columns(3).HeaderText = frmPresupuestos.rmse.GetString("Presupuesto")
+                .Columns(3).DefaultCellStyle.ForeColor = Color.DarkBlue
                 .Columns(3).DefaultCellStyle.Format = "N2"
 
                 .Columns(4).Width = 0
                 .Columns(4).HeaderText = resManager.GetString("Fecha")
+                .Columns(4).Visible = False ' Ocultamos la fecha por estética
+
+                ' 🌟 LAS OCULTAMOS EN LA RAM PARA LOS CÁLCULOS
+                If .Columns.Count > 5 Then .Columns(5).Visible = False ' Autonumérico (FDesdePRE duplicado)
+                If .Columns.Count > 6 Then .Columns(6).Visible = False ' IdConceptoCON puro entero
+                If .Columns.Count > 7 Then .Columns(7).Visible = False ' CodigoCON de fábrica en castellano
 
                 ' Contador de registros
                 frmPresupuestos.TxtNumRegistros.Text = .Rows.Count.ToString()
@@ -743,21 +750,6 @@ Module Funciones
                     frmPresupuestos.LblNumRegistros.Text = resManager.GetString("Filtrado")
                 Else
                     frmPresupuestos.LblNumRegistros.Text = resManager.GetString("SinFiltrar")
-                End If
-
-                ' Averiguamos el tipo de concepto activo leyendo la primera fila (INGRESO o GASTO)
-                Dim vTipoConceptoActual As String = "GASTO"
-                If .Rows.Count > 0 AndAlso .Rows(0).Cells(0).Value IsNot Nothing Then
-                    Using con As New OleDbConnection(conexion1.ConnectionString)
-                        Using cmd As New OleDbCommand("SELECT TipoCON FROM conceptos WHERE CodigoCON = '" & .Rows(0).Cells(0).Value.ToString().Replace("'", "''") & "'", con)
-                            Try
-                                con.Open()
-                                Dim res As Object = cmd.ExecuteScalar()
-                                If res IsNot Nothing Then vTipoConceptoActual = res.ToString().Trim().ToUpper()
-                            Catch
-                            End Try
-                        End Using
-                    End Using
                 End If
 
                 ' NUEVAS VARIABLES: Para acumular las sumas de las columnas
@@ -770,71 +762,78 @@ Module Funciones
                 Dim mesActualCalendario As Integer = DateTime.Now.Month
                 Dim añoActualCalendario As Integer = DateTime.Now.Year
 
-                ' BUCLE PRINCIPAL MODIFICADO FILA A FILA
+                ' 🌟 BUCLE PRINCIPAL SANEADO: Procesamos los saldos reales sin colapsar Access
                 For Each fila As DataGridViewRow In .Rows
                     If fila.IsNewRow Then Continue For
 
                     Dim vFecha As Date
-                    Dim vMes As Integer = 1 ' Valor por defecto por si falla
+                    Dim vMes As Integer = 1
 
+                    ' 1. Extraemos el mes real desde la celda 4 de la trastienda de forma segura
                     If fila.Cells(4).Value IsNot Nothing AndAlso Date.TryParse(fila.Cells(4).Value.ToString(), vFecha) Then
                         vMes = vFecha.Month
                     End If
 
-                    ' Ponemos el nombre del mes en la columna 1
+                    ' 🌟 LA CORRECCIÓN MAESTRA: Machacamos la columna 1 con el nombre del mes de forma limpia.
+                    ' Esto purga de forma fulminante cualquier residuo de texto duplicado en la primera fila.
                     fila.Cells(1).Value = MonthName(vMes, False)
 
-                    Dim vNombreConcepto As String = fila.Cells(0).Value.ToString()
+                    ' 2. Rescatamos los chivatos ocultos de las celdas 6 y 7 de la RAM
+                    Dim idConceptoFila As Integer = Convert.ToInt32(fila.Cells(6).Value)
+                    Dim codigoCortoCaste As String = fila.Cells(7).Value.ToString().Trim()
 
-                    ' 🔥 CONSULTA INTERNA POR FILA: Averiguamos el tipo de este concepto específico (INGRESO o GASTO)
+                    ' 3. Averiguamos el tipo de concepto (INGRESO o GASTO) por su ID entero
                     Dim vTipoConceptoFila As String = "GASTO"
-                    Using con As New OleDbConnection(conexion1.ConnectionString)
-                        Using cmd As New OleDbCommand("SELECT TipoCON FROM conceptos WHERE CodigoCON = '" & vNombreConcepto.Replace("'", "''") & "'", con)
+                    If idConceptoFila > 0 Then
+                        Using con As New OleDbConnection(conexion1.ConnectionString)
+                            Using cmd As New OleDbCommand("SELECT TipoCON FROM conceptos WHERE IdConceptoCON = ?", con)
+                                cmd.Parameters.Clear()
+                                cmd.Parameters.Add("@id", OleDbType.Integer).Value = idConceptoFila
+                                Try
+                                    con.Open()
+                                    Dim res As Object = cmd.ExecuteScalar()
+                                    If res IsNot Nothing Then vTipoConceptoFila = res.ToString().Trim().ToUpper()
+                                Catch
+                                End Try
+                            End Using
+                        End Using
+                    End If
+
+                    ' 4. CÁLCULO DEL SALDO REAL PARAMETRIZADO (¡Adiós al Data type mismatch!)
+                    If idConceptoFila > 0 Then
+                        Using cmdReal As New OleDbCommand("SELECT ImporteAPU, FechaAPU FROM apuntes WHERE EjercicioAPU = ? And ConceptoAPU = ?", conexion1)
+                            cmdReal.Parameters.Clear()
+                            cmdReal.Parameters.Add("@eje", OleDbType.Integer).Value = Convert.ToInt32(vAñoEjercicio)
+                            cmdReal.Parameters.Add("@con", OleDbType.Integer).Value = idConceptoFila
+
+                            Dim vSaldoMes As Double = 0
                             Try
-                                con.Open()
-                                Dim res As Object = cmd.ExecuteScalar()
-                                If res IsNot Nothing Then vTipoConceptoFila = res.ToString().Trim().ToUpper()
-                            Catch
-                            End Try
-                        End Using
-                    End Using
-
-                    ' Buscamos el saldo real de este concepto en este mes
-                    Dim cmdMySql1cr As New OleDbCommand()
-                    cmdMySql1cr.Connection = conexion1
-                    cmdMySql1cr.CommandText = "SELECT FechaAPU, ConceptoAPU, ImporteAPU FROM apuntes"
-                    cmdMySql1cr.CommandText += " WHERE EjercicioAPU = " & vAñoEjercicio.ToString
-                    cmdMySql1cr.CommandText += " And ConceptoAPU = '" & vNombreConcepto.Replace("'", "''") & "' "
-
-                    Dim vSaldoMes As Double = 0
-                    Try
-                        If conexion1.State <> ConnectionState.Open Then conexion1.Open()
-                        Using drMySql1 As OleDbDataReader = cmdMySql1cr.ExecuteReader()
-                            If drMySql1.HasRows Then
-                                While drMySql1.Read()
-                                    Dim vFechaMes As Date
-                                    If Date.TryParse(drMySql1.GetValue(0).ToString(), vFechaMes) Then
-                                        If vFechaMes.Month = vMes Then
-                                            vSaldoMes += Convert.ToDouble(drMySql1.GetValue(2))
+                                If conexion1.State <> ConnectionState.Open Then conexion1.Open()
+                                Using drReal As OleDbDataReader = cmdReal.ExecuteReader()
+                                    While drReal.Read()
+                                        Dim vFechaMes As Date
+                                        If Date.TryParse(drReal("FechaAPU").ToString(), vFechaMes) Then
+                                            If vFechaMes.Month = vMes Then
+                                                vSaldoMes += Convert.ToDouble(drReal("ImporteAPU"))
+                                            End If
                                         End If
-                                    End If
-                                End While
-                            End If
+                                    End While
+                                End Using
+                            Catch ex As Exception
+                                Debug.WriteLine("Error real: " & ex.Message)
+                            End Try
+
+                            fila.Cells(2).Value = -vSaldoMes
+                            vSumaColumnaRealCompleta += -vSaldoMes
                         End Using
-                    Catch ex As Exception
-                        MsgBox(resManager.GetString("ErrorEjecutarSaldo") & ex.Message)
-                    End Try
+                    End If
 
-                    ' Asignamos el valor real final
-                    fila.Cells(2).Value = -vSaldoMes
-                    vSumaColumnaRealCompleta += -vSaldoMes
-
-                    ' Conversión limpia y segura del valor del presupuesto
+                    ' 5. Conversión limpia y segura del valor del presupuesto
                     Dim importePresuFila As Double = 0
                     If fila.Cells(3).Value IsNot Nothing Then
                         Double.TryParse(fila.Cells(3).Value.ToString(), importePresuFila)
 
-                        ' 🔥 SI ES INGRESO, lo forzamos a NEGATIVO tanto en la celda como en la variable de cálculo
+                        ' SI ES INGRESO, lo forzamos a NEGATIVO tanto en la celda como en la variable de cálculo
                         If vTipoConceptoFila = "INGRESO" Then
                             importePresuFila = -Math.Abs(importePresuFila)
                             fila.Cells(3).Value = importePresuFila
@@ -843,40 +842,47 @@ Module Funciones
                         vSumaColumnaPresuCompleta += importePresuFila
                     End If
 
-                    ' Acumulados controlados para el YTD financiero
+                    ' 6. Acumulados controlados para el YTD financiero (Tu lógica de fábrica impecable)
                     If CInt(vAñoEjercicio) < añoActualCalendario Then
                         vTotalPresupuestoYTD += importePresuFila
-                        vTotalRealYTD += (-vSaldoMes)
+                        vTotalRealYTD += Convert.ToDouble(fila.Cells(2).Value)
                     ElseIf CInt(vAñoEjercicio) = añoActualCalendario Then
-                        Dim vMesInt As Integer = vMes
-                        If vMesInt < mesActualCalendario Then
+                        If vMes < mesActualCalendario Then
                             vTotalPresupuestoYTD += importePresuFila
-                            vTotalRealYTD += (-vSaldoMes)
+                            vTotalRealYTD += Convert.ToDouble(fila.Cells(2).Value)
                         End If
                     End If
                 Next
-                ' Sincronizamos los totales de las etiquetas mediante tu resta limpia estándar
-                Dim vDiferenciaDesviacion As Double = vTotalPresupuestoYTD - vTotalRealYTD
 
-                ' Volcamos el resultado exacto en la caja de texto
+                ' 🌟 CHIVATO MODULAR INDUSTRIAL:
+                'If .Rows.Count > 0 Then
+                '    MsgBox("CHIVATO MÓDULO: Saliendo de LlenarGrid. El valor de la primera fila columna 1 es: " & .Rows(0).Cells(1).Value.ToString())
+                'End If
+
+                ' =========================================================================
+                ' 🌟 SINCRONIZACIÓN DE ETIQUETAS DE LA SEGUNDA MITAD (Enmarcado limpio)
+                ' =========================================================================
+                Dim vDiferenciaDesviacion As Double = vTotalPresupuestoYTD - vTotalRealYTD
                 frmPresupuestos.LblMontoDesviacion.Text = vDiferenciaDesviacion.ToString("N2")
 
-                ' Cambiamos los colores de la etiqueta según si el resultado es positivo (ganancia/ahorro) o negativo
                 If vDiferenciaDesviacion >= 0 Then
-                    frmPresupuestos.LblObjetivo.ForeColor = Color.DarkGreen
+                    frmPresupuestos.LblObjetivo.ForeColor = System.Drawing.Color.DarkGreen
                     frmPresupuestos.LblObjetivo.Text = frmPresupuestos.rmse.GetString("LblObjetivo.Text")
                     If String.IsNullOrEmpty(frmPresupuestos.LblObjetivo.Text) Then frmPresupuestos.LblObjetivo.Text = "Objectiu Assolit!"
-                    frmPresupuestos.LblMontoDesviacion.ForeColor = Color.DarkBlue
+                    frmPresupuestos.LblMontoDesviacion.ForeColor = System.Drawing.Color.DarkBlue
                 Else
-                    frmPresupuestos.LblObjetivo.ForeColor = Color.DarkRed
+                    frmPresupuestos.LblObjetivo.ForeColor = System.Drawing.Color.DarkRed
                     frmPresupuestos.LblObjetivo.Text = frmPresupuestos.rmse.GetString("NoLogrado")
                     If String.IsNullOrEmpty(frmPresupuestos.LblObjetivo.Text) Then frmPresupuestos.LblObjetivo.Text = "Objectiu No Assolit"
-                    frmPresupuestos.LblMontoDesviacion.ForeColor = Color.Red
+                    frmPresupuestos.LblMontoDesviacion.ForeColor = System.Drawing.Color.Red
                 End If
 
+                ' Sincronizamos las etiquetas anuales/parciales
                 ActualizarEtiquetaDesviacion()
 
-                ' INSERCIÓN DE LA FILA DE TOTALES EN LA REJILLA
+                ' =========================================================================
+                ' 🌟 INSERCIÓN DE LA FILA DE TOTALES EN LA REJILLA (DataTable Fila Gris)
+                ' =========================================================================
                 Try
                     Dim filaTotales As DataRow = Tabla.NewRow()
                     filaTotales(0) = resManager.GetString("TOTAL")
@@ -884,24 +890,24 @@ Module Funciones
                     filaTotales(2) = vSumaColumnaRealCompleta
                     filaTotales(3) = vSumaColumnaPresuCompleta
                     filaTotales(4) = DBNull.Value
-
                     Tabla.Rows.Add(filaTotales)
                     Tabla.AcceptChanges()
                 Catch ex As Exception
+                    ' Evita bloqueos intermedios si la tabla se refresca muy rápido
                 End Try
             End With
 
         ElseIf vgrid = "TIPO_CUENTAS_BANCARIAS" Then    'Tipo Cuentas Bancarias
-            Dim adp As New OleDbDataAdapter(linSql, conexion1)
+        Dim adp As New OleDbDataAdapter(linSql, conexion1)
             Dim Tabla As New DataTable
             adp.Fill(Tabla)
             frmTipoCuentaBancaria.DgvTipoCuentasBancarias.DataSource = Tabla
             With frmTipoCuentaBancaria.DgvTipoCuentasBancarias
                 .DefaultCellStyle.Font = New Font("Tahoma", 10)
-                .DefaultCellStyle.ForeColor = Color.Black
-                .DefaultCellStyle.BackColor = Color.Beige
-                .DefaultCellStyle.SelectionForeColor = Color.Yellow
-                .DefaultCellStyle.SelectionBackColor = Color.Black
+                .DefaultCellStyle.ForeColor = System.Drawing.Color.Black
+                .DefaultCellStyle.BackColor = System.Drawing.Color.Beige
+                .DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Yellow
+                .DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Black
                 'arreglamos columnas
                 '*******************
                 .Columns(0).HeaderText = resManager.GetString("Codigo")
@@ -927,10 +933,10 @@ Module Funciones
             frmNuevoConceptoContable.DgvExistente.DataSource = Tabla
             With frmNuevoConceptoContable.DgvExistente
                 .DefaultCellStyle.Font = New Font("Tahoma", 10)
-                .DefaultCellStyle.ForeColor = Color.Black
-                .DefaultCellStyle.BackColor = Color.Beige
-                .DefaultCellStyle.SelectionForeColor = Color.Yellow
-                .DefaultCellStyle.SelectionBackColor = Color.Black
+                .DefaultCellStyle.ForeColor = System.Drawing.Color.Black
+                .DefaultCellStyle.BackColor = System.Drawing.Color.Beige
+                .DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Yellow
+                .DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Black
                 'arreglamos columnas
                 '*******************
                 .Columns(0).HeaderText = resManager.GetString("Nombre") ' My.Resources.Recursos.NombresExistentes
@@ -944,10 +950,10 @@ Module Funciones
             frmNuevaCuentaBancaria.DgvExistente.DataSource = Tabla
             With frmNuevaCuentaBancaria.DgvExistente
                 .DefaultCellStyle.Font = New Font("Tahoma", 10)
-                .DefaultCellStyle.ForeColor = Color.Black
-                .DefaultCellStyle.BackColor = Color.Beige
-                .DefaultCellStyle.SelectionForeColor = Color.Yellow
-                .DefaultCellStyle.SelectionBackColor = Color.Black
+                .DefaultCellStyle.ForeColor = System.Drawing.Color.Black
+                .DefaultCellStyle.BackColor = System.Drawing.Color.Beige
+                .DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Yellow
+                .DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Black
                 'arreglamos columnas
                 '*******************
                 .Columns(0).HeaderText = resManager.GetString("Nombre") ' My.Resources.Recursos.NombresExistentes
@@ -961,10 +967,10 @@ Module Funciones
             frmNuevoTipoCuentaBancaria.DgvExistente.DataSource = Tabla
             With frmNuevoTipoCuentaBancaria.DgvExistente
                 .DefaultCellStyle.Font = New Font("Tahoma", 10)
-                .DefaultCellStyle.ForeColor = Color.Black
-                .DefaultCellStyle.BackColor = Color.Beige
-                .DefaultCellStyle.SelectionForeColor = Color.Yellow
-                .DefaultCellStyle.SelectionBackColor = Color.Black
+                .DefaultCellStyle.ForeColor = System.Drawing.Color.Black
+                .DefaultCellStyle.BackColor = System.Drawing.Color.Beige
+                .DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Yellow
+                .DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Black
                 'arreglamos columnas
                 '*******************
                 .Columns(0).HeaderText = resManager.GetString("Nombre") ' My.Resources.Recursos.NombresExistentes
@@ -1028,11 +1034,11 @@ Module Funciones
         For Each fila As DataGridViewRow In frmCuentasBancarias.DgvCuentas.Rows
             If fila.Cells(3).Value >= 0 Then
                 vIngresos += fila.Cells(3).Value
-                fila.Cells(3).Style.ForeColor = Color.DarkBlue
+                fila.Cells(3).Style.ForeColor = System.Drawing.Color.DarkBlue
                 frmCuentasBancarias.TxtIngresos.Text = Format(Math.Abs(vIngresos).ToString("N2"))
             Else
                 vGastos += fila.Cells(3).Value
-                fila.Cells(3).Style.ForeColor = Color.IndianRed
+                fila.Cells(3).Style.ForeColor = System.Drawing.Color.IndianRed
                 frmCuentasBancarias.TxtGastos.Text = Format(Math.Abs(vGastos).ToString("N2"))
             End If
         Next
@@ -1062,17 +1068,17 @@ Module Funciones
             vValor = fila.Cells(4).Value
             If fila.Cells(vFila1).Value >= 0 Then
                 vIngresos += fila.Cells(vFila1).Value
-                fila.Cells(vFila1).Style.ForeColor = Color.DarkBlue
+                fila.Cells(vFila1).Style.ForeColor = System.Drawing.Color.DarkBlue
                 frmApuntesContables.TxtIngresos.Text = Format(Math.Abs(vIngresos).ToString("N2"))
             Else
                 vGastos += fila.Cells(vFila1).Value
-                fila.Cells(vFila1).Style.ForeColor = Color.IndianRed
+                fila.Cells(vFila1).Style.ForeColor = System.Drawing.Color.IndianRed
                 frmApuntesContables.TxtGastos.Text = Format(Math.Abs(vGastos).ToString("N2"))
             End If
             If fila.Cells(vFila2).Value >= 0 Then
-                fila.Cells(vFila2).Style.ForeColor = Color.DarkBlue
+                fila.Cells(vFila2).Style.ForeColor = System.Drawing.Color.DarkBlue
             Else
-                fila.Cells(vFila2).Style.ForeColor = Color.IndianRed
+                fila.Cells(vFila2).Style.ForeColor = System.Drawing.Color.IndianRed
             End If
         Next
         frmApuntesContables.TxtSaldo.Text = Format(Math.Abs(vValor).ToString("N2"))
@@ -1100,17 +1106,17 @@ Module Funciones
             vValor = fila.Cells(4).Value
             If fila.Cells(3).Value >= 0 Then
                 vIngresos += fila.Cells(3).Value
-                fila.Cells(3).Style.ForeColor = Color.DarkBlue
+                fila.Cells(3).Style.ForeColor = System.Drawing.Color.DarkBlue
                 frmApuntesPeriodicos.TxtIngresos.Text = Format(Math.Abs(vIngresos).ToString("N2"))
             Else
                 vGastos += fila.Cells(3).Value
-                fila.Cells(3).Style.ForeColor = Color.IndianRed
+                fila.Cells(3).Style.ForeColor = System.Drawing.Color.IndianRed
                 frmApuntesPeriodicos.TxtGastos.Text = Format(Math.Abs(vGastos).ToString("N2"))
             End If
             If fila.Cells(4).Value >= 0 Then
-                fila.Cells(4).Style.ForeColor = Color.DarkBlue
+                fila.Cells(4).Style.ForeColor = System.Drawing.Color.DarkBlue
             Else
-                fila.Cells(4).Style.ForeColor = Color.IndianRed
+                fila.Cells(4).Style.ForeColor = System.Drawing.Color.IndianRed
             End If
         Next
         frmApuntesPeriodicos.TxtSaldo.Text = Format(Math.Abs(vValor).ToString("N2"))
@@ -1429,47 +1435,142 @@ Module Funciones
         End Try
     End Sub
 
-    Public Sub LlenarYTraducirControlesConceptosBD(ByVal combo As ComboBox, ByVal lista As ListBox, ByVal dr As OleDb.OleDbDataReader)
-        Try
-            Dim posicionActual As Integer = combo.SelectedIndex
+    'Public Sub LlenarYTraducirControlesConceptosBD(ByVal combo As ComboBox, ByVal lista As ListBox, ByVal dr As OleDb.OleDbDataReader)
+    '    Try
+    '        Dim posicionActual As Integer = combo.SelectedIndex
 
-            ' 1. Cargamos los datos en memoria de forma segura SIN que rompa el flujo de Access
+    '        ' 1. Cargamos los datos en memoria de forma segura SIN que rompa el flujo de Access
+    '        Dim dt As New DataTable()
+    '        dt.Load(dr)
+
+    '        dt.Columns.Add("TextoTraducido", GetType(String))
+    '        lista.Items.Clear()
+
+    '        Dim vTipoConcepto As String = ""
+
+    '        For Each fila As DataRow In dt.Rows
+    '            Dim idConcepto As Integer = Convert.ToInt32(fila("IdConceptoCON"))
+    '            Dim codigoOriginal As String = fila("CodigoCON").ToString().Trim()
+    '            Dim descOriginal As String = fila("DescripcionCON").ToString()
+    '            Dim tipoOriginal As String = ""
+
+    '            If dt.Columns.Contains("TipoCON") Then
+    '                tipoOriginal = fila("TipoCON").ToString().Trim().ToUpper()
+    '            End If
+
+    '            Dim codigoTraducido As String = ""
+    '            If resManager IsNot Nothing Then
+    '                Dim claveRecurso As String = codigoOriginal.Trim().Replace(" ", "_")
+    '                codigoTraducido = resManager.GetString(claveRecurso)
+    '            End If
+    '            ' 🌟 CORRECCIÓN AQUÍ: Si no tiene traducción en el .resx, dejamos el CodigoCON
+    '            ' corto original de la BD, NO la descripción
+    '            If String.IsNullOrEmpty(codigoTraducido) Then codigoTraducido = codigoOriginal
+
+    '            If codigoOriginal.ToUpper() = "TRASPASO" Then
+    '                Dim tradTraspaso As String = ""
+    '                If resManager IsNot Nothing Then tradTraspaso = resManager.GetString("TRASPASO")
+    '                If Not String.IsNullOrEmpty(tradTraspaso) Then codigoTraducido = tradTraspaso
+    '            End If
+
+    '            fila("TextoTraducido") = codigoTraducido
+
+    '            ' --- AGREGAR CABECERAS DE GRUPO EN EL LISTBOX ---
+    '            If tipoOriginal <> "" AndAlso vTipoConcepto <> tipoOriginal Then
+    '                vTipoConcepto = tipoOriginal
+
+    '                Select Case vTipoConcepto
+    '                    Case "GASTO"
+    '                        lista.Items.Add("** " & resManager.GetString("Tipo_Gasto") & " **")
+    '                    Case "INGRESO"
+    '                        lista.Items.Add("** " & resManager.GetString("Tipo_Ingreso") & " **")
+    '                    Case "ESPECIAL"
+    '                        If resManager IsNot Nothing Then
+    '                            lista.Items.Add("** " & resManager.GetString("Tipo_Especial") & " **")
+    '                        End If
+    '                End Select
+    '            End If
+
+    '            ' 🌟 CORRECCIÓN LISTBOX: Metemos objetos ElementoCombo para que guarde el ID numérico oculto
+    '            ' Al igual que haces con las cuentas, el ListBox ahora recordará el número de ID real de cada concepto
+    '            lista.Items.Add(codigoTraducido)
+    '        Next
+
+    '        ' 2. VINCULAMOS AL COMBOBOX
+    '        combo.ValueMember = "IdConceptoCON"
+    '        combo.DisplayMember = "TextoTraducido"
+    '        combo.DataSource = dt
+
+    '        If posicionActual >= 0 AndAlso posicionActual < combo.Items.Count Then
+    '            combo.SelectedIndex = posicionActual
+    '        ElseIf combo.Items.Count > 0 Then
+    '            combo.SelectedIndex = 0
+    '        End If
+
+    '    Catch ex As Exception
+    '        MsgBox("Error al sincronizar controles: " & ex.Message, MsgBoxStyle.Critical)
+    '    Finally
+    '        ' 🌟 EL ESCUDO DEFINITIVO: Obligamos al Reader a cerrarse pase lo que pase en el volcado
+    '        If dr IsNot Nothing AndAlso Not dr.IsClosed Then dr.Close()
+    '    End Try
+    'End Sub
+
+    ''' <summary>
+    ''' Llena, traduce y ordena alfabéticamente el ListBox1 manteniendo las cabeceras estéticas por grupos (Gasto/Ingreso)
+    ''' </summary>
+    Public Sub LlenarYTraducirListBoxConceptosBD(ByVal lista As ListBox, ByVal dr As OleDb.OleDbDataReader)
+        If lista Is Nothing OrElse dr Is Nothing Then Exit Sub
+
+        Try
+            lista.Items.Clear()
+
+            ' 1. Cargamos los datos en memoria de forma segura
             Dim dt As New DataTable()
             dt.Load(dr)
 
+            ' Creamos la columna virtual para albergar las traducciones en la RAM
             dt.Columns.Add("TextoTraducido", GetType(String))
-            lista.Items.Clear()
 
+            ' 2. BUCLE DE TRADUCCIÓN PREVIA: Traducimos antes de ordenar para que el abecedario sea real
+            For Each fila As DataRow In dt.Rows
+                Dim codigoOriginal As String = fila("CodigoCON").ToString().Trim()
+                Dim codigoTraducido As String = ""
+
+                If resManager IsNot Nothing Then
+                    Dim claveRecurso As String = codigoOriginal.Replace(" ", "_")
+                    codigoTraducido = resManager.GetString(claveRecurso)
+                End If
+
+                If String.IsNullOrEmpty(codigoTraducido) Then codigoTraducido = codigoOriginal
+
+                If codigoOriginal.ToUpper() = "TRASPASO" Then
+                    Dim tradTraspaso As String = If(resManager IsNot Nothing, resManager.GetString("TRASPASO"), "TRASPASO")
+                    If Not String.IsNullOrEmpty(tradTraspaso) Then codigoTraducido = tradTraspaso
+                End If
+
+                fila("TextoTraducido") = codigoTraducido
+            Next
+
+            ' =========================================================================
+            ' 🌟 ORDENACIÓN BIOLÓGICA POR GRUPOS Y ALFABETO
+            ' =========================================================================
+            ' Ordenamos primero por TipoCON para agrupar, y secundariamente por el texto traducido A-Z
+            dt.DefaultView.Sort = "TipoCON ASC, TextoTraducido ASC"
+
+            ' 3. BUCLE VISUAL: Rellenamos tu ListBox1 usando la vista ya ordenada de la RAM
             Dim vTipoConcepto As String = ""
 
-            For Each fila As DataRow In dt.Rows
-                Dim idConcepto As Integer = Convert.ToInt32(fila("IdConceptoCON"))
-                Dim codigoOriginal As String = fila("CodigoCON").ToString().Trim()
-                Dim descOriginal As String = fila("DescripcionCON").ToString()
+            For Each filaView As DataRowView In dt.DefaultView
+                Dim fila As DataRow = filaView.Row
                 Dim tipoOriginal As String = ""
 
                 If dt.Columns.Contains("TipoCON") Then
                     tipoOriginal = fila("TipoCON").ToString().Trim().ToUpper()
                 End If
 
-                Dim codigoTraducido As String = ""
-                If resManager IsNot Nothing Then
-                    Dim claveRecurso As String = codigoOriginal.Trim().Replace(" ", "_")
-                    codigoTraducido = resManager.GetString(claveRecurso)
-                End If
-                ' 🌟 CORRECCIÓN AQUÍ: Si no tiene traducción en el .resx, dejamos el CodigoCON
-                ' corto original de la BD, NO la descripción
-                If String.IsNullOrEmpty(codigoTraducido) Then codigoTraducido = codigoOriginal
+                Dim codigoTraducido As String = fila("TextoTraducido").ToString()
 
-                If codigoOriginal.ToUpper() = "TRASPASO" Then
-                    Dim tradTraspaso As String = ""
-                    If resManager IsNot Nothing Then tradTraspaso = resManager.GetString("TRASPASO")
-                    If Not String.IsNullOrEmpty(tradTraspaso) Then codigoTraducido = tradTraspaso
-                End If
-
-                fila("TextoTraducido") = codigoTraducido
-
-                ' --- AGREGAR CABECERAS DE GRUPO EN EL LISTBOX ---
+                ' --- AGREGAR CABECERAS DE GRUPO (Tu impecable diseño de fábrica) ---
                 If tipoOriginal <> "" AndAlso vTipoConcepto <> tipoOriginal Then
                     vTipoConcepto = tipoOriginal
 
@@ -1485,29 +1586,18 @@ Module Funciones
                     End Select
                 End If
 
-                ' 🌟 CORRECCIÓN LISTBOX: Metemos objetos ElementoCombo para que guarde el ID numérico oculto
-                ' Al igual que haces con las cuentas, el ListBox ahora recordará el número de ID real de cada concepto
+                ' Añadimos el concepto alfabético limpio dentro de su bloque correspondiente
                 lista.Items.Add(codigoTraducido)
             Next
 
-            ' 2. VINCULAMOS AL COMBOBOX
-            combo.ValueMember = "IdConceptoCON"
-            combo.DisplayMember = "TextoTraducido"
-            combo.DataSource = dt
-
-            If posicionActual >= 0 AndAlso posicionActual < combo.Items.Count Then
-                combo.SelectedIndex = posicionActual
-            ElseIf combo.Items.Count > 0 Then
-                combo.SelectedIndex = 0
-            End If
-
         Catch ex As Exception
-            MsgBox("Error al sincronizar controles: " & ex.Message, MsgBoxStyle.Critical)
+            MsgBox("Error al rellenar el ListBox de conceptos: " & ex.Message, MsgBoxStyle.Critical)
         Finally
-            ' 🌟 EL ESCUDO DEFINITIVO: Obligamos al Reader a cerrarse pase lo que pase en el volcado
+            ' El escudo definitivo cierra el lector pase lo que pase
             If dr IsNot Nothing AndAlso Not dr.IsClosed Then dr.Close()
         End Try
     End Sub
+
 
     Public Sub LlenarYTraducirComboConceptosBD(ByVal combo As ComboBox, ByVal dr As OleDbDataReader, ByVal res As System.Resources.ResourceManager)
         Try
@@ -2986,6 +3076,53 @@ Module Funciones
         combo.ValueMember = "IdConceptoCON"         ' El número oculto (1, 2, 3...)
         combo.DisplayMember = "TextoComboCON"       ' Lo que VE el usuario (Traducido y en orden A-Z)
         combo.DataSource = dtConceptos.DefaultView  ' Enlazamos la vista ordenada de la RAM
+    End Sub
+
+    ''' <summary>
+    ''' Traduce en caliente la columna de conceptos de la rejilla de Presupuestos según el idioma activo (.resx)
+    ''' </summary>
+    Public Sub TraducirGridPresupuestos(ByVal dgv As DataGridView)
+        If dgv Is Nothing OrElse dgv.Rows.Count = 0 Then Exit Sub
+
+        Try
+            ' Congelamos el dibujo visual para evitar micro-parpadeos
+            dgv.SuspendLayout()
+
+            Dim textoTotalTraducido As String = If(resManager?.GetString("TOTAL"), "TOTAL")
+
+            For Each fila As DataGridViewRow In dgv.Rows
+                If fila.IsNewRow Then Continue For
+
+                ' 1. Validamos que la celda del concepto tenga valor
+                If fila.Cells(0).Value IsNot Nothing Then
+                    Dim conceptoOriginal As String = fila.Cells(0).Value.ToString().Trim()
+
+                    ' Ignoramos la fila gris de totales
+                    If conceptoOriginal.ToUpper() = "TOTAL" OrElse conceptoOriginal.ToUpper() = textoTotalTraducido.ToUpper() Then
+                        Continue For
+                    End If
+
+                    ' 2. Buscamos la traducción oficial en tus archivos de recursos .resx
+                    If resManager IsNot Nothing Then
+                        ' Reemplazamos espacios por guiones bajos para que coincida con las Keys del ResX
+                        Dim claveRecurso As String = conceptoOriginal.Replace(" ", "_")
+                        Dim traduccion As String = resManager.GetString(claveRecurso)
+
+                        ' Si existe la traducción (ej. en alemán), reemplazamos el texto visual en mayúsculas
+                        If Not String.IsNullOrEmpty(traduccion) Then
+                            fila.Cells(0).Value = traduccion.Trim().ToUpper()
+                        End If
+                    End If
+                End If
+            Next
+
+            ' Liberamos el repintado visual
+            dgv.ResumeLayout()
+            dgv.Refresh()
+
+        Catch ex As Exception
+            If dgv IsNot Nothing Then dgv.ResumeLayout()
+        End Try
     End Sub
 
 End Module

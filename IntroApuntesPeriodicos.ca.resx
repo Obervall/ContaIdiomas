@@ -189,4 +189,13 @@
   <data name="NoDescripcionVacia" xml:space="preserve">
     <value>La Descripció NO pot estar buida</value>
   </data>
+  <data name="SelecFechaPrimer" xml:space="preserve">
+    <value>Seleccionar la Data del Primer Pagament/Cobrament</value>
+  </data>
+  <data name="IntroNumeroPagos" xml:space="preserve">
+    <value>Introduir el Nombre de Pagaments/Cobraments que es faran en aquest Apunt Periòdic</value>
+  </data>
+  <data name="SelecPeriodo" xml:space="preserve">
+    <value>Seleccionar el Període entre cada Pagament/Cobrament</value>
+  </data>
 </root>

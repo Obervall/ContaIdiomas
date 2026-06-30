@@ -306,7 +306,7 @@ Public Class EditarApuntesPeriodicos
     End Sub
 
     Private Sub BtnConcepto_Click(sender As Object, e As EventArgs)
-        frmPrincipal.TsLabelFormulario.Text = "Conceptos Contables"
+        frmPrincipal.TsLabelFormulario.Text = frmConceptosContables.rmse.GetString("$this.Text")
 
         ' Comprobamos si existe un identificador asociado.
         If ((frmConceptosContables Is Nothing) OrElse (Not frmConceptosContables.IsHandleCreated)) Then
@@ -323,7 +323,7 @@ Public Class EditarApuntesPeriodicos
     End Sub
 
     Private Sub BtnCuenta_Click(sender As Object, e As EventArgs)
-        frmPrincipal.TsLabelFormulario.Text = "Cuentas Bancarias"
+        frmPrincipal.TsLabelFormulario.Text = frmCuentasBancarias.rmse.GetString("$this.Text")
 
         ' Comprobamos si existe un identificador asociado.
         If ((frmCuentasBancarias Is Nothing) OrElse (Not frmCuentasBancarias.IsHandleCreated)) Then

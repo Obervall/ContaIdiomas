@@ -183,4 +183,7 @@
   <data name="EliminarApuntesPeriodicosError" xml:space="preserve">
     <value>Error in Deleting Periodic Entries Related to the Accounting Item</value>
   </data>
+  <data name="IntroApuPer" xml:space="preserve">
+    <value>Introduction of Periodic Transactions</value>
+  </data>
 </root>

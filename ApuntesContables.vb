@@ -167,30 +167,34 @@ Public Class ApuntesContables
             DgvApuntes.CurrentCell = DgvApuntes.Rows(vFila).Cells(0)
         End If
 
-        ' Llenar el Combo Concepto y ListBox1 utilizando la función sincronizada
-        '*******************************************************************************
-        ' 1. SQL adaptado para traer el IdConceptoCON y el CodigoCON que necesita la nueva lógica
-        cmdMdb1cr.CommandText = "SELECT IdConceptoCON, CodigoCON, DescripcionCON, TipoCON FROM conceptos ORDER BY TipoCON ASC, IdConceptoCON ASC"
-
+        ' =========================================================================
+        ' 🌟 RECARGA INDEPENDIENTE DE CONTROLES (La propuesta maestra)
+        ' =========================================================================
         Try
-            ' 2. Abrimos el lector original de siempre
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-            ' 3. Encendemos tu escudo protector antes de rellenar
+            ' 1. Encendemos tu escudo protector antes de rellenar los componentes
             cargandoFormulario = True
-            ' 4. ¡CORREGIDO!: Le pasamos el drMdb1 (Reader) que la función de tu módulo espera recibir
-            LlenarYTraducirControlesConceptosBD(Me.CmbConcepto, Me.ListBox1, drMdb1)
-            ' 5. Apagamos el escudo tras la carga y cerramos el lector
+
+            ' 🌟 CABLE A: Cargamos el ComboBox de forma independiente ordenado de la A a la Z puro
+            LlenarComboConceptosSueltosBD(Me.CmbConcepto)
+
+            ' 🌟 CABLE B: Cargamos el ListBox1 manteniendo tus cabeceras estéticas por grupos
+            cmdMdb1cr.CommandText = "SELECT IdConceptoCON, CodigoCON, DescripcionCON, TipoCON FROM conceptos"
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            LlenarYTraducirListBoxConceptosBD(Me.ListBox1, drMdb1)
+
+            ' 2. Apagamos el escudo tras la inyección exitosa en memoria RAM
             cargandoFormulario = False
-            drMdb1.Close()
-            ' FORZAMOS a que lea el tercer concepto seleccionado por defecto al abrir la pantalla
-            If CmbConcepto.Items.Count > 2 Then ' Validamos que al menos haya 2 elementos
-                ' Nos aseguramos de provocar el cambio de índice moviéndolo a vacío (-1) primero
+
+            ' FORZAMOS la selección inicial dócil del primer concepto por defecto de fábrica
+            If CmbConcepto.Items.Count > 0 Then
                 CmbConcepto.SelectedIndex = -1
-                CmbConcepto.SelectedIndex = 2
+                CmbConcepto.SelectedIndex = 0
             End If
+
         Catch ex As Exception
+            cargandoFormulario = False
             If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-            MsgBox(resManager.GetString("ErrorLlenarConceptos") & ": " & ex.Message, MsgBoxStyle.Critical)
+            MsgBox("Error al inicializar componentes independientes: " & ex.Message, MsgBoxStyle.Critical)
         End Try
 
         ' Llenar el Combo Cuenta de forma segura y traducida
@@ -587,21 +591,34 @@ Public Class ApuntesContables
         Try
             drMdb1 = cmdMdb1cr.ExecuteReader()
 
-            ' Se encarga de limpiar, rellenar, agrupar y traducir CmbConcepto y ListBox1
-            LlenarYTraducirControlesConceptosBD(Me.CmbConcepto, Me.ListBox1, drMdb1)
+            ' 🌟 LA RECARGA INDEPENDIENTE AL QUITAR FILTRO:
+            ' 1. Cargamos el ComboBox de forma pura de la A a la Z
+            LlenarComboConceptosSueltosBD(Me.CmbConcepto)
+
+            ' 2. Cargamos el ListBox1 manteniendo tus cabeceras estéticas por grupos (Gasto/Ingreso)
+            cmdMdb1cr.CommandText = "SELECT IdConceptoCON, CodigoCON, DescripcionCON, TipoCON FROM conceptos"
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            LlenarYTraducirListBoxConceptosBD(Me.ListBox1, drMdb1)
+
 
             ' El lector ya se cierra de forma obligatoria y segura dentro de LlenarYTraducirControlesConceptosBD
 
-            ' 3. Selección segura del tercer elemento (Índice 2) o del primero como tenías planeado
-            If CmbConcepto.Items.Count > 2 Then
-                CmbConcepto.SelectedIndex = 2
-                vConcepto = CmbConcepto.Text.ToString()
-            ElseIf CmbConcepto.Items.Count > 0 Then
+            ' FORZAMOS la selección inicial dócil del primer concepto por defecto de fábrica
+            If CmbConcepto.Items.Count > 0 Then
+                CmbConcepto.SelectedIndex = -1
                 CmbConcepto.SelectedIndex = 0
-                vConcepto = CmbConcepto.Text.ToString()
-            Else
-                vConcepto = ""
             End If
+
+            '' 3. Selección segura del tercer elemento (Índice 2) o del primero como tenías planeado
+            'If CmbConcepto.Items.Count > 2 Then
+            '    CmbConcepto.SelectedIndex = 2
+            '    vConcepto = CmbConcepto.Text.ToString()
+            'ElseIf CmbConcepto.Items.Count > 0 Then
+            '    CmbConcepto.SelectedIndex = 0
+            '    vConcepto = CmbConcepto.Text.ToString()
+            'Else
+            '    vConcepto = ""
+            'End If
 
             ' 4. NUEVO Y ULTRA RÁPIDO: Rellenar el TxtConcepto sin abrir un segundo lector repetido
             ' Como CmbConcepto está enlazado a un DataTable gracias al DataSource, extraemos la descripción al vuelo
@@ -1298,6 +1315,31 @@ Public Class ApuntesContables
         For Each fila As DataGridViewRow In DgvApuntes.SelectedRows
             ' Saltamos la fila vacía del final del grid por seguridad
             If fila.IsNewRow Then Continue For
+
+            ' =========================================================================
+            ' 🌟 CORTAFUEGOS INDESTRUCTIBLE CON TU LLAVE "Desc_SALDO" (Idioma Forzado)
+            ' =========================================================================
+            If fila.Cells(2).Value IsNot Nothing Then
+                Dim descCelda As String = fila.Cells(2).Value.ToString().Trim()
+
+                ' Evaluamos si en el disco duro de Access viene escrito "Saldo Inicial" o "Initial Balance"
+                If descCelda.Equals("Saldo Inicial", StringComparison.OrdinalIgnoreCase) OrElse
+           descCelda.Equals("Initial Balance", StringComparison.OrdinalIgnoreCase) Then
+
+                    If resManager IsNot Nothing Then
+                        ' 🚀 TRUCO DE ORO: Forzamos al sistema a leer tu variable de idioma de configuración
+                        Dim culturaActiva As New System.Globalization.CultureInfo(My.Settings.CulturaUsuario)
+
+                        ' Invocamos tu Key exacta en mayúsculas cruzándola con la cultura del usuario
+                        Dim saldoTraducido As String = resManager.GetString("Desc_SALDO", culturaActiva)
+
+                        ' Si tu recurso tiene la palabra traducida (en alemán, francés, catalán...), la inyectamos en la RAM
+                        If Not String.IsNullOrEmpty(saldoTraducido) Then
+                            fila.Cells(2).Value = saldoTraducido.Trim()
+                        End If
+                    End If
+                End If
+            End If
 
             ' ESCUDO DE SEGURIDAD 1: Validamos que la fila tenga conceptos reales y que no sea SALDO
             If fila.Cells(9).Value IsNot Nothing AndAlso Not IsDBNull(fila.Cells(9).Value) Then

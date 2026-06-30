@@ -1665,119 +1665,105 @@ Public Class Principal
     End Sub
 
     Private Sub ReiniciarBaseDeDatosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReiniciarBaseDeDatosToolStripMenuItem.Click
-        Dim respuesta As MsgBoxResult = MsgBox(rmse.GetString("MsgVaciarBD") & ": " & vAñoEjercicio.ToString & "?." & NL & rmse.GetString("MsgVaciarBD2") & NL & rmse.GetString("MsgNoVaciarBD"), vbExclamation + vbYesNo + vbDefaultButton2, rmse.GetString("MsgVaciarBD3") & ": " & vAñoEjercicio.ToString)
-        If respuesta = vbYes Then
-            Dim respuesta2 As MsgBoxResult = MsgBox(rmse.GetString("MsgVaciarBD4") & ": " & vAñoEjercicio.ToString & " ¿Ok?.", vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("MsgVaciarBD3") & ": " & vAñoEjercicio.ToString)
-            If respuesta2 = vbYes Then
-                ' Eliminar Registro Apuntes Contables
-                cmdMdb1cr.CommandText = "DELETE FROM apuntes WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-                Try
-                    cmdMdb1cr.ExecuteNonQuery()
-                    MsgBox(rmse.GetString("ApuntesContablesVaciado"))
-                Catch ex As Exception
-                    MsgBox(ex.ToString)
-                End Try
+        ' 1. SANEAMIENTO PREVENTIVO: Limpiamos la memoria de consultas previas
+        cmdMdb1cr.Parameters.Clear()
 
-                ' Eliminar Registros Apuntes Periódicos
-                cmdMdb1cr.CommandText = "DELETE FROM apuper WHERE apuper.EjercicioAPP = " & vAñoEjercicio.ToString
-                Try
-                    cmdMdb1cr.ExecuteNonQuery()
-                    MsgBox(rmse.GetString("ApuntesPeriodicosVaciado"))
-                Catch ex As Exception
-                    MsgBox(ex.ToString)
-                End Try
+        ' 2. PRIMERA ALERTA TRADUCIDA (Con tu confirmador inmune al idioma de Windows)
+        Dim msgPregunta1 As String = rmse.GetString("MsgVaciarBD") & ": " & vAñoEjercicio.ToString & "?." & NL & rmse.GetString("MsgVaciarBD2") & NL & rmse.GetString("MsgNoVaciarBD")
+        Dim titPregunta1 As String = rmse.GetString("MsgVaciarBD3") & ": " & vAñoEjercicio.ToString
 
-                ' Eliminar Registros Presupuestos
-                cmdMdb1cr.CommandText = "DELETE FROM presupuesto WHERE presupuesto.EjercicioPRE = " & vAñoEjercicio.ToString
-                Try
-                    cmdMdb1cr.ExecuteNonQuery()
-                    MsgBox(rmse.GetString("PresupuestosVaciado"))
-                Catch ex As Exception
-                    MsgBox(ex.ToString)
-                End Try
+        If ConfirmarAccionTraducida(msgPregunta1, titPregunta1) = MsgBoxResult.No Then
+            Exit Sub
+        End If
 
+        ' 3. SEGUNDA ALERTA DE SEGURIDAD (Confirmación doble antibloqueos)
+        Dim msgPregunta2 As String = rmse.GetString("MsgVaciarBD4") & ": " & vAñoEjercicio.ToString & " ¿Ok?."
 
-                '' Eliminar Registros Conceptos Contables
-                'respuesta = MsgBox("Se Borran Todos los Conceptos Contables de la Base de Datos de TODOS LOS EJERCICOS ¿Ok?.", vbQuestion + vbYesNo + vbDefaultButton2, "VACIAR Base de Datos")
-                'If respuesta = vbYes Then
-                '    vtipoSql = "DELETE FROM conceptos"
-                '    vtipoSql += " WHERE conceptos.CodigoCON <> 'TRASPASO' "
-                '    cmdMdb1cr.CommandText = vtipoSql
-                '    Try
-                '        cmdMdb1cr.ExecuteNonQuery()
-                '        MsgBox("Conceptos Contables, Vaciado !!!")
-                '    Catch ex As Exception
-                '        MsgBox(ex.ToString)
-                '    End Try
-                'End If
+        If ConfirmarAccionTraducida(msgPregunta2, titPregunta1) = MsgBoxResult.Yes Then
 
-                '' Eliminar Registros Cuentas Contables
-                'respuesta = MsgBox("Se Borran Todas las Cuentas Contables de la Base de Datos de TODOS LOS EJERCICOS ¿Ok?.", vbQuestion + vbYesNo + vbDefaultButton2, "VACIAR Base de Datos")
-                'If respuesta = vbYes Then
-                '    vtipoSql = "DELETE FROM cuentas"
-                '    cmdMdb1cr.CommandText = vtipoSql
-                '    Try
-                '        cmdMdb1cr.ExecuteNonQuery()
-                '        MsgBox("Cuentas Contables, Vaciado !!!")
-                '    Catch ex As Exception
-                '        MsgBox(ex.ToString)
-                '    End Try
-                'End If
+            ' =========================================================================
+            ' 🌟 FASE 1: VACIADO PARAMETRIZADO POR EJERCICIO ANUAL
+            ' =========================================================================
 
-                '' Eliminar Registros Ejercicios
-                'vtipoSql = "DELETE FROM ejercicios"
-                'cmdMdb1cr.CommandText = vtipoSql
-                'Try
-                '    cmdMdb1cr.ExecuteNonQuery()
-                '    MsgBox("Ejercicios, Vaciado !!!")
-                'Catch ex As Exception
-                '    MsgBox(ex.ToString)
-                'End Try
+            ' A. Eliminar Registro Apuntes Contables (¡Adiós concatenaciones de texto!)
+            cmdMdb1cr.CommandText = "DELETE FROM apuntes WHERE EjercicioAPU = ?"
+            cmdMdb1cr.Parameters.Clear()
+            cmdMdb1cr.Parameters.Add("@eje", OleDbType.Integer).Value = Convert.ToInt32(vAñoEjercicio)
+            Try
+                cmdMdb1cr.ExecuteNonQuery()
+                MsgBox(rmse.GetString("ApuntesContablesVaciado"), MsgBoxStyle.Information)
+            Catch ex As Exception
+                MsgBox("Error Apuntes: " & ex.Message, MsgBoxStyle.Critical)
+            End Try
 
-                ' Eliminar Registros extracto
-                vtipoSql = "DELETE FROM extracto"
-                cmdMdb1cr.CommandText = vtipoSql
-                Try
-                    cmdMdb1cr.ExecuteNonQuery()
-                    'MsgBox("Extracto, Vaciado !!!")
-                Catch ex As Exception
-                    MsgBox(ex.ToString)
-                End Try
+            ' B. Eliminar Registros Apuntes Periódicos
+            cmdMdb1cr.CommandText = "DELETE FROM apuper WHERE EjercicioAPP = ?"
+            cmdMdb1cr.Parameters.Clear()
+            cmdMdb1cr.Parameters.Add("@eje", OleDbType.Integer).Value = Convert.ToInt32(vAñoEjercicio)
+            Try
+                cmdMdb1cr.ExecuteNonQuery()
+                MsgBox(rmse.GetString("ApuntesPeriodicosVaciado"), MsgBoxStyle.Information)
+            Catch ex As Exception
+                MsgBox("Error Periódicos: " & ex.Message, MsgBoxStyle.Critical)
+            End Try
 
-                ' Eliminar Registros Tempapu
-                vtipoSql = "DELETE FROM tempapu"
-                cmdMdb1cr.CommandText = vtipoSql
-                Try
-                    cmdMdb1cr.ExecuteNonQuery()
-                    'MsgBox("TempApu, Vaciado !!!")
-                Catch ex As Exception
-                    MsgBox(ex.ToString)
-                End Try
+            ' C. Eliminar Registros Presupuestos
+            cmdMdb1cr.CommandText = "DELETE FROM presupuesto WHERE EjercicioPRE = ?"
+            cmdMdb1cr.Parameters.Clear()
+            cmdMdb1cr.Parameters.Add("@eje", OleDbType.Integer).Value = Convert.ToInt32(vAñoEjercicio)
+            Try
+                cmdMdb1cr.ExecuteNonQuery()
+                MsgBox(rmse.GetString("PresupuestosVaciado"), MsgBoxStyle.Information)
+            Catch ex As Exception
+                MsgBox("Error Presupuesto: " & ex.Message, MsgBoxStyle.Critical)
+            End Try
 
-                ' Eliminar Registros Temppre
-                vtipoSql = "DELETE FROM temppre"
-                cmdMdb1cr.CommandText = vtipoSql
-                Try
-                    cmdMdb1cr.ExecuteNonQuery()
-                    'MsgBox("TempPre, Vaciado !!!")
-                Catch ex As Exception
-                    MsgBox(ex.ToString)
-                End Try
+            '            ' CONCEPTOS Y CUENTAS NO SE ELIMINAN
+            '            '***********************************
 
-                ' Eliminar Registros Tmpprint
-                vtipoSql = "DELETE FROM tmpprint"
-                cmdMdb1cr.CommandText = vtipoSql
-                Try
-                    cmdMdb1cr.ExecuteNonQuery()
-                    'MsgBox("TmpPrint, Vaciado !!!")
-                Catch ex As Exception
-                    MsgBox(ex.ToString)
-                End Try
-                MsgBox(resManager.GetString("CerrarApp"))
-                Me.Close()
-            End If
+            ' =========================================================================
+            ' FASE 2: TRUNCADO LIMPIO DE TABLAS TEMPORALES DE OPERACIÓN
+            ' =========================================================================
+            cmdMdb1cr.Parameters.Clear()
+
+            ' Eliminar Registros extracto
+            Try
+                cmdMdb1cr.CommandText = "DELETE FROM extracto"
+                cmdMdb1cr.ExecuteNonQuery()
+            Catch ex As Exception
+                MsgBox(ex.Message, MsgBoxStyle.Critical)
+            End Try
+
+            ' Eliminar Registros Tempapu
+            Try
+                cmdMdb1cr.CommandText = "DELETE FROM tempapu"
+                cmdMdb1cr.ExecuteNonQuery()
+            Catch ex As Exception
+                MsgBox(ex.Message, MsgBoxStyle.Critical)
+            End Try
+
+            ' Eliminar Registros Temppre
+            Try
+                cmdMdb1cr.CommandText = "DELETE FROM temppre"
+                cmdMdb1cr.ExecuteNonQuery()
+            Catch ex As Exception
+                MsgBox(ex.Message, MsgBoxStyle.Critical)
+            End Try
+
+            ' Eliminar Registros Tmpprint
+            Try
+                cmdMdb1cr.CommandText = "DELETE FROM tmpprint"
+                cmdMdb1cr.ExecuteNonQuery()
+            Catch ex As Exception
+                MsgBox(ex.Message, MsgBoxStyle.Critical)
+            End Try
+
+            ' Cierre controlado impecable de fábrica
+            MsgBox(resManager.GetString("CerrarApp"), MsgBoxStyle.Information)
+            Me.Close()
         End If
     End Sub
+
 
     Private Sub BtnCalculadora_Click(sender As Object, e As EventArgs) Handles BtnCalculadora.Click
         CalculadoraToolStripMenuItem.PerformClick()

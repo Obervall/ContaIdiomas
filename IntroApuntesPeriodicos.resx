@@ -935,4 +935,13 @@
   <data name="NoDescripcionVacia" xml:space="preserve">
     <value>La Descripción NO puede estar vacia</value>
   </data>
+  <data name="SelecFechaPrimer" xml:space="preserve">
+    <value>Seleccionar la Fecha del Primer Pago/Cobro</value>
+  </data>
+  <data name="IntroNumeroPagos" xml:space="preserve">
+    <value>Introducir el Número de Pagos/Cobros que se harán en este Apunte Periódico</value>
+  </data>
+  <data name="SelecPeriodo" xml:space="preserve">
+    <value>Seleccionar el Periodo entre cada Pago/Cobro</value>
+  </data>
 </root>

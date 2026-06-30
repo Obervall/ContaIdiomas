@@ -451,4 +451,7 @@
   <data name="BtnSalir.Text" xml:space="preserve">
     <value>Salir</value>
   </data>
+  <data name="IntroApuPer" xml:space="preserve">
+    <value>Introducción de Apuntes Periódicos</value>
+  </data>
 </root>

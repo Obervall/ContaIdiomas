@@ -183,4 +183,7 @@
   <data name="EliminarApuntesPeriodicosError" xml:space="preserve">
     <value>Erro na exclusão de entradas periódicas relacionadas ao item contábil</value>
   </data>
+  <data name="IntroApuPer" xml:space="preserve">
+    <value>Introdução de notas periódicas</value>
+  </data>
 </root>

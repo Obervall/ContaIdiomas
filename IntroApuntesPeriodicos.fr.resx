@@ -189,4 +189,13 @@
   <data name="NoDescripcionVacia" xml:space="preserve">
     <value>La Description ne peut PAS être vide</value>
   </data>
+  <data name="SelecFechaPrimer" xml:space="preserve">
+    <value>Sélectionnez la date du premier paiement/recouvrement</value>
+  </data>
+  <data name="IntroNumeroPagos" xml:space="preserve">
+    <value>Saisissez le nombre de paiements/recouvrements à effectuer dans cette entrée périodique</value>
+  </data>
+  <data name="SelecPeriodo" xml:space="preserve">
+    <value>Sélectionnez la période entre chaque paiement/recouvrement</value>
+  </data>
 </root>

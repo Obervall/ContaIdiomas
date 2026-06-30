@@ -189,4 +189,13 @@
   <data name="NoDescripcionVacia" xml:space="preserve">
     <value>The Description can NOT be empty</value>
   </data>
+  <data name="SelecFechaPrimer" xml:space="preserve">
+    <value>Select First Payment/Collection Date</value>
+  </data>
+  <data name="IntroNumeroPagos" xml:space="preserve">
+    <value>Enter the Number of Payments/Collections to be made in this Periodic Entry</value>
+  </data>
+  <data name="SelecPeriodo" xml:space="preserve">
+    <value>Select the Period Between Each Payment/Collection</value>
+  </data>
 </root>

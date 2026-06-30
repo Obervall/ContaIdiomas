@@ -59,29 +59,29 @@ Public Class IntroApuntesPeriodicos
         TL(0) = New ToolTip
         TL(0).SetToolTip(Me.BtnHoy, resManager.GetString("IrAHoy"))
         TL(1) = New ToolTip
-        TL(1).SetToolTip(Me.DateTimePicker1, "Seleccionar la Fecha del Primer Pago/Cobro")
+        TL(1).SetToolTip(Me.DateTimePicker1, rmse.GetString("SelecFechaPrimer"))
         TL(2) = New ToolTip
-        TL(2).SetToolTip(Me.BtnAceptarSalir, "Aceptar y Salir")
+        TL(2).SetToolTip(Me.BtnAceptarSalir, resManager.GetString("ToolTipAceptar"))
         TL(3) = New ToolTip
-        TL(3).SetToolTip(Me.BtnCancelar, "Cancelar la introducción del Apunte")
+        TL(3).SetToolTip(Me.BtnCancelar, resManager.GetString("ToolTipCancelar"))
         TL(4) = New ToolTip
-        TL(4).SetToolTip(Me.CmbConcepto, "Seleccionar el Concepto a la que se refiere la transacción")
+        TL(4).SetToolTip(Me.CmbConcepto, frmIntroApuntes.rmse.GetString("SelecConcepto"))
         TL(5) = New ToolTip
-        TL(5).SetToolTip(Me.CmbCuenta, "Seleccionar la Cuenta a la que se refiere la transacción")
+        TL(5).SetToolTip(Me.CmbCuenta, frmIntroApuntes.rmse.GetString("SelecCuenta"))
         TL(6) = New ToolTip
-        TL(6).SetToolTip(Me.CmbDescripcion, "Introducir una descripción para el Asiento")
+        TL(6).SetToolTip(Me.CmbDescripcion, frmEditarApuntes.rmse.GetString("ToolTipSeleccionarDescripcion"))
         TL(7) = New ToolTip
-        TL(7).SetToolTip(Me.TxtImporte, "Importe del Asiento")
+        TL(7).SetToolTip(Me.TxtImporte, frmEditarApuntes.rmse.GetString("ToolTipIngresarImporte"))
         TL(8) = New ToolTip
-        TL(8).SetToolTip(Me.BtnCalculadora, "Activar la Calculadora")
+        TL(8).SetToolTip(Me.BtnCalculadora, resManager.GetString("ToolTipCalculadora"))
         TL(9) = New ToolTip
         TL(9).SetToolTip(Me.BtnConcepto, resManager.GetString("BtnConcepto"))
         TL(10) = New ToolTip
         TL(10).SetToolTip(Me.BtnCuenta, resManager.GetString("BtnCuenta"))
         TL(11) = New ToolTip
-        TL(11).SetToolTip(Me.TxtNumeroPagos, "Introducir el Número de Pagos/Cobros que se harán en este Apunte Periódico")
+        TL(11).SetToolTip(Me.TxtNumeroPagos, rmse.GetString("IntroNumeroPagos"))
         TL(12) = New ToolTip
-        TL(12).SetToolTip(Me.CmbPeriocidad, "Seleccionar el Periodo entre cada Pago/Cobro")
+        TL(12).SetToolTip(Me.CmbPeriocidad, rmse.GetString("SelecPeriodo"))
 
         ' =========================================================================
         ' 🌟 CARGA DE COMBOS DE LA NUEVA ERA (Con Idiomas, Orden A-Z e IDs Numéricos)
@@ -128,7 +128,7 @@ Public Class IntroApuntesPeriodicos
                 If CmbConcepto.Items.Count > 0 Then CmbConcepto.SelectedIndex = 0
             End If
         Catch ex As Exception
-            MsgBox("Error al cargar conceptos periódicos: " & ex.Message, MsgBoxStyle.Critical)
+            MsgBox(resManager.GetString("Error") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
 
         ' 2. Llenar el Combo Descripción (Optimizado a la velocidad del rayo con DISTINCT)
@@ -147,7 +147,7 @@ Public Class IntroApuntesPeriodicos
                 End While
             End Using
         Catch ex As Exception
-            MsgBox("Error al cargar descripciones periódicas: " & ex.Message, MsgBoxStyle.Critical)
+            MsgBox(resManager.GetString("Error") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
 
         ' 3. Llenar el Combo Cuenta (Traducido por resManager y Ordenado A-Z)
@@ -189,7 +189,7 @@ Public Class IntroApuntesPeriodicos
                 If CmbCuenta.Items.Count > 0 Then CmbCuenta.SelectedIndex = 0
             End If
         Catch ex As Exception
-            MsgBox("Error al cargar cuentas periódicas: " & ex.Message, MsgBoxStyle.Critical)
+            MsgBox(resManager.GetString("Error") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
 
         ' 4. Valores e interfaz por defecto (Tus líneas originales impecables)
@@ -413,7 +413,7 @@ Public Class IntroApuntesPeriodicos
     End Sub
 
     Private Sub BtnConcepto_Click(sender As Object, e As EventArgs) Handles BtnConcepto.Click
-        frmPrincipal.TsLabelFormulario.Text = "Conceptos Contables"
+        frmPrincipal.TsLabelFormulario.Text = frmConceptosContables.rmse.GetString("$this.Text")
 
         ' Comprobamos si existe un identificador asociado.
         If ((frmConceptosContables Is Nothing) OrElse (Not frmConceptosContables.IsHandleCreated)) Then
@@ -430,7 +430,7 @@ Public Class IntroApuntesPeriodicos
     End Sub
 
     Private Sub BtnCuenta_Click(sender As Object, e As EventArgs) Handles BtnCuenta.Click
-        frmPrincipal.TsLabelFormulario.Text = "Cuentas Bancarias"
+        frmPrincipal.TsLabelFormulario.Text = frmCuentasBancarias.rmse.GetString("$this.Text")
 
         ' Comprobamos si existe un identificador asociado.
         If ((frmCuentasBancarias Is Nothing) OrElse (Not frmCuentasBancarias.IsHandleCreated)) Then

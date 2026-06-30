@@ -2115,4 +2115,7 @@
   <data name="EliminarApuntesPeriodicosError" xml:space="preserve">
     <value>Error al eliminar asientos periódicos relacionados con la partida contable</value>
   </data>
+  <data name="IntroApuPer" xml:space="preserve">
+    <value>Introducción de Apuntes Periódicos</value>
+  </data>
 </root>

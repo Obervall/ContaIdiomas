@@ -189,4 +189,13 @@
   <data name="NoDescripcionVacia" xml:space="preserve">
     <value>Die Beschreibung darf NICHT leer sein</value>
   </data>
+  <data name="SelecFechaPrimer" xml:space="preserve">
+    <value>Wählen Sie das erste Zahlungs-/Inkassodatum</value>
+  </data>
+  <data name="IntroNumeroPagos" xml:space="preserve">
+    <value>Geben Sie die Anzahl der Zahlungen/Inkassozahlen in diesem Periodischen Eintrag ein</value>
+  </data>
+  <data name="SelecPeriodo" xml:space="preserve">
+    <value>Wählen Sie den Zeitraum zwischen jeder Zahlung/Inkasso aus</value>
+  </data>
 </root>

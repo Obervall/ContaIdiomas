@@ -475,4 +475,7 @@
   <data name="EliminarApuntesPeriodicosError" xml:space="preserve">
     <value>Error en eliminar assentaments periòdics relacionats amb la partida comptable</value>
   </data>
+  <data name="IntroApuPer" xml:space="preserve">
+    <value>Introducció d'Apunts Periòdics</value>
+  </data>
 </root>

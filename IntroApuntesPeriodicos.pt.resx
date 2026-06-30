@@ -189,4 +189,13 @@
   <data name="NoDescripcionVacia" xml:space="preserve">
     <value>A Descrição NÃO pode estar vazia</value>
   </data>
+  <data name="SelecFechaPrimer" xml:space="preserve">
+    <value>Selecione a Data do Primeiro Pagamento/Cobrança</value>
+  </data>
+  <data name="IntroNumeroPagos" xml:space="preserve">
+    <value>Insira o Número de Pagamentos/Cobranças a serem feitos nesta Entrada Periódica</value>
+  </data>
+  <data name="SelecPeriodo" xml:space="preserve">
+    <value>Selecione o período entre cada pagamento/cobrança</value>
+  </data>
 </root>

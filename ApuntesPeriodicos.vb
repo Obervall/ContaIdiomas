@@ -1,5 +1,4 @@
 ﻿Imports System.Data
-Imports System.Data.OleDb
 Imports System.Diagnostics
 Imports System.Windows.Forms
 
@@ -141,7 +140,7 @@ Public Class ApuntesPeriodicos
 
         Catch ex As Exception
             cargandoFormulario = False
-            MsgBox("Error al inicializar los combos periódicos: " & ex.Message, MsgBoxStyle.Critical)
+            MsgBox(resManager.GetString("Error") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
 
         ' Llenar el Combo Campos
@@ -735,7 +734,7 @@ Public Class ApuntesPeriodicos
     End Sub
 
     Private Sub BtnAñadirRegistro_Click(sender As Object, e As EventArgs) Handles BtnAñadirRegistro.Click
-        frmPrincipal.TsLabelFormulario.Text = "Introducción de Apuntes Periódicos"
+        frmPrincipal.TsLabelFormulario.Text = rmse.GetString("IntroApuPer")
         ' Comprobamos si existe un identificador asociado.
         If ((frmIntroApuntesPeriodicos Is Nothing) OrElse (Not frmIntroApuntesPeriodicos.IsHandleCreated)) Then
             frmIntroApuntesPeriodicos = New IntroApuntesPeriodicos
@@ -812,39 +811,6 @@ Public Class ApuntesPeriodicos
 
     Private Sub DgvApuper_DoubleClick(sender As Object, e As EventArgs) Handles DgvApuper.DoubleClick
         BtnEditarRegistro.PerformClick()
-
-        'filaActual = frmApuntesPeriodicos.DgvApuper.CurrentRow.Index
-        'vTxtNombre = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(1).Value.ToString
-
-        '' Comprobamos si existe un identificador asociado.
-        'If ((frmEditarApuntesPeriodicos Is Nothing) OrElse (Not frmEditarApuntesPeriodicos.IsHandleCreated)) Then
-        '    frmEditarApuntesPeriodicos = New EditarApuntesPeriodicos
-        'End If
-        '' Llamamos al formulario de manera modal.
-        'vEditar = "SI"
-        'frmEditarApuntesPeriodicos.ShowDialog()
-        ''MessageBox.Show("Se ha cerrado el formulario.")
-        '' Destruimos el formulario.
-        'frmEditarApuntesPeriodicos.Dispose()
-        'vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper"
-        'vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
-        'If BtnFiltroCuenta.Enabled = False Then
-        '    vtipoSql += " And apuper.CuentaAPP = '" & CmbCuenta.Text.Replace("'", "''") & "' "
-        'End If
-        'If BtnFiltroConcepto.Enabled = False Then
-        '    vtipoSql += " And apuper.ConceptoAPP = '" & CmbConcepto.Text.Replace("'", "''") & "' "
-        'End If
-        'If BtnFiltroFecha.Enabled = False Then
-        '    vDate1 = DateTimePicker1.Value.Date
-        '    vDate2 = DateTimePicker2.Value.Date
-        '    vtipoSql += " And apuper.FechaAPP >= ?"
-        '    vtipoSql += " And apuper.FechaAPP <= ?"
-        'End If
-        'vtipoSql += " ORDER BY apuper.FechaAPP ASC"
-        'vtipoGrid = "APUNTES_PERIODICOS"
-        'LlenarGrid(vtipoSql, vtipoGrid, "1")
-        'DgvApuper.CurrentCell = DgvApuper.Rows(filaActual).Cells(0)
-        'DgvApuper.Rows(filaActual).Selected = True
     End Sub
 
     Private Sub CmbConcepto_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbConcepto.KeyPress

@@ -183,4 +183,7 @@
   <data name="EliminarApuntesPeriodicosError" xml:space="preserve">
     <value>Fehler beim Löschen periodischer Einträge im Zusammenhang mit dem Buchhaltungsposten</value>
   </data>
+  <data name="IntroApuPer" xml:space="preserve">
+    <value>Einführung von periodischen Notizen</value>
+  </data>
 </root>
