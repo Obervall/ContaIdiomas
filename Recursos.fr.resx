@@ -832,4 +832,7 @@ le fichier n’est pas ouvert</value>
   <data name="ErrorIniciaDesplegables" xml:space="preserve">
     <value>Erreur initiale des menus déroulants des éditions périodiques</value>
   </data>
+  <data name="ToolTipEliminarPresupuesto" xml:space="preserve">
+    <value>Supprimez les budgets mensuels de l’article sélectionné</value>
+  </data>
 </root>

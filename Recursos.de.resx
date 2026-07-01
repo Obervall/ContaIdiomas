@@ -254,7 +254,7 @@ Sie werden nicht aus der Datenbank entfernt</value>
     <value>Anzahl</value>
   </data>
   <data name="Saldo" xml:space="preserve">
-    <value>Saldo</value>
+    <value>Eröffnungsbilanz</value>
   </data>
   <data name="ErrorAlEjecutar" xml:space="preserve">
     <value>Fehler laufen</value>
@@ -551,7 +551,7 @@ Sie werden nicht aus der Datenbank entfernt</value>
     <value>Gesamtausgaben</value>
   </data>
   <data name="TOTAL" xml:space="preserve">
-    <value>INSGESAMT</value>
+    <value>ENDSUMME</value>
   </data>
   <data name="FECHA_UPPER" xml:space="preserve">
     <value>DATUM</value>
@@ -831,5 +831,8 @@ Die Datei ist nicht geöffnet</value>
   </data>
   <data name="ErrorIniciaDesplegables" xml:space="preserve">
     <value>Fehler beim Initialisieren periodischer Editions-Dropdowns</value>
+  </data>
+  <data name="ToolTipEliminarPresupuesto" xml:space="preserve">
+    <value>Monatliche Budgets aus dem ausgewählten Posten löschen</value>
   </data>
 </root>

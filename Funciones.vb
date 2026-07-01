@@ -6,6 +6,7 @@ Imports System.Diagnostics
 Imports System.Drawing
 Imports System.Globalization
 Imports System.IO
+Imports System.Linq
 Imports System.Net
 Imports System.Reflection
 Imports System.Resources
@@ -1435,86 +1436,6 @@ Module Funciones
         End Try
     End Sub
 
-    'Public Sub LlenarYTraducirControlesConceptosBD(ByVal combo As ComboBox, ByVal lista As ListBox, ByVal dr As OleDb.OleDbDataReader)
-    '    Try
-    '        Dim posicionActual As Integer = combo.SelectedIndex
-
-    '        ' 1. Cargamos los datos en memoria de forma segura SIN que rompa el flujo de Access
-    '        Dim dt As New DataTable()
-    '        dt.Load(dr)
-
-    '        dt.Columns.Add("TextoTraducido", GetType(String))
-    '        lista.Items.Clear()
-
-    '        Dim vTipoConcepto As String = ""
-
-    '        For Each fila As DataRow In dt.Rows
-    '            Dim idConcepto As Integer = Convert.ToInt32(fila("IdConceptoCON"))
-    '            Dim codigoOriginal As String = fila("CodigoCON").ToString().Trim()
-    '            Dim descOriginal As String = fila("DescripcionCON").ToString()
-    '            Dim tipoOriginal As String = ""
-
-    '            If dt.Columns.Contains("TipoCON") Then
-    '                tipoOriginal = fila("TipoCON").ToString().Trim().ToUpper()
-    '            End If
-
-    '            Dim codigoTraducido As String = ""
-    '            If resManager IsNot Nothing Then
-    '                Dim claveRecurso As String = codigoOriginal.Trim().Replace(" ", "_")
-    '                codigoTraducido = resManager.GetString(claveRecurso)
-    '            End If
-    '            ' 🌟 CORRECCIÓN AQUÍ: Si no tiene traducción en el .resx, dejamos el CodigoCON
-    '            ' corto original de la BD, NO la descripción
-    '            If String.IsNullOrEmpty(codigoTraducido) Then codigoTraducido = codigoOriginal
-
-    '            If codigoOriginal.ToUpper() = "TRASPASO" Then
-    '                Dim tradTraspaso As String = ""
-    '                If resManager IsNot Nothing Then tradTraspaso = resManager.GetString("TRASPASO")
-    '                If Not String.IsNullOrEmpty(tradTraspaso) Then codigoTraducido = tradTraspaso
-    '            End If
-
-    '            fila("TextoTraducido") = codigoTraducido
-
-    '            ' --- AGREGAR CABECERAS DE GRUPO EN EL LISTBOX ---
-    '            If tipoOriginal <> "" AndAlso vTipoConcepto <> tipoOriginal Then
-    '                vTipoConcepto = tipoOriginal
-
-    '                Select Case vTipoConcepto
-    '                    Case "GASTO"
-    '                        lista.Items.Add("** " & resManager.GetString("Tipo_Gasto") & " **")
-    '                    Case "INGRESO"
-    '                        lista.Items.Add("** " & resManager.GetString("Tipo_Ingreso") & " **")
-    '                    Case "ESPECIAL"
-    '                        If resManager IsNot Nothing Then
-    '                            lista.Items.Add("** " & resManager.GetString("Tipo_Especial") & " **")
-    '                        End If
-    '                End Select
-    '            End If
-
-    '            ' 🌟 CORRECCIÓN LISTBOX: Metemos objetos ElementoCombo para que guarde el ID numérico oculto
-    '            ' Al igual que haces con las cuentas, el ListBox ahora recordará el número de ID real de cada concepto
-    '            lista.Items.Add(codigoTraducido)
-    '        Next
-
-    '        ' 2. VINCULAMOS AL COMBOBOX
-    '        combo.ValueMember = "IdConceptoCON"
-    '        combo.DisplayMember = "TextoTraducido"
-    '        combo.DataSource = dt
-
-    '        If posicionActual >= 0 AndAlso posicionActual < combo.Items.Count Then
-    '            combo.SelectedIndex = posicionActual
-    '        ElseIf combo.Items.Count > 0 Then
-    '            combo.SelectedIndex = 0
-    '        End If
-
-    '    Catch ex As Exception
-    '        MsgBox("Error al sincronizar controles: " & ex.Message, MsgBoxStyle.Critical)
-    '    Finally
-    '        ' 🌟 EL ESCUDO DEFINITIVO: Obligamos al Reader a cerrarse pase lo que pase en el volcado
-    '        If dr IsNot Nothing AndAlso Not dr.IsClosed Then dr.Close()
-    '    End Try
-    'End Sub
-
     ''' <summary>
     ''' Llena, traduce y ordena alfabéticamente el ListBox1 manteniendo las cabeceras estéticas por grupos (Gasto/Ingreso)
     ''' </summary>
@@ -1641,9 +1562,33 @@ Module Funciones
     Public Sub TraducirGridApuntesBD(ByVal dgv As DataGridView)
         Try
             If dgv.Rows.Count = 0 Then Exit Sub
-
+            i = 0
             For Each row As DataGridViewRow In dgv.Rows
                 If row.IsNewRow Then Continue For
+
+                ' =========================================================================
+                ' 🌟 CORTAFUEGOS INDESTRUCTIBLE POR BÚSQUEDA INVERSA (Propuesta Maestra)
+                ' =========================================================================
+                ' La celda 2 corresponde a la columna de la Descripción en tu Grid de Apuntes.
+                If row.Cells(2).Value IsNot Nothing Then
+                    Dim descCelda As String = row.Cells(2).Value.ToString().Trim()
+
+                    ' 🚀 ESCÁNER BIOLÓGICO: Le pasamos el texto de Access (sea "Opening Balance", "Saldo Inicial", etc.)
+                    ' si el motor inverso nos confirma que su llave de fábrica es "Desc_SALDO", procedemos:
+                    If ObtenerClaveNeutral(descCelda, resManager) = "Desc_SALDO" Then
+                        If resManager IsNot Nothing Then
+                            ' Capturamos el idioma "en vivo" seleccionado en tus Preferencias
+                            Dim culturaActivaEnVivo As System.Globalization.CultureInfo = Threading.Thread.CurrentThread.CurrentUICulture
+
+                            ' Forzamos la inyección de tu palabra oficial traducida según el .resx activo
+                            Dim saldoTraducido As String = resManager.GetString("Desc_SALDO", culturaActivaEnVivo)
+
+                            If Not String.IsNullOrEmpty(saldoTraducido) Then
+                                row.Cells(2).Value = saldoTraducido.Trim()
+                            End If
+                        End If
+                    End If
+                End If
 
                 Dim filaData As DataRowView = CType(row.DataBoundItem, DataRowView)
 
@@ -1724,31 +1669,86 @@ Module Funciones
         End Try
     End Sub
 
-    Public Function ObtenerClaveNeutral(textoTraducido As String, rm As System.Resources.ResourceManager) As String
-        ' 1. Evitamos buscar si el texto viene vacío o nulo
+    ''' <summary>
+    ''' Realiza una búsqueda inversa en todos los recursos activos del sistema de forma 100% dinámica
+    ''' </summary>
+    Public Function ObtenerClaveNeutral(ByVal textoTraducido As String, ByVal rm As System.Resources.ResourceManager) As String
+        ' 1. Evitamos buscar si el texto viene vacío o nulo (Tu excelente filtro inicial)
         If String.IsNullOrEmpty(textoTraducido) OrElse rm Is Nothing Then Return ""
 
         Try
-            ' 2. Obtenemos el conjunto de recursos para el idioma/cultura activo en este momento
-            Dim recursosActuales As System.Resources.ResourceSet =
-            rm.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
+            ' 🌟 DECLARACIÓN DE LA NUEVA ERA: Lista dinámica para albergar las culturas sin escribir códigos fijos
+            Dim culturasABuscar As New List(Of String)()
 
-            If recursosActuales IsNot Nothing Then
-                ' 3. Recorremos todos los elementos guardados en el archivo de recursos
-                Dim de As System.Collections.DictionaryEntry
-                For Each de In recursosActuales
-                    ' 4. Comparamos el valor traducido de forma limpia (sin importar espacios ni mayúsculas)
-                    If Convert.ToString(de.Value).Trim().ToUpper() = textoTraducido.Trim().ToUpper() Then
-                        Return Convert.ToString(de.Key) ' ¡Éxito! Devolvemos el nombre de la clave original
+            ' A. Inyectamos siempre en primer lugar el idioma visual activo en este instante (CurrentUICulture)
+            Dim culturaActual As String = System.Globalization.CultureInfo.CurrentUICulture.Name
+            culturasABuscar.Add(culturaActual)
+
+            ' B. AUTODESCUBRIMIENTO DINÁMICO DESDE TU PANTALLA DE PREFERENCIAS:
+            ' Si el formulario de Preferencias está instanciado en la RAM, leemos sus ítems en caliente.
+            ' De esta forma, si el día de mañana añades un idioma a la interfaz, esta función se enterará sola.
+            ' (Asegúrate de que tu pantalla de configuración se llame exactamente 'Preferencias')
+            ' 🌟 CORRECCIÓN MAESTRA: Accedemos directamente a la colección de Windows sin el prefijo 'My'
+            Dim frmPref As Preferencias = Application.OpenForms.OfType(Of Preferencias)().FirstOrDefault()
+
+            If frmPref IsNot Nothing AndAlso frmPref.CmbElegirIdioma IsNot Nothing Then
+                ' Recorremos los ítems que tú mismo has programado en el desplegable (Español, Català, English, Deutsch...)
+                For Each item In frmPref.CmbElegirIdioma.Items
+                    Dim nombreIdioma As String = item.ToString().Trim().ToUpper()
+                    Dim codigoMapeado As String = ""
+
+                    ' Mapeamos al vuelo usando exactamente tu misma lógica relacional de fábrica
+                    Select Case nombreIdioma
+                        Case "ESPAÑOL" : codigoMapeado = "es-ES"
+                        Case "CATALÀ" : codigoMapeado = "ca"
+                        Case "ENGLISH" : codigoMapeado = "en"
+                        Case "FRANÇAIS" : codigoMapeado = "fr"
+                        Case "DEUTSCH" : codigoMapeado = "de"
+                        Case "PORTUGUÊS" : codigoMapeado = "pt"
+                    End Select
+
+                    ' Si encontramos un código válido y no estaba ya añadido en la lista, lo acoplamos
+                    If Not String.IsNullOrEmpty(codigoMapeado) AndAlso Not culturasABuscar.Contains(codigoMapeado) Then
+                        culturasABuscar.Add(codigoMapeado)
                     End If
                 Next
             End If
+
+            ' 🧰 PLAN B (Respaldo por si Preferencias está cerrado): Si el formulario no estaba abierto en ese instante,
+            ' inyectamos de forma segura las raíces universales de almacenamiento para que nunca falte un puente de lectura
+            If culturasABuscar.Count <= 1 Then
+                If Not culturasABuscar.Contains("en") Then culturasABuscar.Add("en")
+                If Not culturasABuscar.Contains("es-ES") Then culturasABuscar.Add("es-ES")
+                If Not culturasABuscar.Contains("ca") Then culturasABuscar.Add("ca")
+                If Not culturasABuscar.Contains("de") Then culturasABuscar.Add("de")
+                If Not culturasABuscar.Contains("fr") Then culturasABuscar.Add("fr")
+                If Not culturasABuscar.Contains("pt") Then culturasABuscar.Add("pt")
+            End If
+
+            ' =========================================================================
+            ' EL BUCLE MAESTRO DE RASTREO DINÁMICO (Tu impecable motor lógico de fábrica)
+            ' =========================================================================
+            For Each codCultura In culturasABuscar
+                Dim culturaObj As New System.Globalization.CultureInfo(codCultura)
+
+                ' Cargamos el mapa de recursos de ese país de la RAM (False para que no explote si falta el .resx)
+                Dim recursosActuales As System.Resources.ResourceSet = rm.GetResourceSet(culturaObj, True, False)
+
+                If recursosActuales IsNot Nothing Then
+                    For Each de As System.Collections.DictionaryEntry In recursosActuales
+                        ' Comparamos de forma insensible a mayúsculas/minúsculas y espacios (Tu regla de oro)
+                        If Convert.ToString(de.Value).Trim().ToUpper() = textoTraducido.Trim().ToUpper() Then
+                            Return Convert.ToString(de.Key) ' ¡Éxito! Devolvemos la clave original (ej: "Desc_SALDO")
+                        End If
+                    Next
+                End If
+            Next
+
         Catch ex As Exception
-            ' Si ocurre algún error en la lectura, devolvemos un texto vacío para no colgar la app
+            ' Evita cuelgues si hay micro-parpadeos en los hilos visuales
             Return ""
         End Try
 
-        ' Si recorre todo el archivo y no encuentra coincidencia, devuelve vacío
         Return ""
     End Function
 

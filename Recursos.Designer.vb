@@ -2002,6 +2002,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Eliminar Presupuestos mensuales del Concepto seleccionado.
+    '''</summary>
+    Friend Shared ReadOnly Property ToolTipEliminarPresupuesto() As String
+        Get
+            Return ResourceManager.GetString("ToolTipEliminarPresupuesto", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Suprimir las Filas Seleccionadas de la Parrilla
     '''No se Eliminan de la Base de Datos.
     '''</summary>

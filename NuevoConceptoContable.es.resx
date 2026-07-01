@@ -167,7 +167,4 @@ Pueden ser Números (1,2,3,4..) o Letras
   <data name="MsgDatosNombre" xml:space="preserve">
     <value>NO hay Datos en Nombre...</value>
   </data>
-  <data name="PalabraSaldo" xml:space="preserve">
-    <value>SALDO</value>
-  </data>
 </root>

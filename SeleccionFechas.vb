@@ -50,58 +50,85 @@ Public Class SeleccionFechas
     End Sub
 
     Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click
+        cmdMdb1cr.Parameters.Clear()
 
+        ' =========================================================================
+        ' 🌟 BLOQUE 1: INFORME DE APUNTES CONTABLES (INNER JOIN CON CONCEPTOS)
+        ' =========================================================================
         If vOrdenadoPorFechasAPU = 1 Or vOrdenadoPorConceptosAPU = 1 Or vOrdenadoPorImportesAPU = 1 Then
-            vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
-            vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+            ' Cruzamos apuntes con conceptos para extraer el CodigoCON legible en la segunda columna (Celdas(1))
+            vtipoSql = "SELECT apuntes.FechaAPU, conceptos.CodigoCON, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU " &
+                       "FROM apuntes " &
+                       "INNER JOIN conceptos ON apuntes.ConceptoAPU = conceptos.IdConceptoCON " &
+                       "WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+
             If vSoloIngresosAPU = 1 Then
                 vtipoSql += " And apuntes.ImporteAPU > 0 "
             End If
             If vSoloGastosAPU = 1 Then
                 vtipoSql += " And apuntes.ImporteAPU < 0 "
             End If
+
             vDate1 = DateTimePicker1.Value.Date
             vDate2 = DateTimePicker2.Value.Date
-            frmImprimirForm.LblEntreFechas.Text = "Desde: " & DateTimePicker1.Value & "    Hasta: " & DateTimePicker2.Value
+            frmImprimirForm.LblEntreFechas.Text = "Desde: " & DateTimePicker1.Value.ToShortDateString() & "    Hasta: " & DateTimePicker2.Value.ToShortDateString()
+
             vtipoSql += " And apuntes.FechaAPU >= ?"
             vtipoSql += " And apuntes.FechaAPU <= ?"
+
+            ' Configuramos la ordenación alfabética real por el nombre del concepto
             If vOrdenadoPorFechasAPU = 1 Then
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC"
             End If
             If vOrdenadoPorConceptosAPU = 1 Then
-                vtipoSql += " ORDER BY apuntes.ConceptoAPU ASC"
+                vtipoSql += " ORDER BY conceptos.CodigoCON ASC"
             End If
             If vOrdenadoPorImportesAPU = 1 Then
                 vtipoSql += " ORDER BY apuntes.ImporteAPU ASC"
             End If
         End If
 
+        ' =========================================================================
+        ' 🌟 BLOQUE 2: INFORME DE APUNTES PERIÓDICOS (INNER JOIN CON CONCEPTOS)
+        ' =========================================================================
         If vOrdenadoPorFechasAPP = 1 Or vOrdenadoPorConceptosAPP = 1 Or vOrdenadoPorImportesAPP = 1 Then
-            vtipoSql = "SELECT apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP FROM apuper"
-            vtipoSql += " WHERE apuper.EjercicioAPP = " & vAñoEjercicio.ToString
+            ' Cruzamos apuper con conceptos para extraer el CodigoCON legible en la segunda columna (Celdas(1))
+            vtipoSql = "SELECT apuper.FechaAPP, conceptos.CodigoCON, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP, apuper.CodigoAPP " &
+                       "FROM apuper " &
+                       "INNER JOIN conceptos ON apuper.ConceptoAPP = conceptos.IdConceptoCON " &
+                       "WHERE apuper.EjercicioAPP = " & vAñoEjercicio.ToString
+
             If vSoloIngresosAPP = 1 Then
                 vtipoSql += " And apuper.ImporteAPP > 0 "
             End If
             If vSoloGastosAPP = 1 Then
                 vtipoSql += " And apuper.ImporteAPP < 0 "
             End If
+
             vDate1 = DateTimePicker1.Value.Date
             vDate2 = DateTimePicker2.Value.Date
-            frmImprimirForm.LblEntreFechas.Text = "Desde: " & DateTimePicker1.Value & "    Hasta: " & DateTimePicker2.Value
+            frmImprimirForm.LblEntreFechas.Text = "Desde: " & DateTimePicker1.Value.ToShortDateString() & "    Hasta: " & DateTimePicker2.Value.ToShortDateString()
+
             vtipoSql += " And apuper.FechaAPP >= ?"
             vtipoSql += " And apuper.FechaAPP <= ?"
+
+            ' Configuramos la ordenación alfabética real por el nombre del concepto
             If vOrdenadoPorFechasAPP = 1 Then
                 vtipoSql += " ORDER BY apuper.FechaAPP ASC"
             End If
             If vOrdenadoPorConceptosAPP = 1 Then
-                vtipoSql += " ORDER BY apuper.ConceptoAPP ASC"
+                vtipoSql += " ORDER BY conceptos.CodigoCON ASC"
             End If
             If vOrdenadoPorImportesAPP = 1 Then
                 vtipoSql += " ORDER BY apuper.ImporteAPP ASC"
             End If
         End If
-        LlenarGrid(vtipoSql, "PRINT_INFORME_APUNTES", 1)
-        frmImprimirForm.LblFecha.Text = Date.Today.ToLongDateString
+
+        ' 🌟 IMPORTANTE: Ejecutamos el volcado dócil en la macro de tu reporte
+        vtipoGrid = "PRINT_INFORME_APUNTES"
+        LlenarGrid(vtipoSql, vtipoGrid, "1")
+
+        frmImprimirForm.LblFecha.Text = Date.Today.ToLongDateString()
 
         PrintLine = 0
         Contador = 0
@@ -166,10 +193,11 @@ Public Class SeleccionFechas
         '*********************************************
         e.Graphics.DrawString(frmImprimirForm.LineaTop.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.LineaTop.Left, frmImprimirForm.LineaTop.Top)
 
-        'Imprimimos los detalles del reporte, es decir el listado de Apuntes
+        'Imprimimos los detalles del reporte, es decir el listado de Apuntes (Tu estructura intacta)
         '*******************************************************************
         Dim startX As Integer = frmImprimirForm.Punto1.Left 'Tomamos la posicion horinzontal de la letra 'Punto1'
         Dim startY As Integer = frmImprimirForm.Punto1.Top 'Tomamos la posicion vertical de la letra 'Punto1'
+
         Do While PrintLine < frmImprimirForm.DgvApuntes.Rows.Count
             If startY + frmImprimirForm.Punto1.Height > e.MarginBounds.Bottom Then
                 'Esta parte se activa solo si 'startY' que es la posicion vertical almacenada supera el borde inferior de la pagina
@@ -178,10 +206,44 @@ Public Class SeleccionFechas
                 Exit Do
             End If
 
-            ' Celdas 0, 1 y 2 (Se mantienen igual)
-            e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(0).Value, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
-            e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(1).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto2.Left, startY)
-            e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(2).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto3.Left, startY)
+            ' 🌟 1. CAPTURAMOS LOS VALORES DE LA FILA ACTUAL EN VARIABLES VOLANTILES DE LA RAM
+            Dim textoFechaPapel As String = If(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(0).Value?.ToString(), "")
+            Dim textoConceptoPapel As String = If(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(1).Value?.ToString(), "").Trim()
+            Dim textoDescripcionPapel As String = If(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(2).Value?.ToString(), "").Trim()
+
+            ' 🌟 2. EL CORTAFUEGOS BIOLÓGICO MULTIIDIOMA ANTES DE TOCAR EL LIENZO GRÁFICO
+            If resManager IsNot Nothing Then
+                ' Leemos el chip regional que el hilo de Preferencias tiene activo en este microsegundo
+                Dim culturaActivaEnVivo As System.Globalization.CultureInfo = Threading.Thread.CurrentThread.CurrentUICulture
+
+                ' 🚀 A. TRADUCCIÓN DE LA COLUMNA CONCEPTO (Celda 1)
+                ' Usamos tu excelente escáner inverso para cazar la Key neutral (ej: "LUZ", "SALDO")
+                Dim claveConceptoNeutral As String = ObtenerClaveNeutral(textoConceptoPapel, resManager)
+
+                If Not String.IsNullOrEmpty(claveConceptoNeutral) Then
+                    Dim tradConcepto As String = resManager.GetString(claveConceptoNeutral, culturaActivaEnVivo)
+                    If Not String.IsNullOrEmpty(tradConcepto) Then textoConceptoPapel = tradConcepto.Trim().ToUpper()
+                Else
+                    ' Plan B de respaldo por la ortografía de los recursos
+                    Dim tradDirecta As String = resManager.GetString(textoConceptoPapel.Replace(" ", "_"), culturaActivaEnVivo)
+                    If Not String.IsNullOrEmpty(tradDirecta) Then textoConceptoPapel = tradDirecta.Trim().ToUpper()
+                End If
+
+                ' 🚀 B. TRADUCCIÓN DE LA COLUMNA DESCRIPCIÓN (Celda 2 - Captura tu Key "Desc_SALDO")
+                ' Si el escáner inverso nos chiva que este registro es el Saldo Inicial histórico de Access:
+                If ObtenerClaveNeutral(textoDescripcionPapel, resManager) = "Desc_SALDO" OrElse
+                   textoDescripcionPapel.Equals("Saldo Inicial", StringComparison.OrdinalIgnoreCase) OrElse
+                   textoDescripcionPapel.Equals("Initial Balance", StringComparison.OrdinalIgnoreCase) Then
+
+                    Dim tradSaldo As String = resManager.GetString("Desc_SALDO", culturaActivaEnVivo)
+                    If Not String.IsNullOrEmpty(tradSaldo) Then textoDescripcionPapel = tradSaldo.Trim()
+                End If
+            End If
+
+            ' 🌟 3. DIBUJO DEFINITIVO EN LA HOJA PAPEL (Imprimimos los textos ya traducidos en vivo)
+            e.Graphics.DrawString(textoFechaPapel, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
+            e.Graphics.DrawString(textoConceptoPapel, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto2.Left, startY)
+            e.Graphics.DrawString(textoDescripcionPapel, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto3.Left, startY)
 
             ' =========================================================================
             ' VALIDACIÓN SEGURA PARA LA CELDA 3 (REMPLAZA TU LÍNEA ANTERIOR)

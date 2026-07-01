@@ -832,4 +832,7 @@ O arquivo não está aberto</value>
   <data name="ErrorIniciaDesplegables" xml:space="preserve">
     <value>Inicialização de erros nos menus suspensos de edições periódicas</value>
   </data>
+  <data name="ToolTipEliminarPresupuesto" xml:space="preserve">
+    <value>Exclua os Orçamentos Mensais do Item Selecionado</value>
+  </data>
 </root>

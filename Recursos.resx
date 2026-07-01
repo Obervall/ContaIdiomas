@@ -832,4 +832,7 @@ que el archivo no esté abierto</value>
   <data name="ErrorIniciaDesplegables" xml:space="preserve">
     <value>Error al inicializar los desplegables de edición periódica</value>
   </data>
+  <data name="ToolTipEliminarPresupuesto" xml:space="preserve">
+    <value>Eliminar Presupuestos mensuales del Concepto seleccionado</value>
+  </data>
 </root>

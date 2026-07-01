@@ -1316,31 +1316,6 @@ Public Class ApuntesContables
             ' Saltamos la fila vacía del final del grid por seguridad
             If fila.IsNewRow Then Continue For
 
-            ' =========================================================================
-            ' 🌟 CORTAFUEGOS INDESTRUCTIBLE CON TU LLAVE "Desc_SALDO" (Idioma Forzado)
-            ' =========================================================================
-            If fila.Cells(2).Value IsNot Nothing Then
-                Dim descCelda As String = fila.Cells(2).Value.ToString().Trim()
-
-                ' Evaluamos si en el disco duro de Access viene escrito "Saldo Inicial" o "Initial Balance"
-                If descCelda.Equals("Saldo Inicial", StringComparison.OrdinalIgnoreCase) OrElse
-           descCelda.Equals("Initial Balance", StringComparison.OrdinalIgnoreCase) Then
-
-                    If resManager IsNot Nothing Then
-                        ' 🚀 TRUCO DE ORO: Forzamos al sistema a leer tu variable de idioma de configuración
-                        Dim culturaActiva As New System.Globalization.CultureInfo(My.Settings.CulturaUsuario)
-
-                        ' Invocamos tu Key exacta en mayúsculas cruzándola con la cultura del usuario
-                        Dim saldoTraducido As String = resManager.GetString("Desc_SALDO", culturaActiva)
-
-                        ' Si tu recurso tiene la palabra traducida (en alemán, francés, catalán...), la inyectamos en la RAM
-                        If Not String.IsNullOrEmpty(saldoTraducido) Then
-                            fila.Cells(2).Value = saldoTraducido.Trim()
-                        End If
-                    End If
-                End If
-            End If
-
             ' ESCUDO DE SEGURIDAD 1: Validamos que la fila tenga conceptos reales y que no sea SALDO
             If fila.Cells(9).Value IsNot Nothing AndAlso Not IsDBNull(fila.Cells(9).Value) Then
                 Dim idConceptoFila As Integer = Convert.ToInt32(fila.Cells(9).Value)

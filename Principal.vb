@@ -27,10 +27,8 @@ Public Class Principal
     End Sub
 
     Public Sub RefrescarTextos()
-        ' 1. Refrescar Labels, Botones y Título del Formulario
-        'Buscamos la Key en el recurso que se llame igual que el nombre del control
+        ' 1. Refrescar Labels, Botones y Título del Formulario Principal (Tu excelente bucle original)
         For Each ctrl As Control In Me.Controls
-            ' Si el control tiene un nombre que coincide con una Key en recursos, lo traduce
             Dim textoTraducido As String = My.Resources.ResourceManager.GetString(ctrl.Name)
             If Not String.IsNullOrEmpty(textoTraducido) Then
                 ctrl.Text = textoTraducido
@@ -39,9 +37,45 @@ Public Class Principal
                 textoTraducido = rmse.GetString(ctrl.Name)
             End If
         Next
-        ' 2. Llamar al refresco de menús
+
+        ' =========================================================================
+        ' 🌟 EL PUENTE RELACIONAL MULTIIDIOMA (Sincro en caliente para el extracto)
+        ' =========================================================================
+        ' Si el usuario cambió el idioma en Preferencias, obligamos a que el formulario 
+        ' de Apuntes Contables (si está abierto en la RAM) pase de inmediato el traductor 
+        ' por sus celdas para que el 'Saldo Inicial' mutre al alemán/catalán al instante.
+        ' (Asegúrate de comprobar si tu clase de formulario se llama exactamente frmApuntesContables)
+        For Each f As Form In Application.OpenForms
+            If f.Name = "frmApuntesContables" OrElse f.Name = "ApuntesContables" Then
+                ' Localizamos la rejilla viva (asumiendo que se llama DgvApuntes)
+                Dim dgvContable As DataGridView = f.Controls.Find("DgvApuntes", True).FirstOrDefault()
+                If dgvContable IsNot Nothing Then
+                    ' Ejecutamos la rutina de tu módulo con la cultura en caliente ya actualizada
+                    TraducirGridApuntesBD(dgvContable)
+                End If
+            End If
+        Next
+
+        ' 2. Llamar al refresco de menús de fábrica
         RefrescarMenus()
     End Sub
+
+    'Public Sub RefrescarTextos()
+    '    ' 1. Refrescar Labels, Botones y Título del Formulario
+    '    'Buscamos la Key en el recurso que se llame igual que el nombre del control
+    '    For Each ctrl As Control In Me.Controls
+    '        ' Si el control tiene un nombre que coincide con una Key en recursos, lo traduce
+    '        Dim textoTraducido As String = My.Resources.ResourceManager.GetString(ctrl.Name)
+    '        If Not String.IsNullOrEmpty(textoTraducido) Then
+    '            ctrl.Text = textoTraducido
+    '        End If
+    '        If textoTraducido Is Nothing Then
+    '            textoTraducido = rmse.GetString(ctrl.Name)
+    '        End If
+    '    Next
+    '    ' 2. Llamar al refresco de menús
+    '    RefrescarMenus()
+    'End Sub
 
     Public Sub RefrescarMenus()
         ' 1. Inicializa el gestor de recursos del Formulario Principal

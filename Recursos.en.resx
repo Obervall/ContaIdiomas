@@ -832,4 +832,7 @@ the file is not open</value>
   <data name="ErrorIniciaDesplegables" xml:space="preserve">
     <value>Error initializing periodic edition drop-downs</value>
   </data>
+  <data name="ToolTipEliminarPresupuesto" xml:space="preserve">
+    <value>Delete Monthly Budgets from the Selected Item</value>
+  </data>
 </root>

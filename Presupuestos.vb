@@ -16,7 +16,6 @@ Public Class Presupuestos
     Public TL() As ToolTip
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
-
     Private Sub Presupuestos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' 🌟 PASO CRÍTICO 1: Encendemos el escudo de carga para congelar eventos automáticos
         cargandoFormulario = True
@@ -32,7 +31,7 @@ Public Class Presupuestos
 
         Dim clavesToolTip As String() = {
             "ToolTipGraficos2D", "ToolTipSalir", "ToolTipAplicarFiltro", "ToolTipQuitarFiltro", "ToolTipImprimir",
-            "ToolTipPrimero", "ToolTipAnterior", "ToolTipSiguiente", "ToolTipUltimo", "ToolTipEliminar", "ToolTipGraficos3D",
+            "ToolTipPrimero", "ToolTipAnterior", "ToolTipSiguiente", "ToolTipUltimo", "ToolTipEliminarPresupuesto", "ToolTipGraficos3D",
             "ToolTipEliminaSeleccion", "ToolTipF6"
         }
 
@@ -53,7 +52,7 @@ Public Class Presupuestos
             ' Selección inicial por defecto del primer elemento
             If CmbConcepto.Items.Count > 0 Then CmbConcepto.SelectedIndex = 0
         Catch ex As Exception
-            MsgBox("Error al inicializar los conceptos del presupuesto: " & ex.Message, MsgBoxStyle.Critical)
+            MsgBox(resManager.GetString("Error") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
 
         ' =========================================================================
@@ -237,12 +236,6 @@ Public Class Presupuestos
                     Me.DgvPresupuestos.Rows(0).Cells(1).Value = MonthName(1, False)
                 End If
             End If
-
-            '' 🌟 CHIVATO FORMULARIO (COMBO):
-            'If Me.DgvPresupuestos.Rows.Count > 0 Then
-            '    MsgBox("CHIVATO FORMULARIO (Combo): Al final del evento del combo, la primera fila columna 1 vale: " & Me.DgvPresupuestos.Rows(0).Cells(1).Value.ToString())
-            'End If
-
         Catch ex As Exception
             ' Evita cuelgues visuales si el combo parpadea al interactuar
         End Try
@@ -265,12 +258,6 @@ Public Class Presupuestos
                 tipoConcepto = filaSeleccionada("TipoCON").ToString().Trim().ToUpper()
             End If
         End If
-
-        ' =========================================================================
-        ' 🌟 1. GENERAMOS LA CONSULTA SQL DE FILTRADO QUIRÚRGICO CON 8 CELDAS RELACIONALES
-        ' =========================================================================
-        ' Enviamos exactamente la misma plantilla limpia y libre de campos fantasma 
-        ' que ya reparamos con éxito en el Load para alimentar tu LlenarGrid modular.
 
         ' =========================================================================
         ' 🌟 CONSULTA SQL DE LA NUEVA ERA REALINEADA A TU DISEÑO ORIGINAL
@@ -349,12 +336,12 @@ Public Class Presupuestos
             If desviacionFinal >= 0 Then
                 LblObjetivo.ForeColor = System.Drawing.Color.DarkGreen
                 LblObjetivo.Text = rmse.GetString("LblObjetivo.Text")
-                If String.IsNullOrEmpty(LblObjetivo.Text) Then LblObjetivo.Text = "Objectiu Assolit!"
+                If String.IsNullOrEmpty(LblObjetivo.Text) Then LblObjetivo.Text = "Objectivo Logrado!"
                 LblMontoDesviacion.ForeColor = System.Drawing.Color.DarkBlue
             Else
                 LblObjetivo.ForeColor = System.Drawing.Color.DarkRed
                 LblObjetivo.Text = rmse.GetString("NoLogrado")
-                If String.IsNullOrEmpty(LblObjetivo.Text) Then LblObjetivo.Text = "Objectiu No Assolit"
+                If String.IsNullOrEmpty(LblObjetivo.Text) Then LblObjetivo.Text = "Objectivo No Logrado"
                 LblMontoDesviacion.ForeColor = System.Drawing.Color.Red
             End If
         Else
@@ -375,12 +362,6 @@ Public Class Presupuestos
                 Me.DgvPresupuestos.Rows(0).Cells(1).Value = MonthName(1, False)
             End If
         End If
-
-        '' 🌟 CHIVATO FORMULARIO (CÁLCULOS):
-        'If Me.DgvPresupuestos.Rows.Count > 0 Then
-        '    MsgBox("CHIVATO FORMULARIO (Cálculos): Al final de EjecutarCalculo, la primera fila columna 1 vale: " & Me.DgvPresupuestos.Rows(0).Cells(1).Value.ToString())
-        'End If
-
     End Sub
 
     Private Sub BtnGraficos2D_Click(sender As Object, e As EventArgs) Handles BtnGraficos2D.Click
@@ -478,10 +459,6 @@ Public Class Presupuestos
         cmdMdb1cr.Parameters.Clear()
 
         ' =========================================================================
-        ' 🌟 CONSULTA SQL MAESTRA RELACIONAL (Reseteo F6 con nombres limpios)
-        ' =========================================================================
-        ' Cruzamos presupuesto con conceptos para restaurar la vista totalitaria del año
-        ' =========================================================================
         ' 🌟 CONSULTA SQL DE LA NUEVA ERA REALINEADA A TU DISEÑO ORIGINAL
         ' =========================================================================
         ' 0 = El Código Corto del Concepto (AESTHETICS, LUZ...) para tu columna 0.
@@ -540,7 +517,6 @@ Public Class Presupuestos
         End If
     End Sub
 
-
     Private Sub BtnEliminaSeleccion_Click(sender As Object, e As EventArgs) Handles BtnEliminaSeleccion.Click
         ' Elimina Visualmente las Filas Seleccionadas desde la memoria RAM
         ' *******************************************************************
@@ -594,7 +570,7 @@ Public Class Presupuestos
 
             ' Creamos e inyectamos la nueva fila de totales reluciente en el DataTable
             Dim nuevaFila As DataRow = dt.NewRow()
-            nuevaFila(0) = If(resManager.GetString("TOTAL"), "TOTAL")
+            nuevaFila(0) = If(resManager?.GetString("TOTAL"), "TOTAL")
             nuevaFila(2) = totalCol2
             nuevaFila(3) = totalCol3
             dt.Rows.Add(nuevaFila)
@@ -624,19 +600,16 @@ Public Class Presupuestos
     End Sub
 
     Private Sub BtnEliminarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEliminarRegistro.Click
-        ' 1. Aseguramos que haya una fila seleccionada en el Grid de forma segura
+        ' 1. Aseguramos de forma preventiva que haya una fila seleccionada en el Grid
         If DgvPresupuestos.CurrentRow Is Nothing Then Exit Sub
         cmdMdb1cr.Parameters.Clear()
 
-        ' 2. Mensaje de confirmación traducible (Apunta a tus llaves globales del ResX)
-        ' Recuperamos el confirmador traducido para que no salga YES/NO en Windows en inglés o catalán
+        ' 2. CUADRO DE CONFIRMACIÓN INTERNACIONALIZADO (Tu clásico aviso adaptado a tus .resx)
+        ' Recuperamos el mensaje desde tus recursos para que cambie en vivo al alemán, catalán o castellano
         Dim msgPregunta As String = rmse.GetString("PreguntaEliminarPresupuesto")
-        If String.IsNullOrEmpty(msgPregunta) Then msgPregunta = "¿Está seguro de que desea eliminar FÍSICAMENTE este registro de presupuesto?"
-
         Dim titPregunta As String = rmse.GetString("TituloEliminarPresupuesto")
-        If String.IsNullOrEmpty(titPregunta) Then titPregunta = "Confirmar Borrado"
 
-        ' Llamamos a tu valioso confirmador de hilos de idioma
+        ' Llamamos a tu confirmador inmune al idioma de Windows (Evita botones en inglés como YES/NO)
         If ConfirmarAccionTraducida(msgPregunta, titPregunta) = MsgBoxResult.No Then
             Exit Sub
         End If
@@ -644,60 +617,51 @@ Public Class Presupuestos
         filaActual = DgvPresupuestos.CurrentRow.Index
 
         ' =========================================================================
-        ' 🌟 BORRADO FÍSICO QUIRÚRGICO POR ID AUTONUMÉRICO UNIQUE (Aquí sí mata seguro)
+        ' 🌟 TU VACIADO CLÁSICO COMPLETO: BORRADO POR ID NUMÉRICO Y EJERCICIO
         ' =========================================================================
-        ' Rescatamos el ID físico único de esta fila concreta (Celda 5 de nuestra macro-consulta)
-        If DgvPresupuestos.Rows(filaActual).Cells(5).Value IsNot Nothing AndAlso Not IsDBNull(DgvPresupuestos.Rows(filaActual).Cells(5).Value) Then
-            Dim idRegistroFisico As Integer = Convert.ToInt32(DgvPresupuestos.Rows(filaActual).Cells(5).Value)
+        ' Rescatamos el ID numérico entero de la trastienda (Celda 6 de nuestra macro-consulta)
+        If DgvPresupuestos.Rows(filaActual).Cells(6).Value IsNot Nothing AndAlso Not IsDBNull(DgvPresupuestos.Rows(filaActual).Cells(6).Value) Then
+            Dim idConceptoBorrar As Integer = Convert.ToInt32(DgvPresupuestos.Rows(filaActual).Cells(6).Value)
 
-            ' 🌟 SENTENCIA DE EXTIRPACIÓN PARAMETRIZADA (Borra SÓLO este registro, no todo el año)
-            Dim sqlDelete As String = "DELETE FROM presupuesto WHERE CodigoPRE = ?"
+            ' 🌟 SENTENCIA PARAMETRIZADA: Borra los 12 meses enteros de este concepto de golpe en este año
+            Dim sqlDelete As String = "DELETE FROM presupuesto WHERE ConceptoPRE = ? AND EjercicioPRE = ?"
 
             Using conexion As New OleDbConnection(conexion1.ConnectionString)
                 Using cmd As New OleDbCommand(sqlDelete, conexion)
                     cmd.Parameters.Clear()
-                    cmd.Parameters.Add("@id", OleDb.OleDbType.Integer).Value = idRegistroFisico
+
+                    ' Los parámetros de Access se asocian estrictamente por el orden de los comodines '?'
+                    cmd.Parameters.Add("@con", OleDb.OleDbType.Integer).Value = idConceptoBorrar
+                    cmd.Parameters.Add("@eje", OleDb.OleDbType.Integer).Value = Convert.ToInt32(vAñoEjercicio)
 
                     Try
                         conexion.Open()
                         cmd.ExecuteNonQuery()
 
-                        Dim msgBorrados As String = resManager.GetString("PresupuestosBorradosExito")
-                        If String.IsNullOrEmpty(msgBorrados) Then msgBorrados = "Registro de presupuesto eliminado con éxito."
-                        MsgBox(msgBorrados, vbInformation, titPregunta)
+                        Dim msgExito As String = rmse.GetString("PresupuestosBorradosExito")
+                        If String.IsNullOrEmpty(msgExito) Then msgExito = "Registros en Presupuestos, Borrados !!!"
+                        MsgBox(msgExito, vbInformation, titPregunta)
                     Catch ex As Exception
-                        Dim msgError As String = resManager.GetString("ErrorEliminarPresupuestos")
-                        If String.IsNullOrEmpty(msgError) Then msgError = "Error al esborrar el registre de la Base de Dades: "
+                        Dim msgError As String = rmse.GetString("ErrorEliminarPresupuestos")
+                        If String.IsNullOrEmpty(msgError) Then
+                            msgError = "No se han podido eliminar los registros en Presupuestos, revise que no existan apuntes asociados al concepto seleccionado !!!"
+                        End If
                         MsgBox(msgError & vbNewLine & ex.Message, vbCritical, resManager.GetString("Error"))
-                        Exit Sub ' Si falla el borrado, detenemos el flujo por seguridad
+                        Exit Sub ' Si falla la base de datos, abortamos la recarga por seguridad
                     End Try
                 End Using
             End Using
         End If
 
         ' =========================================================================
-        ' 4. RECARGA DEL GRID DE PRESUPUESTOS RELACIONAL (Con INNER JOIN)
+        ' 4. RECARGA DEL GRID DE PRESUPUESTOS RELACIONAL (Estructura fija de 8 celdas)
         ' =========================================================================
-        ' Cruzamos presupuesto con conceptos para restaurar la vista totalitaria del año en mayúsculas
-        vtipoSql = "SELECT conceptos.CodigoCON, " &
-                    "conceptos.CodigoCON, " &
-                    "presupuesto.ImportePRE, " &
-                    "presupuesto.ImportePRE, " &
-                    "presupuesto.FDesdePRE, " &
-                    "presupuesto.FDesdePRE, " &
-                    "presupuesto.ConceptoPRE, " &
-                    "conceptos.CodigoCON " &
-                    "FROM presupuesto " &
-                    "INNER JOIN conceptos ON presupuesto.ConceptoPRE = conceptos.IdConceptoCON " &
-                    "WHERE presupuesto.EjercicioPRE = " & vAñoEjercicio.ToString & " "
-        ' Si estás llamando a esta consulta desde el método EjecutarCalculoYDesviacion, le pegas el filtro aquí:
-        ' vtipoSql += $"And presupuesto.ConceptoPRE = {idConceptoSel} "
-        vtipoSql += "ORDER BY conceptos.CodigoCON ASC, presupuesto.FDesdePRE ASC"
+        vtipoSql = "SELECT conceptos.CodigoCON, conceptos.CodigoCON, presupuesto.ImportePRE, presupuesto.ImportePRE, presupuesto.FDesdePRE, presupuesto.FDesdePRE, presupuesto.ConceptoPRE, conceptos.CodigoCON FROM (presupuesto INNER JOIN conceptos ON presupuesto.ConceptoPRE = conceptos.IdConceptoCON) WHERE presupuesto.EjercicioPRE = " & vAñoEjercicio.ToString & " ORDER BY conceptos.CodigoCON ASC, presupuesto.FDesdePRE ASC"
         vtipoGrid = "PRESUPUESTOS"
 
-        ' Volcamos los datos limpios en la cuadrícula y aplicamos idiomas
+        ' Volcamos los datos limpios en la cuadrícula
         LlenarGrid(vtipoSql, vtipoGrid, "1")
-        TraducirGridPresupuestos(Me.DgvPresupuestos)
+        TraducirGridPresupuestos(Me.DgvPresupuestos) ' Forzamos tu traducción automática A-Z
 
         ' Evaluamos si corresponde "Parcial" o "Anual" tras la recarga (Tu lógica original impecable)
         ActualizarEtiquetaDesviacion()
@@ -708,12 +672,9 @@ Public Class Presupuestos
             LblMontoDesviacion.Text = ""
             LblObjetivo.Visible = False
         Else
-            ' Reposicionamos de forma segura el cursor en la fila anterior o la primera que quede viva
-            Dim filaDestino As Integer = If(filaActual < DgvPresupuestos.Rows.Count, filaActual, DgvPresupuestos.Rows.Count - 1)
-            If filaDestino >= 0 Then
-                DgvPresupuestos.Rows(filaDestino).Selected = True
-                DgvPresupuestos.CurrentCell = DgvPresupuestos.Rows(filaDestino).Cells(0)
-            End If
+            ' Reposicionamos el foco de forma dócil al inicio de la rejilla
+            DgvPresupuestos.Rows(0).Selected = True
+            DgvPresupuestos.CurrentCell = DgvPresupuestos.Rows(0).Cells(0)
         End If
     End Sub
 
@@ -725,26 +686,28 @@ Public Class Presupuestos
         ' Comprobamos que no sea la fila de cabecera
         If e.RowIndex >= 0 Then
             Dim dgv As DataGridView = CType(sender, DataGridView)
-
             ' 🔄 MULTIIDIOMA SEGURO: Recuperamos la palabra "TOTAL" traducida según el idioma actual
             Dim textoTotalTraducido As String = resManager.GetString("TOTAL")
             If String.IsNullOrEmpty(textoTotalTraducido) Then textoTotalTraducido = "TOTAL"
-
             ' Comprobamos el valor de la columna 0 de forma segura
             If dgv.Rows(e.RowIndex).Cells(0).Value IsNot Nothing Then
                 Dim valorCelda As String = dgv.Rows(e.RowIndex).Cells(0).Value.ToString().Trim().ToUpper()
-
-                ' Comparamos de forma insensible contra el término traducido y el base
-                If valorCelda = textoTotalTraducido.ToUpper() OrElse valorCelda = "TOTAL" Then
-
-                    ' Aplicamos el fondo gris y texto negro
-                    e.CellStyle.BackColor = System.Drawing.Color.LightGray
-                    e.CellStyle.ForeColor = System.Drawing.Color.Black
-
-                    ' 🌟 LA CORRECCIÓN CLAVE: Heredamos la fuente nativa del Grid y le aplicamos negrita 
-                    ' sin crear objetos pesados en la memoria caché del procesador
+                '' Comparamos de forma insensible contra el término traducido y el base
+                'If valorCelda = textoTotalTraducido.ToUpper() OrElse valorCelda = "TOTAL" Then
+                ' 🌟 CORTAFUEGOS INDESTRUCTIBLE MULTIIDIOMA PARA EL PINTADO GRIS
+                ' Pasamos el texto de la celda 0 a tu función inversa. Si el escáner nos confirma 
+                ' que la llave original de esa palabra es "TOTAL", pintamos la fila con total seguridad.
+                If ObtenerClaveNeutral(valorCelda, resManager) = "TOTAL" OrElse valorCelda = "TOTAL" Then
+                    e.CellStyle.BackColor = Color.LightGray
+                    e.CellStyle.ForeColor = Color.Black
                     e.CellStyle.Font = New Font(dgv.Font, FontStyle.Bold)
                 End If
+                ' Aplicamos el fondo gris y texto negro
+                e.CellStyle.BackColor = System.Drawing.Color.LightGray
+                e.CellStyle.ForeColor = System.Drawing.Color.Black
+                ' 🌟 LA CORRECCIÓN CLAVE: Heredamos la fuente nativa del Grid y le aplicamos negrita 
+                ' sin crear objetos pesados en la memoria caché del procesador
+                e.CellStyle.Font = New Font(dgv.Font, FontStyle.Bold)
             End If
         End If
     End Sub
@@ -758,7 +721,7 @@ Public Class Presupuestos
             If conexion1.State <> ConnectionState.Open Then conexion1.Open()
             cmdMdb1.ExecuteNonQuery()
         Catch ex As Exception
-            MsgBox(resManager.GetString("ErrorLimpiarTemporal") & ex.Message)
+            MsgBox(resManager.GetString("ErrorLimpiarTemporal") & ": " & ex.Message)
         End Try
 
         ' VARIABLES PARA CONTROL DE FECHAS (YTD)
@@ -773,10 +736,16 @@ Public Class Presupuestos
         For Each fila As DataGridViewRow In frmPresupuestos.DgvPresupuestos.Rows
             If fila.IsNewRow Then Continue For
 
-            ' Saltamos la fila de totales que genera la propia pantalla
-            If fila.Cells(0).Value IsNot Nothing AndAlso fila.Cells(0).Value.ToString().Trim().ToUpper() = "TOTAL" Then
-                Continue For
+            ' 🌟 CORTAFUEGOS INDESTRUCTIBLE MULTIIDIOMA POR BÚSQUEDA INVERSA
+            ' Le pasamos el texto visual de la celda 0 a tu función del módulo.
+            ' Si el escáner detecta que la llave de esa palabra es "TOTAL", saltamos la fila de golpe.
+            If fila.Cells(0).Value IsNot Nothing Then
+                Dim textoCeldaConcepto As String = fila.Cells(0).Value.ToString().Trim()
+                If ObtenerClaveNeutral(textoCeldaConcepto, resManager) = "TOTAL" Then
+                    Continue For
+                End If
             End If
+
 
             Dim vNombreConcepto As String = fila.Cells(0).Value.ToString()
 

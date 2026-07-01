@@ -26,7 +26,16 @@ Public Class GraficosPresupuestos
         ' 2. PRIMER PASO: RECORREMOS TU REJILLA PRINCIPAL
         For Each fila As DataGridViewRow In frmPresupuestos.DgvPresupuestos.Rows
             If fila.IsNewRow Then Continue For
-            If fila.Cells(0).Value IsNot Nothing AndAlso fila.Cells(0).Value.ToString().Trim().ToUpper() = "TOTAL" Then Continue For
+            ' 🌟 CORTAFUEGOS INDESTRUCTIBLE MULTIIDIOMA POR BÚSQUEDA INVERSA
+            ' Le pasamos el texto visual de la celda 0 a tu función del módulo.
+            ' Si el escáner nos confirma que esa fila es la de la llave global "TOTAL", la saltamos olímpicamente.
+            If fila.Cells(0).Value IsNot Nothing Then
+                Dim textoCeldaConcepto As String = fila.Cells(0).Value.ToString().Trim()
+                If ObtenerClaveNeutral(textoCeldaConcepto, resManager) = "TOTAL" Then
+                    Continue For
+                End If
+            End If
+            '            If fila.Cells(0).Value IsNot Nothing AndAlso fila.Cells(0).Value.ToString().Trim().ToUpper() = "TOTAL" Then Continue For
 
             Dim vNombreConcepto As String = fila.Cells(0).Value.ToString()
 
@@ -115,6 +124,7 @@ Public Class GraficosPresupuestos
 
         TsBtnColumnas.PerformClick()
     End Sub
+
     ' =======================================================================
     ' CONFIGURACIÓN CENTRAL DE ESTILOS E IDIOMAS (2D y 3D Conmutable)
     ' =======================================================================

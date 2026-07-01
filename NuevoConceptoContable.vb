@@ -149,25 +149,71 @@ Public Class NuevoConceptoContable
         Dim nombreLimpio As String = TxtNombre.Text.Trim().ToUpper()
 
         If nombreLimpio <> "" Then
+            ' =========================================================================
+            ' 🌟 CORTAFUEGOS INDESTRUCTIBLE MULTIIDIOMA CONTRA PALABRAS PROHIBIDAS
+            ' =========================================================================
+            ' Inicializamos el bloqueo por defecto en falso
+            Dim esPalabraProhibida As Boolean = False
 
-            ' Obtener de forma segura la traducción de "SALDO" del idioma actual (para los 6 idiomas)
-            Dim saldoTraducido As String = ""
-            Try
-                saldoTraducido = rmse.GetString("PalabraSaldo").Trim().ToUpper()
-            Catch ex As Exception
-                saldoTraducido = "SALDO" ' Respaldo por si no se encuentra la clave en el recurso
-            End Try
+            ' Caso A: Bloqueo directo si escribe "SALDO" a pelo en castellano o catalán
+            If nombreLimpio = "SALDO" Then
+                esPalabraProhibida = True
+            Else
+                ' Caso B: Escáner biológico inverso. Pasamos lo que escribió el usuario (BALANCE, SOLDE, ERÖFFNUNGSBILANZ...).
+                ' Si tu función del módulo nos confirma que esa palabra equivale a la llave global "Saldo" o "Desc_SALDO":
+                Dim claveDetectada As String = ObtenerClaveNeutral(nombreLimpio, resManager)
+                If claveDetectada.Equals("Saldo", StringComparison.OrdinalIgnoreCase) OrElse
+                   claveDetectada.Equals("Desc_SALDO", StringComparison.OrdinalIgnoreCase) Then
+                    esPalabraProhibida = True
+                End If
+            End If
 
-            ' 2. Validación de bloqueo: No permite "SALDO" en español ni su traducción internacional
-            If nombreLimpio = "SALDO" OrElse (saldoTraducido <> "" AndAlso nombreLimpio = saldoTraducido) Then
-                MessageBox.Show(rmse.GetString("NoNombreSaldo"),
-                resManager.GetString("$this.Text"),
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information)
+            ' Si el escáner ha saltado en cualquier idioma, ejecutamos tu bloqueo impecable
+            If esPalabraProhibida Then
+                ' 🚀 TRUCO MAESTRO DE CALIDAD: Recuperamos tu frase base en alemán o el idioma activo
+                Dim textoBaseAlerta As String = rmse.GetString("NoNombreSaldo")
+                If String.IsNullOrEmpty(textoBaseAlerta) Then
+                    textoBaseAlerta = "Du kannst kein Konzept mit dem Namen {0} erstellen"
+                End If
+
+                ' Si tu frase en el .resx ya contiene un contenedor "{0}", .NET inyectará la palabra de la pantalla ahí.
+                ' Si tu frase es estática de la vieja escuela, la concatenamos limpiamente usando tu formato tradicional:
+                Dim mensajeFinalAMostrar As String
+                If textoBaseAlerta.Contains("{0}") Then
+                    mensajeFinalAMostrar = String.Format(textoBaseAlerta, TxtNombre.Text.Trim().ToUpper())
+                Else
+                    ' Respaldo clásico por si acaso: unimos tu frase con el texto real que escribió el usuario
+                    mensajeFinalAMostrar = textoBaseAlerta & " " & TxtNombre.Text.Trim().ToUpper()
+                End If
+
+                ' Mostramos el cartel 100% homogeneizado en el idioma del usuario
+                MessageBox.Show(mensajeFinalAMostrar,
+                                rmse.GetString("$this.Text"),
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information)
                 TxtNombre.Select()
                 TxtNombre.SelectAll()
-                Exit Sub ' Detiene el guardado inmediatamente
+                Exit Sub ' Detiene el guardado inmediatamente de forma segura
             End If
+
+            '' Obtener de forma segura la traducción de "SALDO" del idioma actual (para los 6 idiomas)
+            'Dim saldoTraducido As String
+            'Try
+            '    saldoTraducido = resManager.GetString("Saldo").Trim().ToUpper()
+            'Catch ex As Exception
+            '    saldoTraducido = "SALDO" ' Respaldo por si no se encuentra la clave en el recurso
+            'End Try
+
+            '' 2. Validación de bloqueo: No permite "SALDO" en español ni su traducción internacional
+            'If nombreLimpio = "SALDO" OrElse (saldoTraducido <> "" AndAlso nombreLimpio = saldoTraducido) Then
+            '    MessageBox.Show(rmse.GetString("NoNombreSaldo"),
+            '    rmse.GetString("$this.Text"),
+            '    MessageBoxButtons.OK,
+            '    MessageBoxIcon.Information)
+            '    TxtNombre.Select()
+            '    TxtNombre.SelectAll()
+            '    Exit Sub ' Detiene el guardado inmediatamente
+            'End If
 
             ' =========================================================================
             ' ¡BLOQUEO DE DUPLICADOS MULTIIDIOMA REAL CON DATAVIEW!
