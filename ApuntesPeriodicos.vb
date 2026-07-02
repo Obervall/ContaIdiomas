@@ -88,17 +88,18 @@ Public Class ApuntesPeriodicos
         cmdMdb1cr.Parameters.Clear()
 
         ' =========================================================================
-        ' 🌟 1. CONSULTA SQL MAESTRA RELACIONAL (Tu diseño perfecto adaptado a apuper)
+        ' 🌟 1. CONSULTA SQL MAESTRA RELACIONAL ALINEADA (¡Corregido!)
         ' =========================================================================
-        ' Traemos las 11 celdas biológicas para que la rejilla muestre nombres claros en mayúsculas
+        ' Traemos las 11 celdas biológicas en su orden real simétrico.
+        ' 🚀 LA CORRECCIÓN: Cambiamos conceptos.DescripcionCON por conceptos.CodigoCON en la segunda columna.
         vtipoSql = "SELECT apuper.FechaAPP As [FechaAPP], " &
-                   "conceptos.DescripcionCON As [ConceptoAPP], " &
+                   "conceptos.CodigoCON As [ConceptoAPP], " &
                    "apuper.DescripcionAPP As [DescripcionAPP], " &
                    "apuper.ImporteAPP As [ImporteAPP], " &
                    "apuper.ImporteAPP As [SaldoAPP], " &
                    "apuper.NotasAPP As [NotasAPP], " &
                    "cuentas.NombreCUE As [CuentaAPP], " &
-                   "apuper.CodigoAPP As [CodigoAPP], " & ' Tu Autonumérico identificador único
+                   "apuper.CodigoAPP As [CodigoAPP], " &
                    "conceptos.CodigoCON As [CodigoCON], " &
                    "apuper.ConceptoAPP As [IdConceptoCON], " &
                    "apuper.CuentaAPP As [IdCuentaCUE] " &
@@ -107,7 +108,7 @@ Public Class ApuntesPeriodicos
                    "INNER JOIN cuentas ON apuper.CuentaAPP = cuentas.IdCuentaCUE"
 
         vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
-        vtipoSql += " ORDER BY apuper.FechaAPP ASC" ', apuper.ImporteAPP ASC"
+        vtipoSql += " ORDER BY apuper.FechaAPP ASC"
 
         vtipoGrid = "APUNTES_PERIODICOS"
 

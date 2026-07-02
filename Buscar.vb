@@ -5,7 +5,6 @@ Public Class Buscar
     Public vBuscar As String
 
     Private Sub Buscar_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ActualizarTextosFormulario(Me)
         Me.KeyPreview = True
 
         CmbCampos.DropDownStyle = ComboBoxStyle.DropDownList

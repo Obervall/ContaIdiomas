@@ -73,18 +73,24 @@ Public Class SeleccionFechas
             vDate2 = DateTimePicker2.Value.Date
             frmImprimirForm.LblEntreFechas.Text = "Desde: " & DateTimePicker1.Value.ToShortDateString() & "    Hasta: " & DateTimePicker2.Value.ToShortDateString()
 
-            vtipoSql += " And apuntes.FechaAPU >= ?"
-            vtipoSql += " And apuntes.FechaAPU <= ?"
+            ' 🚀 EL TRUCO DE ALTA ESCUELA CONTABLE: Convertimos las fechas al formato nativo estandarizado de Access (#AAAA-MM-DD#)
+            ' Esto destruye cualquier interferencia de puntos alemanes o barras catalanas en la ordenación.
+            Dim fechaInicioAccess As String = "#" & vDate1.ToString("yyyy-MM-dd") & "#"
+            Dim fechaFinAccess As String = "#" & vDate2.ToString("yyyy-MM-dd") & "#"
+
+            ' Inyectamos las condiciones directamente con el formato blindado de Microsoft Access
+            vtipoSql += " And apuntes.FechaAPU >= " & fechaInicioAccess
+            vtipoSql += " And apuntes.FechaAPU <= " & fechaFinAccess
 
             ' Configuramos la ordenación alfabética real por el nombre del concepto
             If vOrdenadoPorFechasAPU = 1 Then
                 vtipoSql += " ORDER BY apuntes.FechaAPU ASC"
             End If
             If vOrdenadoPorConceptosAPU = 1 Then
-                vtipoSql += " ORDER BY conceptos.CodigoCON ASC"
+                vtipoSql += " ORDER BY conceptos.CodigoCON ASC, apuntes.FechaAPU ASC "
             End If
             If vOrdenadoPorImportesAPU = 1 Then
-                vtipoSql += " ORDER BY apuntes.ImporteAPU ASC"
+                vtipoSql += " ORDER BY apuntes.ImporteAPU ASC, apuntes.FechaAPU ASC "
             End If
         End If
 
@@ -109,8 +115,11 @@ Public Class SeleccionFechas
             vDate2 = DateTimePicker2.Value.Date
             frmImprimirForm.LblEntreFechas.Text = "Desde: " & DateTimePicker1.Value.ToShortDateString() & "    Hasta: " & DateTimePicker2.Value.ToShortDateString()
 
-            vtipoSql += " And apuper.FechaAPP >= ?"
-            vtipoSql += " And apuper.FechaAPP <= ?"
+            Dim fechaInicioAccess As String = "#" & vDate1.ToString("yyyy-MM-dd") & "#"
+            Dim fechaFinAccess As String = "#" & vDate2.ToString("yyyy-MM-dd") & "#"
+
+            vtipoSql += " And apuper.FechaAPP >= " & fechaInicioAccess
+            vtipoSql += " And apuper.FechaAPP <= " & fechaFinAccess
 
             ' Configuramos la ordenación alfabética real por el nombre del concepto
             If vOrdenadoPorFechasAPP = 1 Then
@@ -207,7 +216,27 @@ Public Class SeleccionFechas
             End If
 
             ' 🌟 1. CAPTURAMOS LOS VALORES DE LA FILA ACTUAL EN VARIABLES VOLANTILES DE LA RAM
-            Dim textoFechaPapel As String = If(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(0).Value?.ToString(), "")
+            ' =========================================================================
+            ' 🌟 EXTRACCIÓN Y LIMPIEZA DE LA FECHA (Celda 0 - ¡Adiós al horario 00:00:00!)
+            ' =========================================================================
+            ' =========================================================================
+            ' 🌟 EXTRACCIÓN Y LIMPIEZA DE LA FECHA UNIFORME (¡Adiós desorden por idiomas!)
+            ' =========================================================================
+            Dim textoFechaPapel As String = ""
+            If frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(0).Value IsNot Nothing Then
+                Dim fechaFila As Date
+                ' Parseamos la celda de Access de forma segura
+                If Date.TryParse(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(0).Value.ToString(), fechaFila) Then
+
+                    ' 🚀 EL TRUCO MAESTRO: Forzamos el formato europeo rígido (Día/Mes/Año) en el folio.
+                    ' Esto impide que en inglés se barajen los números visualmente en el papel.
+                    textoFechaPapel = fechaFila.ToString("d/MM/yyyy")
+
+                Else
+                    textoFechaPapel = frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(0).Value.ToString()
+                End If
+            End If
+
             Dim textoConceptoPapel As String = If(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(1).Value?.ToString(), "").Trim()
             Dim textoDescripcionPapel As String = If(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(2).Value?.ToString(), "").Trim()
 

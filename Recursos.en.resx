@@ -835,4 +835,7 @@ the file is not open</value>
   <data name="ToolTipEliminarPresupuesto" xml:space="preserve">
     <value>Delete Monthly Budgets from the Selected Item</value>
   </data>
+  <data name="NoDescripcionSaldo" xml:space="preserve">
+    <value>You can't create a description with the name</value>
+  </data>
 </root>

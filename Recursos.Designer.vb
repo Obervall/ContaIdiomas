@@ -1516,6 +1516,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a No es puede crear una descripción con el nombre.
+    '''</summary>
+    Friend Shared ReadOnly Property NoDescripcionSaldo() As String
+        Get
+            Return ResourceManager.GetString("NoDescripcionSaldo", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a No se encontró el registro para actualizar.
     '''</summary>
     Friend Shared ReadOnly Property NoEncuentraRegistro() As String

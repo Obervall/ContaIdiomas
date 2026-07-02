@@ -835,4 +835,7 @@ que l'arxiu no estigui obert</value>
   <data name="ToolTipEliminarPresupuesto" xml:space="preserve">
     <value>Eliminar Pressupostos mensuals del Concepte seleccionat</value>
   </data>
+  <data name="NoDescripcionSaldo" xml:space="preserve">
+    <value>No és pot crear una descripció amb el nom</value>
+  </data>
 </root>

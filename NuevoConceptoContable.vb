@@ -145,56 +145,60 @@ Public Class NuevoConceptoContable
     End Sub
 
     Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click
-        ' 1. Guardar la palabra escrita en mayúsculas y sin espacios a los lados
+        ' 1. Guardar la palabra escrita en mayúsculas y sin espacios a los lados (Tu inicio limpio)
         Dim nombreLimpio As String = TxtNombre.Text.Trim().ToUpper()
+        Dim descripcionLimpia As String = TxtDescripcion.Text.Trim()
 
         If nombreLimpio <> "" Then
-            ' =========================================================================
-            ' 🌟 CORTAFUEGOS INDESTRUCTIBLE MULTIIDIOMA CONTRA PALABRAS PROHIBIDAS
-            ' =========================================================================
-            ' Inicializamos el bloqueo por defecto en falso
-            Dim esPalabraProhibida As Boolean = False
 
-            ' Caso A: Bloqueo directo si escribe "SALDO" a pelo en castellano o catalán
-            If nombreLimpio = "SALDO" Then
-                esPalabraProhibida = True
-            Else
-                ' Caso B: Escáner biológico inverso. Pasamos lo que escribió el usuario (BALANCE, SOLDE, ERÖFFNUNGSBILANZ...).
-                ' Si tu función del módulo nos confirma que esa palabra equivale a la llave global "Saldo" o "Desc_SALDO":
-                Dim claveDetectada As String = ObtenerClaveNeutral(nombreLimpio, resManager)
-                If claveDetectada.Equals("Saldo", StringComparison.OrdinalIgnoreCase) OrElse
-                   claveDetectada.Equals("Desc_SALDO", StringComparison.OrdinalIgnoreCase) Then
-                    esPalabraProhibida = True
+            ' =========================================================================
+            ' 🌟 CORTAFUEGOS INDESTRUCTIBLE MULTIIDIOMA EN LA DESCRIPCIÓN (¡Corregido!)
+            ' =========================================================================
+            ' Protegemos la descripción larga para que nadie usurpe el término "Saldo inicial"
+            Dim esDescripcionProhibida As Boolean = False
+
+            If descripcionLimpia <> "" Then
+                ' Caso A: Bloqueo directo si escribe el texto plano directo en castellano o catalán
+                If descripcionLimpia.Equals("Saldo Inicial", StringComparison.OrdinalIgnoreCase) Then
+                    esDescripcionProhibida = True
+                Else
+                    ' Caso B: Escáner inverso dinámico por RAM en todos los archivos .resx
+                    ' Si la función nos chiva que la frase (ej: Eröffnungsbilanz, Opening Balance) equivale a Desc_SALDO:
+                    Dim claveDetectada As String = ObtenerClaveNeutral(descripcionLimpia, resManager)
+                    If claveDetectada.Equals("Desc_SALDO", StringComparison.OrdinalIgnoreCase) Then
+                        esDescripcionProhibida = True
+                    End If
                 End If
             End If
 
-            ' Si el escáner ha saltado en cualquier idioma, ejecutamos tu bloqueo impecable
-            If esPalabraProhibida Then
-                ' 🚀 TRUCO MAESTRO DE CALIDAD: Recuperamos tu frase base en alemán o el idioma activo
-                Dim textoBaseAlerta As String = rmse.GetString("NoNombreSaldo")
+            ' Si el usuario ha intentado usar la frase protegida, lanzamos tu alerta internacionalizada
+            If esDescripcionProhibida Then
+                Dim textoBaseAlerta As String = resManager.GetString("NoDescripcionSaldo") & ": {0}"
                 If String.IsNullOrEmpty(textoBaseAlerta) Then
-                    textoBaseAlerta = "Du kannst kein Konzept mit dem Namen {0} erstellen"
+                    ' Salvavidas por si no estuviera la nueva Key: se adapta al idioma del hilo
+                    Dim culturaActiva As String = Threading.Thread.CurrentThread.CurrentUICulture.Name
+                    If culturaActiva.StartsWith("de") Then
+                        textoBaseAlerta = "Du kannst keine Beschreibung mit dem Namen {0} erstellen"
+                    Else
+                        textoBaseAlerta = "No es puede crear una descripción con el nombre: {0}"
+                    End If
                 End If
 
-                ' Si tu frase en el .resx ya contiene un contenedor "{0}", .NET inyectará la palabra de la pantalla ahí.
-                ' Si tu frase es estática de la vieja escuela, la concatenamos limpiamente usando tu formato tradicional:
-                Dim mensajeFinalAMostrar As String
-                If textoBaseAlerta.Contains("{0}") Then
-                    mensajeFinalAMostrar = String.Format(textoBaseAlerta, TxtNombre.Text.Trim().ToUpper())
-                Else
-                    ' Respaldo clásico por si acaso: unimos tu frase con el texto real que escribió el usuario
-                    mensajeFinalAMostrar = textoBaseAlerta & " " & TxtNombre.Text.Trim().ToUpper()
-                End If
+                Dim mensajeFinalAMostrar As String = String.Format(textoBaseAlerta, TxtDescripcion.Text.Trim())
 
-                ' Mostramos el cartel 100% homogeneizado en el idioma del usuario
                 MessageBox.Show(mensajeFinalAMostrar,
                                 rmse.GetString("$this.Text"),
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Information)
-                TxtNombre.Select()
-                TxtNombre.SelectAll()
-                Exit Sub ' Detiene el guardado inmediatamente de forma segura
+
+                TxtDescripcion.Select()
+                TxtDescripcion.SelectAll()
+                Exit Sub ' Detiene el guardado de inmediato para salvar la integridad contable
             End If
+
+            ' =========================================================================
+            ' ¡BLOQUEO DE DUPLICADOS MULTIIDIOMA REAL CON DATAVIEW! (Tu lógica original intacta)
+            ' =========================================================================
 
             '' Obtener de forma segura la traducción de "SALDO" del idioma actual (para los 6 idiomas)
             'Dim saldoTraducido As String

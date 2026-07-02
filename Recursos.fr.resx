@@ -835,4 +835,7 @@ le fichier n’est pas ouvert</value>
   <data name="ToolTipEliminarPresupuesto" xml:space="preserve">
     <value>Supprimez les budgets mensuels de l’article sélectionné</value>
   </data>
+  <data name="NoDescripcionSaldo" xml:space="preserve">
+    <value>On ne peut pas créer une description avec le nom</value>
+  </data>
 </root>

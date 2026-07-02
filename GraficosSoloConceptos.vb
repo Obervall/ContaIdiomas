@@ -15,32 +15,45 @@ Public Class GraficosSoloConceptos
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub GraficosSoloConceptos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
-        'Iniciamos Tabla Tempapu
-        '***********************
+        ' 1. Iniciamos Tabla Tempapu de fábrica
         LimpiarTempApu()
 
-        ''Llenamos la tabla Temporal con los Conceptos Agrupados desde DgvApuntes
-        ''***********************************************************************
+        ' =========================================================================
+        ' BUCLE ACUMULADOR (Tu excelente código de Pastebin intacto en un 98%)
+        ' =========================================================================
         vNombreConcepto = ""
+
+        ' Recorremos la rejilla oculta que alimentamos en el paso anterior
+
+
+        Dim vContadorFilasProcesadas As Integer = 0
 
         For Each fila As DataGridViewRow In frmImprimirForm.DgvApuntes.Rows
             If fila.IsNewRow Then Continue For
 
-            ' 🚨 VARIABLES NUMÉRICAS PURAS: Forzamos el uso de Double para evitar problemas de String
+            vContadorFilasProcesadas += 1
+
+            '' 🚀 CHIVATO 2: CAPTURA DE CELDAS EN CALIENTE (Solo para la primera fila para no saturar)
+            'If vContadorFilasProcesadas = 1 Then
+            '    Dim valCelda1 As String = If(fila.Cells(1).Value?.ToString(), "NULO")
+            '    Dim valCelda3 As String = If(fila.Cells(3).Value?.ToString(), "NULO")
+            '    MsgBox("CHIVATO 2 (Bucle Gráfico): Procesando fila 1." & vbNewLine &
+            '           "Celda 1 (Concepto leída): " & valCelda1 & vbNewLine &
+            '           "Celda 3 (Importe leído): " & valCelda3)
+            'End If
+
             Dim vImporteConceptoNum As Double = 0
             Dim vExistenteImporteConceptoNum As Double = 0
             Dim vNewImporteConceptoNum As Double = 0
 
-            ' 1. Conversión segura del importe que viene de la celda (Columna 3)
-            ' Conversión segura multiidioma desde la grilla (¡Centralizado en tu módulo!)
+            ' Conversión segura multiidioma desde la grilla
             vImporteConceptoNum = CDbl(ConvertirDecimalSeguro(fila.Cells(3).Value))
 
-            ' Comprobamos si el concepto cambia
+            ' Comprobamos si el concepto cambia leyendo la Celda 1 dócilmente
             If vNombreConcepto <> fila.Cells(1).Value.ToString() Then
                 vNombreConcepto = fila.Cells(1).Value.ToString().Trim()
 
-                ' INSERT PARAMETRIZADO: Evita fallos por comillas simples en el nombre (ej: "L'Alimentació")
+                ' INSERT PARAMETRIZADO: Evita fallos por comillas simples en el nombre
                 vAñadir = "INSERT INTO tempapu (ConceptoAPU, SumaImporteAPU) VALUES (?, ?)"
                 cmdMdb1cr.CommandType = CommandType.Text
                 cmdMdb1cr.CommandText = vAñadir
@@ -64,7 +77,6 @@ Public Class GraficosSoloConceptos
                     Using drMdb1 As OleDbDataReader = cmdMdb1cr.ExecuteReader()
                         If drMdb1.Read() Then
                             If drMdb1.GetValue(0) IsNot DBNull.Value Then
-                                ' Extraemos el valor numérico puro directamente de la MDB
                                 Double.TryParse(drMdb1.GetValue(0).ToString(), vExistenteImporteConceptoNum)
                             End If
                         End If
@@ -73,10 +85,10 @@ Public Class GraficosSoloConceptos
                     MsgBox(resManager.GetString("ErrorVerificarIntegridad") & ": " & ex.Message)
                 End Try
 
-                ' 🔥 MATEMÁTICAS SEGURAS: Ahora que ambos son numéricos puros, sumamos sin miedo a solapamientos de String
+                ' Sumamos los valores numéricos puros de forma segura
                 vNewImporteConceptoNum = vImporteConceptoNum + vExistenteImporteConceptoNum
 
-                ' UPDATE PARAMETRIZADO: Guardamos el nuevo total de forma limpia
+                ' UPDATE PARAMETRIZADO: Guardamos el nuevo total acumulado
                 vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = ? WHERE tempapu.ConceptoAPU = ?"
                 cmdMdb1cr.CommandText = vAñadir2
                 cmdMdb1cr.Parameters.Clear()
@@ -91,24 +103,71 @@ Public Class GraficosSoloConceptos
             End If
         Next
 
-        miDataTable.Columns.Add("Concepto")
-        miDataTable.Columns.Add("Importe")
+        ' =========================================================================
+        ' 🌟 EL RENDERIZADO DEL GRÁFICO (El puente de IDs a Texto Traducido)
+        ' =========================================================================
+        miDataTable.Columns.Clear()
+        miDataTable.Columns.Add("Concepto", GetType(String))
+        miDataTable.Columns.Add("Importe", GetType(String))
+
         Dim unused As DataRow = miDataTable.NewRow()
-        vtipoSql = "SELECT * FROM tempapu ORDER BY tempapu.ConceptoAPU ASC"
-        LlenarGrid(vtipoSql, "PRINT_TEMP_APUNTES", "0")
-        vValor = 0
+        vtipoSql = "SELECT tempapu.ConceptoAPU, tempapu.SumaImporteAPU FROM tempapu ORDER BY tempapu.ConceptoAPU ASC"
+        vtipoGrid = "PRINT_TEMP_APUNTES"
+
+        ' Volcamos la tabla temporal relacional en la cuadrícula oculta
+        LlenarGrid(vtipoSql, vtipoGrid, "0")
+
+        ' Barremos la grilla intermedia para inyectar los nombres reales en el gráfico
         For Each fila As DataGridViewRow In frmImprimirForm.DgvApuntes.Rows
-            'Guardamos los datos en un database
-            Dim Renglon As DataRow = miDataTable.NewRow()
-            Renglon("Concepto") = fila.Cells(0).Value.ToString
-            vValor = fila.Cells(1).Value
-            vValor = Math.Truncate(vValor)
-            Renglon("Importe") = vValor.ToString
-            miDataTable.Rows.Add(Renglon)
+            If fila.IsNewRow Then Continue For
+
+            If fila.Cells(0).Value IsNot Nothing AndAlso fila.Cells(1).Value IsNot Nothing Then
+                Dim Renglon As DataRow = miDataTable.NewRow()
+
+                ' 🚀 1. CAPTURAMOS EL ID RELACIONAL EN TEXTO (ej: "42")
+                Dim idConceptoTexto As String = fila.Cells(0).Value.ToString().Trim()
+                Dim conceptoVisual As String = idConceptoTexto ' Salvavidas por defecto
+                Dim idConceptoNum As Integer = 0
+
+                ' 🚀 2. TRUCO MAESTRO: Buscamos el nombre del concepto usando su número de ID
+                If Integer.TryParse(idConceptoTexto, idConceptoNum) Then
+                    Using con As New OleDbConnection(conexion1.ConnectionString)
+                        Using cmd As New OleDbCommand("SELECT CodigoCON FROM conceptos WHERE IdConceptoCON = ?", con)
+                            cmd.Parameters.Add("@id", OleDbType.Integer).Value = idConceptoNum
+                            Try
+                                con.Open()
+                                Dim res = cmd.ExecuteScalar()
+                                If res IsNot Nothing Then conceptoVisual = res.ToString().Trim()
+                            Catch
+                            End Try
+                        End Using
+                    End Using
+                End If
+
+                ' 🚀 3. TRADUCCIÓN AUTOMÁTICA EN CALIENTE (Muta al alemán o catalán en vivo)
+                If resManager IsNot Nothing Then
+                    Dim claveRecurso As String = conceptoVisual.Replace(" ", "_")
+                    Dim traduccion As String = resManager.GetString(claveRecurso)
+                    If Not String.IsNullOrEmpty(traduccion) Then conceptoVisual = traduccion.Trim().ToUpper()
+                End If
+
+                ' 🚀 4. LIMPIEZA VISUAL DE GUIONES: Transformamos "PENSIO_CH" en "PENSIO CH" para el papel y la pantalla
+                conceptoVisual = conceptoVisual.Replace("_", " ").Trim().ToUpper()
+                Renglon("Concepto") = conceptoVisual
+
+                ' Extraemos el importe acumulado puro y aplicamos valor absoluto
+                Dim vValorNum As Double = 0
+                If Double.TryParse(fila.Cells(1).Value.ToString(), vValorNum) Then
+                    vValorNum = Math.Truncate(Math.Abs(vValorNum))
+                End If
+
+                Renglon("Importe") = vValorNum.ToString()
+                miDataTable.Rows.Add(Renglon)
+            End If
         Next
+
         TsBtnColumnas.Checked = True
         DibujarGraficoColumnas()
-
     End Sub
 
     Public Sub CrearEstilos()
@@ -136,11 +195,13 @@ Public Class GraficosSoloConceptos
             Chart1.Series("Gastos").XValueMember = "Concepto"
             Chart1.Series("Gastos").Points.Clear()
             Chart1.Series("Gastos").LegendText = resManager.GetString("Gastos")
+            Chart1.Series("Gastos").Color = Color.Red
         Else 'IngresosPorConcepto
             Chart1.Series("Ingresos").IsVisibleInLegend = True
             Chart1.Series("Ingresos").XValueMember = "Concepto"
             Chart1.Series("Ingresos").Points.Clear()
             Chart1.Series("Ingresos").LegendText = resManager.GetString("Ingresos")
+            Chart1.Series("Ingresos").Color = Color.Blue
         End If
         Chart1.ChartAreas("ChartArea1").Area3DStyle.Enable3D = Me.EsGrafico3D
     End Sub
@@ -201,6 +262,42 @@ Public Class GraficosSoloConceptos
                 End If
             End With
         Next
+
+        ' =========================================================================
+        ' 🌟 CORTAFUEGOS INDESTRUCTIBLE PARA LAS COLUMNAS FÍSICAS (¡La estocada final!)
+        ' =========================================================================
+        Try
+            Chart1.Palette = DataVisualization.Charting.ChartColorPalette.None
+
+            If Chart1.Series(serieActiva) IsNot Nothing Then
+
+                ' 🚀 1. DETERMINAMOS EL COLOR SEGÚN LA PANTALLA
+                Dim colorDeseado As Color = Color.Blue ' Por defecto ingresos en azul
+                If vGraficoSolo = "GastosPorConcepto" Then
+                    colorDeseado = Color.Red ' Gastos en rojo
+                End If
+
+                ' 🚀 2. PINZAMOS LA SERIE GENERAL
+                Chart1.Series(serieActiva).Color = colorDeseado
+
+                ' 🚀 3. EL TRUCO CONTABLE: Bucle maestro para obligar a cada columna a pintarse
+                ' Esto recorre las barras de Adeslas, Aigua, Alimentació... y las tiñe en la RAM al vuelo.
+                For Each punto As DataVisualization.Charting.DataPoint In Chart1.Series(serieActiva).Points
+                    punto.Color = colorDeseado
+                Next
+
+            End If
+        Catch ex As Exception
+            ' Plan B de respaldo por índice numérico si fallaran los hilos de los nombres
+            If Chart1.Series.Count > 0 Then
+                Dim colorDeseadoBackup As Color = If(vGraficoSolo = "GastosPorConcepto", Color.Red, Color.Blue)
+                Chart1.Series(0).Color = colorDeseadoBackup
+                For Each punto As DataVisualization.Charting.DataPoint In Chart1.Series(0).Points
+                    punto.Color = colorDeseadoBackup
+                Next
+            End If
+        End Try
+
     End Sub
 
     Private Sub TsBtnAreas_Click(sender As Object, e As EventArgs) Handles TsBtnAreas.Click
@@ -251,6 +348,41 @@ Public Class GraficosSoloConceptos
                 End If
             End With
         Next
+        ' =========================================================================
+        ' 🌟 CORTAFUEGOS INDESTRUCTIBLE PARA LAS COLUMNAS FÍSICAS (¡La estocada final!)
+        ' =========================================================================
+        Try
+            Chart1.Palette = DataVisualization.Charting.ChartColorPalette.None
+
+            If Chart1.Series(serieActiva) IsNot Nothing Then
+
+                ' 🚀 1. DETERMINAMOS EL COLOR SEGÚN LA PANTALLA
+                Dim colorDeseado As Color = Color.Blue ' Por defecto ingresos en azul
+                If vGraficoSolo = "GastosPorConcepto" Then
+                    colorDeseado = Color.Red ' Gastos en rojo
+                End If
+
+                ' 🚀 2. PINZAMOS LA SERIE GENERAL
+                Chart1.Series(serieActiva).Color = colorDeseado
+
+                ' 🚀 3. EL TRUCO CONTABLE: Bucle maestro para obligar a cada columna a pintarse
+                ' Esto recorre las barras de Adeslas, Aigua, Alimentació... y las tiñe en la RAM al vuelo.
+                For Each punto As DataVisualization.Charting.DataPoint In Chart1.Series(serieActiva).Points
+                    punto.Color = colorDeseado
+                Next
+
+            End If
+        Catch ex As Exception
+            ' Plan B de respaldo por índice numérico si fallaran los hilos de los nombres
+            If Chart1.Series.Count > 0 Then
+                Dim colorDeseadoBackup As Color = If(vGraficoSolo = "GastosPorConcepto", Color.Red, Color.Blue)
+                Chart1.Series(0).Color = colorDeseadoBackup
+                For Each punto As DataVisualization.Charting.DataPoint In Chart1.Series(0).Points
+                    punto.Color = colorDeseadoBackup
+                Next
+            End If
+        End Try
+
     End Sub
 
     Private Sub TsBtnLineas_Click(sender As Object, e As EventArgs) Handles TsBtnLineas.Click
@@ -301,8 +433,42 @@ Public Class GraficosSoloConceptos
                 End If
             End With
         Next
-    End Sub
+        ' =========================================================================
+        ' 🌟 CORTAFUEGOS INDESTRUCTIBLE PARA LAS COLUMNAS FÍSICAS (¡La estocada final!)
+        ' =========================================================================
+        Try
+            Chart1.Palette = DataVisualization.Charting.ChartColorPalette.None
 
+            If Chart1.Series(serieActiva) IsNot Nothing Then
+
+                ' 🚀 1. DETERMINAMOS EL COLOR SEGÚN LA PANTALLA
+                Dim colorDeseado As Color = Color.Blue ' Por defecto ingresos en azul
+                If vGraficoSolo = "GastosPorConcepto" Then
+                    colorDeseado = Color.Red ' Gastos en rojo
+                End If
+
+                ' 🚀 2. PINZAMOS LA SERIE GENERAL
+                Chart1.Series(serieActiva).Color = colorDeseado
+
+                ' 🚀 3. EL TRUCO CONTABLE: Bucle maestro para obligar a cada columna a pintarse
+                ' Esto recorre las barras de Adeslas, Aigua, Alimentació... y las tiñe en la RAM al vuelo.
+                For Each punto As DataVisualization.Charting.DataPoint In Chart1.Series(serieActiva).Points
+                    punto.Color = colorDeseado
+                Next
+
+            End If
+        Catch ex As Exception
+            ' Plan B de respaldo por índice numérico si fallaran los hilos de los nombres
+            If Chart1.Series.Count > 0 Then
+                Dim colorDeseadoBackup As Color = If(vGraficoSolo = "GastosPorConcepto", Color.Red, Color.Blue)
+                Chart1.Series(0).Color = colorDeseadoBackup
+                For Each punto As DataVisualization.Charting.DataPoint In Chart1.Series(0).Points
+                    punto.Color = colorDeseadoBackup
+                Next
+            End If
+        End Try
+
+    End Sub
 
     Private Sub TsBtnPastel_Click(sender As Object, e As EventArgs) Handles TsBtnPastel.Click
         ' Estado de los botones de la barra de herramientas

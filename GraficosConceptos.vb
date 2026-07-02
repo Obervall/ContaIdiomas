@@ -18,7 +18,6 @@ Public Class GraficosConceptos
         'Iniciamos Tabla Tempapu
         '***********************
         LimpiarTempApu()
-
         'Ordenamos la columna Concepto, antes de calcular los totales parciales.
         '***********************************************************************
         If vGrafico <> "" Then
@@ -27,7 +26,7 @@ Public Class GraficosConceptos
         Else
             ' Viene de Apuntes Contables
             frmApuntesContables.DgvApuntes.Sort(frmApuntesContables.DgvApuntes.Columns(1), System.ComponentModel.ListSortDirection.Ascending)
-            DgvApuntesContables(3, 4)
+            'DgvApuntesContables(3, 4)
         End If
 
         'Llenamos la tabla Temporal con los Conceptos desde DgvApuntes

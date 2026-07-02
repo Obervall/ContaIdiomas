@@ -686,28 +686,27 @@ Public Class Presupuestos
         ' Comprobamos que no sea la fila de cabecera
         If e.RowIndex >= 0 Then
             Dim dgv As DataGridView = CType(sender, DataGridView)
-            ' 🔄 MULTIIDIOMA SEGURO: Recuperamos la palabra "TOTAL" traducida según el idioma actual
-            Dim textoTotalTraducido As String = resManager.GetString("TOTAL")
-            If String.IsNullOrEmpty(textoTotalTraducido) Then textoTotalTraducido = "TOTAL"
-            ' Comprobamos el valor de la columna 0 de forma segura
-            If dgv.Rows(e.RowIndex).Cells(0).Value IsNot Nothing Then
-                Dim valorCelda As String = dgv.Rows(e.RowIndex).Cells(0).Value.ToString().Trim().ToUpper()
-                '' Comparamos de forma insensible contra el término traducido y el base
-                'If valorCelda = textoTotalTraducido.ToUpper() OrElse valorCelda = "TOTAL" Then
-                ' 🌟 CORTAFUEGOS INDESTRUCTIBLE MULTIIDIOMA PARA EL PINTADO GRIS
-                ' Pasamos el texto de la celda 0 a tu función inversa. Si el escáner nos confirma 
-                ' que la llave original de esa palabra es "TOTAL", pintamos la fila con total seguridad.
-                If ObtenerClaveNeutral(valorCelda, resManager) = "TOTAL" OrElse valorCelda = "TOTAL" Then
-                    e.CellStyle.BackColor = Color.LightGray
-                    e.CellStyle.ForeColor = Color.Black
-                    e.CellStyle.Font = New Font(dgv.Font, FontStyle.Bold)
-                End If
-                ' Aplicamos el fondo gris y texto negro
+
+            ' =========================================================================
+            ' 🌟 EL ATAJO INDEXADO FINANCIERO (Rendimiento ultra-rápido de la RAM)
+            ' =========================================================================
+            ' Forzamos el formateo estético en gris y negrita ÚNICAMENTE si la fila actual 
+            ' es la última de la cuadrícula (la fila de totales agregada por el DataTable).
+            If e.RowIndex = dgv.Rows.Count - 1 Then
+
+                ' Aplicamos el fondo gris de cierre contable y el texto negro nítido
                 e.CellStyle.BackColor = System.Drawing.Color.LightGray
                 e.CellStyle.ForeColor = System.Drawing.Color.Black
-                ' 🌟 LA CORRECCIÓN CLAVE: Heredamos la fuente nativa del Grid y le aplicamos negrita 
-                ' sin crear objetos pesados en la memoria caché del procesador
+
+                ' Heredamos la fuente nativa del Grid y le aplicamos negrita impecable
                 e.CellStyle.Font = New Font(dgv.Font, FontStyle.Bold)
+
+            Else
+                ' 🚀 PLAN B: Si es una fila normal de mes (enero a diciembre), 
+                ' nos aseguramos de restaurar el fondo blanco limpio y la letra normal de fábrica
+                e.CellStyle.BackColor = System.Drawing.Color.White
+                e.CellStyle.ForeColor = System.Drawing.Color.Black
+                e.CellStyle.Font = New Font(dgv.Font, FontStyle.Regular)
             End If
         End If
     End Sub

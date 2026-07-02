@@ -352,105 +352,205 @@ Public Class Principal
             Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
         End If
 
-        'Buscamos si hay un Apunte Periódico que tenga fecha igual o anterior a la fecha de hoy y cuento los que hay.
-        cmdMdb1cr.CommandText = "SELECT * FROM apuper"
-        cmdMdb1cr.CommandText += " WHERE apuper.EjercicioAPP = " & vAñoEjercicio.ToString
-        cmdMdb1cr.CommandText += " ORDER BY apuper.FechaAPP ASC"
+        ' =========================================================================
+        ' 🌟 PROCESADOR AUTOMÁTICO DE TRANSACCIONES PERIÓDICAS (Nueva Era)
+        ' =========================================================================
+        cmdMdb1cr.Parameters.Clear()
+
+        ' 1. Aseguramos que la fecha de hoy sea un objeto Date cronológico puro sin horas
+        Dim dHoy As Date = DateTime.Today
+        If vfechaHoy.Year > 1 Then
+            dHoy = vfechaHoy.Date
+        End If
+
+        ' 2. Creamos una lista volátil en la RAM para recolectar los registros a procesar
+        ' Esto evita mantener el DataReader abierto mientras hacemos INSERT/DELETE en la misma tabla
+        Dim listaAsientosAProcesar As New List(Of Dictionary(Of String, Object))()
+
+        cmdMdb1cr.CommandText = "SELECT apuper.CodigoAPP, apuper.FechaAPP, apuper.ConceptoAPP, apuper.DescripcionAPP, apuper.ImporteAPP, apuper.NotasAPP, apuper.CuentaAPP FROM apuper ORDER BY apuper.FechaAPP ASC"
+
         Try
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-            If drMdb1.HasRows Then
-                vContador = 0
+            Using drMdb1 As OleDbDataReader = cmdMdb1cr.ExecuteReader()
                 While drMdb1.Read()
-                    ' 1. Obtén la fecha directamente como objeto Date (sin pasar por String)
-                    vDate1 = Convert.ToDateTime(drMdb1.GetValue(1))
-                    ' 2. Asegúrate de que vfechaHoy sea un objeto Date (no String)
-                    ' Si ya es Date, úsalo directamente. Si es String, convierte:
-                    ' Dim dHoy As Date = Convert.ToDateTime(vfechaHoy)
-                    ' 3. Compara los objetos Date directamente
-                    ' Es mucho más limpio y preciso
-                    If vDate1 <= vfechaHoy Then
-                        vContador += 1
+                    Dim fechaAsiento As Date = Convert.ToDateTime(drMdb1("FechaAPP"))
+
+                    ' 🚀 FILTRO CRONOLÓGICO SEGURO: Si la fecha del apunte periódico es hoy o anterior
+                    If fechaAsiento.Date <= dHoy.Date Then
+                        Dim registro As New Dictionary(Of String, Object)()
+                        registro("CodigoAPP") = drMdb1("CodigoAPP")
+                        registro("FechaAPP") = fechaAsiento.Date
+                        registro("ConceptoAPP") = drMdb1("ConceptoAPP") ' ID Numérico Entero largo
+                        registro("DescripcionAPP") = drMdb1("DescripcionAPP").ToString()
+                        registro("ImporteAPP") = drMdb1("ImporteAPP").ToString()
+                        registro("NotasAPP") = drMdb1("NotasAPP").ToString()
+                        registro("CuentaAPP") = drMdb1("CuentaAPP").ToString()
+
+                        listaAsientosAProcesar.Add(registro)
                     End If
                 End While
-            Else
-                'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
-            End If
+            End Using
         Catch ex As Exception
-            MsgBox(ex.ToString)
+            MsgBox("Error al escanear vencimientos periódicos: " & ex.Message, MsgBoxStyle.Critical)
         End Try
-        drMdb1.Close()
 
-        For i = 1 To vContador
-            cmdMdb1cr.CommandText = "SELECT * FROM apuper"
-            cmdMdb1cr.CommandText += " WHERE apuper.EjercicioAPP = " & vAñoEjercicio.ToString
-            cmdMdb1cr.CommandText += " ORDER BY apuper.FechaAPP ASC"
+        ' =========================================================================
+        ' 3. BUCLE MÁGICO DE VOLCADO QUIRÚRGICO A DIARIO (Inmune a fallos de tipos)
+        ' =========================================================================
+        For Each asu In listaAsientosAProcesar
+            Dim vCodigo As Integer = Convert.ToInt32(asu("CodigoAPP"))
+            Dim vDate1 As Date = CDate(asu("FechaAPP"))
+            Dim idConcepto As Integer = Convert.ToInt32(asu("ConceptoAPP"))
+            Dim vDescripcion As String = ApostrofePorAcentoAgudo(asu("DescripcionAPP").ToString())
+            Dim vImporte As String = asu("ImporteAPP").ToString()
+            Dim vNotas As String = asu("NotasAPP").ToString()
+            Dim vCuenta As String = asu("CuentaAPP").ToString()
+
+            ' A. INYECCIÓN PARAMETRIZADA PURA EN LA TABLA DE APUNTES DIARIOS
+            vAñadirSql = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) VALUES (?, ?, ?, ?, ?, ?, ?)"
+            cmdMdb1cr.CommandText = vAñadirSql
+            cmdMdb1cr.Parameters.Clear()
+
+            cmdMdb1cr.Parameters.AddWithValue("@FechaAPU", vDate1.Date)
+            cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", idConcepto) ' 🚀 ¡EXITO!: Inyectamos el ID entero relacional
+            cmdMdb1cr.Parameters.AddWithValue("@DescripcionAPU", vDescripcion.Trim())
+
+            Dim paramImp As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteAPU", OleDb.OleDbType.Currency)
+            paramImp.Value = Math.Round(ConvertirDecimalSeguro(vImporte), 2)
+
+            cmdMdb1cr.Parameters.AddWithValue("@EjercicioAPU", CInt(vAñoEjercicio))
+            cmdMdb1cr.Parameters.AddWithValue("@NotasAPU", vNotas.Trim())
+            cmdMdb1cr.Parameters.AddWithValue("@CuentaAPU", vCuenta.Trim())
+
             Try
-                drMdb1 = cmdMdb1cr.ExecuteReader()
-                If drMdb1.HasRows Then
-                    While drMdb1.Read()
-                        vCodigo = drMdb1.GetValue(0)
-                        vConcepto = drMdb1.GetValue(2).ToString
-                        vDescripcion = ApostrofePorAcentoAgudo(drMdb1.GetValue(3))
-                        vImporte = drMdb1.GetValue(4).ToString
-                        vNotas = drMdb1.GetValue(6).ToString
-                        vCuenta = drMdb1.GetValue(7).ToString
-                        If vDate1 <= DateTime.Today Then
-                            drMdb1.Close()
-                            ' 1. Diseñamos la estructura limpia para apuntes usando comodines '?'
-                            vAñadirSql = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) " &
-                                         "VALUES (?, ?, ?, ?, ?, ?, ?)"
-                            cmdMdb1cr.CommandText = vAñadirSql
+                cmdMdb1cr.ExecuteNonQuery()
 
-                            ' 2. Inyectamos los parámetros en el orden EXACTO de aparición del SQL
-                            cmdMdb1cr.Parameters.Clear()
+                ' Averiguamos el nombre corto legible del concepto para enseñarlo en el cartel traducido
+                Dim nombreCortoConcepto As String = "CONCEPTO"
+                Using con As New OleDbConnection(conexion1.ConnectionString)
+                    Using cmd As New OleDbCommand("SELECT CodigoCON FROM conceptos WHERE IdConceptoCON = ?", con)
+                        cmd.Parameters.Add("@id", OleDbType.Integer).Value = idConcepto
+                        Try
+                            con.Open()
+                            Dim r = cmd.ExecuteScalar()
+                            If r IsNot Nothing Then nombreCortoConcepto = r.ToString().Replace("_", " ").ToUpper()
+                        Catch
+                        End Try
+                    End Using
+                End Using
 
-                            ' Fecha pura en binario (Evita que Windows confunda días con meses)
-                            cmdMdb1cr.Parameters.AddWithValue("@FechaAPU", vDate1)
+                ' Mostramos tu cartel oficial con el idioma regional activo
+                MsgBox(vDate1.ToShortDateString() & vbNewLine & nombreCortoConcepto & "     " & vDescripcion & "     " & vImporte & vbNewLine & rmse.GetString("CreadoCorrectamente"), MsgBoxStyle.Information)
 
-                            ' Cadenas de texto libres (Los parámetros limpian los apóstrofes solos)
-                            cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vConcepto)
-                            cmdMdb1cr.Parameters.AddWithValue("@DescripcionAPU", vDescripcion)
+                ' B. EXTIRPACIÓN DEL VENCIMIENTO YA PROCESADO EN LA TABLA APUPER
+                cmdMdb1cr.CommandText = "DELETE FROM apuper WHERE CodigoAPP = ?"
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.Parameters.Add("@cod", OleDbType.Integer).Value = vCodigo
+                cmdMdb1cr.ExecuteNonQuery()
 
-                            ' Importe blindado en formato Moneda nativa de Access
-                            Dim paramImp As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteAPU", OleDb.OleDbType.Currency)
-                            paramImp.Value = Math.Round(ConvertirDecimalSeguro(vImporte), 2)
-
-                            ' Resto de campos del asiento contable
-                            cmdMdb1cr.Parameters.AddWithValue("@EjercicioAPU", CInt(vAñoEjercicio))
-                            cmdMdb1cr.Parameters.AddWithValue("@NotasAPU", vNotas)
-                            cmdMdb1cr.Parameters.AddWithValue("@CuentaAPU", vCuenta)
-                            cmdMdb1cr.CommandText = vAñadirSql
-                            Try
-                                cmdMdb1cr.ExecuteNonQuery()
-                                MsgBox(vDate1 & vbNewLine & vConcepto & "     " & vDescripcion & "     " & vImporte & vbNewLine & rmse.GetString("CreadoCorrectamente"))
-                            Catch ex As Exception
-                                MsgBox(ex.ToString)
-                            End Try
-                            ' Eliminar Registro Apunte Periódico
-                            vtipoSql = "DELETE FROM apuper"
-                            vtipoSql += " WHERE apuper.CodigoAPP = " & vCodigo.ToString
-                            cmdMdb1cr.CommandText = vtipoSql
-                            Try
-                                cmdMdb1cr.ExecuteNonQuery()
-                                MsgBox(frmEditarApuntesPeriodicos.rmse.GetString("RegistroApuntePeriódicoBorrado"))
-                            Catch ex As Exception
-                                MsgBox(ex.ToString)
-                            End Try
-                            Exit While
-                        End If
-                    End While
-                Else
-                    'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
-                End If
             Catch ex As Exception
-                MsgBox(ex.ToString)
+                MsgBox("Error al ejecutar el asiento automático: " & ex.Message, MsgBoxStyle.Critical)
             End Try
-            drMdb1.Close()
         Next
-        drMdb1.Close()
 
-        ' Traducimos este formulario
-        ActualizarTextosFormulario(Me)
+        ' 🚀 LA LIMPIEZA ESPECTACULAR VETERANA: 
+        ' Eliminamos la llamada duplicada ActualizarTextosFormulario(Me) para liberar RAM.
+
+        ''Buscamos si hay un Apunte Periódico que tenga fecha igual o anterior a la fecha de hoy y cuento los que hay.
+        'cmdMdb1cr.CommandText = "SELECT * FROM apuper"
+        'cmdMdb1cr.CommandText += " WHERE apuper.EjercicioAPP = " & vAñoEjercicio.ToString
+        'cmdMdb1cr.CommandText += " ORDER BY apuper.FechaAPP ASC"
+        'Try
+        '    drMdb1 = cmdMdb1cr.ExecuteReader()
+        '    If drMdb1.HasRows Then
+        '        vContador = 0
+        '        While drMdb1.Read()
+        '            ' 1. Obtén la fecha directamente como objeto Date (sin pasar por String)
+        '            vDate1 = Convert.ToDateTime(drMdb1.GetValue(1))
+        '            ' 2. Asegúrate de que vfechaHoy sea un objeto Date (no String)
+        '            ' Si ya es Date, úsalo directamente. Si es String, convierte:
+        '            ' Dim dHoy As Date = Convert.ToDateTime(vfechaHoy)
+        '            ' 3. Compara los objetos Date directamente
+        '            ' Es mucho más limpio y preciso
+        '            If vDate1 <= vfechaHoy Then
+        '                vContador += 1
+        '            End If
+        '        End While
+        '    Else
+        '        'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
+        '    End If
+        'Catch ex As Exception
+        '    MsgBox(ex.ToString)
+        'End Try
+        'drMdb1.Close()
+
+        'For i = 1 To vContador
+        '    cmdMdb1cr.CommandText = "SELECT * FROM apuper"
+        '    cmdMdb1cr.CommandText += " WHERE apuper.EjercicioAPP = " & vAñoEjercicio.ToString
+        '    cmdMdb1cr.CommandText += " ORDER BY apuper.FechaAPP ASC"
+        '    Try
+        '        drMdb1 = cmdMdb1cr.ExecuteReader()
+        '        If drMdb1.HasRows Then
+        '            While drMdb1.Read()
+        '                vCodigo = drMdb1.GetValue(0)
+        '                vConcepto = drMdb1.GetValue(2).ToString
+        '                vDescripcion = ApostrofePorAcentoAgudo(drMdb1.GetValue(3))
+        '                vImporte = drMdb1.GetValue(4).ToString
+        '                vNotas = drMdb1.GetValue(6).ToString
+        '                vCuenta = drMdb1.GetValue(7).ToString
+        '                If vDate1 <= DateTime.Today Then
+        '                    drMdb1.Close()
+        '                    ' 1. Diseñamos la estructura limpia para apuntes usando comodines '?'
+        '                    vAñadirSql = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) " &
+        '                                 "VALUES (?, ?, ?, ?, ?, ?, ?)"
+        '                    cmdMdb1cr.CommandText = vAñadirSql
+
+        '                    ' 2. Inyectamos los parámetros en el orden EXACTO de aparición del SQL
+        '                    cmdMdb1cr.Parameters.Clear()
+
+        '                    ' Fecha pura en binario (Evita que Windows confunda días con meses)
+        '                    cmdMdb1cr.Parameters.AddWithValue("@FechaAPU", vDate1)
+
+        '                    ' Cadenas de texto libres (Los parámetros limpian los apóstrofes solos)
+        '                    cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vConcepto)
+        '                    cmdMdb1cr.Parameters.AddWithValue("@DescripcionAPU", vDescripcion)
+
+        '                    ' Importe blindado en formato Moneda nativa de Access
+        '                    Dim paramImp As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteAPU", OleDb.OleDbType.Currency)
+        '                    paramImp.Value = Math.Round(ConvertirDecimalSeguro(vImporte), 2)
+
+        '                    ' Resto de campos del asiento contable
+        '                    cmdMdb1cr.Parameters.AddWithValue("@EjercicioAPU", CInt(vAñoEjercicio))
+        '                    cmdMdb1cr.Parameters.AddWithValue("@NotasAPU", vNotas)
+        '                    cmdMdb1cr.Parameters.AddWithValue("@CuentaAPU", vCuenta)
+        '                    cmdMdb1cr.CommandText = vAñadirSql
+        '                    Try
+        '                        cmdMdb1cr.ExecuteNonQuery()
+        '                        MsgBox(vDate1 & vbNewLine & vConcepto & "     " & vDescripcion & "     " & vImporte & vbNewLine & rmse.GetString("CreadoCorrectamente"))
+        '                    Catch ex As Exception
+        '                        MsgBox(ex.ToString)
+        '                    End Try
+        '                    ' Eliminar Registro Apunte Periódico
+        '                    vtipoSql = "DELETE FROM apuper"
+        '                    vtipoSql += " WHERE apuper.CodigoAPP = " & vCodigo.ToString
+        '                    cmdMdb1cr.CommandText = vtipoSql
+        '                    Try
+        '                        cmdMdb1cr.ExecuteNonQuery()
+        '                        MsgBox(frmEditarApuntesPeriodicos.rmse.GetString("RegistroApuntePeriódicoBorrado"))
+        '                    Catch ex As Exception
+        '                        MsgBox(ex.ToString)
+        '                    End Try
+        '                    Exit While
+        '                End If
+        '            End While
+        '        Else
+        '            'MsgBox("No existen registros en " & cmdMdb1cr.CommandText)
+        '        End If
+        '    Catch ex As Exception
+        '        MsgBox(ex.ToString)
+        '    End Try
+        '    drMdb1.Close()
+        'Next
+        'drMdb1.Close()
     End Sub
 
     Private Sub IP_Timer(ByVal sender As Object, ByVal e As EventArgs)

@@ -835,4 +835,7 @@ Die Datei ist nicht geöffnet</value>
   <data name="ToolTipEliminarPresupuesto" xml:space="preserve">
     <value>Monatliche Budgets aus dem ausgewählten Posten löschen</value>
   </data>
+  <data name="NoDescripcionSaldo" xml:space="preserve">
+    <value>Du kannst keine Beschreibung mit dem Namen erstellen</value>
+  </data>
 </root>

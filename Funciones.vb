@@ -435,6 +435,27 @@ Module Funciones
             '}
             'frmApuntesContables.DgvApuntes.Columns.Insert(5, columna)
 
+            ' =========================================================================
+            ' 🌟 NUEVA ERA: MACRO EXCLUSIVA PARA ALIMENTAR EL MOTOR DE GRÁFICOS PARCIALES
+            ' =========================================================================
+        ElseIf vgrid = "PRINT_GRAFICOS_SOLO" Then
+            Dim adp As New OleDbDataAdapter(linSql, conexion1)
+            Dim Tabla As New DataTable
+            adp.Fill(Tabla)
+
+            ' Volcamos la tabla en la rejilla oculta del formulario de reportes
+            frmImprimirForm.DgvApuntes.DataSource = Tabla
+
+            ' Configuramos únicamente la estructura biológica de 4 columnas que exige el gráfico
+            With frmImprimirForm.DgvApuntes
+                If .Columns.Count >= 4 Then
+                    .Columns(0).HeaderText = "Fecha"      ' Celda 0
+                    .Columns(1).HeaderText = "Concepto"   ' Celda 1 -> Texto largo del INNER JOIN
+                    .Columns(2).HeaderText = "Descripcion" ' Celda 2
+                    .Columns(3).HeaderText = "Importe"    ' Celda 3 -> Valor económico puro Double
+                End If
+            End With
+
         ElseIf vgrid = "PRINT_APUNTES_CONTABLES" Then
             Using adp As New OleDbDataAdapter(linSql, conexion1)
                 If frmApuntesPeriodicos.BtnFiltroFecha.Enabled = False Then
@@ -1452,7 +1473,10 @@ Module Funciones
             ' Creamos la columna virtual para albergar las traducciones en la RAM
             dt.Columns.Add("TextoTraducido", GetType(String))
 
-            ' 2. BUCLE DE TRADUCCIÓN PREVIA: Traducimos antes de ordenar para que el abecedario sea real
+            ' =========================================================================
+            ' 🌟 2. BUCLE DE TRADUCCIÓN PREVIA RECTIFICADO (¡Adiós guiones en el ListBox!)
+            ' =========================================================================
+            ' Traducimos antes de ordenar para que el abecedario sea 100% real en la RAM
             For Each fila As DataRow In dt.Rows
                 Dim codigoOriginal As String = fila("CodigoCON").ToString().Trim()
                 Dim codigoTraducido As String = ""
@@ -1462,14 +1486,20 @@ Module Funciones
                     codigoTraducido = resManager.GetString(claveRecurso)
                 End If
 
-                If String.IsNullOrEmpty(codigoTraducido) Then codigoTraducido = codigoOriginal
+                ' 🚀 LA CORRECCIÓN MAESTRA: Si el concepto es nuevo y no tiene traducción,
+                ' le quitamos los guiones bajos visualmente para que luzca perfecto con espacios
+                If String.IsNullOrEmpty(codigoTraducido) Then
+                    codigoTraducido = codigoOriginal.Replace("_", " ")
+                End If
 
+                ' Mantén tu validación especial de fábrica para el Traspaso intacta
                 If codigoOriginal.ToUpper() = "TRASPASO" Then
                     Dim tradTraspaso As String = If(resManager IsNot Nothing, resManager.GetString("TRASPASO"), "TRASPASO")
                     If Not String.IsNullOrEmpty(tradTraspaso) Then codigoTraducido = tradTraspaso
                 End If
 
-                fila("TextoTraducido") = codigoTraducido
+                ' Guardamos el texto final limpio y en mayúsculas contables uniformes
+                fila("TextoTraducido") = codigoTraducido.Trim().ToUpper()
             Next
 
             ' =========================================================================
@@ -1559,10 +1589,120 @@ Module Funciones
         End Try
     End Sub
 
+    'Public Sub TraducirGridApuntesBD(ByVal dgv As DataGridView)
+    '    Try
+    '        If dgv.Rows.Count = 0 Then Exit Sub
+    '        i = 0
+    '        For Each row As DataGridViewRow In dgv.Rows
+    '            If row.IsNewRow Then Continue For
+
+    '            ' =========================================================================
+    '            ' 🌟 CORTAFUEGOS INDESTRUCTIBLE POR BÚSQUEDA INVERSA (Propuesta Maestra)
+    '            ' =========================================================================
+    '            ' La celda 2 corresponde a la columna de la Descripción en tu Grid de Apuntes.
+    '            If row.Cells(2).Value IsNot Nothing Then
+    '                Dim descCelda As String = row.Cells(2).Value.ToString().Trim()
+
+    '                ' 🚀 ESCÁNER BIOLÓGICO: Le pasamos el texto de Access (sea "Opening Balance", "Saldo Inicial", etc.)
+    '                ' si el motor inverso nos confirma que su llave de fábrica es "Desc_SALDO", procedemos:
+    '                If ObtenerClaveNeutral(descCelda, resManager) = "Desc_SALDO" Then
+    '                    If resManager IsNot Nothing Then
+    '                        ' Capturamos el idioma "en vivo" seleccionado en tus Preferencias
+    '                        Dim culturaActivaEnVivo As System.Globalization.CultureInfo = Threading.Thread.CurrentThread.CurrentUICulture
+
+    '                        ' Forzamos la inyección de tu palabra oficial traducida según el .resx activo
+    '                        Dim saldoTraducido As String = resManager.GetString("Desc_SALDO", culturaActivaEnVivo)
+
+    '                        If Not String.IsNullOrEmpty(saldoTraducido) Then
+    '                            row.Cells(2).Value = saldoTraducido.Trim()
+    '                        End If
+    '                    End If
+    '                End If
+    '            End If
+
+    '            Dim filaData As DataRowView = CType(row.DataBoundItem, DataRowView)
+
+    '            If filaData IsNot Nothing Then
+
+    '                ' =========================================================================
+    '                ' 1. TRADUCCIÓN DE CONCEPTO (Celda 1 visible - CORREGIDO)
+    '                ' =========================================================================
+    '                ' Leemos el código alfanumérico estable de la base de datos (Ej: "REGULARITZACIO_1")
+    '                Dim codigoCON As String = filaData("CodigoCON").ToString().Trim()
+
+    '                ' Por defecto, el texto visual será el título original en mayúsculas sin guiones
+    '                Dim conceptoVisual As String = codigoCON.Replace("_", " ").ToUpper()
+
+    '                If resManager IsNot Nothing AndAlso Not String.IsNullOrEmpty(codigoCON) Then
+    '                    Dim claveRecurso As String = codigoCON.Replace(" ", "_")
+    '                    Dim traduccion As String = resManager.GetString(claveRecurso)
+
+    '                    ' Si el resManager encuentra el título traducido (Ej: "PHONE"), lo usamos
+    '                    If Not String.IsNullOrEmpty(traduccion) Then
+    '                        conceptoVisual = traduccion.Trim().ToUpper()
+    '                    End If
+    '                End If
+
+    '                ' IMPACTAR: Forzamos el título en la Celda 1 (Columna de Concepto)
+    '                row.Cells(1).Value = conceptoVisual
+
+    '                ' =============================================================
+    '                ' 3. TRADUCCIÓN DE CUENTA (Celda 6)
+    '                ' =============================================================
+    '                Dim nombreCUE As String = filaData("CuentaAPU").ToString().Trim()
+    '                Dim cuentaVisual As String = nombreCUE
+
+    '                If resManager IsNot Nothing AndAlso Not String.IsNullOrEmpty(nombreCUE) Then
+    '                    Dim claveBase As String = nombreCUE.Replace(" ", "_")
+    '                    Dim tradCuenta As String = resManager.GetString("Desc_" & claveBase)
+
+    '                    If String.IsNullOrEmpty(tradCuenta) Then
+    '                        tradCuenta = resManager.GetString(claveBase)
+    '                    End If
+
+    '                    If Not String.IsNullOrEmpty(tradCuenta) Then
+    '                        cuentaVisual = tradCuenta
+    '                    End If
+    '                End If
+
+    '                row.Cells(6).Value = cuentaVisual
+
+    '            End If
+    '        Next
+    '        ' 🌟 TRUCO MAESTRO: Corrección visual automática de los IDs de Saldo
+    '        ' --- DENTRO DE TU BUCLE DE FILAS EXISTENTE ---
+    '        For Each fila As DataGridViewRow In dgv.Rows
+    '            If Not fila.IsNewRow Then
+
+    '                ' Traducimos la celda del concepto (Celda 1)
+    '                If fila.Cells(1).Value IsNot Nothing Then
+    '                    Dim codigoConceptoOriginal As String = fila.Cells(1).Value.ToString().Trim()
+
+    '                    ' Buscamos la Key en el .resx (Pasamos a formato "ProperCase" o título si tu key es "Saldo")
+    '                    ' Si tu clave en el .resx está guardada exactamente como "Saldo", usamos "Saldo"
+    '                    Dim conceptoTraducido As String = resManager.GetString("Saldo")
+
+    '                    ' Si el registro de la celda es cualquier otro concepto (ej: DECESOS), busca su propia clave
+    '                    If codigoConceptoOriginal <> "SALDO" Then
+    '                        conceptoTraducido = resManager.GetString(codigoConceptoOriginal)
+    '                    End If
+
+    '                    If Not String.IsNullOrEmpty(conceptoTraducido) Then
+    '                        ' 🌟 EL TRUCO: Forzamos a que se guarde en la pantalla convertido a MAYÚSCULAS
+    '                        fila.Cells(1).Value = conceptoTraducido.ToUpper()
+    '                    End If
+    '                End If
+    '            End If
+    '        Next
+    '    Catch ex As Exception
+    '        ' Previene errores visuales durante el rediseño del grid
+    '    End Try
+    'End Sub
+
     Public Sub TraducirGridApuntesBD(ByVal dgv As DataGridView)
         Try
-            If dgv.Rows.Count = 0 Then Exit Sub
-            i = 0
+            If dgv Is Nothing OrElse dgv.Rows.Count = 0 Then Exit Sub
+
             For Each row As DataGridViewRow In dgv.Rows
                 If row.IsNewRow Then Continue For
 
@@ -1573,14 +1713,10 @@ Module Funciones
                 If row.Cells(2).Value IsNot Nothing Then
                     Dim descCelda As String = row.Cells(2).Value.ToString().Trim()
 
-                    ' 🚀 ESCÁNER BIOLÓGICO: Le pasamos el texto de Access (sea "Opening Balance", "Saldo Inicial", etc.)
-                    ' si el motor inverso nos confirma que su llave de fábrica es "Desc_SALDO", procedemos:
+                    ' Escáner biológico: interceptamos si es la descripción del saldo inicial
                     If ObtenerClaveNeutral(descCelda, resManager) = "Desc_SALDO" Then
                         If resManager IsNot Nothing Then
-                            ' Capturamos el idioma "en vivo" seleccionado en tus Preferencias
                             Dim culturaActivaEnVivo As System.Globalization.CultureInfo = Threading.Thread.CurrentThread.CurrentUICulture
-
-                            ' Forzamos la inyección de tu palabra oficial traducida según el .resx activo
                             Dim saldoTraducido As String = resManager.GetString("Desc_SALDO", culturaActivaEnVivo)
 
                             If Not String.IsNullOrEmpty(saldoTraducido) Then
@@ -1590,82 +1726,75 @@ Module Funciones
                     End If
                 End If
 
+                ' =========================================================================
+                ' 🌟 PROCESADO RELACIONAL SEGURO DESDE EL ENLACE DE DATOS (DataRowView)
+                ' =========================================================================
                 Dim filaData As DataRowView = CType(row.DataBoundItem, DataRowView)
 
                 If filaData IsNot Nothing Then
 
                     ' =========================================================================
-                    ' 1. TRADUCCIÓN DE CONCEPTO (Celda 1 visible - CORREGIDO)
+                    ' 1. TRADUCCIÓN DE CONCEPTO CRUCIAL (Celda 1 visible)
                     ' =========================================================================
-                    ' Leemos el código alfanumérico estable de la base de datos (Ej: "REGULARITZACIO_1")
+                    ' Leemos el código alfanumérico estable de la base de datos (Ej: "REGULARISIERUNG" o "PENSIO_ES")
                     Dim codigoCON As String = filaData("CodigoCON").ToString().Trim()
 
                     ' Por defecto, el texto visual será el título original en mayúsculas sin guiones
                     Dim conceptoVisual As String = codigoCON.Replace("_", " ").ToUpper()
 
                     If resManager IsNot Nothing AndAlso Not String.IsNullOrEmpty(codigoCON) Then
-                        Dim claveRecurso As String = codigoCON.Replace(" ", "_")
-                        Dim traduccion As String = resManager.GetString(claveRecurso)
+                        ' Capturamos el idioma visual "en vivo" seleccionado por el usuario en Preferencias
+                        Dim culturaActivaEnVivo As System.Globalization.CultureInfo = Threading.Thread.CurrentThread.CurrentUICulture
 
-                        ' Si el resManager encuentra el título traducido (Ej: "PHONE"), lo usamos
-                        If Not String.IsNullOrEmpty(traduccion) Then
-                            conceptoVisual = traduccion.Trim().ToUpper()
+                        ' 🚀 CORTAFUEGOS EXCLUSIVO DE EMERGENCIA PARA EL SALDO HISTÓRICO
+                        If codigoCON.Equals("SALDO", StringComparison.OrdinalIgnoreCase) Then
+                            Dim tradSaldo As String = resManager.GetString("Saldo", culturaActivaEnVivo)
+                            If Not String.IsNullOrEmpty(tradSaldo) Then conceptoVisual = tradSaldo.Trim()
+                        Else
+                            ' Mapeo ordinario para el resto de conceptos de la base de datos (LUZ, FOOD, PENSIO_ES)
+                            Dim claveRecurso As String = codigoCON.Replace(" ", "_")
+                            Dim traduccion As String = resManager.GetString(claveRecurso, culturaActivaEnVivo)
+
+                            If Not String.IsNullOrEmpty(traduccion) Then
+                                conceptoVisual = traduccion.Trim()
+                            End If
                         End If
                     End If
 
-                    ' IMPACTAR: Forzamos el título en la Celda 1 (Columna de Concepto)
-                    row.Cells(1).Value = conceptoVisual
+                    ' IMPACTAR MARCA: Forzamos el título final limpio homogeneizado en MAYÚSCULAS en la Celda 1
+                    row.Cells(1).Value = conceptoVisual.ToUpper()
 
-                    ' =============================================================
-                    ' 3. TRADUCCIÓN DE CUENTA (Celda 6)
-                    ' =============================================================
-                    Dim nombreCUE As String = filaData("CuentaAPU").ToString().Trim()
-                    Dim cuentaVisual As String = nombreCUE
+                    ' =========================================================================
+                    ' 3. TRADUCCIÓN DE CUENTA DE FÁBRICA (Celda 6 visible)
+                    ' =========================================================================
+                    If dgv.Columns.Count > 6 AndAlso row.Cells(6).Value IsNot Nothing Then
+                        Dim nombreCUE As String = If(filaData("CuentaAPU") IsNot DBNull.Value, filaData("CuentaAPU").ToString().Trim(), "")
+                        Dim cuentaVisual As String = nombreCUE
 
-                    If resManager IsNot Nothing AndAlso Not String.IsNullOrEmpty(nombreCUE) Then
-                        Dim claveBase As String = nombreCUE.Replace(" ", "_")
-                        Dim tradCuenta As String = resManager.GetString("Desc_" & claveBase)
+                        If resManager IsNot Nothing AndAlso Not String.IsNullOrEmpty(nombreCUE) Then
+                            Dim claveBase As String = nombreCUE.Replace(" ", "_")
+                            Dim tradCuenta As String = resManager.GetString("Desc_" & claveBase)
 
-                        If String.IsNullOrEmpty(tradCuenta) Then
-                            tradCuenta = resManager.GetString(claveBase)
+                            If String.IsNullOrEmpty(tradCuenta) Then
+                                tradCuenta = resManager.GetString(claveBase)
+                            End If
+
+                            If Not String.IsNullOrEmpty(tradCuenta) Then
+                                cuentaVisual = tradCuenta
+                            End If
                         End If
 
-                        If Not String.IsNullOrEmpty(tradCuenta) Then
-                            cuentaVisual = tradCuenta
-                        End If
+                        row.Cells(6).Value = cuentaVisual
                     End If
-
-                    row.Cells(6).Value = cuentaVisual
 
                 End If
             Next
-            ' 🌟 TRUCO MAESTRO: Corrección visual automática de los IDs de Saldo
-            ' --- DENTRO DE TU BUCLE DE FILAS EXISTENTE ---
-            For Each fila As DataGridViewRow In dgv.Rows
-                If Not fila.IsNewRow Then
 
-                    ' Traducimos la celda del concepto (Celda 1)
-                    If fila.Cells(1).Value IsNot Nothing Then
-                        Dim codigoConceptoOriginal As String = fila.Cells(1).Value.ToString().Trim()
+            ' 🚀 ELIMINADO EL SEGUNDO BUCLE COMPRETIDOR: Evitamos que repase las celdas visuales 
+            ' a ciegas y baraje las descripciones largas en las pantallas parciales.
 
-                        ' Buscamos la Key en el .resx (Pasamos a formato "ProperCase" o título si tu key es "Saldo")
-                        ' Si tu clave en el .resx está guardada exactamente como "Saldo", usamos "Saldo"
-                        Dim conceptoTraducido As String = resManager.GetString("Saldo")
-
-                        ' Si el registro de la celda es cualquier otro concepto (ej: DECESOS), busca su propia clave
-                        If codigoConceptoOriginal <> "SALDO" Then
-                            conceptoTraducido = resManager.GetString(codigoConceptoOriginal)
-                        End If
-
-                        If Not String.IsNullOrEmpty(conceptoTraducido) Then
-                            ' 🌟 EL TRUCO: Forzamos a que se guarde en la pantalla convertido a MAYÚSCULAS
-                            fila.Cells(1).Value = conceptoTraducido.ToUpper()
-                        End If
-                    End If
-                End If
-            Next
         Catch ex As Exception
-            ' Previene errores visuales durante el rediseño del grid
+            ' Previene parpadeos o errores visuales durante el refresco del grid
         End Try
     End Sub
 
@@ -3055,7 +3184,9 @@ Module Funciones
         For Each fila As DataRow In dtConceptos.Rows
             Dim codigoOriginal As String = fila("CodigoCON").ToString().Trim()
             Dim descOriginal As String = fila("DescripcionCON").ToString()
-            Dim textoFinal As String = codigoOriginal ' Salvavidas por defecto
+
+            ' Inicializamos vacío para controlar si se traduce o no
+            Dim textoFinal As String = ""
 
             If resManager IsNot Nothing Then
                 Dim claveRecurso As String = codigoOriginal.Replace(" ", "_")
@@ -3066,7 +3197,14 @@ Module Funciones
                 End If
             End If
 
-            fila("TextoComboCON") = textoFinal
+            ' 🚀 LA CORRECCIÓN MAESTRA: Si no tiene traducción (porque es nuevo), 
+            ' le quitamos los guiones bajos visualmente para que luzca perfecto con espacios
+            If String.IsNullOrEmpty(textoFinal) Then
+                textoFinal = codigoOriginal.Replace("_", " ")
+            End If
+
+            ' Guardamos el texto limpio y homogeneizado en mayúsculas en la columna virtual
+            fila("TextoComboCON") = textoFinal.Trim().ToUpper()
         Next
 
         ' 🌟 TU DESEO CUMPLIDO: Ordenamos alfabéticamente por la traducción en la memoria RAM
