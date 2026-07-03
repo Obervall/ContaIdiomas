@@ -645,6 +645,9 @@
     <EmbeddedResource Include="AcercaDe.fr.resx">
       <DependentUpon>AcercaDe.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AcercaDe.it.resx">
+      <DependentUpon>AcercaDe.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AcercaDe.pt.resx">
       <DependentUpon>AcercaDe.vb</DependentUpon>
     </EmbeddedResource>
@@ -664,6 +667,9 @@
       <DependentUpon>ActivarSoftware.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ActivarSoftware.fr.resx">
+      <DependentUpon>ActivarSoftware.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActivarSoftware.it.resx">
       <DependentUpon>ActivarSoftware.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ActivarSoftware.pt.resx">
@@ -687,6 +693,9 @@
     <EmbeddedResource Include="AportacionBizum.fr.resx">
       <DependentUpon>AportacionBizum.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AportacionBizum.it.resx">
+      <DependentUpon>AportacionBizum.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AportacionBizum.pt.resx">
       <DependentUpon>AportacionBizum.vb</DependentUpon>
     </EmbeddedResource>
@@ -708,6 +717,9 @@
     <EmbeddedResource Include="ApuntesContables.fr.resx">
       <DependentUpon>ApuntesContables.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ApuntesContables.it.resx">
+      <DependentUpon>ApuntesContables.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ApuntesContables.pt.resx">
       <DependentUpon>ApuntesContables.vb</DependentUpon>
     </EmbeddedResource>
@@ -724,6 +736,9 @@
       <DependentUpon>ApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ApuntesPeriodicos.fr.resx">
+      <DependentUpon>ApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApuntesPeriodicos.it.resx">
       <DependentUpon>ApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ApuntesPeriodicos.pt.resx">
@@ -750,6 +765,9 @@
     <EmbeddedResource Include="AyudaApuntes.fr.resx">
       <DependentUpon>AyudaApuntes.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AyudaApuntes.it.resx">
+      <DependentUpon>AyudaApuntes.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AyudaApuntes.pt.resx">
       <DependentUpon>AyudaApuntes.vb</DependentUpon>
     </EmbeddedResource>
@@ -769,6 +787,9 @@
       <DependentUpon>Buscar.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Buscar.fr.resx">
+      <DependentUpon>Buscar.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Buscar.it.resx">
       <DependentUpon>Buscar.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Buscar.pt.resx">
@@ -792,6 +813,9 @@
     <EmbeddedResource Include="ConceptosContables.fr.resx">
       <DependentUpon>ConceptosContables.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ConceptosContables.it.resx">
+      <DependentUpon>ConceptosContables.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ConceptosContables.pt.resx">
       <DependentUpon>ConceptosContables.vb</DependentUpon>
     </EmbeddedResource>
@@ -808,6 +832,9 @@
       <DependentUpon>CuentasBancarias.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CuentasBancarias.fr.resx">
+      <DependentUpon>CuentasBancarias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CuentasBancarias.it.resx">
       <DependentUpon>CuentasBancarias.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CuentasBancarias.pt.resx">
@@ -828,6 +855,9 @@
     <EmbeddedResource Include="EditarApuntes.fr.resx">
       <DependentUpon>EditarApuntes.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EditarApuntes.it.resx">
+      <DependentUpon>EditarApuntes.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditarApuntes.pt.resx">
       <DependentUpon>EditarApuntes.vb</DependentUpon>
     </EmbeddedResource>
@@ -844,6 +874,9 @@
       <DependentUpon>EditarApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditarApuntesPeriodicos.fr.resx">
+      <DependentUpon>EditarApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarApuntesPeriodicos.it.resx">
       <DependentUpon>EditarApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditarApuntesPeriodicos.pt.resx">
@@ -867,6 +900,9 @@
     <EmbeddedResource Include="EditarConceptoContable.fr.resx">
       <DependentUpon>EditarConceptoContable.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EditarConceptoContable.it.resx">
+      <DependentUpon>EditarConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditarConceptoContable.pt.resx">
       <DependentUpon>EditarConceptoContable.vb</DependentUpon>
     </EmbeddedResource>
@@ -885,6 +921,9 @@
     <EmbeddedResource Include="EditarCuentaBancaria.fr.resx">
       <DependentUpon>EditarCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EditarCuentaBancaria.it.resx">
+      <DependentUpon>EditarCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditarCuentaBancaria.pt.resx">
       <DependentUpon>EditarCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
@@ -901,6 +940,9 @@
       <DependentUpon>EditarTipoCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditarTipoCuentaBancaria.fr.resx">
+      <DependentUpon>EditarTipoCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarTipoCuentaBancaria.it.resx">
       <DependentUpon>EditarTipoCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditarTipoCuentaBancaria.pt.resx">
@@ -927,6 +969,9 @@
     <EmbeddedResource Include="FiltroF5.fr.resx">
       <DependentUpon>FiltroF5.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FiltroF5.it.resx">
+      <DependentUpon>FiltroF5.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FiltroF5.pt.resx">
       <DependentUpon>FiltroF5.vb</DependentUpon>
     </EmbeddedResource>
@@ -948,6 +993,9 @@
     <EmbeddedResource Include="GraficosConceptos.fr.resx">
       <DependentUpon>GraficosConceptos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GraficosConceptos.it.resx">
+      <DependentUpon>GraficosConceptos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GraficosConceptos.pt.resx">
       <DependentUpon>GraficosConceptos.vb</DependentUpon>
     </EmbeddedResource>
@@ -964,6 +1012,9 @@
       <DependentUpon>GraficosCuentas.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosCuentas.fr.resx">
+      <DependentUpon>GraficosCuentas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosCuentas.it.resx">
       <DependentUpon>GraficosCuentas.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosCuentas.pt.resx">
@@ -984,6 +1035,9 @@
     <EmbeddedResource Include="GraficosFechas.fr.resx">
       <DependentUpon>GraficosFechas.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GraficosFechas.it.resx">
+      <DependentUpon>GraficosFechas.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GraficosFechas.pt.resx">
       <DependentUpon>GraficosFechas.vb</DependentUpon>
     </EmbeddedResource>
@@ -1002,6 +1056,9 @@
     <EmbeddedResource Include="GraficosMeses.fr.resx">
       <DependentUpon>GraficosMeses.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GraficosMeses.it.resx">
+      <DependentUpon>GraficosMeses.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GraficosMeses.pt.resx">
       <DependentUpon>GraficosMeses.vb</DependentUpon>
     </EmbeddedResource>
@@ -1018,6 +1075,9 @@
       <DependentUpon>GraficosPresupuestos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosPresupuestos.fr.resx">
+      <DependentUpon>GraficosPresupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosPresupuestos.it.resx">
       <DependentUpon>GraficosPresupuestos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosPresupuestos.pt.resx">
@@ -1039,6 +1099,9 @@
       <DependentUpon>GraficosSoloConceptos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosSoloConceptos.fr.resx">
+      <DependentUpon>GraficosSoloConceptos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosSoloConceptos.it.resx">
       <DependentUpon>GraficosSoloConceptos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosSoloConceptos.pt.resx">
@@ -1077,6 +1140,9 @@
     <EmbeddedResource Include="IntroApuntes.fr.resx">
       <DependentUpon>IntroApuntes.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="IntroApuntes.it.resx">
+      <DependentUpon>IntroApuntes.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="IntroApuntes.pt.resx">
       <DependentUpon>IntroApuntes.vb</DependentUpon>
     </EmbeddedResource>
@@ -1093,6 +1159,9 @@
       <DependentUpon>IntroApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="IntroApuntesPeriodicos.fr.resx">
+      <DependentUpon>IntroApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroApuntesPeriodicos.it.resx">
       <DependentUpon>IntroApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="IntroApuntesPeriodicos.pt.resx">
@@ -1116,6 +1185,9 @@
     <EmbeddedResource Include="IntroPresupuestos.fr.resx">
       <DependentUpon>IntroPresupuestos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="IntroPresupuestos.it.resx">
+      <DependentUpon>IntroPresupuestos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="IntroPresupuestos.pt.resx">
       <DependentUpon>IntroPresupuestos.vb</DependentUpon>
     </EmbeddedResource>
@@ -1132,6 +1204,9 @@
       <DependentUpon>NuevaCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NuevaCuentaBancaria.fr.resx">
+      <DependentUpon>NuevaCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevaCuentaBancaria.it.resx">
       <DependentUpon>NuevaCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NuevaCuentaBancaria.pt.resx">
@@ -1152,6 +1227,9 @@
     <EmbeddedResource Include="NuevoConceptoContable.fr.resx">
       <DependentUpon>NuevoConceptoContable.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="NuevoConceptoContable.it.resx">
+      <DependentUpon>NuevoConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="NuevoConceptoContable.pt.resx">
       <DependentUpon>NuevoConceptoContable.vb</DependentUpon>
     </EmbeddedResource>
@@ -1168,6 +1246,9 @@
       <DependentUpon>NuevoTipoCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NuevoTipoCuentaBancaria.fr.resx">
+      <DependentUpon>NuevoTipoCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevoTipoCuentaBancaria.it.resx">
       <DependentUpon>NuevoTipoCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NuevoTipoCuentaBancaria.pt.resx">
@@ -1191,6 +1272,9 @@
     <EmbeddedResource Include="Preferencias.fr.resx">
       <DependentUpon>Preferencias.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Preferencias.it.resx">
+      <DependentUpon>Preferencias.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Preferencias.pt.resx">
       <DependentUpon>Preferencias.vb</DependentUpon>
     </EmbeddedResource>
@@ -1209,6 +1293,9 @@
     <EmbeddedResource Include="Presupuestos.fr.resx">
       <DependentUpon>Presupuestos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Presupuestos.it.resx">
+      <DependentUpon>Presupuestos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Presupuestos.pt.resx">
       <DependentUpon>Presupuestos.vb</DependentUpon>
     </EmbeddedResource>
@@ -1225,6 +1312,9 @@
       <DependentUpon>Principal.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Principal.fr.resx">
+      <DependentUpon>Principal.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Principal.it.resx">
       <DependentUpon>Principal.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Principal.pt.resx">
@@ -1277,6 +1367,9 @@
     <EmbeddedResource Include="SeleccionDatosGastos.fr.resx">
       <DependentUpon>SeleccionDatosGastos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionDatosGastos.it.resx">
+      <DependentUpon>SeleccionDatosGastos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SeleccionDatosGastos.pt.resx">
       <DependentUpon>SeleccionDatosGastos.vb</DependentUpon>
     </EmbeddedResource>
@@ -1296,6 +1389,9 @@
       <DependentUpon>SeleccionDatosIngresos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SeleccionDatosIngresos.fr.resx">
+      <DependentUpon>SeleccionDatosIngresos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionDatosIngresos.it.resx">
       <DependentUpon>SeleccionDatosIngresos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SeleccionDatosIngresos.pt.resx">
@@ -1319,6 +1415,9 @@
     <EmbeddedResource Include="SeleccionEjercicio.fr.resx">
       <DependentUpon>SeleccionEjercicio.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionEjercicio.it.resx">
+      <DependentUpon>SeleccionEjercicio.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SeleccionEjercicio.pt.resx">
       <DependentUpon>SeleccionEjercicio.vb</DependentUpon>
     </EmbeddedResource>
@@ -1335,6 +1434,9 @@
       <DependentUpon>SeleccionFechas.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SeleccionFechas.fr.resx">
+      <DependentUpon>SeleccionFechas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionFechas.it.resx">
       <DependentUpon>SeleccionFechas.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SeleccionFechas.pt.resx">
@@ -1356,6 +1458,9 @@
       <DependentUpon>TipoCuentasBancarias.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TipoCuentasBancarias.fr.resx">
+      <DependentUpon>TipoCuentasBancarias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoCuentasBancarias.it.resx">
       <DependentUpon>TipoCuentasBancarias.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TipoCuentasBancarias.pt.resx">
@@ -1406,6 +1511,9 @@
     <EmbeddedResource Include="TipoGrafico.fr.resx">
       <DependentUpon>TipoGrafico.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TipoGrafico.it.resx">
+      <DependentUpon>TipoGrafico.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TipoGrafico.pt.resx">
       <DependentUpon>TipoGrafico.vb</DependentUpon>
     </EmbeddedResource>
@@ -1422,6 +1530,9 @@
       <DependentUpon>TipoGraficoPeriodico.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TipoGraficoPeriodico.fr.resx">
+      <DependentUpon>TipoGraficoPeriodico.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoGraficoPeriodico.it.resx">
       <DependentUpon>TipoGraficoPeriodico.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TipoGraficoPeriodico.pt.resx">
@@ -1448,6 +1559,9 @@
     <EmbeddedResource Include="TipoInformeApuntes.fr.resx">
       <DependentUpon>TipoInformeApuntes.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TipoInformeApuntes.it.resx">
+      <DependentUpon>TipoInformeApuntes.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TipoInformeApuntes.pt.resx">
       <DependentUpon>TipoInformeApuntes.vb</DependentUpon>
     </EmbeddedResource>
@@ -1464,6 +1578,9 @@
       <DependentUpon>TipoInformeApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TipoInformeApuntesPeriodicos.fr.resx">
+      <DependentUpon>TipoInformeApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoInformeApuntesPeriodicos.it.resx">
       <DependentUpon>TipoInformeApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TipoInformeApuntesPeriodicos.pt.resx">
@@ -1488,6 +1605,9 @@
       <DependentUpon>TraspasoCuentas.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TraspasoCuentas.fr.resx">
+      <DependentUpon>TraspasoCuentas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TraspasoCuentas.it.resx">
       <DependentUpon>TraspasoCuentas.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TraspasoCuentas.pt.resx">

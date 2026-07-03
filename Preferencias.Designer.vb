@@ -155,7 +155,7 @@ Partial Class Preferencias
         Me.CmbElegirIdioma.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         resources.ApplyResources(Me.CmbElegirIdioma, "CmbElegirIdioma")
         Me.CmbElegirIdioma.FormattingEnabled = True
-        Me.CmbElegirIdioma.Items.AddRange(New Object() {resources.GetString("CmbElegirIdioma.Items"), resources.GetString("CmbElegirIdioma.Items1"), resources.GetString("CmbElegirIdioma.Items2"), resources.GetString("CmbElegirIdioma.Items3"), resources.GetString("CmbElegirIdioma.Items4"), resources.GetString("CmbElegirIdioma.Items5")})
+        Me.CmbElegirIdioma.Items.AddRange(New Object() {resources.GetString("CmbElegirIdioma.Items"), resources.GetString("CmbElegirIdioma.Items1"), resources.GetString("CmbElegirIdioma.Items2"), resources.GetString("CmbElegirIdioma.Items3"), resources.GetString("CmbElegirIdioma.Items4"), resources.GetString("CmbElegirIdioma.Items5"), resources.GetString("CmbElegirIdioma.Items6")})
         Me.CmbElegirIdioma.Name = "CmbElegirIdioma"
         '
         'Label2

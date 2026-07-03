@@ -30,6 +30,8 @@ Public Class Preferencias
             CmbElegirIdioma.Text = "Deutsch"
         ElseIf My.Settings.CulturaUsuario = "pt" Then
             CmbElegirIdioma.Text = "Português"
+        ElseIf My.Settings.CulturaUsuario = "it" Then
+            CmbElegirIdioma.Text = "Italiano"
         End If
 
         If My.Settings.Actualizar Then
@@ -206,6 +208,8 @@ Public Class Preferencias
                 cultura = "de"
             ElseIf CmbElegirIdioma.SelectedItem.ToString() = "Português" Then
                 cultura = "pt"
+            ElseIf CmbElegirIdioma.SelectedItem.ToString() = "Italiano" Then
+                cultura = "it"
             End If
             My.Settings.CulturaUsuario = cultura
             My.Settings.Save()

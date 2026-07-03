@@ -1834,6 +1834,7 @@ Module Funciones
                         Case "FRANÇAIS" : codigoMapeado = "fr"
                         Case "DEUTSCH" : codigoMapeado = "de"
                         Case "PORTUGUÊS" : codigoMapeado = "pt"
+                        Case "ITALIANO" : codigoMapeado = "it"
                     End Select
 
                     ' Si encontramos un código válido y no estaba ya añadido en la lista, lo acoplamos
