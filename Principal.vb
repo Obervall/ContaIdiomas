@@ -391,7 +391,7 @@ Public Class Principal
                 End While
             End Using
         Catch ex As Exception
-            MsgBox("Error al escanear vencimientos periódicos: " & ex.Message, MsgBoxStyle.Critical)
+            MsgBox(resManager.GetString("ErrorEscanearPeriodicos") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
 
         ' =========================================================================
@@ -449,7 +449,7 @@ Public Class Principal
                 cmdMdb1cr.ExecuteNonQuery()
 
             Catch ex As Exception
-                MsgBox("Error al ejecutar el asiento automático: " & ex.Message, MsgBoxStyle.Critical)
+                MsgBox(resManager.GetString("ErrorApuntePeriodico") & ": " & ex.Message, MsgBoxStyle.Critical)
             End Try
         Next
     End Sub

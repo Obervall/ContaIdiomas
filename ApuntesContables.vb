@@ -1249,7 +1249,7 @@ Public Class ApuntesContables
         End If
         ' 2. Forzar la traducción antes de mostrarlo (por consistencia con tus otros formularios)
         ' Nota: Si tienes el método ActualizarTextosFormulario accesible, puedes llamarlo aquí:
-        ' ActualizarTextosFormulario(frmIntroApuntes)
+        ActualizarTextosFormulario(frmIntroApuntes)
         ' 3. ¡EL TRUCO!: Decimos que se centre respecto a su contenedor "padre"
         frmIntroApuntes.StartPosition = FormStartPosition.CenterParent
         ' ¡LA PROTECCIÓN CRÍTICA!: Procesamos todos los mensajes visuales pendientes en Windows
@@ -1389,6 +1389,8 @@ Public Class ApuntesContables
         If ((frmTipoGrafico Is Nothing) OrElse (Not frmTipoGrafico.IsHandleCreated)) Then
             frmTipoGrafico = New TipoGrafico
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmTipoGrafico)
         ' Llamamos al formulario de manera modal.
         frmTipoGrafico.ShowDialog()
         'MessageBox.Show("Se ha cerrado el formulario.")
@@ -1528,7 +1530,8 @@ Public Class ApuntesContables
             If ((frmEditarApuntes Is Nothing) OrElse (Not frmEditarApuntes.IsHandleCreated)) Then
                 frmEditarApuntes = New EditarApuntes
             End If
-
+            ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+            ActualizarTextosFormulario(frmEditarApuntes)
             ' Llamamos al formulario de manera modal en modo edición
             vEditar = "SI"
             frmEditarApuntes.ShowDialog()
@@ -1566,6 +1569,8 @@ Public Class ApuntesContables
         If ((frmTipoInformeApuntes Is Nothing) OrElse (Not frmTipoInformeApuntes.IsHandleCreated)) Then
             frmTipoInformeApuntes = New TipoInformeApuntes
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmTipoInformeApuntes)
         ' Llamamos al formulario de manera modal.
         frmTipoInformeApuntes.ShowDialog()
         'MessageBox.Show("Se ha cerrado el formulario.")
@@ -1754,6 +1759,8 @@ Public Class ApuntesContables
         If ((frmTraspasoCuentas Is Nothing) OrElse (Not frmTraspasoCuentas.IsHandleCreated)) Then
             frmTraspasoCuentas = New TraspasoCuentas
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmTraspasoCuentas)
 
         ' 🌟 LA CORRECCIÓN CLAVE: Capturamos la respuesta de la ventana al cerrarse
         Dim respuesta As DialogResult = frmTraspasoCuentas.ShowDialog()

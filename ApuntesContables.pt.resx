@@ -130,7 +130,7 @@
     <value>NOTAS</value>
   </data>
   <data name="Label7.Text" xml:space="preserve">
-    <value>Renda:</value>
+    <value>Receitas:</value>
   </data>
   <data name="BtnSalir.Text" xml:space="preserve">
     <value>Sair</value>
@@ -142,7 +142,7 @@
     <value>Saldo:</value>
   </data>
   <data name="GroupBox1.Text" xml:space="preserve">
-    <value>Registros</value>
+    <value>Registos</value>
   </data>
   <data name="GroupBox6.Text" xml:space="preserve">
     <value>Datas</value>
@@ -169,7 +169,7 @@
     <value>Totais</value>
   </data>
   <data name="Label8.Text" xml:space="preserve">
-    <value>Contas:</value>
+    <value>Despesas:</value>
   </data>
   <data name="Label6.Text" xml:space="preserve">
     <value>Até:</value>

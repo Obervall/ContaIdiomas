@@ -149,7 +149,7 @@ Eindrücke und Anregungen können Sie senden an:
     <value>Verfügbare Version</value>
   </data>
   <data name="TextoAutorizaUso" xml:space="preserve">
-    <value>Die Nutzung ist genehmigt bei</value>
+    <value>Die Nutzung ist autorisiert für</value>
   </data>
   <data name="TextoCodigoActivacion" xml:space="preserve">
     <value>Aktivierungscode</value>

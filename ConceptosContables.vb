@@ -385,6 +385,8 @@ Public Class ConceptosContables
         If ((frmNuevoConceptoContable Is Nothing) OrElse (Not frmNuevoConceptoContable.IsHandleCreated)) Then
             frmNuevoConceptoContable = New NuevoConceptoContable
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmNuevoConceptoContable)
         ' Llamamos al formulario de manera modal.
         frmNuevoConceptoContable.ShowDialog()
         'MessageBox.Show("Se ha cerrado el formulario.")
@@ -487,7 +489,8 @@ Public Class ConceptosContables
         If ((frmEditarConceptoContable Is Nothing) OrElse (Not frmEditarConceptoContable.IsHandleCreated)) Then
             frmEditarConceptoContable = New EditarConceptoContable
         End If
-
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmEditarConceptoContable)
         vEditar = "SI"
         frmEditarConceptoContable.ShowDialog()
         frmEditarConceptoContable.Dispose()
@@ -531,6 +534,8 @@ Public Class ConceptosContables
         If ((frmEditarConceptoContable Is Nothing) OrElse (Not frmEditarConceptoContable.IsHandleCreated)) Then
             frmEditarConceptoContable = New EditarConceptoContable
         End If
+        ' Forzar la traducción y el tamaño correcto antes de mostrar el formulario
+        ActualizarTextosFormulario(frmEditarConceptoContable)
         ' Llamamos al formulario de manera modal.
         If vEditar = "NO" Then
             vEditar = "NO"  ' Eliminar

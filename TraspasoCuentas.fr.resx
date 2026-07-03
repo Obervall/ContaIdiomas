@@ -157,7 +157,7 @@
     <value>Datos del Destino del Traspaso: </value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Traspaso entre Cuentas</value>
+    <value>Virement entre comptes</value>
   </data>
   <data name="SeleccionarCuentaOrigen" xml:space="preserve">
     <value>Sélectionnez le compte source</value>

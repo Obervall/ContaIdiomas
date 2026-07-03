@@ -242,6 +242,8 @@ Public Class TipoCuentaBancaria
         If ((frmEditarTipoCuentaBancaria Is Nothing) OrElse (Not frmEditarTipoCuentaBancaria.IsHandleCreated)) Then
             frmEditarTipoCuentaBancaria = New EditarTipoCuentaBancaria
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmEditarTipoCuentaBancaria)
         ' Llamamos al formulario de manera modal.
         vEditar = "SI"
         frmEditarTipoCuentaBancaria.ShowDialog()
@@ -348,6 +350,8 @@ Public Class TipoCuentaBancaria
         If ((frmNuevoTipoCuentaBancaria Is Nothing) OrElse (Not frmNuevoTipoCuentaBancaria.IsHandleCreated)) Then
             frmNuevoTipoCuentaBancaria = New NuevoTipoCuentaBancaria
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmNuevoTipoCuentaBancaria)
         ' Llamamos al formulario de manera modal.
         frmNuevoTipoCuentaBancaria.ShowDialog()
         'MessageBox.Show("Se ha cerrado el formulario.")

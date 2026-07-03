@@ -166,10 +166,10 @@
     <value>Reddito:</value>
   </data>
   <data name="GroupBox8.Text" xml:space="preserve">
-    <value>Pergamena</value>
+    <value>Navigazione</value>
   </data>
   <data name="BtnSalir.Text" xml:space="preserve">
-    <value>Uscita</value>
+    <value>Esci</value>
   </data>
   <data name="LblApuntes.Text" xml:space="preserve">
     <value>NOTE PERIODICHE</value>

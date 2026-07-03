@@ -121,7 +121,7 @@
     <value>&amp;Ver</value>
   </data>
   <data name="MantenimientosToolStripMenuItem.Text" xml:space="preserve">
-    <value>Mantenimientos</value>
+    <value>Manutenções</value>
   </data>
   <data name="ApuntesToolStripMenuItem.Text" xml:space="preserve">
     <value>Apuntes</value>
@@ -157,40 +157,40 @@
     <value>Preferências</value>
   </data>
   <data name="SalirMenu.Text" xml:space="preserve">
-    <value>Salir</value>
+    <value>Sair</value>
   </data>
   <data name="SalirMenu.ToolTipText" xml:space="preserve">
-    <value>Salir Aplicación</value>
+    <value>Sair da aplicação</value>
   </data>
   <data name="BarraDeHerramientasMenu.Text" xml:space="preserve">
-    <value>Barra de Herramientas</value>
+    <value>Barra de ferramentas</value>
   </data>
   <data name="BarraDeHerramientasMenu.ToolTipText" xml:space="preserve">
-    <value>Ocultar/Ver Barra de Herramientas</value>
+    <value>Ocultar/Mostrar barra de ferramentas</value>
   </data>
   <data name="BarraDeEstadoMenu.Text" xml:space="preserve">
-    <value>Barra de Estado</value>
+    <value>Barra de estado</value>
   </data>
   <data name="BarraDeEstadoMenu.ToolTipText" xml:space="preserve">
-    <value>Ocultar/Ver Barra de Estado</value>
+    <value>Ocultar/Mostrar barra de estado</value>
   </data>
   <data name="BarraYMenuConColores.Text" xml:space="preserve">
     <value>Barra y Menu con Colores</value>
   </data>
   <data name="BarraYMenuConColores.ToolTipText" xml:space="preserve">
-    <value>Ocultar/Ver Colores en Barra y Menu</value>
+    <value>Ocultar/Mostrar cores na barra e no menu</value>
   </data>
   <data name="ConceptosContablesToolStripMenuItem.Text" xml:space="preserve">
-    <value>Conceptos Contables</value>
+    <value>Conceitos contabilísticos</value>
   </data>
   <data name="ConceptosContablesToolStripMenuItem.ToolTipText" xml:space="preserve">
-    <value>Añade, Edita, Borra o Consulta Conceptos Contables</value>
+    <value>Adiciona, edita, elimina ou consulta conceitos contabilísticos</value>
   </data>
   <data name="CuentasToolStripMenuItem.ToolTipText" xml:space="preserve">
-    <value>Añade, Edita, Borra o Cuentas Bancarias</value>
+    <value>Adiciona, edita ou elimina contas bancárias</value>
   </data>
   <data name="TiposDeCuentasToolStripMenuItem.Text" xml:space="preserve">
-    <value>Tipos de Cuentas</value>
+    <value>Tipos de contas</value>
   </data>
   <data name="VerApuntesToolStripMenuItem.Text" xml:space="preserve">
     <value>Ver Apuntes</value>
@@ -370,10 +370,10 @@
     <value>Preferências</value>
   </data>
   <data name="BtnSalir.Text" xml:space="preserve">
-    <value>Salir Aplicación</value>
+    <value>Sair da aplicação</value>
   </data>
   <data name="BtnConceptos.Text" xml:space="preserve">
-    <value>Añade, Edita, Borra o Consulta Conceptos Contables</value>
+    <value>Adiciona, edita, elimina ou consulta conceitos contabilísticos</value>
   </data>
   <data name="BtnCuentasBancarias.Text" xml:space="preserve">
     <value>Añade, Edita, Borra ou Consulta Cuentas Bancarias</value>

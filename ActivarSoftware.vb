@@ -52,33 +52,6 @@ Public Class ActivarSoftware
             ' Mantenemos tu objeto rmse original para el mensaje de error
             MsgBox(rmse.GetString("ErrorObtenerID") & ": " & Environment.NewLine & ex.Message, MsgBoxStyle.Exclamation, resManager.GetString("Error"))
         End Try
-
-        'Private Sub ActivarSoftware_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        '    Me.KeyPreview = True
-
-        '    TxtPropietario.Text = ""
-        '    Dim query As New SelectQuery("Win32_BaseBoard")
-        '    Dim search As New ManagementObjectSearcher(query)
-        '    Dim info As ManagementObject
-        '    Try
-        '        For Each info In search.Get()
-        '            StrMotherBoardId = info("SerialNumber").ToString()
-        '        Next
-        '        vIdMaquina = StrMotherBoardId
-        '        If Len(vIdMaquina) <= 5 Then
-        '            Dim mc As New ManagementClass("win32_processor")
-        '            Dim moc As ManagementObjectCollection = mc.GetInstances
-        '            For Each mo As ManagementObject In moc
-        '                If CpuInfo = "" Then
-        '                    CpuInfo = mo.Properties("processorID").Value.ToString
-        '                    Exit For
-        '                End If
-        '            Next
-        '            vIdMaquina = CpuInfo
-        '        End If
-        '    Catch ex As Exception
-        '        MsgBox(rmse.GetString("ErrorObtenerID") & ": " & NL & ex.Message, MsgBoxStyle.Exclamation, resManager.GetString("Error"))
-        '    End Try
         vTxtPropietario = My.Settings.Autorizar
         TxtPropietario.Text = Mid(My.Settings.Autorizar, 41)
         If vTxtPropietario = "Se autoriza el uso de ContaHogar 3.0 a: Modo Demo" Then

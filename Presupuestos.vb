@@ -369,7 +369,8 @@ Public Class Presupuestos
         If (frmGraficosPresupuestos Is Nothing) OrElse (Not frmGraficosPresupuestos.IsHandleCreated) Then
             frmGraficosPresupuestos = New GraficosPresupuestos
         End If
-
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmGraficosPresupuestos)
         ' 2. TRUCO DE ORO: Le decimos que NO active el 3D (Gráfico plano)
         frmGraficosPresupuestos.EsGrafico3D = False
 
@@ -383,7 +384,8 @@ Public Class Presupuestos
         If (frmGraficosPresupuestos Is Nothing) OrElse (Not frmGraficosPresupuestos.IsHandleCreated) Then
             frmGraficosPresupuestos = New GraficosPresupuestos
         End If
-
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmGraficosPresupuestos)
         ' 2. TRUCO DE ORO: Le decimos que SÍ active el 3D (Gráfico con relieve)
         frmGraficosPresupuestos.EsGrafico3D = True
 

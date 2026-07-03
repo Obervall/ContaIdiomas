@@ -312,7 +312,8 @@ Public Class EditarApuntesPeriodicos
         If ((frmConceptosContables Is Nothing) OrElse (Not frmConceptosContables.IsHandleCreated)) Then
             frmConceptosContables = New ConceptosContables
         End If
-
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmNuevoConceptoContable)
         ' Llamamos al formulario de manera modal.
         frmConceptosContables.ShowDialog()
 
@@ -329,7 +330,8 @@ Public Class EditarApuntesPeriodicos
         If ((frmCuentasBancarias Is Nothing) OrElse (Not frmCuentasBancarias.IsHandleCreated)) Then
             frmCuentasBancarias = New CuentasBancarias
         End If
-
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmCuentasBancarias)
         ' Llamamos al formulario de manera modal.
         frmCuentasBancarias.ShowDialog()
 

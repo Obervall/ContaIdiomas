@@ -263,7 +263,7 @@ Non vengono rimossi dal database</value>
     <value>Esecuzione dell'errore</value>
   </data>
   <data name="EFECTIVO" xml:space="preserve">
-    <value>CAFANA MONETARIA</value>
+    <value>CASSA CONTANTI</value>
   </data>
   <data name="BBVA" xml:space="preserve">
     <value>BBVA</value>
@@ -749,7 +749,7 @@ Il file non è aperto</value>
     <value>Piano pensionistico</value>
   </data>
   <data name="CAJA_EFECTIVO" xml:space="preserve">
-    <value>CAFANA MONETARIA</value>
+    <value>CASSA CONTANTI</value>
   </data>
   <data name="Desc_CAJA_EFECTIVO" xml:space="preserve">
     <value>Contanti a casa</value>
@@ -837,5 +837,65 @@ Il file non è aperto</value>
   </data>
   <data name="NoDescripcionSaldo" xml:space="preserve">
     <value>Non puoi creare una descrizione con il nome</value>
+  </data>
+  <data name="ErrorBorradoSaldoInicial" xml:space="preserve">
+    <value>Errore nell'esecuzione della cancellazione iniziale con ID</value>
+  </data>
+  <data name="ErrorGenerarSaldoIniciales" xml:space="preserve">
+    <value>Generazione di errori dei saldi iniziali</value>
+  </data>
+  <data name="ErrorInsertarReal" xml:space="preserve">
+    <value>Errore Inserire Realtà</value>
+  </data>
+  <data name="ErrorInsertarCero" xml:space="preserve">
+    <value>Inserire errore zero</value>
+  </data>
+  <data name="ErrorUpdate1" xml:space="preserve">
+    <value>Errore di combustione 1 (Interno)</value>
+  </data>
+  <data name="ErrorUpdate2" xml:space="preserve">
+    <value>Errore di combustione 2 (Interno)</value>
+  </data>
+  <data name="ErrorGeneral" xml:space="preserve">
+    <value>Errore generale</value>
+  </data>
+  <data name="ErrorLocalizarTraspaso" xml:space="preserve">
+    <value>Errore nel localizzare il concetto TRANSFER</value>
+  </data>
+  <data name="ErrorCargarCON" xml:space="preserve">
+    <value>Non ha caricato i concetti</value>
+  </data>
+  <data name="ErrorCargarCUE" xml:space="preserve">
+    <value>Non sono riusciti a caricare gli account</value>
+  </data>
+  <data name="EstructuraActualizada" xml:space="preserve">
+    <value>La struttura del database è stata aggiornata in modo completo alla nuova versione</value>
+  </data>
+  <data name="ActualizacionCompletada" xml:space="preserve">
+    <value>Aggiornamento completato</value>
+  </data>
+  <data name="ErrorMigracion" xml:space="preserve">
+    <value>Guasto critico durante la migrazione completa</value>
+  </data>
+  <data name="ErrorMigracionInterrumpida" xml:space="preserve">
+    <value>Migrazione interrotta</value>
+  </data>
+  <data name="SI" xml:space="preserve">
+    <value>Sì</value>
+  </data>
+  <data name="NO" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="ErrorLeerCON" xml:space="preserve">
+    <value>Concetti di lettura degli errori</value>
+  </data>
+  <data name="ErrorApuntePeriodico" xml:space="preserve">
+    <value>Errore nell'esecuzione dell'auto-inserimento</value>
+  </data>
+  <data name="ErrorEscanearPeriodicos" xml:space="preserve">
+    <value>Scadenze periodiche di scansione degli errori</value>
+  </data>
+  <data name="SinProgramar" xml:space="preserve">
+    <value>Non programmata</value>
   </data>
 </root>

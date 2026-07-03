@@ -124,7 +124,7 @@
     <value>Reg.:</value>
   </data>
   <data name="GroupBox1.Text" xml:space="preserve">
-    <value>Registros</value>
+    <value>Registos</value>
   </data>
   <data name="GroupBox2.Text" xml:space="preserve">
     <value>Edição</value>
@@ -136,7 +136,7 @@
     <value>Sair</value>
   </data>
   <data name="CmbTipoConcepto.Items" xml:space="preserve">
-    <value>GASTO</value>
+    <value>DESPESA</value>
   </data>
   <data name="CmbTipoConcepto.Items1" xml:space="preserve">
     <value>RENDA</value>
@@ -145,7 +145,7 @@
     <value>ESPECIAL</value>
   </data>
   <data name="Label3.Text" xml:space="preserve">
-    <value>Cara:</value>
+    <value>Tipo:</value>
   </data>
   <data name="GroupBox4.Text" xml:space="preserve">
     <value>Conceito de tipo</value>

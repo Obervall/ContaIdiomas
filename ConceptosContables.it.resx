@@ -133,7 +133,7 @@
     <value>Rapporti</value>
   </data>
   <data name="BtnSalir.Text" xml:space="preserve">
-    <value>Uscita</value>
+    <value>Esci</value>
   </data>
   <data name="Label3.Text" xml:space="preserve">
     <value>Tipo:</value>
@@ -142,7 +142,7 @@
     <value>Concetto di tipo</value>
   </data>
   <data name="GroupBox8.Text" xml:space="preserve">
-    <value>Pergamena</value>
+    <value>Navigazione</value>
   </data>
   <data name="LblConceptos.Text" xml:space="preserve">
     <value>CONCETTI</value>

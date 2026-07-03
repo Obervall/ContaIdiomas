@@ -838,4 +838,64 @@ the file is not open</value>
   <data name="NoDescripcionSaldo" xml:space="preserve">
     <value>You can't create a description with the name</value>
   </data>
+  <data name="ErrorBorradoSaldoInicial" xml:space="preserve">
+    <value>Error running initial wipe with ID</value>
+  </data>
+  <data name="ErrorGenerarSaldoIniciales" xml:space="preserve">
+    <value>Error generating beginning balances</value>
+  </data>
+  <data name="ErrorInsertarReal" xml:space="preserve">
+    <value>Error Insert Reality</value>
+  </data>
+  <data name="ErrorInsertarCero" xml:space="preserve">
+    <value>Insert Zero Error</value>
+  </data>
+  <data name="ErrorUpdate1" xml:space="preserve">
+    <value>Burn Error 1 (Internal)</value>
+  </data>
+  <data name="ErrorUpdate2" xml:space="preserve">
+    <value>Burn Error 2 (Internal)</value>
+  </data>
+  <data name="ErrorGeneral" xml:space="preserve">
+    <value>Error General</value>
+  </data>
+  <data name="ErrorLocalizarTraspaso" xml:space="preserve">
+    <value>Error locating the concept TRANSFER</value>
+  </data>
+  <data name="ErrorCargarCON" xml:space="preserve">
+    <value>Failed to load concepts</value>
+  </data>
+  <data name="ErrorCargarCUE" xml:space="preserve">
+    <value>Failed to load accounts</value>
+  </data>
+  <data name="EstructuraActualizada" xml:space="preserve">
+    <value>The database structure has been comprehensively updated to the new version</value>
+  </data>
+  <data name="ActualizacionCompletada" xml:space="preserve">
+    <value>Update Completed</value>
+  </data>
+  <data name="ErrorMigracion" xml:space="preserve">
+    <value>Critical Failure During Full Migration</value>
+  </data>
+  <data name="ErrorMigracionInterrumpida" xml:space="preserve">
+    <value>Migration Interrupted</value>
+  </data>
+  <data name="SI" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="NO" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="ErrorLeerCON" xml:space="preserve">
+    <value>Error Reading Concepts</value>
+  </data>
+  <data name="ErrorApuntePeriodico" xml:space="preserve">
+    <value>Error running the auto-entry</value>
+  </data>
+  <data name="ErrorEscanearPeriodicos" xml:space="preserve">
+    <value>Error scanning periodic expirations</value>
+  </data>
+  <data name="SinProgramar" xml:space="preserve">
+    <value>Unscheduled</value>
+  </data>
 </root>

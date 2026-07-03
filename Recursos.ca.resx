@@ -838,4 +838,64 @@ que l'arxiu no estigui obert</value>
   <data name="NoDescripcionSaldo" xml:space="preserve">
     <value>No és pot crear una descripció amb el nom</value>
   </data>
+  <data name="ErrorBorradoSaldoInicial" xml:space="preserve">
+    <value>Error en executar l' esborrat inicial amb ID</value>
+  </data>
+  <data name="ErrorGenerarSaldoIniciales" xml:space="preserve">
+    <value>Error en generar saldos inicials</value>
+  </data>
+  <data name="ErrorInsertarReal" xml:space="preserve">
+    <value>Error Inserir Realitat</value>
+  </data>
+  <data name="ErrorInsertarCero" xml:space="preserve">
+    <value>Error Inserir Zero</value>
+  </data>
+  <data name="ErrorUpdate1" xml:space="preserve">
+    <value>Error Gravar 1 (Intern)</value>
+  </data>
+  <data name="ErrorUpdate2" xml:space="preserve">
+    <value>Error Gravar 2 (Intern)</value>
+  </data>
+  <data name="ErrorGeneral" xml:space="preserve">
+    <value>Error General</value>
+  </data>
+  <data name="ErrorLocalizarTraspaso" xml:space="preserve">
+    <value>Error en localitzar el concepte TRASPÀS</value>
+  </data>
+  <data name="ErrorCargarCON" xml:space="preserve">
+    <value>Error en carregar els conceptes</value>
+  </data>
+  <data name="ErrorCargarCUE" xml:space="preserve">
+    <value>Error en carregar els comptes</value>
+  </data>
+  <data name="EstructuraActualizada" xml:space="preserve">
+    <value>L' estructura de la base de dades s' ha actualitzat de manera integral a la nova versió</value>
+  </data>
+  <data name="ActualizacionCompletada" xml:space="preserve">
+    <value>Actualització Completada</value>
+  </data>
+  <data name="ErrorMigracion" xml:space="preserve">
+    <value>Error crític durant la Migració completa</value>
+  </data>
+  <data name="ErrorMigracionInterrumpida" xml:space="preserve">
+    <value>Migració Interrompuda</value>
+  </data>
+  <data name="SI" xml:space="preserve">
+    <value>Sí</value>
+  </data>
+  <data name="NO" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="ErrorLeerCON" xml:space="preserve">
+    <value>Error Llegir Conceptes</value>
+  </data>
+  <data name="ErrorApuntePeriodico" xml:space="preserve">
+    <value>Error en executar l' assentament automàtic</value>
+  </data>
+  <data name="ErrorEscanearPeriodicos" xml:space="preserve">
+    <value>Error en escanejar venciments periòdics</value>
+  </data>
+  <data name="SinProgramar" xml:space="preserve">
+    <value>Sense Programar</value>
+  </data>
 </root>

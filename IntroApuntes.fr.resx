@@ -196,7 +196,7 @@ Erreur</value>
     <value>Pas de montant</value>
   </data>
   <data name="BtnAyuda.Text" xml:space="preserve">
-    <value>À l’aide ( ?)</value>
+    <value>Aide (?)</value>
   </data>
   <data name="NoExistenDescripciones" xml:space="preserve">
     <value>Il n’y a pas de descriptions avec</value>

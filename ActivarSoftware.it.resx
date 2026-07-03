@@ -127,7 +127,7 @@
     <value>Dati del Registro Software</value>
   </data>
   <data name="BtnSalir.Text" xml:space="preserve">
-    <value>Uscita</value>
+    <value>Esci</value>
   </data>
   <data name="BtnActivar.Text" xml:space="preserve">
     <value>Attiva</value>

@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Label6.Text" xml:space="preserve">
-    <value>Bewertung:</value>
+    <value>Hinweis:</value>
   </data>
   <data name="Label4.Text" xml:space="preserve">
-    <value>Menge:</value>
+    <value>Betrag:</value>
   </data>
   <data name="Label3.Text" xml:space="preserve">
     <value>Vorname:</value>

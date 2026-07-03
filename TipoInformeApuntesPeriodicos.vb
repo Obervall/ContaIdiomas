@@ -3,13 +3,13 @@ Imports System.Data
 Imports System.Drawing
 Imports System.Drawing.Printing
 Imports System.Windows.Forms
-Imports System.Globalization
 
 Public Class TipoInformeApuntesPeriodicos
 
     Private vtipoSql, vAñadir, vAñadir2 As String
     Private PrintLine, Contador As Integer
     Public Property DgvApuntes As Object
+    Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub TipoInformeApuntesPeriodicos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ActualizarTextosFormulario(Me)
@@ -17,8 +17,8 @@ Public Class TipoInformeApuntesPeriodicos
 
     Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click
 
-        vDate1 = frmApuntesPeriodicos.DateTimePicker1.Value.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture)
-        vDate2 = frmApuntesPeriodicos.DateTimePicker2.Value.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture)
+        vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
+        vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
 
         'Comienzo del SELECT
         '********************
@@ -33,22 +33,22 @@ Public Class TipoInformeApuntesPeriodicos
         'Comienzo del Título
         '********************
         If RadioButton1.Checked = True Then
-            frmImprimirForm.LblTitulo.Text = "Listado Completo."
+            frmImprimirForm.LblTitulo.Text = frmTipoInformeApuntes.rmse.GetString("ListadoCompleto")
         End If
         If RadioButton2.Checked = True Then
-            frmImprimirForm.LblTitulo.Text = "Listado por Conceptos."
+            frmImprimirForm.LblTitulo.Text = frmTipoInformeApuntes.rmse.GetString("ListadoConceptos")
         End If
         If RadioButton3.Checked = True Then
-            frmImprimirForm.LblTitulo.Text = "Listado por Cuentas."
+            frmImprimirForm.LblTitulo.Text = frmTipoInformeApuntes.rmse.GetString("ListadoCuentas")
         End If
         If RadioButton4.Checked = True Then
-            frmImprimirForm.LblTitulo.Text = "Listado por Fechas."
+            frmImprimirForm.LblTitulo.Text = frmTipoInformeApuntes.rmse.GetString("ListadoFechas")
         End If
 
         'Siguiente parte, General, del Título, si hay algún Filtro checkeado
         '*****************************************************************
         If frmApuntesPeriodicos.BtnFiltroConcepto.Enabled = False Or frmApuntesPeriodicos.BtnFiltroCuenta.Enabled = False Or frmApuntesPeriodicos.BtnFiltroFecha.Enabled = False Then
-            frmImprimirForm.LblTitulo.Text += " Filtrado:"
+            frmImprimirForm.LblTitulo.Text += resManager.GetString("Filtrado") & ":"
         End If
 
         'Siguiente parte del Título con el texto del componente filtrado, según el Combo
@@ -64,8 +64,8 @@ Public Class TipoInformeApuntesPeriodicos
         If frmApuntesPeriodicos.BtnFiltroFecha.Enabled = False Then
             vtipoSql += " And apuper.FechaAPP >= ?"
             vtipoSql += " And apuper.FechaAPP <= ?"
-            frmImprimirForm.LblTitulo.Text += "  FECHAS."
-            frmImprimirForm.LblEntreFechas.Text = "Desde: " & frmApuntesPeriodicos.DateTimePicker1.Value & "    Hasta: " & frmApuntesPeriodicos.DateTimePicker2.Value
+            frmImprimirForm.LblTitulo.Text += "  " & resManager.GetString("Fechas") & "."
+            frmImprimirForm.LblEntreFechas.Text = resManager.GetString("Desde") & ": " & frmApuntesPeriodicos.DateTimePicker1.Value & "    " & resManager.GetString("Hasta") & ": " & frmApuntesPeriodicos.DateTimePicker2.Value
         End If
 
         'Llenar el Grid de ImprimirForm para leerlo luego en el Print *** COMPLETO ***
@@ -85,7 +85,7 @@ Public Class TipoInformeApuntesPeriodicos
                 Else
                     vGastos += fila.Cells(3).Value
                 End If
-                frmImprimirForm.LblTotal.Text = "Total Ingresos: " & vIngresos.ToString("N2") & "  -  Total Gastos: " & vGastos.ToString("N2") & "                        TOTAL: " & vValor.ToString("N2") & vMoneda
+                frmImprimirForm.LblTotal.Text = resManager.GetString("TotalIngresos") & ": " & vIngresos.ToString("N2") & "  -  " & resManager.GetString("TotalGastos") & ": " & vGastos.ToString("N2") & "                        " & resManager.GetString("TOTAL") & " :  " & vValor.ToString("N2") & vMoneda
             Next
         End If
 
@@ -188,7 +188,7 @@ Public Class TipoInformeApuntesPeriodicos
             vValor = 0
             For Each fila As DataGridViewRow In frmImprimirForm.DgvApuntes.Rows
                 vValor += fila.Cells(1).Value
-                frmImprimirForm.LblTotal.Text = "Total:  " & vValor.ToString("N2") & vMoneda
+                frmImprimirForm.LblTotal.Text = resManager.GetString("TOTAL") & ":  " & vValor.ToString("N2") & vMoneda
             Next
         End If
 
@@ -304,7 +304,7 @@ Public Class TipoInformeApuntesPeriodicos
             vValor = 0
             For Each fila As DataGridViewRow In frmImprimirForm.DgvApuntes.Rows
                 vValor += fila.Cells(1).Value
-                frmImprimirForm.LblTotal.Text = "Total:  " & vValor.ToString("N2") & vMoneda
+                frmImprimirForm.LblTotal.Text = resManager.GetString("TOTAL") & ":  " & vValor.ToString("N2") & vMoneda
             Next
         End If
 
@@ -420,7 +420,7 @@ Public Class TipoInformeApuntesPeriodicos
             vValor = 0
             For Each fila As DataGridViewRow In frmImprimirForm.DgvApuntes.Rows
                 vValor += fila.Cells(1).Value
-                frmImprimirForm.LblTotal.Text = "Total:  " & vValor.ToString("N2") & vMoneda
+                frmImprimirForm.LblTotal.Text = resManager.GetString("TOTAL") & ":  " & vValor.ToString("N2") & vMoneda
             Next
         End If
 
@@ -484,26 +484,26 @@ Public Class TipoInformeApuntesPeriodicos
         'Imprimimos el encabezado o titulo de la lista de materias por encima de los puntos definidos
         '********************************************************************************************
         If RadioButton1.Checked = True Then
-            e.Graphics.DrawString("Fecha:", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
-            e.Graphics.DrawString("Concepto:", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto2.Left, frmImprimirForm.Punto2.Top - 30)
-            e.Graphics.DrawString("Descripción:", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
-            e.Graphics.DrawString("Importe(" & vMoneda & "):", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto4.Left, frmImprimirForm.Punto4.Top - 30)
-            e.Graphics.DrawString("Saldo(" & vMoneda & "):", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto5.Left, frmImprimirForm.Punto5.Top - 30)
+            e.Graphics.DrawString(resManager.GetString("Fecha") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
+            e.Graphics.DrawString(resManager.GetString("Concepto") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto2.Left, frmImprimirForm.Punto2.Top - 30)
+            e.Graphics.DrawString(resManager.GetString("Descripción") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
+            e.Graphics.DrawString(resManager.GetString("Importe") & "(" & vMoneda & "):", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto4.Left, frmImprimirForm.Punto4.Top - 30)
+            e.Graphics.DrawString(resManager.GetString("Saldo") & "(" & vMoneda & "):", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto5.Left, frmImprimirForm.Punto5.Top - 30)
         End If
 
         If RadioButton2.Checked = True Then
-            e.Graphics.DrawString("Concepto:", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
-            e.Graphics.DrawString("Importe(" & vMoneda & "):", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
+            e.Graphics.DrawString(resManager.GetString("Concepto") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
+            e.Graphics.DrawString(resManager.GetString("Importe") & "(" & vMoneda & "):", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
         End If
 
         If RadioButton3.Checked = True Then
-            e.Graphics.DrawString("Grupo Cuentas:", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
-            e.Graphics.DrawString("Importe(" & vMoneda & "):", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
+            e.Graphics.DrawString(resManager.GetString("Cuenta") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
+            e.Graphics.DrawString(resManager.GetString("Importe") & "(" & vMoneda & "):", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
         End If
 
         If RadioButton4.Checked = True Then
-            e.Graphics.DrawString("Grupo Fechas:", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
-            e.Graphics.DrawString("Importe(" & vMoneda & "):", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
+            e.Graphics.DrawString(resManager.GetString("Fecha") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
+            e.Graphics.DrawString(resManager.GetString("Importe") & "(" & vMoneda & "):", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
         End If
 
         'imprimimos la linea debajo de los encabezados
@@ -528,10 +528,10 @@ Public Class TipoInformeApuntesPeriodicos
                 e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(3).Value.ToString("N2"), FuenteDetalles, Brushes.Black, frmImprimirForm.Punto4.Right + 50, startY, sf)
                 e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(4).Value.ToString("N2"), FuenteDetalles, Brushes.Black, frmImprimirForm.Punto5.Right + 30, startY, sf)
                 startY += frmImprimirForm.LblFecha.Height
-                e.Graphics.DrawString("Cuenta:  ", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
+                e.Graphics.DrawString(resManager.GetString("Cuenta") & ":   ", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
                 e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(6).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left + 50, startY)
                 startY += frmImprimirForm.LblFecha.Height
-                e.Graphics.DrawString("Notas:   ", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
+                e.Graphics.DrawString(resManager.GetString("Notas") & ":    ", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
                 e.Graphics.DrawString(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(5).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left + 50, startY)
                 startY += frmImprimirForm.LblFecha.Height
                 e.Graphics.DrawString("---------------------------------------------------------------------------------------------------------------------------------------------------------------------", FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)

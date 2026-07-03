@@ -286,7 +286,8 @@ Public Class ApuntesPeriodicos
         If ((frmEditarApuntesPeriodicos Is Nothing) OrElse (Not frmEditarApuntesPeriodicos.IsHandleCreated)) Then
             frmEditarApuntesPeriodicos = New EditarApuntesPeriodicos
         End If
-
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmEditarApuntesPeriodicos)
         ' Llamamos al formulario de manera modal en modo borrado
         vEditar = "NO"  ' Eliminar
         frmEditarApuntesPeriodicos.ShowDialog()
@@ -312,6 +313,8 @@ Public Class ApuntesPeriodicos
         If ((frmTipoGraficoPeriodico Is Nothing) OrElse (Not frmTipoGraficoPeriodico.IsHandleCreated)) Then
             frmTipoGraficoPeriodico = New TipoGraficoPeriodico
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmTipoGraficoPeriodico)
         ' Llamamos al formulario de manera modal.
         frmTipoGraficoPeriodico.ShowDialog()
         'MessageBox.Show("Se ha cerrado el formulario.")
@@ -352,6 +355,8 @@ Public Class ApuntesPeriodicos
         If ((frmEditarApuntesPeriodicos Is Nothing) OrElse (Not frmEditarApuntesPeriodicos.IsHandleCreated)) Then
             frmEditarApuntesPeriodicos = New EditarApuntesPeriodicos
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmEditarApuntesPeriodicos)
 
         ' Llamamos al formulario de manera modal en modo edición
         vEditar = "SI"
@@ -740,6 +745,8 @@ Public Class ApuntesPeriodicos
         If ((frmIntroApuntesPeriodicos Is Nothing) OrElse (Not frmIntroApuntesPeriodicos.IsHandleCreated)) Then
             frmIntroApuntesPeriodicos = New IntroApuntesPeriodicos
         End If
+        ' Forzar la traducción y el tamaño correcto antes de mostrar el formulario
+        ActualizarTextosFormulario(frmIntroApuntesPeriodicos)
         ' Llamamos al formulario de manera modal.
         frmIntroApuntesPeriodicos.ShowDialog()
         'MessageBox.Show("Se ha cerrado el formulario.")
@@ -827,6 +834,8 @@ Public Class ApuntesPeriodicos
         If ((frmTipoInformeApuntesPeriodicos Is Nothing) OrElse (Not frmTipoInformeApuntesPeriodicos.IsHandleCreated)) Then
             frmTipoInformeApuntesPeriodicos = New TipoInformeApuntesPeriodicos
         End If
+        ' Forzar la traducción y el tamaño correcto antes de mostrar el formulario
+        ActualizarTextosFormulario(frmTipoInformeApuntesPeriodicos)
         ' Llamamos al formulario de manera modal.
         frmTipoInformeApuntesPeriodicos.ShowDialog()
         'MessageBox.Show("Se ha cerrado el formulario.")

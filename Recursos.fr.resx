@@ -260,7 +260,7 @@ Ils ne sont pas supprimés de la base de données</value>
     <value>Solde</value>
   </data>
   <data name="ErrorAlEjecutar" xml:space="preserve">
-    <value>Exécution par erreur</value>
+    <value>Erreur d’exécution</value>
   </data>
   <data name="EFECTIVO" xml:space="preserve">
     <value>CAISSE À CAISSES</value>
@@ -590,7 +590,7 @@ Ils ne sont pas supprimés de la base de données</value>
     <value>Budgété</value>
   </data>
   <data name="ToolTipGraficos2D" xml:space="preserve">
-    <value>Graphismes 2D Show</value>
+    <value>Afficher les graphiques 2D</value>
   </data>
   <data name="ToolTipGraficos3D" xml:space="preserve">
     <value>Afficher des graphismes 3D</value>
@@ -630,7 +630,7 @@ Ils ne sont pas supprimés de la base de données</value>
 Maintenant, la mise à jour sera téléchargée</value>
   </data>
   <data name="Backup" xml:space="preserve">
-    <value>Remplaçant</value>
+    <value>Sauvegarde</value>
   </data>
   <data name="ErrorBackup" xml:space="preserve">
     <value>Erreur lors de la sauvegarde de la base de données,
@@ -837,5 +837,65 @@ le fichier n’est pas ouvert</value>
   </data>
   <data name="NoDescripcionSaldo" xml:space="preserve">
     <value>On ne peut pas créer une description avec le nom</value>
+  </data>
+  <data name="ErrorBorradoSaldoInicial" xml:space="preserve">
+    <value>Erreur en exécution initiale avec ID</value>
+  </data>
+  <data name="ErrorGenerarSaldoIniciales" xml:space="preserve">
+    <value>Génération d’erreur des soldes initiaux</value>
+  </data>
+  <data name="ErrorInsertarReal" xml:space="preserve">
+    <value>Erreur Insérer Réalité</value>
+  </data>
+  <data name="ErrorInsertarCero" xml:space="preserve">
+    <value>Insérer l’erreur zéro</value>
+  </data>
+  <data name="ErrorUpdate1" xml:space="preserve">
+    <value>Erreur de combustion 1 (interne)</value>
+  </data>
+  <data name="ErrorUpdate2" xml:space="preserve">
+    <value>Erreur de combustion 2 (interne)</value>
+  </data>
+  <data name="ErrorGeneral" xml:space="preserve">
+    <value>Erreur générale</value>
+  </data>
+  <data name="ErrorLocalizarTraspaso" xml:space="preserve">
+    <value>Erreur de localisation du concept TRANSFER</value>
+  </data>
+  <data name="ErrorCargarCON" xml:space="preserve">
+    <value>Échec de chargement des concepts</value>
+  </data>
+  <data name="ErrorCargarCUE" xml:space="preserve">
+    <value>Échec du chargement des comptes</value>
+  </data>
+  <data name="EstructuraActualizada" xml:space="preserve">
+    <value>La structure de la base de données a été entièrement mise à jour pour la nouvelle version</value>
+  </data>
+  <data name="ActualizacionCompletada" xml:space="preserve">
+    <value>Mise à jour terminée</value>
+  </data>
+  <data name="ErrorMigracion" xml:space="preserve">
+    <value>Défaillance critique lors de la migration complète</value>
+  </data>
+  <data name="ErrorMigracionInterrumpida" xml:space="preserve">
+    <value>Migration interrompue</value>
+  </data>
+  <data name="SI" xml:space="preserve">
+    <value>Oui</value>
+  </data>
+  <data name="NO" xml:space="preserve">
+    <value>Non</value>
+  </data>
+  <data name="ErrorLeerCON" xml:space="preserve">
+    <value>Concepts de lecture d’erreurs</value>
+  </data>
+  <data name="ErrorApuntePeriodico" xml:space="preserve">
+    <value>Erreur en exécutant l’entrée automatique</value>
+  </data>
+  <data name="ErrorEscanearPeriodicos" xml:space="preserve">
+    <value>Expirations périodiques du balayage d’erreurs</value>
+  </data>
+  <data name="SinProgramar" xml:space="preserve">
+    <value>Non programmé</value>
   </data>
 </root>

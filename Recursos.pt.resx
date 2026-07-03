@@ -323,7 +323,7 @@ Eles não são removidos do banco de dados</value>
     <value>ESTÉTICA</value>
   </data>
   <data name="FARMACIA" xml:space="preserve">
-    <value>FAMÁCIA</value>
+    <value>FARMÁCIA</value>
   </data>
   <data name="GAS_NATURAL" xml:space="preserve">
     <value>GAS NATURAL</value>
@@ -335,7 +335,7 @@ Eles não são removidos do banco de dados</value>
     <value>COBRANÇAS BANCÁRIAS</value>
   </data>
   <data name="HACIENDA" xml:space="preserve">
-    <value>TREASSURARIA</value>
+    <value>TESOURARIA</value>
   </data>
   <data name="IMPUESTO_1" xml:space="preserve">
     <value>IMPOSTO 1</value>
@@ -569,7 +569,7 @@ Eles não são removidos do banco de dados</value>
     <value>Conceitos</value>
   </data>
   <data name="Cuentas" xml:space="preserve">
-    <value>Relatos</value>
+    <value>Contas</value>
   </data>
   <data name="ErrorLimpiarTemporal" xml:space="preserve">
     <value>Erro ao limpar a tabela temporária</value>
@@ -590,7 +590,7 @@ Eles não são removidos do banco de dados</value>
     <value>Orçamentado</value>
   </data>
   <data name="ToolTipGraficos2D" xml:space="preserve">
-    <value>Gráficos 2D de Exibição</value>
+    <value>Mostrar gráficos 2D</value>
   </data>
   <data name="ToolTipGraficos3D" xml:space="preserve">
     <value>Gráficos 3D de exibição</value>
@@ -602,7 +602,7 @@ Eles não são removidos do banco de dados</value>
     <value>Meses</value>
   </data>
   <data name="ErrorEjecutarSaldo" xml:space="preserve">
-    <value>Equilíbrio Corrente de Erro:</value>
+    <value>Erro ao executar saldo:</value>
   </data>
   <data name="ToolTipF6" xml:space="preserve">
     <value>Atualizando a grade de notas e removendo filtros</value>
@@ -662,10 +662,10 @@ O arquivo não está aberto</value>
     <value>Sem programação..</value>
   </data>
   <data name="REGULARIZACION_1" xml:space="preserve">
-    <value>REGULARIZAÇÀO 1</value>
+    <value>REGULARIZAÇÃO 1</value>
   </data>
   <data name="REGULARIZACION_2" xml:space="preserve">
-    <value>REGULARIZAÇÀO 2</value>
+    <value>REGULARIZAÇÃO 2</value>
   </data>
   <data name="CLIENTE00" xml:space="preserve">
     <value>CLIENTE</value>
@@ -680,7 +680,7 @@ O arquivo não está aberto</value>
     <value>Não</value>
   </data>
   <data name="BotonAceptar" xml:space="preserve">
-    <value>Aceite</value>
+    <value>Aceitar</value>
   </data>
   <data name="EL_CORTE_INGLES" xml:space="preserve">
     <value>EL CORTE INGLES</value>
@@ -837,5 +837,65 @@ O arquivo não está aberto</value>
   </data>
   <data name="NoDescripcionSaldo" xml:space="preserve">
     <value>Você não pode criar uma descrição com o nome</value>
+  </data>
+  <data name="ErrorBorradoSaldoInicial" xml:space="preserve">
+    <value>Erro ao executar o wipe inicial com ID</value>
+  </data>
+  <data name="ErrorGenerarSaldoIniciales" xml:space="preserve">
+    <value>Geração de erros dos saldos iniciais</value>
+  </data>
+  <data name="ErrorInsertarReal" xml:space="preserve">
+    <value>Erro Inserir Realidade</value>
+  </data>
+  <data name="ErrorInsertarCero" xml:space="preserve">
+    <value>Inserir erro zero</value>
+  </data>
+  <data name="ErrorUpdate1" xml:space="preserve">
+    <value>Erro de Queima 1 (Interno)</value>
+  </data>
+  <data name="ErrorUpdate2" xml:space="preserve">
+    <value>Erro de queima 2 (Interno)</value>
+  </data>
+  <data name="ErrorGeneral" xml:space="preserve">
+    <value>Erro Geral</value>
+  </data>
+  <data name="ErrorLocalizarTraspaso" xml:space="preserve">
+    <value>Erro ao localizar o conceito TRANSFER</value>
+  </data>
+  <data name="ErrorCargarCON" xml:space="preserve">
+    <value>Não carregaram os conceitos</value>
+  </data>
+  <data name="ErrorCargarCUE" xml:space="preserve">
+    <value>Não carreguei contas</value>
+  </data>
+  <data name="EstructuraActualizada" xml:space="preserve">
+    <value>A estrutura do banco de dados foi atualizada de forma abrangente para a nova versão</value>
+  </data>
+  <data name="ActualizacionCompletada" xml:space="preserve">
+    <value>Atualização Concluída</value>
+  </data>
+  <data name="ErrorMigracion" xml:space="preserve">
+    <value>Falha crítica durante a migração total</value>
+  </data>
+  <data name="ErrorMigracionInterrumpida" xml:space="preserve">
+    <value>Migração Interrompida</value>
+  </data>
+  <data name="SI" xml:space="preserve">
+    <value>Sim</value>
+  </data>
+  <data name="NO" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="ErrorLeerCON" xml:space="preserve">
+    <value>Conceitos de leitura de erros</value>
+  </data>
+  <data name="ErrorApuntePeriodico" xml:space="preserve">
+    <value>Erro ao executar a entrada automática</value>
+  </data>
+  <data name="ErrorEscanearPeriodicos" xml:space="preserve">
+    <value>Expirações periódicas de varredura de erros</value>
+  </data>
+  <data name="SinProgramar" xml:space="preserve">
+    <value>Não programado</value>
   </data>
 </root>

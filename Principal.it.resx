@@ -130,10 +130,10 @@
     <value>Preferenze</value>
   </data>
   <data name="SalirMenu.Text" xml:space="preserve">
-    <value>Uscita</value>
+    <value>Esci</value>
   </data>
   <data name="SalirMenu.ToolTipText" xml:space="preserve">
-    <value>Domanda di uscita</value>
+    <value>Esci dall’applicazione</value>
   </data>
   <data name="ArchivoToolStripMenuItem.Text" xml:space="preserve">
     <value>Casa</value>
@@ -376,7 +376,7 @@
     <value>Preferenze</value>
   </data>
   <data name="BtnSalir.Text" xml:space="preserve">
-    <value>Domanda di uscita</value>
+    <value>Esci dall’applicazione</value>
   </data>
   <data name="BtnConceptos.Text" xml:space="preserve">
     <value>Aggiungere, modificare, eliminare o consultare concetti contabili</value>

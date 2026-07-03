@@ -130,7 +130,7 @@
     <value>Rapporti</value>
   </data>
   <data name="BtnSalir.Text" xml:space="preserve">
-    <value>Uscita</value>
+    <value>Esci</value>
   </data>
   <data name="GroupBox4.Text" xml:space="preserve">
     <value>Concetti</value>
@@ -145,7 +145,7 @@
     <value>Obiettivo raggiunto!</value>
   </data>
   <data name="GroupBox8.Text" xml:space="preserve">
-    <value>Pergamena</value>
+    <value>Navigazione</value>
   </data>
   <data name="GroupBox2.Text" xml:space="preserve">
     <value>Edizione</value>
@@ -211,7 +211,7 @@
     <value>Sei sicuro di eliminare il budget dalla voce selezionata per questo esercizio?</value>
   </data>
   <data name="Presupuesto" xml:space="preserve">
-    <value>Specifiche</value>
+    <value>Budget</value>
   </data>
   <data name="PresupuestosBorradosExito" xml:space="preserve">
     <value>Registri nei Bilanci eliminati con successo</value>

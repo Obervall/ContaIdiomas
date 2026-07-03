@@ -257,7 +257,7 @@ Sie werden nicht aus der Datenbank entfernt</value>
     <value>Eröffnungsbilanz</value>
   </data>
   <data name="ErrorAlEjecutar" xml:space="preserve">
-    <value>Fehler laufen</value>
+    <value>Fehler beim Ausführen</value>
   </data>
   <data name="EFECTIVO" xml:space="preserve">
     <value>KASSE</value>
@@ -272,7 +272,7 @@ Sie werden nicht aus der Datenbank entfernt</value>
     <value>RENTENVERSICHERUNG</value>
   </data>
   <data name="FinalTabla" xml:space="preserve">
-    <value>Hat es ganz unten in der Tabelle geschafft</value>
+    <value>Sie haben das Ende der Tabelle erreicht</value>
   </data>
   <data name="Existe" xml:space="preserve">
     <value>existiert bereits in</value>
@@ -837,5 +837,65 @@ Die Datei ist nicht geöffnet</value>
   </data>
   <data name="NoDescripcionSaldo" xml:space="preserve">
     <value>Du kannst keine Beschreibung mit dem Namen erstellen</value>
+  </data>
+  <data name="ErrorBorradoSaldoInicial" xml:space="preserve">
+    <value>Fehler bei initialer Löschung mit ID</value>
+  </data>
+  <data name="ErrorGenerarSaldoIniciales" xml:space="preserve">
+    <value>Fehlererzeugende Anfangssalden</value>
+  </data>
+  <data name="ErrorInsertarReal" xml:space="preserve">
+    <value>Fehler Realität einfügen</value>
+  </data>
+  <data name="ErrorInsertarCero" xml:space="preserve">
+    <value>Nullfehler einfügen</value>
+  </data>
+  <data name="ErrorUpdate1" xml:space="preserve">
+    <value>Brennfehler 1 (Intern)</value>
+  </data>
+  <data name="ErrorUpdate2" xml:space="preserve">
+    <value>Brennfehler 2 (Intern)</value>
+  </data>
+  <data name="ErrorGeneral" xml:space="preserve">
+    <value>Fehler Allgemein</value>
+  </data>
+  <data name="ErrorLocalizarTraspaso" xml:space="preserve">
+    <value>Fehler beim Finden des Konzepts TRANSFER</value>
+  </data>
+  <data name="ErrorCargarCON" xml:space="preserve">
+    <value>Konzepte wurden nicht geladen</value>
+  </data>
+  <data name="ErrorCargarCUE" xml:space="preserve">
+    <value>Konten wurden nicht geladen</value>
+  </data>
+  <data name="EstructuraActualizada" xml:space="preserve">
+    <value>Die Datenbankstruktur wurde umfassend auf die neue Version aktualisiert</value>
+  </data>
+  <data name="ActualizacionCompletada" xml:space="preserve">
+    <value>Update abgeschlossen</value>
+  </data>
+  <data name="ErrorMigracion" xml:space="preserve">
+    <value>Kritischer Ausfall während der vollständigen Migration</value>
+  </data>
+  <data name="ErrorMigracionInterrumpida" xml:space="preserve">
+    <value>Migration unterbrochen</value>
+  </data>
+  <data name="SI" xml:space="preserve">
+    <value>Ja</value>
+  </data>
+  <data name="NO" xml:space="preserve">
+    <value>Nein</value>
+  </data>
+  <data name="ErrorLeerCON" xml:space="preserve">
+    <value>Fehlerlesekonzepte</value>
+  </data>
+  <data name="ErrorApuntePeriodico" xml:space="preserve">
+    <value>Fehler beim Ausführen der automatischen Eintragung</value>
+  </data>
+  <data name="ErrorEscanearPeriodicos" xml:space="preserve">
+    <value>Fehlersuch-periodische Ablaufzeiten</value>
+  </data>
+  <data name="SinProgramar" xml:space="preserve">
+    <value>Ungeplant</value>
   </data>
 </root>

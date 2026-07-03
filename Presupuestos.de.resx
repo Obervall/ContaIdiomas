@@ -130,7 +130,7 @@
     <value>Berichte</value>
   </data>
   <data name="BtnSalir.Text" xml:space="preserve">
-    <value>Ausgehen</value>
+    <value>Beenden</value>
   </data>
   <data name="Label3.Text" xml:space="preserve">
     <value>Bezeichnung:</value>

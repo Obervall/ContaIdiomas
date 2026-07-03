@@ -12,7 +12,6 @@ Imports System.Reflection
 Imports System.Resources
 Imports System.Threading
 Imports System.Windows.Forms
-Imports MessageBox = ContaHogar.MsgBoxTraductorGlobal
 
 Module Funciones
 
@@ -232,7 +231,7 @@ Module Funciones
                             Dim filasBorradas As Integer = cmdDelete.ExecuteNonQuery()
                             ' MsgBox("Se han limpiado correctamente los saldos anteriores: " & filasBorradas.ToString())
                         Catch ex As Exception
-                            MsgBox("Error al ejecutar el borrado inicial con ID: " & ex.Message)
+                            MsgBox(resManager.GetString("ErrorBorradoSaldoInicial") & ": " & ex.Message)
                             Return False
                         End Try
                     End Using
@@ -258,7 +257,7 @@ Module Funciones
                                 conexion2.Open()
                                 adaptador.Fill(dtMovimientos)
                             Catch ex As Exception
-                                MessageBox.Show("Error al leer históricos: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                MessageBox.Show(resManager.GetString("ErrorLeerHistoricos") & ": " & ex.Message, resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
                                 Return False
                             End Try
                         End Using
@@ -352,12 +351,12 @@ Module Funciones
                         End Using
                         Return True
                     Catch ex As Exception
-                        MessageBox.Show("Error al generar saldos iniciales: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                        MessageBox.Show(resManager.GetString("ErrorGenerarSaldoIniciales") & ": " & ex.Message, resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
                         Return False
                     End Try
                 End Using
             Catch ex As Exception
-                MessageBox.Show("Error al generar saldos iniciales: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(resManager.GetString("ErrorGenerarSaldoIniciales") & ": " & ex.Message, resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Return False
             End Try
         End Using
@@ -1165,6 +1164,7 @@ Module Funciones
             MsgBoxStyle.Exclamation, resManager.GetString("SeparadorDecimal"))
         End If
     End Sub
+
     Public Function ApostrofePorAcentoAgudo(ByVal sNombreCampo As String) As String
         Dim newNombreCampo As String = ""
         Try
@@ -1594,116 +1594,6 @@ Module Funciones
         End Try
     End Sub
 
-    'Public Sub TraducirGridApuntesBD(ByVal dgv As DataGridView)
-    '    Try
-    '        If dgv.Rows.Count = 0 Then Exit Sub
-    '        i = 0
-    '        For Each row As DataGridViewRow In dgv.Rows
-    '            If row.IsNewRow Then Continue For
-
-    '            ' =========================================================================
-    '            ' 🌟 CORTAFUEGOS INDESTRUCTIBLE POR BÚSQUEDA INVERSA (Propuesta Maestra)
-    '            ' =========================================================================
-    '            ' La celda 2 corresponde a la columna de la Descripción en tu Grid de Apuntes.
-    '            If row.Cells(2).Value IsNot Nothing Then
-    '                Dim descCelda As String = row.Cells(2).Value.ToString().Trim()
-
-    '                ' 🚀 ESCÁNER BIOLÓGICO: Le pasamos el texto de Access (sea "Opening Balance", "Saldo Inicial", etc.)
-    '                ' si el motor inverso nos confirma que su llave de fábrica es "Desc_SALDO", procedemos:
-    '                If ObtenerClaveNeutral(descCelda, resManager) = "Desc_SALDO" Then
-    '                    If resManager IsNot Nothing Then
-    '                        ' Capturamos el idioma "en vivo" seleccionado en tus Preferencias
-    '                        Dim culturaActivaEnVivo As System.Globalization.CultureInfo = Threading.Thread.CurrentThread.CurrentUICulture
-
-    '                        ' Forzamos la inyección de tu palabra oficial traducida según el .resx activo
-    '                        Dim saldoTraducido As String = resManager.GetString("Desc_SALDO", culturaActivaEnVivo)
-
-    '                        If Not String.IsNullOrEmpty(saldoTraducido) Then
-    '                            row.Cells(2).Value = saldoTraducido.Trim()
-    '                        End If
-    '                    End If
-    '                End If
-    '            End If
-
-    '            Dim filaData As DataRowView = CType(row.DataBoundItem, DataRowView)
-
-    '            If filaData IsNot Nothing Then
-
-    '                ' =========================================================================
-    '                ' 1. TRADUCCIÓN DE CONCEPTO (Celda 1 visible - CORREGIDO)
-    '                ' =========================================================================
-    '                ' Leemos el código alfanumérico estable de la base de datos (Ej: "REGULARITZACIO_1")
-    '                Dim codigoCON As String = filaData("CodigoCON").ToString().Trim()
-
-    '                ' Por defecto, el texto visual será el título original en mayúsculas sin guiones
-    '                Dim conceptoVisual As String = codigoCON.Replace("_", " ").ToUpper()
-
-    '                If resManager IsNot Nothing AndAlso Not String.IsNullOrEmpty(codigoCON) Then
-    '                    Dim claveRecurso As String = codigoCON.Replace(" ", "_")
-    '                    Dim traduccion As String = resManager.GetString(claveRecurso)
-
-    '                    ' Si el resManager encuentra el título traducido (Ej: "PHONE"), lo usamos
-    '                    If Not String.IsNullOrEmpty(traduccion) Then
-    '                        conceptoVisual = traduccion.Trim().ToUpper()
-    '                    End If
-    '                End If
-
-    '                ' IMPACTAR: Forzamos el título en la Celda 1 (Columna de Concepto)
-    '                row.Cells(1).Value = conceptoVisual
-
-    '                ' =============================================================
-    '                ' 3. TRADUCCIÓN DE CUENTA (Celda 6)
-    '                ' =============================================================
-    '                Dim nombreCUE As String = filaData("CuentaAPU").ToString().Trim()
-    '                Dim cuentaVisual As String = nombreCUE
-
-    '                If resManager IsNot Nothing AndAlso Not String.IsNullOrEmpty(nombreCUE) Then
-    '                    Dim claveBase As String = nombreCUE.Replace(" ", "_")
-    '                    Dim tradCuenta As String = resManager.GetString("Desc_" & claveBase)
-
-    '                    If String.IsNullOrEmpty(tradCuenta) Then
-    '                        tradCuenta = resManager.GetString(claveBase)
-    '                    End If
-
-    '                    If Not String.IsNullOrEmpty(tradCuenta) Then
-    '                        cuentaVisual = tradCuenta
-    '                    End If
-    '                End If
-
-    '                row.Cells(6).Value = cuentaVisual
-
-    '            End If
-    '        Next
-    '        ' 🌟 TRUCO MAESTRO: Corrección visual automática de los IDs de Saldo
-    '        ' --- DENTRO DE TU BUCLE DE FILAS EXISTENTE ---
-    '        For Each fila As DataGridViewRow In dgv.Rows
-    '            If Not fila.IsNewRow Then
-
-    '                ' Traducimos la celda del concepto (Celda 1)
-    '                If fila.Cells(1).Value IsNot Nothing Then
-    '                    Dim codigoConceptoOriginal As String = fila.Cells(1).Value.ToString().Trim()
-
-    '                    ' Buscamos la Key en el .resx (Pasamos a formato "ProperCase" o título si tu key es "Saldo")
-    '                    ' Si tu clave en el .resx está guardada exactamente como "Saldo", usamos "Saldo"
-    '                    Dim conceptoTraducido As String = resManager.GetString("Saldo")
-
-    '                    ' Si el registro de la celda es cualquier otro concepto (ej: DECESOS), busca su propia clave
-    '                    If codigoConceptoOriginal <> "SALDO" Then
-    '                        conceptoTraducido = resManager.GetString(codigoConceptoOriginal)
-    '                    End If
-
-    '                    If Not String.IsNullOrEmpty(conceptoTraducido) Then
-    '                        ' 🌟 EL TRUCO: Forzamos a que se guarde en la pantalla convertido a MAYÚSCULAS
-    '                        fila.Cells(1).Value = conceptoTraducido.ToUpper()
-    '                    End If
-    '                End If
-    '            End If
-    '        Next
-    '    Catch ex As Exception
-    '        ' Previene errores visuales durante el rediseño del grid
-    '    End Try
-    'End Sub
-
     Public Sub TraducirGridApuntesBD(ByVal dgv As DataGridView)
         Try
             If dgv Is Nothing OrElse dgv.Rows.Count = 0 Then Exit Sub
@@ -1794,10 +1684,6 @@ Module Funciones
 
                 End If
             Next
-
-            ' 🚀 ELIMINADO EL SEGUNDO BUCLE COMPRETIDOR: Evitamos que repase las celdas visuales 
-            ' a ciegas y baraje las descripciones largas en las pantallas parciales.
-
         Catch ex As Exception
             ' Previene parpadeos o errores visuales durante el refresco del grid
         End Try
@@ -2375,7 +2261,7 @@ Module Funciones
                         Try
                             cmdMdb1cr.ExecuteNonQuery()
                         Catch ex As Exception
-                            MessageBox.Show(ex.Message, "Error Insert Real", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                            MessageBox.Show(ex.Message, resManager.GetString("ErrorInsertReal"), MessageBoxButtons.OK, MessageBoxIcon.Error)
                         End Try
 
                         ' Inserción 2: De la fila espejo a cero (Parametrizada y segura)
@@ -2386,7 +2272,7 @@ Module Funciones
                         Try
                             cmdMdb1cr.ExecuteNonQuery()
                         Catch ex As Exception
-                            MessageBox.Show(ex.Message, "Error Insert Cero", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                            MessageBox.Show(ex.Message, resManager.GetString("ErrorInsertarCero"), MessageBoxButtons.OK, MessageBoxIcon.Error)
                         End Try
                     Else
                         ' Si ya existe el registro del mes actual en tempapu, actualizamos acumulando el importe
@@ -2432,7 +2318,7 @@ Module Funciones
                                 Try
                                     cmdMdb1cr.ExecuteNonQuery()
                                 Catch ex As Exception
-                                    MessageBox.Show(ex.Message, "Error Update 1 (Interno)", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                    MessageBox.Show(ex.Message, resManager.GetString("ErrorUpdate1"), MessageBoxButtons.OK, MessageBoxIcon.Error)
                                 End Try
                             Else
                                 drMdb1.Close()
@@ -2467,7 +2353,7 @@ Module Funciones
                                     Try
                                         cmdMdb1cr.ExecuteNonQuery()
                                     Catch ex As Exception
-                                        MessageBox.Show(ex.Message, "Error Update 2", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                        MessageBox.Show(ex.Message, resManager.GetString("ErrorUpdate2"), MessageBoxButtons.OK, MessageBoxIcon.Error)
                                     End Try
                                 Else
                                     drMdb1.Close()
@@ -2475,7 +2361,7 @@ Module Funciones
                             End If
                         Catch ex As Exception
                             If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-                            MessageBox.Show(ex.Message, "Error General en Rama Else", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                            MessageBox.Show(ex.Message, resManager.GetString("ErrorGeneral"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
                         End Try
                     End If
                 End If
@@ -2543,7 +2429,7 @@ Module Funciones
                 dr = cmd.ExecuteReader()
                 dtConceptos.Load(dr)
             Catch ex As Exception
-                MsgBox("Error al localizar el concepto TRASPASO: " & ex.Message, MsgBoxStyle.Critical)
+                MsgBox(resManager.GetString("ErrorLocalizarTraspaso") & ": " & ex.Message, MsgBoxStyle.Critical)
             Finally
                 If dr IsNot Nothing AndAlso Not dr.IsClosed Then dr.Close()
             End Try
@@ -2574,10 +2460,9 @@ Module Funciones
             combo.SelectedIndex = 0
             combo.Enabled = False ' 🌟 Opcional: Bloquea el combo para que sea meramente informativo
         Else
-            MsgBox("Atención: No se ha encontrado el concepto obligatorio 'TRASPASO' en la base de datos.", MsgBoxStyle.Exclamation)
+            MsgBox(resManager.GetString("ErrorLocalizarTraspaso"), MsgBoxStyle.Exclamation)
         End If
     End Sub
-
 
     Public Sub LlenarComboConceptosGenerico(ByVal combo As ComboBox)
         ' 1. Sincronizados los nombres de las columnas.
@@ -2625,7 +2510,7 @@ Module Funciones
 
         Catch ex As Exception
             If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-            MsgBox("Error al cargar los conceptos: " & ex.Message, MsgBoxStyle.Critical)
+            MsgBox(resManager.GetString("ErrorCargarCON") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
     End Sub
 
@@ -2673,7 +2558,7 @@ Module Funciones
 
         Catch ex As Exception
             If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-            MsgBox("Error al cargar las cuentas desde el módulo: " & ex.Message, MsgBoxStyle.Critical)
+            MsgBox(resManager.GetString("ErrorCargarCUE") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
     End Sub
 
@@ -2925,9 +2810,9 @@ Module Funciones
             cmdMdb1cr.CommandText = "UPDATE cuentas SET TipoCUE = TipoCUE_NEW" : cmdMdb1cr.ExecuteNonQuery()
             cmdMdb1cr.CommandText = "ALTER TABLE cuentas DROP COLUMN TipoCUE_NEW" : cmdMdb1cr.ExecuteNonQuery()
 
-            MsgBox("La estructura de la base de datos se ha actualizado de manera integral a la nueva versión.", vbInformation, "Actualización Completada")
+            MsgBox(resManager.GetString("EstructuraActualizada"), vbInformation, resManager.GetString("ActualizacionCompletada"))
         Catch ex As Exception
-            MsgBox("Error crítico durante la reestructuración completa: " & vbNewLine & ex.Message, vbCritical, "Migración Interrumpida")
+            MsgBox(resManager.GetString("ErrorMigracion") & ": " & vbNewLine & ex.Message, vbCritical, resManager.GetString("ErrorMigracionInterrumpida"))
         End Try
 
         ' =========================================================================
@@ -2956,7 +2841,7 @@ Module Funciones
         Try
             cmdMdb1cr.ExecuteNonQuery()
         Catch ex As Exception
-            MsgBox("Error al inyectar el concepto maestro 'SALDO': " & ex.Message, MsgBoxStyle.Critical)
+            MsgBox(resManager.GetString("ErrorInsertarSaldos") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
     End Sub
 
@@ -2977,7 +2862,7 @@ Module Funciones
                 dr = cmd.ExecuteReader()
                 dtConceptos.Load(dr)
             Catch ex As Exception
-                MsgBox("Error al leer conceptos para introducción: " & ex.Message, MsgBoxStyle.Critical)
+                MsgBox(resManager.GetString("ErrorLlenarConceptos") & ": " & ex.Message, MsgBoxStyle.Critical)
             Finally
                 If dr IsNot Nothing AndAlso Not dr.IsClosed Then dr.Close()
             End Try
@@ -3178,7 +3063,7 @@ Module Funciones
                 dr = cmd.ExecuteReader()
                 dtConceptos.Load(dr)
             Catch ex As Exception
-                MsgBox("Error al leer conceptos desde el módulo: " & ex.Message, MsgBoxStyle.Critical)
+                MsgBox(resManager.GetString("ErrorLeerCON") & ": " & ex.Message, MsgBoxStyle.Critical)
             Finally
                 If dr IsNot Nothing AndAlso Not dr.IsClosed Then dr.Close()
             End Try

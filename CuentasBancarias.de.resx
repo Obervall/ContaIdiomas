@@ -133,7 +133,7 @@
     <value>Information</value>
   </data>
   <data name="Label3.Text" xml:space="preserve">
-    <value>Kerl:</value>
+    <value>Typ:</value>
   </data>
   <data name="GroupBox4.Text" xml:space="preserve">
     <value>Kontotyp</value>

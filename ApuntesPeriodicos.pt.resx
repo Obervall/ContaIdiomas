@@ -124,7 +124,7 @@
     <value>Reg.:</value>
   </data>
   <data name="GroupBox1.Text" xml:space="preserve">
-    <value>Registros</value>
+    <value>Registos</value>
   </data>
   <data name="GroupBox2.Text" xml:space="preserve">
     <value>Edição</value>
@@ -160,10 +160,10 @@
     <value>Saldo:</value>
   </data>
   <data name="Label8.Text" xml:space="preserve">
-    <value>Contas:</value>
+    <value>Despesas:</value>
   </data>
   <data name="Label7.Text" xml:space="preserve">
-    <value>Renda:</value>
+    <value>Receitas:</value>
   </data>
   <data name="GroupBox7.Text" xml:space="preserve">
     <value>Totais</value>

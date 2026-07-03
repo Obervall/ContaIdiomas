@@ -130,7 +130,7 @@
     <value>Nom:</value>
   </data>
   <data name="Label2.Text" xml:space="preserve">
-    <value>Gars:</value>
+    <value>Type :</value>
   </data>
   <data name="GroupBox1.Text" xml:space="preserve">
     <value>Données du concept comptable: </value>

@@ -139,7 +139,7 @@
     <value>halbjährlich</value>
   </data>
   <data name="CmbPeriocidad.Items7" xml:space="preserve">
-    <value>Einjährige Pflanze</value>
+    <value>Jährlich</value>
   </data>
   <data name="Label9.Text" xml:space="preserve">
     <value>Periodizität:</value>
@@ -151,7 +151,7 @@
     <value>€</value>
   </data>
   <data name="Label6.Text" xml:space="preserve">
-    <value>Bewertung:</value>
+    <value>Hinweis:</value>
   </data>
   <data name="Label5.Text" xml:space="preserve">
     <value>Konto:</value>

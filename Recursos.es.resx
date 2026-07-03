@@ -838,4 +838,64 @@ que el archivo no esté abierto</value>
   <data name="NoDescripcionSaldo" xml:space="preserve">
     <value>No es puede crear una descripción con el nombre</value>
   </data>
+  <data name="ErrorBorradoSaldoInicial" xml:space="preserve">
+    <value>Error al ejecutar el borrado inicial con ID</value>
+  </data>
+  <data name="ErrorGenerarSaldoIniciales" xml:space="preserve">
+    <value>Error al generar saldos iniciales</value>
+  </data>
+  <data name="ErrorInsertarReal" xml:space="preserve">
+    <value>Error Insertar Realidad</value>
+  </data>
+  <data name="ErrorInsertarCero" xml:space="preserve">
+    <value>Error Insertar Cero</value>
+  </data>
+  <data name="ErrorUpdate1" xml:space="preserve">
+    <value>Error Grabar 1 (Interno)</value>
+  </data>
+  <data name="ErrorUpdate2" xml:space="preserve">
+    <value>Error Grabar 2 (Interno)</value>
+  </data>
+  <data name="ErrorGeneral" xml:space="preserve">
+    <value>Error General</value>
+  </data>
+  <data name="ErrorLocalizarTraspaso" xml:space="preserve">
+    <value>Error al localizar el concepto TRASPASO</value>
+  </data>
+  <data name="ErrorCargarCON" xml:space="preserve">
+    <value>Error al cargar los conceptos</value>
+  </data>
+  <data name="ErrorCargarCUE" xml:space="preserve">
+    <value>Error al cargar las cuentas</value>
+  </data>
+  <data name="EstructuraActualizada" xml:space="preserve">
+    <value>La estructura de la base de datos se ha actualizado de manera integral a la nueva versión</value>
+  </data>
+  <data name="ActualizacionCompletada" xml:space="preserve">
+    <value>Actualización Completada</value>
+  </data>
+  <data name="ErrorMigracion" xml:space="preserve">
+    <value>Error crítico durante la Migración completa</value>
+  </data>
+  <data name="ErrorMigracionInterrumpida" xml:space="preserve">
+    <value>Migración Interrumpida</value>
+  </data>
+  <data name="SI" xml:space="preserve">
+    <value>Sí</value>
+  </data>
+  <data name="NO" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="ErrorLeerCON" xml:space="preserve">
+    <value>Error Leer Conceptos</value>
+  </data>
+  <data name="ErrorApuntePeriodico" xml:space="preserve">
+    <value>Error al ejecutar el asiento automático</value>
+  </data>
+  <data name="ErrorEscanearPeriodicos" xml:space="preserve">
+    <value>Error al escanear vencimientos periódicos</value>
+  </data>
+  <data name="SinProgramar" xml:space="preserve">
+    <value>Sin Programar</value>
+  </data>
 </root>

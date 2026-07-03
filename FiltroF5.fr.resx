@@ -127,7 +127,7 @@
     <value>Description</value>
   </data>
   <data name="GroupBox1.Text" xml:space="preserve">
-    <value>Información de Filtro: </value>
+    <value>Informations de filtre: </value>
   </data>
   <data name="BtnAceptar.Text" xml:space="preserve">
     <value>Accepter</value>
@@ -136,12 +136,12 @@
     <value>Annuler</value>
   </data>
   <data name="ChkOtrosFiltros.Text" xml:space="preserve">
-    <value>Mantener los otros Filtros</value>
+    <value>Conserver les autres filtres</value>
   </data>
   <data name="GroupBox2.Text" xml:space="preserve">
     <value>Options de Filtrado</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Filtro F5</value>
+    <value>Filtre F5</value>
   </data>
 </root>
