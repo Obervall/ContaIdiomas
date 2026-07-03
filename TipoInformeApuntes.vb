@@ -10,8 +10,9 @@ Public Class TipoInformeApuntes
     Public Property DgvApuntes As Object
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
-
     Private Sub TipoInformeApuntes_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.KeyPreview = True
+        'ActualizarTextosFormulario(Me)
         If frmApuntesContables.BtnFiltroChekedList.Enabled = False Then
             frmTipoInformeApuntes.RadioButton2.Enabled = False
             frmTipoInformeApuntes.RadioButton5.Enabled = True

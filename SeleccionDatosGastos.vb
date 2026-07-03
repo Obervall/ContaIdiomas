@@ -43,6 +43,7 @@ Public Class SeleccionDatosGastos
         End If
     End Sub
     Private Sub BtnContinuar_Click(sender As Object, e As EventArgs) Handles BtnContinuar.Click
+
         ' 1. SANEAMIENTO PREVENTIVO: Limpiamos la memoria de consultas previas
         cmdMdb1cr.Parameters.Clear()
 
@@ -226,73 +227,4 @@ Public Class SeleccionDatosGastos
         frmGraficosSoloConceptos.Dispose()
     End Sub
 
-    'Private Sub BtnContinuar_Click(sender As Object, e As EventArgs) Handles BtnContinuar.Click
-    '    If ListBox1.SelectedItems.Count <> 0 Then
-    '        Dim i As Integer
-    '        vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
-    '        vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-    '        For i = 0 To ListBox1.SelectedItems.Count - 1
-    '            vConcepto = ListBox1.SelectedItems(i).ToString
-    '            If i = 0 Then
-    '                vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
-    '            Else
-    '                vtipoSql += " Or "
-    '                vtipoSql += "apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-    '                vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
-    '            End If
-    '        Next
-    '    Else
-
-    '    End If
-    '    vtipoSql += " ORDER BY apuntes.ConceptoAPU ASC, apuntes.FechaAPU ASC"
-    '    vtipoSqlChk = vtipoSql
-    '    vtipoGrid = "PRINT_APUNTES_CONTABLES"
-    '    LlenarGrid(vtipoSql, vtipoGrid, "1")
-
-    '    ' =================================
-    '    ' 1. GRÁFICOS POR SOLO CONCEPTOS 2D
-    '    ' =================================
-    '    If (frmGraficosSoloConceptos Is Nothing) OrElse (Not frmGraficosSoloConceptos.IsHandleCreated) Then
-    '        frmGraficosSoloConceptos = New GraficosSoloConceptos
-    '    End If
-    '    frmGraficosSoloConceptos.EsGrafico3D = False
-    '    frmGraficosSoloConceptos.ShowDialog()
-    '    frmGraficosSoloConceptos.Dispose()
-    'End Sub
-
-
-
-    'Private Sub BtnContinuar3D_Click(sender As Object, e As EventArgs) Handles BtnContinuar3D.Click
-    '    If ListBox1.SelectedItems.Count <> 0 Then
-    '        Dim i As Integer
-    '        vtipoSql = "Select apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes"
-    '        vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-    '        For i = 0 To ListBox1.SelectedItems.Count - 1
-    '            vConcepto = ListBox1.SelectedItems(i).ToString
-    '            If i = 0 Then
-    '                vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
-    '            Else
-    '                vtipoSql += " Or "
-    '                vtipoSql += "apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-    '                vtipoSql += " And apuntes.ConceptoAPU = '" & vConcepto.Replace("'", "''") & "' "
-    '            End If
-    '        Next
-    '    Else
-
-    '    End If
-    '    vtipoSql += " ORDER BY apuntes.ConceptoAPU ASC, apuntes.FechaAPU ASC"
-    '    vtipoSqlChk = vtipoSql
-    '    vtipoGrid = "PRINT_APUNTES_CONTABLES"
-    '    LlenarGrid(vtipoSql, vtipoGrid, "1")
-
-    '    ' =================================
-    '    ' 1. GRÁFICOS POR SOLO CONCEPTOS 3D
-    '    ' =================================
-    '    If (frmGraficosSoloConceptos Is Nothing) OrElse (Not frmGraficosSoloConceptos.IsHandleCreated) Then
-    '        frmGraficosSoloConceptos = New GraficosSoloConceptos
-    '    End If
-    '    frmGraficosSoloConceptos.EsGrafico3D = True
-    '    frmGraficosSoloConceptos.ShowDialog()
-    '    frmGraficosSoloConceptos.Dispose()
-    'End Sub
 End Class

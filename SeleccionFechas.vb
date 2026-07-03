@@ -9,7 +9,6 @@ Public Class SeleccionFechas
     Public PosicionSinEncabezado As Integer = frmImprimirForm.Punto1.Top
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
-
     Private Sub SeleccionFechas_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
 
@@ -71,7 +70,7 @@ Public Class SeleccionFechas
 
             vDate1 = DateTimePicker1.Value.Date
             vDate2 = DateTimePicker2.Value.Date
-            frmImprimirForm.LblEntreFechas.Text = "Desde: " & DateTimePicker1.Value.ToShortDateString() & "    Hasta: " & DateTimePicker2.Value.ToShortDateString()
+            frmImprimirForm.LblEntreFechas.Text = resManager.GetString("Desde") & ": " & DateTimePicker1.Value.ToShortDateString() & "    " & resManager.GetString("Hasta") & ": " & DateTimePicker2.Value.ToShortDateString()
 
             ' 🚀 EL TRUCO DE ALTA ESCUELA CONTABLE: Convertimos las fechas al formato nativo estandarizado de Access (#AAAA-MM-DD#)
             ' Esto destruye cualquier interferencia de puntos alemanes o barras catalanas en la ordenación.
