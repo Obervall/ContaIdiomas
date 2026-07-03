@@ -127,7 +127,7 @@
     <value>Accetta</value>
   </data>
   <data name="BtnCancelar.Text" xml:space="preserve">
-    <value>Cancelar</value>
+    <value>Cancella</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Esercizio selezionato</value>

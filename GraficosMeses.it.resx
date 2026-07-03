@@ -142,7 +142,7 @@
     <value>Grafici a torta</value>
   </data>
   <data name="TSBtnImprimir.Text" xml:space="preserve">
-    <value>Imprimir</value>
+    <value>Stampa</value>
   </data>
   <data name="ToolStrip1.Text" xml:space="preserve">
     <value>ToolStrip1</value>

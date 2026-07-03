@@ -1,4 +1,5 @@
 ﻿Imports System.Data
+Imports System.Data.OleDb
 Imports System.Windows.Forms
 
 Public Class EditarCuentaBancaria
@@ -150,23 +151,27 @@ Public Class EditarCuentaBancaria
     End Sub
 
     Private Sub BtnEliminar_Click(sender As Object, e As EventArgs) Handles BtnEliminar.Click
+        ' 1. Aseguramos preventivamente que haya una fila seleccionada en el Grid
+        If frmCuentasBancarias.DgvCuentas.CurrentRow Is Nothing Then Exit Sub
 
         ' Capturamos el ID de la cuenta que viaja seguro en la celda 5 (Oculta)
         Dim vIdCuenta As Integer = Convert.ToInt32(frmCuentasBancarias.DgvCuentas.CurrentRow.Cells(5).Value)
         vTxtNombre = TxtNombre.Text
 
-        ' Preguntamos confirmación al usuario
+        ' Preguntamos confirmación al usuario (Tu excelente aviso de fábrica)
         Dim respuesta As MsgBoxResult = MsgBox(rmse.GetString("EliminarCuenta") & " " & vTxtNombre & " " & rmse.GetString("EliminarCuenta2"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("LblEliminando"))
 
         If respuesta = vbYes Then
             Dim filasAfectadas As Integer = 0
 
             ' --- 1. ELIMINAR REGISTROS EN APUNTES (Clave foránea - Se borra primero por integridad) ---
-            ' Corrección: Filtramos por el ID numérico que guarda la tabla apuntes
+            ' Filtramos por el ID numérico que guarda la tabla apuntes
             vtipoSql = "DELETE FROM apuntes WHERE apuntes.CuentaAPU = ?"
             cmdMdb1cr.CommandText = vtipoSql
             cmdMdb1cr.Parameters.Clear()
-            cmdMdb1cr.Parameters.AddWithValue("?", vIdCuenta) ' ⬅️ Pasamos el ID numérico
+            ' 🚀 CORRECCIÓN CLAVE: Le damos un nombre alfanumérico al parámetro en la RAM
+            cmdMdb1cr.Parameters.Add("@idApu", OleDbType.Integer).Value = vIdCuenta
+
             Try
                 filasAfectadas = cmdMdb1cr.ExecuteNonQuery()
                 If filasAfectadas > 0 Then
@@ -177,11 +182,13 @@ Public Class EditarCuentaBancaria
             End Try
 
             ' --- 2. ELIMINAR REGISTROS EN APUNTES PERIÓDICOS ---
-            ' Corrección: Filtramos por el ID numérico que guarda la tabla apuper
+            ' Filtramos por el ID numérico que guarda la tabla apuper
             vtipoSql = "DELETE FROM apuper WHERE apuper.CuentaAPP = ?"
             cmdMdb1cr.CommandText = vtipoSql
             cmdMdb1cr.Parameters.Clear()
-            cmdMdb1cr.Parameters.AddWithValue("?", vIdCuenta) ' ⬅️ Pasamos el ID numérico
+            ' 🚀 CORRECCIÓN CLAVE: Le damos un nombre alfanumérico al parámetro en la RAM
+            cmdMdb1cr.Parameters.Add("@idApuper", OleDbType.Integer).Value = vIdCuenta
+
             Try
                 filasAfectadas = cmdMdb1cr.ExecuteNonQuery()
                 If filasAfectadas > 0 Then
@@ -192,11 +199,13 @@ Public Class EditarCuentaBancaria
             End Try
 
             ' --- 3. ELIMINAR REGISTRO MAESTRO EN CUENTAS (Se borra al final) ---
-            ' Corrección: Borramos por ID para evitar problemas si el usuario cambió el texto
+            ' Borramos por ID para evitar problemas si el usuario cambió el texto
             vtipoSql = "DELETE FROM cuentas WHERE cuentas.IdCuentaCUE = ?"
             cmdMdb1cr.CommandText = vtipoSql
             cmdMdb1cr.Parameters.Clear()
-            cmdMdb1cr.Parameters.AddWithValue("?", vIdCuenta) ' ⬅️ Pasamos el ID numérico
+            ' 🚀 CORRECCIÓN CLAVE: Le damos un nombre alfanumérico al parámetro en la RAM
+            cmdMdb1cr.Parameters.Add("@idCuenta", OleDbType.Integer).Value = vIdCuenta
+
             Try
                 cmdMdb1cr.ExecuteNonQuery()
                 MsgBox(rmse.GetString("EliminarCuenta3"))
@@ -205,15 +214,13 @@ Public Class EditarCuentaBancaria
                 Exit Sub
             End Try
 
-            ' --- 4. ACTUALIZACIÓN INMEDIATA DEL GRID EN MEMORIA ---
-            ' Eliminamos la fila directamente del DataTable en memoria para mantener el filtro activo sin parpadeos
+            ' --- 4. ACTUALIZACIÓN INMEDIATA DEL GRID EN MEMORIA (Tu excelente lógica de RAM intacta) ---
             Dim tabla As System.Data.DataTable = TryCast(frmCuentasBancarias.DgvCuentas.DataSource, System.Data.DataTable)
             If tabla IsNot Nothing Then
-                ' Buscamos la fila en la tabla de datos original que coincida con el ID eliminado
                 Dim filasAEliminar() As System.Data.DataRow = tabla.Select($"IdCuentaCUE = {vIdCuenta}")
                 If filasAEliminar.Length > 0 Then
-                    filasAEliminar(0).Delete() ' Borra la fila de la memoria
-                    tabla.AcceptChanges()     ' Confirma los cambios en el DataTable
+                    filasAEliminar(0).Delete()
+                    tabla.AcceptChanges()
                 End If
             End If
 

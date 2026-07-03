@@ -133,10 +133,10 @@
     <value>Seleziona il tipo di Report</value>
   </data>
   <data name="BtnAceptar.Text" xml:space="preserve">
-    <value>Aceptar</value>
+    <value>Accetta</value>
   </data>
   <data name="BtnCancelar.Text" xml:space="preserve">
-    <value>Cancelar</value>
+    <value>Cancella</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Tipo di rapporto Note periodiche</value>

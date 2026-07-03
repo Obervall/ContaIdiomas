@@ -121,7 +121,7 @@
     <value>Record</value>
   </data>
   <data name="LblNumRegistros.Text" xml:space="preserve">
-    <value>(Sin Filtrar)</value>
+    <value>(Non filtrato)</value>
   </data>
   <data name="Label1.Text" xml:space="preserve">
     <value>Reg.:</value>
@@ -157,7 +157,7 @@
     <value>Spese:</value>
   </data>
   <data name="Label7.Text" xml:space="preserve">
-    <value>Entrata:</value>
+    <value>Reddito:</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Conti bancari</value>

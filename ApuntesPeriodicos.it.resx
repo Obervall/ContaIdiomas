@@ -121,7 +121,7 @@
     <value>Record</value>
   </data>
   <data name="LblNumRegistros.Text" xml:space="preserve">
-    <value>(Sin Filtrar)</value>
+    <value>(Non filtrato)</value>
   </data>
   <data name="Label1.Text" xml:space="preserve">
     <value>Reg.:</value>
@@ -133,19 +133,19 @@
     <value>Rapporti</value>
   </data>
   <data name="GroupBox4.Text" xml:space="preserve">
-    <value>Cuentas</value>
+    <value>Resoconti</value>
   </data>
   <data name="Label3.Text" xml:space="preserve">
     <value>Conteggio:</value>
   </data>
   <data name="GroupBox5.Text" xml:space="preserve">
-    <value>Conceptos</value>
+    <value>Concetti</value>
   </data>
   <data name="Label4.Text" xml:space="preserve">
     <value>Concetto:</value>
   </data>
   <data name="GroupBox6.Text" xml:space="preserve">
-    <value>Fechas</value>
+    <value>Date</value>
   </data>
   <data name="Label6.Text" xml:space="preserve">
     <value>Fino a:</value>
@@ -163,7 +163,7 @@
     <value>Spese:</value>
   </data>
   <data name="Label7.Text" xml:space="preserve">
-    <value>Entrata:</value>
+    <value>Reddito:</value>
   </data>
   <data name="GroupBox8.Text" xml:space="preserve">
     <value>Pergamena</value>

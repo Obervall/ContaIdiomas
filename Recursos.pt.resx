@@ -121,7 +121,7 @@
     <value>Ano Fiscal</value>
   </data>
   <data name="TitolApp" xml:space="preserve">
-    <value>As minhas Contas com a ContaHogar 3.0</value>
+    <value>As minhas Contas com a </value>
   </data>
   <data name="Versio" xml:space="preserve">
     <value>Versão</value>
@@ -341,16 +341,16 @@ Eles não são removidos do banco de dados</value>
     <value>IMPOSTO 1</value>
   </data>
   <data name="IMPUESTO_2" xml:space="preserve">
-    <value>TAX 2</value>
+    <value>IMPOSTO 2</value>
   </data>
   <data name="IMPUESTO_3" xml:space="preserve">
-    <value>TAX 3</value>
+    <value>IMPOSTO 3</value>
   </data>
   <data name="IMPUESTO_4" xml:space="preserve">
     <value>IMPOSTO 4</value>
   </data>
   <data name="IMPUESTO_5" xml:space="preserve">
-    <value>TAX 5</value>
+    <value>IMPOSTO 5</value>
   </data>
   <data name="INTERESES" xml:space="preserve">
     <value>INTERESSES</value>

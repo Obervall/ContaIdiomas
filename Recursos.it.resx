@@ -118,98 +118,98 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Ejercicio" xml:space="preserve">
-    <value>Ejercicio</value>
+    <value>Esercizio</value>
   </data>
   <data name="TitolApp" xml:space="preserve">
-    <value>ContaHogar 3.0</value>
+    <value>I miei conti con </value>
   </data>
   <data name="Versio" xml:space="preserve">
-    <value>Versión</value>
+    <value>Versione</value>
   </data>
   <data name="ToolTipAplicarFiltro" xml:space="preserve">
-    <value>Aplica el filtro a los Registros</value>
+    <value>Applica il filtro ai Log</value>
   </data>
   <data name="ToolTipQuitarFiltro" xml:space="preserve">
-    <value>Quitar el filtro a los Registros</value>
+    <value>Rimuovi il filtro dai Log</value>
   </data>
   <data name="ToolTipAñadir" xml:space="preserve">
-    <value>Añadir Registro</value>
+    <value>Aggiungi registrazione</value>
   </data>
   <data name="ToolTipEditar" xml:space="preserve">
-    <value>Editar Registro</value>
+    <value>Modifica registro</value>
   </data>
   <data name="ToolTipEliminar" xml:space="preserve">
-    <value>Eliminar Registro</value>
+    <value>Elimina il registro</value>
   </data>
   <data name="ToolTipBuscar" xml:space="preserve">
-    <value>Buscar Registro</value>
+    <value>Cerca Registrazione</value>
   </data>
   <data name="ToolTipImprimir" xml:space="preserve">
-    <value>Imprimir</value>
+    <value>Stampa</value>
   </data>
   <data name="ToolTipSeguirBuscando" xml:space="preserve">
-    <value>Pulsar para Seguir Buscando o F3</value>
+    <value>Clicca per continuare la ricerca o F3</value>
   </data>
   <data name="ToolTipGraficos" xml:space="preserve">
-    <value>Mostrar Gráficos</value>
+    <value>Grafica dello show</value>
   </data>
   <data name="ToolTipCalculadora" xml:space="preserve">
-    <value>Activar la Calculadora</value>
+    <value>Attiva la calcolatrice</value>
   </data>
   <data name="ToolTipSalir" xml:space="preserve">
-    <value>Salir/Cerrar Ventana</value>
+    <value>Finestra di uscita/chiusura</value>
   </data>
   <data name="ToolTipPrimero" xml:space="preserve">
-    <value>Ir al Primer Registro</value>
+    <value>Vai alla Prima Registrazione</value>
   </data>
   <data name="ToolTipAnterior" xml:space="preserve">
-    <value>Ir al Anterior Registro</value>
+    <value>Vai alla Registrazione Precedente</value>
   </data>
   <data name="ToolTipSiguiente" xml:space="preserve">
-    <value>Ir al Siguiente Registro</value>
+    <value>Vai alla prossima registrazione</value>
   </data>
   <data name="ToolTipUltimo" xml:space="preserve">
-    <value>Ir al Ultimo Registro</value>
+    <value>Vai all'Ultima Registrazione</value>
   </data>
   <data name="ToolTipEliminaSeleccion" xml:space="preserve">
-    <value>Suprimir las Filas Seleccionadas de la Parrilla
-No se Eliminan de la Base de Datos</value>
+    <value>Eliminazione delle righe selezionate dalla griglia
+Non vengono rimossi dal database</value>
   </data>
   <data name="MsgErrorFecha" xml:space="preserve">
-    <value>Formato de fecha no válido</value>
+    <value>Formato della data non valido</value>
   </data>
   <data name="MsgDatos1" xml:space="preserve">
-    <value>No hay ninguna Coincidencia con los datos Introducidos</value>
+    <value>Non c'è corrispondenza con i dati inseriti</value>
   </data>
   <data name="MsgDatos2" xml:space="preserve">
-    <value>No hay más Registros que Coincidan con los datos Introducidos</value>
+    <value>Non ci sono più registri che corrispondano ai dati inseriti</value>
   </data>
   <data name="MsgFila1" xml:space="preserve">
-    <value>Fila Primera Seleccionada</value>
+    <value>Prima Linea Selezionata</value>
   </data>
   <data name="MsgFila2" xml:space="preserve">
-    <value>Fila Ultima Seleccionada</value>
+    <value>Ultima Riga Selezionata</value>
   </data>
   <data name="NoExistenRegistros" xml:space="preserve">
-    <value>No existen registros del</value>
+    <value>Non ci sono registrazioni del</value>
   </data>
   <data name="ErrorAlCrearEjercicio" xml:space="preserve">
-    <value>Error al crear el ejercicio</value>
+    <value>Esercizio di creazione di errori</value>
   </data>
   <data name="ErrorAlBuscarEjercicio" xml:space="preserve">
-    <value>Error al buscar el ejercicio</value>
+    <value>Ricerca di errori per esercizio</value>
   </data>
   <data name="VersionInstalada" xml:space="preserve">
-    <value>Versión Instalada:</value>
+    <value>Versione installata:</value>
   </data>
   <data name="VersionDisponible" xml:space="preserve">
-    <value>Versión disponible:</value>
+    <value>Versione disponibile:</value>
   </data>
   <data name="Filtrado" xml:space="preserve">
-    <value>(Filtrado)</value>
+    <value>(Filtrato)</value>
   </data>
   <data name="SinFiltrar" xml:space="preserve">
-    <value>(Sin Filtrar)</value>
+    <value>(Non filtrato)</value>
   </data>
   <data name="CON" xml:space="preserve">
     <value>CON</value>
@@ -218,52 +218,52 @@ No se Eliminan de la Base de Datos</value>
     <value>Tipo</value>
   </data>
   <data name="Codigo" xml:space="preserve">
-    <value>Código</value>
+    <value>Codice</value>
   </data>
   <data name="Descripcion" xml:space="preserve">
-    <value>Descripción</value>
+    <value>Descrizione</value>
   </data>
   <data name="Notas" xml:space="preserve">
-    <value>Notas</value>
+    <value>Note</value>
   </data>
   <data name="Tipo_Gasto" xml:space="preserve">
-    <value>GASTO</value>
+    <value>SPESE</value>
   </data>
   <data name="Tipo_Ingreso" xml:space="preserve">
-    <value>ENTRATA</value>
+    <value>REDDITO</value>
   </data>
   <data name="Tipo_Especial" xml:space="preserve">
-    <value>ESPECIAL</value>
+    <value>SPECIALE</value>
   </data>
   <data name="Tipo_Traspaso" xml:space="preserve">
-    <value>TRASPASO</value>
+    <value>TRASFERIMENTO</value>
   </data>
   <data name="Todos_Los_Campos" xml:space="preserve">
-    <value>Todos los Campos</value>
+    <value>Tutti i campi</value>
   </data>
   <data name="ToolTipAceptar" xml:space="preserve">
-    <value>Aceptar y Salir</value>
+    <value>Accettazione ed uscita</value>
   </data>
   <data name="ToolTipCancelar" xml:space="preserve">
-    <value>Cancelar</value>
+    <value>Cancella</value>
   </data>
   <data name="ErrorModificarRegistro" xml:space="preserve">
-    <value>Error al Modificar el Registro</value>
+    <value>Errore nella modifica del registro</value>
   </data>
   <data name="Nombre" xml:space="preserve">
-    <value>Nombre</value>
+    <value>Nome</value>
   </data>
   <data name="Numero" xml:space="preserve">
     <value>Numero</value>
   </data>
   <data name="Saldo" xml:space="preserve">
-    <value>Saldo</value>
+    <value>Bilanciamento</value>
   </data>
   <data name="ErrorAlEjecutar" xml:space="preserve">
-    <value>Error al ejecutar</value>
+    <value>Esecuzione dell'errore</value>
   </data>
   <data name="EFECTIVO" xml:space="preserve">
-    <value>CAJA EFECTIVO</value>
+    <value>CAFANA MONETARIA</value>
   </data>
   <data name="BBVA" xml:space="preserve">
     <value>BBVA</value>
@@ -272,40 +272,40 @@ No se Eliminan de la Base de Datos</value>
     <value>OPENBANK</value>
   </data>
   <data name="PLAN_DE_PENSIONES" xml:space="preserve">
-    <value>PLAN PENSIONES</value>
+    <value>PIANO PENSIONISTICO</value>
   </data>
   <data name="FinalTabla" xml:space="preserve">
-    <value>Ha llegado al final de la tabla</value>
+    <value>È arrivato in fondo alla classifica</value>
   </data>
   <data name="Existe" xml:space="preserve">
-    <value>ya existe en</value>
+    <value>esiste già in</value>
   </data>
   <data name="NoHayDatos" xml:space="preserve">
-    <value>NO hay Datos en</value>
+    <value>Non ci sono DATI in</value>
   </data>
   <data name="RegistroBorrado" xml:space="preserve">
-    <value>El registro ha sido borrado correctamente</value>
+    <value>Il registro è stato cancellato con successo</value>
   </data>
   <data name="RegistroNoBorradoVerificar" xml:space="preserve">
-    <value>El registro no se pudo borrar. Verifique</value>
+    <value>Il registro non poteva essere cancellato. Verifica</value>
   </data>
   <data name="ErrorEliminarRegistro" xml:space="preserve">
-    <value>Error al intentar eliminar el registro</value>
+    <value>Non è riuscito a eliminare il registro</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Error</value>
+    <value>Errore</value>
   </data>
   <data name="AccionCancelada" xml:space="preserve">
-    <value>Acción Cancelada</value>
+    <value>Azione Cancellata</value>
   </data>
   <data name="ErrorVerificarIntegridad" xml:space="preserve">
-    <value>Error al Verificar la Integridad</value>
+    <value>Mancata verifica dell'integrità</value>
   </data>
   <data name="AGUA" xml:space="preserve">
-    <value>AGUA</value>
+    <value>ACQUA</value>
   </data>
   <data name="ALIMENTACION" xml:space="preserve">
-    <value>ALIMENTACION</value>
+    <value>CIBO</value>
   </data>
   <data name="CANAL+" xml:space="preserve">
     <value>CANAL+</value>
@@ -317,10 +317,10 @@ No se Eliminan de la Base de Datos</value>
     <value>CLIENTE</value>
   </data>
   <data name="COMUNIDAD" xml:space="preserve">
-    <value>COMUNIDAD</value>
+    <value>COMUNITÀ</value>
   </data>
   <data name="DECESOS" xml:space="preserve">
-    <value>DECESOS</value>
+    <value>MORTI</value>
   </data>
   <data name="ESTETICA" xml:space="preserve">
     <value>ESTETICA</value>
@@ -329,184 +329,184 @@ No se Eliminan de la Base de Datos</value>
     <value>FARMACIA</value>
   </data>
   <data name="GAS_NATURAL" xml:space="preserve">
-    <value>GAS NATURAL</value>
+    <value>GAS NATURALE</value>
   </data>
   <data name="GASOLINA" xml:space="preserve">
-    <value>GASOLINA</value>
+    <value>BENZINA</value>
   </data>
   <data name="GASTOS_BANCARIOS" xml:space="preserve">
-    <value>GASTOS BANCARIOS</value>
+    <value>COMMISSIONI BANCARIE</value>
   </data>
   <data name="HACIENDA" xml:space="preserve">
-    <value>HACIENDA</value>
+    <value>TREASURY</value>
   </data>
   <data name="IMPUESTO_1" xml:space="preserve">
-    <value>IMPUESTO 1</value>
+    <value>TASSA 1</value>
   </data>
   <data name="IMPUESTO_2" xml:space="preserve">
-    <value>IMPUESTO 2</value>
+    <value>TASSA 2</value>
   </data>
   <data name="IMPUESTO_3" xml:space="preserve">
-    <value>IMPUESTO 3</value>
+    <value>TASSA 3</value>
   </data>
   <data name="IMPUESTO_4" xml:space="preserve">
-    <value>IMPUESTO 4</value>
+    <value>TASSA 4</value>
   </data>
   <data name="IMPUESTO_5" xml:space="preserve">
-    <value>IMPUESTO 5</value>
+    <value>TASSA 5</value>
   </data>
   <data name="INTERESES" xml:space="preserve">
-    <value>INTERESES</value>
+    <value>INTERESSI</value>
   </data>
   <data name="JARDIN" xml:space="preserve">
-    <value>JARDIN</value>
+    <value>GIARDINO</value>
   </data>
   <data name="LUZ" xml:space="preserve">
-    <value>LUZ</value>
+    <value>LUCE</value>
   </data>
   <data name="OCIO" xml:space="preserve">
-    <value>OCIO</value>
+    <value>TEMPO LIBERO</value>
   </data>
   <data name="PENSION" xml:space="preserve">
-    <value>PENSION</value>
+    <value>PENSIONE</value>
   </data>
   <data name="REGULARIZACION_1" xml:space="preserve">
-    <value>REGULARIZACION 1</value>
+    <value>REGOLARIZZAZIONE 1</value>
   </data>
   <data name="REGULARIZACION_2" xml:space="preserve">
-    <value>REGULARIZACION 2</value>
+    <value>REGOLARIZZAZIONE 2</value>
   </data>
   <data name="ROPA" xml:space="preserve">
-    <value>ROPA</value>
+    <value>ABBIGLIAMENTO</value>
   </data>
   <data name="SEGURO_CASA" xml:space="preserve">
-    <value>SEGURO CASA</value>
+    <value>ASSICURAZIONE CASA</value>
   </data>
   <data name="SEGURO_COCHE" xml:space="preserve">
-    <value>SEGURO COCHE</value>
+    <value>ASSICURAZIONE AUTO</value>
   </data>
   <data name="SEGURO_MOTO" xml:space="preserve">
-    <value>SEGURO MOTO</value>
+    <value>ASSICURAZIONE MOTOCICLISTICA</value>
   </data>
   <data name="TELEFONO" xml:space="preserve">
     <value>TELEFONO</value>
   </data>
   <data name="TRASPASO" xml:space="preserve">
-    <value>TRASPASO</value>
+    <value>TRASFERIMENTO</value>
   </data>
   <data name="VARIOS" xml:space="preserve">
-    <value>VARIOS</value>
+    <value>VARIE</value>
   </data>
   <data name="VEHICULOS" xml:space="preserve">
-    <value>VEHICULOS</value>
+    <value>VEICOLI</value>
   </data>
   <data name="Desc_AGUA" xml:space="preserve">
-    <value>Agua</value>
+    <value>Acqua</value>
   </data>
   <data name="Desc_ALIMENTACION" xml:space="preserve">
-    <value>Comida</value>
+    <value>Cibo</value>
   </data>
   <data name="Desc_CANAL+" xml:space="preserve">
     <value>Canal Plus Digital</value>
   </data>
   <data name="Desc_CASA" xml:space="preserve">
-    <value>Utiles Casa</value>
+    <value>Utenze domestiche</value>
   </data>
   <data name="Desc_CLIENTE00" xml:space="preserve">
     <value>Cliente</value>
   </data>
   <data name="Desc_COMUNIDAD" xml:space="preserve">
-    <value>Comunidad Parking</value>
+    <value>Parcheggio comunitario</value>
   </data>
   <data name="Desc_DECESOS" xml:space="preserve">
-    <value>Decesos</value>
+    <value>Morti</value>
   </data>
   <data name="Desc_ESTETICA" xml:space="preserve">
-    <value>Estética y Peluquería</value>
+    <value>Estetica e parrucchiere</value>
   </data>
   <data name="Desc_FARMACIA" xml:space="preserve">
     <value>Farmacia</value>
   </data>
   <data name="Desc_GAS_NATURAL" xml:space="preserve">
-    <value>Gas Natural</value>
+    <value>Gas Naturale</value>
   </data>
   <data name="Desc_GASOLINA" xml:space="preserve">
-    <value>Gasolina o Gas-Oil</value>
+    <value>Benzina o gas-olio</value>
   </data>
   <data name="Desc_GASTOS_BANCARIOS" xml:space="preserve">
-    <value>Gastos Bancarios</value>
+    <value>Commissioni bancarie</value>
   </data>
   <data name="Desc_HACIENDA" xml:space="preserve">
-    <value>Hacienda Pública</value>
+    <value>Finanza pubblica</value>
   </data>
   <data name="Desc_IMPUESTO_1" xml:space="preserve">
-    <value>Impuesto Basuras</value>
+    <value>Tassa sulla spazzatura</value>
   </data>
   <data name="Desc_IMPUESTO_2" xml:space="preserve">
-    <value>Impuesto Ibi</value>
+    <value>Ibi Tassa</value>
   </data>
   <data name="Desc_IMPUESTO_3" xml:space="preserve">
-    <value>Impuesto Vehículo</value>
+    <value>Tassa sui veicoli</value>
   </data>
   <data name="Desc_IMPUESTO_4" xml:space="preserve">
-    <value>Impuesto Moto</value>
+    <value>Tassa sulle motociclette</value>
   </data>
   <data name="Desc_IMPUESTO_5" xml:space="preserve">
-    <value>Impuesto CO2</value>
+    <value>Tassa sulla CO2</value>
   </data>
   <data name="Desc_INTERESES" xml:space="preserve">
-    <value>Intereses Bancarios</value>
+    <value>Interessi bancari</value>
   </data>
   <data name="Desc_JARDIN" xml:space="preserve">
-    <value>Plantas</value>
+    <value>Piante</value>
   </data>
   <data name="Desc_LUZ" xml:space="preserve">
-    <value>Compañía Luz</value>
+    <value>Compagnia Leggera</value>
   </data>
   <data name="Desc_OCIO" xml:space="preserve">
-    <value>Diversión y Entretenimiento</value>
+    <value>Divertimento e intrattenimento</value>
   </data>
   <data name="Desc_PENSION" xml:space="preserve">
-    <value>Pensión o Sueldo</value>
+    <value>Pensione o stipendio</value>
   </data>
   <data name="Desc_REGULARIZACION_1" xml:space="preserve">
-    <value>Regularización de Entrata</value>
+    <value>Regolarizzazione del reddito</value>
   </data>
   <data name="Desc_REGULARIZACION_2" xml:space="preserve">
-    <value>Regularización de Gastos</value>
+    <value>Regolarizzazione delle spese</value>
   </data>
   <data name="Desc_ROPA" xml:space="preserve">
-    <value>Ropa y Zapatos</value>
+    <value>Abbigliamento e scarpe</value>
   </data>
   <data name="Desc_SEGURO_CASA" xml:space="preserve">
-    <value>Seguro Casa</value>
+    <value>Assicurazione sulla casa</value>
   </data>
   <data name="Desc_SEGURO_COCHE" xml:space="preserve">
-    <value>Seguro Coche</value>
+    <value>Assicurazione auto</value>
   </data>
   <data name="Desc_SEGURO_MOTO" xml:space="preserve">
-    <value>Seguro Moto</value>
+    <value>Assicurazione per motociclette</value>
   </data>
   <data name="Desc_TELEFONO" xml:space="preserve">
-    <value>Teléfono</value>
+    <value>Telefono</value>
   </data>
   <data name="Desc_TRASPASO" xml:space="preserve">
-    <value>Traspaso entre cuentas</value>
+    <value>Trasferimento tra conti</value>
   </data>
   <data name="Desc_VARIOS" xml:space="preserve">
-    <value>Varios sin Justificar</value>
+    <value>Diverse ingiustificate</value>
   </data>
   <data name="Desc_VEHICULOS" xml:space="preserve">
-    <value>Coche y Moto</value>
+    <value>Auto e moto</value>
   </data>
   <data name="NoHayDatosHistoricos" xml:space="preserve">
-    <value>No hay datos históricos en años anteriores para generar saldos iniciales</value>
+    <value>Non esistono dati storici degli anni precedenti per generare i saldi iniziali</value>
   </data>
   <data name="Aviso" xml:space="preserve">
-    <value>Aviso</value>
+    <value>Avviso</value>
   </data>
   <data name="TituloReporteConceptos" xml:space="preserve">
-    <value>Listado de Conceptos Contables</value>
+    <value>Elenco dei concetti contabili</value>
   </data>
   <data name="Desc_BBVA" xml:space="preserve">
     <value>BBVA</value>
@@ -515,327 +515,327 @@ No se Eliminan de la Base de Datos</value>
     <value>OPENBANK</value>
   </data>
   <data name="SaldosGeneradosExito" xml:space="preserve">
-    <value>Saldos iniciales generados e insertados correctamente</value>
+    <value>Saldi iniziali correttamente generati e inseriti</value>
   </data>
   <data name="Exito" xml:space="preserve">
-    <value>Éxito</value>
+    <value>Successo</value>
   </data>
   <data name="ErrorLeerHistoricos" xml:space="preserve">
-    <value>Error al leer históricos</value>
+    <value>Errore nella lettura della storia storica</value>
   </data>
   <data name="ErrorInsertarSaldos" xml:space="preserve">
-    <value>Error al insertar los saldos iniciales</value>
+    <value>Errore nell'inserimento dei saldi iniziali</value>
   </data>
   <data name="Pagina" xml:space="preserve">
-    <value>Página</value>
+    <value>Pagina</value>
   </data>
   <data name="CerrarApp" xml:space="preserve">
-    <value>Se cerrará el programa para iniciar con el Ejercicio Actual</value>
+    <value>Il programma sarà chiuso a partire dall'anno fiscale in corso</value>
   </data>
   <data name="Cuenta" xml:space="preserve">
-    <value>Cuenta</value>
+    <value>Account</value>
   </data>
   <data name="Concepto" xml:space="preserve">
-    <value>Concepto</value>
+    <value>Concetto</value>
   </data>
   <data name="Fecha" xml:space="preserve">
-    <value>Fecha</value>
+    <value>Data</value>
   </data>
   <data name="Importe" xml:space="preserve">
-    <value>Importe</value>
+    <value>Importo</value>
   </data>
   <data name="IrAHoy" xml:space="preserve">
-    <value>Ir a Hoy</value>
+    <value>Vai a Oggi</value>
   </data>
   <data name="BtnCuenta" xml:space="preserve">
-    <value>Añade, Edita, Borra o Consulta Cuentas Bancarias</value>
+    <value>Aggiungi, modifica, elimina o consulta conti bancari</value>
   </data>
   <data name="BtnConcepto" xml:space="preserve">
-    <value>Añade, Edita, Borra o Consulta Conceptos</value>
+    <value>Aggiungi, Modifica, Elimina o Interroga i Concetti</value>
   </data>
   <data name="Desde" xml:space="preserve">
-    <value>Desde</value>
+    <value>Da</value>
   </data>
   <data name="Hasta" xml:space="preserve">
-    <value>Hasta</value>
+    <value>Fino a</value>
   </data>
   <data name="TotalIngresos" xml:space="preserve">
-    <value>Total Entrata</value>
+    <value>Ricavi totali</value>
   </data>
   <data name="TotalGastos" xml:space="preserve">
-    <value>Total Gastos</value>
+    <value>Spese totali</value>
   </data>
   <data name="TOTAL" xml:space="preserve">
-    <value>TOTAL</value>
+    <value>TOTALE</value>
   </data>
   <data name="FECHA_UPPER" xml:space="preserve">
-    <value>FECHA</value>
+    <value>DATA</value>
   </data>
   <data name="Gastos" xml:space="preserve">
-    <value>Gastos</value>
+    <value>Spese</value>
   </data>
   <data name="Ingresos" xml:space="preserve">
-    <value>Entrata</value>
+    <value>Reddito</value>
   </data>
   <data name="Moneda" xml:space="preserve">
-    <value>Moneda</value>
+    <value>Valuta</value>
   </data>
   <data name="Conceptos" xml:space="preserve">
-    <value>Conceptos</value>
+    <value>Concetti</value>
   </data>
   <data name="ErrorLimpiarTemporal" xml:space="preserve">
-    <value>Error al limpiar la tabla Temporal</value>
+    <value>Errore nella pulizia della tabella temporanea</value>
   </data>
   <data name="Cuentas" xml:space="preserve">
-    <value>Cuentas</value>
+    <value>Resoconti</value>
   </data>
   <data name="ErrorGrabarTemporal" xml:space="preserve">
-    <value>Error al Grabar en Temporal</value>
+    <value>Salvataggio degli errori in Temporaneo</value>
   </data>
   <data name="PreguntaHorizontal" xml:space="preserve">
-    <value>¿Deseas imprimir el gráfico en orientación Horizontal?</value>
+    <value>Vuoi stampare il grafico in orientamento orizzontale?</value>
   </data>
   <data name="TituloPregunta" xml:space="preserve">
-    <value>Orientación de página</value>
+    <value>Orientamento della pagina</value>
   </data>
   <data name="Realidad" xml:space="preserve">
-    <value>Realidad</value>
+    <value>Realtà</value>
   </data>
   <data name="Presupuestado" xml:space="preserve">
-    <value>Presupuestado</value>
+    <value>Budget previsto</value>
   </data>
   <data name="ToolTipGraficos2D" xml:space="preserve">
-    <value>Mostrar Gráficos 2D</value>
+    <value>Grafica 2D Show</value>
   </data>
   <data name="ToolTipGraficos3D" xml:space="preserve">
-    <value>Mostrar Gráficos 3D</value>
+    <value>Grafica 3D di mostra</value>
   </data>
   <data name="Fechas" xml:space="preserve">
-    <value>Fechas</value>
+    <value>Date</value>
   </data>
   <data name="Meses" xml:space="preserve">
-    <value>Meses</value>
+    <value>Mesi</value>
   </data>
   <data name="ErrorEjecutarSaldo" xml:space="preserve">
-    <value>Error al Ejecutar Saldo:</value>
+    <value>Saldo corrente dell'errore:</value>
   </data>
   <data name="ToolTipF6" xml:space="preserve">
-    <value>Refrescar la Parrilla Apuntes y Quitar Filtros</value>
+    <value>Aggiornamento della griglia delle note e rimozione dei filtri</value>
   </data>
   <data name="AvisoConceptoProtegido" xml:space="preserve">
-    <value>Los conceptos predeterminados del sistema están protegidos contra modificaciones, si no se va a usar se puede Eliminar</value>
+    <value>I concetti di sistema predefiniti sono protetti da modifiche, se non devono essere usati possono essere cancellati</value>
   </data>
   <data name="NoConectoPor" xml:space="preserve">
-    <value>No se conectó por</value>
+    <value>Non collegato da</value>
   </data>
   <data name="SoloAdmitePunto" xml:space="preserve">
-    <value>Solo admite el . Punto como separador decimal</value>
+    <value>Supporta solo i file . Punto come separatore decimale</value>
   </data>
   <data name="SeparadorDecimal" xml:space="preserve">
-    <value>Separador Decimal</value>
+    <value>Separatore Decimale</value>
   </data>
   <data name="Informacion" xml:space="preserve">
-    <value>Información</value>
+    <value>Informazioni</value>
   </data>
   <data name="ActualizarVersion" xml:space="preserve">
-    <value>¿Quieres actualizar a la Versión</value>
+    <value>Vuoi passare alla versione</value>
   </data>
   <data name="GuardarCopiaSeguridad" xml:space="preserve">
-    <value>¿Quieres guardar una Copia de Seguridad de la Base de Datos?</value>
+    <value>Vuoi salvare un backup del database?</value>
   </data>
   <data name="BackupSatisfactorioBuscarActualizacio" xml:space="preserve">
-    <value>Copia de Seguridad realizado satisfactoriamente.
-Ahora, se descargará la actualización</value>
+    <value>Backup effettuato con successo.
+Ora, l'aggiornamento verrà scaricato</value>
   </data>
   <data name="Backup" xml:space="preserve">
-    <value>Copia de Seguridad</value>
+    <value>Backup</value>
   </data>
   <data name="ErrorBackup" xml:space="preserve">
-    <value>Error al realizar la Copia de Seguridad de la Base de Datos,
-revise que no exista otra Copia con el mismo nombre o
-que el archivo no esté abierto</value>
+    <value>Errore durante il backup del database,
+verifica che non ci sia un'altra copia con lo stesso nome oppure
+Il file non è aperto</value>
   </data>
   <data name="AhoraDescargaActualizacion" xml:space="preserve">
-    <value>Ahora, se descargará la actualización</value>
+    <value>Ora, l'aggiornamento verrà scaricato</value>
   </data>
   <data name="ActualizarSoftware" xml:space="preserve">
-    <value>Actualizar Software</value>
+    <value>Software di aggiornamento</value>
   </data>
   <data name="DescargadaActualizacion" xml:space="preserve">
-    <value>Se ha descargado la actualización</value>
+    <value>L'aggiornamento è stato scaricato</value>
   </data>
   <data name="ProcederaInstalar" xml:space="preserve">
-    <value>se procederá a instalarla. Pulsa Aceptar para continuar</value>
+    <value>verrà installato. Tocca OK per continuare</value>
   </data>
   <data name="ErrorDescargarActualizacion" xml:space="preserve">
-    <value>Error al descargar la actualización</value>
+    <value>Errore di download aggiornamento</value>
   </data>
   <data name="ErrorDescargarActualizacion2" xml:space="preserve">
-    <value>revise su conexión a Internet o que el archivo no esté abierto</value>
+    <value>Controlla che la tua connessione internet o il file non siano aperti</value>
   </data>
   <data name="NoConectadoRed" xml:space="preserve">
-    <value>No estas conectado a una red para comprobar nueva Versión</value>
+    <value>Non sei connesso a una rete per controllare una nuova versione</value>
   </data>
   <data name="Vacio" xml:space="preserve">
-    <value>Sin Programar..</value>
+    <value>Senza programmazione..</value>
   </data>
   <data name="BotonSi" xml:space="preserve">
-    <value>Sí</value>
+    <value>Sì</value>
   </data>
   <data name="BotonNo" xml:space="preserve">
     <value>No</value>
   </data>
   <data name="BotonAceptar" xml:space="preserve">
-    <value>Aceptar</value>
+    <value>Accetta</value>
   </data>
   <data name="EL_CORTE_INGLES" xml:space="preserve">
-    <value>EL CORTE INGLES</value>
+    <value>EL CORTE INGLÉS</value>
   </data>
   <data name="Desc_EL_CORTE_INGLES" xml:space="preserve">
     <value>El Corte Inglés</value>
   </data>
   <data name="Existentes" xml:space="preserve">
-    <value>Existentes</value>
+    <value>Esistenti</value>
   </data>
   <data name="Atencion" xml:space="preserve">
-    <value>Atención</value>
+    <value>Attenzione</value>
   </data>
   <data name="ConceptoYRegistrosEliminados" xml:space="preserve">
-    <value>El concepto y todos sus registros vinculados han sido eliminados correctamente</value>
+    <value>Il concetto e tutti i suoi record collegati sono stati eliminati con successo</value>
   </data>
   <data name="ErrorConceptoYRegistrosEliminados" xml:space="preserve">
-    <value>Error durante la eliminación en cascada</value>
+    <value>Errore durante la cancellazione a cascata</value>
   </data>
   <data name="ErrorRecuperarID" xml:space="preserve">
-    <value>Error al recuperar el identificador numérico del registro</value>
+    <value>Errore nel recuperare l'identificatore numerico dal registro</value>
   </data>
   <data name="NoEncuentraRegistro" xml:space="preserve">
-    <value>No se encontró el registro para actualizar</value>
+    <value>Record non trovato per aggiornare</value>
   </data>
   <data name="Desc_EFECTIVO" xml:space="preserve">
-    <value>Dinero en Efectivo</value>
+    <value>Contanti</value>
   </data>
   <data name="CUENTA_CORRIENTE" xml:space="preserve">
-    <value>CUENTA CORRIENTE</value>
+    <value>CONTO CORRENTE</value>
   </data>
   <data name="CUENTA_VIVIENDA" xml:space="preserve">
-    <value>CUENTA VIVIENDA</value>
+    <value>CONTO ABITATIVO</value>
   </data>
   <data name="Desc_CUENTA_CORRIENTE" xml:space="preserve">
-    <value>Cuenta Corriente Bancaria</value>
+    <value>Conto corrente bancario</value>
   </data>
   <data name="Desc_CUENTA_VIVIENDA" xml:space="preserve">
-    <value>Cuenta Vivienda Habitual</value>
+    <value>Conto di Residenza Principale</value>
   </data>
   <data name="Desc_FONDO_DE_INVERSION" xml:space="preserve">
-    <value>Fondo de Inversión Banco</value>
+    <value>Investment Fund Bank</value>
   </data>
   <data name="FONDO_DE_INVERSION" xml:space="preserve">
-    <value>FONDO DE INVERSIÓN</value>
+    <value>FONDO DI INVESTIMENTO</value>
   </data>
   <data name="Desc_PLAN_DE_PENSIONES" xml:space="preserve">
-    <value>Plan de Pensiones</value>
+    <value>Piano pensionistico</value>
   </data>
   <data name="Desc_TARJETA_DE_CREDITO" xml:space="preserve">
-    <value>Tarjeta de Crédito</value>
+    <value>Carta di credito</value>
   </data>
   <data name="TARJETA_DE_CREDITO" xml:space="preserve">
-    <value>TARJETA DE CRÉDITO</value>
+    <value>CARTA DI CREDITO</value>
   </data>
   <data name="PLAN_PENSIONES" xml:space="preserve">
-    <value>PLAN PENSIONES</value>
+    <value>PIANO PENSIONISTICO</value>
   </data>
   <data name="Desc_PLAN_PENSIONES" xml:space="preserve">
-    <value>Plan de Pensiones</value>
+    <value>Piano pensionistico</value>
   </data>
   <data name="CAJA_EFECTIVO" xml:space="preserve">
-    <value>CAJA EFECTIVO</value>
+    <value>CAFANA MONETARIA</value>
   </data>
   <data name="Desc_CAJA_EFECTIVO" xml:space="preserve">
-    <value>Efectivo en casa</value>
+    <value>Contanti a casa</value>
   </data>
   <data name="ErrorFiltrar" xml:space="preserve">
-    <value>Error al filtrar en pantalla</value>
+    <value>Filtraggio degli errori a schermo</value>
   </data>
   <data name="SeleccionaRegistro" xml:space="preserve">
-    <value>Selecciona un Registro para Editar o Eliminar</value>
+    <value>Seleziona un record da modificare o eliminare</value>
   </data>
   <data name="ErrorDuplicados" xml:space="preserve">
-    <value>Error al verificar duplicados</value>
+    <value>Controllo errori per duplicati</value>
   </data>
   <data name="ErrorGrabarRegistro" xml:space="preserve">
-    <value>Error al Grabar Registro</value>
+    <value>Registro di salvataggio errori</value>
   </data>
   <data name="SaldoInicial" xml:space="preserve">
-    <value>Saldo Inicial</value>
+    <value>Bilancio di apertura</value>
   </data>
   <data name="ErrorCargarCONyCUE" xml:space="preserve">
-    <value>Error al cargar conceptos o cuentas en introducción</value>
+    <value>Concetti o account di caricamento errore in introduzione</value>
   </data>
   <data name="ErrorSincronizarCON" xml:space="preserve">
-    <value>Error al sincronizar el concepto</value>
+    <value>Concetto di sincronizzazione degli errori</value>
   </data>
   <data name="ErrorRefrecarCON" xml:space="preserve">
-    <value>Error al refrescar el combo de conceptos</value>
+    <value>Errore durante l'aggiornamento della combinazione di concetti</value>
   </data>
   <data name="ErrorLlenarCmbDescripcion" xml:space="preserve">
-    <value>Error al llenar el Combo Descripción</value>
+    <value>Errore che compila la Descrizione della Combo</value>
   </data>
   <data name="ErrorActualizarApunte" xml:space="preserve">
-    <value>Error al actualizar el apunte</value>
+    <value>Errore che aggiorna la voce</value>
   </data>
   <data name="AvisoNoHayRegistrosEjercicio" xml:space="preserve">
-    <value>Aviso: No existen apuntes registrados para la cuenta seleccionada en este ejercicio</value>
+    <value>Nota: Non sono pubblicate voci per l'account selezionato per questo esercizio</value>
   </data>
   <data name="ErrorCrearRuta" xml:space="preserve">
-    <value>Error al Crear Ruta</value>
+    <value>Creazione di Errore di Percorso</value>
   </data>
   <data name="Origen" xml:space="preserve">
-    <value>Origen</value>
+    <value>Origine</value>
   </data>
   <data name="Destino" xml:space="preserve">
-    <value>Destino</value>
+    <value>Destinazione</value>
   </data>
   <data name="ErrorLlenarConceptos" xml:space="preserve">
-    <value>Error al llenar Conceptos</value>
+    <value>Completamento degli errori nei concetti</value>
   </data>
   <data name="ErrorLlenarCuentas" xml:space="preserve">
-    <value>Error al llenar Cuentas</value>
+    <value>Errore nella compilazione dei conti</value>
   </data>
   <data name="MsgConfirmarBorradoSingular" xml:space="preserve">
-    <value>¿Está completamente seguro de que desea eliminar FÍSICAMENTE de la Base de Datos el apunte seleccionado?</value>
+    <value>Sei completamente sicuro di voler eliminare FISICAMENTE la voce selezionata dal database?</value>
   </data>
   <data name="MsgConfirmarBorradoPlural" xml:space="preserve">
-    <value>¿Está completamente seguro de que desea eliminar FÍSICAMENTE de la Base de Datos los {0} apuntes seleccionados?</value>
+    <value>Sei completamente sicuro di voler ELIMINARE FISICAMENTE le {0} note selezionate dal database?</value>
   </data>
   <data name="ConfirmarBorrado" xml:space="preserve">
-    <value>Confirmar Borrado Múltiple</value>
+    <value>Conferma cancellazione multipla</value>
   </data>
   <data name="ErrorBorrarFilaID" xml:space="preserve">
-    <value>Error al borrar la fila con ID {0}:</value>
+    <value>Errore nella cancellazione della riga con ID {0}:</value>
   </data>
   <data name="MsgLoteEliminadoExito" xml:space="preserve">
-    <value>Operación completada. Se han eliminado {0} registros físicos de la Base de Datos</value>
+    <value>Operazione completata. I registri fisici sono stati cancellati dal {0} Database</value>
   </data>
   <data name="TituloBorradoFinalizado" xml:space="preserve">
-    <value>Borrado Finalizado</value>
+    <value>Cancellazione completata</value>
   </data>
   <data name="ErrorLeerEjercicio" xml:space="preserve">
-    <value>Error al leer el ejercicio</value>
+    <value>Errore nella lettura dell'esercizio</value>
   </data>
   <data name="Desc_SALDO" xml:space="preserve">
-    <value>Saldo inicial</value>
+    <value>Bilancio di apertura</value>
   </data>
   <data name="ErrorCargarDescripciones" xml:space="preserve">
-    <value>Error al cargar descripciones históricas</value>
+    <value>Caricamento errore delle descrizioni storiche</value>
   </data>
   <data name="ErrorIniciaDesplegables" xml:space="preserve">
-    <value>Error al inicializar los desplegables de edición periódica</value>
+    <value>Errore nell'inizializzazione dei menu a discesa delle edizioni periodiche</value>
   </data>
   <data name="ToolTipEliminarPresupuesto" xml:space="preserve">
-    <value>Eliminar Presupuestos mensuales del Concepto seleccionado</value>
+    <value>Elimina i budget mensili dall'articolo selezionato</value>
   </data>
   <data name="NoDescripcionSaldo" xml:space="preserve">
-    <value>No es puede crear una descripción con el nombre</value>
+    <value>Non puoi creare una descrizione con il nome</value>
   </data>
 </root>

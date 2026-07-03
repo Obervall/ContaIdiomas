@@ -121,7 +121,7 @@
     <value>Record</value>
   </data>
   <data name="LblNumRegistros.Text" xml:space="preserve">
-    <value>(Sin Filtrar)</value>
+    <value>(Non filtrato)</value>
   </data>
   <data name="Label1.Text" xml:space="preserve">
     <value>Reg.:</value>
@@ -133,7 +133,7 @@
     <value>Uscita</value>
   </data>
   <data name="GroupBox4.Text" xml:space="preserve">
-    <value>Conceptos</value>
+    <value>Concetti</value>
   </data>
   <data name="Label3.Text" xml:space="preserve">
     <value>Concetto:</value>
@@ -172,7 +172,7 @@
     <value>Deviazione parziale fino a</value>
   </data>
   <data name="Concepto" xml:space="preserve">
-    <value>Concepto</value>
+    <value>Concetto</value>
   </data>
   <data name="EliminarPresupuestos" xml:space="preserve">
     <value>Budget, cancellazioni!!</value>
@@ -187,7 +187,7 @@
     <value>2. STRUTTURA DELLE SPESE</value>
   </data>
   <data name="EstrucIngresos" xml:space="preserve">
-    <value>1. STRUTTURA DE LA ENTRATA</value>
+    <value>1. STRUTTURA DEL REDDITO</value>
   </data>
   <data name="InformeFiltrado" xml:space="preserve">
     <value>STATO DELLE PRESTAZIONI DEL BUDGET FILTRATO</value>
@@ -217,7 +217,7 @@
     <value>Registri nei Bilanci eliminati con successo</value>
   </data>
   <data name="ResultadoNeto" xml:space="preserve">
-    <value>UTILE NETTO PER IL PERIODO (Entrate - Spese)</value>
+    <value>UTILE NETTO PER IL PERIODO (Reddito - Spese)</value>
   </data>
   <data name="ResultadoPresupuestadoNeto" xml:space="preserve">
     <value>Profitto Netto Bilanciato</value>

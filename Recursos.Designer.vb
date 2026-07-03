@@ -1885,7 +1885,7 @@ Friend Class Recursos
     End Property
     
     '''<summary>
-    '''  Busca una cadena traducida similar a ContaHogar 3.0.
+    '''  Busca una cadena traducida similar a Mis Cuentas con .
     '''</summary>
     Friend Shared ReadOnly Property TitolApp() As String
         Get

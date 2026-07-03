@@ -117,14 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Label1.Text" xml:space="preserve">
+    <value>ContaHogar 3.0
+
+Ho fatto questa domanda come riferimento,
+quella di ContaHogar, creata da Eugenio Glez.
+
+
+Puoi inviare impressioni e suggerimenti a:
+</value>
+  </data>
   <data name="BtnAceptar.Text" xml:space="preserve">
-    <value>Aceptar</value>
+    <value>Accetta</value>
   </data>
   <data name="Label2.Text" xml:space="preserve">
     <value>Domanda riformata di Antonio Oberholzer</value>
   </data>
   <data name="LblVersion.Text" xml:space="preserve">
-    <value>Versión</value>
+    <value>Versione</value>
   </data>
   <data name="Label3.Text" xml:space="preserve">
     <value>contahogar2@gmail.com</value>
@@ -146,15 +156,5 @@
   </data>
   <data name="SinActivar" xml:space="preserve">
     <value>Non attivato</value>
-  </data>
-  <data name="Label1.Text" xml:space="preserve">
-    <value>ContaHogar 3.0
-
-Ho fatto questa domanda come riferimento,
-quella di ContaHogar, creata da Eugenio Glez.
-
-
-Puoi inviare impressioni e suggerimenti a:
-</value>
   </data>
 </root>

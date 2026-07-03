@@ -139,13 +139,13 @@
     <value>Tipizzazione dei conti bancari</value>
   </data>
   <data name="CmbTipoConcepto.Items" xml:space="preserve">
-    <value>GASTO</value>
+    <value>SPESE</value>
   </data>
   <data name="CmbTipoConcepto.Items1" xml:space="preserve">
-    <value>ENTRATA</value>
+    <value>REDDITO</value>
   </data>
   <data name="CmbTipoConcepto.Items2" xml:space="preserve">
-    <value>ESPECIAL</value>
+    <value>SPECIALE</value>
   </data>
   <data name="ConfirmarBorrado" xml:space="preserve">
     <value>Conferma cancellazione</value>

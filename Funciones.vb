@@ -133,20 +133,25 @@ Module Funciones
         ' 3. Traducir todos los controles de forma recursiva
         AplicarRecursosControles(f.Controls, rmse)
 
-        ' 4. TRADUCCIÓ DINÀMICA DEL TÍTOL (Tu paso 4 intacto)
+        ' =========================================================================
+        ' 🌟 4. TRADUCCIÓ DINÀMICA DEL TÍTOL (Blindado Multiidioma)
+        ' =========================================================================
         If f.Name = "Principal" Then
-            Dim txtTitol As String = resManager.GetString("TitolApp")
-            Dim txtVersio As String = resManager.GetString("Versio")
-            Dim txtExercici As String = resManager.GetString("Ejercicio")
+            ' Capturamos el idioma activo de la sesión de la RAM
+            Dim culturaActivaEnVivo As System.Globalization.CultureInfo = Threading.Thread.CurrentThread.CurrentUICulture
 
-            If txtTitol IsNot Nothing AndAlso txtVersio IsNot Nothing AndAlso txtExercici IsNot Nothing Then
-                f.Text = String.Format("{0}  -  {1}:  {2}  -  {3}: {4}",
-                                            txtTitol,
-                                            txtVersio,
-                                            My.Settings.Version,
-                                            txtExercici,
-                                            vAñoEjercicio.ToString())
-            End If
+            ' Leemos del resManager general con su salvavidas de texto plano por defecto
+            Dim txtTitol As String = If(resManager?.GetString("TitolApp", culturaActivaEnVivo), "ContaHogar")
+            Dim txtVersio As String = If(resManager?.GetString("Versio", culturaActivaEnVivo), "Versión")
+            Dim txtExercici As String = If(resManager?.GetString("Ejercicio", culturaActivaEnVivo), "Ejercicio")
+
+            ' Forzamos el ensamblado del rótulo de cabecera de forma dócil e indestructible
+            f.Text = String.Format("{0} ContaHogar 3.0  -  {1}: {2}  -  {3}: {4}",
+                                        txtTitol.Trim(),
+                                        txtVersio.Trim(),
+                                        My.Settings.Version,
+                                        txtExercici.Trim(),
+                                        vAñoEjercicio.ToString())
         End If
     End Sub
 

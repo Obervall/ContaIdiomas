@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="LblNumRegistros.Text" xml:space="preserve">
-    <value>(Sin Filtrar)</value>
+    <value>(Non filtrato)</value>
   </data>
   <data name="Label1.Text" xml:space="preserve">
     <value>Reg.:</value>
@@ -151,13 +151,13 @@
     <value>Concetti contabili</value>
   </data>
   <data name="CmbTipoConcepto.Items" xml:space="preserve">
-    <value>GASTO</value>
+    <value>SPESE</value>
   </data>
   <data name="CmbTipoConcepto.Items1" xml:space="preserve">
-    <value>ENTRATA</value>
+    <value>REDDITO</value>
   </data>
   <data name="CmbTipoConcepto.Items2" xml:space="preserve">
-    <value>ESPECIAL</value>
+    <value>SPECIALE</value>
   </data>
   <data name="Concepto_Contable" xml:space="preserve">
     <value>Concetto di Contabilità</value>

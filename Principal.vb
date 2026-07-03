@@ -130,6 +130,7 @@ Public Class Principal
     End Sub
 
     Private Sub Principal_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ActualizarTextosFormulario(Me)
 
         RefrescarMenus()
 
@@ -499,6 +500,8 @@ Public Class Principal
         If ((frmIntroApuntes Is Nothing) OrElse (Not frmIntroApuntes.IsHandleCreated)) Then
             frmIntroApuntes = New IntroApuntes
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmIntroApuntes)
         ' Llamamos al formulario de manera modal.
         frmIntroApuntes.ShowDialog()
         'MessageBox.Show("Se ha cerrado el formulario.")
@@ -541,6 +544,8 @@ Public Class Principal
         If ((frmApuntesPeriodicos Is Nothing) OrElse (Not frmApuntesPeriodicos.IsHandleCreated)) Then
             frmApuntesPeriodicos = New ApuntesPeriodicos
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmApuntesPeriodicos)
         ' Llamamos al formulario de manera NO modal.
         frmApuntesPeriodicos.ShowDialog()
         'MessageBox.Show("Se ha cerrado el formulario.")
@@ -706,6 +711,8 @@ Public Class Principal
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmSeleccionFechas)
         ' Llamamos al formulario de manera modal.
         vOrdenadoPorFechasAPU = 1
         frmSeleccionFechas.ShowDialog()
@@ -723,6 +730,8 @@ Public Class Principal
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmSeleccionFechas)
         ' Llamamos al formulario de manera modal.
         vOrdenadoPorConceptosAPU = 1
         frmSeleccionFechas.ShowDialog()
@@ -740,6 +749,8 @@ Public Class Principal
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmSeleccionFechas)
         ' Llamamos al formulario de manera modal.
         vOrdenadoPorImportesAPU = 1
         frmSeleccionFechas.ShowDialog()
@@ -757,6 +768,8 @@ Public Class Principal
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmSeleccionFechas)
         ' Llamamos al formulario de manera modal.
         vSoloIngresosAPU = 1
         vOrdenadoPorFechasAPU = 1
@@ -776,6 +789,8 @@ Public Class Principal
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmSeleccionFechas)
         ' Llamamos al formulario de manera modal.
         vSoloIngresosAPU = 1
         vOrdenadoPorConceptosAPU = 1
@@ -795,6 +810,8 @@ Public Class Principal
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmSeleccionFechas)
         ' Llamamos al formulario de manera modal.
         vSoloIngresosAPU = 1
         vOrdenadoPorImportesAPU = 1
@@ -814,6 +831,8 @@ Public Class Principal
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmSeleccionFechas)
         ' Llamamos al formulario de manera modal.
         vSoloGastosAPU = 1
         vOrdenadoPorFechasAPU = 1
@@ -833,6 +852,8 @@ Public Class Principal
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmSeleccionFechas)
         ' Llamamos al formulario de manera modal.
         vSoloGastosAPU = 1
         vOrdenadoPorConceptosAPU = 1
@@ -852,6 +873,8 @@ Public Class Principal
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmSeleccionFechas)
         ' Llamamos al formulario de manera modal.
         vSoloGastosAPU = 1
         vOrdenadoPorImportesAPU = 1
@@ -871,6 +894,8 @@ Public Class Principal
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmSeleccionFechas)
         ' Llamamos al formulario de manera modal.
         vOrdenadoPorFechasAPP = 1
         frmSeleccionFechas.ShowDialog()
@@ -888,6 +913,8 @@ Public Class Principal
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmSeleccionFechas)
         ' Llamamos al formulario de manera modal.
         vOrdenadoPorConceptosAPP = 1
         frmSeleccionFechas.ShowDialog()
@@ -905,6 +932,8 @@ Public Class Principal
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmSeleccionFechas)
         ' Llamamos al formulario de manera modal.
         vOrdenadoPorImportesAPP = 1
         frmSeleccionFechas.ShowDialog()
@@ -922,6 +951,8 @@ Public Class Principal
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmSeleccionFechas)
         ' Llamamos al formulario de manera modal.
         vSoloIngresosAPP = 1
         vOrdenadoPorFechasAPP = 1
@@ -941,6 +972,8 @@ Public Class Principal
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmSeleccionFechas)
         ' Llamamos al formulario de manera modal.
         vSoloIngresosAPP = 1
         vOrdenadoPorConceptosAPP = 1
@@ -960,6 +993,8 @@ Public Class Principal
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmSeleccionFechas)
         ' Llamamos al formulario de manera modal.
         vSoloIngresosAPP = 1
         vOrdenadoPorImportesAPP = 1
@@ -979,6 +1014,8 @@ Public Class Principal
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmSeleccionFechas)
         ' Llamamos al formulario de manera modal.
         vSoloGastosAPP = 1
         vOrdenadoPorFechasAPP = 1
@@ -998,6 +1035,8 @@ Public Class Principal
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmSeleccionFechas)
         ' Llamamos al formulario de manera modal.
         vSoloGastosAPP = 1
         vOrdenadoPorConceptosAPP = 1
@@ -1017,6 +1056,8 @@ Public Class Principal
         If ((frmSeleccionFechas Is Nothing) OrElse (Not frmSeleccionFechas.IsHandleCreated)) Then
             frmSeleccionFechas = New SeleccionFechas
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmSeleccionFechas)
         ' Llamamos al formulario de manera modal.
         vSoloGastosAPP = 1
         vOrdenadoPorImportesAPP = 1
@@ -1035,6 +1076,8 @@ Public Class Principal
         If ((frmSeleccionarDatosIngresos Is Nothing) OrElse (Not frmSeleccionarDatosIngresos.IsHandleCreated)) Then
             frmSeleccionarDatosIngresos = New SeleccionDatosIngresos
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmSeleccionarDatosIngresos)
         ' Llamamos al formulario de manera modal.
         vGraficoSolo = "IngresosPorConcepto"
         frmSeleccionarDatosIngresos.ShowDialog()
@@ -1050,6 +1093,8 @@ Public Class Principal
         If ((frmSeleccionarDatosGastos Is Nothing) OrElse (Not frmSeleccionarDatosGastos.IsHandleCreated)) Then
             frmSeleccionarDatosGastos = New SeleccionDatosGastos
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmSeleccionarDatosGastos)
         ' Llamamos al formulario de manera modal.
         vGraficoSolo = "GastosPorConcepto"
         frmSeleccionarDatosGastos.ShowDialog()
@@ -1592,6 +1637,8 @@ Public Class Principal
         If ((frmSeleccionEjercicio Is Nothing) OrElse (Not frmSeleccionEjercicio.IsHandleCreated)) Then
             frmSeleccionEjercicio = New SeleccionEjercicio
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmSeleccionEjercicio)
         ' Llamamos al formulario de manera modal.
         frmSeleccionEjercicio.ShowDialog()
         'MessageBox.Show("Se ha cerrado el formulario.")
@@ -1640,6 +1687,8 @@ Public Class Principal
         If ((frmPreferencias Is Nothing) OrElse (Not frmPreferencias.IsHandleCreated)) Then
             frmPreferencias = New Preferencias
         End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmPreferencias)
         ' Llamamos al formulario de manera modal.
         frmPreferencias.ShowDialog()
         'MessageBox.Show("Se ha cerrado el formulario.")

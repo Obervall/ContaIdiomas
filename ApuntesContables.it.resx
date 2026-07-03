@@ -136,13 +136,13 @@
     <value>Conteggio:</value>
   </data>
   <data name="GroupBox4.Text" xml:space="preserve">
-    <value>Cuentas</value>
+    <value>Resoconti</value>
   </data>
   <data name="Label4.Text" xml:space="preserve">
     <value>Concetto:</value>
   </data>
   <data name="GroupBox5.Text" xml:space="preserve">
-    <value>Conceptos</value>
+    <value>Concetti</value>
   </data>
   <data name="Label6.Text" xml:space="preserve">
     <value>Fino a:</value>
@@ -151,7 +151,7 @@
     <value>Da:</value>
   </data>
   <data name="GroupBox6.Text" xml:space="preserve">
-    <value>Fechas</value>
+    <value>Date</value>
   </data>
   <data name="Label9.Text" xml:space="preserve">
     <value>Bilanciamento:</value>
@@ -160,7 +160,7 @@
     <value>Spese:</value>
   </data>
   <data name="Label7.Text" xml:space="preserve">
-    <value>Entrata:</value>
+    <value>Reddito:</value>
   </data>
   <data name="GroupBox7.Text" xml:space="preserve">
     <value>Totali</value>

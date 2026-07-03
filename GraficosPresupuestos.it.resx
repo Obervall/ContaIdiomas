@@ -139,7 +139,7 @@
     <value>BottoneStriscia Strumento1</value>
   </data>
   <data name="TSBtnImprimir.ToolTipText" xml:space="preserve">
-    <value>Imprimir</value>
+    <value>Stampa</value>
   </data>
   <data name="ToolStrip1.Text" xml:space="preserve">
     <value>ToolStrip1</value>

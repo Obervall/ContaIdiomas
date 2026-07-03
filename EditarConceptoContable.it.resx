@@ -136,10 +136,10 @@
     <value>Dati concettuali contabili: </value>
   </data>
   <data name="BtnCancelar.Text" xml:space="preserve">
-    <value>Cancelar</value>
+    <value>Cancella</value>
   </data>
   <data name="BtnAceptar.Text" xml:space="preserve">
-    <value>Aceptar</value>
+    <value>Accetta</value>
   </data>
   <data name="BtnEliminar.Text" xml:space="preserve">
     <value>Elimina</value>

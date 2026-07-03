@@ -142,10 +142,10 @@
     <value>Dati sull'origine del trasferimento: </value>
   </data>
   <data name="BtnCancelar.Text" xml:space="preserve">
-    <value>Cancelar</value>
+    <value>Cancella</value>
   </data>
   <data name="BtnAceptar.Text" xml:space="preserve">
-    <value>Aceptar</value>
+    <value>Accetta</value>
   </data>
   <data name="Label10.Text" xml:space="preserve">
     <value>Conteggio:</value>

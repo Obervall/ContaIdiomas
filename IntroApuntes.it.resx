@@ -151,10 +151,10 @@
     <value>Note Dati: </value>
   </data>
   <data name="BtnCancelar.Text" xml:space="preserve">
-    <value>Cancelar</value>
+    <value>Cancella</value>
   </data>
   <data name="BtnAceptarSalir.Text" xml:space="preserve">
-    <value>Aceptar y Salir</value>
+    <value>Accettazione ed uscita</value>
   </data>
   <data name="BtnAceptarOtro.Text" xml:space="preserve">
     <value>Accetta e altro</value>
