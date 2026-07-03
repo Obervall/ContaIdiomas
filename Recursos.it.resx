@@ -230,7 +230,7 @@ No se Eliminan de la Base de Datos</value>
     <value>GASTO</value>
   </data>
   <data name="Tipo_Ingreso" xml:space="preserve">
-    <value>INGRESO</value>
+    <value>ENTRATA</value>
   </data>
   <data name="Tipo_Especial" xml:space="preserve">
     <value>ESPECIAL</value>
@@ -470,7 +470,7 @@ No se Eliminan de la Base de Datos</value>
     <value>Pensión o Sueldo</value>
   </data>
   <data name="Desc_REGULARIZACION_1" xml:space="preserve">
-    <value>Regularización de Ingresos</value>
+    <value>Regularización de Entrata</value>
   </data>
   <data name="Desc_REGULARIZACION_2" xml:space="preserve">
     <value>Regularización de Gastos</value>
@@ -560,7 +560,7 @@ No se Eliminan de la Base de Datos</value>
     <value>Hasta</value>
   </data>
   <data name="TotalIngresos" xml:space="preserve">
-    <value>Total Ingresos</value>
+    <value>Total Entrata</value>
   </data>
   <data name="TotalGastos" xml:space="preserve">
     <value>Total Gastos</value>
@@ -575,7 +575,7 @@ No se Eliminan de la Base de Datos</value>
     <value>Gastos</value>
   </data>
   <data name="Ingresos" xml:space="preserve">
-    <value>Ingresos</value>
+    <value>Entrata</value>
   </data>
   <data name="Moneda" xml:space="preserve">
     <value>Moneda</value>

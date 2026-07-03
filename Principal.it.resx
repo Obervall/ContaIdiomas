@@ -229,13 +229,13 @@
     <value>Ordinato per importi</value>
   </data>
   <data name="SoloIngresosOrdenadoPorFechasToolStripMenuItem.Text" xml:space="preserve">
-    <value>Reddito solo ordinato per date</value>
+    <value>Entrata solo ordinato per date</value>
   </data>
   <data name="SoloIngresosOrdenadoPorConceptosToolStripMenuItem.Text" xml:space="preserve">
-    <value>Reddito solo ordinato per voci</value>
+    <value>Entrata solo ordinato per voci</value>
   </data>
   <data name="SoloIngresosOrdenadoPorImportesToolStripMenuItem.Text" xml:space="preserve">
-    <value>Reddito solo ordinato per importi</value>
+    <value>Entrata solo ordinato per importi</value>
   </data>
   <data name="SoloGastosOrdenadoPorFechasToolStripMenuItem.Text" xml:space="preserve">
     <value>Spese solo ordinate per date</value>
@@ -259,13 +259,13 @@
     <value>Ordinato per importi</value>
   </data>
   <data name="SoloIngresosOrdenadoPorFechasToolStripMenuItem1.Text" xml:space="preserve">
-    <value>Reddito solo ordinato per date</value>
+    <value>Entrata solo ordinato per date</value>
   </data>
   <data name="SoloIngresosOrdenadoPorConceptosToolStripMenuItem1.Text" xml:space="preserve">
-    <value>Reddito solo ordinato per voci</value>
+    <value>Entrata solo ordinato per voci</value>
   </data>
   <data name="SoloIngresosOrdenadoPorImportesToolStripMenuItem1.Text" xml:space="preserve">
-    <value>Reddito solo ordinato per importi</value>
+    <value>Entrata solo ordinato per importi</value>
   </data>
   <data name="SoloGastosOrdenadoPorFechasToolStripMenuItem1.Text" xml:space="preserve">
     <value>Spese solo ordinate per date</value>
@@ -280,7 +280,7 @@
     <value>Elenco delle Note Periodiche</value>
   </data>
   <data name="GráficosDeIngresosPorConceptoToolStripMenuItem.Text" xml:space="preserve">
-    <value>Classifiche dei redditi per concetto</value>
+    <value>Classifiche de la entrata per concetto</value>
   </data>
   <data name="GráficosDeGastosPorConceptoToolStripMenuItem.Text" xml:space="preserve">
     <value>Grafici delle spese per concetto</value>
@@ -523,13 +523,13 @@
     <value>Elenco delle Note ordinate per importi</value>
   </data>
   <data name="ListadoApuntesSoloIngresosFechas" xml:space="preserve">
-    <value>Elenco delle voci Solo Reddito ordinato per date</value>
+    <value>Elenco delle voci Solo Entrata ordinato per date</value>
   </data>
   <data name="ListadoApuntesSoloIngresosConceptos" xml:space="preserve">
-    <value>Elenco delle voci Solo Reddito ordinato per concetti</value>
+    <value>Elenco delle voci Solo Entrata ordinato per concetti</value>
   </data>
   <data name="ListadoApuntesSoloIngresosImportes" xml:space="preserve">
-    <value>Elenco delle voci Solo Reddito ordinato per importi</value>
+    <value>Elenco delle voci Solo Entrata ordinato per importi</value>
   </data>
   <data name="ListadoApuntesSoloGastosFechas" xml:space="preserve">
     <value>Elenco solo delle spese Articoli ordinato per date</value>
@@ -550,13 +550,13 @@
     <value>Elenco delle Note periodiche ordinate per importi</value>
   </data>
   <data name="ListadoPeriodicosSoloIngresosFechas" xml:space="preserve">
-    <value>Elenco delle voci periodiche Solo reddito ordinato per date</value>
+    <value>Elenco delle voci periodiche Solo Entrata ordinato per date</value>
   </data>
   <data name="ListadoPeriodicosSoloIngresosConceptos" xml:space="preserve">
-    <value>Elenco delle note periodiche Solo reddito ordinato per concetti</value>
+    <value>Elenco delle note periodiche Solo Entrata ordinato per concetti</value>
   </data>
   <data name="ListadoPeriodicosSoloIngresosImportes" xml:space="preserve">
-    <value>Elenco delle note periodiche Solo reddito ordinato per importi</value>
+    <value>Elenco delle note periodiche Solo Entrata ordinato per importi</value>
   </data>
   <data name="ListadoPeriodicosSoloGastosFechas" xml:space="preserve">
     <value>Elenco di Articoli Periodici Solo Spese Ordinate per Date</value>

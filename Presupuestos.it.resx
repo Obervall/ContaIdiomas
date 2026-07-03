@@ -187,7 +187,7 @@
     <value>2. STRUTTURA DELLE SPESE</value>
   </data>
   <data name="EstrucIngresos" xml:space="preserve">
-    <value>1. STRUTTURA DEL REDDITO</value>
+    <value>1. STRUTTURA DE LA ENTRATA</value>
   </data>
   <data name="InformeFiltrado" xml:space="preserve">
     <value>STATO DELLE PRESTAZIONI DEL BUDGET FILTRATO</value>
@@ -217,7 +217,7 @@
     <value>Registri nei Bilanci eliminati con successo</value>
   </data>
   <data name="ResultadoNeto" xml:space="preserve">
-    <value>UTILE NETTO PER IL PERIODO (Reddito - Spese)</value>
+    <value>UTILE NETTO PER IL PERIODO (Entrate - Spese)</value>
   </data>
   <data name="ResultadoPresupuestadoNeto" xml:space="preserve">
     <value>Profitto Netto Bilanciato</value>

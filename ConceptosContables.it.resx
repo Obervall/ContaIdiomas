@@ -154,7 +154,7 @@
     <value>GASTO</value>
   </data>
   <data name="CmbTipoConcepto.Items1" xml:space="preserve">
-    <value>INGRESO</value>
+    <value>ENTRATA</value>
   </data>
   <data name="CmbTipoConcepto.Items2" xml:space="preserve">
     <value>ESPECIAL</value>

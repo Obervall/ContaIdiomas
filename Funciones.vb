@@ -1853,6 +1853,7 @@ Module Funciones
                 If Not culturasABuscar.Contains("de") Then culturasABuscar.Add("de")
                 If Not culturasABuscar.Contains("fr") Then culturasABuscar.Add("fr")
                 If Not culturasABuscar.Contains("pt") Then culturasABuscar.Add("pt")
+                If Not culturasABuscar.Contains("it") Then culturasABuscar.Add("it")
             End If
 
             ' =========================================================================
