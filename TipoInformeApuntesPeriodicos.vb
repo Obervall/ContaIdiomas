@@ -1136,7 +1136,7 @@ Public Class TipoInformeApuntesPeriodicos
 
                 e.Graphics.DrawString(fechaTxt, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
                 e.Graphics.DrawString(impNum.ToString("N2"), FuenteDetalles, Brushes.Black, frmImprimirForm.Punto2.Left + 80, startY, sf)
-                startY += (alturaFila * 2)
+                startY += alturaFila
             End If
 
             PrintLine += 1
