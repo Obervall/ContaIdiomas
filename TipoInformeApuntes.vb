@@ -742,6 +742,23 @@ Public Class TipoInformeApuntes
     End Sub
 
     Private Sub BtnCancelar_Click(sender As Object, e As EventArgs) Handles BtnCancelar.Click
+        frmApuntesContables.BtnF6.PerformClick()
         Me.Close()
     End Sub
+
+    ' =========================================================================
+    ' 🌟 INTERCEPTOR DE CIERRE DE PANTALLA TOTAL (Para la X de Windows y ALT+F4)
+    ' =========================================================================
+    Private Sub Formulario_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        Try
+            ' 🚀 EL CORTAFUEGOS: Si la pantalla nodriza de apuntes está viva en la RAM,
+            ' la obligamos a refrescar sus datos por si el usuario ha tocado o cancelado registros
+            If frmApuntesContables IsNot Nothing AndAlso frmApuntesContables.IsHandleCreated Then
+                frmApuntesContables.BtnF6.PerformClick()
+            End If
+        Catch ex As Exception
+            ' Evita parpadeos o bloqueos visuales en el hilo del sistema
+        End Try
+    End Sub
+
 End Class

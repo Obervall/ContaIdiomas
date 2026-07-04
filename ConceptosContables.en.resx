@@ -168,10 +168,10 @@
   <data name="Concepto_Contable" xml:space="preserve">
     <value>Accounting Concept</value>
   </data>
-  <data name="Nota_TRASPASO" xml:space="preserve">
+  <data name="Desc_TRASPASO" xml:space="preserve">
     <value>Concept of system for the transfer between bank accounts, used for ATM withdrawals...</value>
   </data>
-  <data name="Nota_SALDO" xml:space="preserve">
+  <data name="Desc_SALDO" xml:space="preserve">
     <value>System concept for the Opening Balance</value>
   </data>
 </root>

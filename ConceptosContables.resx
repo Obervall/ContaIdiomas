@@ -1189,10 +1189,10 @@
   <data name="ListadoConceptosContablesFiltrado" xml:space="preserve">
     <value>Listado de Conceptos Contables. Filtrado por:</value>
   </data>
-  <data name="Nota_TRASPASO" xml:space="preserve">
+  <data name="Desc_TRASPASO" xml:space="preserve">
     <value>Concepto de sistema para el traspaso entre cuentas bancarias, sirve para disposiciones del cajero...</value>
   </data>
-  <data name="Nota_SALDO" xml:space="preserve">
+  <data name="Desc_SALDO" xml:space="preserve">
     <value>Concepto de sistema para el Saldo Inicial</value>
   </data>
 </root>

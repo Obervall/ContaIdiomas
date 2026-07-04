@@ -168,10 +168,10 @@
   <data name="Concepto_Contable" xml:space="preserve">
     <value>Concepte Comptable</value>
   </data>
-  <data name="Nota_TRASPASO" xml:space="preserve">
+  <data name="Desc_TRASPASO" xml:space="preserve">
     <value>Concepte de sistema per al traspàs entre comptes bancaris, serveix per a disposicions del caixer...</value>
   </data>
-  <data name="Nota_SALDO" xml:space="preserve">
+  <data name="Desc_SALDO" xml:space="preserve">
     <value>Concepte de sistema per al Saldo Inicial</value>
   </data>
 </root>

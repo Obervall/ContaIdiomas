@@ -168,10 +168,10 @@
   <data name="Concepto_Contable" xml:space="preserve">
     <value>Concept comptable</value>
   </data>
-  <data name="Nota_TRASPASO" xml:space="preserve">
+  <data name="Desc_TRASPASO" xml:space="preserve">
     <value>Concept de système de transfert entre comptes bancaires, utilisé pour les retraits aux distributeurs automatiques...</value>
   </data>
-  <data name="Nota_SALDO" xml:space="preserve">
+  <data name="Desc_SALDO" xml:space="preserve">
     <value>Concept système pour l’Équilibre d’ouverture</value>
   </data>
 </root>

@@ -147,7 +147,7 @@ Public Class ConceptosContables
 
                             ' --- TRADUCIR COLUMNA (3): NotasCON (Solo si el origen es ESPECIAL) ---
                             If tipoOriginal = "ESPECIAL" AndAlso fila.Cells(3).Value IsNot Nothing Then
-                                Dim llaveNota As String = "Nota_" & llaveBase
+                                Dim llaveNota As String = "Desc_" & llaveBase
 
                                 ' Buscamos primero en el global, si no, en el local
                                 Dim tradNota As String = rmse.GetString(llaveNota)
@@ -661,6 +661,18 @@ Public Class ConceptosContables
                             fila.Cells(2).Value = fila.Cells(2).Value.ToString().Replace("_", " ")
                         End If
                     End If
+
+                    If tipoOriginal = "ESPECIAL" AndAlso fila.Cells(3).Value IsNot Nothing Then
+                        Dim tradNota As String = frmEditarConceptoContable.rmse.GetString("ConceptoSistemaNoBorrar")
+                        If Not String.IsNullOrEmpty(tradNota) Then
+                            fila.Cells(3).Value = tradNota
+                        Else
+                            ' Si es del usuario, quitamos guiones de la descripción para que salga limpia
+                            If fila.Cells(3).Value IsNot Nothing Then
+                                fila.Cells(3).Value = fila.Cells(3).Value.ToString().Replace("_", " ")
+                            End If
+                        End If
+                    End If
                 End If
             Next
 
@@ -738,6 +750,7 @@ Public Class ConceptosContables
         e.Graphics.DrawString(resManager.GetString("Tipo") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
         e.Graphics.DrawString(resManager.GetString("Codigo") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto2.Left, frmImprimirForm.Punto2.Top - 30)
         e.Graphics.DrawString(resManager.GetString("Descripcion") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto3.Left, frmImprimirForm.Punto3.Top - 30)
+        e.Graphics.DrawString(resManager.GetString("Notas") & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto4.Left, frmImprimirForm.Punto4.Top - 30)
 
         ' Línea divisoria superior
         e.Graphics.DrawString(frmImprimirForm.LineaTop.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.LineaTop.Left, frmImprimirForm.LineaTop.Top)
@@ -771,15 +784,16 @@ Public Class ConceptosContables
             Dim codigoActual As String = If(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(1).Value?.ToString().Trim(), "")
             Dim descActual As String = If(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(2).Value?.ToString().Trim(), "")
             Dim notaActual As String = If(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(3).Value?.ToString().Trim(), "")
-
-            ' Manejo especial para notas de sistema en conceptos ESPECIALES
-            Dim textoCelda2 As String = descActual
-            Dim tipoUpper As String = tipoActual.ToUpper()
-            If tipoUpper = "ESPECIAL" OrElse (resManager.GetString("Tipo_Especial") IsNot Nothing AndAlso tipoUpper = resManager.GetString("Tipo_Especial").ToUpper()) Then
-                Dim llaveNota As String = "Nota_" & codigoActual.Replace(" ", "_")
-                Dim tradNota As String = resManager.GetString(llaveNota)
-                textoCelda2 = If(Not String.IsNullOrEmpty(tradNota), tradNota, notaActual)
-            End If
+            '' Manejo especial para notas de sistema en conceptos ESPECIALES
+            'Dim textoCelda2 As String = descActual
+            'Dim tipoUpper As String = tipoActual.ToUpper()
+            'If tipoUpper = "ESPECIAL" OrElse (resManager.GetString("Tipo_Especial") IsNot Nothing AndAlso tipoUpper = resManager.GetString("Tipo_Especial").ToUpper()) Then
+            '    Stop
+            '    Dim llaveNota As String = "Desc_" & codigoActual.Replace(" ", "_")
+            '    Dim tradNota As String = resManager.GetString(llaveNota)
+            '    textoCelda2 = If(Not String.IsNullOrEmpty(tradNota), tradNota, notaActual)
+            '    Stop
+            'End If
 
             ' DIBUJAR LOS DATOS USANDO LOS PUNTOS DE TU PLANTILLA PREFERIDA
             e.Graphics.DrawString(tipoActual, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
@@ -788,7 +802,11 @@ Public Class ConceptosContables
             ' Calculamos el ancho de la columna descripción basándonos en el margen derecho de la hoja
             Dim anchoDisponibleCol2 As Integer = e.MarginBounds.Right - frmImprimirForm.Punto3.Left
             Dim rectanguloCelda2 As New RectangleF(frmImprimirForm.Punto3.Left, startY, anchoDisponibleCol2, frmImprimirForm.Punto1.Height)
-            e.Graphics.DrawString(textoCelda2, FuenteDetalles, Brushes.Black, rectanguloCelda2, formatoCortado)
+            e.Graphics.DrawString(descActual, FuenteDetalles, Brushes.Black, rectanguloCelda2, formatoCortado)
+
+            'Añadir la columna de Notas si es necesario
+            e.Graphics.DrawString(notaActual, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto4.Left, startY)
+
 
             ' Avanzamos espacio vertical para la siguiente fila
             startY += frmImprimirForm.LblFecha.Height

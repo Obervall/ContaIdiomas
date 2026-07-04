@@ -2115,7 +2115,7 @@ Public Class ApuntesContables
         End If
     End Sub
 
-    Private Sub BtnF6_Click(sender As Object, e As EventArgs) Handles BtnF6.Click
+    Public Sub BtnF6_Click(sender As Object, e As EventArgs) Handles BtnF6.Click
         'Vuelve a Refrecar el DataGrid y dejar los Btn de los Filtros sin Filtrar
         '************************************************************************
         vtipoSql = "SELECT apuntes.FechaAPU As [FechaAPU], " &  'Celda 0

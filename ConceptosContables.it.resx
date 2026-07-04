@@ -168,10 +168,10 @@
   <data name="ListadoConceptosContablesFiltrado" xml:space="preserve">
     <value>Elenco dei concetti contabili. Filtrato da:</value>
   </data>
-  <data name="Nota_TRASPASO" xml:space="preserve">
+  <data name="Desc_TRASPASO" xml:space="preserve">
     <value>Concetto di sistema per il trasferimento tra conti bancari, utilizzato per prelievi ATM...</value>
   </data>
-  <data name="Nota_SALDO" xml:space="preserve">
+  <data name="Desc_SALDO" xml:space="preserve">
     <value>Concetto di sistema per l'Opening Balance</value>
   </data>
 </root>
