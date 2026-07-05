@@ -2083,4 +2083,13 @@
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="EliminarApuntesPeriodicos" xml:space="preserve">
+    <value>Apuntes Periódicos Eliminados!!</value>
+  </data>
+  <data name="EliminarApuntesPeriodicosError" xml:space="preserve">
+    <value>Error al eliminar asientos periódicos relacionados con la partida contable</value>
+  </data>
+  <data name="IntroApuPer" xml:space="preserve">
+    <value>Introducción de Apuntes Periódicos</value>
+  </data>
 </root>

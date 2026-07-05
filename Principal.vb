@@ -1510,7 +1510,7 @@ Public Class Principal
 
                 MsgBox(rmse.GetString("TransferenciaConceptos") & ". " & insertados.ToString() & " " & rmse.GetString("RegistrosCopiados") & ", " & omitidos.ToString() & " " & rmse.GetString("RegistrosOmitidos") & ".", MsgBoxStyle.Information, rmse.GetString("$this.Text"))
             Catch ex As Exception
-                MsgBox(resManager.GetString("Error") & ":   " & ex.Message, MsgBoxStyle.Critical, resManager.GetString("Error"))
+                MsgBox(resManager.GetString("Error") & ":  " & ex.Message, MsgBoxStyle.Critical, resManager.GetString("Error"))
             End Try
         End Using
 
