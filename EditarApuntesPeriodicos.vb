@@ -83,17 +83,35 @@ Public Class EditarApuntesPeriodicos
 
         ' 🌟 CORRECCIÓN MAESTRA: Seleccionamos en los combos por su ID numérico oculto
         ' usando SelectedValue. Así viajan emparejados de forma indestructible.
-        ' (Leemos los IDs desde las celdas 9 y 10 de tu macro-consulta relacional de atrás)
         Dim idConceptoFila As Integer = Convert.ToInt32(frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(9).Value)
         Dim idCuentaFila As Integer = Convert.ToInt32(frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(10).Value)
 
         CmbConcepto.SelectedValue = idConceptoFila
         CmbCuenta.SelectedValue = idCuentaFila
 
-        ' Formateo seguro de los importes contables decimales
+        ' 🚀 REPARADO 1: Forzamos la actualización manual del TxtTipoConcepto en el Load
+        ' Vamos a buscar el tipo (Gasto/Ingreso) al maestro de conceptos usando el ID relacional
+        Using con As New OleDbConnection(conexion1.ConnectionString)
+            Using cmd As New OleDbCommand("SELECT TipoCON FROM conceptos WHERE IdConceptoCON = ?", con)
+                cmd.Parameters.Add("@id", OleDbType.Integer).Value = idConceptoFila
+                Try
+                    con.Open()
+                    Dim res = cmd.ExecuteScalar()
+                    If res IsNot Nothing Then
+                        ' Traducimos e inyectamos el tipo ("G" o "I") en tu TxtTipoConcepto local
+                        TxtTipoConcepto.Text = res.ToString().Trim().ToUpper()
+                    End If
+                Catch
+                End Try
+            End Using
+        End Using
+
+        ' 🚀 REPARADO 2: Control estricto del signo decimal (¡Adiós Math.Abs transgresor!)
         vimporteAPU = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(3).Value.ToString()
         Dim importeDecimal As Decimal = ConvertirDecimalSeguro(vimporteAPU)
-        TxtImporte.Text = Math.Abs(importeDecimal).ToString("N2")
+
+        ' Conservamos el signo menos si es un gasto menor que cero para que no mute a positivo
+        TxtImporte.Text = importeDecimal.ToString("N2")
 
         ' 4. Apagamos el escudo protector de forma segura tras la asignación
         cargandoFormulario = False
@@ -233,11 +251,17 @@ Public Class EditarApuntesPeriodicos
         Dim importeDecimal As Decimal = ConvertirDecimalSeguro(TxtImporte.Text)
 
         If importeDecimal <> 0 Then
-            ' 🌟 PROTECCIÓN DE IDIOMA: Comparamos con el texto original y traducido para que el signo no falle jamás
-            If TxtTipoConcepto.Text.ToUpper() = "GASTO" OrElse TxtTipoConcepto.Text = resManager.GetString("Tipo_Gasto") Then
-                vimporteAPU = -Math.Abs(importeDecimal)
+            ' =========================================================================
+            ' 🌟 CORTAFUEGOS DE SIGNO CONTABLE: COMPARACIÓN RELACIONAL INDESTRUCTIBLE
+            ' =========================================================================
+            ' 🚀 REPARADO: Añadimos el control por la letra "G" pura que inyecta Access en la RAM
+            Dim tipoConceptoTxt As String = TxtTipoConcepto.Text.Trim().ToUpper()
+            Dim traduccionGasto As String = If(resManager?.GetString("Tipo_Gasto"), "GASTO").Trim().ToUpper()
+
+            If tipoConceptoTxt = "G" OrElse tipoConceptoTxt = "GASTO" OrElse tipoConceptoTxt = traduccionGasto Then
+                vimporteAPU = -Math.Abs(importeDecimal) ' Forzamos signo negativo para Gastos
             Else
-                vimporteAPU = Math.Abs(importeDecimal)
+                vimporteAPU = Math.Abs(importeDecimal)  ' Forzamos signo positivo para Ingresos
             End If
 
             vDate3 = DateTimePicker1.Value.Date
@@ -275,9 +299,8 @@ Public Class EditarApuntesPeriodicos
             End Try
 
             ' =========================================================================
-            ' 🌟 FASE 2: REUTILIZACIÓN TOTAL (Borramos 50 líneas basura de filtros manuales)
+            ' 🌟 FASE 2: REUTILIZACIÓN TOTAL (Refresco de la rejilla nodriza)
             ' =========================================================================
-            ' Delegamos en la rutina mágica unificada de la pantalla principal de periódicos
             frmApuntesPeriodicos.RefrescarGridApuntesPeriodicos()
 
             ' Reposicionamos la fila seleccionada por el usuario de forma 100% segura
