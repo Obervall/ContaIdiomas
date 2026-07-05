@@ -895,7 +895,7 @@ le fichier n’est pas ouvert</value>
   <data name="ErrorEscanearPeriodicos" xml:space="preserve">
     <value>Expirations périodiques du balayage d’erreurs</value>
   </data>
-  <data name="SinProgramar" xml:space="preserve">
-    <value>Non programmé</value>
+  <data name="AvisoTipoCuentaProtegido" xml:space="preserve">
+    <value>Les types de comptes par défaut du système sont protégés contre toute modification, s’ils ne doivent pas être utilisés, ils peuvent être supprimés</value>
   </data>
 </root>

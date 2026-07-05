@@ -895,7 +895,7 @@ the file is not open</value>
   <data name="ErrorEscanearPeriodicos" xml:space="preserve">
     <value>Error scanning periodic expirations</value>
   </data>
-  <data name="SinProgramar" xml:space="preserve">
-    <value>Unscheduled</value>
+  <data name="AvisoTipoCuentaProtegido" xml:space="preserve">
+    <value>The system's default account types are protected from modification, if it is not to be used it can be deleted</value>
   </data>
 </root>

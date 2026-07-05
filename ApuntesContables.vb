@@ -606,40 +606,6 @@ Public Class ApuntesContables
 
         ' 2. LLENAR Y TRADUCIR CON NUESTRA FUNCIÓN MODULAR (Añadido el IdConceptoCON obligatorio)
         cmdMdb1cr.CommandText = "SELECT IdConceptoCON, CodigoCON, TipoCON, DescripcionCON FROM conceptos ORDER BY TipoCON ASC, CodigoCON ASC"
-        'Try
-        '    drMdb1 = cmdMdb1cr.ExecuteReader()
-
-        '    ' 🌟 LA RECARGA INDEPENDIENTE AL QUITAR FILTRO:
-        '    ' 1. Cargamos el ComboBox de forma pura de la A a la Z
-        '    LlenarComboConceptosSueltosBD(Me.CmbConcepto)
-
-        '    ' 2. Cargamos el ListBox1 manteniendo tus cabeceras estéticas por grupos (Gasto/Ingreso)
-        '    cmdMdb1cr.CommandText = "SELECT IdConceptoCON, CodigoCON, DescripcionCON, TipoCON FROM conceptos"
-        '    drMdb1 = cmdMdb1cr.ExecuteReader()
-        '    LlenarYTraducirListBoxConceptosBD(Me.ListBox1, drMdb1)
-
-
-        '    ' El lector ya se cierra de forma obligatoria y segura dentro de LlenarYTraducirControlesConceptosBD
-
-        '    ' FORZAMOS la selección inicial dócil del primer concepto por defecto de fábrica
-        '    If CmbConcepto.Items.Count > 0 Then
-        '        CmbConcepto.SelectedIndex = -1
-        '        CmbConcepto.SelectedIndex = 0
-        '    End If
-
-        '    ' 4. NUEVO Y ULTRA RÁPIDO: Rellenar el TxtConcepto sin abrir un segundo lector repetido
-        '    ' Como CmbConcepto está enlazado a un DataTable gracias al DataSource, extraemos la descripción al vuelo
-        '    If CmbConcepto.SelectedItem IsNot Nothing Then
-        '        Dim filaSeleccionada As DataRowView = CType(CmbConcepto.SelectedItem, DataRowView)
-        '        TxtConcepto.Text = filaSeleccionada("DescripcionCON").ToString()
-        '    Else
-        '        TxtConcepto.Text = ""
-        '    End If
-
-        'Catch ex As Exception
-        '    MsgBox(resManager.GetString("Error") & ": " & ex.Message, MsgBoxStyle.Critical, resManager.GetString("Error"))
-        '    If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-        'End Try
 
         ' 1. Activamos el escudo temporal para que el combo no dispare eventos a destiempo
         cargandoFormulario = True

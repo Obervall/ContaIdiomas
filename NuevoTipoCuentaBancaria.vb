@@ -85,7 +85,7 @@ Public Class NuevoTipoCuentaBancaria
         LlenarGrid(vtipoSql, vtipoGrid, "1")
 
         ' =========================================================================
-        ' ✨ TRUCO MULTIIDIOMA: Traducir los resultados devueltos en el mini-grid
+        ' ✨ TRUCO MULTIIDIOMA SANEADO: Traducción Visual Limpia sin Guiones
         ' =========================================================================
         If DgvExistente.Rows.Count > 0 Then
             DgvExistente.Visible = True
@@ -93,16 +93,24 @@ Public Class NuevoTipoCuentaBancaria
             For Each row As DataGridViewRow In DgvExistente.Rows
                 If row.IsNewRow Then Continue For
 
-                ' Leemos el código base en mayúsculas (Ej: "CASH")
+                ' Leemos el código base en mayúsculas (Ej: "CUENTA_CORRIENTE")
                 Dim codigoTIP As String = row.Cells(0).Value?.ToString().Trim()
 
-                ' Si tu diccionario de recursos (rmse) tiene traducción activa, la estampamos
-                If rmse IsNot Nothing AndAlso Not String.IsNullOrEmpty(codigoTIP) Then
+                If Not String.IsNullOrEmpty(codigoTIP) Then
+                    ' 🚀 REPARADO 1: Buscamos en el resManager local reemplazando espacios por guiones
                     Dim claveRecurso As String = codigoTIP.Replace(" ", "_")
-                    Dim traduccion As String = rmse.GetString(claveRecurso)
+                    Dim traduccion As String = ""
 
+                    If resManager IsNot Nothing Then
+                        traduccion = resManager.GetString(claveRecurso)
+                    End If
+
+                    ' 🚀 REPARADO 2: Si tiene traducción, limpiamos los guiones bajos visuales.
+                    ' Si es un tipo nuevo del usuario y no tiene traducción, le quitamos los guiones también al original.
                     If Not String.IsNullOrEmpty(traduccion) Then
-                        row.Cells(0).Value = traduccion.Trim().ToUpper()
+                        row.Cells(0).Value = traduccion.Replace("_", " ").Trim().ToUpper()
+                    Else
+                        row.Cells(0).Value = codigoTIP.Replace("_", " ").Trim().ToUpper()
                     End If
                 End If
             Next

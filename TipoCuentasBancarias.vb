@@ -235,21 +235,75 @@ Public Class TipoCuentaBancaria
     End Sub
 
     Private Sub BtnEditarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEditarRegistro.Click
-        filaActual = frmTipoCuentaBancaria.DgvTipoCuentasBancarias.CurrentRow.Index
-        vTxtNombre = frmTipoCuentaBancaria.DgvTipoCuentasBancarias.Rows(filaActual).Cells(1).Value.ToString
+        ' 1. Obtener la fila seleccionada de la cuadrícula de tipos de cuenta
+        filaActual = DgvTipoCuentasBancarias.CurrentRow.Index
 
-        ' Comprobamos si existe un identificador asociado.
+        ' 2. LEER EL CÓDIGO REAL: La columna del código es la Celda 0 de tu Grid (ej: SPARBUCH / SAVINGS)
+        Dim codigoCelda As String = DgvTipoCuentasBancarias.Rows(filaActual).Cells(0).Value.ToString().Trim().ToUpper()
+
+        ' =========================================================================
+        ' 3. REVERTIR EL IDIOMA PARA COMPARAR CON TU LISTA BASE EN LA RAM
+        ' =========================================================================
+        Dim codigoEnEspañol As String = codigoCelda ' Por defecto asumimos que es ese
+
+        Dim resSet As System.Resources.ResourceSet = resManager.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
+        If resSet IsNot Nothing Then
+            For Each dict As System.Collections.DictionaryEntry In resSet
+                Dim llaveKey As String = dict.Key.ToString()
+
+                ' ¡EL FILTRO FILTRADO MAESTRO!: Si la llave empieza por "Desc_", la ignoramos
+                ' por completo para no confundir el tipo con su descripción larga
+                If llaveKey.StartsWith("Desc_", StringComparison.OrdinalIgnoreCase) Then Continue For
+
+                Dim valorTraducido As String = dict.Value?.ToString().Trim().ToUpper()
+
+                ' Si el texto de la celda coincide con la traducción activa del .resx
+                If valorTraducido = codigoCelda Then
+                    ' Recuperamos la llave original limpia de la base de datos (Ej: "AHORRO" o "CORRIENTE")
+                    codigoEnEspañol = llaveKey.Replace("_", " ").ToUpper()
+                    Exit For
+                End If
+            Next
+        End If
+
+        ' =========================================================================
+        ' 4. VALIDACIÓN DE BLOQUEO DE EDICIÓN USANDO LA LISTA GLOBAL DE TIPOS
+        ' =========================================================================
+        ' Apuntamos directamente a tu lista protectora del módulo (TiposCuentaMuestraSistema)
+        If TiposCuentaMuestraSistema.Contains(codigoEnEspañol) Then
+            Dim msgAviso As String = resManager.GetString("AvisoTipoCuentaProtegido")
+            If String.IsNullOrEmpty(msgAviso) Then msgAviso = "Los tipos de cuentas predeterminados del sistema están protegidos contra modificaciones, si no se va a usar se puede Eliminar."
+            MessageBox.Show(msgAviso, resManager.GetString("Aviso"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub ' Se frena en seco: bloquea por completo la edición
+        End If
+
+        ' =========================================================================
+        ' 5. VALIDACIÓN DE BLOQUEO DE EDICIÓN (BLINDADA CONTRA ESPACIOS)
+        ' =========================================================================
+        ' Eliminamos cualquier guion bajo y espacio para comparar cadenas limpias (Ej: "CUENTACORRIENTE")
+        Dim textoValidarLimpio As String = codigoEnEspañol.Replace("_", "").Replace(" ", "").Trim().ToUpper()
+        If TiposCuentaMuestraSistema.Contains(textoValidarLimpio) Then
+            Dim msgAviso As String = resManager.GetString("AvisoTipoCuentaProtegido")
+            If String.IsNullOrEmpty(msgAviso) Then msgAviso = "Los tipos de cuentas predeterminados del sistema están protegidos contra modificaciones, si no se va a usar se puede Eliminar."
+            MessageBox.Show(msgAviso, resManager.GetString("Aviso"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
+        ' =========================================================================
+        ' 6. ABRIR FORMULARIO DE EDICIÓN MODAL (Si es libre, le deja pasar)
+        ' =========================================================================
+        vTxtNombre = codigoCelda
+
         If ((frmEditarTipoCuentaBancaria Is Nothing) OrElse (Not frmEditarTipoCuentaBancaria.IsHandleCreated)) Then
             frmEditarTipoCuentaBancaria = New EditarTipoCuentaBancaria
         End If
-        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+
+        ' Forzamos la traducción y la interfaz antes de medir la ventana modal
         ActualizarTextosFormulario(frmEditarTipoCuentaBancaria)
-        ' Llamamos al formulario de manera modal.
         vEditar = "SI"
         frmEditarTipoCuentaBancaria.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
         frmEditarTipoCuentaBancaria.Dispose()
+
         vtipoSql = "SELECT tipocuentas.CodigoTIP, tipocuentas.DescripcionTIP, tipocuentas.IdTipoCUE FROM tipocuentas"
         vtipoSql += " ORDER BY tipocuentas.CodigoTIP ASC"
         vtipoGrid = "TIPO_CUENTAS_BANCARIAS"
@@ -442,19 +496,21 @@ Public Class TipoCuentaBancaria
     End Sub
 
     Private Sub BtnImprimir_Click(sender As Object, e As EventArgs) Handles BtnImprimir.Click
+        ' 1. Consulta limpia a la base de datos de Access
         vtipoSql = "SELECT * FROM tipocuentas"
         vtipoSql += " ORDER BY tipocuentas.CodigoTIP ASC"
 
+        ' 2. Llenamos el Grid oculto de la trastienda con los datos crudos
         LlenarGrid(vtipoSql, "PRINT_TIPO_CUENTAS", 1)
-        frmImprimirForm.LblFecha.Text = Date.Today.ToLongDateString
+        frmImprimirForm.LblFecha.Text = Date.Today.ToLongDateString()
 
-        'Para ver la plantilla de impresión
-        'frmImprimirForm.Show()
-
-        ' 1. Reinicia las variables globales antes de empezar a imprimir
+        ' 3. Reiniciamos los punteros de página y renglones de la RAM
         PrintLine = 0
         Contador = 0
         frmImprimirForm.LblNumeroPagina.Text = "0"
+
+        'Para ver la plantilla de impresión
+        'frmImprimirForm.Show()
 
         ' 2. Lanza el proceso de impresión (esto activa automáticamente el evento PrintPage)
         If My.Settings.Previsualizar = True Then
@@ -495,7 +551,6 @@ Public Class TipoCuentaBancaria
 
         'Imprimimos el encabezado los datos que están antes del datagridview
         '*******************************************************************
-        'e.Graphics.DrawString(frmImprimirForm.LblUsuario.Text, FuenteNegrita, Brushes.Black, frmImprimirForm.LblUsuario.Left, frmImprimirForm.LblUsuario.Top)
         e.Graphics.DrawString(frmImprimirForm.LblFecha.Text, FuenteNegrita, Brushes.Black, frmImprimirForm.LblFecha.Right, frmImprimirForm.LblFecha.Top)
         e.Graphics.DrawString(frmImprimirForm.LblTitulo.Text, FuenteTitulo, Brushes.Black, frmImprimirForm.LblTitulo.Left, frmImprimirForm.LblTitulo.Top)
         Dim newImage As Image = frmImprimirForm.PictureBox1.Image : e.Graphics.DrawImage(newImage, frmImprimirForm.PictureBox1.Left, frmImprimirForm.PictureBox1.Top, frmImprimirForm.PictureBox1.Width, frmImprimirForm.PictureBox1.Height)
@@ -514,54 +569,68 @@ Public Class TipoCuentaBancaria
         '*********************************************
         e.Graphics.DrawString(frmImprimirForm.LineaTop.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.LineaTop.Left, frmImprimirForm.LineaTop.Top)
 
-        'Imprimimos los detalles del reporte, es decir el listado de Apuntes
-        '*******************************************************************
-        Dim startX As Integer = frmImprimirForm.Punto1.Left 'Tomamos la posicion horinzontal de la letra 'Punto1'
-        Dim startY As Integer = frmImprimirForm.Punto1.Top 'Tomamos la posicion vertical de la letra 'Punto1'
+        ' Imprimimos los detalles del reporte, es decir el listado de Apuntes
+        ' *******************************************************************
+        Dim startX As Integer = frmImprimirForm.Punto1.Left ' Tomamos la posicion horinzontal de la letra 'Punto1'
+        Dim startY As Integer = frmImprimirForm.Punto1.Top  ' Tomamos la posicion vertical de la letra 'Punto1'
+
+        Dim alturaFila As Integer = CInt(FuenteDetalles.Height * 1.5)
 
         Do While PrintLine < frmImprimirForm.DgvApuntes.Rows.Count
-            If startY + frmImprimirForm.Punto1.Height > e.MarginBounds.Bottom Then
+            If frmImprimirForm.DgvApuntes.Rows(PrintLine).IsNewRow Then
+                PrintLine += 1
+                Continue Do
+            End If
+
+            If startY + alturaFila > e.MarginBounds.Bottom Then
                 e.HasMorePages = True
                 Exit Do
             End If
 
-            ' --- COLUMNA 0 (Tipo de cuenta - Máx 30 caracteres) ---
-            Dim valorBD0 As String = frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(0).Value.ToString()
-            Dim textoCelda0 As String = TraducirDinamico(valorBD0, False).Replace("_", " ")
+            ' =========================================================================
+            ' 🌟 COLUMNA 0: TIPO DE CUENTA (Traducción Relacional Directa)
+            ' =========================================================================
+            Dim valorBD0 As String = If(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(0).Value?.ToString(), "").Trim()
+            Dim textoCelda0 As String = valorBD0
+
+            ' 🚀 TRUCO MAESTRO: Buscamos la traducción en el .resx limpiando espacios con guiones
+            If resManager IsNot Nothing AndAlso Not String.IsNullOrEmpty(valorBD0) Then
+                Dim claveRecurso As String = valorBD0.Replace(" ", "_")
+                Dim traduccion As String = resManager.GetString(claveRecurso)
+                If Not String.IsNullOrEmpty(traduccion) Then textoCelda0 = traduccion.Trim()
+            End If
+            textoCelda0 = textoCelda0.Replace("_", " ").ToUpper()
 
             If textoCelda0.Length > 30 Then
                 textoCelda0 = textoCelda0.Substring(0, 30)
             End If
             e.Graphics.DrawString(textoCelda0, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto1.Left, startY)
 
+            ' =========================================================================
+            ' 🌟 COLUMNA 1: DESCRIPCIÓN DEL TIPO
+            ' =========================================================================
+            Dim valorBD1 As String = If(frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(1).Value?.ToString(), "").Trim()
+            Dim textoCelda1 As String = valorBD1
 
-            ' --- COLUMNA 1 (Descripción - Ajuste con ... antes del borde) ---
-            Dim valorBD1 As String = frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(1).Value.ToString()
-
-            ' 1. Tomamos el TIPO (Celda 0) para armar la llave de la descripción (ej: "Cuenta_Corriente")
-            Dim tipoParaLlave As String = frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(0).Value.ToString()
-
-            ' 2. Buscamos en ResX Manager la combinación "Desc_" & "Cuenta_Corriente"
-            Dim textoCelda1 As String = TraducirDinamico(tipoParaLlave, True)
-
-            ' 3. Si la función nos devuelve el mismo nombre del tipo (porque no encontró la clave en ResX),
-            ' significa que es un tipo nuevo del usuario. Por lo tanto, usamos la descripción original de la BD.
-            If textoCelda1 = tipoParaLlave Then
-                textoCelda1 = valorBD1
+            ' Buscamos en el ResX la combinación "Desc_" & "Nombre_Tipo" (ej: "Desc_AHORRO")
+            If resManager IsNot Nothing AndAlso Not String.IsNullOrEmpty(valorBD0) Then
+                Dim claveDesc As String = "Desc_" & valorBD0.Replace(" ", "_")
+                Dim traduccionDesc As String = resManager.GetString(claveDesc)
+                If Not String.IsNullOrEmpty(traduccionDesc) Then textoCelda1 = traduccionDesc.Trim()
             End If
 
-            ' 4. Dibujamos en la hoja (este código se queda igual)
-            Dim anchoDisponibleCol1 As Integer = e.MarginBounds.Right - frmImprimirForm.Punto2.Left
+            ' Dibujamos en la hoja controlando el ancho disponible con puntos suspensivos (...)
+            Dim anchoDisponibleCol1 As Integer = e.MarginBounds.Right - (frmImprimirForm.Punto2.Left + 50)
             Dim formatoCortado As New StringFormat With {
                 .Trimming = StringTrimming.EllipsisCharacter,
                 .FormatFlags = StringFormatFlags.NoWrap
             }
 
-            Dim rectanguloCelda1 As New RectangleF(frmImprimirForm.Punto2.Left + 50, startY, anchoDisponibleCol1, frmImprimirForm.Punto1.Height)
+            Dim rectanguloCelda1 As New RectangleF(frmImprimirForm.Punto2.Left + 50, startY, anchoDisponibleCol1, FuenteDetalles.Height)
             e.Graphics.DrawString(textoCelda1, FuenteDetalles, Brushes.Black, rectanguloCelda1, formatoCortado)
 
-            ' Control de renglones y páginas
-            startY += frmImprimirForm.LblFecha.Height
+            ' 🚀 SEPARACIÓN ELEGANTE: Multiplicamos por 2 para que las filas no se aplasten
+            startY += (alturaFila * 2)
             PrintLine += 1
             Contador += 1
         Loop
@@ -571,10 +640,6 @@ Public Class TipoCuentaBancaria
         'Imprimimos los valores que salen despues del datagridview al final del reporte
         If Contador >= frmImprimirForm.DgvApuntes.Rows.Count Then
             e.Graphics.DrawString(frmImprimirForm.LineaFondo.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.LineaFondo.Left, startY)
-            'e.Graphics.DrawString(vValor, FuenteNegrita, Brushes.Black, frmImprimirForm.Punto4.Left, startY + 15)
-            'e.Graphics.DrawString(frmImprimirForm.LblTotal.Text, FuenteNegrita, Brushes.Black, frmImprimirForm.Punto4.Left - 50, startY + 15)
-            'e.Graphics.DrawString(frmImprimirForm.lbCursadas.Text, FuenteDetalles, Brushes.Black, ImprimirForm.lbCursadas.Left, startY + 15)
-            'e.Graphics.DrawString(frmImprimirForm.lbPromedio.Text, FuenteDetalles, Brushes.Black, ImprimirForm.lbPromedio.Left, startY + 30)
         End If
 
         'Si deseamos poner un contador de páginas

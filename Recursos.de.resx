@@ -895,7 +895,7 @@ Die Datei ist nicht geöffnet</value>
   <data name="ErrorEscanearPeriodicos" xml:space="preserve">
     <value>Fehlersuch-periodische Ablaufzeiten</value>
   </data>
-  <data name="SinProgramar" xml:space="preserve">
-    <value>Ungeplant</value>
+  <data name="AvisoTipoCuentaProtegido" xml:space="preserve">
+    <value>Die Standard-Kontotypen des Systems sind vor Änderungen geschützt; wenn sie nicht verwendet werden sollen, können sie gelöscht werden</value>
   </data>
 </root>

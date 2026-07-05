@@ -895,7 +895,7 @@ que el archivo no esté abierto</value>
   <data name="ErrorEscanearPeriodicos" xml:space="preserve">
     <value>Error al escanear vencimientos periódicos</value>
   </data>
-  <data name="SinProgramar" xml:space="preserve">
-    <value>Sin Programar</value>
+  <data name="AvisoTipoCuentaProtegido" xml:space="preserve">
+    <value>Los tipos de cuentas predeterminados del sistema están protegidos contra modificaciones, si no se va a usar se puede Eliminar</value>
   </data>
 </root>

@@ -172,6 +172,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Los tipos de cuentas predeterminados del sistema están protegidos contra modificaciones, si no se va a usar se puede Eliminar.
+    '''</summary>
+    Friend Shared ReadOnly Property AvisoTipoCuentaProtegido() As String
+        Get
+            Return ResourceManager.GetString("AvisoTipoCuentaProtegido", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Copia de Seguridad.
     '''</summary>
     Friend Shared ReadOnly Property Backup() As String
@@ -1980,15 +1989,6 @@ Friend Class Recursos
     Friend Shared ReadOnly Property SinFiltrar() As String
         Get
             Return ResourceManager.GetString("SinFiltrar", resourceCulture)
-        End Get
-    End Property
-    
-    '''<summary>
-    '''  Busca una cadena traducida similar a Sin Programar.
-    '''</summary>
-    Friend Shared ReadOnly Property SinProgramar() As String
-        Get
-            Return ResourceManager.GetString("SinProgramar", resourceCulture)
         End Get
     End Property
     

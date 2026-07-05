@@ -895,7 +895,7 @@ Il file non è aperto</value>
   <data name="ErrorEscanearPeriodicos" xml:space="preserve">
     <value>Scadenze periodiche di scansione degli errori</value>
   </data>
-  <data name="SinProgramar" xml:space="preserve">
-    <value>Non programmata</value>
+  <data name="AvisoTipoCuentaProtegido" xml:space="preserve">
+    <value>I tipi di account predefiniti del sistema sono protetti da modifiche; se non deve essere utilizzato, possono essere eliminati</value>
   </data>
 </root>
