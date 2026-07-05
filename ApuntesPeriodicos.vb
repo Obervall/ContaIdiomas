@@ -7,7 +7,7 @@ Public Class ApuntesPeriodicos
     Private cargandoFormulario As Boolean = True
     Public vConcepto, vtipoSql, vtipoGrid, vTxtNombre As String
     Public vRow, vRowSeguir, vCampo, vContador, vCantidadFilas, filaSelec As Integer
-    Public TL(19) As ToolTip
+    Public TL(20) As ToolTip
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub ApuntesPeriodicos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -84,6 +84,9 @@ Public Class ApuntesPeriodicos
         TL(18).SetToolTip(Me.BtnUltimo, resManager.GetString("ToolTipUltimo"))
         TL(19) = New ToolTip
         TL(19).SetToolTip(Me.BtnEliminaSeleccion, resManager.GetString("ToolTipEliminaSeleccion"))
+        TL(20) = New ToolTip
+        TL(20).SetToolTip(Me.BtnF6, resManager.GetString("ToolTipF6"))
+
 
         cmdMdb1cr.Parameters.Clear()
 
@@ -801,6 +804,75 @@ Public Class ApuntesPeriodicos
             DgvApuper.Rows(vFila).Selected = True
             DgvApuper.CurrentCell = DgvApuper.Rows(vFila).Cells(0)
         End If
+    End Sub
+
+    Private Sub BtnF6_Click(sender As Object, e As EventArgs) Handles BtnF6.Click
+        ' =========================================================================
+        ' 🌟 1. CONSULTA SQL MAESTRA RELACIONAL ALINEADA (¡Corregido!)
+        ' =========================================================================
+        ' Traemos las 11 celdas biológicas en su orden real simétrico.
+        ' 🚀 LA CORRECCIÓN: Cambiamos conceptos.DescripcionCON por conceptos.CodigoCON en la segunda columna.
+        vtipoSql = "SELECT apuper.FechaAPP As [FechaAPP], " &
+                   "conceptos.CodigoCON As [ConceptoAPP], " &
+                   "apuper.DescripcionAPP As [DescripcionAPP], " &
+                   "apuper.ImporteAPP As [ImporteAPP], " &
+                   "apuper.ImporteAPP As [SaldoAPP], " &
+                   "apuper.NotasAPP As [NotasAPP], " &
+                   "cuentas.NombreCUE As [CuentaAPP], " &
+                   "apuper.CodigoAPP As [CodigoAPP], " &
+                   "conceptos.CodigoCON As [CodigoCON], " &
+                   "apuper.ConceptoAPP As [IdConceptoCON], " &
+                   "apuper.CuentaAPP As [IdCuentaCUE] " &
+                   "FROM (apuper " &
+                   "INNER JOIN conceptos ON apuper.ConceptoAPP = conceptos.IdConceptoCON) " &
+                   "INNER JOIN cuentas ON apuper.CuentaAPP = cuentas.IdCuentaCUE"
+
+        vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
+        vtipoSql += " ORDER BY apuper.FechaAPP ASC"
+
+        vtipoGrid = "APUNTES_PERIODICOS"
+
+        ' Volcamos los datos relacionales traducidos en tu DataGridView
+        LlenarGrid(vtipoSql, vtipoGrid, "1")
+        TraducirGridApuntesBD(Me.DgvApuper)
+
+        LblNumRegistros.Text = resManager.GetString("SinFiltrar") ' My.Resources.Recursos.SinFiltrar
+        BtnFiltroCuenta.Enabled = True
+        BtnSinFiltroCuenta.Enabled = False
+        BtnFiltroConcepto.Enabled = True
+        BtnSinFiltroConcepto.Enabled = False
+        BtnFiltroFecha.Enabled = True
+        BtnSinFiltroFecha.Enabled = False
+        ' 1. Convertimos el año base de forma segura
+        Dim anioBase As Integer
+        If Not Integer.TryParse(vAñoEjercicio, anioBase) Then
+            ' Si falla, usamos el año actual como salvavidas
+            anioBase = Date.Today.Year
+        End If
+
+        ' 2. Calculamos los dos años que necesitas
+        Dim anioInicio As Integer = anioBase
+        Dim anioFin As Integer = anioBase + 20 ' Sumamos los 20 años de margen para los periódicos
+
+        ' 3. Guardamos los valores en tus variables globales por si las usas luego
+        vFecha1Enero = anioInicio
+        vFecha31Diciembre = anioFin
+
+        ' 4. Creamos las fechas exactas de inicio y fin
+        Dim fechaInicio As New Date(anioInicio, 1, 1)
+        Dim fechaFin As New Date(anioFin, 12, 31)
+
+        ' 5. Configuramos los DateTimePicker con los rangos correctos
+        DateTimePicker1.MinDate = fechaInicio
+        DateTimePicker2.MinDate = fechaInicio
+
+        DateTimePicker1.MaxDate = fechaFin
+        DateTimePicker2.MaxDate = fechaFin
+
+        ' 6. Asignamos los valores iniciales por defecto
+        DateTimePicker1.Value = fechaInicio
+        DateTimePicker2.Value = fechaFin
+
     End Sub
 
     Private Sub BtnCalculadora_Click(sender As Object, e As EventArgs) Handles BtnCalculadora.Click

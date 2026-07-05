@@ -71,6 +71,7 @@ Partial Class ApuntesPeriodicos
         Me.BtnPrimero = New System.Windows.Forms.Button()
         Me.BtnSalir = New System.Windows.Forms.Button()
         Me.LblApuntes = New System.Windows.Forms.Label()
+        Me.BtnF6 = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -108,6 +109,7 @@ Partial Class ApuntesPeriodicos
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.BtnF6)
         Me.GroupBox2.Controls.Add(Me.BtnEliminaSeleccion)
         Me.GroupBox2.Controls.Add(Me.BtnCalculadora)
         Me.GroupBox2.Controls.Add(Me.BtnEditarRegistro)
@@ -405,6 +407,12 @@ Partial Class ApuntesPeriodicos
         resources.ApplyResources(Me.LblApuntes, "LblApuntes")
         Me.LblApuntes.Name = "LblApuntes"
         '
+        'BtnF6
+        '
+        resources.ApplyResources(Me.BtnF6, "BtnF6")
+        Me.BtnF6.Name = "BtnF6"
+        Me.BtnF6.UseVisualStyleBackColor = True
+        '
         'ApuntesPeriodicos
         '
         resources.ApplyResources(Me, "$this")
@@ -491,4 +499,5 @@ Partial Class ApuntesPeriodicos
     Friend WithEvents BtnEliminaSeleccion As Windows.Forms.Button
     Friend WithEvents BtnSalir As Windows.Forms.Button
     Friend WithEvents LblApuntes As Windows.Forms.Label
+    Friend WithEvents BtnF6 As Windows.Forms.Button
 End Class
