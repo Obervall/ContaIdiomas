@@ -898,4 +898,37 @@ que l'arxiu no estigui obert</value>
   <data name="AvisoTipoCuentaProtegido" xml:space="preserve">
     <value>Els tipus de comptes predeterminats del sistema estan protegits contra modificacions, si no es farà servir es pot Eliminar</value>
   </data>
+  <data name="ErrorIniciarConceptos" xml:space="preserve">
+    <value>Error en inicialitzar els conceptes del pressupost</value>
+  </data>
+  <data name="ErrorIniciarComponentes" xml:space="preserve">
+    <value>Error en inicialitzar components independents</value>
+  </data>
+  <data name="MsgSeleccionarFilasEliminar" xml:space="preserve">
+    <value>Per favor, seleccioni primer les files que desitja eliminar utilitzant les cel·les de l'esquerra</value>
+  </data>
+  <data name="ErrorRellenarListBox" xml:space="preserve">
+    <value>Error en omplir el ListBox de conceptes</value>
+  </data>
+  <data name="ErrorImportesMensuales" xml:space="preserve">
+    <value>Error en llegir imports mensuals</value>
+  </data>
+  <data name="ErrorVaciarApuntes" xml:space="preserve">
+    <value>Error al Buidar Apunts</value>
+  </data>
+  <data name="ErrorVaciarPeriodicos" xml:space="preserve">
+    <value>Error al Buidar Periòdics</value>
+  </data>
+  <data name="ErrorVaciarPresupuesto" xml:space="preserve">
+    <value>Error al Buidar Pressupostos</value>
+  </data>
+  <data name="ErrorLeerAcumulado" xml:space="preserve">
+    <value>Error en llegir acumulat</value>
+  </data>
+  <data name="ErrorConsolidarConceptos" xml:space="preserve">
+    <value>Error en consolidar conceptes nadiu</value>
+  </data>
+  <data name="ErrorConsolidarCuentas" xml:space="preserve">
+    <value>Error en consolidar comptes nadiu</value>
+  </data>
 </root>

@@ -898,4 +898,37 @@ Die Datei ist nicht geöffnet</value>
   <data name="AvisoTipoCuentaProtegido" xml:space="preserve">
     <value>Die Standard-Kontotypen des Systems sind vor Änderungen geschützt; wenn sie nicht verwendet werden sollen, können sie gelöscht werden</value>
   </data>
+  <data name="ErrorIniciarConceptos" xml:space="preserve">
+    <value>Haushaltsposten wurden nicht initialisiert</value>
+  </data>
+  <data name="ErrorIniciarComponentes" xml:space="preserve">
+    <value>Fehler, unabhängige Komponenten zu initialisieren</value>
+  </data>
+  <data name="MsgSeleccionarFilasEliminar" xml:space="preserve">
+    <value>Bitte wählen Sie zuerst die Zeilen aus, die Sie löschen möchten, mit den Feldern links</value>
+  </data>
+  <data name="ErrorRellenarListBox" xml:space="preserve">
+    <value>Fehler beim Ausfüllen der Concept ListBox</value>
+  </data>
+  <data name="ErrorImportesMensuales" xml:space="preserve">
+    <value>Fehler bei der Anzeige der monatlichen Beträge</value>
+  </data>
+  <data name="ErrorVaciarApuntes" xml:space="preserve">
+    <value>Fehler-Entleerungsnoten</value>
+  </data>
+  <data name="ErrorVaciarPeriodicos" xml:space="preserve">
+    <value>Fehler beim Leeren von Zeitungen</value>
+  </data>
+  <data name="ErrorVaciarPresupuesto" xml:space="preserve">
+    <value>Fehler beim Entleeren von Anführungszeichen</value>
+  </data>
+  <data name="ErrorLeerAcumulado" xml:space="preserve">
+    <value>Kumulative Fehlermessung</value>
+  </data>
+  <data name="ErrorConsolidarConceptos" xml:space="preserve">
+    <value>Fehlerkonsolidierende native Konzepte</value>
+  </data>
+  <data name="ErrorConsolidarCuentas" xml:space="preserve">
+    <value>Fehler bei der Konsolidierung nativer Konten</value>
+  </data>
 </root>

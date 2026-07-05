@@ -1776,7 +1776,7 @@ Public Class Principal
                 cmdMdb1cr.ExecuteNonQuery()
                 MsgBox(rmse.GetString("ApuntesContablesVaciado"), MsgBoxStyle.Information)
             Catch ex As Exception
-                MsgBox("Error Apuntes: " & ex.Message, MsgBoxStyle.Critical)
+                MsgBox(resManager.GetString("ErrorVaciarApuntes") & ": " & ex.Message, MsgBoxStyle.Critical)
             End Try
 
             ' B. Eliminar Registros Apuntes Periódicos
@@ -1787,7 +1787,7 @@ Public Class Principal
                 cmdMdb1cr.ExecuteNonQuery()
                 MsgBox(rmse.GetString("ApuntesPeriodicosVaciado"), MsgBoxStyle.Information)
             Catch ex As Exception
-                MsgBox("Error Periódicos: " & ex.Message, MsgBoxStyle.Critical)
+                MsgBox(resManager.GetString("ErrorVaciarPeriodicos") & ": " & ex.Message, MsgBoxStyle.Critical)
             End Try
 
             ' C. Eliminar Registros Presupuestos
@@ -1798,7 +1798,7 @@ Public Class Principal
                 cmdMdb1cr.ExecuteNonQuery()
                 MsgBox(rmse.GetString("PresupuestosVaciado"), MsgBoxStyle.Information)
             Catch ex As Exception
-                MsgBox("Error Presupuesto: " & ex.Message, MsgBoxStyle.Critical)
+                MsgBox(resManager.GetString("ErrorVaciarPresupuesto") & ": " & ex.Message, MsgBoxStyle.Critical)
             End Try
 
             '            ' CONCEPTOS Y CUENTAS NO SE ELIMINAN

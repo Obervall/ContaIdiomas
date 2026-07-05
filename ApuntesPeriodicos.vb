@@ -887,4 +887,18 @@ Public Class ApuntesPeriodicos
         TraducirGridApuntesBD(Me.DgvApuper)
     End Sub
 
+    ' =========================================================================
+    ' 🌟 INTERCEPTOR DE ORDENACIÓN DINÁMICA DE REJILLA (¡Saldo recalculado en vivo!)
+    ' =========================================================================
+    Private Sub DgvApuper_Sorted(sender As Object, e As EventArgs) Handles DgvApuper.Sorted
+        Try
+            ' 🚀 LA ESTOCADA: Cuando el usuario reordene las columnas, obligamos a la app
+            ' a limpiar el acumulador viejo de la RAM y recalcular los saldos de arriba a abajo.
+            ' Llamamos directamente a tu función global del módulo de forma transparente.
+            DgvApuntesPeriodicos()
+        Catch ex As Exception
+            ' Evita cualquier parpadeo visual en el hilo principal del formulario
+        End Try
+    End Sub
+
 End Class

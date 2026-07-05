@@ -898,4 +898,37 @@ que el archivo no esté abierto</value>
   <data name="AvisoTipoCuentaProtegido" xml:space="preserve">
     <value>Los tipos de cuentas predeterminados del sistema están protegidos contra modificaciones, si no se va a usar se puede Eliminar</value>
   </data>
+  <data name="ErrorIniciarConceptos" xml:space="preserve">
+    <value>Error al inicializar los conceptos del presupuesto</value>
+  </data>
+  <data name="ErrorIniciarComponentes" xml:space="preserve">
+    <value>Error al inicializar componentes independientes</value>
+  </data>
+  <data name="MsgSeleccionarFilasEliminar" xml:space="preserve">
+    <value>Por favor, seleccione primero las filas que desea eliminar utilizando las celdas de la izquierda</value>
+  </data>
+  <data name="ErrorRellenarListBox" xml:space="preserve">
+    <value>Error al rellenar el ListBox de conceptos</value>
+  </data>
+  <data name="ErrorImportesMensuales" xml:space="preserve">
+    <value>Error al leer importes mensuales</value>
+  </data>
+  <data name="ErrorVaciarApuntes" xml:space="preserve">
+    <value>Error al Vaciar Apuntes</value>
+  </data>
+  <data name="ErrorVaciarPeriodicos" xml:space="preserve">
+    <value>Error al Vaciar Periódicos</value>
+  </data>
+  <data name="ErrorVaciarPresupuesto" xml:space="preserve">
+    <value>Error al Vaciar Presupuestos</value>
+  </data>
+  <data name="ErrorLeerAcumulado" xml:space="preserve">
+    <value>Error al leer acumulado</value>
+  </data>
+  <data name="ErrorConsolidarConceptos" xml:space="preserve">
+    <value>Error al consolidar conceptos nativo</value>
+  </data>
+  <data name="ErrorConsolidarCuentas" xml:space="preserve">
+    <value>Error al consolidar cuentas nativo</value>
+  </data>
 </root>

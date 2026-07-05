@@ -125,10 +125,10 @@ Public Class SeleccionFechas
                 vtipoSql += " ORDER BY apuper.FechaAPP ASC"
             End If
             If vOrdenadoPorConceptosAPP = 1 Then
-                vtipoSql += " ORDER BY conceptos.CodigoCON ASC"
+                vtipoSql += " ORDER BY conceptos.CodigoCON ASC, apuper.FechaAPP ASC"
             End If
             If vOrdenadoPorImportesAPP = 1 Then
-                vtipoSql += " ORDER BY apuper.ImporteAPP ASC"
+                vtipoSql += " ORDER BY apuper.ImporteAPP ASC, apuper.FechaAPP ASC"
             End If
         End If
 

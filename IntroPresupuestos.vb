@@ -44,33 +44,40 @@ Public Class IntroPresupuestos
         Next
 
         ' =========================================================================
-        ' 🌟 LLENAR EL COMBO CONCEPTO (Internacionalizado, con IDs y Orden A-Z)
+        ' 🌟 CORTAFUEGOS DE CARGA: ABRIMOS LA COMPUERTA INTERNACIONAL DE LA RAM
         ' =========================================================================
-        ' Invocamos de forma magistral la función exclusiva de módulo para combos sueltos
+        ' Apagamos el escudo aquí para que el vaivén del combo pueda disparar 
+        ' el evento SelectedIndexChanged y traducir los textos en curso al vuelo.
+        cargandoFormulario = False
+
+        ' 🌟 LLENAR EL COMBO CONCEPTO (Internacionalizado, con IDs y Orden A-Z)
         Try
             LlenarComboConceptosSueltosBD(Me.CmbConcepto)
 
             ' =========================================================================
-            ' 🌟 SINCRO INTELIGENTE BLINDADA CONTRA NULLREFERENCE (Tu escudo de la Nueva Era)
+            ' 🌟 SINCRO INTELIGENTE BLINDADA CONTRA NULLREFERENCE (Escudo Nueva Era)
             ' =========================================================================
-            ' Verificamos de forma biológica que el formulario frmPresupuestos exista, 
-            ' esté cargado en la memoria RAM y su ventana visual haya sido creada (IsHandleCreated)
             If frmPresupuestos IsNot Nothing AndAlso frmPresupuestos.IsHandleCreated Then
 
-                ' Si la pantalla de atrás está viva, heredamos su filtro de forma segura
+                ' Si la pantalla nodriza está filtrada, heredamos su selección exacta
                 If frmPresupuestos.BtnFiltroConcepto.Enabled = False Then
+                    ' 🚀 VAIVÉN INTERNACIONAL: Forzamos el -1 y disparamos la traducción por su ID
+                    CmbConcepto.SelectedIndex = -1
                     CmbConcepto.SelectedValue = frmPresupuestos.CmbConcepto.SelectedValue
                 Else
+                    ' 🚀 VAIVÉN LOCAL: Pasamos por -1 y despertamos el índice 0 en vivo
+                    CmbConcepto.SelectedIndex = -1
                     If CmbConcepto.Items.Count > 0 Then CmbConcepto.SelectedIndex = 0
                 End If
 
             Else
-                ' 🧰 PLAN B (Carga Aislada Segura): Si la pantalla de atrás no existe o se cerró, 
-                ' seleccionamos la primera fila del desplegable de forma local sin provocar errores
+                ' 🧰 PLAN B (Carga Aislada Segura): Vaivén limpio si la pantalla de atrás duerme
+                CmbConcepto.SelectedIndex = -1
                 If CmbConcepto.Items.Count > 0 Then CmbConcepto.SelectedIndex = 0
             End If
+
         Catch ex As Exception
-            MsgBox("Error al inicializar los conceptos del presupuesto: " & ex.Message, MsgBoxStyle.Critical)
+            MsgBox(resManager.GetString("ErrorIniciarConceptos") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
 
         ' =========================================================================
@@ -82,6 +89,7 @@ Public Class IntroPresupuestos
             TxtAnual.Select()
             TxtAnual.SelectAll()
         End If
+
         If RdbMensual.Checked = True Then
             GBoxAnual.Enabled = False
             GBoxMensual.Enabled = True
@@ -89,11 +97,8 @@ Public Class IntroPresupuestos
             TxtEnero.SelectAll()
         End If
 
-        ' Llamamos a tu macro que rellena los cuadros de texto si venían datos heredados
+        ' Llamamos a tu macro que rellena los cuadros de texto mensuales heredados
         LlenarTextBox()
-
-        ' 🌟 PASO CRÍTICO 2: Apagamos el escudo. La pantalla está lista y dócil en la RAM
-        cargandoFormulario = False
     End Sub
 
     Private Sub CmbConcepto_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbConcepto.SelectedIndexChanged
@@ -250,7 +255,7 @@ Public Class IntroPresupuestos
 
                     End Using
                 Catch ex As Exception
-                    MsgBox("Error al leer importes mensuales: " & ex.Message, MsgBoxStyle.Critical)
+                    MsgBox(resManager.GetString("ErrorImportesMensuales") & ": " & ex.Message, MsgBoxStyle.Critical)
                 End Try
             End Using
         End Using
@@ -357,12 +362,11 @@ Public Class IntroPresupuestos
                     ' Mensaje de éxito original impecable
                     Dim msgExito As String = rmse.GetString("PresupuestoGuardado")
                     If String.IsNullOrEmpty(msgExito) Then msgExito = "Presupuesto guardado correctamente."
-                    MessageBox.Show(msgExito, resManager.GetString("Éxito"), MessageBoxButtons.OK, MessageBoxIcon.Information)
-
+                    MessageBox.Show(msgExito, resManager.GetString("Exito"), MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Me.Close()
                 End Using
             Catch ex As Exception
-                MessageBox.Show("Error al grabar el presupuesto: " & ex.Message, resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show(resManager.GetString("ErrorGrabarRegistro") & ": " & ex.Message, resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         End Using
     End Sub

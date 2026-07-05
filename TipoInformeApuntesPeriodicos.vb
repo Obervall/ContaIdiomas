@@ -171,7 +171,7 @@ Public Class TipoInformeApuntesPeriodicos
                 ' 🎯 ¡BUM!: De un solo golpe en el disco duro, Access procesa, suma y consolida todos los conceptos
                 cmdMdb1cr.ExecuteNonQuery()
             Catch ex As Exception
-                MsgBox("Error al consolidar conceptos nativo: " & ex.ToString())
+                MsgBox(resManager.GetString("ErrorConsolidarConceptos") & ": " & ex.ToString())
             End Try
 
             ' 3. VOLCADO DIRECTO AL CANVAS DE IMPRESIÓN 
@@ -214,7 +214,7 @@ Public Class TipoInformeApuntesPeriodicos
                 ' 🎯 ¡BUM!: De un solo golpe en el disco duro, Access procesa, suma y consolida todos los bancos
                 cmdMdb1cr.ExecuteNonQuery()
             Catch ex As Exception
-                MsgBox("Error al consolidar bancos nativo: " & ex.ToString())
+                MsgBox(resManager.GetString("ErrorConsolidarCuentas") & ": " & ex.ToString())
             End Try
 
             ' 3. VOLCADO DIRECTO AL CANVAS DE IMPRESIÓN (Tu misma llamada dócil del RadioButton2)

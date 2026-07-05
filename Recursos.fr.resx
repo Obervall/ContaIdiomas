@@ -898,4 +898,37 @@ le fichier n’est pas ouvert</value>
   <data name="AvisoTipoCuentaProtegido" xml:space="preserve">
     <value>Les types de comptes par défaut du système sont protégés contre toute modification, s’ils ne doivent pas être utilisés, ils peuvent être supprimés</value>
   </data>
+  <data name="ErrorIniciarConceptos" xml:space="preserve">
+    <value>Échec de l’initialisation des éléments budgétaires</value>
+  </data>
+  <data name="ErrorIniciarComponentes" xml:space="preserve">
+    <value>Échec à initialiser les composants indépendants</value>
+  </data>
+  <data name="MsgSeleccionarFilasEliminar" xml:space="preserve">
+    <value>Veuillez sélectionner d’abord les lignes que vous souhaitez supprimer à l’aide des cellules à gauche</value>
+  </data>
+  <data name="ErrorRellenarListBox" xml:space="preserve">
+    <value>Erreur dans le remplissage de la Concept ListBox</value>
+  </data>
+  <data name="ErrorImportesMensuales" xml:space="preserve">
+    <value>Erreur de lecture des montants mensuels</value>
+  </data>
+  <data name="ErrorVaciarApuntes" xml:space="preserve">
+    <value>Notes de vidage d’erreur</value>
+  </data>
+  <data name="ErrorVaciarPeriodicos" xml:space="preserve">
+    <value>Erreur de vidage des journaux</value>
+  </data>
+  <data name="ErrorVaciarPresupuesto" xml:space="preserve">
+    <value>Virage d’erreurs des citations</value>
+  </data>
+  <data name="ErrorLeerAcumulado" xml:space="preserve">
+    <value>Cumulatif de lecture d’erreur</value>
+  </data>
+  <data name="ErrorConsolidarConceptos" xml:space="preserve">
+    <value>Consolidation des concepts natifs d’erreur</value>
+  </data>
+  <data name="ErrorConsolidarCuentas" xml:space="preserve">
+    <value>Erreur de consolidation de comptes native</value>
+  </data>
 </root>

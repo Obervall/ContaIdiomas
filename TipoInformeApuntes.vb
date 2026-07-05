@@ -361,7 +361,7 @@ Public Class TipoInformeApuntes
                             importeAcumulado = ConvertirDecimalSeguro(resImporte)
                         End If
                     Catch ex As Exception
-                        MsgBox("Error al leer acumulado: " & ex.Message)
+                        MsgBox(resManager.GetString("ErrorLeerAcumulado") & ": " & ex.Message)
                     End Try
 
                     ' Sumamos el importe de la fila actual de la rejilla

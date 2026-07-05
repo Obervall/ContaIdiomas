@@ -50,6 +50,11 @@ Public Class CuentasBancarias
         AddHandler Me.GroupBox3.MouseMove, AddressOf VerificarFiltrosDesactivados
         AddHandler Me.GroupBox4.MouseMove, AddressOf VerificarFiltrosDesactivados
 
+        ' 1. Carga inicial de desplegables
+        CargarComboTipoCuentaGlobal(Me.CmbTipoCuenta)
+        CmbTipoCuenta.DropDownStyle = ComboBoxStyle.DropDownList
+        CmbTipoCuenta.SelectedIndex = 0
+
         CargarComboTipoCuentaGlobal(Me.CmbTipoCuenta)
 
         CmbTipoCuenta.DropDownStyle = ComboBoxStyle.DropDownList
@@ -321,24 +326,32 @@ Public Class CuentasBancarias
         ' Destruimos el formulario.
         frmEditarCuentaBancaria.Dispose()
 
-        vtipoSql = "SELECT tipocuentas.CodigoTIP, cuentas.NombreCUE, cuentas.NumeroCUE, cuentas.NotasCUE, cuentas.NotasCUE, cuentas.IdCuentaCUE "
-        vtipoSql += "FROM cuentas "
-        If BtnFiltroTipoCuenta.Enabled = False Then
-            vtipoSql += " WHERE "
-            vtipoSql += "cuentas.TipoCUE = '" & CmbTipoCuenta.Text & "' "
-        End If
-        vtipoSql += "INNER JOIN tipocuentas ON cuentas.TipoCUE = tipocuentas.IdTipoCUE "
-        vtipoSql += "ORDER BY cuentas.NombreCUE ASC"
+        ' =========================================================================
+        ' ✨ REFRESCO RELACIONAL LIMPIO DE LA PARRILLA (Sincronizado con tu Load)
+        ' =========================================================================
+        ' 🚀 REPARADO: Estructura de 5 campos puros sin repeticiones para evitar la ambigüedad.
+        ' Colocamos el WHERE cronológicamente en su sitio exacto de Access: DESPUÉS del INNER JOIN.
+        vtipoSql = "SELECT tipocuentas.CodigoTIP, cuentas.NombreCUE, cuentas.NumeroCUE, cuentas.NotasCUE, cuentas.IdCuentaCUE " &
+                   "FROM cuentas " &
+                   "INNER JOIN tipocuentas ON cuentas.TipoCUE = tipocuentas.IdTipoCUE "
 
-        ' Llenamos el Grid con la estructura limpia
+        If BtnFiltroTipoCuenta.Enabled = False Then
+            ' Saneamos el filtro inyectando el ID relacional numérico puro seleccionado
+            Dim idTipoSel As Integer = Convert.ToInt32(CmbTipoCuenta.SelectedValue)
+            vtipoSql += $" WHERE cuentas.TipoCUE = {idTipoSel} "
+        End If
+
+        vtipoSql += " ORDER BY cuentas.NombreCUE ASC"
+
+        ' Llenamos el Grid con la estructura limpia unificada de la trastienda
         LlenarGrid(vtipoSql, "CUENTAS_BANCARIAS", "1")
 
-        ' Ocultamos el Id de la cuenta que viaja seguro en la posición 4
-        If DgvCuentas.Columns.Count > 5 Then
-            DgvCuentas.Columns(5).Visible = False
+        ' Ahora que la estructura es simétrica, el ID viaja clavado en la Celda 4. Lo ocultamos.
+        If DgvCuentas.Columns.Count >= 5 Then
+            DgvCuentas.Columns(4).Visible = False
         End If
 
-        ' Lanzamos tu rutina de traducción de siempre sobre los textos (CodigoTIP)
+        ' Lanzamos tu rutina de traducción sobre las cabeceras visuales
         TraducirColumnasGridCuentas(DgvCuentas)
     End Sub
 

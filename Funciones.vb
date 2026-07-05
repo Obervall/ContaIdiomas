@@ -657,18 +657,39 @@ Module Funciones
                 ' TRUCO MAESTRO: Forzamos el formato N2 ahora que la columna contiene números puros
                 .Columns(3).DefaultCellStyle.Format = "N2"
 
-                ' Dimensiones y encabezados traducidos
-                .Columns(0).Width = 150
+                ' =========================================================================
+                ' 🌟 REPARTO ELÁSTICO PROPORCIONAL DE COLUMNAS (¡Tu diseño original perfecto!)
+                ' =========================================================================
+                ' Obligamos a la rejilla entera a estirarse de forma simétrica hasta el margen derecho
+                .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+
+                ' Dimensiones y encabezados traducidos según el SELECT original que te funcionaba
                 .Columns(0).HeaderText = resManager.GetString("Tipo")
-                .Columns(1).Width = 200
+                .Columns(0).FillWeight = 80
+
                 .Columns(1).HeaderText = resManager.GetString("Nombre")
-                .Columns(2).Width = 200
+                .Columns(1).FillWeight = 120
+
                 .Columns(2).HeaderText = resManager.GetString("Numero")
-                .Columns(3).Width = 125
-                .Columns(3).HeaderText = resManager.GetString("Saldo") & "(" & vMoneda & ")"
-                .Columns(4).AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                .Columns(2).FillWeight = 150
+
+                ' Celda 3: Tu columna de Importe / Cálculo de Saldo
+                .Columns(3).HeaderText = resManager.GetString("Importe") & " " & vMoneda
+                .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+                .Columns(3).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight
+                .Columns(3).DefaultCellStyle.Format = "N2"
+                .Columns(3).FillWeight = 110
+
+                ' Celda 4: Tus Notas de texto plano relucientes y estiradas
                 .Columns(4).HeaderText = resManager.GetString("Notas")
-                .Columns(5).Visible = False
+                .Columns(4).FillWeight = 150
+
+                ' 🚀 CORTAFUEGOS DE SEGURIDAD: Ocultamos el ID relacional de forma elástica
+                ' Evitamos que salte el ArgumentOutOfRangeException controlando el tamaño real de la grilla
+                If .Columns.Count > 5 Then
+                    .Columns(5).Visible = False
+                End If
+
                 Dim vNumRegistros As String = .Rows.Count.ToString
                 frmCuentasBancarias.TxtNumRegistros.Text = vNumRegistros
                 If frmCuentasBancarias.BtnFiltroTipoCuenta.Enabled = False Then
@@ -1547,7 +1568,7 @@ Module Funciones
             Next
 
         Catch ex As Exception
-            MsgBox("Error al rellenar el ListBox de conceptos: " & ex.Message, MsgBoxStyle.Critical)
+            MsgBox(resManager.GetString("ErrorRellenarListBox") & ": " & ex.Message, MsgBoxStyle.Critical)
         Finally
             ' El escudo definitivo cierra el lector pase lo que pase
             If dr IsNot Nothing AndAlso Not dr.IsClosed Then dr.Close()

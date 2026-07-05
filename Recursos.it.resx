@@ -898,4 +898,37 @@ Il file non è aperto</value>
   <data name="AvisoTipoCuentaProtegido" xml:space="preserve">
     <value>I tipi di account predefiniti del sistema sono protetti da modifiche; se non deve essere utilizzato, possono essere eliminati</value>
   </data>
+  <data name="ErrorIniciarConceptos" xml:space="preserve">
+    <value>Non è stato avviato le partite di budget</value>
+  </data>
+  <data name="ErrorIniciarComponentes" xml:space="preserve">
+    <value>Mancata inizializzazione dei componenti indipendenti</value>
+  </data>
+  <data name="MsgSeleccionarFilasEliminar" xml:space="preserve">
+    <value>Per favore, seleziona prima le righe che vuoi eliminare usando le celle a sinistra</value>
+  </data>
+  <data name="ErrorRellenarListBox" xml:space="preserve">
+    <value>Errore che popola la Concept ListBox</value>
+  </data>
+  <data name="ErrorImportesMensuales" xml:space="preserve">
+    <value>Errore di lettura degli importi mensili</value>
+  </data>
+  <data name="ErrorVaciarApuntes" xml:space="preserve">
+    <value>Note sullo svuotamento degli errori</value>
+  </data>
+  <data name="ErrorVaciarPeriodicos" xml:space="preserve">
+    <value>Errore nello svuotamento dei giornali</value>
+  </data>
+  <data name="ErrorVaciarPresupuesto" xml:space="preserve">
+    <value>Svuotamento di Errori delle Citazioni</value>
+  </data>
+  <data name="ErrorLeerAcumulado" xml:space="preserve">
+    <value>Lettura dell'errore cumulativa</value>
+  </data>
+  <data name="ErrorConsolidarConceptos" xml:space="preserve">
+    <value>Errore nel consolidamento dei concetti nativi</value>
+  </data>
+  <data name="ErrorConsolidarCuentas" xml:space="preserve">
+    <value>Errore di consolidamento nativo degli account</value>
+  </data>
 </root>

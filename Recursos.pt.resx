@@ -898,4 +898,37 @@ O arquivo não está aberto</value>
   <data name="AvisoTipoCuentaProtegido" xml:space="preserve">
     <value>Os tipos padrão de conta do sistema são protegidos contra modificações; se não for utilizado, pode ser excluído</value>
   </data>
+  <data name="ErrorIniciarConceptos" xml:space="preserve">
+    <value>Falhou em inicializar itens do orçamento</value>
+  </data>
+  <data name="ErrorIniciarComponentes" xml:space="preserve">
+    <value>Falha em inicializar componentes independentes</value>
+  </data>
+  <data name="MsgSeleccionarFilasEliminar" xml:space="preserve">
+    <value>Por favor, selecione as linhas que você quer deletar primeiro usando as células à esquerda</value>
+  </data>
+  <data name="ErrorRellenarListBox" xml:space="preserve">
+    <value>Erro preenchendo a Concept ListBox</value>
+  </data>
+  <data name="ErrorImportesMensuales" xml:space="preserve">
+    <value>Erro na leitura dos valores mensais</value>
+  </data>
+  <data name="ErrorVaciarApuntes" xml:space="preserve">
+    <value>Notas de Esvaziamento de Erros</value>
+  </data>
+  <data name="ErrorVaciarPeriodicos" xml:space="preserve">
+    <value>Erro ao esvaziar jornais</value>
+  </data>
+  <data name="ErrorVaciarPresupuesto" xml:space="preserve">
+    <value>Erro ao esvaziar aspas</value>
+  </data>
+  <data name="ErrorLeerAcumulado" xml:space="preserve">
+    <value>Leitura de erro cumulativa</value>
+  </data>
+  <data name="ErrorConsolidarConceptos" xml:space="preserve">
+    <value>Consolidação de erros de conceitos nativos</value>
+  </data>
+  <data name="ErrorConsolidarCuentas" xml:space="preserve">
+    <value>Erro de consolidação de contas nativas</value>
+  </data>
 </root>

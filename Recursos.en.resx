@@ -898,4 +898,37 @@ the file is not open</value>
   <data name="AvisoTipoCuentaProtegido" xml:space="preserve">
     <value>The system's default account types are protected from modification, if it is not to be used it can be deleted</value>
   </data>
+  <data name="ErrorIniciarConceptos" xml:space="preserve">
+    <value>Failed to initialize budget items</value>
+  </data>
+  <data name="ErrorIniciarComponentes" xml:space="preserve">
+    <value>Failure to initialize independent components</value>
+  </data>
+  <data name="MsgSeleccionarFilasEliminar" xml:space="preserve">
+    <value>Please select the rows you want to delete first using the cells on the left</value>
+  </data>
+  <data name="ErrorRellenarListBox" xml:space="preserve">
+    <value>Error populating the Concept ListBox</value>
+  </data>
+  <data name="ErrorImportesMensuales" xml:space="preserve">
+    <value>Error reading monthly amounts</value>
+  </data>
+  <data name="ErrorVaciarApuntes" xml:space="preserve">
+    <value>Error Emptying Notes</value>
+  </data>
+  <data name="ErrorVaciarPeriodicos" xml:space="preserve">
+    <value>Error Emptying Newspapers</value>
+  </data>
+  <data name="ErrorVaciarPresupuesto" xml:space="preserve">
+    <value>Error Emptying Quotes</value>
+  </data>
+  <data name="ErrorLeerAcumulado" xml:space="preserve">
+    <value>Error reading cumulative</value>
+  </data>
+  <data name="ErrorConsolidarConceptos" xml:space="preserve">
+    <value>Error consolidating native concepts</value>
+  </data>
+  <data name="ErrorConsolidarCuentas" xml:space="preserve">
+    <value>Native account consolidation error</value>
+  </data>
 </root>

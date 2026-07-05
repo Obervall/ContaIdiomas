@@ -194,7 +194,7 @@ Public Class ApuntesContables
         Catch ex As Exception
             cargandoFormulario = False
             If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-            MsgBox("Error al inicializar componentes independientes: " & ex.Message, MsgBoxStyle.Critical)
+            MsgBox(resManager.GetString("ErrorIniciarComponentes") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
 
         ' Llenar el Combo Cuenta de forma segura y traducida
@@ -428,6 +428,14 @@ Public Class ApuntesContables
     End Sub
 
     Private Sub BtnFiltroFecha_Click(sender As Object, e As EventArgs) Handles BtnFiltroFecha.Click
+        ' =========================================================================
+        ' 🚀 ENCENDEMOS LA REDONDA QUE GIRA: Cambiamos el cursor al modo Espera
+        ' =========================================================================
+        ' Esto le dice visualmente al usuario: "Estoy procesando tus 7.000 apuntes, espera un segundo..."
+        Me.Cursor = Cursors.WaitCursor
+        frmApuntesContables.Cursor = Cursors.WaitCursor ' Si usas la grilla del formulario de impresión
+
+
         ' 🌟 SANEAMIENTO INICIAL: Vaciamos cualquier rastro de parámetros anteriores en la app
         cmdMdb1cr.Parameters.Clear()
 
@@ -478,8 +486,21 @@ Public Class ApuntesContables
             vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
 
             vtipoGrid = "APUNTES_CONTABLES"
-            LlenarGrid(vtipoSql, vtipoGrid, "1")
-            TraducirGridApuntesBD(Me.DgvApuntes)
+            Try
+                LlenarGrid(vtipoSql, vtipoGrid, "1")
+                TraducirGridApuntesBD(Me.DgvApuntes)
+
+            Catch ex As Exception
+                MsgBox(resManager.GetString("Error") & ": " & ex.Message, MsgBoxStyle.Critical)
+            Finally
+                ' =========================================================================
+                ' 🌟 APAGAMOS EL GIRO VISUAL: Devolvemos el ratón a su estado ordinario
+                ' =========================================================================
+                ' Ponemos este bloque dentro del 'Finally' para garantizar que el ratón 
+                ' recupere su libertad pase lo que pase, incluso si la base de datos da un error.
+                Me.Cursor = Cursors.Default
+                frmApuntesContables.Cursor = Cursors.Default
+            End Try
 
             If DgvApuntes.RowCount - 1 >= 0 Then
                 vFila = DgvApuntes.RowCount - 1
@@ -1279,7 +1300,7 @@ Public Class ApuntesContables
     Private Sub BtnEliminarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEliminarRegistro.Click
         ' 1. Validamos que haya al menos una fila seleccionada de verdad en la rejilla
         If DgvApuntes.SelectedRows.Count = 0 Then
-            MsgBox("Por favor, seleccione primero las filas que desea eliminar utilizando las celdas de la izquierda.", MsgBoxStyle.Information)
+            MsgBox(resManager.GetString("MsgSeleccionarFilasEliminar"), MsgBoxStyle.Information)
             Exit Sub
         End If
 
@@ -1472,44 +1493,68 @@ Public Class ApuntesContables
             BtnFechasClick = "SI"
             BtnFechasFondo.Visible = True
 
-            ' 🌟 EL ATAJO DE LA NUEVA ERA: Usamos SELECT TOP 1 para que Access nos devuelva 
-            ' un único número directo (el año más alto/reciente) en microsegundos
-            cmdMdb1cr.CommandText = "SELECT TOP 1 EjercicioEJE FROM ejercicios ORDER BY EjercicioEJE DESC"
+            ' 🌟 CLON DE TU BAÚL: Capturamos el año más ANTIGUO de la historia
+            cmdMdb1cr.CommandText = "SELECT TOP 1 EjercicioEJE FROM ejercicios ORDER BY EjercicioEJE ASC"
             cmdMdb1cr.Parameters.Clear()
 
             Try
-                ' ExecuteScalar extrae el número directo, abre y CIERRA el flujo al instante
                 Dim resAnio = cmdMdb1cr.ExecuteScalar()
-
                 If resAnio IsNot Nothing AndAlso Not IsDBNull(resAnio) Then
+                    ' 🚀 REPARADO: Guardamos el año puro (Integer) en tu variable de siempre
                     vFecha1Enero = Convert.ToInt32(resAnio)
                 Else
-                    ' Salvavidas: si la tabla estuviera vacía, usamos el año actual
                     vFecha1Enero = Date.Today.Year
                 End If
             Catch ex As Exception
-                vFecha1Enero = Date.Today.Year ' Si da error la BD, no rompemos el programa
-                MsgBox(resManager.GetString("") & ": " & ex.Message, MsgBoxStyle.Critical)
+                vFecha1Enero = Date.Today.Year
+                MsgBox("Error al ejecutar la lectura del histórico: " & ex.Message, MsgBoxStyle.Critical)
             End Try
 
-            ' Configuraciones originales de tus calendarios impecables
-            DateTimePicker1.MinDate = New Date(vFecha1Enero, 1, 1)
-            DateTimePicker1.Value = New Date(vFecha1Enero, 1, 1)
-            DateTimePicker2.MinDate = New Date(vFecha1Enero, 1, 1)
+            ' Capturamos el año del ejercicio contable activo en curso (ej: 2025 o 2026)
+            Dim anioCurso As Integer
+            If Not Integer.TryParse(vAñoEjercicio, anioCurso) Then
+                anioCurso = Date.Today.Year
+            End If
+
+            ' =========================================================================
+            ' 🌟 CORTAFUEGOS INDESTRUCTIBLE DE LÍMITES CRONOLÓGICOS (Evita colisiones en la RAM)
+            ' =========================================================================
+            DateTimePicker1.MinDate = New Date(1753, 1, 1)
+            DateTimePicker1.MaxDate = New Date(9998, 12, 31)
+            DateTimePicker2.MinDate = New Date(1753, 1, 1)
+            DateTimePicker2.MaxDate = New Date(9998, 12, 31)
+
+            ' =========================================================================
+            ' 🌟 CONFIGURACIÓN CRONOLÓGICA (Conversión segura en caliente)
+            ' =========================================================================
+            ' Creamos las variables de fecha locales para que el calendario las trague sin quejas
+            Dim fechaInicioHistorico As New Date(Convert.ToInt32(vFecha1Enero), 1, 1)
+            Dim fechaFinCurso As New Date(anioCurso, 12, 31)
+
+            ' Calendario 1: Se clava en el 1 de Enero del año más antiguo encontrado
+            DateTimePicker1.MinDate = fechaInicioHistorico
+            DateTimePicker1.Value = fechaInicioHistorico
+
+            ' Calendario 2: Se estira de forma elástica hasta el 31 de Diciembre del ejercicio activo
+            DateTimePicker2.MinDate = fechaInicioHistorico
+            DateTimePicker2.Value = fechaFinCurso
         Else
             ' =========================================================================
-            ' TU LÓGICA DEL ELSE (MANTENIDA PORQUE YA ESTÁ ADAPTADA Y ES PERFECTA)
+            ' TU LÓGICA ORIGINAL PERFECTA DEL ELSE (Sincronizada con el año del ejercicio activo)
             ' =========================================================================
             Dim anio As Integer
             If Not Integer.TryParse(vAñoEjercicio, anio) Then
                 anio = Date.Today.Year
             End If
 
-            vFecha1Enero = anio
-            vFecha31Diciembre = anio
-
             Dim fechaInicio As New Date(anio, 1, 1)
             Dim fechaFin As New Date(anio, 12, 31)
+
+            ' Abrimos las compuertas preventivas antes de encajonar las fechas de nuevo
+            DateTimePicker1.MinDate = New Date(1753, 1, 1)
+            DateTimePicker1.MaxDate = New Date(9998, 12, 31)
+            DateTimePicker2.MinDate = New Date(1753, 1, 1)
+            DateTimePicker2.MaxDate = New Date(9998, 12, 31)
 
             DateTimePicker1.MinDate = fechaInicio
             DateTimePicker1.MaxDate = fechaFin
@@ -1523,6 +1568,64 @@ Public Class ApuntesContables
             BtnFechasFondo.Visible = False
         End If
     End Sub
+
+
+    'Private Sub BtnFechas_Click(sender As Object, e As EventArgs) Handles BtnFechas.Click
+    '    If BtnFechasClick = "NO" Then
+    '        BtnFechasClick = "SI"
+    '        BtnFechasFondo.Visible = True
+
+    '        ' 🌟 EL ATAJO DE LA NUEVA ERA: Usamos SELECT TOP 1 para que Access nos devuelva 
+    '        ' un único número directo (el año más alto/reciente) en microsegundos
+    '        cmdMdb1cr.CommandText = "SELECT TOP 1 EjercicioEJE FROM ejercicios ORDER BY EjercicioEJE DESC"
+    '        cmdMdb1cr.Parameters.Clear()
+
+    '        Try
+    '            ' ExecuteScalar extrae el número directo, abre y CIERRA el flujo al instante
+    '            Dim resAnio = cmdMdb1cr.ExecuteScalar()
+
+    '            If resAnio IsNot Nothing AndAlso Not IsDBNull(resAnio) Then
+    '                vFecha1Enero = Convert.ToInt32(resAnio)
+    '            Else
+    '                ' Salvavidas: si la tabla estuviera vacía, usamos el año actual
+    '                vFecha1Enero = Date.Today.Year
+    '            End If
+    '        Catch ex As Exception
+    '            vFecha1Enero = Date.Today.Year ' Si da error la BD, no rompemos el programa
+    '            MsgBox(resManager.GetString("") & ": " & ex.Message, MsgBoxStyle.Critical)
+    '        End Try
+
+    '        ' Configuraciones originales de tus calendarios impecables
+    '        DateTimePicker1.MinDate = New Date(vFecha1Enero, 1, 1)
+    '        DateTimePicker1.Value = New Date(vFecha1Enero, 1, 1)
+    '        DateTimePicker2.MinDate = New Date(vFecha1Enero, 1, 1)
+    '    Else
+    '        ' =========================================================================
+    '        ' TU LÓGICA DEL ELSE (MANTENIDA PORQUE YA ESTÁ ADAPTADA Y ES PERFECTA)
+    '        ' =========================================================================
+    '        Dim anio As Integer
+    '        If Not Integer.TryParse(vAñoEjercicio, anio) Then
+    '            anio = Date.Today.Year
+    '        End If
+
+    '        vFecha1Enero = anio
+    '        vFecha31Diciembre = anio
+
+    '        Dim fechaInicio As New Date(anio, 1, 1)
+    '        Dim fechaFin As New Date(anio, 12, 31)
+
+    '        DateTimePicker1.MinDate = fechaInicio
+    '        DateTimePicker1.MaxDate = fechaFin
+    '        DateTimePicker1.Value = fechaInicio
+
+    '        DateTimePicker2.MinDate = fechaInicio
+    '        DateTimePicker2.MaxDate = fechaFin
+    '        DateTimePicker2.Value = fechaFin
+
+    '        BtnFechasClick = "NO"
+    '        BtnFechasFondo.Visible = False
+    '    End If
+    'End Sub
 
     Private Sub BtnEditarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEditarRegistro.Click
         filaActual = frmApuntesContables.DgvApuntes.CurrentRow.Index
@@ -2560,5 +2663,16 @@ Public Class ApuntesContables
         TL(3).Hide(Me)
         TL(5).Hide(Me)
         TL(11).Hide(Me)
+    End Sub
+
+    Private Sub DgvApuntes_Sorted(sender As Object, e As EventArgs) Handles DgvApuntes.Sorted
+        Try
+            ' 🚀 LA ESTOCADA: Cuando el usuario reordene las columnas, obligamos a la app
+            ' a limpiar el acumulador viejo de la RAM y recalcular los saldos de arriba a abajo.
+            ' Llamamos directamente a tu función global del módulo de forma transparente.
+            DgvApuntesContables(3, 4)
+        Catch ex As Exception
+            ' Evita cualquier parpadeo visual en el hilo principal del formulario
+        End Try
     End Sub
 End Class
