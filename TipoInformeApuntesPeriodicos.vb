@@ -146,89 +146,131 @@ Public Class TipoInformeApuntesPeriodicos
             Next
         End If
 
+        'If RadioButton2.Checked = True Then
+        '    vtipoSql += " ORDER BY apuper.ConceptoAPP ASC"
+        '    LlenarGrid(vtipoSql, "PRINT_APUNTES_CONTABLES", "2")
+
+        '    Dim vTempapu As String
+        '    Dim vImporteConcepto As Double
+        '    Dim vNombreConcepto As String = ""
+
+        '    vTempapu = "DELETE FROM tempapu"
+        '    cmdMdb1cr.CommandText = vTempapu
+        '    Try
+        '        cmdMdb1cr.ExecuteNonQuery()
+        '    Catch ex As Exception
+        '        MsgBox(ex.ToString())
+        '    End Try
+
+        '    For Each fila As DataGridViewRow In frmImprimirForm.DgvApuntes.Rows
+        '        If fila.IsNewRow Then Continue For
+
+        '        vImporteConcepto = CDbl(ConvertirDecimalSeguro(fila.Cells(3).Value))
+
+        '        If vNombreConcepto <> fila.Cells(1).Value.ToString() Then
+        '            vNombreConcepto = fila.Cells(1).Value.ToString().Trim()
+        '            vImporteConcepto = CDbl(ConvertirDecimalSeguro(fila.Cells(3).Value))
+
+        '            vAñadir = "INSERT INTO tempapu (ConceptoAPU, SumaImporteAPU) VALUES (?, ?)"
+        '            cmdMdb1cr.CommandType = CommandType.Text
+        '            cmdMdb1cr.CommandText = vAñadir
+        '            cmdMdb1cr.Parameters.Clear()
+        '            cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vNombreConcepto)
+
+        '            Dim paramImpTemp As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@SumaImporteAPU", OleDb.OleDbType.Currency)
+        '            paramImpTemp.Value = Math.Round(vImporteConcepto, 2)
+
+        '            Try
+        '                cmdMdb1cr.ExecuteNonQuery()
+        '            Catch ex As Exception
+        '                MsgBox(ex.ToString())
+        '            End Try
+        '        Else
+        '            cmdMdb1cr.CommandType = CommandType.Text
+        '            cmdMdb1cr.CommandText = "SELECT SumaImporteAPU FROM tempapu WHERE tempapu.ConceptoAPU = ?"
+        '            cmdMdb1cr.Parameters.Clear()
+        '            cmdMdb1cr.Parameters.AddWithValue("@Concepto", vNombreConcepto)
+
+        '            Dim vExistenteImporteConcepto As Double = 0
+        '            Try
+        '                Using drMdb1 As OleDbDataReader = cmdMdb1cr.ExecuteReader()
+        '                    If drMdb1.Read() Then
+        '                        If drMdb1.GetValue(0) IsNot DBNull.Value Then
+        '                            Double.TryParse(drMdb1.GetValue(0).ToString(), vExistenteImporteConcepto)
+        '                        End If
+        '                    End If
+        '                End Using
+        '            Catch ex As Exception
+        '                MsgBox(ex.ToString())
+        '            End Try
+
+        '            vNewImporteConcepto = vImporteConcepto + vExistenteImporteConcepto
+
+        '            vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = ? WHERE tempapu.ConceptoAPU = ?"
+        '            cmdMdb1cr.CommandText = vAñadir2
+        '            cmdMdb1cr.Parameters.Clear()
+
+        '            'Dim paramSumaTemp As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@SumaImporteAPU", OleDb.OleDbType.Currency)
+        '            'paramSumaTemp.Value = Math.Round(vNewImporteConcepto, 2)
+        '            ' 🚀 REPARADO: Convertimos primero a Double puro y luego redondeamos sin errores
+        '            Dim vImporteDouble As Double = CDbl(ConvertirDecimalSeguro(vImporteConcepto))
+        '            Dim paramImpTemp As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@SumaImporteAPU", OleDb.OleDbType.Currency)
+        '            paramImpTemp.Value = Math.Round(vImporteDouble, 2)
+
+        '            cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vNombreConcepto)
+
+        '            Try
+        '                cmdMdb1cr.ExecuteNonQuery()
+        '            Catch ex As Exception
+        '                MsgBox(ex.ToString())
+        '            End Try
+        '        End If
+        '    Next
+
+        '    vtipoSql = "SELECT * FROM tempapu ORDER BY tempapu.ConceptoAPU ASC"
+        '    LlenarGrid(vtipoSql, "PRINT_TEMP_APUNTES", "0")
+        '    vValor = 0
+        '    For Each fila As DataGridViewRow In frmImprimirForm.DgvApuntes.Rows
+        '        If fila.IsNewRow Then Continue For
+        '        vValor += CDbl(ConvertirDecimalSeguro(fila.Cells(1).Value))
+        '        frmImprimirForm.LblTotal.Text = resManager.GetString("TOTAL") & ":  " & vValor.ToString("N2") & vMoneda
+        '    Next
+        'End If
+
+        ' =========================================================================
+        ' 🌟 CASO 2 SANEADO DE ALTA INGENIERÍA: CONCEPTOS P_U_R_O_S (Aceptar)
+        ' =========================================================================
         If RadioButton2.Checked = True Then
-            vtipoSql += " ORDER BY apuper.ConceptoAPP ASC"
-            LlenarGrid(vtipoSql, "PRINT_APUNTES_CONTABLES", "2")
-
-            Dim vTempapu As String
-            Dim vImporteConcepto As Double
-            Dim vNombreConcepto As String = ""
-
-            vTempapu = "DELETE FROM tempapu"
-            cmdMdb1cr.CommandText = vTempapu
+            ' 1. VACIADO PREVENTIVO: Limpiamos la tabla intermedia del disco duro
+            cmdMdb1cr.CommandText = "DELETE FROM tempapu"
             Try
                 cmdMdb1cr.ExecuteNonQuery()
             Catch ex As Exception
                 MsgBox(ex.ToString())
             End Try
 
-            For Each fila As DataGridViewRow In frmImprimirForm.DgvApuntes.Rows
-                If fila.IsNewRow Then Continue For
+            ' 2. 🚀 LA JUGADA MAESTRA (GROUP BY): Forzamos a Access a agrupar y sumar los conceptos de forma nativa
+            ' Sembramos la consulta agrupando por el campo exacto del ID del concepto
+            Dim sqlAgruparConceptos As String = "INSERT INTO tempapu (ConceptoAPU, SumaImporteAPU) " &
+                                                "SELECT CStr(apuper.ConceptoAPP), Sum(apuper.ImporteAPP) FROM apuper " &
+                                                "WHERE apuper.EjercicioAPP = " & vAñoEjercicio.ToString & " " &
+                                                "GROUP BY apuper.ConceptoAPP"
 
-                vImporteConcepto = CDbl(ConvertirDecimalSeguro(fila.Cells(3).Value))
+            cmdMdb1cr.CommandType = CommandType.Text
+            cmdMdb1cr.CommandText = sqlAgruparConceptos
+            cmdMdb1cr.Parameters.Clear()
+            Try
+                ' 🎯 ¡BUM!: De un solo golpe en el disco duro, Access procesa, suma y consolida todos los conceptos
+                cmdMdb1cr.ExecuteNonQuery()
+            Catch ex As Exception
+                MsgBox("Error al consolidar conceptos nativo: " & ex.ToString())
+            End Try
 
-                If vNombreConcepto <> fila.Cells(1).Value.ToString() Then
-                    vNombreConcepto = fila.Cells(1).Value.ToString().Trim()
-                    vImporteConcepto = CDbl(ConvertirDecimalSeguro(fila.Cells(3).Value))
-
-                    vAñadir = "INSERT INTO tempapu (ConceptoAPU, SumaImporteAPU) VALUES (?, ?)"
-                    cmdMdb1cr.CommandType = CommandType.Text
-                    cmdMdb1cr.CommandText = vAñadir
-                    cmdMdb1cr.Parameters.Clear()
-                    cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vNombreConcepto)
-
-                    Dim paramImpTemp As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@SumaImporteAPU", OleDb.OleDbType.Currency)
-                    paramImpTemp.Value = Math.Round(vImporteConcepto, 2)
-
-                    Try
-                        cmdMdb1cr.ExecuteNonQuery()
-                    Catch ex As Exception
-                        MsgBox(ex.ToString())
-                    End Try
-                Else
-                    cmdMdb1cr.CommandType = CommandType.Text
-                    cmdMdb1cr.CommandText = "SELECT SumaImporteAPU FROM tempapu WHERE tempapu.ConceptoAPU = ?"
-                    cmdMdb1cr.Parameters.Clear()
-                    cmdMdb1cr.Parameters.AddWithValue("@Concepto", vNombreConcepto)
-
-                    Dim vExistenteImporteConcepto As Double = 0
-                    Try
-                        Using drMdb1 As OleDbDataReader = cmdMdb1cr.ExecuteReader()
-                            If drMdb1.Read() Then
-                                If drMdb1.GetValue(0) IsNot DBNull.Value Then
-                                    Double.TryParse(drMdb1.GetValue(0).ToString(), vExistenteImporteConcepto)
-                                End If
-                            End If
-                        End Using
-                    Catch ex As Exception
-                        MsgBox(ex.ToString())
-                    End Try
-
-                    vNewImporteConcepto = vImporteConcepto + vExistenteImporteConcepto
-
-                    vAñadir2 = "UPDATE tempapu SET SumaImporteAPU = ? WHERE tempapu.ConceptoAPU = ?"
-                    cmdMdb1cr.CommandText = vAñadir2
-                    cmdMdb1cr.Parameters.Clear()
-
-                    'Dim paramSumaTemp As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@SumaImporteAPU", OleDb.OleDbType.Currency)
-                    'paramSumaTemp.Value = Math.Round(vNewImporteConcepto, 2)
-                    ' 🚀 REPARADO: Convertimos primero a Double puro y luego redondeamos sin errores
-                    Dim vImporteDouble As Double = CDbl(ConvertirDecimalSeguro(vImporteConcepto))
-                    Dim paramImpTemp As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@SumaImporteAPU", OleDb.OleDbType.Currency)
-                    paramImpTemp.Value = Math.Round(vImporteDouble, 2)
-
-                    cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vNombreConcepto)
-
-                    Try
-                        cmdMdb1cr.ExecuteNonQuery()
-                    Catch ex As Exception
-                        MsgBox(ex.ToString())
-                    End Try
-                End If
-            Next
-
+            ' 3. VOLCADO DIRECTO AL CANVAS DE IMPRESIÓN 
             vtipoSql = "SELECT * FROM tempapu ORDER BY tempapu.ConceptoAPU ASC"
             LlenarGrid(vtipoSql, "PRINT_TEMP_APUNTES", "0")
+
+            ' Calculamos la barra de totales finales del folio
             vValor = 0
             For Each fila As DataGridViewRow In frmImprimirForm.DgvApuntes.Rows
                 If fila.IsNewRow Then Continue For
@@ -236,6 +278,7 @@ Public Class TipoInformeApuntesPeriodicos
                 frmImprimirForm.LblTotal.Text = resManager.GetString("TOTAL") & ":  " & vValor.ToString("N2") & vMoneda
             Next
         End If
+
 
         ' =========================================================================
         ' 🌟 CASO 3 SANEADO DE ALTA INGENIERÍA: CUENTAS BANCARIAS P_U_R_A_S (Aceptar)
