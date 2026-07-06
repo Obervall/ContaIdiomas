@@ -1201,6 +1201,89 @@ Public Class Principal
                 Exit Sub
             End If
         End If
+        '' --- CONFIGURACIÓN DE RUTAS ---
+        'Dim rutaOrigen As String = "C:\ContaHogar3.0\CHDB2.mdb"
+        'Dim connOrigenString As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & rutaOrigen & ";"
+        'Dim connDestinoString As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & vRuta & ";"
+
+        'Using connOrigen As New OleDbConnection(connOrigenString)
+        '    Using connDestino As New OleDbConnection(connDestinoString)
+        '        Try
+        '            connOrigen.Open()
+        '            connDestino.Open()
+
+        '            Dim sqlSelectOrigenApuntes As String = "SELECT FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU FROM APUNTES"
+        '            Using cmdOrigen As New OleDbCommand(sqlSelectOrigenApuntes, connOrigen)
+        '                Using reader As OleDbDataReader = cmdOrigen.ExecuteReader()
+        '                    ' Preparar comandos para destino (se reutilizan)
+        '                    Dim sqlCheckApuntes As String = "SELECT COUNT(*) FROM APUNTES WHERE FechaAPU = ? AND ConceptoAPU = ? AND DescripcionAPU = ? AND ImporteAPU = ? AND EjercicioAPU = ? AND NotasAPU = ? AND CuentaAPU = ?"
+        '                    Using cmdCheck As New OleDbCommand(sqlCheckApuntes, connDestino)
+        '                        cmdCheck.Parameters.Add("?", OleDbType.Date)
+        '                        cmdCheck.Parameters.Add("?", OleDbType.VarChar)
+        '                        cmdCheck.Parameters.Add("?", OleDbType.VarChar)
+        '                        cmdCheck.Parameters.Add("?", OleDbType.Currency)
+        '                        cmdCheck.Parameters.Add("?", OleDbType.Integer)
+        '                        cmdCheck.Parameters.Add("?", OleDbType.VarChar)
+        '                        cmdCheck.Parameters.Add("?", OleDbType.VarChar)
+
+        '                        Dim sqlInsert As String = "INSERT INTO APUNTES (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) VALUES (?, ?, ?, ?, ?, ?, ?)"
+        '                        Using cmdInsert As New OleDbCommand(sqlInsert, connDestino)
+        '                            cmdInsert.Parameters.Add("?", OleDbType.Date)
+        '                            cmdInsert.Parameters.Add("?", OleDbType.VarChar)
+        '                            cmdInsert.Parameters.Add("?", OleDbType.VarChar)
+        '                            cmdInsert.Parameters.Add("?", OleDbType.Currency)
+        '                            cmdInsert.Parameters.Add("?", OleDbType.Integer)
+        '                            cmdInsert.Parameters.Add("?", OleDbType.VarChar)
+        '                            cmdInsert.Parameters.Add("?", OleDbType.VarChar)
+
+        '                            Dim contador As Integer = 0
+
+        '                            While reader.Read()
+        '                                ' Leer valores (comprobando DBNull)
+        '                                Dim vFecha As Object = If(reader.IsDBNull(0), DBNull.Value, reader.GetValue(0))
+        '                                Dim vConcepto As Object = If(reader.IsDBNull(1), DBNull.Value, reader.GetValue(1))
+        '                                Dim vDescripcion As Object = If(reader.IsDBNull(2), DBNull.Value, reader.GetValue(2))
+        '                                Dim vImporte As Object = If(reader.IsDBNull(3), DBNull.Value, reader.GetValue(3))
+        '                                Dim vEjercicio As Object = If(reader.IsDBNull(4), DBNull.Value, reader.GetValue(4))
+        '                                Dim vNotas As Object = If(reader.IsDBNull(5), DBNull.Value, reader.GetValue(5))
+        '                                Dim vCuenta As Object = If(reader.IsDBNull(6), DBNull.Value, reader.GetValue(6))
+
+        '                                ' Comprobar existencia en destino
+        '                                cmdCheck.Parameters(0).Value = vFecha
+        '                                cmdCheck.Parameters(1).Value = vConcepto
+        '                                cmdCheck.Parameters(2).Value = vDescripcion
+        '                                cmdCheck.Parameters(3).Value = vImporte
+        '                                cmdCheck.Parameters(4).Value = vEjercicio
+        '                                cmdCheck.Parameters(5).Value = vNotas
+        '                                cmdCheck.Parameters(6).Value = vCuenta
+
+        '                                Dim existe As Integer = Convert.ToInt32(cmdCheck.ExecuteScalar())
+
+        '                                If existe = 0 Then
+        '                                    ' Insertar en destino
+        '                                    cmdInsert.Parameters(0).Value = vFecha
+        '                                    cmdInsert.Parameters(1).Value = vConcepto
+        '                                    cmdInsert.Parameters(2).Value = vDescripcion
+        '                                    cmdInsert.Parameters(3).Value = vImporte
+        '                                    cmdInsert.Parameters(4).Value = vEjercicio
+        '                                    cmdInsert.Parameters(5).Value = vNotas
+        '                                    cmdInsert.Parameters(6).Value = vCuenta
+
+        '                                    cmdInsert.ExecuteNonQuery()
+        '                                    contador += 1
+        '                                End If
+        '                            End While
+        '                            MsgBox(rmse.GetString("TransferenciaApuntes") & ". " & contador.ToString() & " " & rmse.GetString("RegistrosCopiados"), MsgBoxStyle.Information, rmse.GetString("$this.Text"))
+        '                        End Using
+        '                    End Using
+        '                End Using
+        '            End Using
+        '        Catch ex As Exception
+        '            MsgBox(rmse.GetString("ErrorTransferenciaApuntes") & ": " & ex.Message, MsgBoxStyle.Critical, resManager.GetString("Error"))
+        '        End Try
+        '    End Using
+        'End Using
+
         ' --- CONFIGURACIÓN DE RUTAS ---
         Dim rutaOrigen As String = "C:\ContaHogar3.0\CHDB2.mdb"
         Dim connOrigenString As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & rutaOrigen & ";"
@@ -1212,62 +1295,94 @@ Public Class Principal
                     connOrigen.Open()
                     connDestino.Open()
 
+                    ' 1. SQL Origen: Lee los datos crudos en formato de texto de la base antigua
                     Dim sqlSelectOrigenApuntes As String = "SELECT FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU FROM APUNTES"
                     Using cmdOrigen As New OleDbCommand(sqlSelectOrigenApuntes, connOrigen)
                         Using reader As OleDbDataReader = cmdOrigen.ExecuteReader()
-                            ' Preparar comandos para destino (se reutilizan)
+
+                            ' 2. 🚀 REPARADO: La SQL de verificación ahora busca por IDs numéricos enteros en las dos últimas columnas
                             Dim sqlCheckApuntes As String = "SELECT COUNT(*) FROM APUNTES WHERE FechaAPU = ? AND ConceptoAPU = ? AND DescripcionAPU = ? AND ImporteAPU = ? AND EjercicioAPU = ? AND NotasAPU = ? AND CuentaAPU = ?"
                             Using cmdCheck As New OleDbCommand(sqlCheckApuntes, connDestino)
                                 cmdCheck.Parameters.Add("?", OleDbType.Date)
-                                cmdCheck.Parameters.Add("?", OleDbType.VarChar)
+                                cmdCheck.Parameters.Add("?", OleDbType.Integer) ' ID Concepto
                                 cmdCheck.Parameters.Add("?", OleDbType.VarChar)
                                 cmdCheck.Parameters.Add("?", OleDbType.Currency)
                                 cmdCheck.Parameters.Add("?", OleDbType.Integer)
                                 cmdCheck.Parameters.Add("?", OleDbType.VarChar)
-                                cmdCheck.Parameters.Add("?", OleDbType.VarChar)
+                                cmdCheck.Parameters.Add("?", OleDbType.Integer) ' ID Cuenta
 
-                                Dim sqlInsert As String = "INSERT INTO APUNTES (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) VALUES (?, ?, ?, ?, ?, ?, ?)"
+                                ' 3. 🚀 REPARADO: La SQL de inserción ahora inyecta IDs relacionales puros de la Nueva Era
+                                Dim sqlInsert As String = "INSERT INTO APUNTES (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPP) VALUES (?, ?, ?, ?, ?, ?, ?)"
                                 Using cmdInsert As New OleDbCommand(sqlInsert, connDestino)
                                     cmdInsert.Parameters.Add("?", OleDbType.Date)
-                                    cmdInsert.Parameters.Add("?", OleDbType.VarChar)
+                                    cmdInsert.Parameters.Add("?", OleDbType.Integer) ' ID Concepto
                                     cmdInsert.Parameters.Add("?", OleDbType.VarChar)
                                     cmdInsert.Parameters.Add("?", OleDbType.Currency)
                                     cmdInsert.Parameters.Add("?", OleDbType.Integer)
                                     cmdInsert.Parameters.Add("?", OleDbType.VarChar)
-                                    cmdInsert.Parameters.Add("?", OleDbType.VarChar)
+                                    cmdInsert.Parameters.Add("?", OleDbType.Integer) ' ID Cuenta
 
                                     Dim contador As Integer = 0
 
+                                    ' Preparamos comandos ligeros auxiliares para buscar IDs en caliente sin bloquear la RAM
+                                    Dim cmdBuscarConcepto As New OleDbCommand("SELECT IdConceptoCON FROM conceptos WHERE DescripcionCON = ? OR CodigoCON = ?", connDestino)
+                                    cmdBuscarConcepto.Parameters.Add("?", OleDbType.VarChar)
+                                    cmdBuscarConcepto.Parameters.Add("?", OleDbType.VarChar)
+
+                                    Dim cmdBuscarCuenta As New OleDbCommand("SELECT IdCuentaCUE FROM cuentas WHERE NombreCUE = ?", connDestino)
+                                    cmdBuscarCuenta.Parameters.Add("?", OleDbType.VarChar)
+
                                     While reader.Read()
-                                        ' Leer valores (comprobando DBNull)
+                                        ' Leer valores crudos (comprobando DBNull)
                                         Dim vFecha As Object = If(reader.IsDBNull(0), DBNull.Value, reader.GetValue(0))
-                                        Dim vConcepto As Object = If(reader.IsDBNull(1), DBNull.Value, reader.GetValue(1))
+                                        Dim textoConceptoViejo As String = If(reader.IsDBNull(1), "VARIOS", reader.GetValue(1).ToString().Trim())
                                         Dim vDescripcion As Object = If(reader.IsDBNull(2), DBNull.Value, reader.GetValue(2))
                                         Dim vImporte As Object = If(reader.IsDBNull(3), DBNull.Value, reader.GetValue(3))
                                         Dim vEjercicio As Object = If(reader.IsDBNull(4), DBNull.Value, reader.GetValue(4))
                                         Dim vNotas As Object = If(reader.IsDBNull(5), DBNull.Value, reader.GetValue(5))
-                                        Dim vCuenta As Object = If(reader.IsDBNull(6), DBNull.Value, reader.GetValue(6))
+                                        Dim textoCuentaVieja As String = If(reader.IsDBNull(6), "VARIOS", reader.GetValue(6).ToString().Trim())
 
-                                        ' Comprobar existencia en destino
+                                        ' =========================================================================
+                                        ' 🌟 TRADUCTOR RELACIONAL EN CALIENTE A IDs NUMÉRICOS
+                                        ' =========================================================================
+                                        ' A. Buscamos el ID numérico del Concepto en el nuevo maestro
+                                        Dim idConceptoNuevo As Integer = 1 ' Salvavidas: por defecto ID 1 (Varios / Saldo)
+                                        cmdBuscarConcepto.Parameters(0).Value = textoConceptoViejo
+                                        cmdBuscarConcepto.Parameters(1).Value = textoConceptoViejo.Replace(" ", "_").ToUpper()
+                                        Dim resConcepto = cmdBuscarConcepto.ExecuteScalar()
+                                        If resConcepto IsNot Nothing AndAlso Not IsDBNull(resConcepto) Then
+                                            idConceptoNuevo = Convert.ToInt32(resConcepto)
+                                        End If
+
+                                        ' B. Buscamos el ID numérico de la Cuenta Bancaria en el nuevo maestro
+                                        Dim idCuentaNueva As Integer = 1 ' Salvavidas: por defecto ID 1 (Primera cuenta)
+                                        cmdBuscarCuenta.Parameters(0).Value = textoCuentaVieja
+                                        Dim resCuenta = cmdBuscarCuenta.ExecuteScalar()
+                                        If resCuenta IsNot Nothing AndAlso Not IsDBNull(resCuenta) Then
+                                            idCuentaNueva = Convert.ToInt32(resCuenta)
+                                        End If
+                                        ' =========================================================================
+
+                                        ' Comprobar existencia en destino usando los nuevos IDs relacionales
                                         cmdCheck.Parameters(0).Value = vFecha
-                                        cmdCheck.Parameters(1).Value = vConcepto
+                                        cmdCheck.Parameters(1).Value = idConceptoNuevo
                                         cmdCheck.Parameters(2).Value = vDescripcion
                                         cmdCheck.Parameters(3).Value = vImporte
                                         cmdCheck.Parameters(4).Value = vEjercicio
                                         cmdCheck.Parameters(5).Value = vNotas
-                                        cmdCheck.Parameters(6).Value = vCuenta
+                                        cmdCheck.Parameters(6).Value = idCuentaNueva
 
                                         Dim existe As Integer = Convert.ToInt32(cmdCheck.ExecuteScalar())
 
                                         If existe = 0 Then
-                                            ' Insertar en destino
+                                            ' Insertar en destino inyectando números enteros limpios en la RAM
                                             cmdInsert.Parameters(0).Value = vFecha
-                                            cmdInsert.Parameters(1).Value = vConcepto
+                                            cmdInsert.Parameters(1).Value = idConceptoNuevo
                                             cmdInsert.Parameters(2).Value = vDescripcion
                                             cmdInsert.Parameters(3).Value = vImporte
                                             cmdInsert.Parameters(4).Value = vEjercicio
                                             cmdInsert.Parameters(5).Value = vNotas
-                                            cmdInsert.Parameters(6).Value = vCuenta
+                                            cmdInsert.Parameters(6).Value = idCuentaNueva
 
                                             cmdInsert.ExecuteNonQuery()
                                             contador += 1
@@ -1284,6 +1399,87 @@ Public Class Principal
             End Using
         End Using
 
+
+        'TsLabelFormulario.ForeColor = Color.Red
+        'TsLabelFormulario.Text = rmse.GetString("ImportandoApuntesPeriodicos")
+        'Using connOrigen As New OleDbConnection(connOrigenString)
+        '    Using connDestino As New OleDbConnection(connDestinoString)
+        '        Try
+        '            connOrigen.Open()
+        '            connDestino.Open()
+
+        '            Dim sqlSelectOrigenApuntes As String = "SELECT FechaAPP, ConceptoAPP, DescripcionAPP, ImporteAPP, EjercicioAPP, NotasAPP, CuentaAPP FROM APUPER"
+        '            Using cmdOrigen As New OleDbCommand(sqlSelectOrigenApuntes, connOrigen)
+        '                Using reader As OleDbDataReader = cmdOrigen.ExecuteReader()
+        '                    ' Preparar comandos para destino (se reutilizan)
+        '                    Dim sqlCheckApuntes As String = "SELECT COUNT(*) FROM APUPER WHERE FechaAPP = ? AND ConceptoAPP = ? AND DescripcionAPP = ? AND ImporteAPP = ? AND EjercicioAPP = ? AND NotasAPP = ? AND CuentaAPP = ?"
+        '                    Using cmdCheck As New OleDbCommand(sqlCheckApuntes, connDestino)
+        '                        cmdCheck.Parameters.Add("?", OleDbType.Date)
+        '                        cmdCheck.Parameters.Add("?", OleDbType.VarChar)
+        '                        cmdCheck.Parameters.Add("?", OleDbType.VarChar)
+        '                        cmdCheck.Parameters.Add("?", OleDbType.Double)
+        '                        cmdCheck.Parameters.Add("?", OleDbType.Integer)
+        '                        cmdCheck.Parameters.Add("?", OleDbType.VarChar)
+        '                        cmdCheck.Parameters.Add("?", OleDbType.VarChar)
+
+        '                        Dim sqlInsert As String = "INSERT INTO APUNTES (FechaAPP, ConceptoAPP, DescripcionAPP, ImporteAPP, EjercicioAPP, NotasAPP, CuentaAPP) VALUES (?, ?, ?, ?, ?, ?, ?)"
+        '                        Using cmdInsert As New OleDbCommand(sqlInsert, connDestino)
+        '                            cmdInsert.Parameters.Add("?", OleDbType.Date)
+        '                            cmdInsert.Parameters.Add("?", OleDbType.VarChar)
+        '                            cmdInsert.Parameters.Add("?", OleDbType.VarChar)
+        '                            cmdInsert.Parameters.Add("?", OleDbType.Double)
+        '                            cmdInsert.Parameters.Add("?", OleDbType.Integer)
+        '                            cmdInsert.Parameters.Add("?", OleDbType.VarChar)
+        '                            cmdInsert.Parameters.Add("?", OleDbType.VarChar)
+
+        '                            Dim contador As Integer = 0
+
+        '                            While reader.Read()
+        '                                ' Leer valores (comprobando DBNull)
+        '                                Dim vFecha As Object = If(reader.IsDBNull(0), DBNull.Value, reader.GetValue(0))
+        '                                Dim vConcepto As Object = If(reader.IsDBNull(1), DBNull.Value, reader.GetValue(1))
+        '                                Dim vDescripcion As Object = If(reader.IsDBNull(2), DBNull.Value, reader.GetValue(2))
+        '                                Dim vImporte As Object = If(reader.IsDBNull(3), DBNull.Value, reader.GetValue(3))
+        '                                Dim vEjercicio As Object = If(reader.IsDBNull(4), DBNull.Value, reader.GetValue(4))
+        '                                Dim vNotas As Object = If(reader.IsDBNull(5), DBNull.Value, reader.GetValue(5))
+        '                                Dim vCuenta As Object = If(reader.IsDBNull(6), DBNull.Value, reader.GetValue(6))
+
+        '                                ' Comprobar existencia en destino
+        '                                cmdCheck.Parameters(0).Value = vFecha
+        '                                cmdCheck.Parameters(1).Value = vConcepto
+        '                                cmdCheck.Parameters(2).Value = vDescripcion
+        '                                cmdCheck.Parameters(3).Value = vImporte
+        '                                cmdCheck.Parameters(4).Value = vEjercicio
+        '                                cmdCheck.Parameters(5).Value = vNotas
+        '                                cmdCheck.Parameters(6).Value = vCuenta
+
+        '                                Dim existe As Integer = Convert.ToInt32(cmdCheck.ExecuteScalar())
+
+        '                                If existe = 0 Then
+        '                                    ' Insertar en destino
+        '                                    cmdInsert.Parameters(0).Value = vFecha
+        '                                    cmdInsert.Parameters(1).Value = vConcepto
+        '                                    cmdInsert.Parameters(2).Value = vDescripcion
+        '                                    cmdInsert.Parameters(3).Value = vImporte
+        '                                    cmdInsert.Parameters(4).Value = vEjercicio
+        '                                    cmdInsert.Parameters(5).Value = vNotas
+        '                                    cmdInsert.Parameters(6).Value = vCuenta
+
+        '                                    cmdInsert.ExecuteNonQuery()
+        '                                    contador += 1
+        '                                End If
+        '                            End While
+        '                            MsgBox(rmse.GetString("TransferenciaApuntesPeriodicos") & ". " & contador.ToString() & " " & rmse.GetString("RegistrosCopiados"), MsgBoxStyle.Information, rmse.GetString("$this.Text"))
+        '                        End Using
+        '                    End Using
+        '                End Using
+        '            End Using
+        '        Catch ex As Exception
+        '            MsgBox(rmse.GetString("ErrorTransferenciaApuntesPeriodicos") & ": " & ex.Message, MsgBoxStyle.Critical, resManager.GetString("Error"))
+        '        End Try
+        '    End Using
+        'End Using
+
         TsLabelFormulario.ForeColor = Color.Red
         TsLabelFormulario.Text = rmse.GetString("ImportandoApuntesPeriodicos")
         Using connOrigen As New OleDbConnection(connOrigenString)
@@ -1292,62 +1488,94 @@ Public Class Principal
                     connOrigen.Open()
                     connDestino.Open()
 
+                    ' 1. SQL Origen: Lee los datos crudos en formato de texto de la base antigua
                     Dim sqlSelectOrigenApuntes As String = "SELECT FechaAPP, ConceptoAPP, DescripcionAPP, ImporteAPP, EjercicioAPP, NotasAPP, CuentaAPP FROM APUPER"
                     Using cmdOrigen As New OleDbCommand(sqlSelectOrigenApuntes, connOrigen)
                         Using reader As OleDbDataReader = cmdOrigen.ExecuteReader()
-                            ' Preparar comandos para destino (se reutilizan)
+
+                            ' 2. 🚀 REPARADO: Buscamos existencia usando los carriles numéricos correctos (Integer en Concepto y Cuenta)
                             Dim sqlCheckApuntes As String = "SELECT COUNT(*) FROM APUPER WHERE FechaAPP = ? AND ConceptoAPP = ? AND DescripcionAPP = ? AND ImporteAPP = ? AND EjercicioAPP = ? AND NotasAPP = ? AND CuentaAPP = ?"
                             Using cmdCheck As New OleDbCommand(sqlCheckApuntes, connDestino)
                                 cmdCheck.Parameters.Add("?", OleDbType.Date)
+                                cmdCheck.Parameters.Add("?", OleDbType.Integer) ' ID Concepto
                                 cmdCheck.Parameters.Add("?", OleDbType.VarChar)
-                                cmdCheck.Parameters.Add("?", OleDbType.VarChar)
-                                cmdCheck.Parameters.Add("?", OleDbType.Double)
+                                cmdCheck.Parameters.Add("?", OleDbType.Currency) ' 🚀 REPARADO: Cambiado de Double a Currency
                                 cmdCheck.Parameters.Add("?", OleDbType.Integer)
                                 cmdCheck.Parameters.Add("?", OleDbType.VarChar)
-                                cmdCheck.Parameters.Add("?", OleDbType.VarChar)
+                                cmdCheck.Parameters.Add("?", OleDbType.Integer) ' ID Cuenta
 
-                                Dim sqlInsert As String = "INSERT INTO APUNTES (FechaAPP, ConceptoAPP, DescripcionAPP, ImporteAPP, EjercicioAPP, NotasAPP, CuentaAPP) VALUES (?, ?, ?, ?, ?, ?, ?)"
+                                ' 3. 🚀 REPARADO: Corregido el nombre de la tabla destino a APUPER y formato Currency
+                                Dim sqlInsert As String = "INSERT INTO APUPER (FechaAPP, ConceptoAPP, DescripcionAPP, ImporteAPP, EjercicioAPP, NotasAPP, CuentaAPP) VALUES (?, ?, ?, ?, ?, ?, ?)"
                                 Using cmdInsert As New OleDbCommand(sqlInsert, connDestino)
                                     cmdInsert.Parameters.Add("?", OleDbType.Date)
+                                    cmdInsert.Parameters.Add("?", OleDbType.Integer) ' ID Concepto
                                     cmdInsert.Parameters.Add("?", OleDbType.VarChar)
-                                    cmdInsert.Parameters.Add("?", OleDbType.VarChar)
-                                    cmdInsert.Parameters.Add("?", OleDbType.Double)
+                                    cmdInsert.Parameters.Add("?", OleDbType.Currency) ' 🚀 REPARADO: Cambiado de Double a Currency
                                     cmdInsert.Parameters.Add("?", OleDbType.Integer)
                                     cmdInsert.Parameters.Add("?", OleDbType.VarChar)
-                                    cmdInsert.Parameters.Add("?", OleDbType.VarChar)
+                                    cmdInsert.Parameters.Add("?", OleDbType.Integer) ' ID Cuenta
 
                                     Dim contador As Integer = 0
 
+                                    ' Comandos ligeros de traducción en caliente
+                                    Dim cmdBuscarConcepto As New OleDbCommand("SELECT IdConceptoCON FROM conceptos WHERE DescripcionCON = ? OR CodigoCON = ?", connDestino)
+                                    cmdBuscarConcepto.Parameters.Add("?", OleDbType.VarChar)
+                                    cmdBuscarConcepto.Parameters.Add("?", OleDbType.VarChar)
+
+                                    Dim cmdBuscarCuenta As New OleDbCommand("SELECT IdCuentaCUE FROM cuentas WHERE NombreCUE = ?", connDestino)
+                                    cmdBuscarCuenta.Parameters.Add("?", OleDbType.VarChar)
+
                                     While reader.Read()
-                                        ' Leer valores (comprobando DBNull)
+                                        ' Leer valores crudos (comprobando DBNull)
                                         Dim vFecha As Object = If(reader.IsDBNull(0), DBNull.Value, reader.GetValue(0))
-                                        Dim vConcepto As Object = If(reader.IsDBNull(1), DBNull.Value, reader.GetValue(1))
+                                        Dim textoConceptoViejo As String = If(reader.IsDBNull(1), "VARIOS", reader.GetValue(1).ToString().Trim())
                                         Dim vDescripcion As Object = If(reader.IsDBNull(2), DBNull.Value, reader.GetValue(2))
                                         Dim vImporte As Object = If(reader.IsDBNull(3), DBNull.Value, reader.GetValue(3))
                                         Dim vEjercicio As Object = If(reader.IsDBNull(4), DBNull.Value, reader.GetValue(4))
                                         Dim vNotas As Object = If(reader.IsDBNull(5), DBNull.Value, reader.GetValue(5))
-                                        Dim vCuenta As Object = If(reader.IsDBNull(6), DBNull.Value, reader.GetValue(6))
+                                        Dim textoCuentaVieja As String = If(reader.IsDBNull(6), "VARIOS", reader.GetValue(6).ToString().Trim())
 
-                                        ' Comprobar existencia en destino
+                                        ' =========================================================================
+                                        ' 🌟 TRADUCTOR RELACIONAL EN CALIENTE A IDs NUMÉRICOS
+                                        ' =========================================================================
+                                        ' A. Buscamos el ID del Concepto en el nuevo maestro
+                                        Dim idConceptoNuevo As Integer = 1
+                                        cmdBuscarConcepto.Parameters(0).Value = textoConceptoViejo
+                                        cmdBuscarConcepto.Parameters(1).Value = textoConceptoViejo.Replace(" ", "_").ToUpper()
+                                        Dim resConcepto = cmdBuscarConcepto.ExecuteScalar()
+                                        If resConcepto IsNot Nothing AndAlso Not IsDBNull(resConcepto) Then
+                                            idConceptoNuevo = Convert.ToInt32(resConcepto)
+                                        End If
+
+                                        ' B. Buscamos el ID de la Cuenta Bancaria en el nuevo maestro
+                                        Dim idCuentaNueva As Integer = 1
+                                        cmdBuscarCuenta.Parameters(0).Value = textoCuentaVieja
+                                        Dim resCuenta = cmdBuscarCuenta.ExecuteScalar()
+                                        If resCuenta IsNot Nothing AndAlso Not IsDBNull(resCuenta) Then
+                                            idCuentaNueva = Convert.ToInt32(resCuenta)
+                                        End If
+                                        ' =========================================================================
+
+                                        ' Comprobar existencia en destino usando los IDs relacionales calculados
                                         cmdCheck.Parameters(0).Value = vFecha
-                                        cmdCheck.Parameters(1).Value = vConcepto
+                                        cmdCheck.Parameters(1).Value = idConceptoNuevo
                                         cmdCheck.Parameters(2).Value = vDescripcion
                                         cmdCheck.Parameters(3).Value = vImporte
                                         cmdCheck.Parameters(4).Value = vEjercicio
                                         cmdCheck.Parameters(5).Value = vNotas
-                                        cmdCheck.Parameters(6).Value = vCuenta
+                                        cmdCheck.Parameters(6).Value = idCuentaNueva
 
                                         Dim existe As Integer = Convert.ToInt32(cmdCheck.ExecuteScalar())
 
                                         If existe = 0 Then
-                                            ' Insertar en destino
+                                            ' Insertar en destino inyectando números limpios redondeados a la RAM
                                             cmdInsert.Parameters(0).Value = vFecha
-                                            cmdInsert.Parameters(1).Value = vConcepto
+                                            cmdInsert.Parameters(1).Value = idConceptoNuevo
                                             cmdInsert.Parameters(2).Value = vDescripcion
-                                            cmdInsert.Parameters(3).Value = vImporte
+                                            cmdInsert.Parameters(3).Value = If(IsNumeric(vImporte), Math.Round(Convert.ToDouble(vImporte), 2), vImporte)
                                             cmdInsert.Parameters(4).Value = vEjercicio
                                             cmdInsert.Parameters(5).Value = vNotas
-                                            cmdInsert.Parameters(6).Value = vCuenta
+                                            cmdInsert.Parameters(6).Value = idCuentaNueva
 
                                             cmdInsert.ExecuteNonQuery()
                                             contador += 1
@@ -1363,6 +1591,54 @@ Public Class Principal
                 End Try
             End Using
         End Using
+
+        'TsLabelFormulario.ForeColor = Color.Red
+        'TsLabelFormulario.Text = rmse.GetString("ImportandoEjercicios")
+
+        'Dim sqlSeleccion As String = "SELECT EjercicioEJE FROM EJERCICIOS"
+        'Dim sqlVerificar As String = "SELECT COUNT(*) FROM EJERCICIOS WHERE EjercicioEJE = ?"
+        'Dim sqlInsercion As String = "INSERT INTO EJERCICIOS (EjercicioEJE) VALUES (?)"
+        'Using connOrigen As New OleDbConnection(connOrigenString), connDestino As New OleDbConnection(connDestinoString)
+        '    Try
+        '        connOrigen.Open()
+        '        connDestino.Open()
+
+        '        Dim cmdOrigen As New OleDbCommand(sqlSeleccion, connOrigen)
+        '        Dim reader As OleDbDataReader = cmdOrigen.ExecuteReader()
+
+        '        ' Comando para verificar existencia
+        '        Dim cmdCheck As New OleDbCommand(sqlVerificar, connDestino)
+        '        cmdCheck.Parameters.Add("?", OleDbType.Integer) ' Cambia el tipo si no es Número
+
+        '        ' Comando para insertar
+        '        Dim cmdInsert As New OleDbCommand(sqlInsercion, connDestino)
+        '        cmdInsert.Parameters.Add("?", OleDbType.Integer)
+
+        '        Dim insertados As Integer = 0
+        '        Dim omitidos As Integer = 0
+
+        '        While reader.Read()
+        '            Dim valorActual = reader("EjercicioEJE")
+
+        '            ' 1. Verificar si ya existe en el destino
+        '            cmdCheck.Parameters(0).Value = valorActual
+        '            Dim existe As Integer = CInt(cmdCheck.ExecuteScalar())
+
+        '            ' 2. Si no existe (count = 0), insertar
+        '            If existe = 0 Then
+        '                cmdInsert.Parameters(0).Value = valorActual
+        '                cmdInsert.ExecuteNonQuery()
+        '                insertados += 1
+        '            Else
+        '                omitidos += 1
+        '            End If
+        '        End While
+        '        reader.Close()
+        '        MsgBox(rmse.GetString("TransferenciaEjercicios") & ". " & insertados.ToString() & " " & rmse.GetString("RegistrosCopiados") & ", " & omitidos.ToString() & " " & rmse.GetString("RegistrosOmitidos") & ".", MsgBoxStyle.Information, rmse.GetString("$this.Text"))
+        '    Catch ex As Exception
+        '        MsgBox(rmse.GetString("ErrorTransferenciaEjercicios") & ":  " & ex.Message, MsgBoxStyle.Critical, rmse.GetString("Error"))
+        '    End Try
+        'End Using
 
         TsLabelFormulario.ForeColor = Color.Red
         TsLabelFormulario.Text = rmse.GetString("ImportandoEjercicios")
@@ -1380,17 +1656,20 @@ Public Class Principal
 
                 ' Comando para verificar existencia
                 Dim cmdCheck As New OleDbCommand(sqlVerificar, connDestino)
-                cmdCheck.Parameters.Add("?", OleDbType.Integer) ' Cambia el tipo si no es Número
+                cmdCheck.Parameters.Clear()
+                cmdCheck.Parameters.Add("?", OleDbType.Integer)
 
                 ' Comando para insertar
                 Dim cmdInsert As New OleDbCommand(sqlInsercion, connDestino)
+                cmdInsert.Parameters.Clear()
                 cmdInsert.Parameters.Add("?", OleDbType.Integer)
 
                 Dim insertados As Integer = 0
                 Dim omitidos As Integer = 0
 
                 While reader.Read()
-                    Dim valorActual = reader("EjercicioEJE")
+                    ' 🚀 OPTIMIZACIÓN: Leemos de forma directa el número entero por su índice 0 en la RAM
+                    Dim valorActual As Integer = If(reader.IsDBNull(0), Date.Today.Year, reader.GetInt32(0))
 
                     ' 1. Verificar si ya existe en el destino
                     cmdCheck.Parameters(0).Value = valorActual
@@ -1412,6 +1691,108 @@ Public Class Principal
             End Try
         End Using
 
+        'TsLabelFormulario.ForeColor = Color.Red
+        'TsLabelFormulario.Text = rmse.GetString("ImportandoConceptos")
+
+        'Dim sqlSeleccionCON As String = "SELECT CodigoCON, DescripcionCON, TipoCON, NotasCON FROM CONCEPTOS"
+        'Dim sqlVerificarCON As String = "SELECT COUNT(*) FROM CONCEPTOS WHERE CodigoCON = ?"
+        'Dim sqlInsercionCON As String = "INSERT INTO CONCEPTOS (CodigoCON, DescripcionCON, TipoCON, NotasCON) VALUES (?, ?, ?, ?)"
+
+        '' Consultas para la validación y borrado en el DESTINO
+        'Dim sqlConceptosDestino As String = "SELECT CodigoCON FROM CONCEPTOS"
+        'Dim sqlCheckApuntesDestino As String = "SELECT COUNT(*) FROM APUNTES WHERE ConceptoAPU = ?"
+        'Dim sqlCheckApuperDestino As String = "SELECT COUNT(*) FROM APUPER WHERE ConceptoAPP = ?"
+        'Dim sqlEliminarDestino As String = "DELETE FROM CONCEPTOS WHERE CodigoCON = ?"
+
+        'Dim conceptosMDBAplicacion As New System.Collections.Generic.List(Of String)()
+        'Dim conceptosAEliminarDestino As New System.Collections.Generic.List(Of String)()
+
+        'Using connOrigen As New OleDbConnection(connOrigenString), connDestino As New OleDbConnection(connDestinoString)
+        '    Try
+        '        connOrigen.Open()
+        '        connDestino.Open()
+
+        '        ' === FASE 1: IMPORTACIÓN (ORIGEN A DESTINO) ===
+        '        Dim cmdOrigen As New OleDbCommand(sqlSeleccionCON, connOrigen)
+        '        Dim reader As OleDbDataReader = cmdOrigen.ExecuteReader()
+
+        '        Dim cmdCheck As New OleDbCommand(sqlVerificarCON, connDestino)
+        '        cmdCheck.Parameters.Add("?", OleDbType.VarChar)
+
+        '        Dim cmdInsert As New OleDbCommand(sqlInsercionCON, connDestino)
+        '        For i As Integer = 1 To 4
+        '            cmdInsert.Parameters.Add("?", OleDbType.VarChar)
+        '        Next
+
+        '        Dim insertados As Integer = 0
+        '        Dim omitidos As Integer = 0
+
+        '        While reader.Read()
+        '            Dim codigoActual As String = reader("CodigoCON").ToString()
+        '            cmdCheck.Parameters(0).Value = codigoActual
+
+        '            If CInt(cmdCheck.ExecuteScalar()) = 0 Then
+        '                cmdInsert.Parameters(0).Value = codigoActual
+        '                cmdInsert.Parameters(1).Value = reader("DescripcionCON").ToString()
+        '                cmdInsert.Parameters(2).Value = reader("TipoCON").ToString()
+        '                cmdInsert.Parameters(3).Value = reader("NotasCON").ToString()
+        '                cmdInsert.ExecuteNonQuery()
+        '                insertados += 1
+        '            Else
+        '                omitidos += 1
+        '            End If
+        '        End While
+        '        reader.Close()
+
+        '        ' === FASE 2: ENCONTRAR MUESTRAS EN EL DESTINO ===
+        '        Dim cmdTodosDestino As New OleDbCommand(sqlConceptosDestino, connDestino)
+        '        Dim readerDestino As OleDbDataReader = cmdTodosDestino.ExecuteReader()
+        '        While readerDestino.Read()
+        '            Dim codDestino As String = readerDestino("CodigoCON").ToString().ToUpper()
+
+        '            ' FILTRO SEGURO: Solo nos interesa si es uno de tus 33 conceptos de fábrica originales
+        '            If ConceptosMuestraSistema.Contains(codDestino) Then
+        '                conceptosMDBAplicacion.Add(codDestino)
+        '            End If
+        '        End While
+        '        readerDestino.Close()
+
+        '        ' === FASE 3: COMPROBAR APUNTES EN EL DESTINO ===
+        '        Dim cmdApuntesDestino As New OleDbCommand(sqlCheckApuntesDestino, connDestino)
+        '        cmdApuntesDestino.Parameters.Add("?", OleDbType.VarChar)
+
+        '        Dim cmdApuperDestino As New OleDbCommand(sqlCheckApuperDestino, connDestino)
+        '        cmdApuperDestino.Parameters.Add("?", OleDbType.VarChar)
+
+        '        For Each codDestino As String In conceptosMDBAplicacion
+        '            cmdApuntesDestino.Parameters(0).Value = codDestino
+        '            cmdApuperDestino.Parameters(0).Value = codDestino
+
+        '            Dim totalApuntes As Integer = CInt(cmdApuntesDestino.ExecuteScalar()) + CInt(cmdApuperDestino.ExecuteScalar())
+
+        '            ' Si es de fábrica Y nadie lo ha usado en el destino, va a la lista de borrado
+        '            If totalApuntes = 0 Then
+        '                conceptosAEliminarDestino.Add(codDestino)
+        '            End If
+        '        Next
+
+        '        ' === FASE 4: BORRADO SEGURO DE LAS MUESTRAS VACÍAS ===
+        '        If conceptosAEliminarDestino.Count > 0 Then
+        '            Using cmdDeleteDestino As New OleDbCommand(sqlEliminarDestino, connDestino)
+        '                cmdDeleteDestino.Parameters.Add("?", OleDbType.VarChar)
+        '                For Each codBorrar As String In conceptosAEliminarDestino
+        '                    cmdDeleteDestino.Parameters(0).Value = codBorrar
+        '                    cmdDeleteDestino.ExecuteNonQuery()
+        '                Next
+        '            End Using
+        '        End If
+
+        '        MsgBox(rmse.GetString("TransferenciaConceptos") & ". " & insertados.ToString() & " " & rmse.GetString("RegistrosCopiados") & ", " & omitidos.ToString() & " " & rmse.GetString("RegistrosOmitidos") & ".", MsgBoxStyle.Information, rmse.GetString("$this.Text"))
+        '    Catch ex As Exception
+        '        MsgBox(resManager.GetString("Error") & ":  " & ex.Message, MsgBoxStyle.Critical, resManager.GetString("Error"))
+        '    End Try
+        'End Using
+
         TsLabelFormulario.ForeColor = Color.Red
         TsLabelFormulario.Text = rmse.GetString("ImportandoConceptos")
 
@@ -1420,12 +1801,14 @@ Public Class Principal
         Dim sqlInsercionCON As String = "INSERT INTO CONCEPTOS (CodigoCON, DescripcionCON, TipoCON, NotasCON) VALUES (?, ?, ?, ?)"
 
         ' Consultas para la validación y borrado en el DESTINO
-        Dim sqlConceptosDestino As String = "SELECT CodigoCON FROM CONCEPTOS"
+        Dim sqlConceptosDestino As String = "SELECT IdConceptoCON, CodigoCON FROM CONCEPTOS"
+        ' 🚀 REPARADO: La verificación en el destino ahora busca de forma estricta por el ID entero relacional
         Dim sqlCheckApuntesDestino As String = "SELECT COUNT(*) FROM APUNTES WHERE ConceptoAPU = ?"
         Dim sqlCheckApuperDestino As String = "SELECT COUNT(*) FROM APUPER WHERE ConceptoAPP = ?"
         Dim sqlEliminarDestino As String = "DELETE FROM CONCEPTOS WHERE CodigoCON = ?"
 
-        Dim conceptosMDBAplicacion As New System.Collections.Generic.List(Of String)()
+        ' Guardaremos los IDs numéricos emparejados con sus códigos de fábrica
+        Dim conceptosMDBAplicacion As New System.Collections.Generic.List(Of Integer)()
         Dim conceptosAEliminarDestino As New System.Collections.Generic.List(Of String)()
 
         Using connOrigen As New OleDbConnection(connOrigenString), connDestino As New OleDbConnection(connDestinoString)
@@ -1438,9 +1821,11 @@ Public Class Principal
                 Dim reader As OleDbDataReader = cmdOrigen.ExecuteReader()
 
                 Dim cmdCheck As New OleDbCommand(sqlVerificarCON, connDestino)
+                cmdCheck.Parameters.Clear()
                 cmdCheck.Parameters.Add("?", OleDbType.VarChar)
 
                 Dim cmdInsert As New OleDbCommand(sqlInsercionCON, connDestino)
+                cmdInsert.Parameters.Clear()
                 For i As Integer = 1 To 4
                     cmdInsert.Parameters.Add("?", OleDbType.VarChar)
                 Next
@@ -1449,7 +1834,7 @@ Public Class Principal
                 Dim omitidos As Integer = 0
 
                 While reader.Read()
-                    Dim codigoActual As String = reader("CodigoCON").ToString()
+                    Dim codigoActual As String = reader("CodigoCON").ToString().Trim()
                     cmdCheck.Parameters(0).Value = codigoActual
 
                     If CInt(cmdCheck.ExecuteScalar()) = 0 Then
@@ -1465,41 +1850,54 @@ Public Class Principal
                 End While
                 reader.Close()
 
-                ' === FASE 2: ENCONTRAR MUESTRAS EN EL DESTINO ===
+                ' === FASE 2: ENCONTRAR MUESTRAS EN EL DESTINO (Recuperando el ID relacional) ===
                 Dim cmdTodosDestino As New OleDbCommand(sqlConceptosDestino, connDestino)
                 Dim readerDestino As OleDbDataReader = cmdTodosDestino.ExecuteReader()
                 While readerDestino.Read()
-                    Dim codDestino As String = readerDestino("CodigoCON").ToString().ToUpper()
+                    Dim codDestino As String = readerDestino("CodigoCON").ToString().ToUpper().Trim()
+                    Dim idDestino As Integer = Convert.ToInt32(readerDestino("IdConceptoCON"))
 
                     ' FILTRO SEGURO: Solo nos interesa si es uno de tus 33 conceptos de fábrica originales
                     If ConceptosMuestraSistema.Contains(codDestino) Then
-                        conceptosMDBAplicacion.Add(codDestino)
+                        ' 🚀 REPARADO: Almacenamos el ID numérico real de la Nueva Era
+                        conceptosMDBAplicacion.Add(idDestino)
                     End If
                 End While
                 readerDestino.Close()
 
-                ' === FASE 3: COMPROBAR APUNTES EN EL DESTINO ===
+                ' === FASE 3: COMPROBAR APUNTES EN EL DESTINO (Por ID entero) ===
                 Dim cmdApuntesDestino As New OleDbCommand(sqlCheckApuntesDestino, connDestino)
-                cmdApuntesDestino.Parameters.Add("?", OleDbType.VarChar)
+                cmdApuntesDestino.Parameters.Clear()
+                cmdApuntesDestino.Parameters.Add("?", OleDbType.Integer) ' 🚀 REPARADO: Parámetro cambiado a Entero
 
                 Dim cmdApuperDestino As New OleDbCommand(sqlCheckApuperDestino, connDestino)
-                cmdApuperDestino.Parameters.Add("?", OleDbType.VarChar)
+                cmdApuperDestino.Parameters.Clear()
+                cmdApuperDestino.Parameters.Add("?", OleDbType.Integer) ' 🚀 REPARADO: Parámetro cambiado a Entero
 
-                For Each codDestino As String In conceptosMDBAplicacion
-                    cmdApuntesDestino.Parameters(0).Value = codDestino
-                    cmdApuperDestino.Parameters(0).Value = codDestino
+                ' Comando auxiliar local para recuperar el código de texto al final si hay que borrarlo
+                Dim cmdGetCodigo As New OleDbCommand("SELECT CodigoCON FROM CONCEPTOS WHERE IdConceptoCON = ?", connDestino)
+                cmdGetCodigo.Parameters.Add("?", OleDbType.Integer)
+
+                For Each idDestino As Integer In conceptosMDBAplicacion
+                    cmdApuntesDestino.Parameters(0).Value = idDestino
+                    cmdApuperDestino.Parameters(0).Value = idDestino
 
                     Dim totalApuntes As Integer = CInt(cmdApuntesDestino.ExecuteScalar()) + CInt(cmdApuperDestino.ExecuteScalar())
 
-                    ' Si es de fábrica Y nadie lo ha usado en el destino, va a la lista de borrado
+                    ' Si el concepto de fábrica tiene 0 apuntes reales vinculados a su ID, va al matadero
                     If totalApuntes = 0 Then
-                        conceptosAEliminarDestino.Add(codDestino)
+                        cmdGetCodigo.Parameters(0).Value = idDestino
+                        Dim codBorrarText = cmdGetCodigo.ExecuteScalar()
+                        If codBorrarText IsNot Nothing Then
+                            conceptosAEliminarDestino.Add(codBorrarText.ToString().Trim())
+                        End If
                     End If
                 Next
 
                 ' === FASE 4: BORRADO SEGURO DE LAS MUESTRAS VACÍAS ===
                 If conceptosAEliminarDestino.Count > 0 Then
                     Using cmdDeleteDestino As New OleDbCommand(sqlEliminarDestino, connDestino)
+                        cmdDeleteDestino.Parameters.Clear()
                         cmdDeleteDestino.Parameters.Add("?", OleDbType.VarChar)
                         For Each codBorrar As String In conceptosAEliminarDestino
                             cmdDeleteDestino.Parameters(0).Value = codBorrar
@@ -1514,16 +1912,64 @@ Public Class Principal
             End Try
         End Using
 
+        'TsLabelFormulario.ForeColor = Color.Red
+        'TsLabelFormulario.Text = rmse.GetString("ImportandoCuentas")
+        '' --- CONFIGURACIÓN DE CUENTAS ---
+        '' Cambia Campo1, Campo2, etc., por los nombres reales de tus columnas
+        'Dim sqlSeleccionCUE As String = "SELECT NombreCUE, NumeroCUE, TipoCUE, NotasCUE FROM CUENTAS"
+
+        '' Verificamos duplicidad solo por el primer campo
+        'Dim sqlVerificarCUE As String = "SELECT COUNT(*) FROM CUENTAS WHERE NombreCUE = ?"
+
+        '' Insertamos en los 4 campos de la tabla destino
+        'Dim sqlInsercionCUE As String = "INSERT INTO CUENTAS (NombreCUE, NumeroCUE, TipoCUE, NotasCUE) VALUES (?, ?, ?, ?)"
+
+        'Using connOrigen As New OleDbConnection(connOrigenString), connDestino As New OleDbConnection(connDestinoString)
+        '    Try
+        '        connOrigen.Open()
+        '        connDestino.Open()
+        '        Dim cmdOrigen As New OleDbCommand(sqlSeleccionCUE, connOrigen)
+        '        Dim reader As OleDbDataReader = cmdOrigen.ExecuteReader()
+        '        ' Configurar comando de verificación (solo 1 parámetro de texto)
+        '        Dim cmdCheck As New OleDbCommand(sqlVerificarCUE, connDestino)
+        '        cmdCheck.Parameters.Add("?", OleDbType.VarChar)
+        '        ' Configurar comando de inserción (4 parámetros de texto)
+        '        Dim cmdInsert As New OleDbCommand(sqlInsercionCUE, connDestino)
+        '        For i As Integer = 1 To 4
+        '            cmdInsert.Parameters.Add("?", OleDbType.VarChar)
+        '        Next
+        '        Dim insertados As Integer = 0
+        '        Dim omitidos As Integer = 0
+        '        While reader.Read()
+        '            ' 1. Validar duplicado usando solo el primer campo
+        '            cmdCheck.Parameters(0).Value = reader("NombreCUE").ToString()
+        '            ' 2. Si el conteo es 0, no existe, procedemos a insertar
+        '            If CInt(cmdCheck.ExecuteScalar()) = 0 Then
+        '                cmdInsert.Parameters(0).Value = reader("NombreCUE").ToString()
+        '                cmdInsert.Parameters(1).Value = reader("NumeroCUE").ToString()
+        '                cmdInsert.Parameters(2).Value = reader("TipoCUE").ToString()
+        '                cmdInsert.Parameters(3).Value = reader("NotasCUE").ToString()
+        '                cmdInsert.ExecuteNonQuery()
+        '                insertados += 1
+        '            Else
+        '                omitidos += 1
+        '            End If
+        '        End While
+        '        reader.Close()
+        '        MsgBox(rmse.GetString("TransferenciaCuentas") & ". " & insertados.ToString() & " " & rmse.GetString("RegistrosCopiados") & ", " & omitidos.ToString() & " " & rmse.GetString("RegistrosOmitidos") & ".", MsgBoxStyle.Information, rmse.GetString("$this.Text"))
+        '    Catch ex As Exception
+        '        MsgBox(rmse.GetString("ErrorTransferenciaCuentas") & ":  " & ex.Message, MsgBoxStyle.Critical, rmse.GetString("Error"))
+        '    End Try
+        'End Using
+
         TsLabelFormulario.ForeColor = Color.Red
         TsLabelFormulario.Text = rmse.GetString("ImportandoCuentas")
-        ' --- CONFIGURACIÓN DE CUENTAS ---
-        ' Cambia Campo1, Campo2, etc., por los nombres reales de tus columnas
-        Dim sqlSeleccionCUE As String = "SELECT NombreCUE, NumeroCUE, TipoCUE, NotasCUE FROM CUENTAS"
 
-        ' Verificamos duplicidad solo por el primer campo
+        ' --- CONFIGURACIÓN DE CUENTAS ---
+        Dim sqlSeleccionCUE As String = "SELECT NombreCUE, NumeroCUE, TipoCUE, NotasCUE FROM CUENTAS"
         Dim sqlVerificarCUE As String = "SELECT COUNT(*) FROM CUENTAS WHERE NombreCUE = ?"
 
-        ' Insertamos en los 4 campos de la tabla destino
+        ' 🚀 REPARADO: La inserción en el destino ahora asimila el ID entero en el tercer casillero
         Dim sqlInsercionCUE As String = "INSERT INTO CUENTAS (NombreCUE, NumeroCUE, TipoCUE, NotasCUE) VALUES (?, ?, ?, ?)"
 
         Using connOrigen As New OleDbConnection(connOrigenString), connDestino As New OleDbConnection(connDestinoString)
@@ -1532,25 +1978,62 @@ Public Class Principal
                 connDestino.Open()
                 Dim cmdOrigen As New OleDbCommand(sqlSeleccionCUE, connOrigen)
                 Dim reader As OleDbDataReader = cmdOrigen.ExecuteReader()
+
                 ' Configurar comando de verificación (solo 1 parámetro de texto)
                 Dim cmdCheck As New OleDbCommand(sqlVerificarCUE, connDestino)
+                cmdCheck.Parameters.Clear()
                 cmdCheck.Parameters.Add("?", OleDbType.VarChar)
-                ' Configurar comando de inserción (4 parámetros de texto)
+
+                ' Configurar comando de inserción (Sincronizado con los tipos exactos de la RAM)
                 Dim cmdInsert As New OleDbCommand(sqlInsercionCUE, connDestino)
-                For i As Integer = 1 To 4
-                    cmdInsert.Parameters.Add("?", OleDbType.VarChar)
-                Next
+                cmdInsert.Parameters.Clear()
+                cmdInsert.Parameters.Add("?", OleDbType.VarChar) ' NombreCUE
+                cmdInsert.Parameters.Add("?", OleDbType.VarChar) ' NumeroCUE
+                cmdInsert.Parameters.Add("?", OleDbType.Integer) ' TipoCUE (🚀 CAMBIADO A ENTERO PARA LA NUEVA ERA)
+                cmdInsert.Parameters.Add("?", OleDbType.VarChar) ' NotasCUE
+
+                ' 🚀 TRADUCTOR LOCAL EN CALIENTE: Comando auxiliar para convertir el texto viejo al ID numérico nuevo
+                Dim cmdBuscarTipo As New OleDbCommand("SELECT IdTipoCUE FROM tipocuentas WHERE CodigoTIP = ?", connDestino)
+                cmdBuscarTipo.Parameters.Add("?", OleDbType.VarChar)
+
                 Dim insertados As Integer = 0
                 Dim omitidos As Integer = 0
+
                 While reader.Read()
-                    ' 1. Validar duplicado usando solo el primer campo
-                    cmdCheck.Parameters(0).Value = reader("NombreCUE").ToString()
-                    ' 2. Si el conteo es 0, no existe, procedemos a insertar
+                    Dim nombreBancoViejo As String = reader("NombreCUE").ToString().Trim()
+                    Dim textoTipoViejo As String = reader("TipoCUE").ToString().Trim().ToUpper()
+
+                    ' 1. Validar duplicado usando solo el nombre en el destino
+                    cmdCheck.Parameters(0).Value = nombreBancoViejo
+
+                    ' 2. Si el conteo es 0, no existe, procedemos a insertar relacionalmente
                     If CInt(cmdCheck.ExecuteScalar()) = 0 Then
-                        cmdInsert.Parameters(0).Value = reader("NombreCUE").ToString()
+
+                        ' =========================================================================
+                        ' 🌟 INTERROGACIÓN TRADUCTORA DE TIPOS DE CUENTA
+                        ' =========================================================================
+                        Dim idTipoNuevo As Integer = 1 ' Salvavidas por defecto (ID 1 = Corriente/Ahorro base)
+
+                        ' Limpiamos los espacios con guiones bajos para que case con las claves del .resx/base
+                        cmdBuscarTipo.Parameters(0).Value = textoTipoViejo.Replace(" ", "_")
+                        Dim resTipo = cmdBuscarTipo.ExecuteScalar()
+
+                        If resTipo IsNot Nothing AndAlso Not IsDBNull(resTipo) Then
+                            idTipoNuevo = Convert.ToInt32(resTipo)
+                        Else
+                            ' Segundo intento por si en la base vieja venía con espacios libres
+                            cmdBuscarTipo.Parameters(0).Value = textoTipoViejo
+                            Dim resTipo2 = cmdBuscarTipo.ExecuteScalar()
+                            If resTipo2 IsNot Nothing AndAlso Not IsDBNull(resTipo2) Then idTipoNuevo = Convert.ToInt32(resTipo2)
+                        End If
+                        ' =========================================================================
+
+                        ' Inyectamos los parámetros simétricos en el comando de inserción
+                        cmdInsert.Parameters(0).Value = nombreBancoViejo
                         cmdInsert.Parameters(1).Value = reader("NumeroCUE").ToString()
-                        cmdInsert.Parameters(2).Value = reader("TipoCUE").ToString()
+                        cmdInsert.Parameters(2).Value = idTipoNuevo ' 🚀 REPARADO: Inyectamos el ID entero relacional
                         cmdInsert.Parameters(3).Value = reader("NotasCUE").ToString()
+
                         cmdInsert.ExecuteNonQuery()
                         insertados += 1
                     Else
@@ -1558,20 +2041,90 @@ Public Class Principal
                     End If
                 End While
                 reader.Close()
+
+                ' =========================================================================
+                ' 🏁 RESTABLECIMIENTO VISUAL FINAL DE LA BARRA DE ESTADO
+                ' =========================================================================
+                TsLabelFormulario.ForeColor = Color.Black
+                Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+
                 MsgBox(rmse.GetString("TransferenciaCuentas") & ". " & insertados.ToString() & " " & rmse.GetString("RegistrosCopiados") & ", " & omitidos.ToString() & " " & rmse.GetString("RegistrosOmitidos") & ".", MsgBoxStyle.Information, rmse.GetString("$this.Text"))
             Catch ex As Exception
                 MsgBox(rmse.GetString("ErrorTransferenciaCuentas") & ":  " & ex.Message, MsgBoxStyle.Critical, rmse.GetString("Error"))
+            Finally
+                ' Aseguramos que la barra visual regrese a la normalidad pase lo que pase
+                TsLabelFormulario.ForeColor = Color.Black
+                Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
             End Try
         End Using
 
+        'TsLabelFormulario.ForeColor = Color.Red
+        'TsLabelFormulario.Text = rmse.GetString("ImportandoPresupuestos")
+        '' --- CONSULTAS CON TIPOS MIXTOS ---
+        'Dim sqlSeleccionPRE As String = "SELECT [ConceptoPRE], [ImportePRE], [FDesdePRE], [EjercicioPRE] FROM PRESUPUESTO"
+
+        '' Verificación de todos los campos para evitar duplicados exactos
+        'Dim sqlVerificarPRE As String = "SELECT COUNT(*) FROM PRESUPUESTO WHERE [ConceptoPRE]=? AND [ImportePRE]=? AND [FDesdePRE]=? AND [EjercicioPRE]=?"
+
+        'Dim sqlInsercionPRE As String = "INSERT INTO PRESUPUESTO ([ConceptoPRE], [ImportePRE], [FDesdePRE], [EjercicioPRE]) VALUES (?, ?, ?, ?)"
+
+        'Using connOrigen As New OleDbConnection(connOrigenString), connDestino As New OleDbConnection(connDestinoString)
+        '    Try
+        '        connOrigen.Open()
+        '        connDestino.Open()
+        '        Dim cmdOrigen As New OleDbCommand(sqlSeleccionPRE, connOrigen)
+        '        Dim reader As OleDbDataReader = cmdOrigen.ExecuteReader()
+
+        '        ' --- CONFIGURAR PARÁMETROS (Orden y Tipo son críticos) ---
+        '        Dim cmdCheck As New OleDbCommand(sqlVerificarPRE, connDestino)
+        '        cmdCheck.Parameters.Add("@p1", OleDbType.VarChar)  ' Concepto
+        '        cmdCheck.Parameters.Add("@p2", OleDbType.Double)   ' Importe (Número/Double)
+        '        cmdCheck.Parameters.Add("@p3", OleDbType.Date)     ' FDesde (Fecha)
+        '        cmdCheck.Parameters.Add("@p4", OleDbType.Integer)  ' Ejercicio (Número)
+        '        Dim cmdInsert As New OleDbCommand(sqlInsercionPRE, connDestino)
+        '        cmdInsert.Parameters.Add("@p1", OleDbType.VarChar)
+        '        cmdInsert.Parameters.Add("@p2", OleDbType.Double)
+        '        cmdInsert.Parameters.Add("@p3", OleDbType.Date)
+        '        cmdInsert.Parameters.Add("@p4", OleDbType.Integer)
+        '        Dim insertados As Integer = 0
+        '        Dim omitidos As Integer = 0
+        '        While reader.Read()
+        '            ' Extraer valores del Reader
+        '            Dim vConcepto = If(IsDBNull(reader("ConceptoPRE")), "", reader("ConceptoPRE").ToString())
+        '            Dim vImporte = If(IsDBNull(reader("ImportePRE")), 0, CDbl(reader("ImportePRE")))
+        '            Dim vFecha = If(IsDBNull(reader("FDesdePRE")), #1/1/1900#, CDate(reader("FDesdePRE")))
+        '            Dim vEjercicio = If(IsDBNull(reader("EjercicioPRE")), 0, CInt(reader("EjercicioPRE")))
+        '            ' 1. Asignar al verificador
+        '            cmdCheck.Parameters(0).Value = vConcepto
+        '            cmdCheck.Parameters(1).Value = vImporte
+        '            cmdCheck.Parameters(2).Value = vFecha
+        '            cmdCheck.Parameters(3).Value = vEjercicio
+        '            ' 2. Si no existe la combinación exacta, insertar
+        '            If CInt(cmdCheck.ExecuteScalar()) = 0 Then
+        '                cmdInsert.Parameters(0).Value = vConcepto
+        '                cmdInsert.Parameters(1).Value = vImporte
+        '                cmdInsert.Parameters(2).Value = vFecha
+        '                cmdInsert.Parameters(3).Value = vEjercicio
+        '                cmdInsert.ExecuteNonQuery()
+        '                insertados += 1
+        '            Else
+        '                omitidos += 1
+        '            End If
+        '        End While
+        '        reader.Close()
+        '        MsgBox(rmse.GetString("TransferenciaPresupuestos") & ". " & insertados.ToString() & " " & rmse.GetString("RegistrosCopiados") & ", " & omitidos.ToString() & " " & rmse.GetString("RegistrosOmitidos") & ".", MsgBoxStyle.Information, rmse.GetString("$this.Text"))
+        '    Catch ex As Exception
+        '        MsgBox(rmse.GetString("ErrorTransferenciaPresupuestos") & ": " & ex.Message, MsgBoxStyle.Critical, rmse.GetString("Error"))
+        '    End Try
+        'End Using
+
         TsLabelFormulario.ForeColor = Color.Red
         TsLabelFormulario.Text = rmse.GetString("ImportandoPresupuestos")
-        ' --- CONSULTAS CON TIPOS MIXTOS ---
+        ' --- CONSULTAS CON TIPOS MIXTOS SANEADOS ---
         Dim sqlSeleccionPRE As String = "SELECT [ConceptoPRE], [ImportePRE], [FDesdePRE], [EjercicioPRE] FROM PRESUPUESTO"
 
-        ' Verificación de todos los campos para evitar duplicados exactos
+        ' 🚀 REPARADO: La verificación y la inserción ahora asimilan el ID entero relacional en el primer parámetro
         Dim sqlVerificarPRE As String = "SELECT COUNT(*) FROM PRESUPUESTO WHERE [ConceptoPRE]=? AND [ImportePRE]=? AND [FDesdePRE]=? AND [EjercicioPRE]=?"
-
         Dim sqlInsercionPRE As String = "INSERT INTO PRESUPUESTO ([ConceptoPRE], [ImportePRE], [FDesdePRE], [EjercicioPRE]) VALUES (?, ?, ?, ?)"
 
         Using connOrigen As New OleDbConnection(connOrigenString), connDestino As New OleDbConnection(connDestinoString)
@@ -1581,34 +2134,60 @@ Public Class Principal
                 Dim cmdOrigen As New OleDbCommand(sqlSeleccionPRE, connOrigen)
                 Dim reader As OleDbDataReader = cmdOrigen.ExecuteReader()
 
-                ' --- CONFIGURAR PARÁMETROS (Orden y Tipo son críticos) ---
+                ' --- CONFIGURAR PARÁMETROS RELACIONALES (Orden y Tipo son críticos) ---
                 Dim cmdCheck As New OleDbCommand(sqlVerificarPRE, connDestino)
-                cmdCheck.Parameters.Add("@p1", OleDbType.VarChar)  ' Concepto
-                cmdCheck.Parameters.Add("@p2", OleDbType.Double)   ' Importe (Número/Double)
+                cmdCheck.Parameters.Clear()
+                cmdCheck.Parameters.Add("@p1", OleDbType.Integer)  ' Concepto (🚀 CAMBIADO A ENTERO)
+                cmdCheck.Parameters.Add("@p2", OleDbType.Currency) ' Importe (🚀 CAMBIADO A CURRENCY)
                 cmdCheck.Parameters.Add("@p3", OleDbType.Date)     ' FDesde (Fecha)
                 cmdCheck.Parameters.Add("@p4", OleDbType.Integer)  ' Ejercicio (Número)
+
                 Dim cmdInsert As New OleDbCommand(sqlInsercionPRE, connDestino)
-                cmdInsert.Parameters.Add("@p1", OleDbType.VarChar)
-                cmdInsert.Parameters.Add("@p2", OleDbType.Double)
-                cmdInsert.Parameters.Add("@p3", OleDbType.Date)
-                cmdInsert.Parameters.Add("@p4", OleDbType.Integer)
+                cmdInsert.Parameters.Clear()
+                cmdInsert.Parameters.Add("@p1", OleDbType.Integer) ' Concepto (🚀 CAMBIADO A ENTERO)
+                cmdInsert.Parameters.Add("@p2", OleDbType.Currency) ' Importe (🚀 CAMBIADO A CURRENCY)
+                cmdInsert.Parameters.Add("@p3", OleDbType.Date)     ' FDesde (Fecha)
+                cmdInsert.Parameters.Add("@p4", OleDbType.Integer)  ' Ejercicio (Número)
+
+                ' 🚀 TRADUCTOR LOCAL EN CALIENTE: Comando auxiliar para buscar el ID de la Nueva Era
+                Dim cmdBuscarConcepto As New OleDbCommand("SELECT IdConceptoCON FROM conceptos WHERE DescripcionCON = ? OR CodigoCON = ?", connDestino)
+                cmdBuscarConcepto.Parameters.Add("?", OleDbType.VarChar)
+                cmdBuscarConcepto.Parameters.Add("?", OleDbType.VarChar)
+
                 Dim insertados As Integer = 0
                 Dim omitidos As Integer = 0
+
                 While reader.Read()
                     ' Extraer valores del Reader
-                    Dim vConcepto = If(IsDBNull(reader("ConceptoPRE")), "", reader("ConceptoPRE").ToString())
+                    Dim textoConceptoViejo As String = If(IsDBNull(reader("ConceptoPRE")), "VARIOS", reader("ConceptoPRE").ToString().Trim())
                     Dim vImporte = If(IsDBNull(reader("ImportePRE")), 0, CDbl(reader("ImportePRE")))
                     Dim vFecha = If(IsDBNull(reader("FDesdePRE")), #1/1/1900#, CDate(reader("FDesdePRE")))
                     Dim vEjercicio = If(IsDBNull(reader("EjercicioPRE")), 0, CInt(reader("EjercicioPRE")))
-                    ' 1. Asignar al verificador
-                    cmdCheck.Parameters(0).Value = vConcepto
-                    cmdCheck.Parameters(1).Value = vImporte
+
+                    ' =========================================================================
+                    ' 🌟 INTERROGACIÓN TRADUCTORA DE CONCEPTOS DE PRESUPUESTO
+                    ' =========================================================================
+                    Dim idConceptoNuevo As Integer = 1 ' Salvavidas por defecto (ID 1 = Varios)
+
+                    cmdBuscarConcepto.Parameters(0).Value = textoConceptoViejo
+                    cmdBuscarConcepto.Parameters(1).Value = textoConceptoViejo.Replace(" ", "_").ToUpper()
+                    Dim resConcepto = cmdBuscarConcepto.ExecuteScalar()
+
+                    If resConcepto IsNot Nothing AndAlso Not IsDBNull(resConcepto) Then
+                        idConceptoNuevo = Convert.ToInt32(resConcepto)
+                    End If
+                    ' =========================================================================
+
+                    ' 1. Asignar al verificador relacional por ID entero y Currency redondeado
+                    cmdCheck.Parameters(0).Value = idConceptoNuevo
+                    cmdCheck.Parameters(1).Value = Math.Round(vImporte, 2)
                     cmdCheck.Parameters(2).Value = vFecha
                     cmdCheck.Parameters(3).Value = vEjercicio
-                    ' 2. Si no existe la combinación exacta, insertar
+
+                    ' 2. Si no existe la combinación exacta, insertar en el destino
                     If CInt(cmdCheck.ExecuteScalar()) = 0 Then
-                        cmdInsert.Parameters(0).Value = vConcepto
-                        cmdInsert.Parameters(1).Value = vImporte
+                        cmdInsert.Parameters(0).Value = idConceptoNuevo
+                        cmdInsert.Parameters(1).Value = Math.Round(vImporte, 2)
                         cmdInsert.Parameters(2).Value = vFecha
                         cmdInsert.Parameters(3).Value = vEjercicio
                         cmdInsert.ExecuteNonQuery()
@@ -1623,6 +2202,7 @@ Public Class Principal
                 MsgBox(rmse.GetString("ErrorTransferenciaPresupuestos") & ": " & ex.Message, MsgBoxStyle.Critical, rmse.GetString("Error"))
             End Try
         End Using
+
         TsLabelFormulario.ForeColor = Color.Black
         Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
