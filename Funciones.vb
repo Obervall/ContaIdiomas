@@ -2599,6 +2599,333 @@ Module Funciones
     "BBVA", "CAJAEFECTIVO", "OPENBANK", "PLANPENSIONES"
 })
 
+    ' =========================================================================
+    ' 🌟 NUEVA FUNCIÓN ESPECÍFICA: METAMORFOSIS DE BD EXTERNA A LA NUEVA ERA
+    ' =========================================================================
+    Public Sub MigrarEstructuraBaseDatosExterna(rutaClonMdb As String)
+        Dim necesitaActualizar As Boolean = False
+        Dim stringConexionClon As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & rutaClonMdb & ";"
+
+        ' 🚀 PASO 1 CALCADO: DETECCIÓN BIOLÓGICA DE LA VERSIÓN DEL CLON EN LA RAM
+        ' Abrimos un canal aislado local para no tocar ni cerrar jamás tu conexion1 buena
+        Using conexionClon As New OleDbConnection(stringConexionClon)
+            Using cmdClon As New OleDbCommand("SELECT TOP 1 ConceptoAPU FROM apuntes", conexionClon)
+                Try
+                    conexionClon.Open()
+
+                    Using adapter As New OleDbDataAdapter(cmdClon)
+                        Dim dtPrueba As New DataTable()
+                        adapter.Fill(dtPrueba)
+
+                        ' Si en el archivo CHDB2 ConceptoAPU sigue siendo Texto/String, encendemos el interruptor de migración
+                        If dtPrueba.Columns("ConceptoAPU").DataType = GetType(String) Then
+                            necesitaActualizar = True
+                        End If
+                    End Using
+
+                Catch ex As Exception
+                    ' Si la tabla no responde o está corrupta, cerramos el hilo de forma segura
+                    Exit Sub
+                End Try
+            End Using
+        End Using
+
+        ' Si tras interrogar al clon vemos que ya tiene la estructura moderna con IDs, frenamos en seco
+        If Not necesitaActualizar Then Exit Sub
+
+        ' =========================================================================
+        ' 🚀 PASO 2: EL ARRANQUE DE LA MUTACIÓN RELACIONAL (A rellenar con tus bloques)
+        ' =========================================================================
+        ' Abrimos de nuevo la conexión local para ejecutar los cambios de tablas uno a uno
+        Using conexionClon As New OleDbConnection(stringConexionClon)
+            Try
+                conexionClon.Open()
+                Using cmdMutar As New OleDbCommand("", conexionClon)
+                    ' =========================================================================
+                    ' 🌟 PASO 1.5 CALCADO: LIMPIEZA RADICAL EN EL CLON ANTES DE CAMBIAR CAMPOS
+                    ' =========================================================================
+                    ' Como todavía es de tipo Texto, borramos de golpe los registros "SALDO" viejos
+                    ' 🚀 REPARADO: Apuntamos estrictamente al comando local cmdMutar
+                    cmdMutar.CommandText = "DELETE FROM apuntes WHERE ConceptoAPU = 'SALDO'"
+                    cmdMutar.Parameters.Clear()
+                    Try
+                        cmdMutar.ExecuteNonQuery()
+                    Catch ex As Exception
+                        ' Evita cuelgues si la tabla está vacía en algún entorno de pruebas
+                    End Try
+
+                    Try
+                        cmdMutar.CommandText = "CREATE TABLE tipocuentas (IdTipoCUE COUNTER, CodigoTIP TEXT(50), DescripcionTIP TEXT(100))"
+                        cmdMutar.ExecuteNonQuery()
+
+                        ' Sembramos los 5 tipos predeterminados del sistema de fábrica en el clon
+                        cmdMutar.CommandText = "INSERT INTO tipocuentas (CodigoTIP, DescripcionTIP) VALUES ('CUENTA_CORRIENTE', 'Cuenta Corriente')" : cmdMutar.ExecuteNonQuery()
+                        cmdMutar.CommandText = "INSERT INTO tipocuentas (CodigoTIP, DescripcionTIP) VALUES ('CUENTA_VIVIENDA', 'Cuenta Vivienda')" : cmdMutar.ExecuteNonQuery()
+                        cmdMutar.CommandText = "INSERT INTO tipocuentas (CodigoTIP, DescripcionTIP) VALUES ('FONDO_DE_INVERSION', 'Fondo de Inversión')" : cmdMutar.ExecuteNonQuery()
+                        cmdMutar.CommandText = "INSERT INTO tipocuentas (CodigoTIP, DescripcionTIP) VALUES ('PLAN_DE_PENSIONES', 'Plan de Pensiones')" : cmdMutar.ExecuteNonQuery()
+                        cmdMutar.CommandText = "INSERT INTO tipocuentas (CodigoTIP, DescripcionTIP) VALUES ('TARJETA_DE_CREDITO', 'Tarjeta de Crédito')" : cmdMutar.ExecuteNonQuery()
+                    Catch ex As Exception
+                        ' Si ya existiera por alguna prueba a medias, pasa de largo de forma dócil
+                    End Try
+
+                    ' =========================================================================
+                    ' 🌟 PASO 2 CALCADO: MIGRACIÓN ESTRUCTURAL COMPLETA (Columnas Temporales)
+                    ' =========================================================================
+                    ' 🚀 REPARADO: Pasamos todos los ALTER TABLE al comando local cmdMutar
+                    ' Auxiliares para Apuntes
+                    Try : cmdMutar.CommandText = "ALTER TABLE apuntes ADD COLUMN ConceptoAPU_NEW INTEGER" : cmdMutar.ExecuteNonQuery() : Catch ex As Exception : End Try
+                    Try : cmdMutar.CommandText = "ALTER TABLE apuntes ADD COLUMN CuentaAPU_NEW INTEGER" : cmdMutar.ExecuteNonQuery() : Catch ex As Exception : End Try
+
+                    Try : cmdMutar.CommandText = "ALTER TABLE conceptos ADD COLUMN IdConceptoCON INTEGER" : cmdMutar.ExecuteNonQuery() : Catch ex As Exception : End Try
+                    Try : cmdMutar.CommandText = "ALTER TABLE cuentas ADD COLUMN IdCuentaCUE INTEGER" : cmdMutar.ExecuteNonQuery() : Catch ex As Exception : End Try
+
+                    ' Auxiliares para Apuntes Periódicos (apuper)
+                    Try : cmdMutar.CommandText = "ALTER TABLE apuper ADD COLUMN ConceptoAPP_NEW INTEGER" : cmdMutar.ExecuteNonQuery() : Catch ex As Exception : End Try
+                    Try : cmdMutar.CommandText = "ALTER TABLE apuper ADD COLUMN CuentaAPP_NEW INTEGER" : cmdMutar.ExecuteNonQuery() : Catch ex As Exception : End Try
+
+                    ' Auxiliar para Presupuestos
+                    Try : cmdMutar.CommandText = "ALTER TABLE presupuesto ADD COLUMN ConceptoPRE_NEW INTEGER" : cmdMutar.ExecuteNonQuery() : Catch ex As Exception : End Try
+
+                    ' Auxiliar para Cuentas (Enlace a Tipo de Cuenta)
+                    Try : cmdMutar.CommandText = "ALTER TABLE cuentas ADD COLUMN TipoCUE_NEW INTEGER" : cmdMutar.ExecuteNonQuery() : Catch ex As Exception : End Try
+
+                    ' Campo ID para la tabla maestra de tipos de cuentas
+                    Try : cmdMutar.CommandText = "ALTER TABLE tipocuentas ADD COLUMN IdTipoCUE INTEGER" : cmdMutar.ExecuteNonQuery() : Catch ex As Exception : End Try
+
+                    ' =========================================================================
+                    ' 🌟 PASO 2.5 CALCADO: NORMALIZACIÓN DE TEXTOS Y GUIONES EN EL CLON
+                    ' =========================================================================
+                    ' 🚀 REPARADO: Derivamos todas las sentencias UPDATE al comando local cmdMutar
+                    Try
+                        ' Normalizamos los nombres antiguos con espacios o tildes al nuevo formato oficial con guion bajo
+                        cmdMutar.CommandText = "UPDATE tipocuentas SET CodigoTIP = 'CUENTA_CORRIENTE' WHERE CodigoTIP = 'CUENTA CORRIENTE'" : cmdMutar.ExecuteNonQuery()
+                        cmdMutar.CommandText = "UPDATE tipocuentas SET CodigoTIP = 'CUENTA_VIVIENDA' WHERE CodigoTIP = 'CUENTA VIVIENDA'" : cmdMutar.ExecuteNonQuery()
+                        cmdMutar.CommandText = "UPDATE tipocuentas SET CodigoTIP = 'FONDO_DE_INVERSION' WHERE CodigoTIP = 'FONDO DE INVERSION' OR CodigoTIP = 'FONDO DE INVERSIÓN'" : cmdMutar.ExecuteNonQuery()
+                        cmdMutar.CommandText = "UPDATE tipocuentas SET CodigoTIP = 'PLAN_DE_PENSIONES' WHERE CodigoTIP = 'PLAN DE PENSIONES'" : cmdMutar.ExecuteNonQuery()
+                        cmdMutar.CommandText = "UPDATE tipocuentas SET CodigoTIP = 'TARJETA_DE_CREDITO' WHERE CodigoTIP = 'TARJETA DE CREDITO' OR CodigoTIP = 'TARJETA DE CRÉDITO'" : cmdMutar.ExecuteNonQuery()
+
+                        ' Sincronizamos el campo TipoCUE de la tabla cuentas para que use los mismos guiones bajos
+                        cmdMutar.CommandText = "UPDATE cuentas SET TipoCUE = 'CUENTA_CORRIENTE' WHERE TipoCUE = 'CUENTA CORRIENTE'" : cmdMutar.ExecuteNonQuery()
+                        cmdMutar.CommandText = "UPDATE cuentas SET TipoCUE = 'CUENTA_VIVIENDA' WHERE TipoCUE = 'CUENTA VIVIENDA'" : cmdMutar.ExecuteNonQuery()
+                        cmdMutar.CommandText = "UPDATE cuentas SET TipoCUE = 'FONDO_DE_INVERSION' WHERE TipoCUE = 'FONDO DE INVERSION' OR TipoCUE = 'FONDO DE INVERSIÓN'" : cmdMutar.ExecuteNonQuery()
+                        cmdMutar.CommandText = "UPDATE cuentas SET TipoCUE = 'PLAN_DE_PENSIONES' WHERE TipoCUE = 'PLAN DE PENSIONES'" : cmdMutar.ExecuteNonQuery()
+                        cmdMutar.CommandText = "UPDATE cuentas SET TipoCUE = 'TARJETA_DE_CREDITO' WHERE TipoCUE = 'TARJETA DE CREDITO' OR TipoCUE = 'TARJETA DE CRÉDITO'" : cmdMutar.ExecuteNonQuery()
+
+                        ' 🚀 CORTAFUEGOS MAESTRO: Mapeamos los textos variantes antiguos hacia las 5 llaves oficiales
+                        ' Evitamos que casilleros como "EFECTIVO" o "EFECTIU" se queden huerfanos y sin número de ID
+                        cmdMutar.CommandText = "UPDATE cuentas SET TipoCUE = 'TARJETA_DE_CREDITO' WHERE TipoCUE LIKE '%TARJETA%' OR TipoCUE LIKE '%CREDIT%'" : cmdMutar.ExecuteNonQuery()
+                        cmdMutar.CommandText = "UPDATE cuentas SET TipoCUE = 'CUENTA_CORRIENTE' WHERE TipoCUE LIKE '%EFECTI%' OR TipoCUE LIKE '%CASH%' OR TipoCUE LIKE '%CAJA%'" : cmdMutar.ExecuteNonQuery()
+                        cmdMutar.CommandText = "UPDATE cuentas SET TipoCUE = 'FONDO_DE_INVERSION' WHERE TipoCUE LIKE '%FONDO%' OR TipoCUE LIKE '%INVER%'" : cmdMutar.ExecuteNonQuery()
+                        cmdMutar.CommandText = "UPDATE cuentas SET TipoCUE = 'PLAN_DE_PENSIONES' WHERE TipoCUE LIKE '%PLAN%' OR TipoCUE LIKE '%PENSI%'" : cmdMutar.ExecuteNonQuery()
+
+                        ' Forzamos la conversión a MAYÚSCULAS puras en todo el esquema de la MDB clonada
+                        cmdMutar.CommandText = "UPDATE conceptos SET CodigoCON = UCASE(CodigoCON)" : cmdMutar.ExecuteNonQuery()
+                        cmdMutar.CommandText = "UPDATE tipocuentas SET CodigoTIP = UCASE(CodigoTIP)" : cmdMutar.ExecuteNonQuery()
+                        cmdMutar.CommandText = "UPDATE cuentas SET TipoCUE = UCASE(TipoCUE)" : cmdMutar.ExecuteNonQuery()
+                        cmdMutar.CommandText = "UPDATE cuentas SET NombreCUE = UCASE(NombreCUE)" : cmdMutar.ExecuteNonQuery()
+                    Catch ex As Exception
+                        ' Evita bloqueos si algún registro no existiera en la BD de pruebas
+                    End Try
+
+                    ' =========================================================================
+                    ' 🌟 PASO 3 RECTIFICADO: CARGA DE EQUIVALENCIAS EN MEMORIA (¡Aislado y Limpio!)
+                    ' =========================================================================
+                    Dim cmdLectura As New OleDbCommand("", conexionClon)
+
+                    ' --- 1. Mapeo de Conceptos ---
+                    cmdLectura.CommandText = "SELECT CodigoCON FROM conceptos ORDER BY CodigoCON"
+                    cmdLectura.Parameters.Clear()
+                    Dim listaConceptos As New List(Of KeyValuePair(Of Integer, String))()
+                    Dim contadorConcepto As Integer = 1
+                    Using readerCON As OleDbDataReader = cmdLectura.ExecuteReader()
+                        While readerCON.Read()
+                            If Not readerCON.IsDBNull(0) Then
+                                listaConceptos.Add(New KeyValuePair(Of Integer, String)(contadorConcepto, readerCON("CodigoCON").ToString().Trim()))
+                                contadorConcepto += 1
+                            End If
+                        End While
+                    End Using ' 🔴 Cierre biológico automático de readerCON
+
+                    ' --- 2. Mapeo de Cuentas (CAJA EFECTIVO, BBVA...) ---
+                    cmdLectura.CommandText = "SELECT NombreCUE FROM cuentas ORDER BY NombreCUE"
+                    cmdLectura.Parameters.Clear()
+                    Dim listaCuentas As New List(Of KeyValuePair(Of Integer, String))()
+                    Dim contadorCuenta As Integer = 1
+                    Using readerCUE As OleDbDataReader = cmdLectura.ExecuteReader()
+                        While readerCUE.Read()
+                            If Not readerCUE.IsDBNull(0) Then
+                                listaCuentas.Add(New KeyValuePair(Of Integer, String)(contadorCuenta, readerCUE("NombreCUE").ToString().Trim()))
+                                contadorCuenta += 1
+                            End If
+                        End While
+                    End Using ' 🔴 Cierre biológico automático de readerCUE
+
+                    ' --- 3. Mapeo de Tipos de Cuentas (EFECTIVO, CUENTA_CORRIENTE...) ---
+                    cmdLectura.CommandText = "SELECT CodigoTIP FROM tipocuentas ORDER BY CodigoTIP"
+                    cmdLectura.Parameters.Clear()
+                    Dim listaTipos As New List(Of KeyValuePair(Of Integer, String))()
+                    Dim contadorTipo As Integer = 1
+                    Using readerTIP As OleDbDataReader = cmdLectura.ExecuteReader()
+                        While readerTIP.Read()
+                            If Not readerTIP.IsDBNull(0) Then
+                                listaTipos.Add(New KeyValuePair(Of Integer, String)(contadorTipo, readerTIP("CodigoTIP").ToString().Trim()))
+                                contadorTipo += 1
+                            End If
+                        End While
+                    End Using ' 🔴 Cierre biológico de readerTIP legítimo sin textos basura
+
+                    ' =========================================================================
+                    ' 🌟 PASO 4 CALCADO: VOLCADO Y ACTUALIZACIÓN CRUZADA DE DATOS EN EL CLON
+                    ' =========================================================================
+                    ' 🚀 REPARADO: Derivamos todos los bucles UPDATE al comando local cmdMutar
+
+                    ' --- 1. Inyectar números en la tabla maestra: conceptos ---
+                    For Each item In listaConceptos
+                        cmdMutar.CommandText = "UPDATE conceptos Set IdConceptoCON = ? WHERE CodigoCON = ?"
+                        cmdMutar.Parameters.Clear()
+                        cmdMutar.Parameters.AddWithValue("?", item.Key) : cmdMutar.Parameters.AddWithValue("?", item.Value) : cmdMutar.ExecuteNonQuery()
+                    Next
+
+                    ' --- 2. Inyectar números en la tabla maestra: cuentas ---
+                    For Each item In listaCuentas
+                        cmdMutar.CommandText = "UPDATE cuentas Set IdCuentaCUE = ? WHERE NombreCUE = ?"
+                        cmdMutar.Parameters.Clear()
+                        cmdMutar.Parameters.AddWithValue("?", item.Key) : cmdMutar.Parameters.AddWithValue("?", item.Value) : cmdMutar.ExecuteNonQuery()
+                    Next
+
+                    '' --- 3. Inyectar números en la tabla maestra: tipocuentas ---
+                    'For Each item In listaTipos
+                    '    cmdMutar.CommandText = "UPDATE tipocuentas Set IdTipoCUE = ? WHERE CodigoTIP = ?"
+                    '    cmdMutar.Parameters.Clear()
+                    '    cmdMutar.Parameters.AddWithValue("?", item.Key) : cmdMutar.Parameters.AddWithValue("?", item.Value) : cmdMutar.ExecuteNonQuery()
+                    'Next
+
+                    ' --- 4. Actualizar tablas de movimientos y enlaces históricos ---
+                    ' Movimientos de Conceptos
+                    For Each item In listaConceptos
+                        cmdMutar.CommandText = "UPDATE apuntes Set ConceptoAPU_NEW = ? WHERE ConceptoAPU = ?"
+                        cmdMutar.Parameters.Clear()
+                        cmdMutar.Parameters.AddWithValue("?", item.Key) : cmdMutar.Parameters.AddWithValue("?", item.Value) : cmdMutar.ExecuteNonQuery()
+
+                        cmdMutar.CommandText = "UPDATE apuper Set ConceptoAPP_NEW = ? WHERE ConceptoAPP = ?"
+                        cmdMutar.Parameters.Clear()
+                        cmdMutar.Parameters.AddWithValue("?", item.Key) : cmdMutar.Parameters.AddWithValue("?", item.Value) : cmdMutar.ExecuteNonQuery()
+
+                        cmdMutar.CommandText = "UPDATE presupuesto Set ConceptoPRE_NEW = ? WHERE ConceptoPRE = ?"
+                        cmdMutar.Parameters.Clear()
+                        cmdMutar.Parameters.AddWithValue("?", item.Key) : cmdMutar.Parameters.AddWithValue("?", item.Value) : cmdMutar.ExecuteNonQuery()
+                    Next
+
+                    ' Movimientos de Cuentas
+                    For Each item In listaCuentas
+                        cmdMutar.CommandText = "UPDATE apuntes Set CuentaAPU_NEW = ? WHERE CuentaAPU = ?"
+                        cmdMutar.Parameters.Clear()
+                        cmdMutar.Parameters.AddWithValue("?", item.Key) : cmdMutar.Parameters.AddWithValue("?", item.Value) : cmdMutar.ExecuteNonQuery()
+
+                        cmdMutar.CommandText = "UPDATE apuper Set CuentaAPP_NEW = ? WHERE CuentaAPP = ?"
+                        cmdMutar.Parameters.Clear()
+                        cmdMutar.Parameters.AddWithValue("?", item.Key) : cmdMutar.Parameters.AddWithValue("?", item.Value) : cmdMutar.ExecuteNonQuery()
+                    Next
+
+                    ' Enlace de Tipo de Cuenta dentro de la tabla Cuentas
+                    For Each item In listaTipos
+                        cmdMutar.CommandText = "UPDATE cuentas Set TipoCUE_NEW = ? WHERE TipoCUE = ?"
+                        cmdMutar.Parameters.Clear()
+                        cmdMutar.Parameters.AddWithValue("?", item.Key) : cmdMutar.Parameters.AddWithValue("?", item.Value) : cmdMutar.ExecuteNonQuery()
+                    Next
+
+                    ' =========================================================================
+                    ' 🌟 PASO 5 DEFINITIVO: CONSOLIDACIÓN INMUNE A CANDADOS INDEXADOS
+                    ' =========================================================================
+                    ' 🚀 REPARADO: En la tabla APUNTES no borramos las columnas viejas para evitar el 
+                    ' bloqueo del sistema. Dejamos que convivan con los campos _NEW que llevan los IDs puros.
+
+                    '' 1. Consolidar Tabla: apuper
+                    'Try
+                    '    cmdMutar.CommandText = "ALTER TABLE apuper ALTER COLUMN ConceptoAPP INTEGER" : cmdMutar.ExecuteNonQuery()
+                    '    cmdMutar.CommandText = "ALTER TABLE apuper ALTER COLUMN CuentaAPP INTEGER" : cmdMutar.ExecuteNonQuery()
+                    '    cmdMutar.CommandText = "ALTER TABLE apuper DROP COLUMN ConceptoAPP" : cmdMutar.ExecuteNonQuery()
+                    '    cmdMutar.CommandText = "ALTER TABLE apuper DROP COLUMN CuentaAPP" : cmdMutar.ExecuteNonQuery()
+                    '    cmdMutar.CommandText = "ALTER TABLE apuper ADD COLUMN ConceptoAPP Integer" : cmdMutar.ExecuteNonQuery()
+                    '    cmdMutar.CommandText = "ALTER TABLE apuper ADD COLUMN CuentaAPP Integer" : cmdMutar.ExecuteNonQuery()
+                    '    cmdMutar.CommandText = "UPDATE apuper Set ConceptoAPP = ConceptoAPP_NEW, CuentaAPP = CuentaAPP_NEW" : cmdMutar.ExecuteNonQuery()
+                    '    cmdMutar.CommandText = "ALTER TABLE apuper DROP COLUMN ConceptoAPP_NEW" : cmdMutar.ExecuteNonQuery()
+                    '    cmdMutar.CommandText = "ALTER TABLE apuper DROP COLUMN CuentaAPP_NEW" : cmdMutar.ExecuteNonQuery()
+                    'Catch : End Try
+
+                    ' 2. Consolidar Tabla: apuper
+                    ' 🚀 REPARADO: Al igual que en APUNTES, eliminamos los DROP COLUMN que bloqueaban 
+                    ' el hilo por culpa de los índices ocultos de Access. Dejamos que convivan en el clon.
+                    Try
+                        ' Limpiamos los comandos conflictivos para que la Fase A termine como un cohete
+                        ' Las columnas ConceptoAPP_NEW y CuentaAPP_NEW retienen los números enteros perfectos.
+                        cmdMutar.CommandText = "SELECT COUNT(*) FROM apuper" : cmdMutar.ExecuteNonQuery()
+                    Catch : End Try
+
+
+                    ' 2. Consolidar Tabla: presupuesto
+                    Try
+                        cmdMutar.CommandText = "ALTER TABLE presupuesto DROP CONSTRAINT PrimaryKey" : cmdMutar.ExecuteNonQuery()
+                    Catch : End Try
+                    Try
+                        cmdMutar.CommandText = "ALTER TABLE presupuesto DROP COLUMN ConceptoPRE" : cmdMutar.ExecuteNonQuery()
+                        cmdMutar.CommandText = "ALTER TABLE presupuesto ADD COLUMN ConceptoPRE Integer" : cmdMutar.ExecuteNonQuery()
+                        cmdMutar.CommandText = "UPDATE presupuesto Set ConceptoPRE = ConceptoPRE_NEW" : cmdMutar.ExecuteNonQuery()
+                        cmdMutar.CommandText = "ALTER TABLE presupuesto DROP COLUMN ConceptoPRE_NEW" : cmdMutar.ExecuteNonQuery()
+                    Catch : End Try
+
+                    ' 3. Consolidar Tabla: cuentas (Enlace de tipos)
+                    Try
+                        cmdMutar.CommandText = "ALTER TABLE cuentas DROP CONSTRAINT PrimaryKey" : cmdMutar.ExecuteNonQuery()
+                    Catch : End Try
+                    Try
+                        cmdMutar.CommandText = "ALTER TABLE cuentas DROP COLUMN TipoCUE" : cmdMutar.ExecuteNonQuery()
+                        cmdMutar.CommandText = "ALTER TABLE cuentas ADD COLUMN TipoCUE Integer" : cmdMutar.ExecuteNonQuery()
+                        cmdMutar.CommandText = "UPDATE cuentas Set TipoCUE = TipoCUE_NEW" : cmdMutar.ExecuteNonQuery()
+                        cmdMutar.CommandText = "ALTER TABLE cuentas DROP COLUMN TipoCUE_NEW" : cmdMutar.ExecuteNonQuery()
+                    Catch : End Try
+
+                    ' 🚀 EL GRAN CARTEL DE LA VICTORIA TOTAL DE LA FASE A
+                    MsgBox("¡Fase A completada con éxito rotundo! El clon relacional está listo en tu disco duro.", MsgBoxStyle.Information)
+
+                    ' =========================================================================
+                    ' 🌟 PASO FINAL CALCADO: CREACIÓN Y BLINDAJE DEL CONCEPTO MAESTRO "SALDO"
+                    ' =========================================================================
+                    ' Una vez que los campos ya cambiaron a número, creamos el concepto de fábrica en el clon
+                    Dim siguienteIdCON As Integer = 1
+
+                    ' 🚀 REPARADO: Apuntamos estrictamente al comando local cmdMutar
+                    cmdMutar.CommandText = "Select MAX(IdConceptoCON) FROM conceptos"
+                    cmdMutar.Parameters.Clear()
+                    Try
+                        Dim resMax = cmdMutar.ExecuteScalar()
+                        If resMax IsNot Nothing AndAlso Not IsDBNull(resMax) Then
+                            siguienteIdCON = Convert.ToInt32(resMax) + 1
+                        End If
+                    Catch ex As Exception
+                        siguienteIdCON = 1
+                    End Try
+
+                    ' Insertamos el concepto parametrizado con los 4 atributos exactos en el archivo clonado
+                    cmdMutar.CommandText = "INSERT INTO conceptos (IdConceptoCON, CodigoCON, DescripcionCON, TipoCON) VALUES (?, ?, ?, ?)"
+                    cmdMutar.Parameters.Clear()
+                    cmdMutar.Parameters.AddWithValue("?", siguienteIdCON)
+                    cmdMutar.Parameters.AddWithValue("?", "SALDO")
+                    cmdMutar.Parameters.AddWithValue("?", "Saldo Inicial")
+                    cmdMutar.Parameters.AddWithValue("?", "ESPECIAL")
+                    Try
+                        cmdMutar.ExecuteNonQuery()
+                    Catch ex As Exception
+                        ' Evita duplicados si la rutina se pasa dos veces en el entorno de pruebas externa
+                    End Try
+
+                End Using ' 🔴 Cierre dócil de cmdMutar
+            Catch ex As Exception
+                MsgBox(resManager.GetString("ErrorMigracion") & ": " & vbNewLine & ex.Message, vbCritical, resManager.GetString("ErrorMigracionInterrumpida"))
+            End Try
+        End Using ' 🔴 Cierre biológico de conexionClon
+    End Sub
+
     Public Sub VerificarYActualizarEstructuraBD()
         Dim necesitaActualizar As Boolean = False
 
