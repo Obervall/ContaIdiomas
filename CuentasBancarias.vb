@@ -71,7 +71,6 @@ Public Class CuentasBancarias
 
         ' Llenamos el Grid con la estructura limpia
         LlenarGrid(vtipoSql, "CUENTAS_BANCARIAS", "1")
-
         ' Ocultamos el Id de la cuenta que viaja seguro en la posición 4
         If DgvCuentas.Columns.Count > 5 Then
             DgvCuentas.Columns(5).Visible = False

@@ -1312,7 +1312,7 @@ Public Class Principal
                                 cmdCheck.Parameters.Add("?", OleDbType.Integer) ' ID Cuenta
 
                                 ' 3. 🚀 REPARADO: La SQL de inserción ahora inyecta IDs relacionales puros de la Nueva Era
-                                Dim sqlInsert As String = "INSERT INTO APUNTES (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPP) VALUES (?, ?, ?, ?, ?, ?, ?)"
+                                Dim sqlInsert As String = "INSERT INTO APUNTES (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) VALUES (?, ?, ?, ?, ?, ?, ?)"
                                 Using cmdInsert As New OleDbCommand(sqlInsert, connDestino)
                                     cmdInsert.Parameters.Add("?", OleDbType.Date)
                                     cmdInsert.Parameters.Add("?", OleDbType.Integer) ' ID Concepto
@@ -1669,7 +1669,7 @@ Public Class Principal
 
                 While reader.Read()
                     ' 🚀 OPTIMIZACIÓN: Leemos de forma directa el número entero por su índice 0 en la RAM
-                    Dim valorActual As Integer = If(reader.IsDBNull(0), Date.Today.Year, reader.GetInt32(0))
+                    Dim valorActual As Integer = If(reader.IsDBNull(0), Date.Today.Year, Convert.ToInt32(reader.GetValue(0)))
 
                     ' 1. Verificar si ya existe en el destino
                     cmdCheck.Parameters(0).Value = valorActual
@@ -1834,6 +1834,9 @@ Public Class Principal
                 Dim omitidos As Integer = 0
 
                 While reader.Read()
+                    ' 🚀 PREVENCIÓN: Si viene un registro huérfano o nulo en el origen, nos saltamos la fila
+                    If reader.IsDBNull(0) Then Continue While
+
                     Dim codigoActual As String = reader("CodigoCON").ToString().Trim()
                     cmdCheck.Parameters(0).Value = codigoActual
 
@@ -1854,13 +1857,15 @@ Public Class Principal
                 Dim cmdTodosDestino As New OleDbCommand(sqlConceptosDestino, connDestino)
                 Dim readerDestino As OleDbDataReader = cmdTodosDestino.ExecuteReader()
                 While readerDestino.Read()
-                    Dim codDestino As String = readerDestino("CodigoCON").ToString().ToUpper().Trim()
-                    Dim idDestino As Integer = Convert.ToInt32(readerDestino("IdConceptoCON"))
+                    ' 🚀 REPARADO: Controlamos de forma estricta los nulos con IsDBNull antes de convertir
+                    If Not readerDestino.IsDBNull(0) AndAlso Not readerDestino.IsDBNull(1) Then
+                        Dim idDestino As Integer = Convert.ToInt32(readerDestino("IdConceptoCON"))
+                        Dim codDestino As String = readerDestino("CodigoCON").ToString().ToUpper().Trim()
 
-                    ' FILTRO SEGURO: Solo nos interesa si es uno de tus 33 conceptos de fábrica originales
-                    If ConceptosMuestraSistema.Contains(codDestino) Then
-                        ' 🚀 REPARADO: Almacenamos el ID numérico real de la Nueva Era
-                        conceptosMDBAplicacion.Add(idDestino)
+                        ' FILTRO SEGURO: Solo nos interesa si es uno de tus 33 conceptos de fábrica originales
+                        If ConceptosMuestraSistema.Contains(codDestino) Then
+                            conceptosMDBAplicacion.Add(idDestino)
+                        End If
                     End If
                 End While
                 readerDestino.Close()
