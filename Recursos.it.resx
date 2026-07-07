@@ -931,4 +931,7 @@ Il file non è aperto</value>
   <data name="ErrorConsolidarCuentas" xml:space="preserve">
     <value>Errore di consolidamento nativo degli account</value>
   </data>
+  <data name="ErrormutacionBDclonada" xml:space="preserve">
+    <value>Fallimento della mutazione del DB clonato</value>
+  </data>
 </root>

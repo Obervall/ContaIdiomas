@@ -668,4 +668,13 @@ poter effettuare il processo di importazione</value>
 Copia il file CHDB2.mdb dal vecchio Contahogar nella cartella C:\ContaHogar3.0
 poter effettuare il processo di importazione</value>
   </data>
+  <data name="MsgExisteClonMigracion" xml:space="preserve">
+    <value>Il database selezionato ha già la struttura relazionale della New Age. Procedura annullata per motivi di sicurezza</value>
+  </data>
+  <data name="ImportaciónRelacionalCompletada" xml:space="preserve">
+    <value>Importazione relazionale completata con assoluto successo! I maestri dei concetti, dei resoconti e il tuo diario storico di appunti sono stati integrati nella New Age</value>
+  </data>
+  <data name="ActualizacionCompletada" xml:space="preserve">
+    <value>Aggiornamento completato</value>
+  </data>
 </root>

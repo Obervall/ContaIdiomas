@@ -9201,4 +9201,13 @@ para poder realizar el proceso de importación</value>
 Copiar el archivo CHDB2.mdb del antiguo Contahogar a la carpeta C:\ContaHogar3.0
 para poder realizar el proceso de importación</value>
   </data>
+  <data name="MsgExisteClonMigracion" xml:space="preserve">
+    <value>La base de datos seleccionada ya cuenta con la estructura relacional de la Nueva Era. Proceso cancelado por seguridad</value>
+  </data>
+  <data name="ImportaciónRelacionalCompletada" xml:space="preserve">
+    <value>¡Importación Relacional Completada con éxito absoluto! Los maestros de conceptos, cuentas y tu diario histórico de apuntes han sido integrados a la Nueva Era</value>
+  </data>
+  <data name="ActualizacionCompletada" xml:space="preserve">
+    <value>Actualización Completada</value>
+  </data>
 </root>

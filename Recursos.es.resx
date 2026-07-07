@@ -931,4 +931,7 @@ que el archivo no esté abierto</value>
   <data name="ErrorConsolidarCuentas" xml:space="preserve">
     <value>Error al consolidar cuentas nativo</value>
   </data>
+  <data name="ErrormutacionBDclonada" xml:space="preserve">
+    <value>Error en la mutación de la BD clonada</value>
+  </data>
 </root>

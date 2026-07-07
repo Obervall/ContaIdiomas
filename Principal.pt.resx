@@ -668,4 +668,13 @@ para poder realizar o processo de importação</value>
   <data name="ButtonActualizar.Text" xml:space="preserve">
     <value>Botão Atualizar Excel</value>
   </data>
+  <data name="MsgExisteClonMigracion" xml:space="preserve">
+    <value>O banco de dados selecionado já possui a estrutura relacional da Nova Era. Processo cancelado por questões de segurança</value>
+  </data>
+  <data name="ImportaciónRelacionalCompletada" xml:space="preserve">
+    <value>Importação Relacional Concluída com Sucesso Absoluto! Os mestres dos conceitos, relatos e seu diário histórico de anotações foram integrados à Nova Era</value>
+  </data>
+  <data name="ActualizacionCompletada" xml:space="preserve">
+    <value>Atualização Concluída</value>
+  </data>
 </root>

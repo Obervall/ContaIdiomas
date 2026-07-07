@@ -8008,4 +8008,13 @@ um den Importprozess durchführen zu können</value>
   <data name="ButtonActualizar.Text" xml:space="preserve">
     <value>Excel-Schaltfläche aktualisieren</value>
   </data>
+  <data name="MsgExisteClonMigracion" xml:space="preserve">
+    <value>Die ausgewählte Datenbank besitzt bereits die relationale Struktur des New Age. Prozess aus Sicherheitsgründen abgebrochen</value>
+  </data>
+  <data name="ImportaciónRelacionalCompletada" xml:space="preserve">
+    <value>Relationaler Import mit absolutem Erfolg abgeschlossen! Die Meister der Konzepte, Berichte und Ihr historisches Notizbuch wurden in das New Age integriert</value>
+  </data>
+  <data name="ActualizacionCompletada" xml:space="preserve">
+    <value>Update abgeschlossen</value>
+  </data>
 </root>

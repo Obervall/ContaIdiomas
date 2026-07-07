@@ -1291,6 +1291,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Error en la mutación de la BD clonada.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrormutacionBDclonada() As String
+        Get
+            Return ResourceManager.GetString("ErrormutacionBDclonada", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Error al recuperar el identificador numérico del registro.
     '''</summary>
     Friend Shared ReadOnly Property ErrorRecuperarID() As String

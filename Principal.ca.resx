@@ -8005,4 +8005,13 @@ per poder realitzar el procés d'importació</value>
   <data name="ButtonActualizar.Text" xml:space="preserve">
     <value>Button Actualizar Excel</value>
   </data>
+  <data name="MsgExisteClonMigracion" xml:space="preserve">
+    <value>La base de dades seleccionada ja compta amb l'estructura relacional de la Nova Era. Procés cancel·lat per seguretat</value>
+  </data>
+  <data name="ImportaciónRelacionalCompletada" xml:space="preserve">
+    <value>¡Importació Relacional Completada amb èxit absolut! Els mestres de conceptes, comptes i el teu diari històric d'apunts han estat integrats a la Nova Era</value>
+  </data>
+  <data name="ActualizacionCompletada" xml:space="preserve">
+    <value>Actualització Completada</value>
+  </data>
 </root>

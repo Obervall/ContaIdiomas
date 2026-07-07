@@ -931,4 +931,7 @@ Die Datei ist nicht geöffnet</value>
   <data name="ErrorConsolidarCuentas" xml:space="preserve">
     <value>Fehler bei der Konsolidierung nativer Konten</value>
   </data>
+  <data name="ErrormutacionBDclonada" xml:space="preserve">
+    <value>Ausfall der geklonten DB-Mutation</value>
+  </data>
 </root>
