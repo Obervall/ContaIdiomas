@@ -48,7 +48,7 @@
       <Value Profile="(Default)">€</Value>
     </Setting>
     <Setting Name="PathExportar" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">C:\ContaHogar3.0\Excel</Value>
     </Setting>
     <Setting Name="MenuColores" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>

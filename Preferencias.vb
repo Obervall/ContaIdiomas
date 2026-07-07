@@ -9,6 +9,13 @@ Public Class Preferencias
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub Preferencias_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        TxtPathExportar.Text = My.Settings.PathExportar
+        ChbPantallaCompleta.Checked = My.Settings.PantallaCompleta
+        ChbPantallaCierre.Checked = My.Settings.PantallaCierre
+        CheckBox1.Checked = My.Settings.Previsualizar
+        CheckBox2.Checked = My.Settings.ElegirImpresora
+        CheckBox3.Checked = My.Settings.DirectoImpresora
+        TxtBaseDatos.Text = My.Settings.RutaBD
 
         estaCargado = False ' Se establece la variable estaCargado a False al iniciar la carga
         ' del formulario para evitar que los eventos de cambio de las preferencias se ejecuten antes de cargar los valores.
@@ -41,13 +48,6 @@ Public Class Preferencias
             ChkBuscarActualizacion.Checked = False
             BtnBuscarActualizacion.Enabled = True
         End If
-        TxtPathExportar.Text = My.Settings.PathExportar
-        ChbPantallaCompleta.Checked = My.Settings.PantallaCompleta
-        ChbPantallaCierre.Checked = My.Settings.PantallaCierre
-        CheckBox1.Checked = My.Settings.Previsualizar
-        CheckBox2.Checked = My.Settings.ElegirImpresora
-        CheckBox3.Checked = My.Settings.DirectoImpresora
-        TxtBaseDatos.Text = My.Settings.RutaBD
 
         ' Array con los símbolos individuales más comunes
         Dim simbolos() As String = {"€", "$", "CHF", "£", "S/.", "R$", "¥", "₣", "₹", "₩", "₽"}
@@ -194,6 +194,7 @@ Public Class Preferencias
     End Sub
 
     Private Sub CmbElegirIdioma_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbElegirIdioma.SelectedIndexChanged
+
         If estaCargado Then
             Dim cultura As String = "es-ES"
             If CmbElegirIdioma.SelectedItem.ToString() = "Español" Then
@@ -211,6 +212,7 @@ Public Class Preferencias
             ElseIf CmbElegirIdioma.SelectedItem.ToString() = "Italiano" Then
                 cultura = "it"
             End If
+
             My.Settings.CulturaUsuario = cultura
             My.Settings.Save()
             My.Settings.Reload()
@@ -247,6 +249,9 @@ Public Class Preferencias
                 End If
             Next
         End If
+        ' Refrescamos los valores de las preferencias después de cambiar el idioma
+        TxtPathExportar.Text = My.Settings.PathExportar
+        TxtBaseDatos.Text = My.Settings.RutaBD
     End Sub
 
     Private Sub CmbMonedas_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbMonedas.SelectedIndexChanged

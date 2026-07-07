@@ -101,9 +101,9 @@ Public Class Principal
         BarraDeHerramientas.Refresh()
         Dim textoLimpio As String = rmse.GetString("LblAvisoActivacion")
 
-        If Not String.IsNullOrEmpty(textoLimpio) Then
-            LblNotificacion.Text = textoLimpio
-        End If
+        'If Not String.IsNullOrEmpty(textoLimpio) Then
+        '    LblNotificacion.Text = textoLimpio
+        'End If
     End Sub
 
     Private Sub TraducirSubMenusRecursivo(menuPadre As ToolStripMenuItem, resources As System.ComponentModel.ComponentResourceManager)
@@ -195,11 +195,11 @@ Public Class Principal
             CambiarColorBarraMenu()
         End If
 
-        If My.Settings.Codigo = "Codigo Activación: Sin Activar" Then
-            LblNotificacion.Visible = True
-        Else
-            LblNotificacion.Visible = False
-        End If
+        'If My.Settings.Codigo = "Codigo Activación: Sin Activar" Then
+        '    LblNotificacion.Visible = True
+        'Else
+        '    LblNotificacion.Visible = False
+        'End If
 
         'Cargamos la conexión vRuta Mdb
         '******************************
@@ -314,7 +314,13 @@ Public Class Principal
 
         vActualizar = My.Settings.Actualizar
         vMoneda = My.Settings.Moneda
-        vPathExportar = My.Settings.PathExportar
+        If vPathExportar = "" OrElse vPathExportar = "C:\" OrElse vPathExportar Is Nothing Then
+            vPathExportar = "C:\ContaHogar3.0\Excel"
+        End If
+        ' Guardamos la ruta definitiva (sea la estándar o la que el usuario cambió en Preferencias)
+        My.Settings.PathExportar = vPathExportar
+        My.Settings.Save()
+        My.Settings.Reload()
 
         ' Congelamos el redibujado
         Me.SuspendLayout()
@@ -1140,32 +1146,32 @@ Public Class Principal
     End Sub
 
     Private Sub BtnActivarSoftwareToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BtnActivarSoftwareToolStripMenuItem.Click
-        ' 1. Cambiar el texto de la barra de estado
-        TsLabelFormulario.Text = rmse.GetString("BtnActivarSoftwareToolStripMenuItem.Text")
-        ' 2. Controlar la instancia física del formulario de forma tradicional
-        If ((frmActivarSoftware Is Nothing) OrElse (Not frmActivarSoftware.IsHandleCreated)) Then
-            frmActivarSoftware = New ActivarSoftware
-        End If
-        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
-        ActualizarTextosFormulario(frmActivarSoftware)
-        ' 4. Configurar el posicionamiento manual obligatorio
-        frmActivarSoftware.StartPosition = FormStartPosition.Manual
-        ' 5. Calcular las coordenadas definitivas con tu ajuste de +10
-        Dim posX As Integer = Me.Left + (Me.Width - frmActivarSoftware.Width) \ 2
-        Dim posY As Integer = Me.Top + 10
-        If posX < 0 Then posX = 0
-        ' 6. Fijar la ubicación calculada y abrir la ventana
-        frmActivarSoftware.Location = New System.Drawing.Point(posX, posY)
-        frmActivarSoftware.ShowDialog()
-        ' 7. Destrucción explícita al cerrar
-        frmActivarSoftware.Dispose()
-        ' 8. IMPORTANTE: Limpiar la variable manual para evitar el error de objeto destruido
-        frmActivarSoftware = Nothing
-        ' 9. Restaurar el texto de espera de la barra
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
-        If vActivado Then
-            LblNotificacion.Visible = False
-        End If
+        '' 1. Cambiar el texto de la barra de estado
+        'TsLabelFormulario.Text = rmse.GetString("BtnActivarSoftwareToolStripMenuItem.Text")
+        '' 2. Controlar la instancia física del formulario de forma tradicional
+        'If ((frmActivarSoftware Is Nothing) OrElse (Not frmActivarSoftware.IsHandleCreated)) Then
+        '    frmActivarSoftware = New ActivarSoftware
+        'End If
+        '' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        'ActualizarTextosFormulario(frmActivarSoftware)
+        '' 4. Configurar el posicionamiento manual obligatorio
+        'frmActivarSoftware.StartPosition = FormStartPosition.Manual
+        '' 5. Calcular las coordenadas definitivas con tu ajuste de +10
+        'Dim posX As Integer = Me.Left + (Me.Width - frmActivarSoftware.Width) \ 2
+        'Dim posY As Integer = Me.Top + 10
+        'If posX < 0 Then posX = 0
+        '' 6. Fijar la ubicación calculada y abrir la ventana
+        'frmActivarSoftware.Location = New System.Drawing.Point(posX, posY)
+        'frmActivarSoftware.ShowDialog()
+        '' 7. Destrucción explícita al cerrar
+        'frmActivarSoftware.Dispose()
+        '' 8. IMPORTANTE: Limpiar la variable manual para evitar el error de objeto destruido
+        'frmActivarSoftware = Nothing
+        '' 9. Restaurar el texto de espera de la barra
+        'Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        'If vActivado Then
+        '    LblNotificacion.Visible = False
+        'End If
     End Sub
 
     Private Sub BtnImportarContaHogar_Click(sender As Object, e As EventArgs) Handles BtnImportarContaHogar.Click
@@ -1506,11 +1512,11 @@ Public Class Principal
         ' Destruimos el formulario.
         frmPreferencias.Dispose()
         Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
-        If My.Settings.Codigo = "Codigo Activación: Sin Activar" Then
-            Me.LblNotificacion.Visible = True
-        Else
-            Me.LblNotificacion.Visible = False
-        End If
+        'If My.Settings.Codigo = "Codigo Activación: Sin Activar" Then
+        '    Me.LblNotificacion.Visible = True
+        'Else
+        '    Me.LblNotificacion.Visible = False
+        'End If
     End Sub
 
     Private Sub BarraDeHerramientasMenu_Click(sender As Object, e As EventArgs) Handles BarraDeHerramientasMenu.Click
@@ -1767,11 +1773,9 @@ Public Class Principal
     End Sub
 
     Private Sub BtnBizum_Click(sender As Object, e As EventArgs) Handles BtnBizum.Click
-        System.Diagnostics.Process.Start("https://www.paypal.com/donate/?hosted_button_id=EZCSRQ4QBPVZN")
     End Sub
 
     Private Sub AportaciónBizumToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AportaciónBizumToolStripMenuItem.Click
-        System.Diagnostics.Process.Start("https://www.paypal.com/donate/?hosted_button_id=EZCSRQ4QBPVZN")
     End Sub
 
     Private Sub BtnHistorialVersiones_Click(sender As Object, e As EventArgs) Handles BtnHistorialVersiones.Click

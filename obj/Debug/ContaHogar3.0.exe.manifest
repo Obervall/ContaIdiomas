@@ -91,14 +91,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ContaHogar3.0.exe" size="2885632">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ContaHogar3.0.exe" size="2876416">
       <assemblyIdentity name="ContaHogar3.0" version="0.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>W9aMetESCJ9DFAJfuSlyCfHUyvJqE5A43Oqxe0km5do=</dsig:DigestValue>
+        <dsig:DigestValue>RB9sAT0juPGr0MhxpmZAMN3Q9dcqX65z/RYYRHn3Wys=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -110,7 +110,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>va12A2Ix6QCGAasVJVCm9HFANnMnkiaY3Lgyj8R/u/U=</dsig:DigestValue>
+        <dsig:DigestValue>m6ArdocfucTcL3fKJGC+G2gsm21oVq+wkjEKmoLqcuE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -786,13 +786,13 @@
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="ContaHogar3.0.exe.config" size="7215">
+  <file name="ContaHogar3.0.exe.config" size="7243">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>vC62D6pAthbpd4uhXtfWWbwO5xsAlN/YQAR0uwqP47k=</dsig:DigestValue>
+      <dsig:DigestValue>aAv51qUFht6lm5IG/WN/sRUe3xVbcPAgO3JqI3fzsHk=</dsig:DigestValue>
     </hash>
   </file>
   <file name="CuentaHogar.ico" size="44979">

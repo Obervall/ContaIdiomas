@@ -435,7 +435,6 @@ Public Class ApuntesContables
         Me.Cursor = Cursors.WaitCursor
         frmApuntesContables.Cursor = Cursors.WaitCursor ' Si usas la grilla del formulario de impresión
 
-
         ' 🌟 SANEAMIENTO INICIAL: Vaciamos cualquier rastro de parámetros anteriores en la app
         cmdMdb1cr.Parameters.Clear()
 
