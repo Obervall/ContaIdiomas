@@ -117,11 +117,62 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="&gt;&gt;ChbPantallaCompleta.Name" xml:space="preserve">
+    <value>ChbPantallaCompleta</value>
+  </data>
+  <data name="&gt;&gt;ChbPantallaCompleta.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ChbPantallaCompleta.Parent" xml:space="preserve">
+    <value>GBoxPantalla</value>
+  </data>
+  <data name="&gt;&gt;ChbPantallaCompleta.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;ChbPantallaCierre.Name" xml:space="preserve">
+    <value>ChbPantallaCierre</value>
+  </data>
+  <data name="&gt;&gt;ChbPantallaCierre.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ChbPantallaCierre.Parent" xml:space="preserve">
+    <value>GBoxPantalla</value>
+  </data>
+  <data name="&gt;&gt;ChbPantallaCierre.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="GBoxPantalla.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 10.2pt, style=Bold</value>
+  </data>
+  <data name="GBoxPantalla.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="GBoxPantalla.Size" type="System.Drawing.Size, System.Drawing">
+    <value>521, 94</value>
+  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="GBoxPantalla.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="GBoxPantalla.Text" xml:space="preserve">
+    <value>Inicio Pantalla Principal:</value>
+  </data>
+  <data name="&gt;&gt;GBoxPantalla.Name" xml:space="preserve">
+    <value>GBoxPantalla</value>
+  </data>
+  <data name="&gt;&gt;GBoxPantalla.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GBoxPantalla.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;GBoxPantalla.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
   <data name="ChbPantallaCompleta.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="ChbPantallaCompleta.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 56</value>
   </data>
@@ -173,33 +224,6 @@
   <data name="&gt;&gt;ChbPantallaCierre.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="GBoxPantalla.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 10.2pt, style=Bold</value>
-  </data>
-  <data name="GBoxPantalla.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
-  <data name="GBoxPantalla.Size" type="System.Drawing.Size, System.Drawing">
-    <value>521, 94</value>
-  </data>
-  <data name="GBoxPantalla.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="GBoxPantalla.Text" xml:space="preserve">
-    <value>Inicio Pantalla Principal:</value>
-  </data>
-  <data name="&gt;&gt;GBoxPantalla.Name" xml:space="preserve">
-    <value>GBoxPantalla</value>
-  </data>
-  <data name="&gt;&gt;GBoxPantalla.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GBoxPantalla.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;GBoxPantalla.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
   <data name="BtnSalir.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 10.2pt, style=Bold</value>
   </data>
@@ -245,6 +269,69 @@
   </data>
   <data name="&gt;&gt;BtnSalir.ZOrder" xml:space="preserve">
     <value>7</value>
+  </data>
+  <data name="&gt;&gt;CheckBox3.Name" xml:space="preserve">
+    <value>CheckBox3</value>
+  </data>
+  <data name="&gt;&gt;CheckBox3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckBox3.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;CheckBox3.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;CheckBox2.Name" xml:space="preserve">
+    <value>CheckBox2</value>
+  </data>
+  <data name="&gt;&gt;CheckBox2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckBox2.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;CheckBox2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;CheckBox1.Name" xml:space="preserve">
+    <value>CheckBox1</value>
+  </data>
+  <data name="&gt;&gt;CheckBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckBox1.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;CheckBox1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="GroupBox1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 10.2pt, style=Bold</value>
+  </data>
+  <data name="GroupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 112</value>
+  </data>
+  <data name="GroupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>521, 121</value>
+  </data>
+  <data name="GroupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="GroupBox1.Text" xml:space="preserve">
+    <value>Imprimir Informes:</value>
+  </data>
+  <data name="&gt;&gt;GroupBox1.Name" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;GroupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GroupBox1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;GroupBox1.ZOrder" xml:space="preserve">
+    <value>6</value>
   </data>
   <data name="CheckBox3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -327,33 +414,6 @@
   <data name="&gt;&gt;CheckBox1.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="GroupBox1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 10.2pt, style=Bold</value>
-  </data>
-  <data name="GroupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 112</value>
-  </data>
-  <data name="GroupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>521, 121</value>
-  </data>
-  <data name="GroupBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="GroupBox1.Text" xml:space="preserve">
-    <value>Imprimir Informes:</value>
-  </data>
-  <data name="&gt;&gt;GroupBox1.Name" xml:space="preserve">
-    <value>GroupBox1</value>
-  </data>
-  <data name="&gt;&gt;GroupBox1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GroupBox1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;GroupBox1.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
   <data name="TxtBaseDatos.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -380,42 +440,6 @@
   </data>
   <data name="&gt;&gt;TxtBaseDatos.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="BtnUbicacion.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="BtnUbicacion.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
-        cQAAEnEB89x6jgAAAJ1JREFUWEftktsKwCAMQ/10/7zDFYaXpC8zbg8NlBiI9ExWSirFZWCOycza9DoD
-        cS+ZFw9pfZU3s6hf1Z335wAgvrgrBwBjUZUDgPjirtwDzD+GdB4Mzw5Qq3+52h0AvAAqK/y3L/ABBABA
-        ZYVTAFRWOAVAZYUzgOMQEACVFU4BUFnhFACVFc4AmpayyikAKiucAqCywinA4UmlvtcFzXXuD7BFj8oA
-        AAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="BtnUbicacion.Location" type="System.Drawing.Point, System.Drawing">
-    <value>435, 12</value>
-  </data>
-  <data name="BtnUbicacion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 54</value>
-  </data>
-  <data name="BtnUbicacion.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="BtnUbicacion.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;BtnUbicacion.Name" xml:space="preserve">
-    <value>BtnUbicacion</value>
-  </data>
-  <data name="&gt;&gt;BtnUbicacion.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;BtnUbicacion.Parent" xml:space="preserve">
-    <value>GroupBox2</value>
-  </data>
-  <data name="&gt;&gt;BtnUbicacion.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="GroupBox2.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 10.2pt, style=Bold</value>
@@ -474,49 +498,17 @@
   <data name="&gt;&gt;Label1.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="BtnBuscarBackup.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 8pt, style=Bold</value>
-  </data>
-  <data name="BtnBuscarBackup.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
-        cQAAEnEB89x6jgAAAG5JREFUOE/FkFEKwDAIQz26R/NmDmndWk2LHYMFQj5qHqFEX4qZNTreLGXHSCWI
-        l0VEVSlkgyAnQC4/kKgOaJD9Apw3IM6q2CAToCovpQUmNBOllXzJqz/wIgTE41UmwClkKM+AEydA1/hQ
-        9c+6AIN821GNj2ttAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="BtnBuscarBackup.Location" type="System.Drawing.Point, System.Drawing">
-    <value>459, 21</value>
-  </data>
-  <data name="BtnBuscarBackup.Size" type="System.Drawing.Size, System.Drawing">
-    <value>34, 36</value>
-  </data>
-  <data name="BtnBuscarBackup.TabIndex" type="System.Int32, mscorlib">
-    <value>111</value>
-  </data>
-  <data name="BtnBuscarBackup.Text" xml:space="preserve">
-    <value>.....</value>
-  </data>
-  <data name="&gt;&gt;BtnBuscarBackup.Name" xml:space="preserve">
-    <value>BtnBuscarBackup</value>
-  </data>
-  <data name="&gt;&gt;BtnBuscarBackup.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;BtnBuscarBackup.Parent" xml:space="preserve">
-    <value>GroupBox3</value>
-  </data>
-  <data name="&gt;&gt;BtnBuscarBackup.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="TxtPathExportar.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="TxtPathExportar.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 10.2pt</value>
+    <value>Microsoft Sans Serif, 10.2pt, style=Bold</value>
   </data>
   <data name="TxtPathExportar.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 26</value>
   </data>
   <data name="TxtPathExportar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>411, 27</value>
+    <value>498, 27</value>
   </data>
   <data name="TxtPathExportar.TabIndex" type="System.Int32, mscorlib">
     <value>110</value>
@@ -765,29 +757,5 @@
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ChkBuscarActualizacion.Text" xml:space="preserve">
-    <value>Buscar Actualización al Iniciar</value>
-  </data>
-  <data name="BtnBuscarActualizacion.Text" xml:space="preserve">
-    <value>Busca Actualización</value>
-  </data>
-  <data name="ErrorSeleccionUbicacion" xml:space="preserve">
-    <value>Error al seleccionar la nueva ubicación de la Base de Datos,
-se mantendrá la ubicación actual</value>
-  </data>
-  <data name="CerrarPrograma" xml:space="preserve">
-    <value>Se cerrará el programa para iniciar con la nueva Ubicación</value>
-  </data>
-  <data name="DesactivarBusqueda" xml:space="preserve">
-    <value>Se desactivará la búsqueda manual de actualizaciones,
-se buscará automáticamente al iniciar el programa</value>
-  </data>
-  <data name="ActivarBusqueda" xml:space="preserve">
-    <value>Se activará la búsqueda manual de actualizaciones,
-se buscará al hacer click en el botón 'Buscar Actualización'</value>
-  </data>
-  <data name="NoHayNuevaVersion" xml:space="preserve">
-    <value>No hay nuevas versiones disponibles. Versión actual</value>
   </data>
 </root>

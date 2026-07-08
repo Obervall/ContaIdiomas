@@ -82,11 +82,6 @@ Public Class Principal
         Next
         ' 4. Refresca la barra de inmediato para aplicar los cambios visuales
         BarraDeHerramientas.Refresh()
-        Dim textoLimpio As String = rmse.GetString("LblAvisoActivacion")
-
-        'If Not String.IsNullOrEmpty(textoLimpio) Then
-        '    LblNotificacion.Text = textoLimpio
-        'End If
     End Sub
 
     Private Sub TraducirSubMenusRecursivo(menuPadre As ToolStripMenuItem, resources As System.ComponentModel.ComponentResourceManager)
@@ -178,21 +173,53 @@ Public Class Principal
             CambiarColorBarraMenu()
         End If
 
-        'If My.Settings.Codigo = "Codigo Activación: Sin Activar" Then
-        '    LblNotificacion.Visible = True
-        'Else
-        '    LblNotificacion.Visible = False
-        'End If
+        '********************************================================****************************************
+        ' 🚀 ARRANQUE INTELIGENTE MODO MSIX CON PUENTE DE RESCATE (Sustitución de vRuta)
+        '****************================================================================================********
+        ' 1. Definimos la NUEVA RUTA oficial, libre de derechos, dentro de "Mis Documentos" (Recomendado para MSIX)
+        Dim carpetaDocumentos As String = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+        Dim carpetaAppOficial As String = IO.Path.Combine(carpetaDocumentos, "ContaHogar3.0")
+        Dim archivoBdDestino As String = IO.Path.Combine(carpetaAppOficial, "ContaHogar.mdb")
 
-        'Cargamos la conexión vRuta Mdb
-        '******************************
-        ' Para AppData\Local (Recomendado para datos de una sola máquina)
-        appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
+        ' 2. Capturamos milimétricamente tu RUTA ANTERIOR de AppData\Roaming para rescatar datos de usuarios viejos
+        Dim appDataPathViejo As String = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
+        Dim carpetaDBVieja As String = IO.Path.Combine(appDataPathViejo, "A.Oberholzer", "ContaHogar3.0")
+        Dim archivoBdAppDataVieja As String = IO.Path.Combine(carpetaDBVieja, "ContaHogar.mdb")
 
-        ' Combinar con el nombre de tu compañía/aplicación y el archivo de base de datos
-        carpetaDB = IO.Path.Combine(appDataPath, "A.Oberholzer", "ContaHogar3.0")
-        vRuta = IO.Path.Combine(carpetaDB, "ContaHogar.mdb")
-        'vRuta = "C:\ContaHogar3.0\ContaHogar.mdb" ' Para la carpeta de instalación (No recomendado, pero para usuarios que no quieran complicarse)"
+        ' 3. Creamos la nueva carpeta física en Mis Documentos si es la primera vez que entra
+        Try
+            If Not Directory.Exists(carpetaAppOficial) Then
+                Directory.CreateDirectory(carpetaAppOficial)
+            End If
+        Catch ex As Exception
+            ' Cortafuegos de emergencia por si Mis Documentos estuviera restringido por OneDrive
+            carpetaAppOficial = carpetaDocumentos
+            archivoBdDestino = IO.Path.Combine(carpetaAppOficial, "ContaHogar.mdb")
+        End Try
+
+        ' 4. 🎯 EL PUENTE DE MIGRACIÓN: Sembramos el archivo respetando el histórico del usuario
+        If Not File.Exists(archivoBdDestino) Then
+            Try
+                ' ESCENARIO B: ¿El usuario es antiguo y tiene sus apuntes reales en tu vieja ruta de Roaming?
+                If File.Exists(archivoBdAppDataVieja) Then
+                    ' Mudamos su base de datos real intacta a Mis Documentos para no perder ni un céntimo
+                    File.Copy(archivoBdAppDataVieja, archivoBdDestino, True)
+
+                    ' ESCENARIO A: Es un usuario 100% nuevo que se descarga la app de la Microsoft Store
+                Else
+                    ' Extraemos la base limpia y compactada de 488 KB que viaja dentro del paquete MSIX
+                    Dim archivoBdOrigenRuta As String = IO.Path.Combine(Application.StartupPath, "ContaHogar.mdb")
+                    If File.Exists(archivoBdOrigenRuta) Then
+                        File.Copy(archivoBdOrigenRuta, archivoBdDestino, True)
+                    End If
+                End If
+            Catch ex As Exception
+                MsgBox(rmse.GetString("ErrorCriticoPuenteRescate") & ": " & ex.Message, MsgBoxStyle.Critical)
+            End Try
+        End If
+
+        ' 5. 🌟 ASENTAMOS LA VARIABLE GLOBAL Y SCONCRONIZAMOS LAS PREFERENCIAS
+        vRuta = archivoBdDestino
 
         My.Settings.RutaBD = vRuta
         My.Settings.Save()
@@ -301,15 +328,7 @@ Public Class Principal
         My.Settings.Version = "3.1.1"
         My.Settings.Save()
 
-        vActualizar = My.Settings.Actualizar
         vMoneda = My.Settings.Moneda
-        If vPathExportar = "" OrElse vPathExportar = "C:\" OrElse vPathExportar Is Nothing Then
-            vPathExportar = "C:\ContaHogar3.0\Excel"
-        End If
-        ' Guardamos la ruta definitiva (sea la estándar o la que el usuario cambió en Preferencias)
-        My.Settings.PathExportar = vPathExportar
-        My.Settings.Save()
-        My.Settings.Reload()
 
         ' Congelamos el redibujado
         Me.SuspendLayout()
@@ -439,6 +458,8 @@ Public Class Principal
                 MsgBox(resManager.GetString("ErrorApuntePeriodico") & ": " & ex.Message, MsgBoxStyle.Critical)
             End Try
         Next
+        ActualizarTextosFormulario(Me)
+
     End Sub
 
     Private Sub IP_Timer(ByVal sender As Object, ByVal e As EventArgs)
@@ -1096,29 +1117,48 @@ Public Class Principal
     End Sub
 
     Private Sub CompactarBaseDeDatosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CompactarBaseDeDatosToolStripMenuItem.Click
-        ' Si no existe la carpeta de BackUp la creamos.
-        Dim path As String = "C:\ContaHogar3.0\Backup"
-        If Directory.Exists(path) Then
-            'MsgBox("Ya existe la Ruta C:\ContaHogar3.0\Backup.")
-        Else
-            Directory.CreateDirectory(path)
-            'MsgBox("Ruta C:\ContaHogar3.0\Backup, Creada.")
-        End If
+        ' =========================================================================
+        ' 🚀 REPARADO MODO MSIX: ELIMINADAS LAS RUTAS RÍGIDAS DE C:\
+        ' =========================================================================
+        ' Creamos el archivo temporal de compactación en la misma carpeta segura de Mis Documentos
+        Dim carpetaDestinoSafe As String = IO.Path.GetDirectoryName(vRuta)
+        Dim vCompactadaReal As String = IO.Path.Combine(carpetaDestinoSafe, "contahogarcompacted.mdb")
+
+        ' Inicializamos el motor nativo de compactación de Microsoft Jet
         Dim jetEng As JRO.JetEngine
         jetEng = New JRO.JetEngine()
-        vCompactada = "C:\ContaHogar3.0\Backup\contahogarcompacted.mdb"
-        If File.Exists(vCompactada) Then
-            File.Delete(vCompactada)
+
+        ' Limpiamos cualquier rastro temporal anterior de forma dócil en la RAM
+        If File.Exists(vCompactadaReal) Then
+            Try : File.Delete(vCompactadaReal) : Catch : End Try
         End If
+
         Try
+            ' 1. Cerramos la compuerta de la conexión principal para liberar el candado del archivo
             conexion1.Close()
-            jetEng.CompactDatabase("Provider=Microsoft.Jet.Oledb.4.0; Data Source=" & vRuta, "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & vCompactada & ";Jet OLEDB:Engine Type=5")
-            FileCopy(vCompactada, vRuta)
-            tipoDsn = "AccessMdb" ' Se conecta a Mdb
+
+            ' 2. 🚀 LA JUGADA MAESTRA: Compactamos en caliente dentro de la zona libre de derechos de usuario
+            jetEng.CompactDatabase("Provider=Microsoft.Jet.Oledb.4.0; Data Source=" & vRuta,
+                                   "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & vCompactadaReal & ";Jet OLEDB:Engine Type=5")
+
+            ' 3. Reemplazamos la base de datos oficial por la versión pulida y reducida a 488 KB
+            File.Copy(vCompactadaReal, vRuta, True)
+
+            ' 4. Volvemos a levantar el motor de datos relacional para las cuadrículas y rejillas
+            tipoDsn = "AccessMdb"
             Conectarse(tipoDsn)
+
             MessageBox.Show(rmse.GetString("CompactacionOk"), rmse.GetString("Compactar"), MessageBoxButtons.OK, MessageBoxIcon.Information)
+
         Catch ex As Exception
+            ' Cortafuegos de emergencia: si algo falla, intentamos reconectar para no dejar la pantalla colgada
+            Try : Conectarse("AccessMdb") : Catch : End Try
             MsgBox(rmse.GetString("CompactarError") & ":  " & ex.Message, MsgBoxStyle.Critical, resManager.GetString("Error"))
+        Finally
+            ' Limpieza biológica final: trituramos el temporal contahogarcompacted del perfil
+            If File.Exists(vCompactadaReal) Then
+                Try : File.Delete(vCompactadaReal) : Catch : End Try
+            End If
         End Try
     End Sub
 
@@ -1128,68 +1168,85 @@ Public Class Principal
 
     Private Sub ImportaAntiguoContahogarToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ImportaAntiguoContahogarToolStripMenuItem.Click
         TsLabelFormulario.Text = rmse.GetString("BtnImportarContaHogar.Text")
-        Dim respuesta0 As MsgBoxResult = MsgBox(rmse.GetString("MsgImportarAyuda"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("ImportarContahogar"))
-        If respuesta0 = vbYes Then
-            ' Si no existe la carpeta la creamos.
-            Dim path As String = "C:\ContaHogar3.0"
-            If Directory.Exists(path) Then
-                'MsgBox("Ya existe la Ruta C:\ContaHogar3.0.")
-            Else
-                Directory.CreateDirectory(path)
-                MsgBox("Ruta C:\ContaHogar3.0, Creada.")
-            End If
 
-            Dim respuesta As MsgBoxResult = MsgBox(rmse.GetString("MsgImportar1"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("ImportarContahogar"))
+        Dim respuesta As MsgBoxResult = MsgBox(rmse.GetString("MsgImportar1"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("ImportarContahogar"))
             If respuesta = vbYes Then
-                ' Si no existe la carpeta de BackUp la creamos.
-                Dim path1 As String = "C:\ContaHogar3.0\Backup"
-                If Directory.Exists(path1) Then
-                    'MsgBox("Ya existe la Ruta C:\ContaHogar3.0\Backup.")
+            ' =========================================================================
+            ' 🚀 COMPRESIÓN COMPLETA: BACKUP AUTOMÁTICO A SACO (¡Inmune a Colisiones!)
+            ' =========================================================================
+            ' 1. Calculamos la ruta de la carpeta segura usando IO.Path.Combine nativo
+            Dim carpetaBackupSegura As String = IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ContaHogar_Backups")
+            Try
+                If Not Directory.Exists(carpetaBackupSegura) Then Directory.CreateDirectory(carpetaBackupSegura)
+            Catch
+                carpetaBackupSegura = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            End Try
+            ' 2. Fabricamos el nombre cronológico simétrico y calculamos la ruta final
+            Dim NombreBaseDatos As String = "ContaHogar3.0_PRE_MIGRACION_[" & Now.ToString("ddMMyyyy") & "]_[" & Now.ToString("HHmmss") & "].mdb"
+            Dim DataBaseFile As String = vRuta
+            Dim FileDestinoReal As String = IO.Path.Combine(carpetaBackupSegura, NombreBaseDatos)
+            ' 3. 🚀 EJECUCIÓN DIRECTA EN CALIENTE: Copiamos la base de datos sin abrir ventanas
+            Try
+                If File.Exists(DataBaseFile) Then
+                    FileCopy(DataBaseFile, FileDestinoReal)
+                    ' Opcional: Puedes quitar este MessageBox si quieres que el backup sea 100% invisible
+                    MessageBox.Show(rmse.GetString("MsgImportarCopiaPreventiva") & ": " & NombreBaseDatos, "BACKUP", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
+            Catch ex As Exception
+                ' Cortafuegos silencioso para que un fallo en el backup nunca aborte la importación real
+            End Try
+
+            ' =========================================================================
+            ' 🌟 FASE A RECTIFICADA: BUSCADOR INTELIGENTE COMPATIBLE CON MSIX
+            ' =========================================================================
+            ' 1. Definimos la ruta del clon temporal estrictamente en "Mis Documentos" (Donde hay permiso MSIX)
+            Dim carpetaDocumentos As String = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            Dim carpetaAppOficial As String = IO.Path.Combine(carpetaDocumentos, "ContaHogar3.0")
+            Dim RutaClonMigrada As String = IO.Path.Combine(carpetaAppOficial, "CHDB2_MIGRADA.mdb")
+            Dim RutaOriginalVieja As String = ""
+
+            ' 2. Configuramos el buscador oficial de archivos de Windows
+            Using ofd As New OpenFileDialog()
+                ofd.Title = "Selecciona la base de datos antigua (CHDB2.mdb) para importar"
+                ofd.Filter = "Base de datos ContaHogar 2.0 (CHDB2.mdb)|CHDB2.mdb|Todos los archivos (*.*)|*.*"
+                ' Sugerimos por defecto la ruta típica donde moría el programa viejo para ahorrarle trabajo al usuario
+                Dim rutaPorDefectoVieja As String = "C:\Program Files (x86)\ContaHogar"
+                If Directory.Exists(rutaPorDefectoVieja) Then
+                    ofd.InitialDirectory = rutaPorDefectoVieja
                 Else
-                    Directory.CreateDirectory(path1)
-                    'MsgBox("Ruta C:\ContaHogar3.0\Backup, Creada.")
+                    ofd.InitialDirectory = carpetaDocumentos
                 End If
-                Dim NombreBaseDatos As String = "ContaHogar3.0" & "[" & Now.ToString("ddMMyyyy") & "]" & "[" & Now.ToString("HHmmss") & "]" & ".mdb"
-                Dim DataBaseFile As String = vRuta
-                Dim FileDestino As String = "C:\ContaHogar3.0\Backup\" & NombreBaseDatos
-                backup.InitialDirectory = "C:\ContaHogar3.0\Backup\"
-                backup.Title = "Backup BD Access"
-                backup.CheckFileExists = False
-                backup.CheckPathExists = False
-                backup.DefaultExt = "mdb"
-                backup.FileName = NombreBaseDatos
-                backup.Filter = "Access (ContaHogar*.mdb)|ContaHogar*.mdb|All files (*.*)|*.*"
-                backup.RestoreDirectory = True
-                Try
-                    FileCopy(DataBaseFile, FileDestino)
-                    MessageBox.Show(rmse.GetString("BackupOk"), "BACKUP", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Catch ex As Exception
-                    MsgBox(ex.ToString)
-                End Try
 
-                ' =========================================================================
-                ' 🌟 FLECO B: ENCENDEMOS LA REDONDITA GIRATORIA (UX Premium)
-                ' =========================================================================
-                Me.Cursor = Cursors.WaitCursor
-
-                Dim RutaOriginalVieja As String = "C:\ContaHogar3.0\CHDB2.mdb"
-                Dim RutaClonMigrada As String = "C:\ContaHogar3.0\CHDB2_MIGRADA.mdb"
-                If Not File.Exists(RutaOriginalVieja) Then
-                    MsgBox(rmse.GetString("NoExisteCHDB2"), MsgBoxStyle.Exclamation)
-                    Me.Cursor = Cursors.Default
-                    TsLabelFormulario.ForeColor = Color.Black
-                    Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
-                    Exit Sub
+                ' 3. 🎯 LA JUGADA MAESTRA: Si el archivo existe en la ruta típica, lo pre-seleccionamos automáticamente
+                Dim rutaFisicaTipica As String = IO.Path.Combine(rutaPorDefectoVieja, "CHDB2.mdb")
+                If File.Exists(rutaFisicaTipica) Then
+                    RutaOriginalVieja = rutaFisicaTipica
+                Else
+                    ' Si no está en su sitio de nacimiento, le abrimos la ventana dócilmente para que lo busque a mano
+                    If ofd.ShowDialog() = DialogResult.OK Then
+                        RutaOriginalVieja = ofd.FileName
+                    Else
+                        ' Si el usuario cancela la búsqueda, apagamos la redonda y abortamos de forma limpia
+                        Me.Cursor = Cursors.Default
+                        Exit Sub
+                    End If
                 End If
-                ' =========================================================================
-                ' 🌟 FLECO C: TU BACKUP SILENCIOSO A SACO
-                ' =========================================================================
+            End Using
 
-                ' =========================================================================
-                ' 🌟 FLECO A: EL CORTAFUEGOS DEL PASO A (Evita dobles migraciones)
-                ' =========================================================================
-                ' Creamos el clon temporal en el disco duro
-                If File.Exists(RutaClonMigrada) Then File.Delete(RutaClonMigrada)
+            ' 4. Duplicamos el archivo seleccionado hacia el clon seguro de laboratório en Mis Documentos
+            If File.Exists(RutaClonMigrada) Then File.Delete(RutaClonMigrada)
+                File.Copy(RutaOriginalVieja, RutaClonMigrada)
+
+            ' =========================================================================
+            ' 🌟 FLECO: ENCENDEMOS LA REDONDITA GIRATORIA (UX Premium)
+            ' =========================================================================
+            Me.Cursor = Cursors.WaitCursor
+
+            ' =========================================================================
+            ' 🌟 FLECO EL CORTAFUEGOS DEL PASO A (Evita dobles migraciones)
+            ' =========================================================================
+            ' Creamos el clon temporal en el disco duro
+            If File.Exists(RutaClonMigrada) Then File.Delete(RutaClonMigrada)
                 File.Copy(RutaOriginalVieja, RutaClonMigrada)
                 ' Tu Paso 1 biológico interroga si la columna sigue siendo Texto
                 Dim necesitaActualizar As Boolean = False
@@ -1402,7 +1459,6 @@ Public Class Principal
                 ' 🌟 APAGAMOS LA REDONDA QUE GIRA: Libertad al ratón pase lo que pase
                 ' =========================================================================
             End If
-        End If
         Me.Cursor = Cursors.Default
         TsLabelFormulario.ForeColor = Color.Black
         Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
@@ -1476,11 +1532,6 @@ Public Class Principal
         ' Destruimos el formulario.
         frmPreferencias.Dispose()
         Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
-        'If My.Settings.Codigo = "Codigo Activación: Sin Activar" Then
-        '    Me.LblNotificacion.Visible = True
-        'Else
-        '    Me.LblNotificacion.Visible = False
-        'End If
     End Sub
 
     Private Sub BarraDeHerramientasMenu_Click(sender As Object, e As EventArgs) Handles BarraDeHerramientasMenu.Click
@@ -1628,7 +1679,6 @@ Public Class Principal
         End If
     End Sub
 
-
     Private Sub BtnCalculadora_Click(sender As Object, e As EventArgs) Handles BtnCalculadora.Click
         CalculadoraToolStripMenuItem.PerformClick()
     End Sub
@@ -1645,31 +1695,45 @@ Public Class Principal
     End Sub
 
     Private Sub HacerCopiaDeSeguridadToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles HacerCopiaDeSeguridadToolStripMenuItem.Click
-        ' Si no existe la carpeta de BackUp la creamos.
-        Dim path As String = "C:\ContaHogar3.0\Backup"
-        If Directory.Exists(path) Then
-            'MsgBox("Ya existe la Ruta C:\ContaHogar3.0\Backup.")
-        Else
-            Directory.CreateDirectory(path)
-            'MsgBox("Ruta C:\ContaHogar3.0\Backup, Creada.")
-        End If
+        ' =========================================================================
+        ' 🚀 CONFIGURACIÓN DE RUTA SEGURA COMPATIBLE CON MICROSOFT STORE (MSIX)
+        ' =========================================================================
+        ' Creamos una carpeta de Backups dócil y libre de derechos dentro de "Mis Documentos"
+        Dim carpetaBackupSegura As String = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ContaHogar_Backups")
+
+        Try
+            If Not Directory.Exists(carpetaBackupSegura) Then
+                Directory.CreateDirectory(carpetaBackupSegura)
+            End If
+        Catch ex As Exception
+            ' Cortafuegos por si acaso, si falla cae directamente al directorio raíz de Documentos
+            carpetaBackupSegura = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+        End Try
+
+        ' Preparamos el nombre cronológico del archivo de copia de seguridad
         Dim NombreBaseDatos As String = "ContaHogar3.0" & "[" & Now.ToString("ddMMyyyy") & "]" & "[" & Now.ToString("HHmmss") & "]" & ".mdb"
         Dim DataBaseFile As String = vRuta
-        Dim FileDestino As String = "C:\ContaHogar3.0\Backup\" & NombreBaseDatos
-        backup.InitialDirectory = "C:\ContaHogar3.0\Backup\"
-        backup.Title = "Backup BD Access"
+
+        ' Configuramos el objeto de diálogo oficial de Windows de forma elástica
+        backup.InitialDirectory = carpetaBackupSegura
+        backup.Title = "Backup BD Access - ContaHogar 3.0"
         backup.CheckFileExists = False
-        backup.CheckPathExists = False
+        backup.CheckPathExists = True
         backup.DefaultExt = "mdb"
         backup.FileName = NombreBaseDatos
         backup.Filter = "Access (ContaHogar*.mdb)|ContaHogar*.mdb|All files (*.*)|*.*"
         backup.RestoreDirectory = True
+
         If backup.ShowDialog = Windows.Forms.DialogResult.OK Then
             Try
-                FileCopy(DataBaseFile, FileDestino)
+                ' 🚀 LA JUGADA MAESTRA: Copiamos la base de datos a la ruta EXACTA elegida por el usuario
+                ' Al ser una acción explícita en el SaveFileDialog, Windows otorga inmunidad total de escritura
+                Dim FileDestinoReal As String = backup.FileName
+
+                FileCopy(DataBaseFile, FileDestinoReal)
                 MessageBox.Show(rmse.GetString("BackupOk"), "BACKUP", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Catch ex As Exception
-                MsgBox(ex.ToString)
+                MsgBox(resManager.GetString("ErrorCrearCopiaSeguridad") & ": " & ex.Message, MsgBoxStyle.Critical)
             End Try
         End If
     End Sub
@@ -1681,23 +1745,43 @@ Public Class Principal
     Private Sub RestaurarCopiaDeSeguridadToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RestaurarCopiaDeSeguridadToolStripMenuItem.Click
         Dim respuesta As MsgBoxResult = MsgBox(rmse.GetString("PreguntaBackup"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("RestaurarBD"))
         If respuesta = vbYes Then
-            Dim RestoreFile As String = vRuta
-            restore.InitialDirectory = "C:\ContaHogar3.0\Backup\"
+
+            ' =========================================================================
+            ' 🚀 CONFIGURACIÓN DE RUTA SEGURA COMPATIBLE CON MICROSOFT STORE (MSIX)
+            ' =========================================================================
+            ' Apuntamos a la misma carpeta dócil y libre de derechos dentro de "Mis Documentos"
+            Dim carpetaBackupSegura As String = IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ContaHogar_Backups")
+
+            ' Cortafuegos por si la carpeta aún no existiera en el perfil del usuario
+            If Not Directory.Exists(carpetaBackupSegura) Then
+                carpetaBackupSegura = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            End If
+
+            Dim RestoreFile As String = vRuta ' Tu ruta oficial en Mis Documentos configurada en el Load
+
+            ' Configuramos el objeto de diálogo de forma elástica e inmune a bloqueos
+            restore.InitialDirectory = carpetaBackupSegura
             restore.Title = rmse.GetString("RestaurarBD")
-            restore.CheckFileExists = False
-            restore.CheckPathExists = False
+            restore.CheckFileExists = True ' 🚀 OBLIGATORIO: El archivo debe existir de verdad para poder restaurarlo
+            restore.CheckPathExists = True
             restore.DefaultExt = "mdb"
             restore.Filter = "Access (ContaHogar*.mdb)|ContaHogar*.mdb|All files (*.*)|*.*"
             restore.RestoreDirectory = True
+
             If restore.ShowDialog = Windows.Forms.DialogResult.OK Then
                 Try
+                    ' 🚀 LA JUGADA MAESTRA: Machacamos tu archivo de producción vRuta en Mis Documentos
+                    ' usando el archivo legítimo seleccionado por el usuario en la ventana
                     FileCopy(restore.FileName, RestoreFile)
                     MessageBox.Show(rmse.GetString("RestaurarOk"), rmse.GetString("Restaurar"), MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+                    ' Avisamos de forma dócil y cerramos para asentar los hilos de la base de datos
+                    MsgBox(resManager.GetString("CerrarApp"), vbInformation)
+                    Me.Close()
+
                 Catch ex As Exception
-                    MsgBox(ex.ToString)
+                    MsgBox(rmse.GetString("ErrorCriticoRestauracion") & ": " & ex.Message, MsgBoxStyle.Critical)
                 End Try
-                MsgBox(resManager.GetString("CerrarApp"), vbInformation)
-                Me.Close()
             End If
         End If
     End Sub

@@ -170,7 +170,6 @@ C:\ComptaLlar\Hogar\obj\Debug\ContaHogar 3.0.vbproj.AssemblyReference.cache
 C:\ComptaLlar\Hogar\obj\Debug\Interop.JRO.dll
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar 3.0.vbproj.ResolveComReference.cache
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.AcercaDe.resources
-C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.ActivarSoftware.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.ApuntesPeriodicos.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.ApuntesContables.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.AyudaApuntes.resources
@@ -218,13 +217,6 @@ C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.AcercaDe.es.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.AcercaDe.fr.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.AcercaDe.it.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.AcercaDe.pt.resources
-C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.ActivarSoftware.ca.resources
-C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.ActivarSoftware.de.resources
-C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.ActivarSoftware.en.resources
-C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.ActivarSoftware.es.resources
-C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.ActivarSoftware.fr.resources
-C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.ActivarSoftware.it.resources
-C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.ActivarSoftware.pt.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.ApuntesContables.ca.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.ApuntesContables.de.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.ApuntesContables.en.resources

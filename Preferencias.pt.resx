@@ -144,23 +144,14 @@
   <data name="GroupBox2.Text" xml:space="preserve">
     <value>Localização do banco de dados:</value>
   </data>
-  <data name="ChkBuscarActualizacion.Text" xml:space="preserve">
-    <value>Verifique se há atualizações na inicialização</value>
-  </data>
   <data name="Label1.Text" xml:space="preserve">
     <value>Moeda:</value>
-  </data>
-  <data name="BtnBuscarActualizacion.Text" xml:space="preserve">
-    <value>Pesquisar atualização</value>
   </data>
   <data name="Label2.Text" xml:space="preserve">
     <value>Idioma:</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Preferências</value>
-  </data>
-  <data name="BtnBuscarBackup.Text" xml:space="preserve">
-    <value>.....</value>
   </data>
   <data name="TxtPathExportar.Text" xml:space="preserve">
     <value>C:\</value>
@@ -170,24 +161,6 @@
   </data>
   <data name="GroupBox3.Text" xml:space="preserve">
     <value>Exportação de Caminhos Excel:</value>
-  </data>
-  <data name="ErrorSeleccionUbicacion" xml:space="preserve">
-    <value>Erro na seleção da nova localização do banco de dados,
-A localização atual será mantida</value>
-  </data>
-  <data name="CerrarPrograma" xml:space="preserve">
-    <value>O programa estará fechado a partir da nova localização</value>
-  </data>
-  <data name="DesactivarBusqueda" xml:space="preserve">
-    <value>A verificação manual para atualizações será desativada,
-será buscado automaticamente quando o programa for lançado</value>
-  </data>
-  <data name="ActivarBusqueda" xml:space="preserve">
-    <value>A verificação manual para atualizações será ativada,
-será pesquisado clicando no botão 'Verificar Atualização'</value>
-  </data>
-  <data name="NoHayNuevaVersion" xml:space="preserve">
-    <value>Não há novas versões disponíveis. Versão atual</value>
   </data>
   <data name="CmbElegirIdioma.Items" xml:space="preserve">
     <value>Español</value>

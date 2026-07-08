@@ -238,4 +238,10 @@ dann von Miscellaneous Concepts</value>
   <data name="MsgSaldos2" xml:space="preserve">
     <value>Eröffnungssalden können NICHT bearbeitet werden</value>
   </data>
+  <data name="ArchivosDeExcel" xml:space="preserve">
+    <value>Excel-Dateien</value>
+  </data>
+  <data name="TodosLosArchivos" xml:space="preserve">
+    <value>Alle Dateien</value>
+  </data>
 </root>

@@ -176,49 +176,13 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("C:\ContaHogar3.0\ContaHogar.mdb")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
         Public Property RutaBD() As String
             Get
                 Return CType(Me("RutaBD"),String)
             End Get
             Set
                 Me("RutaBD") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Se autoriza el uso de ContaHogar 3.0 a: Modo Demo")>  _
-        Public Property Autorizar() As String
-            Get
-                Return CType(Me("Autorizar"),String)
-            End Get
-            Set
-                Me("Autorizar") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Codigo Activación: Sin Activar")>  _
-        Public Property Codigo() As String
-            Get
-                Return CType(Me("Codigo"),String)
-            End Get
-            Set
-                Me("Codigo") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
-        Public Property Actualizar() As Boolean
-            Get
-                Return CType(Me("Actualizar"),Boolean)
-            End Get
-            Set
-                Me("Actualizar") = value
             End Set
         End Property
         
@@ -236,7 +200,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("C:\ContaHogar3.0\Excel")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
         Public Property PathExportar() As String
             Get
                 Return CType(Me("PathExportar"),String)

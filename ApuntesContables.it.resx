@@ -238,4 +238,10 @@ poi da Concetti Vari</value>
   <data name="MsgSaldos2" xml:space="preserve">
     <value>I saldi iniziali NON possono essere modificati</value>
   </data>
+  <data name="ArchivosDeExcel" xml:space="preserve">
+    <value>File Excel</value>
+  </data>
+  <data name="TodosLosArchivos" xml:space="preserve">
+    <value>Tutti i file</value>
+  </data>
 </root>

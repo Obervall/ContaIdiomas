@@ -567,24 +567,11 @@ Public Class IntroApuntes
     End Sub
 
     Private Sub BtnAceptarSalir_Click(sender As Object, e As EventArgs) Handles BtnAceptarSalir.Click
-        ' Tu control de Modo Demo idéntico
-        If frmApuntesContables.DgvApuntes.RowCount >= 25 And My.Settings.Autorizar = "Se autoriza el uso de ContaHogar 3.0 a: Modo Demo" Then
-            'MsgBox("Software No Activado, Máximo 25 Apuntes", MsgBoxStyle.Critical, "Falta Activación")
-            'Close()
-        Else
-
-        End If
         GrabarYRefrescarGrid()
         Me.Close()
     End Sub
 
     Private Sub BtnAceptarOtro_Click(sender As Object, e As EventArgs) Handles BtnAceptarOtro.Click
-        If frmApuntesContables.DgvApuntes.RowCount >= 25 And My.Settings.Autorizar = "Se autoriza el uso de ContaHogar 3.0 a: Modo Demo" Then
-            'MsgBox("Software No Activado, Máximo 25 Apuntes", MsgBoxStyle.Critical, "Falta Activación")
-            'Close()
-        Else
-
-        End If
         GrabarYRefrescarGrid()
 
         ' =====================================================================

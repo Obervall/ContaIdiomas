@@ -147,20 +147,11 @@
   <data name="GroupBox2.Text" xml:space="preserve">
     <value>Posizione nel database:</value>
   </data>
-  <data name="ChkBuscarActualizacion.Text" xml:space="preserve">
-    <value>Controlla aggiornamenti sull'avvio</value>
-  </data>
   <data name="Label1.Text" xml:space="preserve">
     <value>Valuta:</value>
   </data>
-  <data name="BtnBuscarBackup.Text" xml:space="preserve">
-    <value>.....</value>
-  </data>
   <data name="TxtPathExportar.Text" xml:space="preserve">
     <value>C:\</value>
-  </data>
-  <data name="BtnBuscarActualizacion.Text" xml:space="preserve">
-    <value>Controlla l'aggiornamento</value>
   </data>
   <data name="Label2.Text" xml:space="preserve">
     <value>Lingua:</value>
@@ -170,24 +161,6 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Preferenze</value>
-  </data>
-  <data name="ErrorSeleccionUbicacion" xml:space="preserve">
-    <value>Errore nella selezione della nuova posizione del database,
-La posizione attuale sarà mantenuta</value>
-  </data>
-  <data name="CerrarPrograma" xml:space="preserve">
-    <value>Il programma sarà chiuso a partire dalla nuova sede</value>
-  </data>
-  <data name="DesactivarBusqueda" xml:space="preserve">
-    <value>Il controllo manuale degli aggiornamenti sarà disabilitato,
-verrà cercato automaticamente al momento del lancio del programma</value>
-  </data>
-  <data name="ActivarBusqueda" xml:space="preserve">
-    <value>Il controllo manuale per gli aggiornamenti sarà attivato,
-verrà cercato cliccando sul pulsante 'Verifica aggiornamento'</value>
-  </data>
-  <data name="NoHayNuevaVersion" xml:space="preserve">
-    <value>Non sono disponibili nuove versioni. Versione attuale</value>
   </data>
   <data name="CmbElegirIdioma.Items" xml:space="preserve">
     <value>Español</value>

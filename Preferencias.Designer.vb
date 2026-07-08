@@ -33,9 +33,7 @@ Partial Class Preferencias
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.TxtBaseDatos = New System.Windows.Forms.TextBox()
-        Me.BtnUbicacion = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.BtnBuscarBackup = New System.Windows.Forms.Button()
         Me.TxtPathExportar = New System.Windows.Forms.TextBox()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.CmbElegirIdioma = New System.Windows.Forms.ComboBox()
@@ -104,7 +102,6 @@ Partial Class Preferencias
         'GroupBox2
         '
         Me.GroupBox2.Controls.Add(Me.TxtBaseDatos)
-        Me.GroupBox2.Controls.Add(Me.BtnUbicacion)
         resources.ApplyResources(Me.GroupBox2, "GroupBox2")
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.TabStop = False
@@ -114,22 +111,10 @@ Partial Class Preferencias
         resources.ApplyResources(Me.TxtBaseDatos, "TxtBaseDatos")
         Me.TxtBaseDatos.Name = "TxtBaseDatos"
         '
-        'BtnUbicacion
-        '
-        resources.ApplyResources(Me.BtnUbicacion, "BtnUbicacion")
-        Me.BtnUbicacion.Name = "BtnUbicacion"
-        Me.BtnUbicacion.UseVisualStyleBackColor = True
-        '
         'Label1
         '
         resources.ApplyResources(Me.Label1, "Label1")
         Me.Label1.Name = "Label1"
-        '
-        'BtnBuscarBackup
-        '
-        resources.ApplyResources(Me.BtnBuscarBackup, "BtnBuscarBackup")
-        Me.BtnBuscarBackup.Name = "BtnBuscarBackup"
-        Me.BtnBuscarBackup.UseVisualStyleBackColor = True
         '
         'TxtPathExportar
         '
@@ -152,7 +137,6 @@ Partial Class Preferencias
         'GroupBox3
         '
         Me.GroupBox3.Controls.Add(Me.TxtPathExportar)
-        Me.GroupBox3.Controls.Add(Me.BtnBuscarBackup)
         resources.ApplyResources(Me.GroupBox3, "GroupBox3")
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.TabStop = False
@@ -205,9 +189,7 @@ Partial Class Preferencias
     Friend WithEvents CheckBox1 As Windows.Forms.CheckBox
     Friend WithEvents GroupBox2 As Windows.Forms.GroupBox
     Friend WithEvents TxtBaseDatos As Windows.Forms.TextBox
-    Friend WithEvents BtnUbicacion As Windows.Forms.Button
     Friend WithEvents Label1 As Windows.Forms.Label
-    Friend WithEvents BtnBuscarBackup As Windows.Forms.Button
     Friend WithEvents TxtPathExportar As Windows.Forms.TextBox
     Friend WithEvents FolderBrowserDialog1 As Windows.Forms.FolderBrowserDialog
     Friend WithEvents CmbElegirIdioma As Windows.Forms.ComboBox

@@ -934,4 +934,7 @@ que el archivo no esté abierto</value>
   <data name="ErrormutacionBDclonada" xml:space="preserve">
     <value>Error en la mutación de la BD clonada</value>
   </data>
+  <data name="ErrorCrearCopiaSeguridad" xml:space="preserve">
+    <value>Error al generar la copia de seguridad</value>
+  </data>
 </root>

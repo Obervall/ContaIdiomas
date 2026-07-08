@@ -238,4 +238,10 @@ then by Miscellaneous Concepts</value>
   <data name="MsgSaldos2" xml:space="preserve">
     <value>Opening balances CANNOT be edited</value>
   </data>
+  <data name="ArchivosDeExcel" xml:space="preserve">
+    <value>Excel Files</value>
+  </data>
+  <data name="TodosLosArchivos" xml:space="preserve">
+    <value>All Files</value>
+  </data>
 </root>

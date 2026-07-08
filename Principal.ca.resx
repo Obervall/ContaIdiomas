@@ -1357,9 +1357,6 @@
         AAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="BtnImportarContaHogar.Text" xml:space="preserve">
-    <value>Importar Base Dades Antic Contahogar 2.0</value>
-  </data>
   <data name="BtnBizum.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAYAAAA+s9J6AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -1566,9 +1563,6 @@
         8EhI3TslAyQJWykqggs3jjD9c7iK46OS8OhIF96mqBbk3FFJWFFxZFQSVlQcGZWEFRVHRiVhRcWRUUlY
         UXFkVBJWVBwZlYQVFUdGJWFFxZFRSVhRcWRUElZUHBmVhBUVR8b/B6Agf8QX1pXwAAAAAElFTkSuQmCC
 </value>
-  </data>
-  <data name="BtnBizum.Text" xml:space="preserve">
-    <value>Donació/Aportació</value>
   </data>
   <data name="LblAvisoActivacion.Size" type="System.Drawing.Size, System.Drawing">
     <value>765, 20</value>
@@ -7757,12 +7751,6 @@
   <data name="CalculadoraToolStripMenuItem.Text" xml:space="preserve">
     <value>Calculadora</value>
   </data>
-  <data name="BtnActivarSoftwareToolStripMenuItem.Text" xml:space="preserve">
-    <value>Activar Programa</value>
-  </data>
-  <data name="BtnActivarSoftwareToolStripMenuItem.ToolTipText" xml:space="preserve">
-    <value>Activar Programa</value>
-  </data>
   <data name="BarraDeMenu.Text" xml:space="preserve">
     <value>BarraDeMenu</value>
   </data>
@@ -7771,9 +7759,6 @@
   </data>
   <data name="TsLabelHora.Text" xml:space="preserve">
     <value>TsLabelHora</value>
-  </data>
-  <data name="BtnActivarSoftware.Text" xml:space="preserve">
-    <value>Activar Programa</value>
   </data>
   <data name="BarraDeHerramientas.Text" xml:space="preserve">
     <value>Barra d'Eines</value>
@@ -8011,11 +7996,23 @@ C:\ContaHogar3.0, que s'ha creat, si no ho estava, en acceptar aquesta importaci
   <data name="DeseaContinuar" xml:space="preserve">
     <value>Desitges Continuar?</value>
   </data>
-  <data name="MsgImportar1" xml:space="preserve">
-    <value>Aquesta funció s' ha dissenyat per Afegir sense Duplicar les dades, de l'antiga Base de Dades de ContaHogar a la nova de ContaHogar 3.0
-es realitzarà automàticament, una còpia de seguretat abans de procedir amb la importació, ja que aquesta acció no es pot desfer. Desitges Continuar?</value>
-  </data>
   <data name="NoExisteCHDB2" xml:space="preserve">
     <value>NO existeix l'arxiu CHDB2.mdb en C:\ContaHogar3.0</value>
+  </data>
+  <data name="MsgImportarCopiaPreventiva" xml:space="preserve">
+    <value>Còpia de seguretat preventiva generada amb èxit en</value>
+  </data>
+  <data name="MsgImportar1" xml:space="preserve">
+    <value>Aquesta funció s'ha dissenyat per Afegir els Apunts de l'antiga Base de Dades de ContaHogar a la nova de ContaHogar 3.0,
+ es realitzarà una còpia de seguretat i buscarà l' arxiu CHBD2.mdb a l' equip, si no es troba a la seva carpeta habitual, selecciona la seva ubicació correcta. Desitges Continuar?</value>
+  </data>
+  <data name="ErrorCriticoPuenteRescate" xml:space="preserve">
+    <value>Error crític en inicialitzar el magatzem de dades amb pont de rescat</value>
+  </data>
+  <data name="ErrorCriticoRestauracion" xml:space="preserve">
+    <value>Error crític durant la restauració de la base de dades</value>
+  </data>
+  <data name="BtnImportarContaHogar.Text" xml:space="preserve">
+    <value>Importar Base Dades Antic Contahogar 2.0 En Curs...</value>
   </data>
 </root>

@@ -7463,12 +7463,6 @@
   <data name="CalculadoraToolStripMenuItem.ToolTipText" xml:space="preserve">
     <value>Abrir Calculadora</value>
   </data>
-  <data name="BtnActivarSoftwareToolStripMenuItem.Text" xml:space="preserve">
-    <value>Activar Software</value>
-  </data>
-  <data name="BtnActivarSoftwareToolStripMenuItem.ToolTipText" xml:space="preserve">
-    <value>Activar Software</value>
-  </data>
   <data name="ArchivoDeAyudaToolStripMenuItem.Text" xml:space="preserve">
     <value>Archivo de Ayuda</value>
   </data>
@@ -7553,9 +7547,6 @@
   <data name="BtnCalculadora.Text" xml:space="preserve">
     <value>Abrir Calculadora</value>
   </data>
-  <data name="BtnActivarSoftware.Text" xml:space="preserve">
-    <value>Activar Software</value>
-  </data>
   <data name="BtnAyuda.Text" xml:space="preserve">
     <value>Contenido del Archivo de Ayuda</value>
   </data>
@@ -7566,10 +7557,7 @@
     <value>Historial de Versiones</value>
   </data>
   <data name="BtnImportarContaHogar.Text" xml:space="preserve">
-    <value>Importar Base Datos Antiguo Contahogar 2.0</value>
-  </data>
-  <data name="BtnBizum.Text" xml:space="preserve">
-    <value>Donación/Aportación</value>
+    <value>Importar Base Datos Antiguo Contahogar 2.0 En Curso...</value>
   </data>
   <data name="BarraDeHerramientas.Text" xml:space="preserve">
     <value>BarraDeHerramientas</value>
@@ -7811,7 +7799,16 @@ C:\ContaHogar3.0, que se ha creado, si no lo estaba, al aceptar esta importació
     <value>Deseas Continuar?</value>
   </data>
   <data name="MsgImportar1" xml:space="preserve">
-    <value>Esta función se ha diseñado para Añadir sin Duplicar los datos, de la antigua Base de Datos de ContaHogar a la nueva de ContaHogar 3.0
-se realizará automáticamente, una copia de seguridad antes de proceder con la importación, ya que esta acción no se puede deshacer. Deseas Continuar?</value>
+    <value>Esta función se ha diseñado para Añadir los Apuntes de la antigua Base de Datos de ContaHogar a la nueva de ContaHogar 3.0,
+ se realizará una copia de seguridad y buscará el archivo CHBD2.mdb en el equipo, si no se encuentra en su carpeta habitual, selecciona su ubicación correcta. Deseas Continuar?</value>
+  </data>
+  <data name="MsgImportarCopiaPreventiva" xml:space="preserve">
+    <value>Copia de seguridad preventiva generada con éxito en</value>
+  </data>
+  <data name="ErrorCriticoPuenteRescate" xml:space="preserve">
+    <value>Error crítico al inicializar el almacén de datos con puente de rescate</value>
+  </data>
+  <data name="ErrorCriticoRestauracion" xml:space="preserve">
+    <value>Error crítico durante la restauración de la base de datos</value>
   </data>
 </root>

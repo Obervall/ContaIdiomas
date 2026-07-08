@@ -192,7 +192,7 @@
     <value>Salir Aplicación</value>
   </data>
   <data name="ArchivoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 24</value>
+    <value>59, 26</value>
   </data>
   <data name="ArchivoToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Inicio</value>
@@ -225,7 +225,7 @@
     <value>Ocultar/Ver Colores en Barra y Menu</value>
   </data>
   <data name="VerToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 24</value>
+    <value>44, 26</value>
   </data>
   <data name="VerToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Ver</value>
@@ -281,7 +281,7 @@
     <value>Tipos de Cuentas</value>
   </data>
   <data name="MantenimientosToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 24</value>
+    <value>130, 26</value>
   </data>
   <data name="MantenimientosToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Mantenimientos</value>
@@ -363,7 +363,7 @@
     <value>Añade, Edita, Borra o Consulta Apuntes Periódicos</value>
   </data>
   <data name="ApuntesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>77, 24</value>
+    <value>77, 26</value>
   </data>
   <data name="ApuntesToolStripMenuItem.Text" xml:space="preserve">
     <value>Apuntes</value>
@@ -404,7 +404,7 @@
     <value>Mostrar Gráfico y Desviación Presupuestos</value>
   </data>
   <data name="PresupuestosToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 24</value>
+    <value>109, 26</value>
   </data>
   <data name="PresupuestosToolStripMenuItem.Text" xml:space="preserve">
     <value>Presupuestos</value>
@@ -593,7 +593,7 @@
     <value>Gráficos de Gastos por Concepto</value>
   </data>
   <data name="InformesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>81, 24</value>
+    <value>81, 26</value>
   </data>
   <data name="InformesToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Informes</value>
@@ -735,7 +735,7 @@
     <value>287, 6</value>
   </data>
   <data name="HerramientasToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>112, 24</value>
+    <value>112, 26</value>
   </data>
   <data name="HerramientasToolStripMenuItem.Text" xml:space="preserve">
     <value>Herramientas</value>
@@ -837,7 +837,7 @@
     <value>359, 6</value>
   </data>
   <data name="AyudaToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 24</value>
+    <value>65, 26</value>
   </data>
   <data name="AyudaToolStripMenuItem.Text" xml:space="preserve">
     <value>Ayuda</value>
@@ -868,7 +868,7 @@
     <value>0, 0</value>
   </data>
   <data name="BarraDeMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1225, 28</value>
+    <value>1225, 30</value>
   </data>
   <data name="BarraDeMenu.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -886,7 +886,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BarraDeMenu.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>4</value>
   </data>
   <metadata name="BarraDeEstado.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>234, 18</value>
@@ -941,7 +941,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BarraDeEstado.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>3</value>
   </data>
   <metadata name="BarraDeHerramientas.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>457, 16</value>
@@ -1570,7 +1570,7 @@
     <value>34, 34</value>
   </data>
   <data name="BtnImportarContaHogar.Text" xml:space="preserve">
-    <value>Importar Base Datos Antiguo Contahogar 2.0</value>
+    <value>Importar Base Datos Antiguo Contahogar 2.0 En Curso...</value>
   </data>
   <data name="ToolStripSeparator19.Size" type="System.Drawing.Size, System.Drawing">
     <value>6, 37</value>
@@ -1585,7 +1585,7 @@
     <value>7, 30</value>
   </data>
   <data name="BarraDeHerramientas.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 28</value>
+    <value>0, 30</value>
   </data>
   <data name="BarraDeHerramientas.Size" type="System.Drawing.Size, System.Drawing">
     <value>1225, 37</value>
@@ -1606,39 +1606,6 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BarraDeHerramientas.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="LblDonacion.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 10.2pt, style=Bold, Italic</value>
-  </data>
-  <data name="LblDonacion.Location" type="System.Drawing.Point, System.Drawing">
-    <value>519, 116</value>
-  </data>
-  <data name="LblDonacion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>409, 93</value>
-  </data>
-  <data name="LblDonacion.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="LblDonacion.Text" xml:space="preserve">
-    <value>Esta aplicación es gratuita, pero para poder llegar a todos vosotros, tengo unos gastos de Certificación de Código, agradezco una donación. Hacer Clic en el Botón, Gracias</value>
-  </data>
-  <data name="LblDonacion.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleCenter</value>
-  </data>
-  <data name="LblDonacion.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;LblDonacion.Name" xml:space="preserve">
-    <value>LblDonacion</value>
-  </data>
-  <data name="&gt;&gt;LblDonacion.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LblDonacion.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LblDonacion.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
   <data name="LblNotificacion.AutoSize" type="System.Boolean, mscorlib">
@@ -8560,47 +8527,23 @@
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="ActualizacionCompletada" xml:space="preserve">
+    <value>Actualización Completada</value>
+  </data>
+  <data name="Advertencia" xml:space="preserve">
+    <value>Advertencia</value>
+  </data>
   <data name="AportaciónBizumToolStripMenuItem.Text" xml:space="preserve">
     <value>Donación/Aportación</value>
   </data>
-  <data name="BtnBizum.Text" xml:space="preserve">
-    <value>Donación/Aportación</value>
+  <data name="ApuntesContablesVaciado" xml:space="preserve">
+    <value>Apuntes Contables, Vaciado!</value>
   </data>
-  <data name="BtnActivarSoftwareToolStripMenuItem.Text" xml:space="preserve">
-    <value>Activar Software</value>
+  <data name="ApuntesPeriodicosVaciado" xml:space="preserve">
+    <value>Apuntes Periódicos, Vaciado!</value>
   </data>
-  <data name="BtnActivarSoftwareToolStripMenuItem.ToolTipText" xml:space="preserve">
-    <value>Activar Software</value>
-  </data>
-  <data name="BtnActivarSoftware.Text" xml:space="preserve">
-    <value>Activar Software</value>
-  </data>
-  <data name="LblAvisoActivacion" xml:space="preserve">
-    <value>"Software en modo demo. Por favor active el software para quitar esta advertencia."</value>
-  </data>
-  <data name="SeCrearaEjercicio" xml:space="preserve">
-    <value>se creará ejercicio</value>
-  </data>
-  <data name="CreadoCorrectamente" xml:space="preserve">
-    <value>creado correctamente</value>
-  </data>
-  <data name="TraspasoCuentas" xml:space="preserve">
-    <value>Traspaso entre Cuentas</value>
-  </data>
-  <data name="MsgEspera" xml:space="preserve">
-    <value>En Espera ...</value>
-  </data>
-  <data name="PreguntaBackup" xml:space="preserve">
-    <value>¿Estas seguro de RESTAURAR la Base de Datos?</value>
-  </data>
-  <data name="RestaurarBD" xml:space="preserve">
-    <value>Restaurar Base de Datos</value>
-  </data>
-  <data name="RestaurarOk" xml:space="preserve">
-    <value>Restauración realizada satisfactoriamente</value>
-  </data>
-  <data name="Restaurar" xml:space="preserve">
-    <value>RESTAURAR</value>
+  <data name="BackupOk" xml:space="preserve">
+    <value>Copia de Seguridad realizada satisfactoriamente</value>
   </data>
   <data name="CompactacionOk" xml:space="preserve">
     <value>Compactación realizada satisfactoriamente</value>
@@ -8611,86 +8554,164 @@
   <data name="CompactarError" xml:space="preserve">
     <value>Error al compactar la base de datos</value>
   </data>
+  <data name="CreadoCorrectamente" xml:space="preserve">
+    <value>creado correctamente</value>
+  </data>
+  <data name="DeseaContinuar" xml:space="preserve">
+    <value>Deseas Continuar?</value>
+  </data>
+  <data name="ErrorCriticoPuenteRescate" xml:space="preserve">
+    <value>Error crítico al inicializar el almacén de datos con puente de rescate</value>
+  </data>
+  <data name="ErrorCriticoRestauracion" xml:space="preserve">
+    <value>Error crítico durante la restauración de la base de datos</value>
+  </data>
+  <data name="ErrorTransferenciaApuntes" xml:space="preserve">
+    <value>Error durante la transferencia APUNTES</value>
+  </data>
+  <data name="ErrorTransferenciaApuntesPeriodicos" xml:space="preserve">
+    <value>Error durante la transferencia APUNTES PERIODICOS</value>
+  </data>
+  <data name="ErrorTransferenciaConceptos" xml:space="preserve">
+    <value>Error durante la transferencia CONCEPTOS</value>
+  </data>
+  <data name="ErrorTransferenciaCuentas" xml:space="preserve">
+    <value>Error durante la transferencia CUENTAS</value>
+  </data>
+  <data name="ErrorTransferenciaEjercicios" xml:space="preserve">
+    <value>Error durante la transferencia EJERCICIOS</value>
+  </data>
+  <data name="ErrorTransferenciaPresupuestos" xml:space="preserve">
+    <value>Error durante la transferencia PRESUPUESTOS</value>
+  </data>
+  <data name="ExisteCHDB2" xml:space="preserve">
+    <value>Ya existe el archivo CHDB2.mdb en C:\ContaHogar3.0
+se procederá a realizar la importación</value>
+  </data>
+  <data name="ImportaciónRelacionalCompletada" xml:space="preserve">
+    <value>¡Importación Relacional Completada con éxito absoluto! Los maestros de conceptos, cuentas y tu diario histórico de apuntes han sido integrados a la Nueva Era</value>
+  </data>
+  <data name="ImportandoApuntes" xml:space="preserve">
+    <value>Importando de Contahogar los APUNTES, Espere unos Segundos</value>
+  </data>
+  <data name="ImportandoApuntesPeriodicos" xml:space="preserve">
+    <value>Importando de Contahogar, los APUNTES PERIÓDICOS, Espere unos Segundos</value>
+  </data>
+  <data name="ImportandoConceptos" xml:space="preserve">
+    <value>Importando de Contahogar, los CONCEPTOS, Espere unos Segundos...</value>
+  </data>
+  <data name="ImportandoCuentas" xml:space="preserve">
+    <value>Importando de Contahogar, las CUENTAS, Espere unos Segundos...</value>
+  </data>
+  <data name="ImportandoEjercicios" xml:space="preserve">
+    <value>Importando de Contahogar los EJERCICIOS, Espere unos Segundos...</value>
+  </data>
+  <data name="ImportandoPresupuestos" xml:space="preserve">
+    <value>Importando de Contahogar, los PRESUPUESTOS, Espere unos Segundos...</value>
+  </data>
+  <data name="ImportarContahogar" xml:space="preserve">
+    <value>IMPORTAR CONTAHOGAR</value>
+  </data>
+  <data name="LblAvisoActivacion" xml:space="preserve">
+    <value>"Software en modo demo. Por favor active el software para quitar esta advertencia."</value>
+  </data>
+  <data name="LblDonacion.Text" xml:space="preserve">
+    <value>Esta aplicación es gratuita, pero para poder llegar a todos vosotros, tengo unos gastos de Certificación de Código, agradezco una donación. Hacer Clic en el Botón, Gracias</value>
+  </data>
+  <data name="ListadoApuntesOrdenadoConceptos" xml:space="preserve">
+    <value>Listado Apuntes Ordenado por Conceptos</value>
+  </data>
+  <data name="ListadoApuntesOrdenadoFechas" xml:space="preserve">
+    <value>Listado Apuntes Ordenado por Fechas</value>
+  </data>
+  <data name="ListadoApuntesOrdenadoImportes" xml:space="preserve">
+    <value>Listado Apuntes Ordenado por Importes</value>
+  </data>
+  <data name="ListadoApuntesSoloGastosConceptos" xml:space="preserve">
+    <value>Listado Apuntes Solo Gastos Ordenado por Conceptos</value>
+  </data>
+  <data name="ListadoApuntesSoloGastosFechas" xml:space="preserve">
+    <value>Listado Apuntes Solo Gastos Ordenado por Fechas</value>
+  </data>
+  <data name="ListadoApuntesSoloGastosImportes" xml:space="preserve">
+    <value>Listado Apuntes Solo Gastos Ordenado por Importes</value>
+  </data>
+  <data name="ListadoApuntesSoloIngresosConceptos" xml:space="preserve">
+    <value>Listado Apuntes Solo Ingresos Ordenado por Conceptos</value>
+  </data>
+  <data name="ListadoApuntesSoloIngresosFechas" xml:space="preserve">
+    <value>Listado Apuntes Solo Ingresos Ordenado por Fechas</value>
+  </data>
+  <data name="ListadoApuntesSoloIngresosImportes" xml:space="preserve">
+    <value>Listado Apuntes Solo Ingresos Ordenado por Importes</value>
+  </data>
+  <data name="ListadoPeriodicosConceptos" xml:space="preserve">
+    <value>Listado Apuntes Periódicos Ordenado por Conceptos</value>
+  </data>
+  <data name="ListadoPeriodicosFechas" xml:space="preserve">
+    <value>Listado Apuntes Periódicos Ordenado por Fechas</value>
+  </data>
+  <data name="ListadoPeriodicosImportes" xml:space="preserve">
+    <value>Listado Apuntes Periódicos Ordenado por Importes</value>
+  </data>
+  <data name="ListadoPeriodicosSoloGastosConceptos" xml:space="preserve">
+    <value>Listado Apuntes Periódicos Solo Gastos Ordenado por Conceptos</value>
+  </data>
+  <data name="ListadoPeriodicosSoloGastosFechas" xml:space="preserve">
+    <value>Listado Apuntes Periódicos Solo Gastos Ordenado por Fechas</value>
+  </data>
+  <data name="ListadoPeriodicosSoloGastosImportes" xml:space="preserve">
+    <value>Listado Apuntes Periódicos Solo Gastos Ordenado por Importes</value>
+  </data>
+  <data name="ListadoPeriodicosSoloIngresosConceptos" xml:space="preserve">
+    <value>Listado Apuntes Periódicos Solo Ingresos Ordenado por Conceptos</value>
+  </data>
+  <data name="ListadoPeriodicosSoloIngresosFechas" xml:space="preserve">
+    <value>Listado Apuntes Periódicos Solo Ingresos Ordenado por Fechas</value>
+  </data>
+  <data name="ListadoPeriodicosSoloIngresosImportes" xml:space="preserve">
+    <value>Listado Apuntes Periódicos Solo Ingresos Ordenado por Importes</value>
+  </data>
+  <data name="MsgEspera" xml:space="preserve">
+    <value>En Espera ...</value>
+  </data>
+  <data name="MsgExisteClonMigracion" xml:space="preserve">
+    <value>La base de datos seleccionada ya cuenta con la estructura relacional de la Nueva Era. Proceso cancelado por seguridad</value>
+  </data>
+  <data name="MsgImportar1" xml:space="preserve">
+    <value>Esta función se ha diseñado para Añadir los Apuntes de la antigua Base de Datos de ContaHogar a la nueva de ContaHogar 3.0,
+ se realizará una copia de seguridad y buscará el archivo CHBD2.mdb en el equipo, si no se encuentra en su carpeta habitual, selecciona su ubicación correcta. Deseas Continuar?</value>
+  </data>
+  <data name="MsgImportarAyuda" xml:space="preserve">
+    <value>Instrucciones: Copiar el archivo de tu antiguo Contahogar CHDB2.mdb, que debe estar en C:\Program Files (x86)\ContaHogar\ a la carpeta
+C:\ContaHogar3.0, que se ha creado, si no lo estaba, al aceptar esta importación</value>
+  </data>
+  <data name="MsgImportarCopiaPreventiva" xml:space="preserve">
+    <value>Copia de seguridad preventiva generada con éxito en</value>
+  </data>
+  <data name="MsgNoVaciarBD" xml:space="preserve">
+    <value>No se Eliminan los CONCEPTOS ni las CUENTAS CONTABLES</value>
+  </data>
   <data name="MsgVaciarBD" xml:space="preserve">
     <value>¿Estas seguro de VACIAR e INICIAR la Base de Datos de APUNTES - APUNTES PERIODICOS y PRESUPUESTOS del Ejercicio</value>
   </data>
   <data name="MsgVaciarBD2" xml:space="preserve">
     <value>Aconsejo hacer una Copia de Seguridad</value>
   </data>
-  <data name="MsgVaciarBD4" xml:space="preserve">
-    <value>Se va a Iniciar el Vaciado de la Base de Datos</value>
-  </data>
   <data name="MsgVaciarBD3" xml:space="preserve">
     <value>VACIAR Base de Datos</value>
   </data>
-  <data name="MsgNoVaciarBD" xml:space="preserve">
-    <value>No se Eliminan los CONCEPTOS ni las CUENTAS CONTABLES</value>
+  <data name="MsgVaciarBD4" xml:space="preserve">
+    <value>Se va a Iniciar el Vaciado de la Base de Datos</value>
   </data>
-  <data name="ApuntesContablesVaciado" xml:space="preserve">
-    <value>Apuntes Contables, Vaciado!</value>
+  <data name="NoExisteCHDB2" xml:space="preserve">
+    <value>NO existe el archivo CHDB2.mdb en C:\ContaHogar3.0</value>
   </data>
-  <data name="ApuntesPeriodicosVaciado" xml:space="preserve">
-    <value>Apuntes Periódicos, Vaciado!</value>
+  <data name="PreguntaBackup" xml:space="preserve">
+    <value>¿Estas seguro de RESTAURAR la Base de Datos?</value>
   </data>
   <data name="PresupuestosVaciado" xml:space="preserve">
     <value>Presupuestos, Vaciado!</value>
-  </data>
-  <data name="ListadoApuntesOrdenadoFechas" xml:space="preserve">
-    <value>Listado Apuntes Ordenado por Fechas</value>
-  </data>
-  <data name="ListadoApuntesOrdenadoConceptos" xml:space="preserve">
-    <value>Listado Apuntes Ordenado por Conceptos</value>
-  </data>
-  <data name="ListadoApuntesOrdenadoImportes" xml:space="preserve">
-    <value>Listado Apuntes Ordenado por Importes</value>
-  </data>
-  <data name="ListadoApuntesSoloIngresosFechas" xml:space="preserve">
-    <value>Listado Apuntes Solo Ingresos Ordenado por Fechas</value>
-  </data>
-  <data name="ListadoApuntesSoloIngresosConceptos" xml:space="preserve">
-    <value>Listado Apuntes Solo Ingresos Ordenado por Conceptos</value>
-  </data>
-  <data name="ListadoApuntesSoloIngresosImportes" xml:space="preserve">
-    <value>Listado Apuntes Solo Ingresos Ordenado por Importes</value>
-  </data>
-  <data name="ListadoApuntesSoloGastosFechas" xml:space="preserve">
-    <value>Listado Apuntes Solo Gastos Ordenado por Fechas</value>
-  </data>
-  <data name="ListadoApuntesSoloGastosConceptos" xml:space="preserve">
-    <value>Listado Apuntes Solo Gastos Ordenado por Conceptos</value>
-  </data>
-  <data name="ListadoApuntesSoloGastosImportes" xml:space="preserve">
-    <value>Listado Apuntes Solo Gastos Ordenado por Importes</value>
-  </data>
-  <data name="ListadoPeriodicosFechas" xml:space="preserve">
-    <value>Listado Apuntes Periódicos Ordenado por Fechas</value>
-  </data>
-  <data name="ListadoPeriodicosConceptos" xml:space="preserve">
-    <value>Listado Apuntes Periódicos Ordenado por Conceptos</value>
-  </data>
-  <data name="ListadoPeriodicosImportes" xml:space="preserve">
-    <value>Listado Apuntes Periódicos Ordenado por Importes</value>
-  </data>
-  <data name="ListadoPeriodicosSoloIngresosFechas" xml:space="preserve">
-    <value>Listado Apuntes Periódicos Solo Ingresos Ordenado por Fechas</value>
-  </data>
-  <data name="ListadoPeriodicosSoloIngresosConceptos" xml:space="preserve">
-    <value>Listado Apuntes Periódicos Solo Ingresos Ordenado por Conceptos</value>
-  </data>
-  <data name="ListadoPeriodicosSoloIngresosImportes" xml:space="preserve">
-    <value>Listado Apuntes Periódicos Solo Ingresos Ordenado por Importes</value>
-  </data>
-  <data name="ListadoPeriodicosSoloGastosFechas" xml:space="preserve">
-    <value>Listado Apuntes Periódicos Solo Gastos Ordenado por Fechas</value>
-  </data>
-  <data name="ListadoPeriodicosSoloGastosConceptos" xml:space="preserve">
-    <value>Listado Apuntes Periódicos Solo Gastos Ordenado por Conceptos</value>
-  </data>
-  <data name="ListadoPeriodicosSoloGastosImportes" xml:space="preserve">
-    <value>Listado Apuntes Periódicos Solo Gastos Ordenado por Importes</value>
-  </data>
-  <data name="ImportandoApuntes" xml:space="preserve">
-    <value>Importando de Contahogar los APUNTES, Espere unos Segundos</value>
   </data>
   <data name="RealizarCopiaSeguridad" xml:space="preserve">
     <value>¿Desea realizar una copia de seguridad
@@ -8700,107 +8721,53 @@ de la base de datos antes de importar los apuntes?</value>
     <value>¿Desea continuar sin realizar una copia de seguridad?
 Se recomienda realizarla para evitar pérdidas de datos. Esta acción no se puede deshacer</value>
   </data>
-  <data name="Advertencia" xml:space="preserve">
-    <value>Advertencia</value>
-  </data>
-  <data name="TransferenciaApuntes" xml:space="preserve">
-    <value>Transferencia completada APUNTES</value>
-  </data>
   <data name="RegistrosCopiados" xml:space="preserve">
     <value>registros copiados</value>
-  </data>
-  <data name="ErrorTransferenciaApuntes" xml:space="preserve">
-    <value>Error durante la transferencia APUNTES</value>
-  </data>
-  <data name="ImportandoApuntesPeriodicos" xml:space="preserve">
-    <value>Importando de Contahogar, los APUNTES PERIÓDICOS, Espere unos Segundos</value>
-  </data>
-  <data name="TransferenciaApuntesPeriodicos" xml:space="preserve">
-    <value>Transferencia completada APUNTES PERIODICOS</value>
-  </data>
-  <data name="ErrorTransferenciaApuntesPeriodicos" xml:space="preserve">
-    <value>Error durante la transferencia APUNTES PERIODICOS</value>
-  </data>
-  <data name="ImportandoEjercicios" xml:space="preserve">
-    <value>Importando de Contahogar los EJERCICIOS, Espere unos Segundos...</value>
-  </data>
-  <data name="TransferenciaEjercicios" xml:space="preserve">
-    <value>Transferencia completada EJERCICIOS</value>
   </data>
   <data name="RegistrosOmitidos" xml:space="preserve">
     <value>registros omitidos</value>
   </data>
-  <data name="ErrorTransferenciaEjercicios" xml:space="preserve">
-    <value>Error durante la transferencia EJERCICIOS</value>
+  <data name="Restaurar" xml:space="preserve">
+    <value>RESTAURAR</value>
   </data>
-  <data name="ImportandoConceptos" xml:space="preserve">
-    <value>Importando de Contahogar, los CONCEPTOS, Espere unos Segundos...</value>
+  <data name="RestaurarBD" xml:space="preserve">
+    <value>Restaurar Base de Datos</value>
   </data>
-  <data name="TransferenciaConceptos" xml:space="preserve">
-    <value>Transferencia completada CONCEPTOS</value>
-  </data>
-  <data name="ErrorTransferenciaConceptos" xml:space="preserve">
-    <value>Error durante la transferencia CONCEPTOS</value>
-  </data>
-  <data name="ImportandoCuentas" xml:space="preserve">
-    <value>Importando de Contahogar, las CUENTAS, Espere unos Segundos...</value>
-  </data>
-  <data name="TransferenciaCuentas" xml:space="preserve">
-    <value>Transferencia completada CUENTAS</value>
-  </data>
-  <data name="ErrorTransferenciaCuentas" xml:space="preserve">
-    <value>Error durante la transferencia CUENTAS</value>
-  </data>
-  <data name="ImportandoPresupuestos" xml:space="preserve">
-    <value>Importando de Contahogar, los PRESUPUESTOS, Espere unos Segundos...</value>
-  </data>
-  <data name="TransferenciaPresupuestos" xml:space="preserve">
-    <value>Transferencia completada PRESUPUESTOS</value>
-  </data>
-  <data name="ErrorTransferenciaPresupuestos" xml:space="preserve">
-    <value>Error durante la transferencia PRESUPUESTOS</value>
-  </data>
-  <data name="BackupOk" xml:space="preserve">
-    <value>Copia de Seguridad realizada satisfactoriamente</value>
-  </data>
-  <data name="MsgImportar1" xml:space="preserve">
-    <value>Esta función se ha diseñado para Añadir sin Duplicar los datos, de la antigua Base de Datos de ContaHogar a la nueva de ContaHogar 3.0
-se realizará automáticamente, una copia de seguridad antes de proceder con la importación, ya que esta acción no se puede deshacer. Deseas Continuar?</value>
-  </data>
-  <data name="ImportarContahogar" xml:space="preserve">
-    <value>IMPORTAR CONTAHOGAR</value>
-  </data>
-  <data name="ExisteCHDB2" xml:space="preserve">
-    <value>Ya existe el archivo CHDB2.mdb en C:\ContaHogar3.0
-se procederá a realizar la importación</value>
-  </data>
-  <data name="NoExisteCHDB2" xml:space="preserve">
-    <value>NO existe el archivo CHDB2.mdb en C:\ContaHogar3.0</value>
-  </data>
-  <data name="YaExisteRuta" xml:space="preserve">
-    <value>Ya existe la Ruta C:\ContaHogar3.0
-Copiar el archivo CHDB2.mdb del antiguo Contahogar a la carpeta C:\ContaHogar3.0
-para poder realizar el proceso de importación</value>
+  <data name="RestaurarOk" xml:space="preserve">
+    <value>Restauración realizada satisfactoriamente</value>
   </data>
   <data name="RutaCreada" xml:space="preserve">
     <value>Ruta C:\ContaHogar3.0, Creada.
 Copiar el archivo CHDB2.mdb del antiguo Contahogar a la carpeta C:\ContaHogar3.0
 para poder realizar el proceso de importación</value>
   </data>
-  <data name="MsgExisteClonMigracion" xml:space="preserve">
-    <value>La base de datos seleccionada ya cuenta con la estructura relacional de la Nueva Era. Proceso cancelado por seguridad</value>
+  <data name="SeCrearaEjercicio" xml:space="preserve">
+    <value>se creará ejercicio</value>
   </data>
-  <data name="ImportaciónRelacionalCompletada" xml:space="preserve">
-    <value>¡Importación Relacional Completada con éxito absoluto! Los maestros de conceptos, cuentas y tu diario histórico de apuntes han sido integrados a la Nueva Era</value>
+  <data name="TransferenciaApuntes" xml:space="preserve">
+    <value>Transferencia completada APUNTES</value>
   </data>
-  <data name="ActualizacionCompletada" xml:space="preserve">
-    <value>Actualización Completada</value>
+  <data name="TransferenciaApuntesPeriodicos" xml:space="preserve">
+    <value>Transferencia completada APUNTES PERIODICOS</value>
   </data>
-  <data name="MsgImportarAyuda" xml:space="preserve">
-    <value>Instrucciones: Copiar el archivo de tu antiguo Contahogar CHDB2.mdb, que debe estar en C:\Program Files (x86)\ContaHogar\ a la carpeta
-C:\ContaHogar3.0, que se ha creado, si no lo estaba, al aceptar esta importación</value>
+  <data name="TransferenciaConceptos" xml:space="preserve">
+    <value>Transferencia completada CONCEPTOS</value>
   </data>
-  <data name="DeseaContinuar" xml:space="preserve">
-    <value>Deseas Continuar?</value>
+  <data name="TransferenciaCuentas" xml:space="preserve">
+    <value>Transferencia completada CUENTAS</value>
+  </data>
+  <data name="TransferenciaEjercicios" xml:space="preserve">
+    <value>Transferencia completada EJERCICIOS</value>
+  </data>
+  <data name="TransferenciaPresupuestos" xml:space="preserve">
+    <value>Transferencia completada PRESUPUESTOS</value>
+  </data>
+  <data name="TraspasoCuentas" xml:space="preserve">
+    <value>Traspaso entre Cuentas</value>
+  </data>
+  <data name="YaExisteRuta" xml:space="preserve">
+    <value>Ya existe la Ruta C:\ContaHogar3.0
+Copiar el archivo CHDB2.mdb del antiguo Contahogar a la carpeta C:\ContaHogar3.0
+para poder realizar el proceso de importación</value>
   </data>
 </root>

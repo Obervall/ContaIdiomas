@@ -324,12 +324,6 @@
   <data name="CalculadoraToolStripMenuItem.ToolTipText" xml:space="preserve">
     <value>Abrir Calculadora</value>
   </data>
-  <data name="BtnActivarSoftwareToolStripMenuItem.Text" xml:space="preserve">
-    <value>Activar Software</value>
-  </data>
-  <data name="BtnActivarSoftwareToolStripMenuItem.ToolTipText" xml:space="preserve">
-    <value>Activar Software</value>
-  </data>
   <data name="ArchivoDeAyudaToolStripMenuItem.Text" xml:space="preserve">
     <value>Archivo de Ayuda</value>
   </data>
@@ -414,9 +408,6 @@
   <data name="BtnCalculadora.Text" xml:space="preserve">
     <value>Abrir Calculadora</value>
   </data>
-  <data name="BtnActivarSoftware.Text" xml:space="preserve">
-    <value>Activar Software</value>
-  </data>
   <data name="BtnAyuda.Text" xml:space="preserve">
     <value>Conteúdo do Archivo de Ayuda</value>
   </data>
@@ -425,12 +416,6 @@
   </data>
   <data name="BtnHistorialVersiones.Text" xml:space="preserve">
     <value>Histórico de Versões</value>
-  </data>
-  <data name="BtnImportarContaHogar.Text" xml:space="preserve">
-    <value>Importar Base Datos Antiguo Contahogar 2.0</value>
-  </data>
-  <data name="BtnBizum.Text" xml:space="preserve">
-    <value>Donación/Aportación</value>
   </data>
   <data name="BarraDeHerramientas.Text" xml:space="preserve">
     <value>BarraDeHerramientas</value>
@@ -638,12 +623,6 @@ Recomenda-se realizá-la para evitar perda de dados. Essa ação não pode ser d
   <data name="ErrorTransferenciaPresupuestos" xml:space="preserve">
     <value>Erro durante a transferência ORÇAMENTOS</value>
   </data>
-  <data name="MsgImportar1" xml:space="preserve">
-    <value>Este recurso foi projetado para adicionar sem duplicar dados,
-do antigo Banco de Dados ContaHogar para o novo Banco de Dados ContaHogar 3.0
-Recomenda-se fazer um backup antes de prosseguir com a importação,
-já que essa ação não pode ser desfeita. Deseas Continuar?</value>
-  </data>
   <data name="ImportarContahogar" xml:space="preserve">
     <value>CONTATO DE IMPORTAÇÃO</value>
   </data>
@@ -683,5 +662,21 @@ C:\HomeAccount3.0, que foi criada, caso não fosse, quando você aceitou essa im
   </data>
   <data name="NoExisteCHDB2" xml:space="preserve">
     <value>O arquivo CHDB2.mdb NÃO existe em C:\HomeAccount3.0</value>
+  </data>
+  <data name="MsgImportarCopiaPreventiva" xml:space="preserve">
+    <value>Backup preemptivo gerado com sucesso em</value>
+  </data>
+  <data name="MsgImportar1" xml:space="preserve">
+    <value>Esta função foi projetada para adicionar as Notas do antigo Banco de Dados ContaHogar ao novo Banco de Dados ContaHogar 3.0,
+ O arquivo CHBD2.mdb será feito backup e pesquisado no seu computador; se não estiver na sua pasta habitual, selecione a localização correta. Quer continuar?</value>
+  </data>
+  <data name="ErrorCriticoPuenteRescate" xml:space="preserve">
+    <value>Erro crítico inicializando o repositório de dados de resgate em ponte</value>
+  </data>
+  <data name="ErrorCriticoRestauracion" xml:space="preserve">
+    <value>Erro crítico durante a restauração do banco de dados</value>
+  </data>
+  <data name="BtnImportarContaHogar.Text" xml:space="preserve">
+    <value>Importar o Antigo Banco de Dados Contahogar 2.0 em Progresso...</value>
   </data>
 </root>

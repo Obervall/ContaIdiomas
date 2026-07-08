@@ -136,7 +136,6 @@ Partial Class Principal
         Me.BtnImportarContaHogar = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator19 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripLabel5 = New System.Windows.Forms.ToolStripLabel()
-        Me.LblDonacion = New System.Windows.Forms.Label()
         Me.LblNotificacion = New System.Windows.Forms.Label()
         Me.ButtonActualizar = New System.Windows.Forms.Button()
         Me.BarraDeMenu.SuspendLayout()
@@ -764,13 +763,6 @@ Partial Class Principal
         resources.ApplyResources(Me.ToolStripLabel5, "ToolStripLabel5")
         Me.ToolStripLabel5.Name = "ToolStripLabel5"
         '
-        'LblDonacion
-        '
-        Me.LblDonacion.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        resources.ApplyResources(Me.LblDonacion, "LblDonacion")
-        Me.LblDonacion.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.LblDonacion.Name = "LblDonacion"
-        '
         'LblNotificacion
         '
         resources.ApplyResources(Me.LblNotificacion, "LblNotificacion")
@@ -788,7 +780,6 @@ Partial Class Principal
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
         Me.Controls.Add(Me.ButtonActualizar)
         Me.Controls.Add(Me.LblNotificacion)
-        Me.Controls.Add(Me.LblDonacion)
         Me.Controls.Add(Me.BarraDeHerramientas)
         Me.Controls.Add(Me.BarraDeEstado)
         Me.Controls.Add(Me.BarraDeMenu)
@@ -900,7 +891,6 @@ Partial Class Principal
     Friend WithEvents ToolStripSeparator19 As Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripTextBox1 As Windows.Forms.ToolStripTextBox
     Friend WithEvents VactualVDisponible As Windows.Forms.ToolStripMenuItem
-    Friend WithEvents LblDonacion As Windows.Forms.Label
     Friend WithEvents HistorialDeVersionesToolStripMenuItem As Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator21 As Windows.Forms.ToolStripSeparator
     Friend WithEvents BtnHistorialVersiones As Windows.Forms.ToolStripButton

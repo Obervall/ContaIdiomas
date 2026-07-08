@@ -238,4 +238,10 @@ depois por Conceitos Diversos</value>
   <data name="MsgSaldos2" xml:space="preserve">
     <value>Os saldos iniciais NÃO PODEM ser editados</value>
   </data>
+  <data name="ArchivosDeExcel" xml:space="preserve">
+    <value>Arquivos Excel</value>
+  </data>
+  <data name="TodosLosArchivos" xml:space="preserve">
+    <value>Todos os Arquivos</value>
+  </data>
 </root>

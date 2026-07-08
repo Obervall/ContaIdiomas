@@ -934,4 +934,7 @@ O arquivo não está aberto</value>
   <data name="ErrormutacionBDclonada" xml:space="preserve">
     <value>Falha na mutação do DB clonado</value>
   </data>
+  <data name="ErrorCrearCopiaSeguridad" xml:space="preserve">
+    <value>Erro gerando o backup</value>
+  </data>
 </root>

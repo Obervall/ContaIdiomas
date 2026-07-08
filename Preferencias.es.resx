@@ -144,20 +144,11 @@
   <data name="GroupBox2.Text" xml:space="preserve">
     <value>Ubicación Base de Datos:</value>
   </data>
-  <data name="ChkBuscarActualizacion.Text" xml:space="preserve">
-    <value>Buscar Actualización al Iniciar</value>
-  </data>
   <data name="Label1.Text" xml:space="preserve">
     <value>Moneda:</value>
   </data>
-  <data name="BtnBuscarBackup.Text" xml:space="preserve">
-    <value>.....</value>
-  </data>
   <data name="TxtPathExportar.Text" xml:space="preserve">
     <value>C:\</value>
-  </data>
-  <data name="BtnBuscarActualizacion.Text" xml:space="preserve">
-    <value>Busca Actualización</value>
   </data>
   <data name="Label2.Text" xml:space="preserve">
     <value>Idioma:</value>
@@ -170,24 +161,6 @@
   </data>
   <data name="GroupBox3.Text" xml:space="preserve">
     <value>Path Exportar Excel:</value>
-  </data>
-  <data name="ErrorSeleccionUbicacion" xml:space="preserve">
-    <value>Error al seleccionar la nueva ubicación de la Base de Datos,
-se mantendrá la ubicación actual</value>
-  </data>
-  <data name="CerrarPrograma" xml:space="preserve">
-    <value>Se cerrará el programa para iniciar con la nueva Ubicación</value>
-  </data>
-  <data name="DesactivarBusqueda" xml:space="preserve">
-    <value>Se desactivará la búsqueda manual de actualizaciones,
-se buscará automáticamente al iniciar el programa</value>
-  </data>
-  <data name="ActivarBusqueda" xml:space="preserve">
-    <value>Se activará la búsqueda manual de actualizaciones,
-se buscará al hacer click en el botón 'Buscar Actualización'</value>
-  </data>
-  <data name="NoHayNuevaVersion" xml:space="preserve">
-    <value>No hay nuevas versiones disponibles. Versión actual</value>
   </data>
   <data name="CmbElegirIdioma.Items" xml:space="preserve">
     <value>Español</value>

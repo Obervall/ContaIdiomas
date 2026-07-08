@@ -70,7 +70,7 @@ Module Funciones
     Public i, vFila1, vFila2, vFila, vFilaActual, filaActual, vregData1, vAñoActual, vAñoEjercicio As Integer
     Public vCerrar, vGrafico, vGraficoSolo, vLetras, vNumeros, vNotas, vPathExportar, vConcepto As String
     Public vDescripcionAPU, vImporteAPU, vNotasAPU, vConceptoAPU As String
-    Public vActualizar, vActivado, vAviso As Boolean
+    Public vActivado, vAviso As Boolean
 
     Public vOrdenadoPorFechasAPU, vOrdenadoPorConceptosAPU, vOrdenadoPorImportesAPU As Integer
     Public vSoloIngresosAPU, vSoloGastosAPU, centroX, AnchoFrmPrincipal, posX, posY As Integer
@@ -3227,95 +3227,4 @@ Module Funciones
             If dgv IsNot Nothing Then dgv.ResumeLayout()
         End Try
     End Sub
-
-    'Public Function BuscarActualizacion()
-    '    Dim conectado As New Devices.Computer
-    '    If vActualizar = True Then
-    '        If conectado.Network.IsAvailable = True Then
-    '            'MsgBox("Estas conectado a una red")
-    '            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12
-    '            Try
-    '                Dim MyUrl As String = "https://filedn.eu/ljfTvwyEW2tVj4PWYI9927f/ContaHogar/Hogar.txt"
-    '                Dim MyHttpWebRequest As HttpWebRequest = CType(WebRequest.Create(MyUrl), HttpWebRequest)
-    '                MyHttpWebRequest.Credentials = CredentialCache.DefaultCredentials
-    '                Dim MyHttpWebResponse As HttpWebResponse = CType(MyHttpWebRequest.GetResponse(), HttpWebResponse)
-    '                Dim MyStream As Stream = MyHttpWebResponse.GetResponseStream
-    '                Dim MyStreamReader As New StreamReader(MyStream)
-    '                Dim MyHtml As String = MyStreamReader.ReadToEnd
-    '                Dim MyHtmlEnLineas() As String = MyHtml.Split(vbNewLine)
-    '                Dim vNewVersion As String = MyHtmlEnLineas(3)
-    '                vNewVersion = Mid(vNewVersion, 10)
-    '                vNewVersion = Trim(vNewVersion)
-
-    '                If My.Settings.Version < vNewVersion Then
-    '                    MsgBox(resManager.GetString("VersionInstalada") & " " & My.Settings.Version & vbNewLine & resManager.GetString("VersionDisponible") & " " & vNewVersion, MsgBoxStyle.Information, resManager.GetString("Informacion"))
-    '                    vNuevaVersion = vNewVersion
-    '                    vHayNuevaVersion = "SI"
-    '                    Dim respuesta As MsgBoxResult = MsgBox(resManager.GetString("ActualizarVersion") & ": " & vNewVersion & " ?", vbQuestion + vbYesNo + vbDefaultButton1, resManager.GetString("Versio") & " ContaHogar 3.0")
-    '                    If respuesta = vbYes Then
-    '                        Dim respuesta2 As MsgBoxResult = MsgBox(resManager.GetString("GuardarCopiaSeguridad"), vbQuestion + vbYesNo + vbDefaultButton1, resManager.GetString("Versio") & " ContaHogar 3.0")
-    '                        If respuesta2 = vbYes Then
-    '                            ' Si no existe la carpeta de BackUp la creamos.
-    '                            Dim path As String = "C:\ContaHogar3.0\Backup"
-    '                            If Directory.Exists(path) Then
-    '                                'MsgBox("Ya existe la Ruta C:\ConatHogar\Backup.")
-    '                            Else
-    '                                Directory.CreateDirectory(path)
-    '                                'MsgBox("Ruta C:\ContaHogar3.0\Backup, Creada.")
-    '                            End If
-    '                            Dim NombreBaseDatos As String = $"ContaHogar3.0[{Now:ddMMyyyy}][{Now:HHmmss}].mdb"
-    '                            'Dim NombreBaseDatos As String = "ContaHogar3.0" & "[" & Format(Now.ToString("ddMMyyyy")) & "]" & "[" & Format(Now.ToString("HHmmss")) & "]" & ".mdb"
-    '                            Dim DataBaseFile As String = vRuta
-    '                            Dim FileDestino As String = "C:\ContaHogar3.0\Backup\" & NombreBaseDatos
-    '                            backup.InitialDirectory = "C:\ContaHogar3.0\Backup\"
-    '                            backup.Title = "Backup Base de Datos Access"
-    '                            backup.CheckFileExists = False
-    '                            backup.CheckPathExists = False
-    '                            backup.DefaultExt = "mdb"
-    '                            backup.FileName = NombreBaseDatos
-    '                            backup.Filter = "Access (ContaHogar*.mdb)|ContaHogar*.mdb|All files (*.*)|*.*"
-    '                            backup.RestoreDirectory = True
-    '                            If backup.ShowDialog = Windows.Forms.DialogResult.OK Then
-    '                                Try
-    '                                    FileCopy(DataBaseFile, FileDestino)
-    '                                    MessageBox.Show(resManager.GetString("BackupSatisfactorioBuscarActualizacio"), resManager.GetString("Backup"), MessageBoxButtons.OK, MessageBoxIcon.Information)
-    '                                Catch ex As Exception
-    '                                    MsgBox(resManager.GetString("ErrorBackup") & ": " & ex.ToString)
-    '                                End Try
-    '                            End If
-    '                        End If
-    '                        MessageBox.Show(resManager.GetString("AhoraDescargaActualizacion"), resManager.GetString("ActualizarSoftware"), MessageBoxButtons.OK, MessageBoxIcon.Information)
-    '                        Try
-    '                            Dim descargar As New Devices.Computer
-    '                            With descargar
-    '                                .Network.DownloadFile("https://filedn.eu/ljfTvwyEW2tVj4PWYI9927f/ContaHogar/Actualizar/" & vNewVersion & "/InstaladorContaHogar3.0.msi", "C:\ContaHogar3.0\InstaladorContaHogar3.0.msi", "", "", True, 100, True, 3)
-    '                            End With
-    '                            Dim Proceso As New Process()
-    '                            MsgBox(resManager.GetString("DescargadaActualizacion") & ":  " & vNewVersion & ", " & resManager.GetString("ProcederaInstalar"), MsgBoxStyle.Information, resManager.GetString("ActualizarSoftware"))
-    '                            Proceso.StartInfo.FileName = "C:\ContaHogar3.0\InstaladorContaHogar3.0.msi"
-    '                            Proceso.StartInfo.Arguments = ""
-    '                            Proceso.Start()
-    '                        Catch ex As Exception
-    '                            MsgBox(resManager.GetString("ErrorDescargarActualizacion") & ":  " & vNewVersion & ", " & resManager.GetString("ErrorDescargarActualizacion2"))
-    '                            MsgBox(ex.ToString)
-    '                        End Try
-    '                        Application.Exit()
-    '                    End If
-    '                Else
-    '                    vHayNuevaVersion = "NO"
-    '                    'MsgBox(My.Settings.Version & " = " & vNewVersion)
-    '                End If
-    '            Catch ex As Exception
-    '                MsgBox(resManager.GetString("ErrorDescargarActualizacion2"))
-    '                MsgBox(ex.ToString)
-    '            End Try
-    '        Else
-    '            MsgBox(resManager.GetString("NoConectadoRed"), MsgBoxStyle.Information, resManager.GetString("Informacion"))
-    '        End If
-    '        Return vHayNuevaVersion
-    '    Else
-    '        Return "NO"
-    '    End If
-    'End Function
-
 End Module

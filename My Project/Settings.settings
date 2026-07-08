@@ -33,22 +33,13 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="RutaBD" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\ContaHogar3.0\ContaHogar.mdb</Value>
-    </Setting>
-    <Setting Name="Autorizar" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Se autoriza el uso de ContaHogar 3.0 a: Modo Demo</Value>
-    </Setting>
-    <Setting Name="Codigo" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Codigo Activación: Sin Activar</Value>
-    </Setting>
-    <Setting Name="Actualizar" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="Moneda" Type="System.String" Scope="User">
       <Value Profile="(Default)">€</Value>
     </Setting>
     <Setting Name="PathExportar" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\ContaHogar3.0\Excel</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="MenuColores" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>

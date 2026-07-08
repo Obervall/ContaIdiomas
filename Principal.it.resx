@@ -321,12 +321,6 @@
   <data name="HerramientasToolStripMenuItem.Text" xml:space="preserve">
     <value>Strumenti</value>
   </data>
-  <data name="BtnActivarSoftwareToolStripMenuItem.Text" xml:space="preserve">
-    <value>Attiva il software</value>
-  </data>
-  <data name="BtnActivarSoftwareToolStripMenuItem.ToolTipText" xml:space="preserve">
-    <value>Attiva il software</value>
-  </data>
   <data name="ArchivoDeAyudaToolStripMenuItem.Text" xml:space="preserve">
     <value>File di aiuto</value>
   </data>
@@ -420,9 +414,6 @@
   <data name="BtnCalculadora.Text" xml:space="preserve">
     <value>Calcolatrice aperta</value>
   </data>
-  <data name="BtnActivarSoftware.Text" xml:space="preserve">
-    <value>Attiva il software</value>
-  </data>
   <data name="BtnAyuda.Text" xml:space="preserve">
     <value>Contenuti del file di aiuto</value>
   </data>
@@ -431,12 +422,6 @@
   </data>
   <data name="BtnHistorialVersiones.Text" xml:space="preserve">
     <value>Storia delle versioni</value>
-  </data>
-  <data name="BtnImportarContaHogar.Text" xml:space="preserve">
-    <value>Importa vecchio database Contahogar 2.0</value>
-  </data>
-  <data name="BtnBizum.Text" xml:space="preserve">
-    <value>Donazione/Contributo</value>
   </data>
   <data name="BarraDeHerramientas.Text" xml:space="preserve">
     <value>Barra degli strumenti</value>
@@ -675,13 +660,23 @@ C:\HomeAccount3.0, che è stato creato, se non lo era, quando hai accettato ques
   <data name="DeseaContinuar" xml:space="preserve">
     <value>Vuoi continuare?</value>
   </data>
-  <data name="MsgImportar1" xml:space="preserve">
-    <value>Questa funzione è progettata per aggiungere senza duplicare dati,
-dal vecchio Database ContaHogar al nuovo Database ContaHogar 3.0
-Un backup verrà effettuato automaticamente prima di procedere con l'importazione,
-poiché questa azione non può essere annullata. Vuoi continuare?</value>
-  </data>
   <data name="NoExisteCHDB2" xml:space="preserve">
     <value>Il file CHDB2.mdb NON esiste in C:\HomeAccount3.0</value>
+  </data>
+  <data name="MsgImportarCopiaPreventiva" xml:space="preserve">
+    <value>Backup preemptivo generato con successo in</value>
+  </data>
+  <data name="MsgImportar1" xml:space="preserve">
+    <value>Questa funzione è stata progettata per aggiungere le Note dal vecchio database ContaHogar al nuovo database ContaHogar 3.0,
+ Il file CHBD2.mdb verrà salvato e cercato sul tuo computer, se non è nella tua solita cartella, seleziona la sua posizione corretta. Vuoi continuare?</value>
+  </data>
+  <data name="ErrorCriticoPuenteRescate" xml:space="preserve">
+    <value>Errore critico che inizia il salvataggio del deposito dati bridged</value>
+  </data>
+  <data name="ErrorCriticoRestauracion" xml:space="preserve">
+    <value>Errore critico durante il ripristino del database</value>
+  </data>
+  <data name="BtnImportarContaHogar.Text" xml:space="preserve">
+    <value>Importazione del vecchio database Contahogar 2.0 in corso...</value>
   </data>
 </root>

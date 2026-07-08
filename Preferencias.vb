@@ -22,8 +22,11 @@ Public Class Preferencias
 
         TL(0) = New ToolTip
         TL(0).SetToolTip(Me.TxtBaseDatos, My.Settings.RutaBD)
+        TL(1) = New ToolTip
+        TL(1).SetToolTip(Me.TxtPathExportar, My.Settings.PathExportar)
         ' Añade una línea por cada GroupBox donde tengas estos botones:
         AddHandler Me.GroupBox2.MouseMove, AddressOf VerificarFiltrosDesactivados
+        AddHandler Me.GroupBox3.MouseMove, AddressOf VerificarFiltrosDesactivados
 
         If My.Settings.CulturaUsuario = "es-ES" Then
             CmbElegirIdioma.Text = "Español"
@@ -125,38 +128,6 @@ Public Class Preferencias
         My.Settings.Reload()
     End Sub
 
-    Private Sub BtnUbicacion_Click(sender As Object, e As EventArgs) Handles BtnUbicacion.Click
-        restore.InitialDirectory = "C:\ContaHogar3.0\"
-        restore.Title = "Ubicación Base de Datos"
-        restore.CheckFileExists = False
-        restore.CheckPathExists = False
-        restore.DefaultExt = "mdb"
-        restore.Filter = "Access (ContaHogar.mdb)|ContaHogar.mdb|All files (*.*)|*.*"
-        restore.RestoreDirectory = True
-        If restore.ShowDialog = Windows.Forms.DialogResult.OK Then
-            Try
-                TxtBaseDatos.Text = restore.FileName
-                My.Settings.RutaBD = TxtBaseDatos.Text
-                My.Settings.Save()
-                My.Settings.Reload()
-            Catch ex As Exception
-                MsgBox(rmse.GetString("ErrorSeleccionUbicacion"))
-                MsgBox(ex.ToString)
-            End Try
-            MsgBox(rmse.GetString("CerrarPrograma"))
-            End
-        End If
-    End Sub
-
-    Private Sub BtnBuscarBackup_Click(sender As Object, e As EventArgs) Handles BtnBuscarBackup.Click
-        If FolderBrowserDialog1.ShowDialog() = DialogResult.OK Then
-            TxtPathExportar.Text = FolderBrowserDialog1.SelectedPath
-            My.Settings.PathExportar = TxtPathExportar.Text
-            My.Settings.Save()
-            My.Settings.Reload()
-        End If
-    End Sub
-
     Private Sub CmbElegirIdioma_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbElegirIdioma.SelectedIndexChanged
 
         If estaCargado Then
@@ -225,32 +196,47 @@ Public Class Preferencias
         My.Settings.Reload()
     End Sub
 
-    Private Sub VerificarFiltrosDesactivados(sender As Object, e As MouseEventArgs)
+    Private Sub VerificarFiltrosDesactivados(sender As Object, e As MouseEventArgs) Handles Me.MouseMove
+        ' 🚀 REPARADO MODO ESCÁNER: Conectado al MouseMove del formulario para sortear el bloqueo del .Enabled = False
+
         ' Diccionario con tus controles deshabilitados y sus ToolTips correspondientes
         Dim controlesBloqueados As New Dictionary(Of Control, ToolTip) From {
-            {Me.TxtBaseDatos, TL(0)}
+            {Me.TxtBaseDatos, TL(0)},
+            {Me.TxtPathExportar, TL(1)}
         }
+
+        ' Capturamos la posición del ratón exacta respecto al Formulario Principal (Me)
+        Dim posRatonRelativaAlForm As Point = Me.PointToClient(Cursor.Position)
 
         For Each par In controlesBloqueados
             Dim control As Control = par.Key
             Dim tool As ToolTip = par.Value
 
             If Not control.Enabled Then
-                ' Traducimos la posición del ratón al contenedor nativo del control (su GroupBox)
-                Dim posRatonRelativaAlControl As Point = control.Parent.PointToClient(Cursor.Position)
+                ' 🎯 LA JUGADA MAESTRA: Traducimos las coordenadas al contenedor donde vive el control gris
+                Dim posRatonRelativaAlPadre As Point = control.Parent.PointToClient(Cursor.Position)
 
-                ' Si el ratón está sobre el control desactivado
-                If control.Bounds.Contains(posRatonRelativaAlControl) Then
-                    ' Calculamos la posición respecto al formulario para dibujar el cartelito en el lugar correcto
-                    Dim posRatonRelativaAlForm As Point = Me.PointToClient(Cursor.Position)
-                    ' Cargamos dinámicamente su texto correspondiente desde tu recurso
-                    tool.Show(My.Settings.RutaBD, Me, posRatonRelativaAlForm.X + 15, posRatonRelativaAlForm.Y + 15)
+                ' Si las coordenadas del ratón caen dentro del rectángulo físico del control gris
+                If control.Bounds.Contains(posRatonRelativaAlPadre) Then
+
+                    ' Cargamos dinámicamente su texto correspondiente desde tu recurso (My.Settings o textos fijos)
+                    Dim textoCartelito As String = ""
+                    If control Is Me.TxtBaseDatos Then
+                        textoCartelito = My.Settings.RutaBD
+                    ElseIf control Is Me.TxtPathExportar Then
+                        textoCartelito = My.Settings.PathExportar ' 🚀 REPARADO: Pintamos su ruta de exportar correspondiente
+                    End If
+
+                    ' Hacemos brotar el globo flotante reluciente desplazado 15 píxeles para que no lo tape el cursor
+                    tool.Show(textoCartelito, Me, posRatonRelativaAlForm.X + 15, posRatonRelativaAlForm.Y + 15)
                     Exit Sub
                 End If
             End If
         Next
 
-        ' Si el ratón no está sobre ningún botón bloqueado, ocultamos los tres
+        ' Si el ratón se sale del perímetro de los cuadros grises, apagamos los carteles de inmediato
         TL(0).Hide(Me)
+        TL(1).Hide(Me)
     End Sub
+
 End Class

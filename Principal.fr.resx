@@ -750,12 +750,6 @@
   <data name="BtnActivarSoftwareToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>418, 26</value>
   </data>
-  <data name="BtnActivarSoftwareToolStripMenuItem.Text" xml:space="preserve">
-    <value>Activer le logiciel</value>
-  </data>
-  <data name="BtnActivarSoftwareToolStripMenuItem.ToolTipText" xml:space="preserve">
-    <value>Activer le logiciel</value>
-  </data>
   <data name="ArchivoDeAyudaToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
@@ -1302,9 +1296,6 @@
         wW/M8NiY4ZH5CzzGMsknTxM+AAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="BtnActivarSoftware.Text" xml:space="preserve">
-    <value>Activer le logiciel</value>
-  </data>
   <data name="BtnAyuda.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -1377,9 +1368,6 @@
         m0cKBvFwXJu3AgnfzGAJ9GAJnNzesrNqb4aWwAw8HI+9dwWz8PAe3i2Ax/5fgcUjAtk6APzri/WSEosb
         AAAAAElFTkSuQmCC
 </value>
-  </data>
-  <data name="BtnImportarContaHogar.Text" xml:space="preserve">
-    <value>Importer l’ancienne base de données Contahogar 2.0</value>
   </data>
   <data name="BtnBizum.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1587,9 +1575,6 @@
         8EhI3TslAyQJWykqggs3jjD9c7iK46OS8OhIF96mqBbk3FFJWFFxZFQSVlQcGZWEFRVHRiVhRcWRUUlY
         UXFkVBJWVBwZlYQVFUdGJWFFxZFRSVhRcWRUElZUHBmVhBUVR8b/B6Agf8QX1pXwAAAAAElFTkSuQmCC
 </value>
-  </data>
-  <data name="BtnBizum.Text" xml:space="preserve">
-    <value>Don/Contribution</value>
   </data>
   <data name="BarraDeHerramientas.Text" xml:space="preserve">
     <value>Barre d'outils</value>
@@ -8012,13 +7997,23 @@ C :\HomeAccount3.0, qui a été créé, si ce n’était pas le cas, lorsque vo
   <data name="DeseaContinuar" xml:space="preserve">
     <value>Tu veux continuer ?</value>
   </data>
-  <data name="MsgImportar1" xml:space="preserve">
-    <value>Cette fonctionnalité est conçue pour ajouter sans dupliquer des données,
-de l’ancienne base de données ContaHogar à la nouvelle base de données ContaHogar 3.0
-Une sauvegarde sera effectuée automatiquement avant de procéder à l’importation,
-puisque cette action ne peut être annulée. Tu veux continuer ?</value>
-  </data>
   <data name="NoExisteCHDB2" xml:space="preserve">
     <value>Le fichier CHDB2.mdb n’existe PAS dans C :\HomeAccount3.0</value>
+  </data>
+  <data name="MsgImportarCopiaPreventiva" xml:space="preserve">
+    <value>Sauvegarde préemptive générée avec succès dans</value>
+  </data>
+  <data name="MsgImportar1" xml:space="preserve">
+    <value>Cette fonction a été conçue pour ajouter les notes de l’ancienne base de données ContaHogar à la nouvelle base de données ContaHogar 3.0,
+ Le fichier CHBD2.mdb sera sauvegardé et recherché sur votre ordinateur, s’il n’est pas dans votre dossier habituel, sélectionnez son emplacement correct. Tu veux continuer ?</value>
+  </data>
+  <data name="ErrorCriticoPuenteRescate" xml:space="preserve">
+    <value>Erreur critique initialisant le stockage de données ponté de sauvetage</value>
+  </data>
+  <data name="ErrorCriticoRestauracion" xml:space="preserve">
+    <value>Erreur critique lors de la restauration de la base de données</value>
+  </data>
+  <data name="BtnImportarContaHogar.Text" xml:space="preserve">
+    <value>Importez l’ancienne base de données Contahogar 2.0 en cours...</value>
   </data>
 </root>

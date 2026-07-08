@@ -144,23 +144,14 @@
   <data name="GroupBox2.Text" xml:space="preserve">
     <value>Datenbankstandort:</value>
   </data>
-  <data name="ChkBuscarActualizacion.Text" xml:space="preserve">
-    <value>Suchen Sie beim Start nach Updates</value>
-  </data>
   <data name="Label1.Text" xml:space="preserve">
     <value>Währung:</value>
-  </data>
-  <data name="BtnBuscarActualizacion.Text" xml:space="preserve">
-    <value>Suchen Sie nach Update</value>
   </data>
   <data name="Label2.Text" xml:space="preserve">
     <value>Sprache:</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Präferenzen</value>
-  </data>
-  <data name="BtnBuscarBackup.Text" xml:space="preserve">
-    <value>.....</value>
   </data>
   <data name="TxtPathExportar.Text" xml:space="preserve">
     <value>C:\</value>
@@ -170,24 +161,6 @@
   </data>
   <data name="GroupBox3.Text" xml:space="preserve">
     <value>Pfad-Export Excel:</value>
-  </data>
-  <data name="ErrorSeleccionUbicacion" xml:space="preserve">
-    <value>Fehler bei der Auswahl des neuen Datenbankstandorts,
-Der aktuelle Standort wird beibehalten</value>
-  </data>
-  <data name="CerrarPrograma" xml:space="preserve">
-    <value>Das Programm wird mit dem neuen Standort geschlossen</value>
-  </data>
-  <data name="DesactivarBusqueda" xml:space="preserve">
-    <value>Die manuelle Überprüfung auf Updates wird deaktiviert,
-wird automatisch gesucht, wenn das Programm gestartet wird</value>
-  </data>
-  <data name="ActivarBusqueda" xml:space="preserve">
-    <value>Die manuelle Überprüfung auf Updates wird aktiviert,
-Sie werden durchsucht, indem Sie auf die Schaltfläche 'Update prüfen' klicken</value>
-  </data>
-  <data name="NoHayNuevaVersion" xml:space="preserve">
-    <value>Neue Versionen sind nicht verfügbar. Aktuelle Version</value>
   </data>
   <data name="CmbElegirIdioma.Items" xml:space="preserve">
     <value>Español</value>

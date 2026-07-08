@@ -1012,6 +1012,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Error al generar la copia de seguridad.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorCrearCopiaSeguridad() As String
+        Get
+            Return ResourceManager.GetString("ErrorCrearCopiaSeguridad", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Error al Crear Ruta.
     '''</summary>
     Friend Shared ReadOnly Property ErrorCrearRuta() As String

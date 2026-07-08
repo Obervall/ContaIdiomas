@@ -157,10 +157,6 @@ Public Class ApuntesContables
         vtipoGrid = "APUNTES_CONTABLES"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
         TraducirGridApuntesBD(Me.DgvApuntes)
-        If frmApuntesContables.DgvApuntes.RowCount >= 25 And My.Settings.Autorizar = "Se autoriza el uso de ContaHogar 3.0 a: Modo Demo" Then
-            'MsgBox("Software No Activado, Máximo 25 Apuntes", MsgBoxStyle.Critical, "Falta Activación")
-            'Close()
-        End If
         If DgvApuntes.RowCount - 1 >= 0 Then
             vFila = DgvApuntes.RowCount - 1
             DgvApuntes.Rows(vFila).Selected = True
@@ -1694,179 +1690,174 @@ Public Class ApuntesContables
     End Sub
 
     Private Sub BtnExcel_Click(sender As Object, e As EventArgs) Handles BtnExcel.Click
-        ' 1. SINCRONIZACIÓN DE LA RUTA
-        ' Si la variable viene vacía o apunta a la raíz por defecto, forzamos la ruta estándar de la app
-        If vPathExportar = "" OrElse vPathExportar = "C:\" OrElse vPathExportar Is Nothing Then
-            vPathExportar = "C:\ContaHogar3.0\Excel"
-        End If
+        ' =========================================================================
+        ' 🚀 MOTOR DE EXPORTACIÓN A EXCEL COMPATIBLE CON MICROSOFT STORE (MSIX)
+        ' =========================================================================
+        Using sfd As New SaveFileDialog()
+            ' Configuramos el selector de archivos oficial de Windows
+            sfd.Filter = rmse.GetString("ArchivosDeExcel") & " (*.xlsx)|*.xlsx|" & rmse.GetString("TodosLosArchivos") & "(* .*)|*.*"
+            sfd.FileName = vAñoEjercicio & "_" & rmse.GetString("LblApuntes.Text") & ".xlsx"
 
-        ' Guardamos la ruta definitiva (sea la estándar o la que el usuario cambió en Preferencias)
-        My.Settings.PathExportar = vPathExportar
-        My.Settings.Save()
-        My.Settings.Reload()
+            ' Ofrecemos como ruta inicial predeterminada la carpeta segura de Mis Documentos
+            sfd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
 
-        ' 2. VERIFICACIÓN Y CREACIÓN FÍSICA EN EL DISCO
-        Try
-            ' Si la carpeta (personalizada o por defecto) no existe en el disco, la creamos
-            If Not Directory.Exists(My.Settings.PathExportar) Then
-                Directory.CreateDirectory(My.Settings.PathExportar)
-                ' Solo avisamos si la carpeta es nueva
-                MsgBox(rmse.GetString("RutaExcelCreada"), MsgBoxStyle.Information, rmse.GetString("$this.Text"))
-            End If
-        Catch ex As Exception
-            ' Si la ruta de Preferencias apunta a un pendrive desconectado o carpeta sin permisos, detenemos el proceso
-            MessageBox.Show(resManager.GetString("ErrorCrearRuta") & " " & ex.Message, rmse.GetString("$this.Text"), MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Exit Sub
-        End Try
+            ' Si el usuario le da al botón Guardar, capturamos su ruta elegida sin interferencias
+            If sfd.ShowDialog() = DialogResult.OK Then
+                Dim strFileName As String = sfd.FileName
+                ' Guardamos la ruta definitiva (sea la estándar o la que el usuario cambió)
+                My.Settings.PathExportar = Path.GetDirectoryName(strFileName)
+                My.Settings.Save()
+                My.Settings.Reload()
 
-        Try
-            If ((DgvApuntes.Columns.Count = 0) Or (DgvApuntes.Rows.Count = 0)) Then
-                Exit Sub
-            End If
-            Dim vNumRegistros As Integer = DgvApuntes.Rows.Count
-            PrbExport.Visible = True
-            PrbExport.Minimum = 0
-            PrbExport.Maximum = vNumRegistros
-            PrbExport.Value = 0
+                Try
+                    If ((DgvApuntes.Columns.Count = 0) Or (DgvApuntes.Rows.Count = 0)) Then
+                        Exit Sub
+                    End If
+                    Dim vNumRegistros As Integer = DgvApuntes.Rows.Count
+                    PrbExport.Visible = True
+                    PrbExport.Minimum = 0
+                    PrbExport.Maximum = vNumRegistros
+                    PrbExport.Value = 0
 
-            'Creando Dataset para Exportar
-            Dim dset As New DataSet
-            'Agregar tabla al Dataset
-            dset.Tables.Add()
+                    'Creando Dataset para Exportar
+                    Dim dset As New DataSet
+                    'Agregar tabla al Dataset
+                    dset.Tables.Add()
 
-            ' AGregar Columna a la tabla especificando tipos de datos reales
-            For i As Integer = 0 To DgvApuntes.ColumnCount - 2
-                Dim col As New DataColumn(DgvApuntes.Columns(i).HeaderText)
-                ' Si es la columna de Importe (3) o Saldo (4), configuramos su tipo como Double
-                If i = 3 OrElse i = 4 Then
-                    col.DataType = GetType(Double)
-                Else
-                    col.DataType = GetType(String)
-                End If
-                dset.Tables(0).Columns.Add(col)
-            Next
+                    ' AGregar Columna a la tabla especificando tipos de datos reales
+                    For i As Integer = 0 To DgvApuntes.ColumnCount - 2
+                        Dim col As New DataColumn(DgvApuntes.Columns(i).HeaderText)
+                        ' Si es la columna de Importe (3) o Saldo (4), configuramos su tipo como Double
+                        If i = 3 OrElse i = 4 Then
+                            col.DataType = GetType(Double)
+                        Else
+                            col.DataType = GetType(String)
+                        End If
+                        dset.Tables(0).Columns.Add(col)
+                    Next
 
-            'Agregar filas a la tabla
-            Dim dr1 As DataRow
-            Dim vSuma As Double = 0
+                    'Agregar filas a la tabla
+                    Dim dr1 As DataRow
+                    Dim vSuma As Double = 0
 
-            If DgvApuntes.SelectedRows.Count > 1 Then 'Si hay filas seleccionadas, se exportan solo las filas seleccionadas
-                For i As Integer = 0 To DgvApuntes.RowCount - 1
-                    If DgvApuntes.Rows(i).Selected Then
-                        dr1 = dset.Tables(0).NewRow
-                        For j As Integer = 0 To DgvApuntes.Columns.Count - 1
-                            If j = 0 Then
-                                Dim fechaCelda As DateTime = Convert.ToDateTime(DgvApuntes.Rows(i).Cells(j).Value)
-                                dr1(j) = fechaCelda.ToString("yyyy'/'MM'/'dd")
-                            ElseIf j = 1 Or j = 2 Or j = 6 Then
-                                dr1(j) = Trim(Convert.ToString(DgvApuntes.Rows(i).Cells(j).Value))
-                            ElseIf j = 3 Then
-                                ' Guardamos el valor numérico puro
-                                Dim valNum As Double = Convert.ToDouble(DgvApuntes.Rows(i).Cells(j).Value)
-                                dr1(j) = valNum
-                                vSuma = vSuma + valNum
-                            ElseIf j = 4 Then
-                                ' Guardamos el acumulado numérico puro
-                                dr1(j) = vSuma
-                            ElseIf j = 5 Then
-                                vNotas = Trim(Convert.ToString(DgvApuntes.Rows(i).Cells(j).Value))
-                                If Not String.IsNullOrEmpty(vNotas) Then
-                                    dr1(j) = "*" & vNotas
-                                Else
-                                    dr1(j) = ""
-                                End If
-                            Else
+                    If DgvApuntes.SelectedRows.Count > 1 Then 'Si hay filas seleccionadas, se exportan solo las filas seleccionadas
+                        For i As Integer = 0 To DgvApuntes.RowCount - 1
+                            If DgvApuntes.Rows(i).Selected Then
+                                dr1 = dset.Tables(0).NewRow
+                                For j As Integer = 0 To DgvApuntes.Columns.Count - 1
+                                    If j = 0 Then
+                                        Dim fechaCelda As DateTime = Convert.ToDateTime(DgvApuntes.Rows(i).Cells(j).Value)
+                                        dr1(j) = fechaCelda.ToString("yyyy'/'MM'/'dd")
+                                    ElseIf j = 1 Or j = 2 Or j = 6 Then
+                                        dr1(j) = Trim(Convert.ToString(DgvApuntes.Rows(i).Cells(j).Value))
+                                    ElseIf j = 3 Then
+                                        ' Guardamos el valor numérico puro
+                                        Dim valNum As Double = Convert.ToDouble(DgvApuntes.Rows(i).Cells(j).Value)
+                                        dr1(j) = valNum
+                                        vSuma = vSuma + valNum
+                                    ElseIf j = 4 Then
+                                        ' Guardamos el acumulado numérico puro
+                                        dr1(j) = vSuma
+                                    ElseIf j = 5 Then
+                                        vNotas = Trim(Convert.ToString(DgvApuntes.Rows(i).Cells(j).Value))
+                                        If Not String.IsNullOrEmpty(vNotas) Then
+                                            dr1(j) = "*" & vNotas
+                                        Else
+                                            dr1(j) = ""
+                                        End If
+                                    Else
+                                    End If
+                                Next
+                                dset.Tables(0).Rows.Add(dr1)
                             End If
                         Next
-                        dset.Tables(0).Rows.Add(dr1)
+                    Else 'Si no hay filas seleccionadas, se exportan todas las filas
+                        For i As Integer = 0 To DgvApuntes.RowCount - 1
+                            dr1 = dset.Tables(0).NewRow
+                            For j As Integer = 0 To DgvApuntes.Columns.Count - 1
+                                If j = 0 Then
+                                    Dim fechaCelda As DateTime = Convert.ToDateTime(DgvApuntes.Rows(i).Cells(j).Value)
+                                    dr1(j) = fechaCelda.ToString("yyyy'/'MM'/'dd")
+                                ElseIf j = 1 Or j = 2 Or j = 6 Then
+                                    dr1(j) = Trim(Convert.ToString(DgvApuntes.Rows(i).Cells(j).Value))
+                                ElseIf j = 3 Or j = 4 Then
+                                    ' Guardamos el valor numérico puro de la celda
+                                    dr1(j) = Convert.ToDouble(DgvApuntes.Rows(i).Cells(j).Value)
+                                ElseIf j = 5 Then
+                                    vNotas = Trim(Convert.ToString(DgvApuntes.Rows(i).Cells(j).Value))
+                                    If Not String.IsNullOrEmpty(vNotas) Then
+                                        dr1(j) = "*" & vNotas
+                                    Else
+                                        dr1(j) = ""
+                                    End If
+                                Else
+                                End If
+                            Next
+                            dset.Tables(0).Rows.Add(dr1)
+                        Next
                     End If
-                Next
-            Else 'Si no hay filas seleccionadas, se exportan todas las filas
-                For i As Integer = 0 To DgvApuntes.RowCount - 1
-                    dr1 = dset.Tables(0).NewRow
-                    For j As Integer = 0 To DgvApuntes.Columns.Count - 1
-                        If j = 0 Then
-                            Dim fechaCelda As DateTime = Convert.ToDateTime(DgvApuntes.Rows(i).Cells(j).Value)
-                            dr1(j) = fechaCelda.ToString("yyyy'/'MM'/'dd")
-                        ElseIf j = 1 Or j = 2 Or j = 6 Then
-                            dr1(j) = Trim(Convert.ToString(DgvApuntes.Rows(i).Cells(j).Value))
-                        ElseIf j = 3 Or j = 4 Then
-                            ' Guardamos el valor numérico puro de la celda
-                            dr1(j) = Convert.ToDouble(DgvApuntes.Rows(i).Cells(j).Value)
-                        ElseIf j = 5 Then
-                            vNotas = Trim(Convert.ToString(DgvApuntes.Rows(i).Cells(j).Value))
-                            If Not String.IsNullOrEmpty(vNotas) Then
-                                dr1(j) = "*" & vNotas
-                            Else
-                                dr1(j) = ""
-                            End If
-                        Else
-                        End If
+
+                    Dim aplicacion As New Microsoft.Office.Interop.Excel.Application
+                    Dim wBook As Microsoft.Office.Interop.Excel.Workbook
+                    Dim wSheet As Microsoft.Office.Interop.Excel.Worksheet
+
+                    wBook = aplicacion.Workbooks.Add()
+                    wSheet = wBook.ActiveSheet()
+
+                    Dim dt As System.Data.DataTable = dset.Tables(0)
+                    Dim dc As System.Data.DataColumn
+                    Dim dr As System.Data.DataRow
+                    Dim colIndex As Integer = 0
+                    Dim rowIndex As Integer = 0
+
+                    For Each dc In dt.Columns
+                        colIndex = colIndex + 1
+                        aplicacion.Cells(1, colIndex) = dc.ColumnName
                     Next
-                    dset.Tables(0).Rows.Add(dr1)
-                Next
+
+                    For Each dr In dt.Rows
+                        PrbExport.Value = rowIndex
+                        rowIndex = rowIndex + 1
+                        colIndex = 0
+                        For Each dc In dt.Columns
+                            colIndex = colIndex + 1
+                            aplicacion.Cells(rowIndex + 1, colIndex) = dr(dc.ColumnName)
+                        Next
+                    Next
+
+                    ' Configurar con negrilla la cabecera y tenga autofit
+                    wSheet.Rows.Item(1).Font.Bold = 1
+                    wSheet.Columns.AutoFit()
+
+                    ' 3. APLICACIÓN DEL FORMATO CONTABLE CON NEGATIVOS EN ROJO DIRECTAMENTE EN EXCEL
+                    ' Seleccionamos los rangos desde la fila 2 hasta la última fila escrita para las columnas D (3) y E (4)
+                    ' El formato "#,##0.00 €;[Red]-#,##0.00 €" define: Positivos estándar; Negativos en ROJO con signo menos.
+                    Dim formatoMonedaRojo As String = "#,##0.00 €;[Red]-#,##0.00 " & vMoneda
+                    wSheet.Range("D2", "D" & (rowIndex + 1)).NumberFormat = formatoMonedaRojo
+                    wSheet.Range("E2", "E" & (rowIndex + 1)).NumberFormat = formatoMonedaRojo
+
+                    Dim blnFileOpen As Boolean = False
+                    Try
+                        Dim fileTemp As System.IO.FileStream = System.IO.File.OpenWrite(strFileName)
+                        fileTemp.Close()
+                    Catch ex As Exception
+                        blnFileOpen = False
+                    End Try
+
+                    If System.IO.File.Exists(strFileName) Then
+                        System.IO.File.Delete(strFileName)
+                    End If
+
+                    wBook.SaveAs(strFileName)
+                    aplicacion.Workbooks.Open(strFileName)
+                    aplicacion.Visible = True
+                Catch ex As Exception
+                    MessageBox.Show(ex.Message, rmse.GetString("$this.Text"), MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    MsgBox(ex.ToString)
+                End Try
+                PrbExport.Visible = False
             End If
-
-            Dim aplicacion As New Microsoft.Office.Interop.Excel.Application
-            Dim wBook As Microsoft.Office.Interop.Excel.Workbook
-            Dim wSheet As Microsoft.Office.Interop.Excel.Worksheet
-
-            wBook = aplicacion.Workbooks.Add()
-            wSheet = wBook.ActiveSheet()
-
-            Dim dt As System.Data.DataTable = dset.Tables(0)
-            Dim dc As System.Data.DataColumn
-            Dim dr As System.Data.DataRow
-            Dim colIndex As Integer = 0
-            Dim rowIndex As Integer = 0
-
-            For Each dc In dt.Columns
-                colIndex = colIndex + 1
-                aplicacion.Cells(1, colIndex) = dc.ColumnName
-            Next
-
-            For Each dr In dt.Rows
-                PrbExport.Value = rowIndex
-                rowIndex = rowIndex + 1
-                colIndex = 0
-                For Each dc In dt.Columns
-                    colIndex = colIndex + 1
-                    aplicacion.Cells(rowIndex + 1, colIndex) = dr(dc.ColumnName)
-                Next
-            Next
-
-            ' Configurar con negrilla la cabecera y tenga autofit
-            wSheet.Rows.Item(1).Font.Bold = 1
-            wSheet.Columns.AutoFit()
-
-            ' 3. APLICACIÓN DEL FORMATO CONTABLE CON NEGATIVOS EN ROJO DIRECTAMENTE EN EXCEL
-            ' Seleccionamos los rangos desde la fila 2 hasta la última fila escrita para las columnas D (3) y E (4)
-            ' El formato "#,##0.00 €;[Red]-#,##0.00 €" define: Positivos estándar; Negativos en ROJO con signo menos.
-            Dim formatoMonedaRojo As String = "#,##0.00 €;[Red]-#,##0.00 " & vMoneda
-            wSheet.Range("D2", "D" & (rowIndex + 1)).NumberFormat = formatoMonedaRojo
-            wSheet.Range("E2", "E" & (rowIndex + 1)).NumberFormat = formatoMonedaRojo
-
-            Dim strFileName As String = My.Settings.PathExportar & "\" & vAñoEjercicio & "_" & rmse.GetString("LblApuntes.Text") & ".xlsx"
-            Dim blnFileOpen As Boolean = False
-            Try
-                Dim fileTemp As System.IO.FileStream = System.IO.File.OpenWrite(strFileName)
-                fileTemp.Close()
-            Catch ex As Exception
-                blnFileOpen = False
-            End Try
-
-            If System.IO.File.Exists(strFileName) Then
-                System.IO.File.Delete(strFileName)
-            End If
-
-            wBook.SaveAs(strFileName)
-            aplicacion.Workbooks.Open(strFileName)
-            aplicacion.Visible = True
-        Catch ex As Exception
-            MessageBox.Show(ex.Message, rmse.GetString("$this.Text"), MessageBoxButtons.OK, MessageBoxIcon.Error)
-            MsgBox(ex.ToString)
-        End Try
-        PrbExport.Visible = False
+        End Using
     End Sub
 
     Public Sub BtnTraspasarRegistro_Click(sender As Object, e As EventArgs) Handles BtnTraspasarRegistro.Click

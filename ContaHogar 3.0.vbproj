@@ -140,12 +140,6 @@
     <Compile Include="AcercaDe.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ActivarSoftware.Designer.vb">
-      <DependentUpon>ActivarSoftware.vb</DependentUpon>
-    </Compile>
-    <Compile Include="ActivarSoftware.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="ApuntesPeriodicos.Designer.vb">
       <DependentUpon>ApuntesPeriodicos.vb</DependentUpon>
     </Compile>
@@ -647,30 +641,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AcercaDe.resx">
       <DependentUpon>AcercaDe.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ActivarSoftware.ca.resx">
-      <DependentUpon>ActivarSoftware.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ActivarSoftware.de.resx">
-      <DependentUpon>ActivarSoftware.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ActivarSoftware.en.resx">
-      <DependentUpon>ActivarSoftware.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ActivarSoftware.es.resx">
-      <DependentUpon>ActivarSoftware.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ActivarSoftware.fr.resx">
-      <DependentUpon>ActivarSoftware.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ActivarSoftware.it.resx">
-      <DependentUpon>ActivarSoftware.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ActivarSoftware.pt.resx">
-      <DependentUpon>ActivarSoftware.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ActivarSoftware.resx">
-      <DependentUpon>ActivarSoftware.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ApuntesContables.ca.resx">
       <DependentUpon>ApuntesContables.vb</DependentUpon>
