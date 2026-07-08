@@ -642,7 +642,7 @@ Recomenda-se realizá-la para evitar perda de dados. Essa ação não pode ser d
     <value>Este recurso foi projetado para adicionar sem duplicar dados,
 do antigo Banco de Dados ContaHogar para o novo Banco de Dados ContaHogar 3.0
 Recomenda-se fazer um backup antes de prosseguir com a importação,
-já que essa ação não pode ser desfeita</value>
+já que essa ação não pode ser desfeita. Deseas Continuar?</value>
   </data>
   <data name="ImportarContahogar" xml:space="preserve">
     <value>CONTATO DE IMPORTAÇÃO</value>
@@ -650,10 +650,6 @@ já que essa ação não pode ser desfeita</value>
   <data name="ExisteCHDB2" xml:space="preserve">
     <value>O arquivo CHDB2.mdb já existe em C:\HomeAccount3.0
 A importação será realizada</value>
-  </data>
-  <data name="NoExisteCHDB2" xml:space="preserve">
-    <value>O arquivo CHDB2.mdb NÃO existe em C:\HomeAccount3.0
-É verificado que C:\Contahogar3.0 existe e, se não existir, ele é criado</value>
   </data>
   <data name="YaExisteRuta" xml:space="preserve">
     <value>A Rota C já existe:\ContaHogar3.0
@@ -676,5 +672,16 @@ para poder realizar o processo de importação</value>
   </data>
   <data name="ActualizacionCompletada" xml:space="preserve">
     <value>Atualização Concluída</value>
+  </data>
+  <data name="MsgImportarAyuda" xml:space="preserve">
+    <value>Instruções: Copie o arquivo do seu antigo CHDB2.mdb Contahogar, que 
+deve estar em C:\Program Files (x86)\HomeAccount\ para o
+C:\HomeAccount3.0, que foi criada, caso não fosse, quando você aceitou essa importação</value>
+  </data>
+  <data name="DeseaContinuar" xml:space="preserve">
+    <value>Quer continuar?</value>
+  </data>
+  <data name="NoExisteCHDB2" xml:space="preserve">
+    <value>O arquivo CHDB2.mdb NÃO existe em C:\HomeAccount3.0</value>
   </data>
 </root>

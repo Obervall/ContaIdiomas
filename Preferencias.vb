@@ -41,14 +41,6 @@ Public Class Preferencias
             CmbElegirIdioma.Text = "Italiano"
         End If
 
-        If My.Settings.Actualizar Then
-            ChkBuscarActualizacion.Checked = True
-            BtnBuscarActualizacion.Enabled = False
-        Else
-            ChkBuscarActualizacion.Checked = False
-            BtnBuscarActualizacion.Enabled = True
-        End If
-
         ' Array con los símbolos individuales más comunes
         Dim simbolos() As String = {"€", "$", "CHF", "£", "S/.", "R$", "¥", "₣", "₹", "₩", "₽"}
         ' Limpia elementos previos y agrega los nuevos
@@ -70,7 +62,6 @@ Public Class Preferencias
         ' Cerramos el formulario devolviendo el valor Cancel
         DialogResult = Windows.Forms.DialogResult.Cancel
         My.Settings.RutaBD = TxtBaseDatos.Text
-        My.Settings.Actualizar = ChkBuscarActualizacion.Checked
         My.Settings.PathExportar = TxtPathExportar.Text
         My.Settings.Save()
         My.Settings.Reload()
@@ -154,33 +145,6 @@ Public Class Preferencias
             End Try
             MsgBox(rmse.GetString("CerrarPrograma"))
             End
-        End If
-    End Sub
-
-    Private Sub ChkBuscarActualizacion_CheckedChanged(sender As Object, e As EventArgs) Handles ChkBuscarActualizacion.CheckedChanged
-        If estaCargado Then
-            If ChkBuscarActualizacion.Checked = True Then
-                My.Settings.Actualizar = True
-                BtnBuscarActualizacion.Enabled = False
-                MsgBox(rmse.GetString("DesactivarBusqueda"))
-            Else
-                My.Settings.Actualizar = False
-                BtnBuscarActualizacion.Enabled = True
-                MsgBox(rmse.GetString("ActivarBusqueda"))
-                BtnBuscarActualizacion.PerformClick()
-            End If
-            My.Settings.Save()
-            My.Settings.Reload()
-        End If
-    End Sub
-
-    Private Sub BtnBuscarActualizacion_Click(sender As Object, e As EventArgs) Handles BtnBuscarActualizacion.Click
-        vActualizar = True
-        BuscarActualizacion()
-        If vHayNuevaVersion = "SI" Then
-            MsgBox(resManager.GetString("VersionInstalada") & " " & My.Settings.Version & " - " & resManager.GetString("VersionDisponible") & " " & vNuevaVersion)
-        Else
-            MsgBox(rmse.GetString("NoHayNuevaVersion") & ": " & My.Settings.Version)
         End If
     End Sub
 

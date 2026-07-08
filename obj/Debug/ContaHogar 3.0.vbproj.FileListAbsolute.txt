@@ -171,7 +171,6 @@ C:\ComptaLlar\Hogar\obj\Debug\Interop.JRO.dll
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar 3.0.vbproj.ResolveComReference.cache
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.AcercaDe.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.ActivarSoftware.resources
-C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.AportacionBizum.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.ApuntesPeriodicos.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.ApuntesContables.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.AyudaApuntes.resources
@@ -226,13 +225,6 @@ C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.ActivarSoftware.es.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.ActivarSoftware.fr.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.ActivarSoftware.it.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.ActivarSoftware.pt.resources
-C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.AportacionBizum.ca.resources
-C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.AportacionBizum.de.resources
-C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.AportacionBizum.en.resources
-C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.AportacionBizum.es.resources
-C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.AportacionBizum.fr.resources
-C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.AportacionBizum.it.resources
-C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.AportacionBizum.pt.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.ApuntesContables.ca.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.ApuntesContables.de.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.ApuntesContables.en.resources

@@ -157,4 +157,7 @@ Podeu enviar impressions i suggeriments a:
   <data name="SinActivar" xml:space="preserve">
     <value>Sense Activar</value>
   </data>
+  <data name="ModoDemo" xml:space="preserve">
+    <value>Mode Demo</value>
+  </data>
 </root>

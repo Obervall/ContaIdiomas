@@ -189,4 +189,43 @@ verrà cercato cliccando sul pulsante 'Verifica aggiornamento'</value>
   <data name="NoHayNuevaVersion" xml:space="preserve">
     <value>Non sono disponibili nuove versioni. Versione attuale</value>
   </data>
+  <data name="CmbElegirIdioma.Items" xml:space="preserve">
+    <value>Español</value>
+  </data>
+  <data name="CmbElegirIdioma.Items1" xml:space="preserve">
+    <value>Català</value>
+  </data>
+  <data name="CmbElegirIdioma.Items2" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="CmbElegirIdioma.Items3" xml:space="preserve">
+    <value>Français</value>
+  </data>
+  <data name="CmbElegirIdioma.Items4" xml:space="preserve">
+    <value>Deutsch</value>
+  </data>
+  <data name="CmbElegirIdioma.Items5" xml:space="preserve">
+    <value>Português</value>
+  </data>
+  <data name="CmbElegirIdioma.Items6" xml:space="preserve">
+    <value>Italiano</value>
+  </data>
+  <data name="CmbMonedas.Items" xml:space="preserve">
+    <value>Español</value>
+  </data>
+  <data name="CmbMonedas.Items1" xml:space="preserve">
+    <value>Català</value>
+  </data>
+  <data name="CmbMonedas.Items2" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="CmbMonedas.Items3" xml:space="preserve">
+    <value>Français</value>
+  </data>
+  <data name="CmbMonedas.Items4" xml:space="preserve">
+    <value>Deutsch</value>
+  </data>
+  <data name="CmbMonedas.Items5" xml:space="preserve">
+    <value>Português</value>
+  </data>
 </root>

@@ -146,12 +146,6 @@
     <Compile Include="ActivarSoftware.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AportacionBizum.Designer.vb">
-      <DependentUpon>AportacionBizum.vb</DependentUpon>
-    </Compile>
-    <Compile Include="AportacionBizum.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="ApuntesPeriodicos.Designer.vb">
       <DependentUpon>ApuntesPeriodicos.vb</DependentUpon>
     </Compile>
@@ -677,30 +671,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ActivarSoftware.resx">
       <DependentUpon>ActivarSoftware.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AportacionBizum.ca.resx">
-      <DependentUpon>AportacionBizum.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AportacionBizum.de.resx">
-      <DependentUpon>AportacionBizum.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AportacionBizum.en.resx">
-      <DependentUpon>AportacionBizum.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AportacionBizum.es.resx">
-      <DependentUpon>AportacionBizum.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AportacionBizum.fr.resx">
-      <DependentUpon>AportacionBizum.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AportacionBizum.it.resx">
-      <DependentUpon>AportacionBizum.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AportacionBizum.pt.resx">
-      <DependentUpon>AportacionBizum.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AportacionBizum.resx">
-      <DependentUpon>AportacionBizum.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ApuntesContables.ca.resx">
       <DependentUpon>ApuntesContables.vb</DependentUpon>

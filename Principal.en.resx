@@ -7960,22 +7960,12 @@ It is recommended to perform it to avoid data loss. This action cannot be undone
   <data name="BackupOk" xml:space="preserve">
     <value>Successful Backup</value>
   </data>
-  <data name="MsgImportar1" xml:space="preserve">
-    <value>This feature is designed to Add without Duplicating Data,
-from the old ContaHogar Database to the new ContaHogar 3.0 Database
-it is recommended to make a backup before proceeding with the import,
-since this action cannot be undone</value>
-  </data>
   <data name="ImportarContahogar" xml:space="preserve">
     <value>IMPORT CONTACT</value>
   </data>
   <data name="ExisteCHDB2" xml:space="preserve">
     <value>The CHDB2.mdb file already exists in C:\HomeAccount3.0
 The import will be carried out</value>
-  </data>
-  <data name="NoExisteCHDB2" xml:space="preserve">
-    <value>The CHDB2.mdb file does NOT exist in C:\HomeAccount3.0
-It is verified that C:\Contahogar3.0 exists and if not, it is created</value>
   </data>
   <data name="YaExisteRuta" xml:space="preserve">
     <value>Route C already exists:\ContaHogar3.0
@@ -7998,5 +7988,22 @@ to be able to carry out the import process</value>
   </data>
   <data name="ActualizacionCompletada" xml:space="preserve">
     <value>Update Completed</value>
+  </data>
+  <data name="MsgImportarAyuda" xml:space="preserve">
+    <value>Instructions: Copy the file of your old Contahogar CHDB2.mdb, which 
+must be in C:\Program Files (x86)\HomeAccount\ to the
+C:\HomeAccount3.0, which was created, if it wasn't, when you accepted this import</value>
+  </data>
+  <data name="DeseaContinuar" xml:space="preserve">
+    <value>Do you want to continue?</value>
+  </data>
+  <data name="MsgImportar1" xml:space="preserve">
+    <value>This feature is designed to Add without Duplicating Data,
+from the old ContaHogar Database to the new ContaHogar 3.0 Database
+a backup will be made automatically before proceeding with the import,
+since this action cannot be undone. Do you want to continue?</value>
+  </data>
+  <data name="NoExisteCHDB2" xml:space="preserve">
+    <value>The CHDB2.mdb file does NOT exist in C:\HomeAccount3.0</value>
   </data>
 </root>

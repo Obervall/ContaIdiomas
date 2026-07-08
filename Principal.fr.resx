@@ -7975,22 +7975,12 @@ Il est recommandé de le faire pour éviter la perte de données. Cette action n
   <data name="BackupOk" xml:space="preserve">
     <value>Sauvegarde réussie</value>
   </data>
-  <data name="MsgImportar1" xml:space="preserve">
-    <value>Cette fonctionnalité est conçue pour ajouter sans dupliquer des données,
-de l’ancienne base de données ContaHogar à la nouvelle base de données ContaHogar 3.0
-Il est recommandé de faire une sauvegarde avant de procéder à l’importation,
-puisque cette action ne peut être annulée</value>
-  </data>
   <data name="ImportarContahogar" xml:space="preserve">
     <value>CONTACT D’IMPORTATION</value>
   </data>
   <data name="ExisteCHDB2" xml:space="preserve">
     <value>Le fichier CHDB2.mdb existe déjà dans C :\HomeAccount3.0
 L’importation sera effectuée</value>
-  </data>
-  <data name="NoExisteCHDB2" xml:space="preserve">
-    <value>Le fichier CHDB2.mdb n’existe PAS dans C :\HomeAccount3.0
-Il est vérifié que C :\Contahogar3.0 existe et, sinon, il est créé</value>
   </data>
   <data name="YaExisteRuta" xml:space="preserve">
     <value>La Route C existe déjà :\ContaHogar3.0
@@ -8013,5 +8003,22 @@ pour pouvoir effectuer le processus d’importation</value>
   </data>
   <data name="ActualizacionCompletada" xml:space="preserve">
     <value>Mise à jour terminée</value>
+  </data>
+  <data name="MsgImportarAyuda" xml:space="preserve">
+    <value>Instructions : Copiez le dossier de votre ancien CHDB2.mdb Contahogar, qui 
+doit être dans C :\Program Files (x86)\HomeAccount\ vers le
+C :\HomeAccount3.0, qui a été créé, si ce n’était pas le cas, lorsque vous avez accepté cette importation</value>
+  </data>
+  <data name="DeseaContinuar" xml:space="preserve">
+    <value>Tu veux continuer ?</value>
+  </data>
+  <data name="MsgImportar1" xml:space="preserve">
+    <value>Cette fonctionnalité est conçue pour ajouter sans dupliquer des données,
+de l’ancienne base de données ContaHogar à la nouvelle base de données ContaHogar 3.0
+Une sauvegarde sera effectuée automatiquement avant de procéder à l’importation,
+puisque cette action ne peut être annulée. Tu veux continuer ?</value>
+  </data>
+  <data name="NoExisteCHDB2" xml:space="preserve">
+    <value>Le fichier CHDB2.mdb n’existe PAS dans C :\HomeAccount3.0</value>
   </data>
 </root>

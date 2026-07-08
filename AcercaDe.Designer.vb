@@ -28,8 +28,6 @@ Partial Class AcercaDe
         Me.BtnAceptar = New System.Windows.Forms.Button()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.LblVersion = New System.Windows.Forms.Label()
-        Me.LblAutoriza = New System.Windows.Forms.Label()
-        Me.LblCodigo = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -61,16 +59,6 @@ Partial Class AcercaDe
         resources.ApplyResources(Me.LblVersion, "LblVersion")
         Me.LblVersion.Name = "LblVersion"
         '
-        'LblAutoriza
-        '
-        resources.ApplyResources(Me.LblAutoriza, "LblAutoriza")
-        Me.LblAutoriza.Name = "LblAutoriza"
-        '
-        'LblCodigo
-        '
-        resources.ApplyResources(Me.LblCodigo, "LblCodigo")
-        Me.LblCodigo.Name = "LblCodigo"
-        '
         'Label3
         '
         resources.ApplyResources(Me.Label3, "Label3")
@@ -81,8 +69,6 @@ Partial Class AcercaDe
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.Controls.Add(Me.Label3)
-        Me.Controls.Add(Me.LblCodigo)
-        Me.Controls.Add(Me.LblAutoriza)
         Me.Controls.Add(Me.LblVersion)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.BtnAceptar)
@@ -94,7 +80,6 @@ Partial Class AcercaDe
         Me.Name = "AcercaDe"
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
 
@@ -103,7 +88,5 @@ Partial Class AcercaDe
     Friend WithEvents Label2 As Windows.Forms.Label
     Friend WithEvents LblVersion As Windows.Forms.Label
     Public WithEvents Label1 As Windows.Forms.Label
-    Friend WithEvents LblAutoriza As Windows.Forms.Label
-    Friend WithEvents LblCodigo As Windows.Forms.Label
     Friend WithEvents Label3 As Windows.Forms.Label
 End Class

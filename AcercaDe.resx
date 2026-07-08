@@ -413,7 +413,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;PictureBox1.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>5</value>
   </data>
   <data name="Label1.Location" type="System.Drawing.Point, System.Drawing">
     <value>161, 29</value>
@@ -447,7 +447,7 @@ Puedes enviar impresiones y sugerencias a:
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label1.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>4</value>
   </data>
   <data name="BtnAceptar.Location" type="System.Drawing.Point, System.Drawing">
     <value>516, 195</value>
@@ -471,7 +471,7 @@ Puedes enviar impresiones y sugerencias a:
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BtnAceptar.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>3</value>
   </data>
   <data name="Label2.Location" type="System.Drawing.Point, System.Drawing">
     <value>20, 262</value>
@@ -498,7 +498,7 @@ Puedes enviar impresiones y sugerencias a:
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label2.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>2</value>
   </data>
   <data name="LblVersion.Location" type="System.Drawing.Point, System.Drawing">
     <value>20, 313</value>
@@ -522,60 +522,6 @@ Puedes enviar impresiones y sugerencias a:
     <value>$this</value>
   </data>
   <data name="&gt;&gt;LblVersion.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="LblAutoriza.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="LblAutoriza.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 353</value>
-  </data>
-  <data name="LblAutoriza.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 20</value>
-  </data>
-  <data name="LblAutoriza.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="LblAutoriza.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;LblAutoriza.Name" xml:space="preserve">
-    <value>LblAutoriza</value>
-  </data>
-  <data name="&gt;&gt;LblAutoriza.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LblAutoriza.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LblAutoriza.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="LblCodigo.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="LblCodigo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 398</value>
-  </data>
-  <data name="LblCodigo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 20</value>
-  </data>
-  <data name="LblCodigo.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="LblCodigo.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;LblCodigo.Name" xml:space="preserve">
-    <value>LblCodigo</value>
-  </data>
-  <data name="&gt;&gt;LblCodigo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LblCodigo.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LblCodigo.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="Label3.Location" type="System.Drawing.Point, System.Drawing">
@@ -1385,5 +1331,23 @@ Puedes enviar impresiones y sugerencias a:
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ModoDemo" xml:space="preserve">
+    <value>Modo Demo</value>
+  </data>
+  <data name="SinActivar" xml:space="preserve">
+    <value>Sin Activar</value>
+  </data>
+  <data name="TextoAutorizaUso" xml:space="preserve">
+    <value>Se autoriza el uso a</value>
+  </data>
+  <data name="TextoCodigoActivacion" xml:space="preserve">
+    <value>Código Activación</value>
+  </data>
+  <data name="VersionDisponible" xml:space="preserve">
+    <value>Versión disponible</value>
+  </data>
+  <data name="VersionInstalada" xml:space="preserve">
+    <value>Versión Instalada</value>
   </data>
 </root>

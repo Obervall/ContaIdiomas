@@ -7771,12 +7771,6 @@ Se recomienda realizarla para evitar pérdidas de datos. Esta acción no se pued
   <data name="ErrorTransferenciaPresupuestos" xml:space="preserve">
     <value>Error durante la transferencia PRESUPUESTOS</value>
   </data>
-  <data name="MsgImportar1" xml:space="preserve">
-    <value>Esta función se ha diseñado para Añadir sin Duplicar los datos,
-de la antigua Base de Datos de ContaHogar a la nueva de ContaHogar 3.0
-se recomienda realizar una copia de seguridad antes de proceder con la importación,
-ya que esta acción no se puede deshacer</value>
-  </data>
   <data name="ImportarContahogar" xml:space="preserve">
     <value>IMPORTAR CONTAHOGAR</value>
   </data>
@@ -7785,8 +7779,7 @@ ya que esta acción no se puede deshacer</value>
 se procederá a realizar la importación</value>
   </data>
   <data name="NoExisteCHDB2" xml:space="preserve">
-    <value>NO existe el archivo CHDB2.mdb en C:\ContaHogar3.0
-Se comprueba que C:\Contahogar3.0 existe y si no, se crea</value>
+    <value>NO existe el archivo CHDB2.mdb en C:\ContaHogar3.0</value>
   </data>
   <data name="YaExisteRuta" xml:space="preserve">
     <value>Ya existe la Ruta C:\ContaHogar3.0
@@ -7809,5 +7802,16 @@ para poder realizar el proceso de importación</value>
   </data>
   <data name="ActualizacionCompletada" xml:space="preserve">
     <value>Actualización Completada</value>
+  </data>
+  <data name="MsgImportarAyuda" xml:space="preserve">
+    <value>Instrucciones: Copiar el archivo de tu antiguo Contahogar CHDB2.mdb, que debe estar en C:\Program Files (x86)\ContaHogar\ a la carpeta
+C:\ContaHogar3.0, que se ha creado, si no lo estaba, al aceptar esta importación</value>
+  </data>
+  <data name="DeseaContinuar" xml:space="preserve">
+    <value>Deseas Continuar?</value>
+  </data>
+  <data name="MsgImportar1" xml:space="preserve">
+    <value>Esta función se ha diseñado para Añadir sin Duplicar los datos, de la antigua Base de Datos de ContaHogar a la nueva de ContaHogar 3.0
+se realizará automáticamente, una copia de seguridad antes de proceder con la importación, ya que esta acción no se puede deshacer. Deseas Continuar?</value>
   </data>
 </root>

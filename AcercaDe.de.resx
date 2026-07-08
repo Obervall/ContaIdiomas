@@ -157,4 +157,7 @@ Eindrücke und Anregungen können Sie senden an:
   <data name="SinActivar" xml:space="preserve">
     <value>Nicht aktiviert</value>
   </data>
+  <data name="ModoDemo" xml:space="preserve">
+    <value>Demo-Modus</value>
+  </data>
 </root>

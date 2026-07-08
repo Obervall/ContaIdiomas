@@ -83,13 +83,11 @@ Partial Class Principal
         Me.CalculadoraToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator16 = New System.Windows.Forms.ToolStripSeparator()
         Me.AyudaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BtnActivarSoftwareToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ArchivoDeAyudaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AcercaDeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HistorialDeVersionesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ImportaAntiguoContahogarToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator21 = New System.Windows.Forms.ToolStripSeparator()
-        Me.AportaciónBizumToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripTextBox1 = New System.Windows.Forms.ToolStripTextBox()
         Me.VactualVDisponible = New System.Windows.Forms.ToolStripMenuItem()
         Me.BarraDeEstado = New System.Windows.Forms.StatusStrip()
@@ -132,13 +130,11 @@ Partial Class Principal
         Me.ToolStripLabel13 = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel15 = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel10 = New System.Windows.Forms.ToolStripLabel()
-        Me.BtnActivarSoftware = New System.Windows.Forms.ToolStripButton()
         Me.BtnAyuda = New System.Windows.Forms.ToolStripButton()
         Me.BtnAcercade = New System.Windows.Forms.ToolStripButton()
         Me.BtnHistorialVersiones = New System.Windows.Forms.ToolStripButton()
         Me.BtnImportarContaHogar = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator19 = New System.Windows.Forms.ToolStripSeparator()
-        Me.BtnBizum = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripLabel5 = New System.Windows.Forms.ToolStripLabel()
         Me.LblDonacion = New System.Windows.Forms.Label()
         Me.LblNotificacion = New System.Windows.Forms.Label()
@@ -469,14 +465,9 @@ Partial Class Principal
         '
         'AyudaToolStripMenuItem
         '
-        Me.AyudaToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BtnActivarSoftwareToolStripMenuItem, Me.ArchivoDeAyudaToolStripMenuItem, Me.AcercaDeToolStripMenuItem, Me.HistorialDeVersionesToolStripMenuItem, Me.ImportaAntiguoContahogarToolStripMenuItem, Me.ToolStripSeparator21, Me.AportaciónBizumToolStripMenuItem})
+        Me.AyudaToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ArchivoDeAyudaToolStripMenuItem, Me.AcercaDeToolStripMenuItem, Me.HistorialDeVersionesToolStripMenuItem, Me.ImportaAntiguoContahogarToolStripMenuItem, Me.ToolStripSeparator21})
         Me.AyudaToolStripMenuItem.Name = "AyudaToolStripMenuItem"
         resources.ApplyResources(Me.AyudaToolStripMenuItem, "AyudaToolStripMenuItem")
-        '
-        'BtnActivarSoftwareToolStripMenuItem
-        '
-        resources.ApplyResources(Me.BtnActivarSoftwareToolStripMenuItem, "BtnActivarSoftwareToolStripMenuItem")
-        Me.BtnActivarSoftwareToolStripMenuItem.Name = "BtnActivarSoftwareToolStripMenuItem"
         '
         'ArchivoDeAyudaToolStripMenuItem
         '
@@ -502,11 +493,6 @@ Partial Class Principal
         '
         Me.ToolStripSeparator21.Name = "ToolStripSeparator21"
         resources.ApplyResources(Me.ToolStripSeparator21, "ToolStripSeparator21")
-        '
-        'AportaciónBizumToolStripMenuItem
-        '
-        resources.ApplyResources(Me.AportaciónBizumToolStripMenuItem, "AportaciónBizumToolStripMenuItem")
-        Me.AportaciónBizumToolStripMenuItem.Name = "AportaciónBizumToolStripMenuItem"
         '
         'ToolStripTextBox1
         '
@@ -545,7 +531,7 @@ Partial Class Principal
         'BarraDeHerramientas
         '
         Me.BarraDeHerramientas.ImageScalingSize = New System.Drawing.Size(30, 30)
-        Me.BarraDeHerramientas.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel12, Me.BtnCambiarEjercicioActivo, Me.BtnPreferencias, Me.BtnSalir, Me.ToolStripLabel4, Me.ToolStripLabel11, Me.ToolStripLabel16, Me.BtnConceptos, Me.BtnCuentasBancarias, Me.BtnTipoCuentas, Me.ToolStripLabel1, Me.ToolStripLabel14, Me.ToolStripLabel2, Me.BtnApuntesContables, Me.BtnIntroducirApuntes, Me.BtnTraspasoCuentas, Me.ToolStripSeparator6, Me.BtnApuntesPeriodicos, Me.ToolStripLabel3, Me.ToolStripLabel9, Me.ToolStripLabel6, Me.BtnPresupuestos, Me.BtnDesviacionPresupuestos, Me.ToolStripLabel7, Me.ToolStripLabel17, Me.ToolStripLabel8, Me.BtnCopiaSeguridad, Me.BtnRestaurarCopia, Me.BtnCompactarBaseDatos, Me.BtnIniciarBaseDatos, Me.ToolStripSeparator9, Me.BtnCalculadora, Me.ToolStripLabel13, Me.ToolStripLabel15, Me.ToolStripLabel10, Me.BtnActivarSoftware, Me.BtnAyuda, Me.BtnAcercade, Me.BtnHistorialVersiones, Me.BtnImportarContaHogar, Me.ToolStripSeparator19, Me.BtnBizum, Me.ToolStripLabel5})
+        Me.BarraDeHerramientas.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel12, Me.BtnCambiarEjercicioActivo, Me.BtnPreferencias, Me.BtnSalir, Me.ToolStripLabel4, Me.ToolStripLabel11, Me.ToolStripLabel16, Me.BtnConceptos, Me.BtnCuentasBancarias, Me.BtnTipoCuentas, Me.ToolStripLabel1, Me.ToolStripLabel14, Me.ToolStripLabel2, Me.BtnApuntesContables, Me.BtnIntroducirApuntes, Me.BtnTraspasoCuentas, Me.ToolStripSeparator6, Me.BtnApuntesPeriodicos, Me.ToolStripLabel3, Me.ToolStripLabel9, Me.ToolStripLabel6, Me.BtnPresupuestos, Me.BtnDesviacionPresupuestos, Me.ToolStripLabel7, Me.ToolStripLabel17, Me.ToolStripLabel8, Me.BtnCopiaSeguridad, Me.BtnRestaurarCopia, Me.BtnCompactarBaseDatos, Me.BtnIniciarBaseDatos, Me.ToolStripSeparator9, Me.BtnCalculadora, Me.ToolStripLabel13, Me.ToolStripLabel15, Me.ToolStripLabel10, Me.BtnAyuda, Me.BtnAcercade, Me.BtnHistorialVersiones, Me.BtnImportarContaHogar, Me.ToolStripSeparator19, Me.ToolStripLabel5})
         resources.ApplyResources(Me.BarraDeHerramientas, "BarraDeHerramientas")
         Me.BarraDeHerramientas.Name = "BarraDeHerramientas"
         Me.BarraDeHerramientas.RenderMode = System.Windows.Forms.ToolStripRenderMode.System
@@ -744,12 +730,6 @@ Partial Class Principal
         resources.ApplyResources(Me.ToolStripLabel10, "ToolStripLabel10")
         Me.ToolStripLabel10.Name = "ToolStripLabel10"
         '
-        'BtnActivarSoftware
-        '
-        Me.BtnActivarSoftware.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        resources.ApplyResources(Me.BtnActivarSoftware, "BtnActivarSoftware")
-        Me.BtnActivarSoftware.Name = "BtnActivarSoftware"
-        '
         'BtnAyuda
         '
         Me.BtnAyuda.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
@@ -778,12 +758,6 @@ Partial Class Principal
         '
         Me.ToolStripSeparator19.Name = "ToolStripSeparator19"
         resources.ApplyResources(Me.ToolStripSeparator19, "ToolStripSeparator19")
-        '
-        'BtnBizum
-        '
-        Me.BtnBizum.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        resources.ApplyResources(Me.BtnBizum, "BtnBizum")
-        Me.BtnBizum.Name = "BtnBizum"
         '
         'ToolStripLabel5
         '
@@ -923,13 +897,9 @@ Partial Class Principal
     Friend WithEvents ToolStripSeparator16 As Windows.Forms.ToolStripSeparator
     Friend WithEvents CompactarBaseDeDatosToolStripMenuItem As Windows.Forms.ToolStripMenuItem
     Friend WithEvents BtnCompactarBaseDatos As Windows.Forms.ToolStripButton
-    Friend WithEvents BtnActivarSoftwareToolStripMenuItem As Windows.Forms.ToolStripMenuItem
-    Friend WithEvents BtnActivarSoftware As Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator19 As Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripTextBox1 As Windows.Forms.ToolStripTextBox
     Friend WithEvents VactualVDisponible As Windows.Forms.ToolStripMenuItem
-    Friend WithEvents BtnBizum As Windows.Forms.ToolStripButton
-    Friend WithEvents AportaciónBizumToolStripMenuItem As Windows.Forms.ToolStripMenuItem
     Friend WithEvents LblDonacion As Windows.Forms.Label
     Friend WithEvents HistorialDeVersionesToolStripMenuItem As Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator21 As Windows.Forms.ToolStripSeparator

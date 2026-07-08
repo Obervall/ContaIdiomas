@@ -147,9 +147,6 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Activer le logiciel</value>
   </data>
-  <data name="ModoDemo" xml:space="preserve">
-    <value>Mode démo</value>
-  </data>
   <data name="SoftwareActivado" xml:space="preserve">
     <value>Logiciel activé, merci</value>
   </data>

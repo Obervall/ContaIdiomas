@@ -34,12 +34,10 @@ Partial Class Preferencias
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.TxtBaseDatos = New System.Windows.Forms.TextBox()
         Me.BtnUbicacion = New System.Windows.Forms.Button()
-        Me.ChkBuscarActualizacion = New System.Windows.Forms.CheckBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.BtnBuscarBackup = New System.Windows.Forms.Button()
         Me.TxtPathExportar = New System.Windows.Forms.TextBox()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.BtnBuscarActualizacion = New System.Windows.Forms.Button()
         Me.CmbElegirIdioma = New System.Windows.Forms.ComboBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
@@ -122,12 +120,6 @@ Partial Class Preferencias
         Me.BtnUbicacion.Name = "BtnUbicacion"
         Me.BtnUbicacion.UseVisualStyleBackColor = True
         '
-        'ChkBuscarActualizacion
-        '
-        resources.ApplyResources(Me.ChkBuscarActualizacion, "ChkBuscarActualizacion")
-        Me.ChkBuscarActualizacion.Name = "ChkBuscarActualizacion"
-        Me.ChkBuscarActualizacion.UseVisualStyleBackColor = True
-        '
         'Label1
         '
         resources.ApplyResources(Me.Label1, "Label1")
@@ -143,12 +135,6 @@ Partial Class Preferencias
         '
         resources.ApplyResources(Me.TxtPathExportar, "TxtPathExportar")
         Me.TxtPathExportar.Name = "TxtPathExportar"
-        '
-        'BtnBuscarActualizacion
-        '
-        resources.ApplyResources(Me.BtnBuscarActualizacion, "BtnBuscarActualizacion")
-        Me.BtnBuscarActualizacion.Name = "BtnBuscarActualizacion"
-        Me.BtnBuscarActualizacion.UseVisualStyleBackColor = True
         '
         'CmbElegirIdioma
         '
@@ -187,9 +173,7 @@ Partial Class Preferencias
         Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.CmbElegirIdioma)
-        Me.Controls.Add(Me.BtnBuscarActualizacion)
         Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.ChkBuscarActualizacion)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.BtnSalir)
@@ -222,12 +206,10 @@ Partial Class Preferencias
     Friend WithEvents GroupBox2 As Windows.Forms.GroupBox
     Friend WithEvents TxtBaseDatos As Windows.Forms.TextBox
     Friend WithEvents BtnUbicacion As Windows.Forms.Button
-    Friend WithEvents ChkBuscarActualizacion As Windows.Forms.CheckBox
     Friend WithEvents Label1 As Windows.Forms.Label
     Friend WithEvents BtnBuscarBackup As Windows.Forms.Button
     Friend WithEvents TxtPathExportar As Windows.Forms.TextBox
     Friend WithEvents FolderBrowserDialog1 As Windows.Forms.FolderBrowserDialog
-    Friend WithEvents BtnBuscarActualizacion As Windows.Forms.Button
     Friend WithEvents CmbElegirIdioma As Windows.Forms.ComboBox
     Friend WithEvents Label2 As Windows.Forms.Label
     Friend WithEvents GroupBox3 As Windows.Forms.GroupBox

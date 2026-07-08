@@ -157,4 +157,7 @@ You can send impressions and suggestions to:
   <data name="SinActivar" xml:space="preserve">
     <value>Not activated</value>
   </data>
+  <data name="ModoDemo" xml:space="preserve">
+    <value>Demo Mode</value>
+  </data>
 </root>
