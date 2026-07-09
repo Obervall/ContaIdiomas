@@ -325,7 +325,7 @@ Public Class Principal
         'Mañana (Versión 3.1.2): Cambiarás tu línea a My.Settings.Version = "3.1.2",
         'cambiarás el manifiesto del MSIX a 3.1.2.0 y subirás el nuevo paquete reluciente [1.1].
 
-        My.Settings.Version = "3.1.1"
+        My.Settings.Version = "3.1.1.0"
         My.Settings.Save()
 
         vMoneda = My.Settings.Moneda
@@ -1334,28 +1334,42 @@ Public Class Principal
                                                 cmdIdCON.Parameters(1).Value = txtConceptoViejo
                                                 Dim resC = cmdIdCON.ExecuteScalar()
 
-                                                If resC IsNot Nothing AndAlso Not IsDBNull(resC) Then
-                                                    idConceptoReal = Convert.ToInt32(resC)
-                                                Else
-                                                    ' Si NO existe, lo creamos en tu base buena al vuelo
-                                                    Try
-                                                        Dim cmdMaxCon As New OleDbCommand("SELECT MAX(IdConceptoCON) FROM conceptos", connDestino)
-                                                        Dim maxC = cmdMaxCon.ExecuteScalar()
-                                                        Dim nuevoIdCON As Integer = If(maxC IsNot Nothing AndAlso Not IsDBNull(maxC), Convert.ToInt32(maxC) + 1, 2)
+                                            If resC IsNot Nothing AndAlso Not IsDBNull(resC) Then
+                                                idConceptoReal = Convert.ToInt32(resC)
+                                            Else
+                                                ' Si NO existe, lo creamos en tu base buena al vuelo interrogando al pasado
+                                                Try
+                                                    Dim cmdMaxCon As New OleDbCommand("SELECT MAX(IdConceptoCON) FROM conceptos", connDestino)
+                                                    Dim maxC = cmdMaxCon.ExecuteScalar()
+                                                    Dim nuevoIdCON As Integer = If(maxC IsNot Nothing AndAlso Not IsDBNull(maxC), Convert.ToInt32(maxC) + 1, 2)
 
-                                                        Dim cmdInsCon As New OleDbCommand("INSERT INTO conceptos (IdConceptoCON, CodigoCON, DescripcionCON, TipoCON) VALUES (?, ?, ?, 'ORDINARIO')", connDestino)
-                                                        cmdInsCon.Parameters.AddWithValue("?", nuevoIdCON)
-                                                        cmdInsCon.Parameters.AddWithValue("?", txtConceptoViejo)
-                                                        cmdInsCon.Parameters.AddWithValue("?", txtConceptoViejo)
-                                                        cmdInsCon.ExecuteNonQuery()
-                                                        idConceptoReal = nuevoIdCON
-                                                    Catch
-                                                        idConceptoReal = 1
-                                                    End Try
-                                                End If
+                                                    ' 🚀 LA JUGADA MAESTRA: Viajamos al clon a buscar el tipo original real de ese concepto
+                                                    Dim tipoOriginalViejo As String = "GASTO" ' Salvavidas base
+                                                    Dim cmdBuscaTipo As New OleDbCommand("SELECT TipoCON FROM conceptos WHERE CodigoCON = ?", connClon)
+                                                    cmdBuscaTipo.Parameters.AddWithValue("?", txtConceptoViejo)
+                                                    Dim resTipo = cmdBuscaTipo.ExecuteScalar()
 
-                                                ' --- RESOLUCIÓN INTELIGENTE DE CUENTAS BANCARIAS ---
-                                                Dim idCuentaReal As Integer = 1
+                                                    ' Si lo encuentra en el pasado, capturamos su tipo biológico (GASTO, INGRESO)
+                                                    If resTipo IsNot Nothing AndAlso Not IsDBNull(resTipo) Then
+                                                        tipoOriginalViejo = resTipo.ToString().Trim().ToUpper()
+                                                    End If
+
+                                                    ' Inserción simétrica perfecta en tu base de datos buena
+                                                    Dim cmdInsCon As New OleDbCommand("INSERT INTO conceptos (IdConceptoCON, CodigoCON, DescripcionCON, TipoCON) VALUES (?, ?, ?, ?)", connDestino)
+                                                    cmdInsCon.Parameters.AddWithValue("?", nuevoIdCON)
+                                                    cmdInsCon.Parameters.AddWithValue("?", txtConceptoViejo)
+                                                    cmdInsCon.Parameters.AddWithValue("?", txtConceptoViejo)
+                                                    cmdInsCon.Parameters.AddWithValue("?", tipoOriginalViejo) ' 🎯 Inyectamos el tipo real rescatado
+                                                    cmdInsCon.ExecuteNonQuery()
+
+                                                    idConceptoReal = nuevoIdCON
+                                                Catch
+                                                    idConceptoReal = 1
+                                                End Try
+                                            End If
+
+                                            ' --- RESOLUCIÓN INTELIGENTE DE CUENTAS BANCARIAS ---
+                                            Dim idCuentaReal As Integer = 1
                                                 cmdIdCUE.Parameters(0).Value = txtCuentaVieja
                                                 Dim resQ = cmdIdCUE.ExecuteScalar()
 

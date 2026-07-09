@@ -165,7 +165,7 @@
     <value>Anual</value>
   </data>
   <data name="CmbPeriocidad.Location" type="System.Drawing.Point, System.Drawing">
-    <value>347, 186</value>
+    <value>220, 222</value>
   </data>
   <data name="CmbPeriocidad.Size" type="System.Drawing.Size, System.Drawing">
     <value>183, 28</value>
@@ -186,7 +186,7 @@
     <value>1</value>
   </data>
   <data name="TxtNumeroPagos.Location" type="System.Drawing.Point, System.Drawing">
-    <value>137, 186</value>
+    <value>282, 173</value>
   </data>
   <data name="TxtNumeroPagos.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 27</value>
@@ -207,10 +207,10 @@
     <value>2</value>
   </data>
   <data name="Label9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>221, 189</value>
+    <value>11, 225</value>
   </data>
   <data name="Label9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 28</value>
+    <value>203, 28</value>
   </data>
   <data name="Label9.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
@@ -234,10 +234,10 @@
     <value>3</value>
   </data>
   <data name="LblNumeroPagosCobros.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 189</value>
+    <value>278, 142</value>
   </data>
   <data name="LblNumeroPagosCobros.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 28</value>
+    <value>248, 28</value>
   </data>
   <data name="LblNumeroPagosCobros.TabIndex" type="System.Int32, mscorlib">
     <value>18</value>
@@ -246,7 +246,7 @@
     <value>Nº de Pagos:</value>
   </data>
   <data name="LblNumeroPagosCobros.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>TopRight</value>
+    <value>MiddleLeft</value>
   </data>
   <data name="&gt;&gt;LblNumeroPagosCobros.Name" xml:space="preserve">
     <value>LblNumeroPagosCobros</value>
@@ -272,7 +272,7 @@
 </value>
   </data>
   <data name="BtnCuenta.Location" type="System.Drawing.Point, System.Drawing">
-    <value>401, 274</value>
+    <value>481, 307</value>
   </data>
   <data name="BtnCuenta.Size" type="System.Drawing.Size, System.Drawing">
     <value>34, 34</value>
@@ -334,7 +334,7 @@
 </value>
   </data>
   <data name="BtnCalculadora.Location" type="System.Drawing.Point, System.Drawing">
-    <value>307, 228</value>
+    <value>395, 261</value>
   </data>
   <data name="BtnCalculadora.Size" type="System.Drawing.Size, System.Drawing">
     <value>34, 34</value>
@@ -405,7 +405,7 @@
 </value>
   </data>
   <data name="BtnHoy.Location" type="System.Drawing.Point, System.Drawing">
-    <value>273, 136</value>
+    <value>151, 162</value>
   </data>
   <data name="BtnHoy.Size" type="System.Drawing.Size, System.Drawing">
     <value>34, 34</value>
@@ -450,7 +450,7 @@
     <value>9</value>
   </data>
   <data name="TxtImporte.Location" type="System.Drawing.Point, System.Drawing">
-    <value>137, 232</value>
+    <value>220, 265</value>
   </data>
   <data name="TxtImporte.Size" type="System.Drawing.Size, System.Drawing">
     <value>139, 27</value>
@@ -475,7 +475,7 @@
     <value>10</value>
   </data>
   <data name="TxtNota.Location" type="System.Drawing.Point, System.Drawing">
-    <value>141, 324</value>
+    <value>134, 347</value>
   </data>
   <data name="TxtNota.Multiline" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -499,7 +499,7 @@
     <value>11</value>
   </data>
   <data name="CmbCuenta.Location" type="System.Drawing.Point, System.Drawing">
-    <value>140, 278</value>
+    <value>220, 311</value>
   </data>
   <data name="CmbCuenta.Size" type="System.Drawing.Size, System.Drawing">
     <value>255, 28</value>
@@ -541,7 +541,7 @@
     <value>13</value>
   </data>
   <data name="DateTimePicker1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>137, 138</value>
+    <value>15, 169</value>
   </data>
   <data name="DateTimePicker1.Size" type="System.Drawing.Size, System.Drawing">
     <value>130, 27</value>
@@ -565,7 +565,7 @@
     <value>True</value>
   </data>
   <data name="Label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>282, 235</value>
+    <value>365, 268</value>
   </data>
   <data name="Label7.Size" type="System.Drawing.Size, System.Drawing">
     <value>19, 20</value>
@@ -589,7 +589,7 @@
     <value>15</value>
   </data>
   <data name="Label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 327</value>
+    <value>8, 350</value>
   </data>
   <data name="Label6.Size" type="System.Drawing.Size, System.Drawing">
     <value>120, 28</value>
@@ -616,7 +616,7 @@
     <value>16</value>
   </data>
   <data name="Label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 281</value>
+    <value>94, 314</value>
   </data>
   <data name="Label5.Size" type="System.Drawing.Size, System.Drawing">
     <value>120, 28</value>
@@ -643,7 +643,7 @@
     <value>17</value>
   </data>
   <data name="Label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 235</value>
+    <value>94, 268</value>
   </data>
   <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
     <value>120, 28</value>
@@ -724,10 +724,10 @@
     <value>20</value>
   </data>
   <data name="LblFechaPagoCobro.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 143</value>
+    <value>11, 138</value>
   </data>
   <data name="LblFechaPagoCobro.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 28</value>
+    <value>261, 28</value>
   </data>
   <data name="LblFechaPagoCobro.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -736,7 +736,7 @@
     <value>1er Pago:</value>
   </data>
   <data name="LblFechaPagoCobro.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>TopRight</value>
+    <value>MiddleLeft</value>
   </data>
   <data name="&gt;&gt;LblFechaPagoCobro.Name" xml:space="preserve">
     <value>LblFechaPagoCobro</value>
@@ -757,7 +757,7 @@
     <value>23, 19</value>
   </data>
   <data name="GroupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>561, 386</value>
+    <value>561, 413</value>
   </data>
   <data name="GroupBox1.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -806,7 +806,7 @@
     <value>TopCenter</value>
   </data>
   <data name="BtnCancelar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>294, 411</value>
+    <value>296, 454</value>
   </data>
   <data name="BtnCancelar.Size" type="System.Drawing.Size, System.Drawing">
     <value>142, 68</value>
@@ -859,7 +859,7 @@
     <value>TopCenter</value>
   </data>
   <data name="BtnAceptarSalir.Location" type="System.Drawing.Point, System.Drawing">
-    <value>442, 411</value>
+    <value>444, 454</value>
   </data>
   <data name="BtnAceptarSalir.Size" type="System.Drawing.Size, System.Drawing">
     <value>142, 68</value>
@@ -892,7 +892,7 @@
     <value>9, 16</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>614, 502</value>
+    <value>614, 541</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 7.8pt, style=Bold</value>
@@ -925,23 +925,5 @@
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ErrorGrabarApuntePeriodico" xml:space="preserve">
-    <value>Error al Grabar el Apunte Periódico</value>
-  </data>
-  <data name="MoHayPagosCobros" xml:space="preserve">
-    <value>NO hay Número de Pagos/Cobros</value>
-  </data>
-  <data name="NoDescripcionVacia" xml:space="preserve">
-    <value>La Descripción NO puede estar vacia</value>
-  </data>
-  <data name="SelecFechaPrimer" xml:space="preserve">
-    <value>Seleccionar la Fecha del Primer Pago/Cobro</value>
-  </data>
-  <data name="IntroNumeroPagos" xml:space="preserve">
-    <value>Introducir el Número de Pagos/Cobros que se harán en este Apunte Periódico</value>
-  </data>
-  <data name="SelecPeriodo" xml:space="preserve">
-    <value>Seleccionar el Periodo entre cada Pago/Cobro</value>
   </data>
 </root>

@@ -84,63 +84,24 @@ Public Class IntroApuntesPeriodicos
         TL(12).SetToolTip(Me.CmbPeriocidad, rmse.GetString("SelecPeriodo"))
 
         ' =========================================================================
-        ' 🌟 CARGA DE COMBOS DE LA NUEVA ERA (Con Idiomas, Orden A-Z e IDs Numéricos)
+        ' 🌟 CARGA DE COMBOS DE LA NUEVA ERA COMPACTADA POR FUNCIONES (MSIX)
         ' =========================================================================
 
-        ' 1. Llenar el Combo Concepto (Excluyendo 'TRASPASO', Traducido y Ordenado A-Z)
-        ' -----------------------------------------------------------------------------
-        ' Leemos el IdConceptoCON y el CodigoCON para amarrar la base de datos relacional
-        cmdMdb1cr.CommandText = "SELECT IdConceptoCON, CodigoCON FROM conceptos WHERE CodigoCON <> 'TRASPASO'"
+        ' 1. Llenar el Combo Concepto de forma aislada
+        LlenarComboConceptosPeriodicos(Me.CmbConcepto)
 
-        Dim dtConceptos As New DataTable()
-        Try
-            Using dr As OleDbDataReader = cmdMdb1cr.ExecuteReader()
-                dtConceptos.Load(dr) ' Absorbe los datos en bloque y libera a Access al instante
-            End Using
-
-            ' Creamos la columna virtual para el texto traducido
-            dtConceptos.Columns.Add("TextoComboCON", GetType(String))
-
-            For Each fila As DataRow In dtConceptos.Rows
-                Dim codigoOriginal As String = fila("CodigoCON").ToString().Trim()
-                Dim textoFinal As String = codigoOriginal
-
-                If resManager IsNot Nothing Then
-                    Dim claveRecurso As String = codigoOriginal.Replace(" ", "_")
-                    Dim traduccion As String = resManager.GetString(claveRecurso)
-                    If Not String.IsNullOrEmpty(traduccion) Then textoFinal = traduccion
-                End If
-                fila("TextoComboCON") = textoFinal
-            Next
-
-            ' Ordenamos alfabéticamente por la traducción en la memoria RAM
-            dtConceptos.DefaultView.Sort = "TextoComboCON ASC"
-
-            CmbConcepto.DataSource = Nothing
-            CmbConcepto.ValueMember = "IdConceptoCON"   ' ID numérico oculto para guardar en la BD
-            CmbConcepto.DisplayMember = "TextoComboCON"  ' Texto traducido visible en orden A-Z
-            CmbConcepto.DataSource = dtConceptos.DefaultView
-
-            ' Aplicamos tu sincronización inteligente con la pantalla de atrás si venía filtrado
-            If frmApuntesPeriodicos.BtnFiltroConcepto.Enabled = False Then
-                CmbConcepto.SelectedValue = frmApuntesPeriodicos.CmbConcepto.SelectedValue
-            Else
-                If CmbConcepto.Items.Count > 0 Then CmbConcepto.SelectedIndex = 0
-            End If
-        Catch ex As Exception
-            MsgBox(resManager.GetString("Error") & ": " & ex.Message, MsgBoxStyle.Critical)
-        End Try
-
-        ' 2. Llenar el Combo Descripción (Optimizado a la velocidad del rayo con DISTINCT)
-        ' -----------------------------------------------------------------------------
-        ' Delegamos el descarte de duplicados en Access en un milisegundo, eliminando el bucle pesado
-        cmdMdb1cr.CommandText = "SELECT DISTINCT DescripcionAPU FROM apuntes WHERE DescripcionAPU <> 'Saldo Inicial' And DescripcionAPU Is Not Null ORDER BY DescripcionAPU ASC"
-
+        ' =========================================================================
+        ' 🚀 TRAMO 2 REPARADO: LLENAR COMBO DESCRIPCIÓN INMUNE A BLOQUEOS (MSIX)
+        ' =========================================================================
+        ' Saneamos el CommandText a mayúsculas para evitar descalces con el rodillo 2.5
+        cmdMdb1cr.CommandText = "SELECT DISTINCT DescripcionAPU FROM apuntes WHERE DescripcionAPU <> 'SALDO INICIAL' And DescripcionAPU Is Not Null ORDER BY DescripcionAPU ASC"
+        cmdMdb1cr.Parameters.Clear()
         CmbDescripcion.Items.Clear()
+
         Try
             Using dr As OleDbDataReader = cmdMdb1cr.ExecuteReader()
                 While dr.Read()
-                    Dim descLimpia As String = dr("DescripcionAPU").ToString().Trim()
+                    Dim descLimpia As String = dr.GetValue(0).ToString().Trim()
                     If Not String.IsNullOrEmpty(descLimpia) Then
                         CmbDescripcion.Items.Add(descLimpia)
                     End If
@@ -150,47 +111,8 @@ Public Class IntroApuntesPeriodicos
             MsgBox(resManager.GetString("Error") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
 
-        ' 3. Llenar el Combo Cuenta (Traducido por resManager y Ordenado A-Z)
-        ' -----------------------------------------------------------------------------
-        cmdMdb1cr.CommandText = "SELECT IdCuentaCUE, NombreCUE FROM cuentas"
-
-        Dim dtCuentas As New DataTable()
-        Try
-            Using dr As OleDbDataReader = cmdMdb1cr.ExecuteReader()
-                dtCuentas.Load(dr)
-            End Using
-
-            dtCuentas.Columns.Add("TextoComboCUE", GetType(String))
-
-            For Each fila As DataRow In dtCuentas.Rows
-                Dim nombreOriginal As String = fila("NombreCUE").ToString().Trim()
-                Dim textoFinal As String = nombreOriginal
-
-                If resManager IsNot Nothing Then
-                    Dim claveRecurso As String = nombreOriginal.Replace(" ", "_")
-                    Dim traduccion As String = resManager.GetString(claveRecurso)
-                    If Not String.IsNullOrEmpty(traduccion) Then textoFinal = traduccion
-                End If
-                fila("TextoComboCUE") = textoFinal
-            Next
-
-            ' Ordenamos alfabéticamente por la traducción en la memoria RAM
-            dtCuentas.DefaultView.Sort = "TextoComboCUE ASC"
-
-            CmbCuenta.DataSource = Nothing
-            CmbCuenta.ValueMember = "IdCuentaCUE"    ' ID numérico oculto para guardar en la BD
-            CmbCuenta.DisplayMember = "TextoComboCUE" ' Texto traducido visible en orden A-Z
-            CmbCuenta.DataSource = dtCuentas.DefaultView
-
-            ' Sincronización inteligente con la pantalla de atrás si venía filtrado
-            If frmApuntesPeriodicos.BtnFiltroCuenta.Enabled = False Then
-                CmbCuenta.SelectedValue = frmApuntesPeriodicos.CmbCuenta.SelectedValue
-            Else
-                If CmbCuenta.Items.Count > 0 Then CmbCuenta.SelectedIndex = 0
-            End If
-        Catch ex As Exception
-            MsgBox(resManager.GetString("Error") & ": " & ex.Message, MsgBoxStyle.Critical)
-        End Try
+        ' 3. Llenar el Combo Cuenta de forma aislada
+        LlenarComboCuentasPeriodicos(Me.CmbCuenta)
 
         ' 4. Valores e interfaz por defecto (Tus líneas originales impecables)
         TxtImporte.Text = "0"
@@ -207,31 +129,36 @@ Public Class IntroApuntesPeriodicos
     End Sub
 
     Private Sub CmbConcepto_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbConcepto.SelectedIndexChanged
-        ' 🌟 ESCUDO PROTECTOR AUTOMÁTICO: Si el formulario se está cargando o limpiando, salimos de inmediato
-        If cargandoFormulario Then Exit Sub
+        ' =========================================================================
+        ' 🚀 REPARADO MODO INTEGRAL: COMPUERTAS DE SEGURIDAD ELÁSTICAS
+        ' =========================================================================
+        ' Solamente abortamos si la aplicación se está abriendo de fábrica por primera vez
+        If cargandoFormulario AndAlso CmbConcepto.SelectedIndex < 0 Then Exit Sub
         If CmbConcepto.SelectedIndex < 0 Then Exit Sub
 
+        ' Se buscan Conceptos según lo seleccionado para mostrar su descripción y tipo
+        ' **********************************************************************************
         Try
             Dim codigoOriginal As String = ""
             Dim descripcionOriginal As String = ""
             Dim tipoOriginal As String = ""
 
-            ' 🌟 EXTRACCIÓN MAESTRA DESDE MEMORIA (Cero consultas DataReader a Access)
-            ' Convertimos el ítem seleccionado en un DataRowView para leer sus columnas ocultas
+            ' 🌟 EXTRACCIÓN MAESTRA DESDE MEMORIA (Cero consultas DataReader)
             If CmbConcepto.SelectedItem IsNot Nothing Then
                 Dim filaSeleccionada As DataRowView = CType(CmbConcepto.SelectedItem, DataRowView)
 
                 codigoOriginal = filaSeleccionada("CodigoCON").ToString().Trim()
                 descripcionOriginal = filaSeleccionada("DescripcionCON").ToString().Trim()
 
+                ' Leemos el TipoCON de forma segura por si acaso
                 If filaSeleccionada.Row.Table.Columns.Contains("TipoCON") Then
                     tipoOriginal = filaSeleccionada("TipoCON").ToString().Trim()
                 End If
             End If
 
+            ' 3. Traducir y asignar los textos a la interfaz de forma segura
             If Not String.IsNullOrEmpty(codigoOriginal) Then
-                ' Almacenamos el código en tu variable global para tus lógicas de fábrica
-                vConcepto = codigoOriginal
+                vConcepto = codigoOriginal ' Guardamos el código original en español para la BD
 
                 ' --- TRADUCIR EL TIPO (Gasto / Ingreso / Especial) ---
                 Dim tradTipo As String = ""
@@ -244,26 +171,40 @@ Public Class IntroApuntesPeriodicos
                 TxtTipoConcepto.Text = tradTipo
 
                 ' --- CAMBIO DINÁMICO DE ETIQUETAS SEGÚN EL SIGNO CONTABLE ---
-                ' Evaluamos con el tipo original en mayúsculas para que sea 100% inmune al idioma activo
                 If tipoOriginal.ToUpper() = "GASTO" Then
-                    LblNumeroPagosCobros.Text = "Nº de Pagos:"
-                    LblFechaPagoCobro.Text = "1er Pago:"
+                    LblNumeroPagosCobros.Text = resManager.GetString("NumeroPagos") & ":"
+                    LblFechaPagoCobro.Text = resManager.GetString("1erPago") & ":"
                 Else
-                    LblNumeroPagosCobros.Text = "Nº de Cobros:"
-                    LblFechaPagoCobro.Text = "1er Cobro:"
+                    LblNumeroPagosCobros.Text = resManager.GetString("NumeroCobros") & ":"
+                    LblFechaPagoCobro.Text = resManager.GetString("1erCobro") & ":"
                 End If
 
-                ' --- TRADUCIR LAS DESCRIPCIONES AUTOMÁTICAS (Desc_NOMBRE) ---
+                ' --- TRADUCIR LAS DESCRIPCIONES (Desc_NOMBRE) ---
                 Dim llaveDesc As String = "Desc_" & codigoOriginal.Replace(" ", "_")
                 Dim tradDesc As String = resManager.GetString(llaveDesc)
 
-                ' Si no tiene traducción en el ResX, dejamos la descripción genérica de la BD
+                ' Si no tiene traducción en el ResX, dejamos la descripción original de la BD
                 If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
-                CmbDescripcion.Text = tradDesc
+
+                ' =========================================================================
+                ' 🎯 LA ACOPLACIÓN SINCRONIZADA E INMUNE A MAYÚSCULAS
+                ' =========================================================================
+                Dim textoBuscarMayusculas As String = tradDesc.Trim().ToUpper()
+                Dim indiceEncontrado As Integer = CmbDescripcion.FindStringExact(textoBuscarMayusculas)
+
+                If indiceEncontrado >= 0 Then
+                    ' Si la frase existe en tu DISTINCT, forzamos su selección física en la lista
+                    CmbDescripcion.SelectedIndex = indiceEncontrado
+                Else
+                    ' Si es una frase nueva, la inyectamos por texto directo de forma limpia
+                    CmbDescripcion.SelectedIndex = -1
+                    CmbDescripcion.Text = textoBuscarMayusculas
+                End If
+
             End If
 
         Catch ex As Exception
-            ' Evita cuelgues visuales si el combo parpadea en la carga
+            MsgBox(resManager.GetString("Error") & ": " & ex.Message, MsgBoxStyle.Critical, resManager.GetString("Error"))
         End Try
     End Sub
 
@@ -413,39 +354,62 @@ Public Class IntroApuntesPeriodicos
     End Sub
 
     Private Sub BtnConcepto_Click(sender As Object, e As EventArgs) Handles BtnConcepto.Click
-        frmPrincipal.TsLabelFormulario.Text = frmConceptosContables.rmse.GetString("$this.Text")
+        ' 1. Abrimos la pantalla de mantenimiento de conceptos del formulario principal
+        frmPrincipal.ConceptosContablesToolStripMenuItem.PerformClick()
 
-        ' Comprobamos si existe un identificador asociado.
-        If ((frmConceptosContables Is Nothing) OrElse (Not frmConceptosContables.IsHandleCreated)) Then
-            frmConceptosContables = New ConceptosContables
-        End If
-        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
-        ActualizarTextosFormulario(frmNuevoConceptoContable)
-        ' Llamamos al formulario de manera modal.
-        frmConceptosContables.ShowDialog()
+        ' =========================================================================
+        ' 🌟 RECARGA DE LA NUEVA ERA: CERO BUCLES WHILE Y 100% SEGURO CON IDs
+        ' =========================================================================
+        ' Encendemos el escudo protector para que los eventos de cambio no se vuelvan locos al recargar
+        cargandoFormulario = True
 
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
-        frmConceptosContables.Dispose()
-        frmPrincipal.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Try
+            ' 2. Llamamos a nuestra rutina exclusiva que limpia, filtra especiales, 
+            ' traduce e inyecta el DataTable con IDs numéricos en un milisegundo
+            LlenarComboConceptosPeriodicos(Me.CmbConcepto)
+
+            ' 3. Apagamos el escudo protector para permitir la interacción del usuario
+            cargandoFormulario = False
+
+            ' 4. Volvemos a aplicar tu vaivén maestro de índices para forzar el relleno de descripciones
+            If CmbConcepto.Items.Count > 0 Then
+                CmbConcepto.SelectedIndex = -1 ' Reseteamos a vacío primero
+                CmbConcepto.SelectedIndex = 0  ' Seleccionamos el primer elemento de forma segura
+            End If
+
+        Catch ex As Exception
+            cargandoFormulario = False
+            MsgBox(resManager.GetString("ErrorRefrescarCON") & ": " & ex.Message, MsgBoxStyle.Critical)
+        End Try
     End Sub
 
     Private Sub BtnCuenta_Click(sender As Object, e As EventArgs) Handles BtnCuenta.Click
-        frmPrincipal.TsLabelFormulario.Text = frmCuentasBancarias.rmse.GetString("$this.Text")
+        ' 1. Abrimos la pantalla de mantenimiento de cuentas del formulario principal
+        frmPrincipal.CuentasToolStripMenuItem.PerformClick()
 
-        ' Comprobamos si existe un identificador asociado.
-        If ((frmCuentasBancarias Is Nothing) OrElse (Not frmCuentasBancarias.IsHandleCreated)) Then
-            frmCuentasBancarias = New CuentasBancarias
-        End If
-        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
-        ActualizarTextosFormulario(frmCuentasBancarias)
-        ' Llamamos al formulario de manera modal.
-        frmCuentasBancarias.ShowDialog()
+        ' =========================================================================
+        ' 🌟 RECARGA DE LA NUEVA ERA: ENLACE SIMÉTRICO DE CUENTAS BANCARIAS
+        ' =========================================================================
+        ' Encendemos el escudo protector para que los eventos de cambio no se vuelvan locos al recargar
+        cargandoFormulario = True
 
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
-        frmCuentasBancarias.Dispose()
-        frmPrincipal.TsLabelFormulario.Text = resManager.GetString("MsgEspera")
+        Try
+            ' 2. Llamamos a tu rutina exclusiva para refrescar e inyectar las cuentas con sus IDs numéricos
+            LlenarComboCuentasPeriodicos(Me.CmbCuenta)
+
+            ' 3. Apagamos el escudo protector para permitir la interacción del usuario
+            cargandoFormulario = False
+
+            ' 4. Volvemos a aplicar tu vaivén maestro de índices para forzar el relleno en la rejilla
+            If CmbCuenta.Items.Count > 0 Then
+                CmbCuenta.SelectedIndex = -1 ' Reseteamos a vacío primero
+                CmbCuenta.SelectedIndex = 0  ' Seleccionamos el primer elemento de forma segura
+            End If
+
+        Catch ex As Exception
+            cargandoFormulario = False
+            MsgBox(resManager.GetString("ErrorRefrecarCUE") & ": " & ex.Message, MsgBoxStyle.Critical)
+        End Try
     End Sub
 
     Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
@@ -474,4 +438,101 @@ Public Class IntroApuntesPeriodicos
     Private Sub CmbCuenta_Click(sender As Object, e As EventArgs) Handles CmbCuenta.Click
         CmbCuenta.DroppedDown = True
     End Sub
+
+    ' =========================================================================
+    ' 🚀 FUNCIÓN ACCESIBLE: LLENAR COMBO CONCEPTOS PERIODICOS
+    ' =========================================================================
+    Public Sub LlenarComboConceptosPeriodicos(ByVal combo As ComboBox)
+        If combo Is Nothing Then Exit Sub
+
+        ' 1. Saneamos el CommandText para que TipoCON <> 'ESPECIAL' e incluya DescripcionCON
+        cmdMdb1cr.CommandText = "SELECT IdConceptoCON, CodigoCON, DescripcionCON, TipoCON FROM conceptos WHERE TipoCON <> 'ESPECIAL'"
+
+        Dim dtConceptos As New DataTable()
+        Try
+            Using dr As OleDbDataReader = cmdMdb1cr.ExecuteReader()
+                dtConceptos.Load(dr)
+            End Using
+
+            ' Creamos la columna virtual para el texto traducido
+            dtConceptos.Columns.Add("TextoComboCON", GetType(String))
+
+            For Each fila As DataRow In dtConceptos.Rows
+                Dim codigoOriginal As String = fila("CodigoCON").ToString().Trim()
+                Dim textoFinal As String = codigoOriginal
+
+                If resManager IsNot Nothing Then
+                    Dim claveRecurso As String = codigoOriginal.Replace(" ", "_")
+                    Dim traduccion As String = resManager.GetString(claveRecurso)
+                    If Not String.IsNullOrEmpty(traduccion) Then textoFinal = traduccion
+                End If
+                fila("TextoComboCON") = textoFinal
+            Next
+
+            ' Ordenamos alfabéticamente por la traducción en la memoria RAM
+            dtConceptos.DefaultView.Sort = "TextoComboCON ASC"
+
+            combo.DataSource = Nothing
+            combo.ValueMember = "IdConceptoCON"
+            combo.DisplayMember = "TextoComboCON"
+            combo.DataSource = dtConceptos.DefaultView
+
+            ' Sincronización inteligente con la pantalla de atrás si venía filtrado
+            If frmApuntesPeriodicos.BtnFiltroConcepto.Enabled = False Then
+                combo.SelectedValue = frmApuntesPeriodicos.CmbConcepto.SelectedValue
+            Else
+                If combo.Items.Count > 0 Then combo.SelectedIndex = 0
+            End If
+        Catch ex As Exception
+            MsgBox(resManager.GetString("Error") & ": " & ex.Message, MsgBoxStyle.Critical)
+        End Try
+    End Sub
+
+    ' =========================================================================
+    ' 🚀 FUNCIÓN ACCESIBLE: LLENAR COMBO CUENTAS PERIODICOS
+    ' =========================================================================
+    Public Sub LlenarComboCuentasPeriodicos(ByVal combo As ComboBox)
+        If combo Is Nothing Then Exit Sub
+
+        cmdMdb1cr.CommandText = "SELECT IdCuentaCUE, NombreCUE FROM cuentas"
+
+        Dim dtCuentas As New DataTable()
+        Try
+            Using dr As OleDbDataReader = cmdMdb1cr.ExecuteReader()
+                dtCuentas.Load(dr)
+            End Using
+
+            dtCuentas.Columns.Add("TextoComboCUE", GetType(String))
+
+            For Each fila As DataRow In dtCuentas.Rows
+                Dim nombreOriginal As String = fila("NombreCUE").ToString().Trim()
+                Dim textoFinal As String = nombreOriginal
+
+                If resManager IsNot Nothing Then
+                    Dim claveRecurso As String = nombreOriginal.Replace(" ", "_")
+                    Dim traduccion As String = resManager.GetString(claveRecurso)
+                    If Not String.IsNullOrEmpty(traduccion) Then textoFinal = traduccion
+                End If
+                fila("TextoComboCUE") = textoFinal
+            Next
+
+            ' Ordenamos alfabéticamente por la traducción en la memoria RAM
+            dtCuentas.DefaultView.Sort = "TextoComboCUE ASC"
+
+            combo.DataSource = Nothing
+            combo.ValueMember = "IdCuentaCUE"
+            combo.DisplayMember = "TextoComboCUE"
+            combo.DataSource = dtCuentas.DefaultView
+
+            ' Sincronización inteligente con la pantalla de atrás si venía filtrado
+            If frmApuntesPeriodicos.BtnFiltroCuenta.Enabled = False Then
+                combo.SelectedValue = frmApuntesPeriodicos.CmbCuenta.SelectedValue
+            Else
+                If combo.Items.Count > 0 Then combo.SelectedIndex = 0
+            End If
+        Catch ex As Exception
+            MsgBox(resManager.GetString("Error") & ": " & ex.Message, MsgBoxStyle.Critical)
+        End Try
+    End Sub
+
 End Class

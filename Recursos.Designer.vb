@@ -64,6 +64,24 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a 1er Cobro.
+    '''</summary>
+    Friend Shared ReadOnly Property _1erCobro() As String
+        Get
+            Return ResourceManager.GetString("1erCobro", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a 1er Pago.
+    '''</summary>
+    Friend Shared ReadOnly Property _1erPago() As String
+        Get
+            Return ResourceManager.GetString("1erPago", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Error.
     '''</summary>
     Friend Shared ReadOnly Property _Error() As String
@@ -1320,9 +1338,18 @@ Friend Class Recursos
     '''<summary>
     '''  Busca una cadena traducida similar a Error al refrescar el combo de conceptos.
     '''</summary>
-    Friend Shared ReadOnly Property ErrorRefrecarCON() As String
+    Friend Shared ReadOnly Property ErrorRefrescarCON() As String
         Get
-            Return ResourceManager.GetString("ErrorRefrecarCON", resourceCulture)
+            Return ResourceManager.GetString("ErrorRefrescarCON", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Error al refrescar el combo de cuentas.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorRefrescarCUE() As String
+        Get
+            Return ResourceManager.GetString("ErrorRefrescarCUE", resourceCulture)
         End Get
     End Property
     
@@ -1872,6 +1899,24 @@ Friend Class Recursos
     Friend Shared ReadOnly Property Numero() As String
         Get
             Return ResourceManager.GetString("Numero", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Cantidad Cobros.
+    '''</summary>
+    Friend Shared ReadOnly Property NumeroCobros() As String
+        Get
+            Return ResourceManager.GetString("NumeroCobros", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Cantidad Pagos.
+    '''</summary>
+    Friend Shared ReadOnly Property NumeroPagos() As String
+        Get
+            Return ResourceManager.GetString("NumeroPagos", resourceCulture)
         End Get
     End Property
     

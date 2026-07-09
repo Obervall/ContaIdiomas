@@ -138,6 +138,7 @@ Public Class EditarCuentaBancaria
             Dim filasAfectadas As Integer = cmdMdb1cr.ExecuteNonQuery()
 
             If filasAfectadas > 0 Then
+                CargarCuentasBancarias()
                 Me.Close() ' Guardado con éxito, cierra la ventana modal
             Else
                 MessageBox.Show(resManager.GetString("NoEncuentraRegistro"), resManager.GetString("Atencion"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -214,21 +215,7 @@ Public Class EditarCuentaBancaria
                 Exit Sub
             End Try
 
-            ' --- 4. ACTUALIZACIÓN INMEDIATA DEL GRID EN MEMORIA (Tu excelente lógica de RAM intacta) ---
-            Dim tabla As System.Data.DataTable = TryCast(frmCuentasBancarias.DgvCuentas.DataSource, System.Data.DataTable)
-            If tabla IsNot Nothing Then
-                Dim filasAEliminar() As System.Data.DataRow = tabla.Select($"IdCuentaCUE = {vIdCuenta}")
-                If filasAEliminar.Length > 0 Then
-                    filasAEliminar(0).Delete()
-                    tabla.AcceptChanges()
-                End If
-            End If
-
-            ' Recalculamos contadores y totales visibles de forma automática
-            Dim vNumRegistros As String = frmCuentasBancarias.DgvCuentas.Rows.Count.ToString()
-            frmCuentasBancarias.TxtNumRegistros.Text = vNumRegistros
-            DgvCuentasBancarias()
-
+            CargarCuentasBancarias()
             ' Cerramos la ventana de edición/borrado
             Me.Close()
         End If

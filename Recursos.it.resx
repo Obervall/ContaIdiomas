@@ -775,7 +775,7 @@ Il file non è aperto</value>
   <data name="ErrorSincronizarCON" xml:space="preserve">
     <value>Concetto di sincronizzazione degli errori</value>
   </data>
-  <data name="ErrorRefrecarCON" xml:space="preserve">
+  <data name="ErrorRefrescarCON" xml:space="preserve">
     <value>Errore durante l'aggiornamento della combinazione di concetti</value>
   </data>
   <data name="ErrorLlenarCmbDescripcion" xml:space="preserve">
@@ -936,5 +936,20 @@ Il file non è aperto</value>
   </data>
   <data name="ErrorCrearCopiaSeguridad" xml:space="preserve">
     <value>Errore che genera il backup</value>
+  </data>
+  <data name="ErrorRefrescarCUE" xml:space="preserve">
+    <value>Errore nell'aggiornare la combinazione di account</value>
+  </data>
+  <data name="NumeroPagos" xml:space="preserve">
+    <value>Importo dei pagamenti</value>
+  </data>
+  <data name="NumeroCobros" xml:space="preserve">
+    <value>Quantità delle Collezioni</value>
+  </data>
+  <data name="1erPago" xml:space="preserve">
+    <value>Primo Pagamento</value>
+  </data>
+  <data name="1erCobro" xml:space="preserve">
+    <value>Prima carica</value>
   </data>
 </root>

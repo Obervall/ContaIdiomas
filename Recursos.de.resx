@@ -775,7 +775,7 @@ Die Datei ist nicht geöffnet</value>
   <data name="ErrorSincronizarCON" xml:space="preserve">
     <value>Fehlersynchronisationskonzept</value>
   </data>
-  <data name="ErrorRefrecarCON" xml:space="preserve">
+  <data name="ErrorRefrescarCON" xml:space="preserve">
     <value>Fehler beim Aktualisieren der Konzeptkombination</value>
   </data>
   <data name="ErrorLlenarCmbDescripcion" xml:space="preserve">
@@ -936,5 +936,20 @@ Die Datei ist nicht geöffnet</value>
   </data>
   <data name="ErrorCrearCopiaSeguridad" xml:space="preserve">
     <value>Fehler-Generierung des Backups</value>
+  </data>
+  <data name="ErrorRefrescarCUE" xml:space="preserve">
+    <value>Fehler beim Aktualisieren der Konto-Kombination</value>
+  </data>
+  <data name="NumeroPagos" xml:space="preserve">
+    <value>Höhe der Zahlungen</value>
+  </data>
+  <data name="NumeroCobros" xml:space="preserve">
+    <value>Höhe der Sammlungen</value>
+  </data>
+  <data name="1erPago" xml:space="preserve">
+    <value>1. Zahlung</value>
+  </data>
+  <data name="1erCobro" xml:space="preserve">
+    <value>1. Angriff</value>
   </data>
 </root>

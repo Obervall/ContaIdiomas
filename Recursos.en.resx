@@ -775,7 +775,7 @@ the file is not open</value>
   <data name="ErrorSincronizarCON" xml:space="preserve">
     <value>Error synchronizing concept</value>
   </data>
-  <data name="ErrorRefrecarCON" xml:space="preserve">
+  <data name="ErrorRefrescarCON" xml:space="preserve">
     <value>Error when refreshing the concept combo</value>
   </data>
   <data name="ErrorLlenarCmbDescripcion" xml:space="preserve">
@@ -936,5 +936,20 @@ the file is not open</value>
   </data>
   <data name="ErrorCrearCopiaSeguridad" xml:space="preserve">
     <value>Error generating the backup</value>
+  </data>
+  <data name="ErrorRefrescarCUE" xml:space="preserve">
+    <value>Error refreshing the account combo</value>
+  </data>
+  <data name="NumeroPagos" xml:space="preserve">
+    <value>Amount of Payments</value>
+  </data>
+  <data name="NumeroCobros" xml:space="preserve">
+    <value>Amount of Collections</value>
+  </data>
+  <data name="1erPago" xml:space="preserve">
+    <value>1st Payment</value>
+  </data>
+  <data name="1erCobro" xml:space="preserve">
+    <value>1st Charge</value>
   </data>
 </root>

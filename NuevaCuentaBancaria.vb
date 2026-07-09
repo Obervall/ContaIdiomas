@@ -154,21 +154,23 @@ Public Class NuevaCuentaBancaria
             cmdMdb1cr.ExecuteNonQuery()
             ' --- 6. REFRESCAMOS EL GRID DE LA PANTALLA PRINCIPAL EN MEMORIA ---
             Dim tabla As System.Data.DataTable = TryCast(frmCuentasBancarias.DgvCuentas.DataSource, System.Data.DataTable)
-        If tabla IsNot Nothing Then
-            ' Añadimos la fila a la memoria RAM usando el 'siguienteID' que calculamos arriba
-            ' Orden exacto del DataTable: Tipo, Nombre, Numero, Saldo, Notas, Id
-            Dim textoTipoCombo As String = CmbTipoCuenta.Text ' Captura el idioma actual (ej: "Current Account")
-            tabla.Rows.Add(textoTipoCombo, nombreCuentaMayusculas, numeroCuenta, 0.00, notasCuenta, siguienteID)
-            tabla.AcceptChanges()
-        End If
+            If tabla IsNot Nothing Then
+                ' Añadimos la fila a la memoria RAM usando el 'siguienteID' que calculamos arriba
+                ' Orden exacto del DataTable: Tipo, Nombre, Numero, Saldo, Notas, Id
+                Dim textoTipoCombo As String = CmbTipoCuenta.Text ' Captura el idioma actual (ej: "Current Account")
+                tabla.Rows.Add(textoTipoCombo, nombreCuentaMayusculas, numeroCuenta, 0.00, notasCuenta, siguienteID)
+                tabla.AcceptChanges()
+            End If
 
-        ' Recalculamos totales del formulario principal
-        Dim vNumRegistros As String = frmCuentasBancarias.DgvCuentas.Rows.Count.ToString()
-        frmCuentasBancarias.TxtNumRegistros.Text = vNumRegistros
-        DgvCuentasBancarias()
+            ' Recalculamos totales del formulario principal
+            Dim vNumRegistros As String = frmCuentasBancarias.DgvCuentas.Rows.Count.ToString()
+            frmCuentasBancarias.TxtNumRegistros.Text = vNumRegistros
+            DgvCuentasBancarias()
 
-        ' Cerramos la ventana modal de alta
-        Me.Close()
+            CargarCuentasBancarias()
+
+            ' Cerramos la ventana modal de alta
+            Me.Close()
 
         Catch ex As Exception
             MessageBox.Show(resManager.GetString("ErrorGrabarRegistro") & ": " & vbNewLine & ex.Message, resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)

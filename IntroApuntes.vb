@@ -537,7 +537,7 @@ Public Class IntroApuntes
 
         Catch ex As Exception
             cargandoFormulario = False
-            MsgBox(resManager.GetString("ErrorRefrecarCON") & ": " & ex.Message, MsgBoxStyle.Critical)
+            MsgBox(resManager.GetString("ErrorRefrescarCON") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
     End Sub
 
@@ -865,7 +865,32 @@ Public Class IntroApuntes
     End Sub
 
     Private Sub BtnCuenta_Click(sender As Object, e As EventArgs) Handles BtnCuenta.Click
+        ' 1. Abrimos la pantalla de mantenimiento de cuentas del formulario principal
         frmPrincipal.CuentasToolStripMenuItem.PerformClick()
+
+        ' =========================================================================
+        ' 🌟 RECARGA DE LA NUEVA ERA: ENLACE SIMÉTRICO DE CUENTAS BANCARIAS
+        ' =========================================================================
+        ' Encendemos el escudo protector para que los eventos de cambio no se vuelvan locos al recargar
+        cargandoFormulario = True
+
+        Try
+            ' 2. Llamamos a tu rutina exclusiva para refrescar e inyectar las cuentas con sus IDs numéricos
+            LlenarComboCuentasGenerico(Me.CmbCuenta)
+
+            ' 3. Apagamos el escudo protector para permitir la interacción del usuario
+            cargandoFormulario = False
+
+            ' 4. Volvemos a aplicar tu vaivén maestro de índices para forzar el relleno en la rejilla
+            If CmbCuenta.Items.Count > 0 Then
+                CmbCuenta.SelectedIndex = -1 ' Reseteamos a vacío primero
+                CmbCuenta.SelectedIndex = 0  ' Seleccionamos el primer elemento de forma segura
+            End If
+
+        Catch ex As Exception
+            cargandoFormulario = False
+            MsgBox(resManager.GetString("ErrorRefrecarCUE") & ": " & ex.Message, MsgBoxStyle.Critical)
+        End Try
     End Sub
 
     Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing

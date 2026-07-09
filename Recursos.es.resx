@@ -775,7 +775,7 @@ que el archivo no esté abierto</value>
   <data name="ErrorSincronizarCON" xml:space="preserve">
     <value>Error al sincronizar el concepto</value>
   </data>
-  <data name="ErrorRefrecarCON" xml:space="preserve">
+  <data name="ErrorRefrescarCON" xml:space="preserve">
     <value>Error al refrescar el combo de conceptos</value>
   </data>
   <data name="ErrorLlenarCmbDescripcion" xml:space="preserve">
@@ -936,5 +936,20 @@ que el archivo no esté abierto</value>
   </data>
   <data name="ErrorCrearCopiaSeguridad" xml:space="preserve">
     <value>Error al generar la copia de seguridad</value>
+  </data>
+  <data name="ErrorRefrescarCUE" xml:space="preserve">
+    <value>Error al refrescar el combo de cuentas</value>
+  </data>
+  <data name="NumeroPagos" xml:space="preserve">
+    <value>Cantidad Pagos</value>
+  </data>
+  <data name="NumeroCobros" xml:space="preserve">
+    <value>Cantidad Cobros</value>
+  </data>
+  <data name="1erCobro" xml:space="preserve">
+    <value>1er Cobro</value>
+  </data>
+  <data name="1erPago" xml:space="preserve">
+    <value>1er Pago</value>
   </data>
 </root>

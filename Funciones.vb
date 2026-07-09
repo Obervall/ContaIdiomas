@@ -5,9 +5,7 @@ Imports System.Data.OleDb
 Imports System.Diagnostics
 Imports System.Drawing
 Imports System.Globalization
-Imports System.IO
 Imports System.Linq
-Imports System.Net
 Imports System.Reflection
 Imports System.Resources
 Imports System.Threading
@@ -544,7 +542,7 @@ Module Funciones
                 .Columns(7).HeaderText = resManager.GetString("Codigo") ' "Código"
                 ' Ocultamos por completo las columnas técnicas que usa el traductor por debajo
                 If .ColumnCount >= 11 Then
-                    .Columns(7).Visible = False  ' [CodigoAPU] (Mejor que Width = 0 por seguridad)
+                    .Columns(7).Visible = False  ' [CodigoAPP] (Mejor que Width = 0 por seguridad)
                     .Columns(8).Visible = False  ' IdConceptoCON
                     .Columns(9).Visible = False ' DescripcionCON
                     .Columns(10).Visible = False ' IdCuentaCUE
@@ -596,106 +594,108 @@ Module Funciones
             frmImprimirForm.DgvApuntes.DataSource = ""
             frmImprimirForm.DgvApuntes.DataSource = Tabla
 
-        ElseIf vgrid = "CUENTAS_BANCARIAS" Then
-            Dim adp As New OleDbDataAdapter(linSql, conexion1)
-            Dim Tabla As New DataTable
-            adp.Fill(Tabla)
+            'ElseIf vgrid = "CUENTAS_BANCARIAS" Then
+            '    Dim adp As New OleDbDataAdapter(linSql, conexion1)
+            '    Dim Tabla As New DataTable
+            '    adp.Fill(Tabla)
 
-            ' --- RECORRIDO DE FILAS CON TRADUCCIÓN DE TIPOS Y NOMBRES SISTEMA ---
-            For Each filaData As DataRow In Tabla.Rows
+            '    ' 🎯 LA CLAVE 2: Creamos una columna virtual legítima en la RAM para el Saldo numérico
+            '    ' Nace en la posición 3 de la estructura para respetar todos tus "With .Columns" de abajo
+            '    Dim colSaldo As New DataColumn("SaldoCalculado", GetType(Decimal))
+            '    colSaldo.DefaultValue = 0.00
+            '    Tabla.Columns.Add(colSaldo)
+            '    colSaldo.SetOrdinal(3) ' 🚀 La colocamos exactamente en la celda 3
 
-                ' =========================================================================
-                ' 3. CÁLCULO DEL SALDO POR ID (Lo que ya funcionaba impecable)
-                ' =========================================================================
-                Dim vIdCuenta As Integer = Convert.ToInt32(filaData("IdCuentaCUE"))
+            '    ' --- RECORRIDO DE FILAS CON TRADUCCIÓN DE TIPOS Y NOMBRES SISTEMA ---
+            '    For Each filaData As DataRow In Tabla.Rows
+            '        ' Capturamos el ID que ahora viaja seguro en la celda 4 (Desplazado dócilmente)
+            '        Dim vIdCuenta As Integer = Convert.ToInt32(filaData("IdCuentaCUE"))
 
-                cmdMdb1cr.CommandText = "SELECT apuntes.ImporteAPU FROM apuntes"
-                cmdMdb1cr.CommandText += " WHERE apuntes.CuentaAPU = " & vIdCuenta
-                cmdMdb1cr.CommandText += " And apuntes.EjercicioAPU = " & vAñoEjercicio
+            '        cmdMdb1cr.CommandText = "SELECT apuntes.ImporteAPU FROM apuntes WHERE apuntes.CuentaAPU = " & vIdCuenta & " And apuntes.EjercicioAPU = " & vAñoEjercicio
 
-                Try
-                    drMdb1 = cmdMdb1cr.ExecuteReader()
-                    vSaldoCuentas = 0
-                    If drMdb1.HasRows Then
-                        While drMdb1.Read()
-                            vSaldoCuentas += Convert.ToDecimal(drMdb1.GetValue(0))
-                        End While
-                    End If
-                    drMdb1.Close()
-                Catch ex As Exception
-                    If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-                    MsgBox(resManager.GetString("ErrorAlEjecutar") & ": " & cmdMdb1cr.CommandText & vbCrLf & ex.Message)
-                End Try
+            '        Try
+            '            drMdb1 = cmdMdb1cr.ExecuteReader()
+            '            vSaldoCuentas = 0
+            '            If drMdb1.HasRows Then
+            '                While drMdb1.Read()
+            '                    vSaldoCuentas += Convert.ToDecimal(drMdb1.GetValue(0))
+            '                End While
+            '            End If
+            '            drMdb1.Close()
+            '        Catch ex As Exception
+            '            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+            '            MsgBox(resManager.GetString("ErrorAlEjecutar") & ": " & cmdMdb1cr.CommandText & vbCrLf & ex.Message)
+            '        End Try
 
-                filaData(3) = Math.Round(Convert.ToDecimal(vSaldoCuentas), 2)
-            Next
+            '        ' Inyectamos el dinero en su casillero virtual exclusivo de la RAM
+            '        filaData("SaldoCalculado") = Math.Round(Convert.ToDecimal(vSaldoCuentas), 2)
+            '    Next
+            '    ' --- AHORA SÍ: Enlazamos la tabla ya calculada al Grid ---
+            '    frmCuentasBancarias.DgvCuentas.DataSource = Nothing
+            '    frmCuentasBancarias.DgvCuentas.DataSource = Tabla
 
-            ' --- AHORA SÍ: Enlazamos la tabla ya calculada al Grid ---
-            frmCuentasBancarias.DgvCuentas.DataSource = Nothing
-            frmCuentasBancarias.DgvCuentas.DataSource = Tabla
+            '    With frmCuentasBancarias.DgvCuentas
+            '        .DefaultCellStyle.Font = New Font("Tahoma", 9)
+            '        .DefaultCellStyle.ForeColor = System.Drawing.Color.Black
+            '        .DefaultCellStyle.BackColor = System.Drawing.Color.White
+            '        .DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White
+            '        .DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Blue
 
-            With frmCuentasBancarias.DgvCuentas
-                .DefaultCellStyle.Font = New Font("Tahoma", 9)
-                .DefaultCellStyle.ForeColor = System.Drawing.Color.Black
-                .DefaultCellStyle.BackColor = System.Drawing.Color.White
-                .DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White
-                .DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Blue
+            '        ' Configuración de alineaciones y colores
+            '        .Columns(0).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkGreen
+            '        .Columns(1).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkBlue
+            '        .Columns(2).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkBlue
+            '        .Columns(2).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+            '        .Columns(2).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight
+            '        .Columns(3).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight
+            '        .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+            '        .Columns(3).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkBlue
 
-                ' Configuración de alineaciones y colores
-                .Columns(2).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
-                .Columns(0).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkGreen
-                .Columns(1).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkBlue
-                .Columns(2).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkBlue
-                .Columns(2).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight
-                .Columns(3).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight
-                .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
-                .Columns(3).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkBlue
+            '        ' TRUCO MAESTRO: Forzamos el formato N2 ahora que la columna contiene números puros
+            '        .Columns(3).DefaultCellStyle.Format = "N2"
 
-                ' TRUCO MAESTRO: Forzamos el formato N2 ahora que la columna contiene números puros
-                .Columns(3).DefaultCellStyle.Format = "N2"
+            '        ' =========================================================================
+            '        ' 🌟 REPARTO ELÁSTICO PROPORCIONAL DE COLUMNAS (¡Tu diseño original perfecto!)
+            '        ' =========================================================================
+            '        ' Obligamos a la rejilla entera a estirarse de forma simétrica hasta el margen derecho
+            '        .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
 
-                ' =========================================================================
-                ' 🌟 REPARTO ELÁSTICO PROPORCIONAL DE COLUMNAS (¡Tu diseño original perfecto!)
-                ' =========================================================================
-                ' Obligamos a la rejilla entera a estirarse de forma simétrica hasta el margen derecho
-                .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+            '        ' Dimensiones y encabezados traducidos según el SELECT original que te funcionaba
+            '        .Columns(0).HeaderText = resManager.GetString("Tipo")
+            '        .Columns(0).FillWeight = 80
 
-                ' Dimensiones y encabezados traducidos según el SELECT original que te funcionaba
-                .Columns(0).HeaderText = resManager.GetString("Tipo")
-                .Columns(0).FillWeight = 80
+            '        .Columns(1).HeaderText = resManager.GetString("Nombre")
+            '        .Columns(1).FillWeight = 120
 
-                .Columns(1).HeaderText = resManager.GetString("Nombre")
-                .Columns(1).FillWeight = 120
+            '        .Columns(2).HeaderText = resManager.GetString("Numero")
+            '        .Columns(2).FillWeight = 120
 
-                .Columns(2).HeaderText = resManager.GetString("Numero")
-                .Columns(2).FillWeight = 150
+            '        ' Celda 3: Tu columna de Importe / Cálculo de Saldo
+            '        .Columns(3).HeaderText = resManager.GetString("Importe") & " " & vMoneda
+            '        .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+            '        .Columns(3).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight
+            '        .Columns(3).DefaultCellStyle.Format = "N2"
+            '        .Columns(3).FillWeight = 60
 
-                ' Celda 3: Tu columna de Importe / Cálculo de Saldo
-                .Columns(3).HeaderText = resManager.GetString("Importe") & " " & vMoneda
-                .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
-                .Columns(3).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight
-                .Columns(3).DefaultCellStyle.Format = "N2"
-                .Columns(3).FillWeight = 110
+            '        ' Celda 4: Tus Notas de texto plano relucientes y estiradas
+            '        .Columns(4).HeaderText = resManager.GetString("Notas")
+            '        .Columns(4).FillWeight = 150
 
-                ' Celda 4: Tus Notas de texto plano relucientes y estiradas
-                .Columns(4).HeaderText = resManager.GetString("Notas")
-                .Columns(4).FillWeight = 150
+            '        ' 🚀 CORTAFUEGOS DE SEGURIDAD: Ocultamos el ID relacional de forma elástica
+            '        ' Evitamos que salte el ArgumentOutOfRangeException controlando el tamaño real de la grilla
+            '        If .Columns.Count > 5 Then
+            '            .Columns(5).Visible = False
+            '        End If
 
-                ' 🚀 CORTAFUEGOS DE SEGURIDAD: Ocultamos el ID relacional de forma elástica
-                ' Evitamos que salte el ArgumentOutOfRangeException controlando el tamaño real de la grilla
-                If .Columns.Count > 5 Then
-                    .Columns(5).Visible = False
-                End If
-
-                Dim vNumRegistros As String = .Rows.Count.ToString
-                frmCuentasBancarias.TxtNumRegistros.Text = vNumRegistros
-                If frmCuentasBancarias.BtnFiltroTipoCuenta.Enabled = False Then
-                    frmCuentasBancarias.LblNumRegistros.Text = resManager.GetString("Filtrado")
-                Else
-                    frmCuentasBancarias.LblNumRegistros.Text = resManager.GetString("SinFiltrar")
-                End If
-            End With
-            DgvCuentasBancarias()
+            '        Dim vNumRegistros As String = .Rows.Count.ToString
+            '        frmCuentasBancarias.TxtNumRegistros.Text = vNumRegistros
+            '        If frmCuentasBancarias.BtnFiltroTipoCuenta.Enabled = False Then
+            '            frmCuentasBancarias.LblNumRegistros.Text = resManager.GetString("Filtrado")
+            '        Else
+            '            frmCuentasBancarias.LblNumRegistros.Text = resManager.GetString("SinFiltrar")
+            '        End If
+            '    End With
+            '    DgvCuentasBancarias()
 
         ElseIf vgrid = "PRINT_CUENTAS" Then
             Dim adp As New OleDbDataAdapter(linSql, conexion1)
@@ -1134,36 +1134,72 @@ Module Funciones
         frmApuntesPeriodicos.TxtIngresos.Text = ""
         frmApuntesPeriodicos.TxtGastos.Text = ""
         frmApuntesPeriodicos.TxtSaldo.Text = ""
+
         Dim vNumRegistros As String = frmApuntesPeriodicos.DgvApuper.Rows.Count.ToString
         frmApuntesPeriodicos.TxtNumRegistros.Text = vNumRegistros
+
         If frmApuntesPeriodicos.BtnFiltroCuenta.Enabled = False Or frmApuntesPeriodicos.BtnFiltroConcepto.Enabled = False Or frmApuntesPeriodicos.BtnFiltroFecha.Enabled = False Then
             frmApuntesPeriodicos.LblNumRegistros.Text = resManager.GetString("Filtrado")
         Else
             frmApuntesPeriodicos.LblNumRegistros.Text = resManager.GetString("SinFiltrar")
         End If
+
         vIngresos = 0
         vGastos = 0
-        vValor = 0
+        vValor = 0 ' Almacenará el saldo neto acumulado línea a línea
+
+        ' =========================================================================
+        ' 🚀 REPARADO MODO PREMIUM: OPERACIÓN POR TIPO RELACIONAL INMUNE A SIGNOS
+        ' =========================================================================
         For Each fila As DataGridViewRow In frmApuntesPeriodicos.DgvApuper.Rows
-            vSaldo = fila.Cells(3).Value + vValor
-            fila.Cells(4).Value = vSaldo
-            vValor = fila.Cells(4).Value
-            If fila.Cells(3).Value >= 0 Then
-                vIngresos += fila.Cells(3).Value
-                fila.Cells(3).Style.ForeColor = System.Drawing.Color.DarkBlue
-                frmApuntesPeriodicos.TxtIngresos.Text = Format(Math.Abs(vIngresos).ToString("N2"))
-            Else
-                vGastos += fila.Cells(3).Value
-                fila.Cells(3).Style.ForeColor = System.Drawing.Color.IndianRed
-                frmApuntesPeriodicos.TxtGastos.Text = Format(Math.Abs(vGastos).ToString("N2"))
-            End If
-            If fila.Cells(4).Value >= 0 Then
-                fila.Cells(4).Style.ForeColor = System.Drawing.Color.DarkBlue
-            Else
-                fila.Cells(4).Style.ForeColor = System.Drawing.Color.IndianRed
+            If fila.Cells(3).Value IsNot Nothing AndAlso Not IsDBNull(fila.Cells(3).Value) Then
+
+                ' 1. Limpiamos el importe de signos negativos con Math.Abs (Operamos con el número puro)
+                Dim importeAsiento As Decimal = Math.Abs(Convert.ToDecimal(fila.Cells(3).Value))
+
+                ' 2. 🎯 CONEXIÓN BIOLÓGICA: Leemos el TipoCON real que viaja seguro en la celda 11
+                Dim tipoConceptoReal As String = fila.Cells(11).Value.ToString().Trim().ToUpper()
+
+                ' 3. Evaluamos por la etiqueta de la base de datos (Inmune a nombres e idiomas)
+                If tipoConceptoReal = "INGRESO" Then
+                    ' 🟦 ESCENARIO INGRESO: Suma en totales, tiñe de azul la celda 3 y SUMA al acumulador
+                    vIngresos += importeAsiento
+                    fila.Cells(3).Style.ForeColor = System.Drawing.Color.DarkBlue
+                    vValor += importeAsiento
+                Else
+                    ' 🟥 ESCENARIO GASTO: Suma en totales de gastos, tiñe de rojo la celda 3 y RESTA del acumulador
+                    vGastos += importeAsiento
+                    fila.Cells(3).Style.ForeColor = System.Drawing.Color.IndianRed
+                    vValor -= importeAsiento
+                End If
+
+                ' 🌟 EL SALDO DE LA LÍNEA: Guardamos el dinero neto acumulado en la celda 4 (Saldo €)
+                fila.Cells(4).Value = vValor
+
+                ' Teñimos el saldo acumulado de la fila según la salud financiera de la línea
+                If vValor >= 0 Then
+                    fila.Cells(4).Style.ForeColor = System.Drawing.Color.DarkBlue
+                Else
+                    fila.Cells(4).Style.ForeColor = System.Drawing.Color.IndianRed
+                End If
             End If
         Next
-        frmApuntesPeriodicos.TxtSaldo.Text = Format(Math.Abs(vValor).ToString("N2"))
+
+        ' =========================================================================
+        ' 🌟 REFLEJO PRESTANCIA EN PANTALLA: LLENADO DE CASILLAS TOTALES
+        ' =========================================================================
+        frmApuntesPeriodicos.TxtIngresos.Text = vIngresos.ToString("N2")
+        frmApuntesPeriodicos.TxtGastos.Text = vGastos.ToString("N2")
+
+        ' El saldo neto del periodo es el acumulado real que se quedó en vValor
+        frmApuntesPeriodicos.TxtSaldo.Text = vValor.ToString("N2")
+
+        If vValor >= 0 Then
+            frmApuntesPeriodicos.TxtSaldo.ForeColor = System.Drawing.Color.DarkBlue
+        Else
+            frmApuntesPeriodicos.TxtSaldo.ForeColor = System.Drawing.Color.IndianRed
+        End If
+
         Return vValor
     End Function
 
@@ -2394,56 +2430,6 @@ Module Funciones
         End If
     End Sub
 
-    Public Sub LlenarComboConceptosGenerico(ByVal combo As ComboBox)
-        ' 1. Sincronizados los nombres de las columnas.
-        cmdMdb1cr.CommandText = "SELECT IdConceptoCON, CodigoCON, DescripcionCON FROM conceptos ORDER BY TipoCON ASC, IdConceptoCON ASC"
-
-        Dim dtConceptos As New DataTable()
-
-        Try
-            drMdb1 = cmdMdb1cr.ExecuteReader()
-            dtConceptos.Load(drMdb1)
-            drMdb1.Close()
-
-            ' Creamos la columna virtual para el texto traducido que verá el usuario
-            dtConceptos.Columns.Add("TextoTraducido", GetType(String))
-
-            ' Recorremos las filas para traducir cada concepto
-            For Each fila As DataRow In dtConceptos.Rows
-                Dim codigoOriginal As String = fila("CodigoCON").ToString().Trim()
-                Dim descOriginal As String = fila("DescripcionCON").ToString()
-                Dim textoFinal As String = descOriginal ' Salvavidas por defecto
-
-                ' Si tenemos el gestor de recursos, buscamos la traducción del concepto
-                If resManager IsNot Nothing Then
-                    ' 1. EL TRUCO CONTRA ESPACIOS DOBLES: Reemplazamos bucles de espacios dobles por uno solo
-                    Dim textoLimpio As String = codigoOriginal.Trim()
-                    'While textoLimpio.Contains("  ")
-                    '    textoLimpio = textoLimpio.Replace("  ", " ")
-                    'End While
-                    ' 2. Ahora que seguro solo hay UN espacio, hacemos el cambio a guion bajo
-                    Dim claveRecurso As String = textoLimpio.Replace(" ", "_")
-                    Dim traduccion As String = resManager.GetString(claveRecurso)
-
-                    If Not String.IsNullOrEmpty(traduccion) Then
-                        textoFinal = traduccion
-                    End If
-                End If
-
-                fila("TextoTraducido") = textoFinal
-            Next
-
-            ' 2. VINCULAMOS AL COMBOBOX PASADO POR PARÁMETRO (Con el orden óptimo de Windows Forms)
-            combo.ValueMember = "IdConceptoCON"       ' El número oculto (1, 2, 3...)
-            combo.DisplayMember = "TextoTraducido"   ' Lo que VE el usuario
-            combo.DataSource = dtConceptos            ' Al final enlazamos los datos
-
-        Catch ex As Exception
-            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-            MsgBox(resManager.GetString("ErrorCargarCON") & ": " & ex.Message, MsgBoxStyle.Critical)
-        End Try
-    End Sub
-
     Public Sub LlenarComboCuentasGenerico(ByVal combo As ComboBox)
         ' 1. SQL adaptado: traemos el IdCUE y el NombreCUE de tu nueva tabla cuentas
         cmdMdb1cr.CommandText = "SELECT IdCuentaCUE, NombreCUE FROM cuentas ORDER BY NombreCUE ASC"
@@ -3126,8 +3112,11 @@ Module Funciones
         combo.DataSource = Nothing
         combo.Items.Clear()
 
-        ' Consulta limpia para traer tus campos de fábrica
-        Dim sql As String = "SELECT IdConceptoCON, CodigoCON, DescripcionCON, TipoCON FROM conceptos ORDER BY CodigoCON ASC"
+        ' =========================================================================
+        ' 🚀 REPARADO MODO COMERCIAL: FILTRADO DE CONCEPTOS ESPECIALES
+        ' =========================================================================
+        ' 🎯 LA CLAVE: Añadimos "WHERE TipoCON <> 'ESPECIAL'" para fulminar SALDO y TRASPASO del combo
+        Dim sql As String = "SELECT IdConceptoCON, CodigoCON, DescripcionCON, TipoCON FROM conceptos WHERE TipoCON <> 'ESPECIAL' ORDER BY CodigoCON ASC"
         Dim dtConceptos As New DataTable()
 
         Using cmd As New OleDbCommand(sql, conexion1)
@@ -3162,8 +3151,7 @@ Module Funciones
                 End If
             End If
 
-            ' 🚀 LA CORRECCIÓN MAESTRA: Si no tiene traducción (porque es nuevo), 
-            ' le quitamos los guiones bajos visualmente para que luzca perfecto con espacios
+            ' Si no tiene traducción (porque es nuevo), le quitamos los guiones bajos visualmente
             If String.IsNullOrEmpty(textoFinal) Then
                 textoFinal = codigoOriginal.Replace("_", " ")
             End If
@@ -3172,10 +3160,10 @@ Module Funciones
             fila("TextoComboCON") = textoFinal.Trim().ToUpper()
         Next
 
-        ' 🌟 TU DESEO CUMPLIDO: Ordenamos alfabéticamente por la traducción en la memoria RAM
+        ' Ordenamos alfabéticamente por la traducción en la memoria RAM
         dtConceptos.DefaultView.Sort = "TextoComboCON ASC"
 
-        ' Vinculamos al ComboBox de forma relacional pura (Con el orden óptimo de Windows Forms)
+        ' Vinculamos al ComboBox de forma relacional pura
         combo.ValueMember = "IdConceptoCON"         ' El número oculto (1, 2, 3...)
         combo.DisplayMember = "TextoComboCON"       ' Lo que VE el usuario (Traducido y en orden A-Z)
         combo.DataSource = dtConceptos.DefaultView  ' Enlazamos la vista ordenada de la RAM
@@ -3227,4 +3215,78 @@ Module Funciones
             If dgv IsNot Nothing Then dgv.ResumeLayout()
         End Try
     End Sub
+
+    Public Sub CargarCuentasBancarias()
+        ' 🚀 REPARADO MODO INTEGRAL: Estructura fija de 5 columnas visibles + 1 oculta
+        Dim sql As String = "SELECT tipocuentas.CodigoTIP, cuentas.NombreCUE, cuentas.NumeroCUE, cuentas.NotasCUE, cuentas.IdCuentaCUE " &
+                           "FROM cuentas " &
+                           "INNER JOIN tipocuentas ON cuentas.TipoCUE = tipocuentas.IdTipoCUE " &
+                           "ORDER BY cuentas.NombreCUE ASC"
+
+        Dim adp As New OleDbDataAdapter(sql, conexion1)
+        Dim Tabla As New DataTable
+        adp.Fill(Tabla)
+
+        ' Creamos la columna virtual del Saldo en la posición 3 para no alterar tus índices de diseño
+        Dim colSaldo As New DataColumn("SaldoCalculado", GetType(Decimal))
+        colSaldo.DefaultValue = 0.00
+        Tabla.Columns.Add(colSaldo)
+        colSaldo.SetOrdinal(3)
+
+        ' Recorremos las filas para calcular los saldos relacionales en caliente
+        For Each filaData As DataRow In Tabla.Rows
+            Dim vIdCuenta As Integer = Convert.ToInt32(filaData("IdCuentaCUE"))
+            cmdMdb1cr.CommandText = "SELECT apuntes.ImporteAPU FROM apuntes WHERE apuntes.CuentaAPU = " & vIdCuenta & " And apuntes.EjercicioAPU = " & vAñoEjercicio
+
+            Try
+                Using drMdb1 As OleDbDataReader = cmdMdb1cr.ExecuteReader()
+                    Dim vSaldoCuentas As Decimal = 0
+                    While drMdb1.Read()
+                        vSaldoCuentas += Convert.ToDecimal(drMdb1.GetValue(0))
+                    End While
+                    filaData("SaldoCalculado") = Math.Round(vSaldoCuentas, 2)
+                End Using
+            Catch
+                filaData("SaldoCalculado") = 0.00
+            End Try
+        Next
+
+        ' Enlazamos la tabla limpia al DataGridView
+        frmCuentasBancarias.DgvCuentas.DataSource = Nothing
+        frmCuentasBancarias.DgvCuentas.DataSource = Tabla
+
+        ' Aplicamos el traje visual premium a las columnas
+        With frmCuentasBancarias.DgvCuentas
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+
+            .Columns(0).HeaderText = resManager.GetString("Tipo")
+            .Columns(0).FillWeight = 90
+            .Columns(0).Visible = True
+
+            .Columns(1).HeaderText = resManager.GetString("Nombre")
+            .Columns(1).FillWeight = 120
+            .Columns(1).Visible = True
+
+            .Columns(2).HeaderText = resManager.GetString("Numero")
+            .Columns(2).FillWeight = 120
+            .Columns(2).Visible = True
+
+            .Columns(3).HeaderText = resManager.GetString("Importe") & " " & vMoneda
+            .Columns(3).FillWeight = 60
+            .Columns(3).DefaultCellStyle.Format = "N2"
+            .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+            .Columns(3).Visible = True
+
+            .Columns(4).HeaderText = resManager.GetString("Notas")
+            .Columns(4).FillWeight = 150
+            .Columns(4).Visible = True
+
+            ' 🔒 EL CORTAFUEGOS INDESTRUCTIBLE: El ID siempre viaja en la celda 5 y se oculta de la vista
+            .Columns(5).Visible = False
+        End With
+
+        ' Actualizamos los totales de la pantalla llamando a tu contador analítico
+        DgvCuentasBancarias()
+    End Sub
+
 End Module

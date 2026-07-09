@@ -121,6 +121,24 @@
     <value>17, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="SalirMenu.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
+        cQAAEnEB89x6jgAAAJ5JREFUWEftkd0JgDAMBjO6Y7qC4A4VocTmaPGXVDGFezBp8h1V5mlMPREWvHm3
+        gIgY2L9618yxsAeDlJQ20FsP9+g+FhjCbxPU4q4AORz8L4FhsLgJ5MBSx12Ajx4C7gJV3ASO4C6Qf4u+
+        hLtAltB7XQRKQiAEPi9QDncRIGYhw2o8LWAGsLwqlkPLwz26j4VWEPvk7H2dY8GbEAiBBVscik4MRV1L
+        AAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="SalirMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>254, 26</value>
+  </data>
+  <data name="SalirMenu.Text" xml:space="preserve">
+    <value>Salir</value>
+  </data>
+  <data name="SalirMenu.ToolTipText" xml:space="preserve">
+    <value>Salir Aplicación</value>
+  </data>
   <data name="CambiarEjercicioActivoToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
@@ -173,26 +191,8 @@
   <data name="SalirToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>251, 6</value>
   </data>
-  <data name="SalirMenu.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
-        cQAAEnEB89x6jgAAAJ5JREFUWEftkd0JgDAMBjO6Y7qC4A4VocTmaPGXVDGFezBp8h1V5mlMPREWvHm3
-        gIgY2L9618yxsAeDlJQ20FsP9+g+FhjCbxPU4q4AORz8L4FhsLgJ5MBSx12Ajx4C7gJV3ASO4C6Qf4u+
-        hLtAltB7XQRKQiAEPi9QDncRIGYhw2o8LWAGsLwqlkPLwz26j4VWEPvk7H2dY8GbEAiBBVscik4MRV1L
-        AAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="SalirMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>254, 26</value>
-  </data>
-  <data name="SalirMenu.Text" xml:space="preserve">
-    <value>Salir</value>
-  </data>
-  <data name="SalirMenu.ToolTipText" xml:space="preserve">
-    <value>Salir Aplicación</value>
-  </data>
   <data name="ArchivoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 26</value>
+    <value>59, 24</value>
   </data>
   <data name="ArchivoToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Inicio</value>
@@ -225,7 +225,7 @@
     <value>Ocultar/Ver Colores en Barra y Menu</value>
   </data>
   <data name="VerToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 26</value>
+    <value>44, 24</value>
   </data>
   <data name="VerToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Ver</value>
@@ -281,7 +281,7 @@
     <value>Tipos de Cuentas</value>
   </data>
   <data name="MantenimientosToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 26</value>
+    <value>130, 24</value>
   </data>
   <data name="MantenimientosToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Mantenimientos</value>
@@ -363,7 +363,7 @@
     <value>Añade, Edita, Borra o Consulta Apuntes Periódicos</value>
   </data>
   <data name="ApuntesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>77, 26</value>
+    <value>77, 24</value>
   </data>
   <data name="ApuntesToolStripMenuItem.Text" xml:space="preserve">
     <value>Apuntes</value>
@@ -404,7 +404,7 @@
     <value>Mostrar Gráfico y Desviación Presupuestos</value>
   </data>
   <data name="PresupuestosToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 26</value>
+    <value>109, 24</value>
   </data>
   <data name="PresupuestosToolStripMenuItem.Text" xml:space="preserve">
     <value>Presupuestos</value>
@@ -593,7 +593,7 @@
     <value>Gráficos de Gastos por Concepto</value>
   </data>
   <data name="InformesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>81, 26</value>
+    <value>81, 24</value>
   </data>
   <data name="InformesToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Informes</value>
@@ -735,7 +735,7 @@
     <value>287, 6</value>
   </data>
   <data name="HerramientasToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>112, 26</value>
+    <value>112, 24</value>
   </data>
   <data name="HerramientasToolStripMenuItem.Text" xml:space="preserve">
     <value>Herramientas</value>
@@ -758,25 +758,6 @@
   </data>
   <data name="ArchivoDeAyudaToolStripMenuItem.ToolTipText" xml:space="preserve">
     <value>Contenido del Archivo de Ayuda</value>
-  </data>
-  <data name="AcercaDeToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
-        cQAAEnEB89x6jgAAAN5JREFUWEft1kEOwiAQhWHuf8JewcQ7YCZNpfNmYB5QtSYsfheG8r64aEzPx5Z7
-        Sik1w/NRCb/w0iM5qA/TBPCjtWJIFTA3jNURLiAaz1k+dHjG5iMMIBofB/gIBWDGJRznAZJGvAHsuITj
-        fQCpIIYA8wHgu+NHO4IG4E/uhc+0uwuAGcdweAwgyTMLsAAL8GsA+yI6h8NjgM434Tkc/n8Ag8AxJrwD
-        x+8FiBB4ORPegeMGECHmC/6UfhZhx6uA6xH+eBNQEDOQ/Xm8lwZYCIMpZ/EeLwqgHlAYG56PegG1lJNp
-        bae0VgAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="AcercaDeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>362, 26</value>
-  </data>
-  <data name="AcercaDeToolStripMenuItem.Text" xml:space="preserve">
-    <value>Acerca de ...</value>
-  </data>
-  <data name="AcercaDeToolStripMenuItem.ToolTipText" xml:space="preserve">
-    <value>Acerca de la Aplicación</value>
   </data>
   <data name="HistorialDeVersionesToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -819,6 +800,25 @@
   <data name="HistorialDeVersionesToolStripMenuItem.Text" xml:space="preserve">
     <value>Historial de Versiones</value>
   </data>
+  <data name="AcercaDeToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
+        cQAAEnEB89x6jgAAAN5JREFUWEft1kEOwiAQhWHuf8JewcQ7YCZNpfNmYB5QtSYsfheG8r64aEzPx5Z7
+        Sik1w/NRCb/w0iM5qA/TBPCjtWJIFTA3jNURLiAaz1k+dHjG5iMMIBofB/gIBWDGJRznAZJGvAHsuITj
+        fQCpIIYA8wHgu+NHO4IG4E/uhc+0uwuAGcdweAwgyTMLsAAL8GsA+yI6h8NjgM434Tkc/n8Ag8AxJrwD
+        x+8FiBB4ORPegeMGECHmC/6UfhZhx6uA6xH+eBNQEDOQ/Xm8lwZYCIMpZ/EeLwqgHlAYG56PegG1lJNp
+        bae0VgAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="AcercaDeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>362, 26</value>
+  </data>
+  <data name="AcercaDeToolStripMenuItem.Text" xml:space="preserve">
+    <value>Acerca de ...</value>
+  </data>
+  <data name="AcercaDeToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Acerca de la Aplicación</value>
+  </data>
   <data name="ImportaAntiguoContahogarToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
@@ -837,7 +837,7 @@
     <value>359, 6</value>
   </data>
   <data name="AyudaToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 26</value>
+    <value>65, 24</value>
   </data>
   <data name="AyudaToolStripMenuItem.Text" xml:space="preserve">
     <value>Ayuda</value>
@@ -868,7 +868,7 @@
     <value>0, 0</value>
   </data>
   <data name="BarraDeMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1225, 30</value>
+    <value>1225, 28</value>
   </data>
   <data name="BarraDeMenu.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -955,6 +955,45 @@
   <data name="ToolStripLabel12.Size" type="System.Drawing.Size, System.Drawing">
     <value>7, 30</value>
   </data>
+  <data name="BtnSalir.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAACeSURBVFhH7ZHdCYAwDAYzumO6guAOFaHE5mjxl1QxhXsw
+        afIdVeZpTD0RFrx5t4CIGNi/etfMsbAHg5SUNtBbD/foPhYYwm8T1OKuADkc/C+BYbC4CeTAUsddgI8e
+        Au4CVdwEjuAukH+LvoS7QJbQe10ESkIgBD4vUA53ESBmIcNqPC1gBrC8KpZDy8M9uo+FVhD75Ox9nWPB
+        mxAIgQVbHIpODEVdSwAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="BtnSalir.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="BtnSalir.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 34</value>
+  </data>
+  <data name="BtnSalir.Text" xml:space="preserve">
+    <value>Salir Aplicación</value>
+  </data>
+  <data name="BtnPreferencias.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAFMSURBVFhH1ZEBbsMwDAP79DytP9ugoQyuFzlzmqVDCRCJ
+        DVk8y7fbJ2pZlq+RXXuVKmjjtwLc7/fVlwHsjPYnuLQH4PUhIbhrPjOBbm9ODGdAzHBDKPg1CIZzzAnr
+        RJA6X/9nIJ7CHezbllOb8PyfhuiC05hhrCcAIY8ClFYABjuIzpnLw9ncEAE4M/7SBiDBlkFKhwA8rlF4
+        9hiaWgKMIOgnoBR5jAaof+5x3z0IQP8KUJoF6NapDUB6TQN0E8iagYTdA7B3AegOIGH5shltAPfeAByB
+        GIVyL2e6nkOAQLAhb267WTy6vYFbgEab0dNumPDu9rOB1CYwAd7Lvp/LE3DAntqw3LQTx+z6wxA5xPDR
+        O9que+kZeDjhblTubqkwr+fVNeaaAA5/tPC54yKEmqw3NxRq1jrt/YlmAS6TR/52gNL/AvAJ9ByfpW8m
+        wQ51nHcMWQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="BtnPreferencias.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="BtnPreferencias.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 34</value>
+  </data>
+  <data name="BtnPreferencias.Text" xml:space="preserve">
+    <value>Preferencias</value>
+  </data>
   <data name="BtnCambiarEjercicioActivo.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -991,45 +1030,6 @@
   </data>
   <data name="BtnCambiarEjercicioActivo.Text" xml:space="preserve">
     <value>Cambiar Ejercicio Activo</value>
-  </data>
-  <data name="BtnPreferencias.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAFMSURBVFhH1ZEBbsMwDAP79DytP9ugoQyuFzlzmqVDCRCJ
-        DVk8y7fbJ2pZlq+RXXuVKmjjtwLc7/fVlwHsjPYnuLQH4PUhIbhrPjOBbm9ODGdAzHBDKPg1CIZzzAnr
-        RJA6X/9nIJ7CHezbllOb8PyfhuiC05hhrCcAIY8ClFYABjuIzpnLw9ncEAE4M/7SBiDBlkFKhwA8rlF4
-        9hiaWgKMIOgnoBR5jAaof+5x3z0IQP8KUJoF6NapDUB6TQN0E8iagYTdA7B3AegOIGH5shltAPfeAByB
-        GIVyL2e6nkOAQLAhb267WTy6vYFbgEab0dNumPDu9rOB1CYwAd7Lvp/LE3DAntqw3LQTx+z6wxA5xPDR
-        O9que+kZeDjhblTubqkwr+fVNeaaAA5/tPC54yKEmqw3NxRq1jrt/YlmAS6TR/52gNL/AvAJ9ByfpW8m
-        wQ51nHcMWQAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="BtnPreferencias.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="BtnPreferencias.Size" type="System.Drawing.Size, System.Drawing">
-    <value>34, 34</value>
-  </data>
-  <data name="BtnPreferencias.Text" xml:space="preserve">
-    <value>Preferencias</value>
-  </data>
-  <data name="BtnSalir.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAACeSURBVFhH7ZHdCYAwDAYzumO6guAOFaHE5mjxl1QxhXsw
-        afIdVeZpTD0RFrx5t4CIGNi/etfMsbAHg5SUNtBbD/foPhYYwm8T1OKuADkc/C+BYbC4CeTAUsddgI8e
-        Au4CVdwEjuAukH+LvoS7QJbQe10ESkIgBD4vUA53ESBmIcNqPC1gBrC8KpZDy8M9uo+FVhD75Ox9nWPB
-        mxAIgQVbHIpODEVdSwAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="BtnSalir.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="BtnSalir.Size" type="System.Drawing.Size, System.Drawing">
-    <value>34, 34</value>
-  </data>
-  <data name="BtnSalir.Text" xml:space="preserve">
-    <value>Salir Aplicación</value>
   </data>
   <data name="ToolStripLabel4.AutoSize" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1492,25 +1492,6 @@
   <data name="BtnAyuda.Text" xml:space="preserve">
     <value>Contenido del Archivo de Ayuda</value>
   </data>
-  <data name="BtnAcercade.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAADeSURBVFhH7dZBDsIgEIVh7n/CXsHEO2AmTaXzZmAeULUm
-        LH4XhvK+uGhMz8eWe0opNcPzUQm/8NIjOagP0wTwo7ViSBUwN4zVES4gGs9ZPnR4xuYjDCAaHwf4CAVg
-        xiUc5wGSRrwB7LiE430AqSCGAPMB4LvjRzuCBuBP7oXPtLsLgBnHcHgMIMkzC7AAC/BrAPsiOofDY4DO
-        N+E5HP5/AIPAMSa8A8fvBYgQeDkT3oHjBhAh5gv+lH4WYcergOsR/ngTUBAzkP15vJcGWAiDKWfxHi8K
-        oB5QGBuej3oBtZSTaW2ntFYAAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="BtnAcercade.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="BtnAcercade.Size" type="System.Drawing.Size, System.Drawing">
-    <value>34, 34</value>
-  </data>
-  <data name="BtnAcercade.Text" xml:space="preserve">
-    <value>Acerca de la Aplicación</value>
-  </data>
   <data name="BtnHistorialVersiones.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -1552,6 +1533,25 @@
   <data name="BtnHistorialVersiones.Text" xml:space="preserve">
     <value>Historial de Versiones</value>
   </data>
+  <data name="BtnAcercade.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAADeSURBVFhH7dZBDsIgEIVh7n/CXsHEO2AmTaXzZmAeULUm
+        LH4XhvK+uGhMz8eWe0opNcPzUQm/8NIjOagP0wTwo7ViSBUwN4zVES4gGs9ZPnR4xuYjDCAaHwf4CAVg
+        xiUc5wGSRrwB7LiE430AqSCGAPMB4LvjRzuCBuBP7oXPtLsLgBnHcHgMIMkzC7AAC/BrAPsiOofDY4DO
+        N+E5HP5/AIPAMSa8A8fvBYgQeDkT3oHjBhAh5gv+lH4WYcergOsR/ngTUBAzkP15vJcGWAiDKWfxHi8K
+        oB5QGBuej3oBtZSTaW2ntFYAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="BtnAcercade.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="BtnAcercade.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 34</value>
+  </data>
+  <data name="BtnAcercade.Text" xml:space="preserve">
+    <value>Acerca de la Aplicación</value>
+  </data>
   <data name="BtnImportarContaHogar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -1570,7 +1570,7 @@
     <value>34, 34</value>
   </data>
   <data name="BtnImportarContaHogar.Text" xml:space="preserve">
-    <value>Importar Base Datos Antiguo Contahogar 2.0 En Curso...</value>
+    <value>Importar Base Datos Antiguo Contahogar 2.0...</value>
   </data>
   <data name="ToolStripSeparator19.Size" type="System.Drawing.Size, System.Drawing">
     <value>6, 37</value>
@@ -1585,7 +1585,7 @@
     <value>7, 30</value>
   </data>
   <data name="BarraDeHerramientas.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 30</value>
+    <value>0, 28</value>
   </data>
   <data name="BarraDeHerramientas.Size" type="System.Drawing.Size, System.Drawing">
     <value>1225, 37</value>

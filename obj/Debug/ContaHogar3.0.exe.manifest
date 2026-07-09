@@ -91,14 +91,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ContaHogar3.0.exe" size="2797056">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ContaHogar3.0.exe" size="2798592">
       <assemblyIdentity name="ContaHogar3.0" version="0.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>MOm4/TgL4EAB9jgL4CnpBmmIpy8p19rd3+BGXvb1MT4=</dsig:DigestValue>
+        <dsig:DigestValue>1HVxiMZLXEOdO0f0ER4SGgllkCI1hhwNmLOmdSb+JLs=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -110,7 +110,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>5/izEtBMWJRW93Or56kxfxE5aPcH/A7rZH/iXMryaw0=</dsig:DigestValue>
+        <dsig:DigestValue>MsQWxqpiMNhXjPhhJPO99jkqM+2DfB/45XvBHW0N/ro=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

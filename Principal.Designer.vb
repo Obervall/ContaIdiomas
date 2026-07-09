@@ -152,7 +152,7 @@ Partial Class Principal
         '
         'ArchivoToolStripMenuItem
         '
-        Me.ArchivoToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CambiarEjercicioActivoToolStripMenuItem, Me.PreferenciasToolStripMenuItem, Me.SalirToolStripMenuItem, Me.SalirMenu})
+        Me.ArchivoToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SalirMenu, Me.CambiarEjercicioActivoToolStripMenuItem, Me.PreferenciasToolStripMenuItem, Me.SalirToolStripMenuItem})
         Me.ArchivoToolStripMenuItem.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
         Me.ArchivoToolStripMenuItem.Name = "ArchivoToolStripMenuItem"
         resources.ApplyResources(Me.ArchivoToolStripMenuItem, "ArchivoToolStripMenuItem")
@@ -464,7 +464,7 @@ Partial Class Principal
         '
         'AyudaToolStripMenuItem
         '
-        Me.AyudaToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ArchivoDeAyudaToolStripMenuItem, Me.AcercaDeToolStripMenuItem, Me.HistorialDeVersionesToolStripMenuItem, Me.ImportaAntiguoContahogarToolStripMenuItem, Me.ToolStripSeparator21})
+        Me.AyudaToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ArchivoDeAyudaToolStripMenuItem, Me.HistorialDeVersionesToolStripMenuItem, Me.AcercaDeToolStripMenuItem, Me.ImportaAntiguoContahogarToolStripMenuItem, Me.ToolStripSeparator21})
         Me.AyudaToolStripMenuItem.Name = "AyudaToolStripMenuItem"
         resources.ApplyResources(Me.AyudaToolStripMenuItem, "AyudaToolStripMenuItem")
         '
@@ -530,7 +530,7 @@ Partial Class Principal
         'BarraDeHerramientas
         '
         Me.BarraDeHerramientas.ImageScalingSize = New System.Drawing.Size(30, 30)
-        Me.BarraDeHerramientas.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel12, Me.BtnCambiarEjercicioActivo, Me.BtnPreferencias, Me.BtnSalir, Me.ToolStripLabel4, Me.ToolStripLabel11, Me.ToolStripLabel16, Me.BtnConceptos, Me.BtnCuentasBancarias, Me.BtnTipoCuentas, Me.ToolStripLabel1, Me.ToolStripLabel14, Me.ToolStripLabel2, Me.BtnApuntesContables, Me.BtnIntroducirApuntes, Me.BtnTraspasoCuentas, Me.ToolStripSeparator6, Me.BtnApuntesPeriodicos, Me.ToolStripLabel3, Me.ToolStripLabel9, Me.ToolStripLabel6, Me.BtnPresupuestos, Me.BtnDesviacionPresupuestos, Me.ToolStripLabel7, Me.ToolStripLabel17, Me.ToolStripLabel8, Me.BtnCopiaSeguridad, Me.BtnRestaurarCopia, Me.BtnCompactarBaseDatos, Me.BtnIniciarBaseDatos, Me.ToolStripSeparator9, Me.BtnCalculadora, Me.ToolStripLabel13, Me.ToolStripLabel15, Me.ToolStripLabel10, Me.BtnAyuda, Me.BtnAcercade, Me.BtnHistorialVersiones, Me.BtnImportarContaHogar, Me.ToolStripSeparator19, Me.ToolStripLabel5})
+        Me.BarraDeHerramientas.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel12, Me.BtnSalir, Me.BtnPreferencias, Me.BtnCambiarEjercicioActivo, Me.ToolStripLabel4, Me.ToolStripLabel11, Me.ToolStripLabel16, Me.BtnConceptos, Me.BtnCuentasBancarias, Me.BtnTipoCuentas, Me.ToolStripLabel1, Me.ToolStripLabel14, Me.ToolStripLabel2, Me.BtnApuntesContables, Me.BtnIntroducirApuntes, Me.BtnTraspasoCuentas, Me.ToolStripSeparator6, Me.BtnApuntesPeriodicos, Me.ToolStripLabel3, Me.ToolStripLabel9, Me.ToolStripLabel6, Me.BtnPresupuestos, Me.BtnDesviacionPresupuestos, Me.ToolStripLabel7, Me.ToolStripLabel17, Me.ToolStripLabel8, Me.BtnCopiaSeguridad, Me.BtnRestaurarCopia, Me.BtnCompactarBaseDatos, Me.BtnIniciarBaseDatos, Me.ToolStripSeparator9, Me.BtnCalculadora, Me.ToolStripLabel13, Me.ToolStripLabel15, Me.ToolStripLabel10, Me.BtnAyuda, Me.BtnHistorialVersiones, Me.BtnAcercade, Me.BtnImportarContaHogar, Me.ToolStripSeparator19, Me.ToolStripLabel5})
         resources.ApplyResources(Me.BarraDeHerramientas, "BarraDeHerramientas")
         Me.BarraDeHerramientas.Name = "BarraDeHerramientas"
         Me.BarraDeHerramientas.RenderMode = System.Windows.Forms.ToolStripRenderMode.System

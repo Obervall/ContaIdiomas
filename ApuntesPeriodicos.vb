@@ -105,7 +105,8 @@ Public Class ApuntesPeriodicos
                    "apuper.CodigoAPP As [CodigoAPP], " &
                    "conceptos.CodigoCON As [CodigoCON], " &
                    "apuper.ConceptoAPP As [IdConceptoCON], " &
-                   "apuper.CuentaAPP As [IdCuentaCUE] " &
+                   "apuper.CuentaAPP As [IdCuentaCUE], " &
+                   "conceptos.TipoCON As [TipoCON] " & ' 🚀 LA CLAVE: Inyectamos el Tipo real en la posición 11
                    "FROM (apuper " &
                    "INNER JOIN conceptos ON apuper.ConceptoAPP = conceptos.IdConceptoCON) " &
                    "INNER JOIN cuentas ON apuper.CuentaAPP = cuentas.IdCuentaCUE"
@@ -158,8 +159,6 @@ Public Class ApuntesPeriodicos
             End If
         Next
 
-        ' 🌟 PASO CRÍTICO 2: Apagamos el escudo al terminar con éxito
-        cargandoFormulario = False
     End Sub
 
     Private Sub BtnFiltroCuenta_Click(sender As Object, e As EventArgs) Handles BtnFiltroCuenta.Click
@@ -279,37 +278,152 @@ Public Class ApuntesPeriodicos
     End Sub
 
     Private Sub BtnEliminarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEliminarRegistro.Click
-        ' 1. Validamos de forma preventiva que haya una fila seleccionada en la rejilla
-        If frmApuntesPeriodicos.DgvApuper.CurrentRow Is Nothing Then Exit Sub
-
-        filaActual = frmApuntesPeriodicos.DgvApuper.CurrentRow.Index
-        vTxtNombre = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(1).Value.ToString()
-
-        ' Comprobamos si existe un identificador asociado.
-        If ((frmEditarApuntesPeriodicos Is Nothing) OrElse (Not frmEditarApuntesPeriodicos.IsHandleCreated)) Then
-            frmEditarApuntesPeriodicos = New EditarApuntesPeriodicos
+        ' 1. Validamos que haya al menos una fila seleccionada de verdad en la rejilla de periódicos
+        If DgvApuper.SelectedRows.Count = 0 Then
+            MsgBox(resManager.GetString("MsgSeleccionarFilasEliminar"), MsgBoxStyle.Information)
+            Exit Sub
         End If
-        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
-        ActualizarTextosFormulario(frmEditarApuntesPeriodicos)
-        ' Llamamos al formulario de manera modal en modo borrado
-        vEditar = "NO"  ' Eliminar
-        frmEditarApuntesPeriodicos.ShowDialog()
-        frmEditarApuntesPeriodicos.Dispose()
+
+        ' 2. CUADRO DE CONFIRMACIÓN: Preguntamos antes de extirpar de la BD el lote completo
+        ' =========================================================================
+        Dim mensajeConfirmacion As String = ""
+        Dim totalFilas As Integer = DgvApuper.SelectedRows.Count
+
+        If totalFilas = 1 Then
+            Dim plantillaSingular As String = resManager.GetString("MsgConfirmarBorradoSingular")
+            If String.IsNullOrEmpty(plantillaSingular) Then
+                plantillaSingular = "¿Está completamente seguro de que desea eliminar FÍSICAMENTE de la Base de Datos el apunte periódico seleccionado?"
+            End If
+            mensajeConfirmacion = plantillaSingular
+        Else
+            Dim plantillaPlural As String = resManager.GetString("MsgConfirmarBorradoPlural")
+            If String.IsNullOrEmpty(plantillaPlural) Then
+                plantillaPlural = "¿Está completamente seguro de que desea eliminar FÍSICAMENTE de la Base de Datos los {0} apuntes periódicos seleccionados?"
+            End If
+            mensajeConfirmacion = String.Format(plantillaPlural, totalFilas)
+        End If
+
+        Dim tituloVentana As String = If(resManager?.GetString("ConfirmarBorrado"), "Confirmar Borrado Múltiple")
+        If ConfirmarAccionTraducida(mensajeConfirmacion, tituloVentana) = MsgBoxResult.No Then
+            Exit Sub
+        End If
+
+        Dim contadorBorrados As Integer = 0
 
         ' =========================================================================
-        ' 🌟 OPTIMIZACIÓN DE LA NUEVA ERA: REUTILIZACIÓN TOTAL
+        ' 🌟 REPARADO MODO INTEGRAL: BUCLE DE EXTIRPACIÓN EN LA TABLA APUPER
         ' =========================================================================
-        ' Borramos más de 20 líneas redundantes y delegamos todo en la rutina limpia.
-        ' Ella se encargará de recalcular los filtros con IDs y pintar el Grid relacional
-        RefrescarGridApuntesPeriodicos()
+        For Each fila As DataGridViewRow In DgvApuper.SelectedRows
+            ' Saltamos la fila vacía del final del grid por seguridad si existiera
+            If fila.IsNewRow Then Continue For
 
-        ' Foco automático seguro en la última fila del Grid tras el refresco
-        If frmApuntesPeriodicos.DgvApuper.RowCount > 0 Then
-            Dim ultimaFila As Integer = frmApuntesPeriodicos.DgvApuper.RowCount - 1
-            frmApuntesPeriodicos.DgvApuper.Rows(ultimaFila).Selected = True
-            frmApuntesPeriodicos.DgvApuper.CurrentCell = frmApuntesPeriodicos.DgvApuper.Rows(ultimaFila).Cells(0)
+            ' 🎯 LA CLAVE: Rescatamos el ID físico único (CodigoAPP) que viaja en la celda 7 (Oculta)
+            ' Asegúrate de que el ID relacional de tu tabla apuper esté en la columna 7 de tu DataTable
+            If fila.Cells(7).Value IsNot Nothing AndAlso Not IsDBNull(fila.Cells(7).Value) Then
+                Dim idRegistroFisico As Integer = Convert.ToInt32(fila.Cells(7).Value)
+
+                ' Lanzamos la sentencia DELETE individual dirigida al corazón de apuper
+                Using cmdDelete As New OleDb.OleDbCommand("DELETE FROM apuper WHERE CodigoAPP = ?", conexion1)
+                    cmdDelete.Parameters.Clear()
+                    cmdDelete.Parameters.Add("@id", OleDb.OleDbType.Integer).Value = idRegistroFisico
+
+                    Try
+                        cmdDelete.ExecuteNonQuery()
+                        contadorBorrados += 1
+                    Catch ex As Exception
+                        Dim plantillaError As String = resManager.GetString("ErrorBorrarFilaID")
+                        If String.IsNullOrEmpty(plantillaError) Then
+                            plantillaError = "Error al borrar el apunte periódico con ID {0}: "
+                        End If
+                        Dim mensajeFinal As String = String.Format(plantillaError, idRegistroFisico) & ex.Message
+                        MsgBox(mensajeFinal, MsgBoxStyle.Critical, resManager.GetString("Error"))
+                    End Try
+                End Using
+            End If
+        Next
+
+        ' =========================================================================
+        ' 4. REFRESCAMOS Y RECALCULAMOS LA INTERFAZ DE FORMA AUTOMÁTICA
+        ' =========================================================================
+        ' 🚀 LA JUGADA MAESTRA: Llamamos a tu rutina estrella de refresco de la rejilla de periódicos
+        ' Cambia este nombre por el método exacto que usas en este form para volver a leer la tabla de Access
+        ' Traemos las 11 celdas biológicas en su orden real simétrico.
+        ' 🚀 LA CORRECCIÓN: Cambiamos conceptos.DescripcionCON por conceptos.CodigoCON en la segunda columna.
+        vtipoSql = "SELECT apuper.FechaAPP As [FechaAPP], " &
+                   "conceptos.CodigoCON As [ConceptoAPP], " &
+                   "apuper.DescripcionAPP As [DescripcionAPP], " &
+                   "apuper.ImporteAPP As [ImporteAPP], " &
+                   "apuper.ImporteAPP As [SaldoAPP], " &
+                   "apuper.NotasAPP As [NotasAPP], " &
+                   "cuentas.NombreCUE As [CuentaAPP], " &
+                   "apuper.CodigoAPP As [CodigoAPP], " &
+                   "conceptos.CodigoCON As [CodigoCON], " &
+                   "apuper.ConceptoAPP As [IdConceptoCON], " &
+                   "apuper.CuentaAPP As [IdCuentaCUE], " &
+                   "conceptos.TipoCON As [TipoCON] " & ' 🚀 LA CLAVE: Inyectamos el Tipo real en la posición 11
+                   "FROM (apuper " &
+                   "INNER JOIN conceptos ON apuper.ConceptoAPP = conceptos.IdConceptoCON) " &
+                   "INNER JOIN cuentas ON apuper.CuentaAPP = cuentas.IdCuentaCUE"
+
+        vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
+        vtipoSql += " ORDER BY apuper.FechaAPP ASC"
+
+        vtipoGrid = "APUNTES_PERIODICOS"
+
+        ' Volcamos los datos relacionales traducidos en tu DataGridView
+        LlenarGrid(vtipoSql, vtipoGrid, "1")
+        TraducirGridApuntesBD(Me.DgvApuper)
+
+        ' Volvemos a pasar el rodillo matemático que calcula saldos e ingresos/gastos de forma limpia
+        DgvApuntesPeriodicos()
+
+        ' Avisamos del resultado final al usuario
+        ' =========================================================================
+        Dim plantillaExito As String = resManager.GetString("MsgLoteEliminadoExito")
+        If String.IsNullOrEmpty(plantillaExito) Then
+            plantillaExito = "Operación completada. Se han eliminado {0} apuntes periódicos de la Base de Datos."
         End If
+
+        Dim tituloExito As String = resManager.GetString("TituloBorradoFinalizado")
+        If String.IsNullOrEmpty(tituloExito) Then tituloExito = "Borrado Finalizado"
+
+        Dim mensajeFinalExito As String = String.Format(plantillaExito, contadorBorrados)
+        MsgBox(mensajeFinalExito, MsgBoxStyle.Information, tituloExito)
     End Sub
+
+
+    'Private Sub BtnEliminarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEliminarRegistro.Click
+    '    ' 1. Validamos de forma preventiva que haya una fila seleccionada en la rejilla
+    '    If frmApuntesPeriodicos.DgvApuper.CurrentRow Is Nothing Then Exit Sub
+
+    '    filaActual = frmApuntesPeriodicos.DgvApuper.CurrentRow.Index
+    '    vTxtNombre = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(1).Value.ToString()
+
+    '    ' Comprobamos si existe un identificador asociado.
+    '    If ((frmEditarApuntesPeriodicos Is Nothing) OrElse (Not frmEditarApuntesPeriodicos.IsHandleCreated)) Then
+    '        frmEditarApuntesPeriodicos = New EditarApuntesPeriodicos
+    '    End If
+    '    ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+    '    ActualizarTextosFormulario(frmEditarApuntesPeriodicos)
+    '    ' Llamamos al formulario de manera modal en modo borrado
+    '    vEditar = "NO"  ' Eliminar
+    '    frmEditarApuntesPeriodicos.ShowDialog()
+    '    frmEditarApuntesPeriodicos.Dispose()
+
+    '    ' =========================================================================
+    '    ' 🌟 OPTIMIZACIÓN DE LA NUEVA ERA: REUTILIZACIÓN TOTAL
+    '    ' =========================================================================
+    '    ' Borramos más de 20 líneas redundantes y delegamos todo en la rutina limpia.
+    '    ' Ella se encargará de recalcular los filtros con IDs y pintar el Grid relacional
+    '    RefrescarGridApuntesPeriodicos()
+
+    '    ' Foco automático seguro en la última fila del Grid tras el refresco
+    '    If frmApuntesPeriodicos.DgvApuper.RowCount > 0 Then
+    '        Dim ultimaFila As Integer = frmApuntesPeriodicos.DgvApuper.RowCount - 1
+    '        frmApuntesPeriodicos.DgvApuper.Rows(ultimaFila).Selected = True
+    '        frmApuntesPeriodicos.DgvApuper.CurrentCell = frmApuntesPeriodicos.DgvApuper.Rows(ultimaFila).Cells(0)
+    '    End If
+    'End Sub
 
     Private Sub BtnGraficos_Click(sender As Object, e As EventArgs) Handles BtnGraficos.Click
         ' Comprobamos si existe un identificador asociado.
@@ -822,7 +936,8 @@ Public Class ApuntesPeriodicos
                    "apuper.CodigoAPP As [CodigoAPP], " &
                    "conceptos.CodigoCON As [CodigoCON], " &
                    "apuper.ConceptoAPP As [IdConceptoCON], " &
-                   "apuper.CuentaAPP As [IdCuentaCUE] " &
+                   "apuper.CuentaAPP As [IdCuentaCUE], " &
+                   "conceptos.TipoCON As [TipoCON] " & ' 🚀 LA CLAVE: Inyectamos el Tipo real en la posición 11
                    "FROM (apuper " &
                    "INNER JOIN conceptos ON apuper.ConceptoAPP = conceptos.IdConceptoCON) " &
                    "INNER JOIN cuentas ON apuper.CuentaAPP = cuentas.IdCuentaCUE"

@@ -126,7 +126,7 @@
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="TxtNumero.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;TxtNumero.Name" xml:space="preserve">
     <value>TxtNumero</value>
@@ -147,7 +147,7 @@
     <value>393, 27</value>
   </data>
   <data name="TxtNombre.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;TxtNombre.Name" xml:space="preserve">
     <value>TxtNombre</value>
@@ -192,7 +192,7 @@
     <value>334, 28</value>
   </data>
   <data name="CmbTipoCuenta.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="&gt;&gt;CmbTipoCuenta.Name" xml:space="preserve">
     <value>CmbTipoCuenta</value>

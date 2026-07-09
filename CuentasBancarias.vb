@@ -1,5 +1,6 @@
 ﻿Imports System.Collections.Generic
 Imports System.Data
+Imports System.Data.OleDb
 Imports System.Drawing
 Imports System.Drawing.Printing
 Imports System.Windows.Forms
@@ -60,17 +61,7 @@ Public Class CuentasBancarias
         CmbTipoCuenta.DropDownStyle = ComboBoxStyle.DropDownList
         CmbTipoCuenta.SelectedIndex = 0
 
-        ' =========================================================================
-        ' ✨ SOLUCCIÓN DE CARGA CON INNER JOIN (Recupera el texto para el traductor)
-        ' =========================================================================
-        ' Traemos el CodigoTIP de la tabla maestra en la primera posición para tu bucle de traducción
-        vtipoSql = "SELECT tipocuentas.CodigoTIP, cuentas.NombreCUE, cuentas.NumeroCUE, cuentas.NotasCUE, cuentas.NotasCUE, cuentas.IdCuentaCUE " &
-           "FROM cuentas " &
-           "INNER JOIN tipocuentas ON cuentas.TipoCUE = tipocuentas.IdTipoCUE " &
-           "ORDER BY cuentas.NombreCUE ASC"
-
-        ' Llenamos el Grid con la estructura limpia
-        LlenarGrid(vtipoSql, "CUENTAS_BANCARIAS", "1")
+        CargarCuentasBancarias()
         ' Ocultamos el Id de la cuenta que viaja seguro en la posición 4
         If DgvCuentas.Columns.Count > 5 Then
             DgvCuentas.Columns(5).Visible = False
@@ -278,11 +269,16 @@ Public Class CuentasBancarias
         ActualizarTextosFormulario(frmNuevaCuentaBancaria)
         ' Llamamos al formulario de manera modal.
         frmNuevaCuentaBancaria.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
         frmNuevaCuentaBancaria.Dispose()
-        vtipoSql = "SELECT tipocuentas.CodigoTIP, cuentas.NombreCUE, cuentas.NumeroCUE, cuentas.NotasCUE, cuentas.NotasCUE, cuentas.IdCuentaCUE "
+
+        ' =========================================================================
+        ' 🚀 REPARADO MODO COMERCIAL: RECARGA INMUNE A DESCALCES (MSIX)
+        ' =========================================================================
+        ' 🎯 LA CLAVE 1: Eliminamos la columna NotasCUE repetida de la consulta original
+        vtipoSql = "SELECT tipocuentas.CodigoTIP, cuentas.NombreCUE, cuentas.NumeroCUE, cuentas.NotasCUE, cuentas.IdCuentaCUE "
         vtipoSql += "FROM cuentas "
+
         If BtnFiltroTipoCuenta.Enabled = False Then
             vtipoSql += " WHERE "
             vtipoSql += "cuentas.TipoCUE = '" & CmbTipoCuenta.Text & "' "
@@ -290,16 +286,116 @@ Public Class CuentasBancarias
         vtipoSql += "INNER JOIN tipocuentas ON cuentas.TipoCUE = tipocuentas.IdTipoCUE "
         vtipoSql += "ORDER BY cuentas.NombreCUE ASC"
 
-        ' Llenamos el Grid con la estructura limpia
-        LlenarGrid(vtipoSql, "CUENTAS_BANCARIAS", "1")
+        ' 🎯 LA CLAVE 2: Forzamos la carga limpia en la RAM a través de tu OleDbDataAdapter local
+        Dim adp As New OleDbDataAdapter(vtipoSql, conexion1)
+        Dim Tabla As New DataTable
+        adp.Fill(Tabla)
 
-        ' Ocultamos el Id de la cuenta que viaja seguro en la posición 4
-        If DgvCuentas.Columns.Count > 5 Then
-            DgvCuentas.Columns(5).Visible = False
-        End If
+        ' 🎯 LA CLAVE 3: Insertamos la columna virtual del Saldo en la posición 3 del índice
+        Dim colSaldo As New DataColumn("SaldoCalculado", GetType(Decimal))
+        colSaldo.DefaultValue = 0.00
+        Tabla.Columns.Add(colSaldo)
+        colSaldo.SetOrdinal(3)
+
+        ' Recorremos las filas para recalcular los saldos reales en caliente tras la inserción
+        For Each filaData As DataRow In Tabla.Rows
+            Dim vIdCuenta As Integer = Convert.ToInt32(filaData("IdCuentaCUE"))
+            cmdMdb1cr.CommandText = "SELECT apuntes.ImporteAPU FROM apuntes WHERE apuntes.CuentaAPU = " & vIdCuenta & " And apuntes.EjercicioAPU = " & vAñoEjercicio
+            Try
+                Using drMdb1 As OleDbDataReader = cmdMdb1cr.ExecuteReader()
+                    Dim vSaldoCuentas As Decimal = 0
+                    While drMdb1.Read()
+                        vSaldoCuentas += Convert.ToDecimal(drMdb1.GetValue(0))
+                    End While
+                    filaData("SaldoCalculado") = Math.Round(vSaldoCuentas, 2)
+                End Using
+            Catch
+                filaData("SaldoCalculado") = 0.00
+            End Try
+        Next
+
+        ' Enlazamos la tabla reluciente y calibrada al Grid visual
+        DgvCuentas.DataSource = Nothing
+        DgvCuentas.DataSource = Tabla
 
         ' Lanzamos tu rutina de traducción de siempre sobre los textos (CodigoTIP)
         TraducirColumnasGridCuentas(DgvCuentas)
+
+        ' =========================================================================
+        ' 🔒 ESCUDO UNIVERSAL INDESTRUCTIBLE: EL ID JAMÁS SE VOLVERÁ A ESCAPAR
+        ' =========================================================================
+        With DgvCuentas
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+
+            .Columns(0).HeaderText = resManager.GetString("Tipo")
+            .Columns(0).FillWeight = 90
+            .Columns(0).Visible = True
+
+            .Columns(1).HeaderText = resManager.GetString("Nombre")
+            .Columns(1).FillWeight = 120
+            .Columns(1).Visible = True
+
+            .Columns(2).HeaderText = resManager.GetString("Numero")
+            .Columns(2).FillWeight = 120
+            .Columns(2).Visible = True
+
+            .Columns(3).HeaderText = resManager.GetString("Importe") & " " & vMoneda
+            .Columns(3).FillWeight = 60
+            .Columns(3).DefaultCellStyle.Format = "N2"
+            .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+            .Columns(3).Visible = True
+
+            .Columns(4).HeaderText = resManager.GetString("Notas")
+            .Columns(4).FillWeight = 150
+            .Columns(4).Visible = True
+
+            ' Rastreamos el ID por su nombre biológico en la RAM y le echamos el cerrojo visual
+            For Each col As DataGridViewColumn In .Columns
+                If col.DataPropertyName.ToUpper() = "IDCUENTACUE" OrElse col.Name.ToUpper() = "IDCUENTACUE" Then
+                    col.Visible = False
+                End If
+            Next
+        End With
+
+        ' Recalculamos los contadores analíticos inferiores de la pantalla de fondo
+        DgvCuentasBancarias()
+    End Sub
+
+    Private Sub BtnEditarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEditarRegistro.Click
+        If frmCuentasBancarias.DgvCuentas.CurrentRow Is Nothing Then
+            MsgBox(resManager.GetString("SeleccionaRegistro"), vbExclamation)
+            Exit Sub
+        End If
+
+        filaActual = frmCuentasBancarias.DgvCuentas.CurrentRow.Index
+        vTxtNombre = frmCuentasBancarias.DgvCuentas.Rows(filaActual).Cells(1).Value.ToString
+
+        ' Comprobamos si existe un identificador asociado.
+        If ((frmEditarCuentaBancaria Is Nothing) OrElse (Not frmEditarCuentaBancaria.IsHandleCreated)) Then
+            frmEditarCuentaBancaria = New EditarCuentaBancaria
+        End If
+        ' Forzar la traducción y el tamaño correcto antes de mostrar el formulario
+        ActualizarTextosFormulario(frmEditarCuentaBancaria)
+
+        ' Llamamos al formulario de manera modal.
+        vEditar = "SI"
+        frmEditarCuentaBancaria.ShowDialog()
+        frmEditarCuentaBancaria.Dispose()
+
+        ' =========================================================================
+        ' 🚀 REPARADO MODO COMERCIAL: REFRESCO EN EDICIÓN CON ESCUDO UNIVERSAL
+        ' =========================================================================
+        CargarCuentasBancarias()
+
+        ' Lanzamos tu rutina de traducción de siempre sobre los textos (CodigoTIP)
+        TraducirColumnasGridCuentas(DgvCuentas)
+
+        ' 🔒 EL CANDADO DE ORO: Buscamos el ID por su nombre biológico en la RAM y lo ocultamos
+        For Each col As DataGridViewColumn In DgvCuentas.Columns
+            If col.DataPropertyName.ToUpper() = "IDCUENTACUE" OrElse col.Name.ToUpper() = "IDCUENTACUE" Then
+                col.Visible = False
+            End If
+        Next
     End Sub
 
     Private Sub BtnEliminarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEliminarRegistro.Click
@@ -314,44 +410,26 @@ Public Class CuentasBancarias
         End If
         ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
         ActualizarTextosFormulario(frmEditarCuentaBancaria)
+
         ' Llamamos al formulario de manera modal.
-        If vEditar = "NO" Then
-            vEditar = "NO"  ' Eliminar
-        Else
-            vEditar = "NO"
-        End If
+        vEditar = "NO"
         frmEditarCuentaBancaria.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
         frmEditarCuentaBancaria.Dispose()
 
         ' =========================================================================
-        ' ✨ REFRESCO RELACIONAL LIMPIO DE LA PARRILLA (Sincronizado con tu Load)
+        ' 🚀 REPARADO MODO COMERCIAL: REFRESCO EN BORRADO CON ESCUDO UNIVERSAL
         ' =========================================================================
-        ' 🚀 REPARADO: Estructura de 5 campos puros sin repeticiones para evitar la ambigüedad.
-        ' Colocamos el WHERE cronológicamente en su sitio exacto de Access: DESPUÉS del INNER JOIN.
-        vtipoSql = "SELECT tipocuentas.CodigoTIP, cuentas.NombreCUE, cuentas.NumeroCUE, cuentas.NotasCUE, cuentas.IdCuentaCUE " &
-                   "FROM cuentas " &
-                   "INNER JOIN tipocuentas ON cuentas.TipoCUE = tipocuentas.IdTipoCUE "
-
-        If BtnFiltroTipoCuenta.Enabled = False Then
-            ' Saneamos el filtro inyectando el ID relacional numérico puro seleccionado
-            Dim idTipoSel As Integer = Convert.ToInt32(CmbTipoCuenta.SelectedValue)
-            vtipoSql += $" WHERE cuentas.TipoCUE = {idTipoSel} "
-        End If
-
-        vtipoSql += " ORDER BY cuentas.NombreCUE ASC"
-
-        ' Llenamos el Grid con la estructura limpia unificada de la trastienda
-        LlenarGrid(vtipoSql, "CUENTAS_BANCARIAS", "1")
-
-        ' Ahora que la estructura es simétrica, el ID viaja clavado en la Celda 4. Lo ocultamos.
-        If DgvCuentas.Columns.Count >= 5 Then
-            DgvCuentas.Columns(4).Visible = False
-        End If
+        CargarCuentasBancarias()
 
         ' Lanzamos tu rutina de traducción sobre las cabeceras visuales
         TraducirColumnasGridCuentas(DgvCuentas)
+
+        ' 🔒 EL CANDADO DE ORO: Buscamos el ID por su nombre biológico en la RAM y lo ocultamos
+        For Each col As DataGridViewColumn In DgvCuentas.Columns
+            If col.DataPropertyName.ToUpper() = "IDCUENTACUE" OrElse col.Name.ToUpper() = "IDCUENTACUE" Then
+                col.Visible = False
+            End If
+        Next
     End Sub
 
     Private Sub BtnEliminaSeleccion_Click(sender As Object, e As EventArgs) Handles BtnEliminaSeleccion.Click
@@ -402,13 +480,7 @@ Public Class CuentasBancarias
         If e.KeyCode = 117 Then 'Tecla F6
             'Vuelve a Refrecar el DataGrid y dejar los Btn de los Filtros sin Filtrar
             '************************************************************************
-            vtipoSql = "SELECT tipocuentas.CodigoTIP, cuentas.NombreCUE, cuentas.NumeroCUE, cuentas.NotasCUE, cuentas.NotasCUE, cuentas.IdCuentaCUE " &
-           "FROM cuentas " &
-           "INNER JOIN tipocuentas ON cuentas.TipoCUE = tipocuentas.IdTipoCUE " &
-           "ORDER BY cuentas.NombreCUE ASC"
-
-            ' Llenamos el Grid con la estructura limpia
-            LlenarGrid(vtipoSql, "CUENTAS_BANCARIAS", "1")
+            CargarCuentasBancarias()
 
             ' Ocultamos el Id de la cuenta que viaja seguro en la posición 4
             If DgvCuentas.Columns.Count > 5 Then
@@ -427,62 +499,10 @@ Public Class CuentasBancarias
         BtnEditarRegistro.PerformClick()
     End Sub
 
-    Private Sub BtnEditarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEditarRegistro.Click
-        If frmCuentasBancarias.DgvCuentas.CurrentRow Is Nothing Then
-            MsgBox(resManager.GetString("SeleccionaRegistro"), vbExclamation)
-            Exit Sub
-        End If
-
-        filaActual = frmCuentasBancarias.DgvCuentas.CurrentRow.Index
-        vTxtNombre = frmCuentasBancarias.DgvCuentas.Rows(filaActual).Cells(1).Value.ToString
-
-        ' Comprobamos si existe un identificador asociado.
-        If ((frmEditarCuentaBancaria Is Nothing) OrElse (Not frmEditarCuentaBancaria.IsHandleCreated)) Then
-            frmEditarCuentaBancaria = New EditarCuentaBancaria
-        End If
-        ' Forzar la traducción y el tamaño correcto antes de mostrar el formulario
-        ActualizarTextosFormulario(frmEditarCuentaBancaria)
-        ' Llamamos al formulario de manera modal.
-        If vEditar = "NO" Then
-            vEditar = "SI"  ' EDITAR
-        Else
-            vEditar = "SI"
-        End If
-        frmEditarCuentaBancaria.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
-        frmEditarCuentaBancaria.Dispose()
-        vtipoSql = "SELECT tipocuentas.CodigoTIP, cuentas.NombreCUE, cuentas.NumeroCUE, cuentas.NotasCUE, cuentas.NotasCUE, cuentas.IdCuentaCUE "
-        vtipoSql += "FROM cuentas "
-        If BtnFiltroTipoCuenta.Enabled = False Then
-            vtipoSql += " WHERE "
-            vtipoSql += "cuentas.TipoCUE = '" & CmbTipoCuenta.Text & "' "
-        End If
-        vtipoSql += "INNER JOIN tipocuentas ON cuentas.TipoCUE = tipocuentas.IdTipoCUE "
-        vtipoSql += "ORDER BY cuentas.NombreCUE ASC"
-
-        ' Llenamos el Grid con la estructura limpia
-        LlenarGrid(vtipoSql, "CUENTAS_BANCARIAS", "1")
-
-        ' Ocultamos el Id de la cuenta que viaja seguro en la posición 4
-        If DgvCuentas.Columns.Count > 5 Then
-            DgvCuentas.Columns(5).Visible = False
-        End If
-
-        ' Lanzamos tu rutina de traducción de siempre sobre los textos (CodigoTIP)
-        TraducirColumnasGridCuentas(DgvCuentas)
-    End Sub
-
     Private Sub BtnF6_Click(sender As Object, e As EventArgs) Handles BtnF6.Click
         'Vuelve a Refrecar el DataGrid y dejar los Btn de los Filtros sin Filtrar
         '************************************************************************
-        vtipoSql = "SELECT tipocuentas.CodigoTIP, cuentas.NombreCUE, cuentas.NumeroCUE, cuentas.NotasCUE, cuentas.NotasCUE, cuentas.IdCuentaCUE " &
-           "FROM cuentas " &
-           "INNER JOIN tipocuentas ON cuentas.TipoCUE = tipocuentas.IdTipoCUE " &
-           "ORDER BY cuentas.NombreCUE ASC"
-
-        ' Llenamos el Grid con la estructura limpia
-        LlenarGrid(vtipoSql, "CUENTAS_BANCARIAS", "1")
+        CargarCuentasBancarias()
 
         ' Ocultamos el Id de la cuenta que viaja seguro en la posición 4
         If DgvCuentas.Columns.Count > 5 Then
