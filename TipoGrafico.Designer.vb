@@ -24,6 +24,7 @@ Partial Class TipoGrafico
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(TipoGrafico))
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.RadioButton9 = New System.Windows.Forms.RadioButton()
         Me.RadioButton8 = New System.Windows.Forms.RadioButton()
         Me.RadioButton7 = New System.Windows.Forms.RadioButton()
@@ -40,6 +41,7 @@ Partial Class TipoGrafico
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.Label1)
         Me.GroupBox1.Controls.Add(Me.RadioButton9)
         Me.GroupBox1.Controls.Add(Me.RadioButton8)
         Me.GroupBox1.Controls.Add(Me.RadioButton7)
@@ -52,6 +54,12 @@ Partial Class TipoGrafico
         resources.ApplyResources(Me.GroupBox1, "GroupBox1")
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.TabStop = False
+        '
+        'Label1
+        '
+        resources.ApplyResources(Me.Label1, "Label1")
+        Me.Label1.ForeColor = System.Drawing.Color.Crimson
+        Me.Label1.Name = "Label1"
         '
         'RadioButton9
         '
@@ -151,4 +159,5 @@ Partial Class TipoGrafico
     Friend WithEvents RadioButton8 As Windows.Forms.RadioButton
     Friend WithEvents RadioButton7 As Windows.Forms.RadioButton
     Friend WithEvents RadioButton6 As Windows.Forms.RadioButton
+    Friend WithEvents Label1 As Windows.Forms.Label
 End Class

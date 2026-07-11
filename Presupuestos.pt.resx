@@ -147,9 +147,6 @@
   <data name="GroupBox2.Text" xml:space="preserve">
     <value>Edição</value>
   </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Orçamentos</value>
-  </data>
   <data name="EliminarPresupuestos" xml:space="preserve">
     <value>Orçamentos, Exclusões!!</value>
   </data>
@@ -272,5 +269,8 @@
   </data>
   <data name="HastaElMes" xml:space="preserve">
     <value>Até o mês de</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Desvio orçamentário</value>
   </data>
 </root>

@@ -25,10 +25,10 @@ Partial Class Principal
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Principal))
         Me.BarraDeMenu = New System.Windows.Forms.MenuStrip()
         Me.ArchivoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SalirMenu = New System.Windows.Forms.ToolStripMenuItem()
         Me.CambiarEjercicioActivoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PreferenciasToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SalirToolStripMenuItem = New System.Windows.Forms.ToolStripSeparator()
-        Me.SalirMenu = New System.Windows.Forms.ToolStripMenuItem()
         Me.VerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BarraDeHerramientasMenu = New System.Windows.Forms.ToolStripMenuItem()
         Me.BarraDeEstadoMenu = New System.Windows.Forms.ToolStripMenuItem()
@@ -84,8 +84,8 @@ Partial Class Principal
         Me.ToolStripSeparator16 = New System.Windows.Forms.ToolStripSeparator()
         Me.AyudaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ArchivoDeAyudaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.AcercaDeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HistorialDeVersionesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AcercaDeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ImportaAntiguoContahogarToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator21 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripTextBox1 = New System.Windows.Forms.ToolStripTextBox()
@@ -96,9 +96,9 @@ Partial Class Principal
         Me.TsLabelHora = New System.Windows.Forms.ToolStripStatusLabel()
         Me.BarraDeHerramientas = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel12 = New System.Windows.Forms.ToolStripLabel()
-        Me.BtnCambiarEjercicioActivo = New System.Windows.Forms.ToolStripButton()
-        Me.BtnPreferencias = New System.Windows.Forms.ToolStripButton()
         Me.BtnSalir = New System.Windows.Forms.ToolStripButton()
+        Me.BtnPreferencias = New System.Windows.Forms.ToolStripButton()
+        Me.BtnCambiarEjercicioActivo = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripLabel4 = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel11 = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel16 = New System.Windows.Forms.ToolStripLabel()
@@ -131,8 +131,8 @@ Partial Class Principal
         Me.ToolStripLabel15 = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripLabel10 = New System.Windows.Forms.ToolStripLabel()
         Me.BtnAyuda = New System.Windows.Forms.ToolStripButton()
-        Me.BtnAcercade = New System.Windows.Forms.ToolStripButton()
         Me.BtnHistorialVersiones = New System.Windows.Forms.ToolStripButton()
+        Me.BtnAcercade = New System.Windows.Forms.ToolStripButton()
         Me.BtnImportarContaHogar = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator19 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripLabel5 = New System.Windows.Forms.ToolStripLabel()
@@ -152,10 +152,15 @@ Partial Class Principal
         '
         'ArchivoToolStripMenuItem
         '
-        Me.ArchivoToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SalirMenu, Me.CambiarEjercicioActivoToolStripMenuItem, Me.PreferenciasToolStripMenuItem, Me.SalirToolStripMenuItem})
+        Me.ArchivoToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SalirMenu, Me.PreferenciasToolStripMenuItem, Me.CambiarEjercicioActivoToolStripMenuItem, Me.SalirToolStripMenuItem})
         Me.ArchivoToolStripMenuItem.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
         Me.ArchivoToolStripMenuItem.Name = "ArchivoToolStripMenuItem"
         resources.ApplyResources(Me.ArchivoToolStripMenuItem, "ArchivoToolStripMenuItem")
+        '
+        'SalirMenu
+        '
+        resources.ApplyResources(Me.SalirMenu, "SalirMenu")
+        Me.SalirMenu.Name = "SalirMenu"
         '
         'CambiarEjercicioActivoToolStripMenuItem
         '
@@ -171,11 +176,6 @@ Partial Class Principal
         '
         Me.SalirToolStripMenuItem.Name = "SalirToolStripMenuItem"
         resources.ApplyResources(Me.SalirToolStripMenuItem, "SalirToolStripMenuItem")
-        '
-        'SalirMenu
-        '
-        resources.ApplyResources(Me.SalirMenu, "SalirMenu")
-        Me.SalirMenu.Name = "SalirMenu"
         '
         'VerToolStripMenuItem
         '
@@ -473,15 +473,15 @@ Partial Class Principal
         resources.ApplyResources(Me.ArchivoDeAyudaToolStripMenuItem, "ArchivoDeAyudaToolStripMenuItem")
         Me.ArchivoDeAyudaToolStripMenuItem.Name = "ArchivoDeAyudaToolStripMenuItem"
         '
-        'AcercaDeToolStripMenuItem
-        '
-        resources.ApplyResources(Me.AcercaDeToolStripMenuItem, "AcercaDeToolStripMenuItem")
-        Me.AcercaDeToolStripMenuItem.Name = "AcercaDeToolStripMenuItem"
-        '
         'HistorialDeVersionesToolStripMenuItem
         '
         resources.ApplyResources(Me.HistorialDeVersionesToolStripMenuItem, "HistorialDeVersionesToolStripMenuItem")
         Me.HistorialDeVersionesToolStripMenuItem.Name = "HistorialDeVersionesToolStripMenuItem"
+        '
+        'AcercaDeToolStripMenuItem
+        '
+        resources.ApplyResources(Me.AcercaDeToolStripMenuItem, "AcercaDeToolStripMenuItem")
+        Me.AcercaDeToolStripMenuItem.Name = "AcercaDeToolStripMenuItem"
         '
         'ImportaAntiguoContahogarToolStripMenuItem
         '
@@ -542,11 +542,11 @@ Partial Class Principal
         Me.ToolStripLabel12.Name = "ToolStripLabel12"
         Me.ToolStripLabel12.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal
         '
-        'BtnCambiarEjercicioActivo
+        'BtnSalir
         '
-        Me.BtnCambiarEjercicioActivo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        resources.ApplyResources(Me.BtnCambiarEjercicioActivo, "BtnCambiarEjercicioActivo")
-        Me.BtnCambiarEjercicioActivo.Name = "BtnCambiarEjercicioActivo"
+        Me.BtnSalir.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        resources.ApplyResources(Me.BtnSalir, "BtnSalir")
+        Me.BtnSalir.Name = "BtnSalir"
         '
         'BtnPreferencias
         '
@@ -554,11 +554,11 @@ Partial Class Principal
         resources.ApplyResources(Me.BtnPreferencias, "BtnPreferencias")
         Me.BtnPreferencias.Name = "BtnPreferencias"
         '
-        'BtnSalir
+        'BtnCambiarEjercicioActivo
         '
-        Me.BtnSalir.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        resources.ApplyResources(Me.BtnSalir, "BtnSalir")
-        Me.BtnSalir.Name = "BtnSalir"
+        Me.BtnCambiarEjercicioActivo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        resources.ApplyResources(Me.BtnCambiarEjercicioActivo, "BtnCambiarEjercicioActivo")
+        Me.BtnCambiarEjercicioActivo.Name = "BtnCambiarEjercicioActivo"
         '
         'ToolStripLabel4
         '
@@ -735,17 +735,17 @@ Partial Class Principal
         resources.ApplyResources(Me.BtnAyuda, "BtnAyuda")
         Me.BtnAyuda.Name = "BtnAyuda"
         '
-        'BtnAcercade
-        '
-        Me.BtnAcercade.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        resources.ApplyResources(Me.BtnAcercade, "BtnAcercade")
-        Me.BtnAcercade.Name = "BtnAcercade"
-        '
         'BtnHistorialVersiones
         '
         Me.BtnHistorialVersiones.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
         resources.ApplyResources(Me.BtnHistorialVersiones, "BtnHistorialVersiones")
         Me.BtnHistorialVersiones.Name = "BtnHistorialVersiones"
+        '
+        'BtnAcercade
+        '
+        Me.BtnAcercade.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        resources.ApplyResources(Me.BtnAcercade, "BtnAcercade")
+        Me.BtnAcercade.Name = "BtnAcercade"
         '
         'BtnImportarContaHogar
         '

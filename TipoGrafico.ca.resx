@@ -144,9 +144,6 @@
   <data name="RadioButton1.Text" xml:space="preserve">
     <value>Gràfic per Conceptes Comptables</value>
   </data>
-  <data name="GroupBox1.Text" xml:space="preserve">
-    <value>Seleccionar el Tipus de Gràfic que desitja</value>
-  </data>
   <data name="BtnAceptar.Text" xml:space="preserve">
     <value>Acceptar</value>
   </data>
@@ -155,5 +152,11 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Tipus de Gràfic</value>
+  </data>
+  <data name="Label1.Text" xml:space="preserve">
+    <value>Label1</value>
+  </data>
+  <data name="GroupBox1.Text" xml:space="preserve">
+    <value>Seleccionar el Tipus de Gràfic que desitges</value>
   </data>
 </root>

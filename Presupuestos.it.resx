@@ -156,9 +156,6 @@
   <data name="Label2.Text" xml:space="preserve">
     <value>=</value>
   </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Bilanci</value>
-  </data>
   <data name="Desviacion" xml:space="preserve">
     <value>Deviazione</value>
   </data>
@@ -272,5 +269,8 @@
   </data>
   <data name="Mes_12" xml:space="preserve">
     <value>Dicembre</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Deviazione di bilancio</value>
   </data>
 </root>

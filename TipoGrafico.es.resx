@@ -145,7 +145,7 @@
     <value>Gráfico por Conceptos Contables</value>
   </data>
   <data name="GroupBox1.Text" xml:space="preserve">
-    <value>Seleccionar el Tipo de Gráfico que desea</value>
+    <value>Seleccionar el Tipo de Gráfico que desees</value>
   </data>
   <data name="BtnAceptar.Text" xml:space="preserve">
     <value>Aceptar</value>
@@ -155,5 +155,8 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Tipo de Gráfico</value>
+  </data>
+  <data name="Label1.Text" xml:space="preserve">
+    <value>Label1</value>
   </data>
 </root>

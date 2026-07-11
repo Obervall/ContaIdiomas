@@ -2227,6 +2227,21 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Consejo Práctico:
+    '''Para obtener una visualización óptima, nítida
+    '''y detallada de tus gráficos, te recomendamos
+    '''acotar el rango mediante los filtros de fechas,
+    '''cuentas o seleccionando conceptos específicos
+    '''en el listado (Embudo Rosa).
+    '''¡Menos datos ofrecen un análisis mucho más claro!.
+    '''</summary>
+    Friend Shared ReadOnly Property TipoGrafico() As String
+        Get
+            Return ResourceManager.GetString("TipoGrafico", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Mis Cuentas con .
     '''</summary>
     Friend Shared ReadOnly Property TitolApp() As String

@@ -1425,6 +1425,68 @@ Public Class ApuntesContables
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
         frmTipoGrafico.Dispose()
+        ' Llenar Grid de APUNTES al cargra el programa
+        '**********************************************
+        vtipoSql = "SELECT apuntes.FechaAPU As [FechaAPU], " &  'Celda 0
+           "conceptos.DescripcionCON As [ConceptoAPU], " & ' Celda 1 (Texto visible)
+           "apuntes.DescripcionAPU As [DescripcionAPU], " & ' Celda 2
+           "apuntes.ImporteAPU As [ImporteAPU], " &       ' Celda 3
+           "apuntes.ImporteAPU As [SaldoAPU], " &         ' Celda 4
+           "apuntes.NotasAPU As [NotasAPU], " &           ' Celda 5
+           "cuentas.NombreCUE As [CuentaAPU], " &         ' Celda 6 (Texto visible)
+           "apuntes.CodigoAPU As [CodigoAPU], " &         ' Celda 7
+           "conceptos.CodigoCON As [CodigoCON], " &       ' Celda 8 (¡CORREGIDO! Clave estable para resManager)
+           "apuntes.ConceptoAPU As [IdConceptoCON], " &   ' Celda 9 (ID numérico concepto para guardar)
+           "apuntes.CuentaAPU As [IdCuentaCUE] " &        ' Celda 10 (ID numérico cuenta para guardar)
+           "FROM (apuntes " &
+           "INNER JOIN conceptos ON apuntes.ConceptoAPU = conceptos.IdConceptoCON) " &
+           "INNER JOIN cuentas ON apuntes.CuentaAPU = cuentas.IdCuentaCUE"
+
+        vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+        vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
+        vtipoGrid = "APUNTES_CONTABLES"
+        LlenarGrid(vtipoSql, vtipoGrid, "1")
+        TraducirGridApuntesBD(Me.DgvApuntes)
+        If DgvApuntes.RowCount - 1 >= 0 Then
+            vFila = DgvApuntes.RowCount - 1
+            DgvApuntes.Rows(vFila).Selected = True
+            DgvApuntes.CurrentCell = DgvApuntes.Rows(vFila).Cells(0)
+        End If
+
+        BtnSinFiltroFecha.PerformClick()
+        BtnSinFiltroConcepto.PerformClick()
+        BtnSinFiltroCuenta.PerformClick()
+
+        ' =========================================================================
+        ' 🌟 RECARGA INDEPENDIENTE DE CONTROLES (La propuesta maestra)
+        ' =========================================================================
+        Try
+            ' 1. Encendemos tu escudo protector antes de rellenar los componentes
+            cargandoFormulario = True
+
+            ' 🌟 CABLE A: Cargamos el ComboBox de forma independiente ordenado de la A a la Z puro
+            LlenarComboConceptosSueltosBD(Me.CmbConcepto)
+
+            ' 🌟 CABLE B: Cargamos el ListBox1 manteniendo tus cabeceras estéticas por grupos
+            cmdMdb1cr.CommandText = "SELECT IdConceptoCON, CodigoCON, DescripcionCON, TipoCON FROM conceptos"
+            drMdb1 = cmdMdb1cr.ExecuteReader()
+            LlenarYTraducirListBoxConceptosBD(Me.ListBox1, drMdb1)
+
+            ' 2. Apagamos el escudo tras la inyección exitosa en memoria RAM
+            cargandoFormulario = False
+
+            ' FORZAMOS la selección inicial dócil del primer concepto por defecto de fábrica
+            If CmbConcepto.Items.Count > 0 Then
+                CmbConcepto.SelectedIndex = -1
+                CmbConcepto.SelectedIndex = 0
+            End If
+
+        Catch ex As Exception
+            cargandoFormulario = False
+            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+            MsgBox(resManager.GetString("ErrorIniciarComponentes") & ": " & ex.Message, MsgBoxStyle.Critical)
+        End Try
+
     End Sub
 
     Private Sub BtnEliminaSeleccion_Click(sender As Object, e As EventArgs) Handles BtnEliminaSeleccion.Click

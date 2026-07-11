@@ -10,6 +10,7 @@ Imports System.Reflection
 Imports System.Resources
 Imports System.Threading
 Imports System.Windows.Forms
+Imports Microsoft.VisualStudio.TextManager.Interop
 
 Module Funciones
 
@@ -87,6 +88,7 @@ Module Funciones
     Public vfechaHoy As DateTime = DateTime.Today
     Public vTotalPresupuestoYTD As Double = 0
     Public vTotalRealYTD As Double = 0
+    Public vTipoConceptoGlobalActual As String = "GASTO"
 
     Public Structure ElementoCombo
         Public Property TextoMostrar As String  ' Lo que ve el usuario (ej: "Ausgaben")
@@ -541,11 +543,22 @@ Module Funciones
                 .Columns(7).Width = 0
                 .Columns(7).HeaderText = resManager.GetString("Codigo") ' "Código"
                 ' Ocultamos por completo las columnas técnicas que usa el traductor por debajo
-                If .ColumnCount >= 11 Then
+                If .ColumnCount > 11 Then
                     .Columns(7).Visible = False  ' [CodigoAPP] (Mejor que Width = 0 por seguridad)
                     .Columns(8).Visible = False  ' IdConceptoCON
                     .Columns(9).Visible = False ' DescripcionCON
                     .Columns(10).Visible = False ' IdCuentaCUE
+                    ' Le asignamos el nombre biológico estricto en la RAM para que las funciones la localicen
+                    .Columns(11).Name = "TipoCON"
+
+                    ' Le plantamos su cabecera internacionalizada y reluciente desde tu resX
+                    .Columns(11).HeaderText = resManager.GetString("Tipo") ' O el texto directo: = "Tipo"
+
+                    ' Le damos un peso proporcional elegante en el ancho de la pantalla
+                    .Columns(11).Width = 80
+                    .Columns(11).Visible = True
+                    .Columns(11).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                    .Columns(11).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter
                 End If
             End With
             'Llama a la función
@@ -593,109 +606,6 @@ Module Funciones
             adp.Fill(Tabla)
             frmImprimirForm.DgvApuntes.DataSource = ""
             frmImprimirForm.DgvApuntes.DataSource = Tabla
-
-            'ElseIf vgrid = "CUENTAS_BANCARIAS" Then
-            '    Dim adp As New OleDbDataAdapter(linSql, conexion1)
-            '    Dim Tabla As New DataTable
-            '    adp.Fill(Tabla)
-
-            '    ' 🎯 LA CLAVE 2: Creamos una columna virtual legítima en la RAM para el Saldo numérico
-            '    ' Nace en la posición 3 de la estructura para respetar todos tus "With .Columns" de abajo
-            '    Dim colSaldo As New DataColumn("SaldoCalculado", GetType(Decimal))
-            '    colSaldo.DefaultValue = 0.00
-            '    Tabla.Columns.Add(colSaldo)
-            '    colSaldo.SetOrdinal(3) ' 🚀 La colocamos exactamente en la celda 3
-
-            '    ' --- RECORRIDO DE FILAS CON TRADUCCIÓN DE TIPOS Y NOMBRES SISTEMA ---
-            '    For Each filaData As DataRow In Tabla.Rows
-            '        ' Capturamos el ID que ahora viaja seguro en la celda 4 (Desplazado dócilmente)
-            '        Dim vIdCuenta As Integer = Convert.ToInt32(filaData("IdCuentaCUE"))
-
-            '        cmdMdb1cr.CommandText = "SELECT apuntes.ImporteAPU FROM apuntes WHERE apuntes.CuentaAPU = " & vIdCuenta & " And apuntes.EjercicioAPU = " & vAñoEjercicio
-
-            '        Try
-            '            drMdb1 = cmdMdb1cr.ExecuteReader()
-            '            vSaldoCuentas = 0
-            '            If drMdb1.HasRows Then
-            '                While drMdb1.Read()
-            '                    vSaldoCuentas += Convert.ToDecimal(drMdb1.GetValue(0))
-            '                End While
-            '            End If
-            '            drMdb1.Close()
-            '        Catch ex As Exception
-            '            If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-            '            MsgBox(resManager.GetString("ErrorAlEjecutar") & ": " & cmdMdb1cr.CommandText & vbCrLf & ex.Message)
-            '        End Try
-
-            '        ' Inyectamos el dinero en su casillero virtual exclusivo de la RAM
-            '        filaData("SaldoCalculado") = Math.Round(Convert.ToDecimal(vSaldoCuentas), 2)
-            '    Next
-            '    ' --- AHORA SÍ: Enlazamos la tabla ya calculada al Grid ---
-            '    frmCuentasBancarias.DgvCuentas.DataSource = Nothing
-            '    frmCuentasBancarias.DgvCuentas.DataSource = Tabla
-
-            '    With frmCuentasBancarias.DgvCuentas
-            '        .DefaultCellStyle.Font = New Font("Tahoma", 9)
-            '        .DefaultCellStyle.ForeColor = System.Drawing.Color.Black
-            '        .DefaultCellStyle.BackColor = System.Drawing.Color.White
-            '        .DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White
-            '        .DefaultCellStyle.SelectionBackColor = System.Drawing.Color.Blue
-
-            '        ' Configuración de alineaciones y colores
-            '        .Columns(0).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkGreen
-            '        .Columns(1).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkBlue
-            '        .Columns(2).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkBlue
-            '        .Columns(2).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
-            '        .Columns(2).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight
-            '        .Columns(3).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight
-            '        .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
-            '        .Columns(3).DefaultCellStyle.ForeColor = System.Drawing.Color.DarkBlue
-
-            '        ' TRUCO MAESTRO: Forzamos el formato N2 ahora que la columna contiene números puros
-            '        .Columns(3).DefaultCellStyle.Format = "N2"
-
-            '        ' =========================================================================
-            '        ' 🌟 REPARTO ELÁSTICO PROPORCIONAL DE COLUMNAS (¡Tu diseño original perfecto!)
-            '        ' =========================================================================
-            '        ' Obligamos a la rejilla entera a estirarse de forma simétrica hasta el margen derecho
-            '        .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-
-            '        ' Dimensiones y encabezados traducidos según el SELECT original que te funcionaba
-            '        .Columns(0).HeaderText = resManager.GetString("Tipo")
-            '        .Columns(0).FillWeight = 80
-
-            '        .Columns(1).HeaderText = resManager.GetString("Nombre")
-            '        .Columns(1).FillWeight = 120
-
-            '        .Columns(2).HeaderText = resManager.GetString("Numero")
-            '        .Columns(2).FillWeight = 120
-
-            '        ' Celda 3: Tu columna de Importe / Cálculo de Saldo
-            '        .Columns(3).HeaderText = resManager.GetString("Importe") & " " & vMoneda
-            '        .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
-            '        .Columns(3).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight
-            '        .Columns(3).DefaultCellStyle.Format = "N2"
-            '        .Columns(3).FillWeight = 60
-
-            '        ' Celda 4: Tus Notas de texto plano relucientes y estiradas
-            '        .Columns(4).HeaderText = resManager.GetString("Notas")
-            '        .Columns(4).FillWeight = 150
-
-            '        ' 🚀 CORTAFUEGOS DE SEGURIDAD: Ocultamos el ID relacional de forma elástica
-            '        ' Evitamos que salte el ArgumentOutOfRangeException controlando el tamaño real de la grilla
-            '        If .Columns.Count > 5 Then
-            '            .Columns(5).Visible = False
-            '        End If
-
-            '        Dim vNumRegistros As String = .Rows.Count.ToString
-            '        frmCuentasBancarias.TxtNumRegistros.Text = vNumRegistros
-            '        If frmCuentasBancarias.BtnFiltroTipoCuenta.Enabled = False Then
-            '            frmCuentasBancarias.LblNumRegistros.Text = resManager.GetString("Filtrado")
-            '        Else
-            '            frmCuentasBancarias.LblNumRegistros.Text = resManager.GetString("SinFiltrar")
-            '        End If
-            '    End With
-            '    DgvCuentasBancarias()
 
         ElseIf vgrid = "PRINT_CUENTAS" Then
             Dim adp As New OleDbDataAdapter(linSql, conexion1)
@@ -886,17 +796,26 @@ Module Funciones
                         vSumaColumnaPresuCompleta += importePresuFila
                     End If
 
-                    ' 6. Acumulados controlados para el YTD financiero (Tu lógica de fábrica impecable)
+                    ' =========================================================================
+                    ' 6. ACUMULADOS CONTROLADOS PARA EL YTD EN POSITIVO ABSOLUTO (MSIX)
+                    ' =========================================================================
+                    ' Forzamos a la RAM a guardar el presupuesto y la realidad en valores positivos puros
+                    Dim pPuro As Double = Math.Abs(importePresuFila)
+                    Dim rPuro As Double = Math.Abs(Convert.ToDouble(fila.Cells(2).Value))
+
                     If CInt(vAñoEjercicio) < añoActualCalendario Then
-                        vTotalPresupuestoYTD += importePresuFila
-                        vTotalRealYTD += Convert.ToDouble(fila.Cells(2).Value)
+                        ' AÑO CERRADO PASADO (2015): Acumula los 12 meses limpios
+                        vTotalPresupuestoYTD += pPuro
+                        vTotalRealYTD += rPuro
                     ElseIf CInt(vAñoEjercicio) = añoActualCalendario Then
+                        ' AÑO EN CURSO (2026): Tu regla estrella hasta el mes anterior
                         If vMes < mesActualCalendario Then
-                            vTotalPresupuestoYTD += importePresuFila
-                            vTotalRealYTD += Convert.ToDouble(fila.Cells(2).Value)
+                            vTotalPresupuestoYTD += pPuro
+                            vTotalRealYTD += rPuro
                         End If
                     End If
                 Next
+
 
                 ' 🌟 CHIVATO MODULAR INDUSTRIAL:
                 'If .Rows.Count > 0 Then
@@ -904,12 +823,49 @@ Module Funciones
                 'End If
 
                 ' =========================================================================
-                ' 🌟 SINCRONIZACIÓN DE ETIQUETAS DE LA SEGUNDA MITAD (Enmarcado limpio)
+                ' 🌟 REPARADO MODO PREMIUM: EVALUACIÓN DE OBJETIVO POR FILTRO DE COMBO (MSIX)
                 ' =========================================================================
-                Dim vDiferenciaDesviacion As Double = vTotalPresupuestoYTD - vTotalRealYTD
+                ' 1. Calculamos la desviación neta en valores absolutos positivos
+                Dim desvPresupuesto As Double = Math.Abs(vTotalPresupuestoYTD)
+                Dim desvReal As Double = Math.Abs(vTotalRealYTD)
+
+                Dim vDiferenciaDesviacion As Double = 0
+                Dim objetivoLogrado As Boolean = False
+
+                ' =========================================================================
+                ' 🌟 REPARADO MODO PREMIUM: MATEMÁTICA CON SIGNO FINANCIERO REAL (Math.Abs)
+                ' =========================================================================
+                ' Desciframos si el concepto actual es un INGRESO o un GASTO mirando el combo superior
+                Dim tipoConceptoFiltrado As String = "GASTO"
+                If frmPresupuestos.CmbConcepto.SelectedItem IsNot Nothing Then
+                    Try
+                        Dim filaCombo As DataRowView = CType(frmPresupuestos.CmbConcepto.SelectedItem, DataRowView)
+                        If filaCombo.Row.Table.Columns.Contains("TipoCON") Then
+                            tipoConceptoFiltrado = filaCombo("TipoCON").ToString().Trim().ToUpper()
+                        End If
+                    Catch
+                    End Try
+                End If
+
+                vDiferenciaDesviacion = 0
+                objetivoLogrado = False
+
+                ' Aplicamos la ley contable pura que has dictado con tu cabeza pensante
+                If tipoConceptoFiltrado = "INGRESO" Then
+                    ' 🟦 EN INGRESO: Realidad - Presupuesto (Ej: 600 - 700 = -100,00)
+                    vDiferenciaDesviacion = vTotalRealYTD - vTotalPresupuestoYTD
+                    If vTotalRealYTD >= vTotalPresupuestoYTD Then objetivoLogrado = True
+                Else
+                    ' 🟥 EN GASTO: Presupuesto - Realidad (Ej: 400 - 416 = -16,00)
+                    vDiferenciaDesviacion = vTotalPresupuestoYTD - vTotalRealYTD
+                    If vTotalRealYTD <= vTotalPresupuestoYTD Then objetivoLogrado = True
+                End If
+
+                ' Pintamos el monto neto de la desviación en su casillero correspondiente
                 frmPresupuestos.LblMontoDesviacion.Text = vDiferenciaDesviacion.ToString("N2")
 
-                If vDiferenciaDesviacion >= 0 Then
+                ' Pintamos las etiquetas de Logrado / No Logrado con su color corporativo legítimo
+                If objetivoLogrado Then
                     frmPresupuestos.LblObjetivo.ForeColor = System.Drawing.Color.DarkGreen
                     frmPresupuestos.LblObjetivo.Text = frmPresupuestos.rmse.GetString("LblObjetivo.Text")
                     If String.IsNullOrEmpty(frmPresupuestos.LblObjetivo.Text) Then frmPresupuestos.LblObjetivo.Text = "Objectiu Assolit!"
@@ -921,7 +877,7 @@ Module Funciones
                     frmPresupuestos.LblMontoDesviacion.ForeColor = System.Drawing.Color.Red
                 End If
 
-                ' Sincronizamos las etiquetas anuales/parciales
+                ' Sincronizamos las etiquetas anuales/parciales de fábrica
                 ActualizarEtiquetaDesviacion()
 
                 ' =========================================================================
@@ -942,7 +898,7 @@ Module Funciones
             End With
 
         ElseIf vgrid = "TIPO_CUENTAS_BANCARIAS" Then    'Tipo Cuentas Bancarias
-        Dim adp As New OleDbDataAdapter(linSql, conexion1)
+            Dim adp As New OleDbDataAdapter(linSql, conexion1)
             Dim Tabla As New DataTable
             adp.Fill(Tabla)
             frmTipoCuentaBancaria.DgvTipoCuentasBancarias.DataSource = Tabla
@@ -1026,11 +982,14 @@ Module Funciones
     Public Sub ActualizarEtiquetaDesviacion()
         Dim añoActualCalendario As Integer = DateTime.Now.Year
 
-        ' Comprobamos si el ejercicio consultado es el año en curso
+        ' =========================================================================
+        ' 🚀 REPARADO MODO COMERCIAL: COMPUERTAS VISUALES ELÁSTICAS (MSIX)
+        ' =========================================================================
+        ' Comprobamos si el ejercicio consultado es el año en curso (2026)
         If CInt(vAñoEjercicio) = añoActualCalendario Then
 
-            ' Si filtramos por concepto, ocultamos los campos de desviación
-            If frmPresupuestos.BtnFiltroConcepto.Enabled = True Then ' Sin Filtrar Concepto
+            ' 🎯 LA CLAVE: Si la rejilla tiene filas con datos, mostramos siempre la desviación parcial
+            If frmPresupuestos.DgvPresupuestos.Rows.Count = 0 Then
                 frmPresupuestos.LblDesviacion.Visible = False
                 frmPresupuestos.LblMontoDesviacion.Visible = False
             Else
@@ -1040,22 +999,32 @@ Module Funciones
                 ' Obtenemos la fecha del mes anterior restando 1 mes a la fecha de hoy
                 Dim fechaMesAnterior As Date = DateTime.Now.AddMonths(-1)
 
-                ' Obtenemos el nombre de ese mes en el idioma del sistema (ej: "mayo" si estamos en junio)
+                ' Obtenemos el nombre de ese mes en el idioma del sistema con su primera letra en mayúscula
                 Dim nombreMesAnterior As String = StrConv(fechaMesAnterior.ToString("MMMM"), VbStrConv.ProperCase)
 
-                ' "Desviación Parcial Hasta: Mayo" (Traído desde tus recursos)
-                frmPresupuestos.LblDesviacion.Text = frmPresupuestos.rmse.GetString("DesviacionParcial") & " " & nombreMesAnterior & " ="
+                ' "Desviación Parcial Hasta: Mayo =" (Traído desde tus recursos locales)
+                Dim textoParcial As String = frmPresupuestos.rmse.GetString("DesviacionParcial")
+                If String.IsNullOrEmpty(textoParcial) Then textoParcial = "Desviació Parcial Fins a:"
+
+                frmPresupuestos.LblDesviacion.Text = textoParcial & " " & nombreMesAnterior & " ="
             End If
 
         ElseIf CInt(vAñoEjercicio) < añoActualCalendario Then
-            ' Si es un año pasado, el ejercicio ya está cerrado: Desviación Anual
-            frmPresupuestos.LblDesviacion.Visible = True
-            frmPresupuestos.LblMontoDesviacion.Visible = True
-            Dim textoAnual As String = frmPresupuestos.rmse.GetString("LblDesviacion.Text")
-            If String.IsNullOrEmpty(textoAnual) Then textoAnual = "Desviació Anual"
-            frmPresupuestos.LblDesviacion.Text = textoAnual & " " & vAñoEjercicio & "= "
+            ' 🚀 ESCENARIO AÑO CERRADO DEL PASADO: El ejercicio ya terminó completo (Desviación Anual)
+            If frmPresupuestos.DgvPresupuestos.Rows.Count = 0 Then
+                frmPresupuestos.LblDesviacion.Visible = False
+                frmPresupuestos.LblMontoDesviacion.Visible = False
+            Else
+                frmPresupuestos.LblDesviacion.Visible = True
+                frmPresupuestos.LblMontoDesviacion.Visible = True
+
+                Dim textoAnual As String = frmPresupuestos.rmse.GetString("LblDesviacion.Text")
+                If String.IsNullOrEmpty(textoAnual) Then textoAnual = "Desviació Anual"
+
+                frmPresupuestos.LblDesviacion.Text = textoAnual & " " & vAñoEjercicio & "= "
+            End If
         Else
-            ' Si es un año futuro, podrías querer ocultarlo o gestionarlo
+            ' Si es un año futuro, lo mantenemos limpio en la interfaz hasta que haya apuntes reales
             frmPresupuestos.LblDesviacion.Visible = False
             frmPresupuestos.LblMontoDesviacion.Visible = False
         End If
@@ -1146,34 +1115,46 @@ Module Funciones
 
         vIngresos = 0
         vGastos = 0
-        vValor = 0 ' Almacenará el saldo neto acumulado línea a línea
+        vValor = 0
 
         ' =========================================================================
-        ' 🚀 REPARADO MODO PREMIUM: OPERACIÓN POR TIPO RELACIONAL INMUNE A SIGNOS
+        ' 🚀 REPARADO MODO PREMIUM: OPERACIÓN POR NOMBRE DE COLUMNA SEGURO (MSIX)
         ' =========================================================================
         For Each fila As DataGridViewRow In frmApuntesPeriodicos.DgvApuper.Rows
+            ' Descartamos filas vacías o de cabeceras fantasmas de forma segura usando el índice 3 (Importe)
             If fila.Cells(3).Value IsNot Nothing AndAlso Not IsDBNull(fila.Cells(3).Value) Then
 
-                ' 1. Limpiamos el importe de signos negativos con Math.Abs (Operamos con el número puro)
+                ' 1. Saneamos el importe con Valor Absoluto (Operamos con el dinero puro en positivo)
                 Dim importeAsiento As Decimal = Math.Abs(Convert.ToDecimal(fila.Cells(3).Value))
 
-                ' 2. 🎯 CONEXIÓN BIOLÓGICA: Leemos el TipoCON real que viaja seguro en la celda 11
-                Dim tipoConceptoReal As String = fila.Cells(11).Value.ToString().Trim().ToUpper()
+                ' 2. 🎯 CONEXIÓN BIOLÓGICA: Leemos el Tipo real desde la columna bautizada TipoCON
+                ' =========================================================================
+                ' 🎯 LA CORRECCIÓN MAESTRA: EXTRACTOR DE TIPO SEGURO POR ÍNDICE
+                ' =========================================================================
+                Dim tipoConceptoReal As String = "GASTO" ' Salvavidas predeterminado por seguridad
 
-                ' 3. Evaluamos por la etiqueta de la base de datos (Inmune a nombres e idiomas)
+                ' Interrogamos si la fila contiene físicamente la celda de la columna 11
+                If fila.Cells.Count > 11 Then
+                    If fila.Cells(11).Value IsNot Nothing AndAlso Not IsDBNull(fila.Cells(11).Value) Then
+                        tipoConceptoReal = fila.Cells(11).Value.ToString().Trim().ToUpper()
+                    End If
+                End If
+                ' =========================================================================
+
+                ' 3. Evaluamos por la etiqueta biológica pura de la base de datos
                 If tipoConceptoReal = "INGRESO" Then
-                    ' 🟦 ESCENARIO INGRESO: Suma en totales, tiñe de azul la celda 3 y SUMA al acumulador
+                    ' 🟦 ESCENARIO INGRESO: Suma en totales, tiñe de azul la celda del importe y SUMA al saldo
                     vIngresos += importeAsiento
                     fila.Cells(3).Style.ForeColor = System.Drawing.Color.DarkBlue
                     vValor += importeAsiento
                 Else
-                    ' 🟥 ESCENARIO GASTO: Suma en totales de gastos, tiñe de rojo la celda 3 y RESTA del acumulador
+                    ' 🟥 ESCENARIO GASTO: Suma en totales de gastos, tiñe de rojo la celda del importe y RESTA
                     vGastos += importeAsiento
                     fila.Cells(3).Style.ForeColor = System.Drawing.Color.IndianRed
                     vValor -= importeAsiento
                 End If
 
-                ' 🌟 EL SALDO DE LA LÍNEA: Guardamos el dinero neto acumulado en la celda 4 (Saldo €)
+                ' 🌟 EL SALDO DE LA LÍNEA: Guardamos el acumulador en la celda 4 (SaldoAPP)
                 fila.Cells(4).Value = vValor
 
                 ' Teñimos el saldo acumulado de la fila según la salud financiera de la línea
@@ -1188,10 +1169,9 @@ Module Funciones
         ' =========================================================================
         ' 🌟 REFLEJO PRESTANCIA EN PANTALLA: LLENADO DE CASILLAS TOTALES
         ' =========================================================================
+        ' Mostramos los totales calculados de forma simétrica en los tres cuadros
         frmApuntesPeriodicos.TxtIngresos.Text = vIngresos.ToString("N2")
         frmApuntesPeriodicos.TxtGastos.Text = vGastos.ToString("N2")
-
-        ' El saldo neto del periodo es el acumulado real que se quedó en vValor
         frmApuntesPeriodicos.TxtSaldo.Text = vValor.ToString("N2")
 
         If vValor >= 0 Then
@@ -3054,15 +3034,39 @@ Module Funciones
     ''' Muestra un cuadro de confirmación Sí/No adaptado al 100% al idioma del resManager
     ''' </summary>
     Public Function ConfirmarAccionTraducida(ByVal mensaje As String, ByVal titulo As String) As MsgBoxResult
-        ' Forzamos la traducción de las palabras clave usando tu gestor de recursos
-        Dim textoSi As String = If(resManager?.GetString("SI"), "Sí")
-        Dim textoNo As String = If(resManager?.GetString("NO"), "No")
+        ' =========================================================================
+        ' 🚀 REPARADO MODO PREMIUM: CAPTURA DE BOTONES INMUNE A DESCALCES (MSIX)
+        ' =========================================================================
+        ' 1. Intentamos leer las llaves en minúsculas/mayúsculas exactas del .resx
+        Dim textoSi As String = ""
+        Dim textoNo As String = ""
 
-        ' Si estás en catalán y tus archivos .resx tienen "Sí" y "No", las heredará.
-        ' Si no, puedes forzar un desvío rápido por código si detectas el idioma:
-        ' If vIdiomaActivo = "ca" Then textoSi = "Sí" : textoNo = "No"
+        If resManager IsNot Nothing Then
+            ' Buscamos de forma elástica tanto por "BotonSi" como por "SI"
+            textoSi = resManager.GetString("BotonSi")
+            If String.IsNullOrEmpty(textoSi) Then textoSi = resManager.GetString("SI")
 
-        ' Creamos un formulario temporal ligero sobre la marcha (Cero archivos de diseño .vb)
+            textoNo = resManager.GetString("BotonNo")
+            If String.IsNullOrEmpty(textoNo) Then textoNo = resManager.GetString("NO")
+        End If
+
+        ' 2. 🎯 CORTAFUEGOS BIOLÓGICO: Si las llaves fallan, forzamos el desvío directo mirando el idioma del sistema
+        ' (Ajusta "vIdiomaElegido" o "frmPreferences.CmbIdioma.Text" según tu variable de idioma real)
+        If String.IsNullOrEmpty(textoSi) OrElse String.IsNullOrEmpty(textoNo) Then
+            ' 🎯 CAPTURA DIRECTA DESDE LA INTERFAZ: Leemos el texto del combo de idioma de tu pantalla
+            Dim idiomaActivo As String = frmPreferencias.CmbElegirIdioma.Text.Trim().ToUpper()
+
+
+            If idiomaActivo.Contains("CAT") Then
+                textoSi = "Sí"
+                textoNo = "No"
+            Else
+                textoSi = "Sí"
+                textoNo = "No"
+            End If
+        End If
+
+        ' 3. Levantamos tu excelente formulario temporal ligero (Tu diseño original intacto)
         Dim frm As New Form()
         Dim lbl As New Label()
         Dim btnSi As New Button()
@@ -3073,11 +3077,10 @@ Module Funciones
         btnSi.Text = textoSi
         btnNo.Text = textoNo
 
-        ' Configuramos las respuestas lógicas de .NET
         btnSi.DialogResult = DialogResult.Yes
         btnNo.DialogResult = DialogResult.No
 
-        ' --- Estética rápida y limpia ---
+        ' --- Estética rápida y limpia impecable ---
         frm.Size = New Size(400, 160)
         frm.FormBorderStyle = FormBorderStyle.FixedDialog
         frm.MaximizeBox = False
@@ -3092,7 +3095,7 @@ Module Funciones
         frm.AcceptButton = btnSi
         frm.CancelButton = btnNo
 
-        ' Mostramos la ventana y capturamos la respuesta del usuario
+        ' Mostramos la ventana de manera modal y capturamos la respuesta del usuario
         Dim resultado As DialogResult = frm.ShowDialog()
         frm.Dispose()
 

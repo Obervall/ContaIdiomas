@@ -160,7 +160,7 @@ Public Class EditarCuentaBancaria
         vTxtNombre = TxtNombre.Text
 
         ' Preguntamos confirmación al usuario (Tu excelente aviso de fábrica)
-        Dim respuesta As MsgBoxResult = MsgBox(rmse.GetString("EliminarCuenta") & " " & vTxtNombre & " " & rmse.GetString("EliminarCuenta2"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("LblEliminando"))
+        Dim respuesta As MsgBoxResult = ConfirmarAccionTraducida(rmse.GetString("EliminarCuenta") & " " & vTxtNombre & " " & rmse.GetString("EliminarCuenta2"), rmse.GetString("LblEliminando"))
 
         If respuesta = vbYes Then
             Dim filasAfectadas As Integer = 0

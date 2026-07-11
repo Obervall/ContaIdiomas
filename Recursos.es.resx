@@ -952,4 +952,13 @@ que el archivo no esté abierto</value>
   <data name="1erPago" xml:space="preserve">
     <value>1er Pago</value>
   </data>
+  <data name="TipoGrafico" xml:space="preserve">
+    <value>Consejo Práctico:
+Para obtener una visualización óptima, nítida
+y detallada de tus gráficos, te recomendamos
+acotar el rango mediante los filtros de fechas,
+cuentas o seleccionando conceptos específicos
+en el listado (Embudo Rosa).
+¡Menos datos ofrecen un análisis mucho más claro!</value>
+  </data>
 </root>

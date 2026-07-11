@@ -156,4 +156,7 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Diagrammtyp</value>
   </data>
+  <data name="Label1.Text" xml:space="preserve">
+    <value>Label1</value>
+  </data>
 </root>

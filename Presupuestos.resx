@@ -1459,7 +1459,7 @@
     <value>CenterParent</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Presupuestos</value>
+    <value>Desviación de Presupuestos</value>
   </data>
   <data name="&gt;&gt;PrintDialog1.Name" xml:space="preserve">
     <value>PrintDialog1</value>

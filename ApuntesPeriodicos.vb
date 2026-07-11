@@ -342,11 +342,40 @@ Public Class ApuntesPeriodicos
             End If
         Next
 
+        RefrescarGridApuntesPeriodicos()
+
+        ' Volvemos a pasar el rodillo matemático que calcula saldos e ingresos/gastos de forma limpia
+        DgvApuntesPeriodicos()
+
+        ' Avisamos del resultado final al usuario
         ' =========================================================================
-        ' 4. REFRESCAMOS Y RECALCULAMOS LA INTERFAZ DE FORMA AUTOMÁTICA
+        Dim plantillaExito As String = resManager.GetString("MsgLoteEliminadoExito")
+        If String.IsNullOrEmpty(plantillaExito) Then
+            plantillaExito = "Operación completada. Se han eliminado {0} apuntes periódicos de la Base de Datos."
+        End If
+
+        Dim tituloExito As String = resManager.GetString("TituloBorradoFinalizado")
+        If String.IsNullOrEmpty(tituloExito) Then tituloExito = "Borrado Finalizado"
+
+        Dim mensajeFinalExito As String = String.Format(plantillaExito, contadorBorrados)
+        MsgBox(mensajeFinalExito, MsgBoxStyle.Information, tituloExito)
+    End Sub
+
+    Private Sub BtnGraficos_Click(sender As Object, e As EventArgs) Handles BtnGraficos.Click
+        ' Comprobamos si existe un identificador asociado.
+        If ((frmTipoGraficoPeriodico Is Nothing) OrElse (Not frmTipoGraficoPeriodico.IsHandleCreated)) Then
+            frmTipoGraficoPeriodico = New TipoGraficoPeriodico
+        End If
+        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+        ActualizarTextosFormulario(frmTipoGraficoPeriodico)
+        ' Llamamos al formulario de manera modal.
+        frmTipoGraficoPeriodico.ShowDialog()
+        'MessageBox.Show("Se ha cerrado el formulario.")
+        ' Destruimos el formulario.
+        frmTipoGraficoPeriodico.Dispose()
         ' =========================================================================
-        ' 🚀 LA JUGADA MAESTRA: Llamamos a tu rutina estrella de refresco de la rejilla de periódicos
-        ' Cambia este nombre por el método exacto que usas en este form para volver a leer la tabla de Access
+        ' 🌟 1. CONSULTA SQL MAESTRA RELACIONAL ALINEADA (¡Corregido!)
+        ' =========================================================================
         ' Traemos las 11 celdas biológicas en su orden real simétrico.
         ' 🚀 LA CORRECCIÓN: Cambiamos conceptos.DescripcionCON por conceptos.CodigoCON en la segunda columna.
         vtipoSql = "SELECT apuper.FechaAPP As [FechaAPP], " &
@@ -374,69 +403,34 @@ Public Class ApuntesPeriodicos
         LlenarGrid(vtipoSql, vtipoGrid, "1")
         TraducirGridApuntesBD(Me.DgvApuper)
 
-        ' Volvemos a pasar el rodillo matemático que calcula saldos e ingresos/gastos de forma limpia
-        DgvApuntesPeriodicos()
-
-        ' Avisamos del resultado final al usuario
         ' =========================================================================
-        Dim plantillaExito As String = resManager.GetString("MsgLoteEliminadoExito")
-        If String.IsNullOrEmpty(plantillaExito) Then
-            plantillaExito = "Operación completada. Se han eliminado {0} apuntes periódicos de la Base de Datos."
-        End If
+        ' 🌟 RECARGA DE COMBOS DE LA NUEVA ERA (Inmune a NullReference y Ordenado A-Z)
+        ' =========================================================================
+        Try
+            ' 2. LLAMADA SEGURA: Usamos la nueva función exclusiva para combos sin ListBox
+            LlenarComboConceptosSueltosBD(Me.CmbConcepto)
 
-        Dim tituloExito As String = resManager.GetString("TituloBorradoFinalizado")
-        If String.IsNullOrEmpty(tituloExito) Then tituloExito = "Borrado Finalizado"
+            ' 3. Llamamos a la función genérica de tu módulo para las cuentas
+            LlenarComboCuentasGenerico(Me.CmbCuenta)
 
-        Dim mensajeFinalExito As String = String.Format(plantillaExito, contadorBorrados)
-        MsgBox(mensajeFinalExito, MsgBoxStyle.Information, tituloExito)
-    End Sub
+            ' 4. Apagamos el escudo tras la carga exitosa en memoria RAM
+            cargandoFormulario = False
 
+            ' 5. SELECCIÓN INICIAL SEGURA: Forzamos el vaivén para sincronizar descripciones
+            If CmbConcepto.Items.Count > 0 Then
+                CmbConcepto.SelectedIndex = -1
+                CmbConcepto.SelectedIndex = 0
+            End If
+            If CmbCuenta.Items.Count > 0 Then
+                CmbCuenta.SelectedIndex = -1
+                CmbCuenta.SelectedIndex = 0
+            End If
 
-    'Private Sub BtnEliminarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEliminarRegistro.Click
-    '    ' 1. Validamos de forma preventiva que haya una fila seleccionada en la rejilla
-    '    If frmApuntesPeriodicos.DgvApuper.CurrentRow Is Nothing Then Exit Sub
+        Catch ex As Exception
+            cargandoFormulario = False
+            MsgBox(resManager.GetString("Error") & ": " & ex.Message, MsgBoxStyle.Critical)
+        End Try
 
-    '    filaActual = frmApuntesPeriodicos.DgvApuper.CurrentRow.Index
-    '    vTxtNombre = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(1).Value.ToString()
-
-    '    ' Comprobamos si existe un identificador asociado.
-    '    If ((frmEditarApuntesPeriodicos Is Nothing) OrElse (Not frmEditarApuntesPeriodicos.IsHandleCreated)) Then
-    '        frmEditarApuntesPeriodicos = New EditarApuntesPeriodicos
-    '    End If
-    '    ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
-    '    ActualizarTextosFormulario(frmEditarApuntesPeriodicos)
-    '    ' Llamamos al formulario de manera modal en modo borrado
-    '    vEditar = "NO"  ' Eliminar
-    '    frmEditarApuntesPeriodicos.ShowDialog()
-    '    frmEditarApuntesPeriodicos.Dispose()
-
-    '    ' =========================================================================
-    '    ' 🌟 OPTIMIZACIÓN DE LA NUEVA ERA: REUTILIZACIÓN TOTAL
-    '    ' =========================================================================
-    '    ' Borramos más de 20 líneas redundantes y delegamos todo en la rutina limpia.
-    '    ' Ella se encargará de recalcular los filtros con IDs y pintar el Grid relacional
-    '    RefrescarGridApuntesPeriodicos()
-
-    '    ' Foco automático seguro en la última fila del Grid tras el refresco
-    '    If frmApuntesPeriodicos.DgvApuper.RowCount > 0 Then
-    '        Dim ultimaFila As Integer = frmApuntesPeriodicos.DgvApuper.RowCount - 1
-    '        frmApuntesPeriodicos.DgvApuper.Rows(ultimaFila).Selected = True
-    '        frmApuntesPeriodicos.DgvApuper.CurrentCell = frmApuntesPeriodicos.DgvApuper.Rows(ultimaFila).Cells(0)
-    '    End If
-    'End Sub
-
-    Private Sub BtnGraficos_Click(sender As Object, e As EventArgs) Handles BtnGraficos.Click
-        ' Comprobamos si existe un identificador asociado.
-        If ((frmTipoGraficoPeriodico Is Nothing) OrElse (Not frmTipoGraficoPeriodico.IsHandleCreated)) Then
-            frmTipoGraficoPeriodico = New TipoGraficoPeriodico
-        End If
-        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
-        ActualizarTextosFormulario(frmTipoGraficoPeriodico)
-        ' Llamamos al formulario de manera modal.
-        frmTipoGraficoPeriodico.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
-        frmTipoGraficoPeriodico.Dispose()
     End Sub
 
     Private Sub BtnEliminaSeleccion_Click(sender As Object, e As EventArgs) Handles BtnEliminaSeleccion.Click
@@ -480,11 +474,10 @@ Public Class ApuntesPeriodicos
         frmEditarApuntesPeriodicos.ShowDialog()
         frmEditarApuntesPeriodicos.Dispose()
 
-        ' =========================================================================
-        ' 🌟 OPTIMIZACIÓN DE LA NUEVA ERA: REUTILIZACIÓN TOTAL
-        ' =========================================================================
-        ' Borramos todo el laberinto de líneas duplicadas y delegamos en la rutina limpia
         RefrescarGridApuntesPeriodicos()
+
+        ' Volvemos a pasar el rodillo matemático que calcula saldos e ingresos/gastos de forma limpia
+        DgvApuntesPeriodicos()
 
         ' 2. REPOSICIONAMIENTO SEGURO: Volvemos a colocar el cursor en la fila editada
         ' Validamos que la fila siga existiendo tras el refresco para evitar desbordamientos
@@ -1031,7 +1024,7 @@ Public Class ApuntesPeriodicos
     End Sub
 
     Public Sub RefrescarGridApuntesPeriodicos()
-        ' 🌟 SANEAMIENTO PREVENTIVO: Limpiamos la memoria de consultas anteriores
+        ' 🌟 SANEAMIENTO PREVENTIVO: Limpiamos la memoria de parámetros de consultas anteriores
         cmdMdb1cr.Parameters.Clear()
 
         ' Guardamos en booleanos el estado de tus botones de filtro de la pantalla
@@ -1039,8 +1032,25 @@ Public Class ApuntesPeriodicos
         Dim filtroConceptoActivo As Boolean = (BtnFiltroConcepto.Enabled = False)
         Dim filtroFechaActivo As Boolean = (BtnFiltroFecha.Enabled = False)
 
-        ' 🌟 CONSULTA SQL MAESTRA RELACIONAL DE 11 CELDAS (Nombres traducidos y legibles)
-        vtipoSql = "SELECT apuper.FechaAPP As [FechaAPU], conceptos.DescripcionCON As [ConceptoAPU], apuper.DescripcionAPP As [DescripcionAPU], apuper.ImporteAPP As [ImporteAPU], apuper.ImporteAPP As [SaldoAPU], apuper.NotasAPP As [NotasAPU], cuentas.NombreCUE As [CuentaAPU], apuper.CodigoAPP As [CodigoAPU], conceptos.CodigoCON As [CodigoCON], apuper.ConceptoAPP As [IdConceptoCON], apuper.CuentaAPP As [IdCuentaCUE] FROM (apuper INNER JOIN conceptos ON apuper.ConceptoAPP = conceptos.IdConceptoCON) INNER JOIN cuentas ON apuper.CuentaAPP = cuentas.IdCuentaCUE"
+        ' =========================================================================
+        ' 🌟 CONSULTA SQL MAESTRA UNIFICADA DE 12 COLUMNAS (Inmune a Descalces)
+        ' =========================================================================
+        ' 🎯 LA CLAVE: Usamos CodigoCON en la celda 1 e inyectamos TipoCON en la celda 11
+        vtipoSql = "SELECT apuper.FechaAPP As [FechaAPP], " &
+                   "conceptos.CodigoCON As [ConceptoAPP], " &
+                   "apuper.DescripcionAPP As [DescripcionAPP], " &
+                   "apuper.ImporteAPP As [ImporteAPP], " &
+                   "apuper.ImporteAPP As [SaldoAPP], " &
+                   "apuper.NotasAPP As [NotasAPP], " &
+                   "cuentas.NombreCUE As [CuentaAPP], " &
+                   "apuper.CodigoAPP As [CodigoAPP], " &
+                   "conceptos.CodigoCON As [CodigoCON], " &
+                   "apuper.ConceptoAPP As [IdConceptoCON], " &
+                   "apuper.CuentaAPP As [IdCuentaCUE], " &
+                   "conceptos.TipoCON As [TipoCON] " &
+                   "FROM (apuper " &
+                   "INNER JOIN conceptos ON apuper.ConceptoAPP = conceptos.IdConceptoCON) " &
+                   "INNER JOIN cuentas ON apuper.CuentaAPP = cuentas.IdCuentaCUE"
 
         vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
 
@@ -1070,6 +1080,7 @@ Public Class ApuntesPeriodicos
         vtipoSql += " ORDER BY apuper.FechaAPP ASC"
         vtipoGrid = "APUNTES_PERIODICOS"
 
+        ' Volcamos los datos relacionales traducidos en tu DataGridView
         LlenarGrid(vtipoSql, vtipoGrid, "1")
         TraducirGridApuntesBD(Me.DgvApuper)
     End Sub

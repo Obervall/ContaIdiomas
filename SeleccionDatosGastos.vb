@@ -42,6 +42,7 @@ Public Class SeleccionDatosGastos
             BtnTodos.Text = rmse.GetString("MsgDeseleccionar")
         End If
     End Sub
+
     Private Sub BtnContinuar_Click(sender As Object, e As EventArgs) Handles BtnContinuar.Click
 
         ' 1. SANEAMIENTO PREVENTIVO: Limpiamos la memoria de consultas previas
@@ -50,9 +51,15 @@ Public Class SeleccionDatosGastos
         ' =========================================================================
         ' 🌟 SENTENCIA RELACIONAL INTEGRAL NUMÉRICA PURA INDESTRUCTIBLE
         ' =========================================================================
+        ' 🎯 LA CLAVE 1: Enlazamos con la tabla conceptos para tener acceso a su texto plano
         vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU " &
                    "FROM apuntes " &
+                   "INNER JOIN conceptos ON apuntes.ConceptoAPU = conceptos.IdConceptoCON " &
                    "WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+
+        'vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU " &
+        '           "FROM apuntes " &
+        '           "WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
 
         If ListBox1.SelectedItems.Count <> 0 Then
             ' Saco dinámico en la RAM para juntar los IDs numéricos enteros puros
@@ -114,25 +121,9 @@ Public Class SeleccionDatosGastos
         vtipoSql += " ORDER BY apuntes.ConceptoAPU ASC, apuntes.FechaAPU ASC"
         vtipoSqlChk = vtipoSql
 
-        ' =========================================================================
-        ' 🛠️ TU MSGBOX DE CONTROL: Verás cómo ahora el texto muta en números limpios
-        ' =========================================================================
-        'MsgBox("SQL Generada con Éxito (Nueva Era Numérica):" & vbNewLine & vtipoSql, MsgBoxStyle.Information, "DEBUG: SQL Final")
-
         ' Invocamos la macro modular a medida: limpia, rápida y directa
         vtipoGrid = "PRINT_GRAFICOS_SOLO"
         LlenarGrid(vtipoSql, vtipoGrid, "1")
-
-        '' 🚀 CHIVATO 1: VALIDACIÓN DE FILAS INYECTADAS
-        'If frmImprimirForm.DgvApuntes.Rows.Count = 0 Then
-        '    MsgBox("CHIVATO 1 (Filtro): ¡Alerta! La rejilla frmImprimirForm.DgvApuntes se ha quedado con 0 filas. La SQL no ha devuelto nada de la base de datos.")
-        'Else
-        '    Dim vEjemploConcepto As String = If(frmImprimirForm.DgvApuntes.Rows(0).Cells(1).Value?.ToString(), "NULO")
-        '    Dim vEjemploImporte As String = If(frmImprimirForm.DgvApuntes.Rows(0).Cells(3).Value?.ToString(), "NULO")
-        '    MsgBox("CHIVATO 1 (Filtro): Registros cargados: " & frmImprimirForm.DgvApuntes.Rows.Count.ToString() & vbNewLine &
-        '           "Fila 0 Celda 1 (Concepto): " & vEjemploConcepto & vbNewLine &
-        '           "Fila 0 Celda 3 (Importe): " & vEjemploImporte)
-        'End If
 
         ' =========================================================================
         ' 1. APERTURA DE TUS GRÁFICOS POR SOLO CONCEPTOS 2D (Tu lógica original intacta)

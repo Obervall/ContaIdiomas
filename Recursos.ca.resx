@@ -952,4 +952,13 @@ que l'arxiu no estigui obert</value>
   <data name="1erCobro" xml:space="preserve">
     <value>1r Cobrament</value>
   </data>
+  <data name="TipoGrafico" xml:space="preserve">
+    <value>Consell Pràctic:
+Per obtenir una visualització òptima, nítida
+i detallada dels teus gràfics, et recomanem
+acotar el rang mitjançant els filtres de dates,
+comptes o seleccionant conceptes específics
+al llistat (Embut Rosa).
+Menys dades ofereixen una anàlisi molt més clara!</value>
+  </data>
 </root>

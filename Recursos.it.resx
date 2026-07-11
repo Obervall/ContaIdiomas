@@ -952,4 +952,13 @@ Il file non è aperto</value>
   <data name="1erCobro" xml:space="preserve">
     <value>Prima carica</value>
   </data>
+  <data name="TipoGrafico" xml:space="preserve">
+    <value>Consiglio pratico:
+Per una visione ottimale e nitida
+e dettagliati dei tuoi grafici, ti consigliamo
+Restringi l'intervallo usando filtri per data,
+Racconti o selezionando concetti specifici
+nella lista (Pink Funnel).
+Meno dati offrono un'analisi molto più chiara!</value>
+  </data>
 </root>

@@ -952,4 +952,13 @@ O arquivo não está aberto</value>
   <data name="1erCobro" xml:space="preserve">
     <value>1ª Carga</value>
   </data>
+  <data name="TipoGrafico" xml:space="preserve">
+    <value>Dica prática:
+Para uma visualização ótima e nítida
+e detalhados dos seus gráficos, recomendamos
+Reduza a faixa usando filtros de data,
+Relatos ou selecionando conceitos específicos
+na lista (Funil Rosa).
+Menos dados oferecem uma análise muito mais clara!</value>
+  </data>
 </root>

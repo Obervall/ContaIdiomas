@@ -606,12 +606,10 @@ Public Class Presupuestos
         If DgvPresupuestos.CurrentRow Is Nothing Then Exit Sub
         cmdMdb1cr.Parameters.Clear()
 
-        ' 2. CUADRO DE CONFIRMACIÓN INTERNACIONALIZADO (Tu clásico aviso adaptado a tus .resx)
-        ' Recuperamos el mensaje desde tus recursos para que cambie en vivo al alemán, catalán o castellano
+        ' 2. CUADRO DE CONFIRMACIÓN INTERNACIONALIZADO
         Dim msgPregunta As String = rmse.GetString("PreguntaEliminarPresupuesto")
         Dim titPregunta As String = rmse.GetString("TituloEliminarPresupuesto")
 
-        ' Llamamos a tu confirmador inmune al idioma de Windows (Evita botones en inglés como YES/NO)
         If ConfirmarAccionTraducida(msgPregunta, titPregunta) = MsgBoxResult.No Then
             Exit Sub
         End If
@@ -619,67 +617,63 @@ Public Class Presupuestos
         filaActual = DgvPresupuestos.CurrentRow.Index
 
         ' =========================================================================
-        ' 🌟 TU VACIADO CLÁSICO COMPLETO: BORRADO POR ID NUMÉRICO Y EJERCICIO
+        ' 🌟 TU VACIADO CLÁSICO COMPLETO: BORRADO POR LA TUBERÍA MAESTRA (CONEXION1)
         ' =========================================================================
-        ' Rescatamos el ID numérico entero de la trastienda (Celda 6 de nuestra macro-consulta)
         If DgvPresupuestos.Rows(filaActual).Cells(6).Value IsNot Nothing AndAlso Not IsDBNull(DgvPresupuestos.Rows(filaActual).Cells(6).Value) Then
             Dim idConceptoBorrar As Integer = Convert.ToInt32(DgvPresupuestos.Rows(filaActual).Cells(6).Value)
 
-            ' 🌟 SENTENCIA PARAMETRIZADA: Borra los 12 meses enteros de este concepto de golpe en este año
+            ' Sentencia parametrizada dirigida al corazón de presupuesto
             Dim sqlDelete As String = "DELETE FROM presupuesto WHERE ConceptoPRE = ? AND EjercicioPRE = ?"
 
-            Using conexion As New OleDbConnection(conexion1.ConnectionString)
-                Using cmd As New OleDbCommand(sqlDelete, conexion)
-                    cmd.Parameters.Clear()
+            ' 🚀 LA JUGADA MAESTRA 1: Usamos directamente cmdMdb1cr sobre conexion1 para evitar el retraso de caché
+            cmdMdb1cr.CommandText = sqlDelete
+            cmdMdb1cr.Parameters.Clear()
+            cmdMdb1cr.Parameters.Add("@con", OleDb.OleDbType.Integer).Value = idConceptoBorrar
+            cmdMdb1cr.Parameters.Add("@eje", OleDb.OleDbType.Integer).Value = Convert.ToInt32(vAñoEjercicio)
 
-                    ' Los parámetros de Access se asocian estrictamente por el orden de los comodines '?'
-                    cmd.Parameters.Add("@con", OleDb.OleDbType.Integer).Value = idConceptoBorrar
-                    cmd.Parameters.Add("@eje", OleDb.OleDbType.Integer).Value = Convert.ToInt32(vAñoEjercicio)
+            Try
+                cmdMdb1cr.ExecuteNonQuery()
 
-                    Try
-                        conexion.Open()
-                        cmd.ExecuteNonQuery()
-
-                        Dim msgExito As String = rmse.GetString("PresupuestosBorradosExito")
-                        If String.IsNullOrEmpty(msgExito) Then msgExito = "Registros en Presupuestos, Borrados !!!"
-                        MsgBox(msgExito, vbInformation, titPregunta)
-                    Catch ex As Exception
-                        Dim msgError As String = rmse.GetString("ErrorEliminarPresupuestos")
-                        If String.IsNullOrEmpty(msgError) Then
-                            msgError = "No se han podido eliminar los registros en Presupuestos, revise que no existan apuntes asociados al concepto seleccionado !!!"
-                        End If
-                        MsgBox(msgError & vbNewLine & ex.Message, vbCritical, resManager.GetString("Error"))
-                        Exit Sub ' Si falla la base de datos, abortamos la recarga por seguridad
-                    End Try
-                End Using
-            End Using
+                Dim msgExito As String = rmse.GetString("PresupuestosBorradosExito")
+                If String.IsNullOrEmpty(msgExito) Then msgExito = "Registros en Presupuestos, Borrados !!!"
+                MsgBox(msgExito, vbInformation, titPregunta)
+            Catch ex As Exception
+                Dim msgError As String = rmse.GetString("ErrorEliminarPresupuestos")
+                If String.IsNullOrEmpty(msgError) Then
+                    msgError = "No se han podido eliminar los registros en Presupuestos..."
+                End If
+                MsgBox(msgError & vbNewLine & ex.Message, vbCritical, resManager.GetString("Error"))
+                Exit Sub
+            End Try
         End If
 
         ' =========================================================================
-        ' 4. RECARGA DEL GRID DE PRESUPUESTOS RELACIONAL (Estructura fija de 8 celdas)
+        ' 4. RECARGA DEL GRID DE PRESUPUESTOS INMUNE A FANTASMAS (Estructura de 8 celdas)
         ' =========================================================================
+        ' 🚀 LA JUGADA MAESTRA 2: Rompemos el dibujo viejo antes de volver a llamar al LlenarGrid
+        DgvPresupuestos.DataSource = Nothing
+
         vtipoSql = "SELECT conceptos.CodigoCON, conceptos.CodigoCON, presupuesto.ImportePRE, presupuesto.ImportePRE, presupuesto.FDesdePRE, presupuesto.FDesdePRE, presupuesto.ConceptoPRE, conceptos.CodigoCON FROM (presupuesto INNER JOIN conceptos ON presupuesto.ConceptoPRE = conceptos.IdConceptoCON) WHERE presupuesto.EjercicioPRE = " & vAñoEjercicio.ToString & " ORDER BY conceptos.CodigoCON ASC, presupuesto.FDesdePRE ASC"
         vtipoGrid = "PRESUPUESTOS"
 
-        ' Volcamos los datos limpios en la cuadrícula
+        ' Volcamos los datos limpios de la base en la cuadrícula
         LlenarGrid(vtipoSql, vtipoGrid, "1")
-        TraducirGridPresupuestos(Me.DgvPresupuestos) ' Forzamos tu traducción automática A-Z
+        TraducirGridPresupuestos(Me.DgvPresupuestos)
 
-        ' Evaluamos si corresponde "Parcial" o "Anual" tras la recarga (Tu lógica original impecable)
+        ' Evaluamos etiquetas de desviación (Tu lógica de fábrica impecable)
         ActualizarEtiquetaDesviacion()
 
-        ' Forzamos la limpieza de los cuadros de desviación si el Grid se quedó vacío
+        ' Forzamos la limpieza si la cuadrícula se quedó desierta
         If DgvPresupuestos.Rows.Count = 0 Then
             LblDesviacion.Enabled = False
             LblMontoDesviacion.Text = ""
             LblObjetivo.Visible = False
         Else
-            ' Reposicionamos el foco de forma dócil al inicio de la rejilla
+            ' Reposicionamos el foco en la fila inicial de forma dócil
             DgvPresupuestos.Rows(0).Selected = True
             DgvPresupuestos.CurrentCell = DgvPresupuestos.Rows(0).Cells(0)
         End If
     End Sub
-
     Private Sub CmbConcepto_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbConcepto.KeyPress
         e.KeyChar = Char.ToUpper(e.KeyChar)
     End Sub

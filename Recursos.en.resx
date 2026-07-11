@@ -952,4 +952,13 @@ the file is not open</value>
   <data name="1erCobro" xml:space="preserve">
     <value>1st Charge</value>
   </data>
+  <data name="TipoGrafico" xml:space="preserve">
+    <value>Practical Tip:
+For optimal, crisp viewing
+and detailed of your graphs, we recommend
+narrow down the range using date filters,
+accounts or by selecting specific concepts
+on the list (Pink Funnel).
+Less data offers a much clearer analysis!</value>
+  </data>
 </root>

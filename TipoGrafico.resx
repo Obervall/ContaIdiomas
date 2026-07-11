@@ -117,13 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="Label1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 10.2pt, style=Italic</value>
+  </data>
+  <data name="Label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 34</value>
+  </data>
+  <data name="Label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>426, 126</value>
+  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Label1.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="Label1.Text" xml:space="preserve">
+    <value>Label1</value>
+  </data>
+  <data name="&gt;&gt;Label1.Name" xml:space="preserve">
+    <value>Label1</value>
+  </data>
+  <data name="&gt;&gt;Label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label1.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;Label1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="RadioButton9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="RadioButton9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>35, 356</value>
+    <value>35, 484</value>
   </data>
   <data name="RadioButton9.Size" type="System.Drawing.Size, System.Drawing">
     <value>216, 24</value>
@@ -144,13 +171,13 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;RadioButton9.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="RadioButton8.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="RadioButton8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>35, 316</value>
+    <value>35, 444</value>
   </data>
   <data name="RadioButton8.Size" type="System.Drawing.Size, System.Drawing">
     <value>222, 24</value>
@@ -171,13 +198,13 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;RadioButton8.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="RadioButton7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="RadioButton7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>35, 276</value>
+    <value>35, 404</value>
   </data>
   <data name="RadioButton7.Size" type="System.Drawing.Size, System.Drawing">
     <value>321, 24</value>
@@ -198,13 +225,13 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;RadioButton7.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="RadioButton6.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="RadioButton6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>35, 236</value>
+    <value>35, 364</value>
   </data>
   <data name="RadioButton6.Size" type="System.Drawing.Size, System.Drawing">
     <value>340, 24</value>
@@ -225,13 +252,13 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;RadioButton6.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="RadioButton5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="RadioButton5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>35, 195</value>
+    <value>35, 323</value>
   </data>
   <data name="RadioButton5.Size" type="System.Drawing.Size, System.Drawing">
     <value>161, 24</value>
@@ -255,13 +282,13 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;RadioButton5.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="RadioButton4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="RadioButton4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>35, 155</value>
+    <value>35, 283</value>
   </data>
   <data name="RadioButton4.Size" type="System.Drawing.Size, System.Drawing">
     <value>186, 24</value>
@@ -282,13 +309,13 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;RadioButton4.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="RadioButton3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="RadioButton3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>35, 115</value>
+    <value>35, 243</value>
   </data>
   <data name="RadioButton3.Size" type="System.Drawing.Size, System.Drawing">
     <value>192, 24</value>
@@ -309,13 +336,13 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;RadioButton3.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="RadioButton2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="RadioButton2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>35, 75</value>
+    <value>35, 203</value>
   </data>
   <data name="RadioButton2.Size" type="System.Drawing.Size, System.Drawing">
     <value>291, 24</value>
@@ -336,13 +363,13 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;RadioButton2.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="RadioButton1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="RadioButton1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>35, 35</value>
+    <value>35, 163</value>
   </data>
   <data name="RadioButton1.Size" type="System.Drawing.Size, System.Drawing">
     <value>310, 24</value>
@@ -363,22 +390,22 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;RadioButton1.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="GroupBox1.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 10.2pt, style=Bold</value>
   </data>
   <data name="GroupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>25, 21</value>
+    <value>12, 21</value>
   </data>
   <data name="GroupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>397, 424</value>
+    <value>438, 525</value>
   </data>
   <data name="GroupBox1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="GroupBox1.Text" xml:space="preserve">
-    <value>Seleccionar el Tipo de Gráfico que desea</value>
+    <value>Seleccionar el Tipo de Gráfico que desees</value>
   </data>
   <data name="&gt;&gt;GroupBox1.Name" xml:space="preserve">
     <value>GroupBox1</value>
@@ -419,7 +446,7 @@
     <value>TopCenter</value>
   </data>
   <data name="BtnAceptar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>280, 467</value>
+    <value>280, 552</value>
   </data>
   <data name="BtnAceptar.Size" type="System.Drawing.Size, System.Drawing">
     <value>142, 68</value>
@@ -474,7 +501,7 @@
     <value>TopCenter</value>
   </data>
   <data name="BtnCancelar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>132, 467</value>
+    <value>132, 552</value>
   </data>
   <data name="BtnCancelar.Size" type="System.Drawing.Size, System.Drawing">
     <value>142, 68</value>
@@ -507,7 +534,7 @@
     <value>8, 16</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>462, 583</value>
+    <value>462, 632</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">

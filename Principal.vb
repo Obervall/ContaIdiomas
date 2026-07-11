@@ -1169,8 +1169,8 @@ Public Class Principal
     Private Sub ImportaAntiguoContahogarToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ImportaAntiguoContahogarToolStripMenuItem.Click
         TsLabelFormulario.Text = rmse.GetString("BtnImportarContaHogar.Text")
 
-        Dim respuesta As MsgBoxResult = MsgBox(rmse.GetString("MsgImportar1"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("ImportarContahogar"))
-            If respuesta = vbYes Then
+        Dim respuesta As MsgBoxResult = ConfirmarAccionTraducida(rmse.GetString("MsgImportar1"), rmse.GetString("ImportarContahogar"))
+        If respuesta = vbYes Then
             ' =========================================================================
             ' 🚀 COMPRESIÓN COMPLETA: BACKUP AUTOMÁTICO A SACO (¡Inmune a Colisiones!)
             ' =========================================================================
@@ -1757,7 +1757,7 @@ Public Class Principal
     End Sub
 
     Private Sub RestaurarCopiaDeSeguridadToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RestaurarCopiaDeSeguridadToolStripMenuItem.Click
-        Dim respuesta As MsgBoxResult = MsgBox(rmse.GetString("PreguntaBackup"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("RestaurarBD"))
+        Dim respuesta As MsgBoxResult = ConfirmarAccionTraducida(rmse.GetString("PreguntaBackup"), rmse.GetString("RestaurarBD"))
         If respuesta = vbYes Then
 
             ' =========================================================================

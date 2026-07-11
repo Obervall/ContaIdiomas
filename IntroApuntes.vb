@@ -234,7 +234,7 @@ Public Class IntroApuntes
             ' 🛠️ CORRECCIÓN DE ANIDACIÓN: Cambiado a un IF limpio y directo para corregir el teclado
             If vCombo = "descripcion_vacia" Then
                 ' Bloque de alta de descripción nueva
-                Dim respuesta As MsgBoxResult = MsgBox(rmse.GetString("NoExistenDescripciones") & ": -" & TxtBuscarLetras.Text.ToUpper() & "-" & vbCrLf & "¿" & rmse.GetString("AñadimosDescripcion") & "?", vbQuestion + vbYesNo + vbDefaultButton1, rmse.GetString("$this.Text"))
+                Dim respuesta As MsgBoxResult = ConfirmarAccionTraducida(rmse.GetString("NoExistenDescripciones") & ": -" & TxtBuscarLetras.Text.ToUpper() & "-" & vbCrLf & "¿" & rmse.GetString("AñadirDescripcion") & "?", rmse.GetString("$this.Text"))
 
                 If respuesta = vbYes Then
                     vIntro = "SI"
@@ -1099,16 +1099,27 @@ Public Class IntroApuntes
             ' 1. Desconectamos el evento por seguridad
             RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
 
-            ' 🛠️ CONTROL DE TEXTO CORTO: Si borras y queda en 2 letras o menos, limpiamos la lista
+            ' 🚀 CONTROL DE TEXTO CORTO REPARADO: INMUNE AL BLOQUEO DE ÍNDICES Y DATASOURCE
             If vLetras.Length <= 2 Then
-                CmbDescripcion.DroppedDown = False
-                CmbDescripcion.SelectedIndex = -1
+                ' 1. Rompemos el candado de datos y vaciamos primero para liberar la RAM
+                CmbDescripcion.DataSource = Nothing
                 If CmbDescripcion.Items.Count > 0 Then CmbDescripcion.Items.Clear()
+
+                ' 2. Saneamos los índices de selección de forma segura antes de tocar la persiana
+                CmbDescripcion.SelectedIndex = -1
+
+                ' 3. 🎯 LA CLAVE MAESTRA: Cerramos la persiana gráfica envuelta en un cortafuegos para evitar el rebote de Windows
+                Try
+                    CmbDescripcion.DroppedDown = False
+                Catch
+                    ' Absorbe cualquier micro-rebote de foco del teclado de Windows
+                End Try
+
                 vCombo = "descripcion"
 
-                ' Volvemos a conectar el evento y salimos de la función de forma limpia
+                ' Volvemos a conectar el evento preventivamente antes de salir volando
                 AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-                Return ""
+                Return "" ' Salimos inmediatamente para no ejecutar la consulta SQL vacía
             End If
 
             Dim letrasLimpias As String = vLetras.Replace("'", "''")

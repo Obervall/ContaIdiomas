@@ -147,9 +147,6 @@
   <data name="LblObjetivo.Text" xml:space="preserve">
     <value>Objective achieved!</value>
   </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Budgets</value>
-  </data>
   <data name="EliminarPresupuestos" xml:space="preserve">
     <value>Budgets, Deletions !!</value>
   </data>
@@ -272,5 +269,8 @@
   </data>
   <data name="HastaElMes" xml:space="preserve">
     <value>Until the month of</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Budget Deviation</value>
   </data>
 </root>

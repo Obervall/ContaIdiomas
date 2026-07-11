@@ -952,4 +952,13 @@ Die Datei ist nicht geöffnet</value>
   <data name="1erCobro" xml:space="preserve">
     <value>1. Angriff</value>
   </data>
+  <data name="TipoGrafico" xml:space="preserve">
+    <value>Praktischer Tipp:
+Für optimales, scharfes Sehen
+Und detailliert Ihre Grafiken empfehlen, empfehlen wir
+Begrenzt den Bereich mit Datumsfiltern,
+Konten oder durch Auswahl bestimmter Konzepte
+auf der Liste (Pink Funnel).
+Weniger Daten bieten eine viel klarere Analyse!</value>
+  </data>
 </root>

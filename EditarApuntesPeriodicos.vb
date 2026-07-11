@@ -137,8 +137,7 @@ Public Class EditarApuntesPeriodicos
 
     Private Sub BtnEliminar_Click(sender As Object, e As EventArgs) Handles BtnEliminar.Click
         ' 1. Cuadro de confirmación original traducido desde tus recursos (.resx)
-        Dim respuesta As MsgBoxResult = MsgBox(rmse.GetString("SeguroEliminarRegistro"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("$this.Text"))
-
+        Dim respuesta As MsgBoxResult = ConfirmarAccionTraducida(rmse.GetString("SeguroEliminarRegistro"), rmse.GetString("$this.Text"))
         If respuesta = vbYes Then
             ' 🌟 BORRADO FÍSICO PARAMETRIZADO INDESTRUCTIBLE (Nueva Era Relacional)
             ' Usamos el comodín '?' para inyectar el ID de forma nativa en el motor de Access

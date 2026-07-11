@@ -203,7 +203,9 @@ Public Class EditarApuntes
 
     Private Sub BtnEliminar_Click(sender As Object, e As EventArgs) Handles BtnEliminar.Click
         ' Lanzamos la pregunta de confirmación contable de seguridad
-        Dim respuesta As MsgBoxResult = MsgBox(rmse.GetString("MsgBoxEliminarApunte"), vbQuestion + vbYesNo + vbDefaultButton2, rmse.GetString("$this.Text"))
+        ' 🚀 REPARADO MODO PREMIUM: Sustituimos el MsgBox rígido por tu motor elástico traducido
+        Dim respuesta As MsgBoxResult = ConfirmarAccionTraducida(rmse.GetString("MsgBoxEliminarApunte"), rmse.GetString("$this.Text"))
+
         If respuesta = vbYes Then
             ' Ejecutamos el borrado físico usando el identificador único del registro actual
             vtipoSql = "DELETE FROM apuntes WHERE apuntes.CodigoAPU = " & CInt(vCodigoAPU)
