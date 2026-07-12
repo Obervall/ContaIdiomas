@@ -1540,100 +1540,368 @@ Module Funciones
         End Try
     End Sub
 
+    'Public Sub TraducirGridApuntesBD(ByVal dgv As DataGridView)
+    '    ' =========================================================================
+    '    ' 🚀 BLINDAJE PREMIUM INTERNACIONAL: EXTRACTOR POR ID RELACIONAL (MSIX)
+    '    ' =========================================================================
+    '    If dgv Is Nothing OrElse dgv.Rows.Count = 0 Then Exit Sub
+
+    '    Dim recursos As System.Resources.ResourceSet = resManager.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
+
+    '    For Each fila As DataGridViewRow In dgv.Rows
+    '        If fila.IsNewRow Then Continue For
+
+    '        ' ---------------------------------------------------------------------
+    '        ' 🎯 COMPUERTA A: RESCATE DE CONCEPTO POR ID NUMÉRICO ELÁSTICO (MSIX)
+    '        ' ---------------------------------------------------------------------
+    '        If fila.Cells.Count > 9 AndAlso fila.Cells(9).Value IsNot Nothing AndAlso Not IsDBNull(fila.Cells(9).Value) Then
+    '            Dim idConceptoReal As Integer = Convert.ToInt32(fila.Cells(9).Value)
+    '            Dim codigoCortoMaestro As String = ""
+
+    '            ' Buscamos el CódigoCON en mayúsculas de fábrica
+    '            Using con As New OleDb.OleDbConnection(conexion1.ConnectionString)
+    '                Using cmd As New OleDbCommand("SELECT CodigoCON FROM conceptos WHERE IdConceptoCON = ?", con)
+    '                    cmd.Parameters.Add("@id", OleDbType.Integer).Value = idConceptoReal
+    '                    Try
+    '                        con.Open()
+    '                        Dim r = cmd.ExecuteScalar()
+    '                        If r IsNot Nothing Then codigoCortoMaestro = r.ToString().Trim().ToUpper()
+    '                    Catch
+    '                    End Try
+    '                End Using
+    '            End Using
+
+    '            If Not String.IsNullOrEmpty(codigoCortoMaestro) Then
+    '                Dim traduccionFinal As String = ""
+
+    '                ' 🚀 LA JUGADA MAESTRA: Fabricamos la variante elástica con guion bajo
+    '                ' Esto hace que "IMPUESTO 1" genere también la Key "IMPUESTO_1" en la RAM
+    '                Dim codigoConGuion As String = codigoCortoMaestro.Replace(" ", "_")
+
+    '                If recursos IsNot Nothing Then
+    '                    ' 1. Intentamos leer primero por la Key exacta de la BD (con o sin espacios)
+    '                    Dim tradDirecta As String = recursos.GetString(codigoCortoMaestro)
+    '                    ' 2. Intentamos leer por la Key elástica con guion bajo (ej: IMPUESTO_1)
+    '                    Dim tradGuion As String = recursos.GetString(codigoConGuion)
+
+    '                    ' Respaldos de seguridad descriptivos
+    '                    Dim tradDesc As String = recursos.GetString("Desc_" & codigoCortoMaestro)
+    '                    Dim tradDescGuion As String = recursos.GetString("Desc_" & codigoConGuion)
+
+    '                    ' Asignamos el veredicto definitivo según la llave que haya respondido con éxito
+    '                    If Not String.IsNullOrEmpty(tradDirecta) Then
+    '                        traduccionFinal = tradDirecta
+    '                    ElseIf Not String.IsNullOrEmpty(tradGuion) Then
+    '                        traduccionFinal = tradGuion
+    '                    ElseIf Not String.IsNullOrEmpty(tradDesc) Then
+    '                        traduccionFinal = tradDesc
+    '                    ElseIf Not String.IsNullOrEmpty(tradDescGuion) Then
+    '                        traduccionFinal = tradDescGuion
+    '                    End If
+    '                End If
+
+    '                ' Si el resManager localiza el texto, lo inyectamos a la fuerza en la pantalla
+    '                If Not String.IsNullOrEmpty(traduccionFinal) Then
+    '                    fila.Cells(1).Value = traduccionFinal.ToUpper()
+    '                Else
+    '                    ' Salvavidas: si no hay traducción, al menos lo uniformamos en mayúsculas limpias
+    '                    fila.Cells(1).Value = codigoCortoMaestro
+    '                End If
+    '            End If
+    '        End If
+
+    '        ' ---------------------------------------------------------------------
+    '        ' 🎯 COMPUERTA B: TRADUCCIÓN DE LA COLUMNA TYPE (Celda 11 o equivalente)
+    '        ' ---------------------------------------------------------------------
+    '        ' Interrogamos a la columna TipoCON para obligarla a hablar el idioma activo
+    '        If dgv.Columns.Contains("TipoCON") Then
+    '            Dim celdaType As DataGridViewCell = fila.Cells("TipoCON")
+
+    '            If celdaType.Value IsNot Nothing AndAlso Not IsDBNull(celdaType.Value) Then
+    '                Dim tipoCrudoBD As String = celdaType.Value.ToString().Trim().ToUpper()
+
+    '                ' Traducimos dinámicamente usando las llaves de tus archivos .resx
+    '                If tipoCrudoBD = "GASTO" Then
+    '                    Dim txtGasto As String = resManager.GetString("Gasto")
+    '                    If String.IsNullOrEmpty(txtGasto) Then txtGasto = "EXPENSE" ' Salvavidas por si acaso
+    '                    celdaType.Value = txtGasto
+    '                ElseIf tipoCrudoBD = "INGRESO" Then
+    '                    Dim txtIngreso As String = resManager.GetString("Ingreso")
+    '                    If String.IsNullOrEmpty(txtIngreso) Then txtIngreso = "INCOME" ' Salvavidas por si acaso
+    '                    celdaType.Value = txtIngreso
+    '                End If
+    '            End If
+    '        End If
+    '    Next
+    'End Sub
+
+    'Public Sub TraducirGridApuntesBD(ByVal dgv As DataGridView)
+    '    ' =========================================================================
+    '    ' 🚀 BLINDAJE PREMIUM INTERNACIONAL: EXTRACTOR POR ID RELACIONAL (MSIX)
+    '    ' =========================================================================
+    '    If dgv Is Nothing OrElse dgv.Rows.Count = 0 Then Exit Sub
+
+    '    Dim recursos As System.Resources.ResourceSet = resManager.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
+
+    '    For Each fila As DataGridViewRow In dgv.Rows
+    '        If fila.IsNewRow Then Continue For
+
+    '        ' ---------------------------------------------------------------------
+    '        ' 🎯 COMPUERTA A: RESCATE DE CONCEPTO POR ID NUMÉRICO ELÁSTICO (MSIX)
+    '        ' ---------------------------------------------------------------------
+    '        If fila.Cells.Count > 9 AndAlso fila.Cells(9).Value IsNot Nothing AndAlso Not IsDBNull(fila.Cells(9).Value) Then
+    '            Dim idConceptoReal As Integer = Convert.ToInt32(fila.Cells(9).Value)
+    '            Dim codigoCortoMaestro As String = ""
+
+    '            ' Buscamos el CódigoCON en mayúsculas de fábrica
+    '            Using con As New OleDb.OleDbConnection(conexion1.ConnectionString)
+    '                Using cmd As New OleDbCommand("SELECT CodigoCON FROM conceptos WHERE IdConceptoCON = ?", con)
+    '                    cmd.Parameters.Add("@id", OleDbType.Integer).Value = idConceptoReal
+    '                    Try
+    '                        con.Open()
+    '                        Dim r = cmd.ExecuteScalar()
+    '                        If r IsNot Nothing Then codigoCortoMaestro = r.ToString().Trim().ToUpper()
+    '                    Catch
+    '                    End Try
+    '                End Using
+    '            End Using
+
+    '            If Not String.IsNullOrEmpty(codigoCortoMaestro) Then
+    '                Dim traduccionFinal As String = ""
+    '                Dim codigoConGuion As String = codigoCortoMaestro.Replace(" ", "_")
+
+    '                If recursos IsNot Nothing Then
+    '                    Dim tradDirecta As String = recursos.GetString(codigoCortoMaestro)
+    '                    Dim tradGuion As String = recursos.GetString(codigoConGuion)
+    '                    Dim tradDesc As String = recursos.GetString("Desc_" & codigoCortoMaestro)
+    '                    Dim tradDescGuion As String = recursos.GetString("Desc_" & codigoConGuion)
+
+    '                    If Not String.IsNullOrEmpty(tradDirecta) Then
+    '                        traduccionFinal = tradDirecta
+    '                    ElseIf Not String.IsNullOrEmpty(tradGuion) Then
+    '                        traduccionFinal = tradGuion
+    '                    ElseIf Not String.IsNullOrEmpty(tradDesc) Then
+    '                        traduccionFinal = tradDesc
+    '                    ElseIf Not String.IsNullOrEmpty(tradDescGuion) Then
+    '                        traduccionFinal = tradDescGuion
+    '                    End If
+    '                End If
+
+    '                If Not String.IsNullOrEmpty(traduccionFinal) Then
+    '                    fila.Cells(1).Value = traduccionFinal.ToUpper()
+    '                Else
+    '                    fila.Cells(1).Value = codigoCortoMaestro
+    '                End If
+    '            End If
+    '        End If
+
+    '        ' ---------------------------------------------------------------------
+    '        ' 🎯 COMPUERTA B: TRADUCCIÓN DE LA COLUMNA TYPE (Celda 11 o equivalente)
+    '        ' ---------------------------------------------------------------------
+    '        If dgv.Columns.Contains("TipoCON") Then
+    '            Dim celdaType As DataGridViewCell = fila.Cells("TipoCON")
+    '            If celdaType.Value IsNot Nothing AndAlso Not IsDBNull(celdaType.Value) Then
+    '                Dim tipoCrudoBD As String = celdaType.Value.ToString().Trim().ToUpper()
+
+    '                If tipoCrudoBD = "GASTO" Then
+    '                    Dim txtGasto As String = resManager.GetString("Gasto")
+    '                    If String.IsNullOrEmpty(txtGasto) Then txtGasto = "EXPENSE"
+    '                    celdaType.Value = txtGasto
+    '                ElseIf tipoCrudoBD = "INGRESO" Then
+    '                    Dim txtIngreso As String = resManager.GetString("Ingreso")
+    '                    If String.IsNullOrEmpty(txtIngreso) Then txtIngreso = "INCOME"
+    '                    celdaType.Value = txtIngreso
+    '                End If
+    '            End If
+    '        End If
+
+    '        ' ---------------------------------------------------------------------
+    '        ' 🎯 COMPUERTA C REPARADA: RESCATE DE CUENTAS POR ALIAS INDESTRUCTIBLE
+    '        ' ---------------------------------------------------------------------
+    '        ' Interrogamos directamente por el nombre de la columna oculta del ID de la cuenta
+    '        If dgv.Columns.Contains("IdCuentaCUE") Then
+    '            Dim celdaIdCuenta As DataGridViewCell = fila.Cells("IdCuentaCUE")
+
+    '            If celdaIdCuenta.Value IsNot Nothing AndAlso Not IsDBNull(celdaIdCuenta.Value) Then
+    '                Dim idCuentaReal As Integer = Convert.ToInt32(celdaIdCuenta.Value)
+    '                Dim nombreCuentaMaestro As String = ""
+
+    '                ' Extraemos de la base de datos el Nombre original en castellano (ej: CAJA EFECTIVO o BANK OF ENGLAND)
+    '                Using con As New OleDb.OleDbConnection(conexion1.ConnectionString)
+    '                    Using cmd As New OleDbCommand("SELECT NombreCUE FROM cuentas WHERE IdCuentaCUE = ?", con)
+    '                        cmd.Parameters.Clear()
+    '                        cmd.Parameters.Add("@id", OleDbType.Integer).Value = idCuentaReal
+    '                        Try
+    '                            con.Open()
+    '                            Dim r = cmd.ExecuteScalar()
+    '                            If r IsNot Nothing Then nombreCuentaMaestro = r.ToString().Trim().ToUpper()
+    '                        Catch
+    '                        End Try
+    '                    End Using
+    '                End Using
+
+    '                ' Si localizamos la cuenta en el maestro, le aplicamos la lógica elástica de traducción
+    '                If Not String.IsNullOrEmpty(nombreCuentaMaestro) Then
+    '                    Dim traduccionCuentaFinal As String = ""
+    '                    Dim cuentaConGuion As String = nombreCuentaMaestro.Replace(" ", "_")
+
+    '                    If recursos IsNot Nothing Then
+    '                        ' Probamos todas las combinaciones posibles de Keys en tu .resx
+    '                        Dim tradDirecta As String = recursos.GetString(nombreCuentaMaestro)
+    '                        Dim tradGuion As String = recursos.GetString(cuentaConGuion)
+    '                        Dim tradDesc As String = recursos.GetString("Desc_" & nombreCuentaMaestro)
+    '                        Dim tradDescGuion As String = recursos.GetString("Desc_" & cuentaConGuion)
+    '                        Dim tradEfectivoDirecto As String = recursos.GetString("EFECTIVO")
+    '                        Dim tradDescEfectivo As String = recursos.GetString("Desc_EFECTIVO")
+
+    '                        If Not String.IsNullOrEmpty(tradDirecta) Then
+    '                            traduccionCuentaFinal = tradDirecta
+    '                        ElseIf Not String.IsNullOrEmpty(tradGuion) Then
+    '                            traduccionCuentaFinal = tradGuion
+    '                        ElseIf Not String.IsNullOrEmpty(tradDesc) Then
+    '                            traduccionCuentaFinal = tradDesc
+    '                        ElseIf Not String.IsNullOrEmpty(tradDescGuion) Then
+    '                            traduccionCuentaFinal = tradDescGuion
+    '                        ElseIf Not String.IsNullOrEmpty(tradEfectivoDirecto) Then
+    '                            traduccionCuentaFinal = tradEfectivoDirecto
+    '                        ElseIf Not String.IsNullOrEmpty(tradDescEfectivo) Then
+    '                            traduccionCuentaFinal = tradDescEfectivo
+    '                        End If
+    '                    End If
+
+    '                    ' Volcamos el resultado estrictamente en la columna visual de la Cuenta
+    '                    If dgv.Columns.Contains("CuentaAPU") Then
+    '                        If Not String.IsNullOrEmpty(traduccionCuentaFinal) Then
+    '                            fila.Cells("CuentaAPU").Value = traduccionCuentaFinal.ToUpper()
+    '                        Else
+    '                            fila.Cells("CuentaAPU").Value = nombreCuentaMaestro.Replace("_", " ")
+    '                        End If
+    '                    Else
+    '                        ' Salvavidas por índice si el alias visual de la columna cambiara en el XML
+    '                        If Not String.IsNullOrEmpty(traduccionCuentaFinal) Then fila.Cells(6).Value = traduccionCuentaFinal.ToUpper()
+    '                    End If
+    '                End If
+    '            End If
+    '        End If
+    '    Next
+    'End Sub
+
     Public Sub TraducirGridApuntesBD(ByVal dgv As DataGridView)
-        Try
-            If dgv Is Nothing OrElse dgv.Rows.Count = 0 Then Exit Sub
+        ' =========================================================================
+        ' 🚀 BLINDAJE PREMIUM DEFINITIVO: TRADUCTOR INTEGRAL FILA POR FILA (MSIX)
+        ' =========================================================================
+        If dgv Is Nothing OrElse dgv.Rows.Count = 0 Then Exit Sub
 
-            For Each row As DataGridViewRow In dgv.Rows
-                If row.IsNewRow Then Continue For
+        Dim recursos As System.Resources.ResourceSet = resManager.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
 
-                ' =========================================================================
-                ' 🌟 CORTAFUEGOS INDESTRUCTIBLE POR BÚSQUEDA INVERSA (Propuesta Maestra)
-                ' =========================================================================
-                ' La celda 2 corresponde a la columna de la Descripción en tu Grid de Apuntes.
-                If row.Cells(2).Value IsNot Nothing Then
-                    Dim descCelda As String = row.Cells(2).Value.ToString().Trim()
+        For Each fila As DataGridViewRow In dgv.Rows
+            If fila.IsNewRow Then Continue For
 
-                    ' Escáner biológico: interceptamos si es la descripción del saldo inicial
-                    If ObtenerClaveNeutral(descCelda, resManager) = "Desc_SALDO" Then
-                        If resManager IsNot Nothing Then
-                            Dim culturaActivaEnVivo As System.Globalization.CultureInfo = Threading.Thread.CurrentThread.CurrentUICulture
-                            Dim saldoTraducido As String = resManager.GetString("Desc_SALDO", culturaActivaEnVivo)
+            ' ---------------------------------------------------------------------
+            ' 🎯 COMPUERTA A: RESCATE DE CONCEPTO POR ID NUMÉRICO ELÁSTICO
+            ' ---------------------------------------------------------------------
+            If fila.Cells.Count > 9 AndAlso fila.Cells(9).Value IsNot Nothing AndAlso Not IsDBNull(fila.Cells(9).Value) Then
+                Dim idConceptoReal As Integer = Convert.ToInt32(fila.Cells(9).Value)
+                Dim codigoCortoMaestro As String = ""
 
-                            If Not String.IsNullOrEmpty(saldoTraducido) Then
-                                row.Cells(2).Value = saldoTraducido.Trim()
-                            End If
-                        End If
+                Using con As New OleDb.OleDbConnection(conexion1.ConnectionString)
+                    Using cmd As New OleDbCommand("SELECT CodigoCON FROM conceptos WHERE IdConceptoCON = ?", con)
+                        cmd.Parameters.Add("@id", OleDbType.Integer).Value = idConceptoReal
+                        Try
+                            con.Open()
+                            Dim r = cmd.ExecuteScalar()
+                            If r IsNot Nothing Then codigoCortoMaestro = r.ToString().Trim().ToUpper()
+                        Catch
+                        End Try
+                    End Using
+                End Using
+
+                If Not String.IsNullOrEmpty(codigoCortoMaestro) Then
+                    Dim traduccionFinal As String = ""
+                    Dim codigoConGuion As String = codigoCortoMaestro.Replace(" ", "_")
+
+                    If recursos IsNot Nothing Then
+                        Dim tradDirecta As String = recursos.GetString(codigoCortoMaestro)
+                        Dim tradGuion As String = recursos.GetString(codigoConGuion)
+                        Dim tradDesc As String = recursos.GetString("Desc_" & codigoCortoMaestro)
+                        Dim tradDescGuion As String = recursos.GetString("Desc_" & codigoConGuion)
+
+                        If Not String.IsNullOrEmpty(tradDirecta) Then traduccionFinal = tradDirecta Else
+                        If Not String.IsNullOrEmpty(tradGuion) Then traduccionFinal = tradGuion Else
+                        If Not String.IsNullOrEmpty(tradDesc) Then traduccionFinal = tradDesc Else
+                        If Not String.IsNullOrEmpty(tradDescGuion) Then traduccionFinal = tradDescGuion
+                    End If
+
+                    If Not String.IsNullOrEmpty(traduccionFinal) Then fila.Cells(1).Value = traduccionFinal.ToUpper() Else fila.Cells(1).Value = codigoCortoMaestro
+                End If
+            End If
+
+            ' ---------------------------------------------------------------------
+            ' 🎯 COMPUERTA B: TRADUCCIÓN DE LA COLUMNA TYPE (Celda 11 o equivalente)
+            ' ---------------------------------------------------------------------
+            If dgv.Columns.Contains("TipoCON") Then
+                Dim celdaType As DataGridViewCell = fila.Cells("TipoCON")
+                If celdaType.Value IsNot Nothing AndAlso Not IsDBNull(celdaType.Value) Then
+                    Dim tipoCrudoBD As String = celdaType.Value.ToString().Trim().ToUpper()
+                    If tipoCrudoBD = "GASTO" Then
+                        Dim txtGasto As String = resManager.GetString("Gasto")
+                        If String.IsNullOrEmpty(txtGasto) Then txtGasto = "EXPENSE"
+                        celdaType.Value = txtGasto
+                    ElseIf tipoCrudoBD = "INGRESO" Then
+                        Dim txtIngreso As String = resManager.GetString("Ingreso")
+                        If String.IsNullOrEmpty(txtIngreso) Then txtIngreso = "INCOME"
+                        celdaType.Value = txtIngreso
                     End If
                 End If
+            End If
 
-                ' =========================================================================
-                ' 🌟 PROCESADO RELACIONAL SEGURO DESDE EL ENLACE DE DATOS (DataRowView)
-                ' =========================================================================
-                Dim filaData As DataRowView = CType(row.DataBoundItem, DataRowView)
+            ' ---------------------------------------------------------------------
+            ' 🎯 COMPUERTA C: RESCATE DE CUENTAS FIABLE AL 100% INMUNE A DESCALCES
+            ' ---------------------------------------------------------------------
+            ' Leemos la Celda 6, que es la columna de texto visual del banco (Account)
+            If fila.Cells.Count > 6 AndAlso fila.Cells(6).Value IsNot Nothing AndAlso Not IsDBNull(fila.Cells(6).Value) Then
+                Dim textoBancoVisual As String = fila.Cells(6).Value.ToString().Trim().ToUpper()
 
-                If filaData IsNot Nothing Then
+                ' 🚀 EL CORTAFUEGOS BIOLÓGICO SEGURO: 
+                ' Solo pasamos el rodillo si la celda contiene exactamente "CAJA EFECTIVO" o "CAJA_EFECTIVO" en castellano.
+                ' Si dice "PENSION PLAN" o "BANK OF ENGLAND", ¡lo dejamos intacto de coña!
+                If textoBancoVisual = "CAJA EFECTIVO" OrElse textoBancoVisual = "CAJA_EFECTIVO" OrElse textoBancoVisual.Contains("EFECTIVO") Then
 
-                    ' =========================================================================
-                    ' 1. TRADUCCIÓN DE CONCEPTO CRUCIAL (Celda 1 visible)
-                    ' =========================================================================
-                    ' Leemos el código alfanumérico estable de la base de datos (Ej: "REGULARISIERUNG" o "PENSIO_ES")
-                    Dim codigoCON As String = filaData("CodigoCON").ToString().Trim()
+                    Dim traduccionCuentaFinal As String = ""
 
-                    ' Por defecto, el texto visual será el título original en mayúsculas sin guiones
-                    Dim conceptoVisual As String = codigoCON.Replace("_", " ").ToUpper()
+                    ' Interrogamos de forma elástica a tus recursos de la trastienda
+                    If recursos IsNot Nothing Then
+                        Dim tradEfectivo As String = recursos.GetString("EFECTIVO")
+                        Dim tradDescEfectivo As String = recursos.GetString("Desc_EFECTIVO")
+                        Dim tradCajaEfectivo As String = recursos.GetString("CAJA_EFECTIVO")
 
-                    If resManager IsNot Nothing AndAlso Not String.IsNullOrEmpty(codigoCON) Then
-                        ' Capturamos el idioma visual "en vivo" seleccionado por el usuario en Preferencias
-                        Dim culturaActivaEnVivo As System.Globalization.CultureInfo = Threading.Thread.CurrentThread.CurrentUICulture
+                        If Not String.IsNullOrEmpty(tradEfectivo) Then
+                            traduccionCuentaFinal = tradEfectivo
+                        ElseIf Not String.IsNullOrEmpty(tradDescEfectivo) Then
+                            traduccionCuentaFinal = tradDescEfectivo
+                        ElseIf Not String.IsNullOrEmpty(tradCajaEfectivo) Then
+                            traduccionCuentaFinal = tradCajaEfectivo
+                        End If
+                    End If
 
-                        ' 🚀 CORTAFUEGOS EXCLUSIVO DE EMERGENCIA PARA EL SALDO HISTÓRICO
-                        If codigoCON.Equals("SALDO", StringComparison.OrdinalIgnoreCase) Then
-                            Dim tradSaldo As String = resManager.GetString("Saldo", culturaActivaEnVivo)
-                            If Not String.IsNullOrEmpty(tradSaldo) Then conceptoVisual = tradSaldo.Trim()
+                    ' CORTAFUEGOS DE RESPALDO: Si el resx se pone rebelde en ese milisegundo y estás en modo inglés, forzamos su traje legítimo
+                    If String.IsNullOrEmpty(traduccionCuentaFinal) Then
+                        If resManager.GetString("Gasto") = "EXPENSE" Then
+                            traduccionCuentaFinal = "CASH BOX"
+                        ElseIf resManager.GetString("Gasto") = "DESPESA" OrElse resManager.GetString("Gasto") = "GAST" Then
+                            traduccionCuentaFinal = "CAIXA"
                         Else
-                            ' Mapeo ordinario para el resto de conceptos de la base de datos (LUZ, FOOD, PENSIO_ES)
-                            Dim claveRecurso As String = codigoCON.Replace(" ", "_")
-                            Dim traduccion As String = resManager.GetString(claveRecurso, culturaActivaEnVivo)
-
-                            If Not String.IsNullOrEmpty(traduccion) Then
-                                conceptoVisual = traduccion.Trim()
-                            End If
+                            traduccionCuentaFinal = "CAJA EFECTIVO"
                         End If
                     End If
 
-                    ' IMPACTAR MARCA: Forzamos el título final limpio homogeneizado en MAYÚSCULAS en la Celda 1
-                    row.Cells(1).Value = conceptoVisual.ToUpper()
-
-                    ' =========================================================================
-                    ' 3. TRADUCCIÓN DE CUENTA DE FÁBRICA (Celda 6 visible)
-                    ' =========================================================================
-                    If dgv.Columns.Count > 6 AndAlso row.Cells(6).Value IsNot Nothing Then
-                        Dim nombreCUE As String = If(filaData("CuentaAPU") IsNot DBNull.Value, filaData("CuentaAPU").ToString().Trim(), "")
-                        Dim cuentaVisual As String = nombreCUE
-
-                        If resManager IsNot Nothing AndAlso Not String.IsNullOrEmpty(nombreCUE) Then
-                            Dim claveBase As String = nombreCUE.Replace(" ", "_")
-                            Dim tradCuenta As String = resManager.GetString("Desc_" & claveBase)
-
-                            If String.IsNullOrEmpty(tradCuenta) Then
-                                tradCuenta = resManager.GetString(claveBase)
-                            End If
-
-                            If Not String.IsNullOrEmpty(tradCuenta) Then
-                                cuentaVisual = tradCuenta
-                            End If
-                        End If
-
-                        row.Cells(6).Value = cuentaVisual
-                    End If
-
+                    ' Estampamos el veredicto definitivo únicamente en la celda del efectivo
+                    fila.Cells(6).Value = traduccionCuentaFinal.ToUpper()
                 End If
-            Next
-        Catch ex As Exception
-            ' Previene parpadeos o errores visuales durante el refresco del grid
-        End Try
+            End If
+        Next
     End Sub
+
 
     ''' <summary>
     ''' Realiza una búsqueda inversa en todos los recursos activos del sistema de forma 100% dinámica
@@ -2965,7 +3233,28 @@ Module Funciones
         Dim filtroFechaActivo As Boolean = (frmApuntesContables.BtnFiltroFecha.Enabled = False)
 
         ' 🌟 CONSULTA SQL MAESTRA DE 11 CELDAS RELACIONALES (Nombres traducidos y legibles)
-        vtipoSql = "SELECT apuntes.FechaAPU As [FechaAPU], conceptos.DescripcionCON As [ConceptoAPU], apuntes.DescripcionAPU As [DescripcionAPU], apuntes.ImporteAPU As [ImporteAPU], apuntes.ImporteAPU As [SaldoAPU], apuntes.NotasAPU As [NotasAPU], cuentas.NombreCUE As [CuentaAPU], apuntes.CodigoAPU As [CodigoAPU], conceptos.CodigoCON As [CodigoCON], apuntes.ConceptoAPU As [IdConceptoCON], apuntes.CuentaAPU As [IdCuentaCUE] FROM (apuntes INNER JOIN conceptos ON apuntes.ConceptoAPU = conceptos.IdConceptoCON) INNER JOIN cuentas ON apuntes.CuentaAPU = cuentas.IdCuentaCUE"
+        'vtipoSql = "SELECT apuntes.FechaAPU As [FechaAPU], conceptos.DescripcionCON As [ConceptoAPU], apuntes.DescripcionAPU As [DescripcionAPU], apuntes.ImporteAPU As [ImporteAPU], apuntes.ImporteAPU As [SaldoAPU], apuntes.NotasAPU As [NotasAPU], cuentas.NombreCUE As [CuentaAPU], apuntes.CodigoAPU As [CodigoAPU], conceptos.CodigoCON As [CodigoCON], apuntes.ConceptoAPU As [IdConceptoCON], apuntes.CuentaAPU As [IdCuentaCUE] FROM (apuntes INNER JOIN conceptos ON apuntes.ConceptoAPU = conceptos.IdConceptoCON) INNER JOIN cuentas ON apuntes.CuentaAPU = cuentas.IdCuentaCUE"
+
+        ' =========================================================================
+        ' 🌟 REPARADO MODO MAESTRO: CONSULTA RELACIONAL DEL DIARIO SIN DESCALCES (MSIX)
+        ' =========================================================================
+        ' 🎯 LA CLAVE MAESTRA: Cambiamos conceptos.DescripcionCON por conceptos.CodigoCON en la segunda columna.
+        ' Esto le entrega al Grid la palabra clave limpia (ej: COMUNIDAD) para que tu resManager la traduzca al vuelo.
+        vtipoSql = "SELECT apuntes.FechaAPU As [FechaAPU], " &
+                   "conceptos.CodigoCON As [ConceptoAPU], " & ' 🚀 CORRECCIÓN: Código corto de control puro en mayúsculas
+                   "apuntes.DescripcionAPU As [DescripcionAPU], " &
+                   "apuntes.ImporteAPU As [ImporteAPU], " &
+                   "apuntes.ImporteAPU As [SaldoAPU], " &
+                   "apuntes.NotasAPU As [NotasAPU], " &
+                   "cuentas.NombreCUE As [CuentaAPU], " &
+                   "apuntes.CodigoAPU As [CodigoAPU], " &
+                   "conceptos.CodigoCON As [CodigoCON], " &
+                   "apuntes.ConceptoAPU As [IdConceptoCON], " &
+                   "apuntes.CuentaAPU As [IdCuentaCUE] " &
+                   "FROM (apuntes " &
+                   "INNER JOIN conceptos ON apuntes.ConceptoAPU = conceptos.IdConceptoCON) " &
+                   "INNER JOIN cuentas ON apuntes.CuentaAPU = cuentas.IdCuentaCUE"
+
 
         ' Condición base del año contable o descarte de saldos
         If frmApuntesContables.BtnFechasClick = "SI" Then

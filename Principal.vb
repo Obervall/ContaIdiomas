@@ -403,6 +403,61 @@ Public Class Principal
         ' =========================================================================
         ' 3. BUCLE MÁGICO DE VOLCADO QUIRÚRGICO A DIARIO (Inmune a fallos de tipos)
         ' =========================================================================
+        'For Each asu In listaAsientosAProcesar
+        '    Dim vCodigo As Integer = Convert.ToInt32(asu("CodigoAPP"))
+        '    Dim vDate1 As Date = CDate(asu("FechaAPP"))
+        '    Dim idConcepto As Integer = Convert.ToInt32(asu("ConceptoAPP"))
+        '    Dim vDescripcion As String = ApostrofePorAcentoAgudo(asu("DescripcionAPP").ToString())
+        '    Dim vImporte As String = asu("ImporteAPP").ToString()
+        '    Dim vNotas As String = asu("NotasAPP").ToString()
+        '    Dim vCuenta As String = asu("CuentaAPP").ToString()
+
+        '    ' A. INYECCIÓN PARAMETRIZADA PURA EN LA TABLA DE APUNTES DIARIOS
+        '    vAñadirSql = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) VALUES (?, ?, ?, ?, ?, ?, ?)"
+        '    cmdMdb1cr.CommandText = vAñadirSql
+        '    cmdMdb1cr.Parameters.Clear()
+
+        '    cmdMdb1cr.Parameters.AddWithValue("@FechaAPU", vDate1.Date)
+        '    cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", idConcepto) ' 🚀 ¡EXITO!: Inyectamos el ID entero relacional
+        '    cmdMdb1cr.Parameters.AddWithValue("@DescripcionAPU", vDescripcion.Trim())
+
+        '    Dim paramImp As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteAPU", OleDb.OleDbType.Currency)
+        '    paramImp.Value = Math.Round(ConvertirDecimalSeguro(vImporte), 2)
+
+        '    cmdMdb1cr.Parameters.AddWithValue("@EjercicioAPU", CInt(vAñoEjercicio))
+        '    cmdMdb1cr.Parameters.AddWithValue("@NotasAPU", vNotas.Trim())
+        '    cmdMdb1cr.Parameters.AddWithValue("@CuentaAPU", vCuenta.Trim())
+
+        '    Try
+        '        cmdMdb1cr.ExecuteNonQuery()
+
+        '        ' Averiguamos el nombre corto legible del concepto para enseñarlo en el cartel traducido
+        '        Dim nombreCortoConcepto As String = "CONCEPTO"
+        '        Using con As New OleDbConnection(conexion1.ConnectionString)
+        '            Using cmd As New OleDbCommand("SELECT CodigoCON FROM conceptos WHERE IdConceptoCON = ?", con)
+        '                cmd.Parameters.Add("@id", OleDbType.Integer).Value = idConcepto
+        '                Try
+        '                    con.Open()
+        '                    Dim r = cmd.ExecuteScalar()
+        '                    If r IsNot Nothing Then nombreCortoConcepto = r.ToString().Replace("_", " ").ToUpper()
+        '                Catch
+        '                End Try
+        '            End Using
+        '        End Using
+
+        '        ' Mostramos tu cartel oficial con el idioma regional activo
+        '        MsgBox(vDate1.ToShortDateString() & vbNewLine & nombreCortoConcepto & "     " & vDescripcion & "     " & vImporte & vbNewLine & rmse.GetString("CreadoCorrectamente"), MsgBoxStyle.Information)
+
+        '        ' B. EXTIRPACIÓN DEL VENCIMIENTO YA PROCESADO EN LA TABLA APUPER
+        '        cmdMdb1cr.CommandText = "DELETE FROM apuper WHERE CodigoAPP = ?"
+        '        cmdMdb1cr.Parameters.Clear()
+        '        cmdMdb1cr.Parameters.Add("@cod", OleDbType.Integer).Value = vCodigo
+        '        cmdMdb1cr.ExecuteNonQuery()
+
+        '    Catch ex As Exception
+        '        MsgBox(resManager.GetString("ErrorApuntePeriodico") & ": " & ex.Message, MsgBoxStyle.Critical)
+        '    End Try
+        'Next
         For Each asu In listaAsientosAProcesar
             Dim vCodigo As Integer = Convert.ToInt32(asu("CodigoAPP"))
             Dim vDate1 As Date = CDate(asu("FechaAPP"))
@@ -412,13 +467,13 @@ Public Class Principal
             Dim vNotas As String = asu("NotasAPP").ToString()
             Dim vCuenta As String = asu("CuentaAPP").ToString()
 
-            ' A. INYECCIÓN PARAMETRIZADA PURA EN LA TABLA DE APUNTES DIARIOS
+            ' A. INYECCIÓN PARAMETRIZADA PURA EN LA TABLA DE APUNTES DIARIOS (Tu lógica impecable)
             vAñadirSql = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) VALUES (?, ?, ?, ?, ?, ?, ?)"
             cmdMdb1cr.CommandText = vAñadirSql
             cmdMdb1cr.Parameters.Clear()
 
             cmdMdb1cr.Parameters.AddWithValue("@FechaAPU", vDate1.Date)
-            cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", idConcepto) ' 🚀 ¡EXITO!: Inyectamos el ID entero relacional
+            cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", idConcepto)
             cmdMdb1cr.Parameters.AddWithValue("@DescripcionAPU", vDescripcion.Trim())
 
             Dim paramImp As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteAPU", OleDb.OleDbType.Currency)
@@ -439,16 +494,45 @@ Public Class Principal
                         Try
                             con.Open()
                             Dim r = cmd.ExecuteScalar()
-                            If r IsNot Nothing Then nombreCortoConcepto = r.ToString().Replace("_", " ").ToUpper()
+                            If r IsNot Nothing Then nombreCortoConcepto = r.ToString().Trim().ToUpper()
                         Catch
                         End Try
                     End Using
                 End Using
 
-                ' Mostramos tu cartel oficial con el idioma regional activo
-                MsgBox(vDate1.ToShortDateString() & vbNewLine & nombreCortoConcepto & "     " & vDescripcion & "     " & vImporte & vbNewLine & rmse.GetString("CreadoCorrectamente"), MsgBoxStyle.Information)
+                ' =========================================================================
+                ' 🎯 REPARADO MODO MAESTRO: MENSAJE DE TRASPASO ELÁSTICO CON GUION BAJO
+                ' =========================================================================
+                ' 1. Fabricamos la variante con guion bajo para asegurar el enganche con el .resx
+                Dim nombreCortoConGuion As String = nombreCortoConcepto.Replace(" ", "_").Trim().ToUpper()
 
-                ' B. EXTIRPACIÓN DEL VENCIMIENTO YA PROCESADO EN LA TABLA APUPER
+                ' 2. Buscamos de forma elástica en tu diccionario por ambas llaves
+                Dim codigoTraducidoMsg As String = resManager.GetString(nombreCortoConcepto)
+                If String.IsNullOrEmpty(codigoTraducidoMsg) Then codigoTraducidoMsg = resManager.GetString(nombreCortoConGuion)
+
+                ' Respaldos de seguridad si las Keys no respondieran en ese milisegundo
+                If String.IsNullOrEmpty(codigoTraducidoMsg) Then codigoTraducidoMsg = nombreCortoConcepto.Replace("_", " ")
+
+                ' 3. Saneamos la descripción por si arrastrara texto plano rígido
+                Dim descTraducidaMsg As String = resManager.GetString(vDescripcion.ToUpper().Replace(" ", "_"))
+                If String.IsNullOrEmpty(descTraducidaMsg) Then descTraducidaMsg = resManager.GetString("Desc_" & nombreCortoConGuion)
+                If String.IsNullOrEmpty(descTraducidaMsg) Then descTraducidaMsg = vDescripcion
+
+                ' 4. Recuperamos el literal de éxito ("Creado correctamente")
+                Dim txtExito As String = rmse.GetString("CreadoCorrectamente")
+                If String.IsNullOrEmpty(txtExito) Then txtExito = "XCreated correctly"
+
+                Dim importeFormateado As String = ConvertirDecimalSeguro(vImporte).ToString("N2")
+
+                ' Montamos la cadena de texto elástica impecable
+                Dim msgCompleto As String = vDate1.ToShortDateString() & vbNewLine &
+                                            codigoTraducidoMsg.ToUpper() & "     " & descTraducidaMsg.ToUpper() & "     " & importeFormateado & vbNewLine &
+                                            txtExito
+
+                ' Lanzamos tu cuadro informativo oficial unificado
+                MsgBox(msgCompleto, MsgBoxStyle.Information, resManager.GetString("Aviso"))
+
+                ' B. EXTIRPACIÓN DEL VENCIMIENTO YA PROCESADO EN LA TABLA APUPER (Tu lógica impecable)
                 cmdMdb1cr.CommandText = "DELETE FROM apuper WHERE CodigoAPP = ?"
                 cmdMdb1cr.Parameters.Clear()
                 cmdMdb1cr.Parameters.Add("@cod", OleDbType.Integer).Value = vCodigo
@@ -459,7 +543,6 @@ Public Class Principal
             End Try
         Next
         ActualizarTextosFormulario(Me)
-
     End Sub
 
     Private Sub IP_Timer(ByVal sender As Object, ByVal e As EventArgs)

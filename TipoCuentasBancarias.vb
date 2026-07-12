@@ -267,26 +267,49 @@ Public Class TipoCuentaBancaria
         End If
 
         ' =========================================================================
-        ' 4. VALIDACIÓN DE BLOQUEO DE EDICIÓN USANDO LA LISTA GLOBAL DE TIPOS
+        ' 🚀 REPARADO MODO MAESTRO DEFINITIVO: CORTAFUEGOS DE DOBLE CARRIL MULTIIDIOMA
         ' =========================================================================
-        ' Apuntamos directamente a tu lista protectora del módulo (TiposCuentaMuestraSistema)
-        If TiposCuentaMuestraSistema.Contains(codigoEnEspañol) Then
-            Dim msgAviso As String = resManager.GetString("AvisoTipoCuentaProtegido")
-            If String.IsNullOrEmpty(msgAviso) Then msgAviso = "Los tipos de cuentas predeterminados del sistema están protegidos contra modificaciones, si no se va a usar se puede Eliminar."
-            MessageBox.Show(msgAviso, resManager.GetString("Aviso"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Exit Sub ' Se frena en seco: bloquea por completo la edición
+        ' 1. Capturamos la variable cruda limpia de espacios y guiones (ej: "CAJAEFECTIVO")
+        Dim textoPantallaLimpio As String = codigoEnEspañol.Replace("_", "").Replace(" ", "").Trim().ToUpper()
+
+        Dim cuentaProtegidaDetectada As Boolean = False
+
+        ' 2. PASO DEL RODILLO 1: Evaluamos contra la lista de Tipos de Cuenta (EFECTIVO...)
+        For Each tipoBase As String In TiposCuentaMuestraSistema
+            Dim tipoTraducido As String = resManager.GetString(tipoBase)
+            If String.IsNullOrEmpty(tipoTraducido) Then tipoTraducido = tipoBase
+
+            Dim tipoTraducidoLimpio As String = tipoTraducido.Replace("_", "").Replace(" ", "").Trim().ToUpper()
+
+            If textoPantallaLimpio = tipoBase.ToUpper() OrElse textoPantallaLimpio = tipoTraducidoLimpio Then
+                cuentaProtegidaDetectada = True
+                Exit For
+            End If
+        Next
+
+        ' 3. PASO DEL RODILLO 2: Si aún no ha saltado, evaluamos contra la lista de Cuentas (CAJAEFECTIVO...)
+        If Not cuentaProtegidaDetectada Then
+            For Each cuentaBase As String In CuentasMuestraSistema
+                ' Buscamos la traducción elástica en tu .resx (ej: CAJA_EFECTIVO o CAJAEFECTIVO)
+                Dim cuentaTraducida As String = resManager.GetString(cuentaBase)
+                If String.IsNullOrEmpty(cuentaTraducida) Then cuentaTraducida = resManager.GetString(cuentaBase.Replace(" ", "_"))
+                If String.IsNullOrEmpty(cuentaTraducida) Then cuentaTraducida = cuentaBase ' Salvavidas
+
+                Dim cuentaTraducidaLimpia As String = cuentaTraducida.Replace("_", "").Replace(" ", "").Trim().ToUpper()
+
+                If textoPantallaLimpio = cuentaBase.ToUpper() OrElse textoPantallaLimpio = cuentaTraducidaLimpia Then
+                    cuentaProtegidaDetectada = True
+                    Exit For
+                End If
+            Next
         End If
 
-        ' =========================================================================
-        ' 5. VALIDACIÓN DE BLOQUEO DE EDICIÓN (BLINDADA CONTRA ESPACIOS)
-        ' =========================================================================
-        ' Eliminamos cualquier guion bajo y espacio para comparar cadenas limpias (Ej: "CUENTACORRIENTE")
-        Dim textoValidarLimpio As String = codigoEnEspañol.Replace("_", "").Replace(" ", "").Trim().ToUpper()
-        If TiposCuentaMuestraSistema.Contains(textoValidarLimpio) Then
+        ' 4. ACTIVACIÓN DEL CANDADO INMUNE A CAMBIOS FUTUROS
+        If cuentaProtegidaDetectada Then
             Dim msgAviso As String = resManager.GetString("AvisoTipoCuentaProtegido")
             If String.IsNullOrEmpty(msgAviso) Then msgAviso = "Los tipos de cuentas predeterminados del sistema están protegidos contra modificaciones, si no se va a usar se puede Eliminar."
             MessageBox.Show(msgAviso, resManager.GetString("Aviso"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Exit Sub
+            Exit Sub ' Se frena en seco el guardado relacional
         End If
 
         ' =========================================================================

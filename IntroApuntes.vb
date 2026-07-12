@@ -613,6 +613,13 @@ Public Class IntroApuntes
             ' 1. Convertimos el texto de la caja a un número Decimal limpio y seguro
             Dim importeNumerico As Decimal = ConvertirDecimalSeguro(TxtImporte.Text)
 
+            ' 🚀 JUGADA MAESTRA 1: Capturamos la descripción antes del salto de foco.
+            ' Si la caja manual TxtDescripcion tiene letras, priorizamos su texto. Si no, usamos el Combo.
+            Dim descripcionDefinitiva As String = CmbDescripcion.Text.Trim()
+            If TxtDescripcion.Visible = True AndAlso TxtDescripcion.Text.Trim() <> "" Then
+                descripcionDefinitiva = TxtDescripcion.Text.Trim()
+            End If
+
             ' 2. Conseguimos el texto exacto que hay en la pantalla (pasado a MAYÚSCULAS)
             Dim tipoEnPantalla As String = TxtTipoConcepto.Text.Trim().ToUpper()
 
@@ -662,8 +669,8 @@ Public Class IntroApuntes
 
             ' 2. Construimos la SQL relacional con parámetros puros para evitar errores de comas o tipos
             vAñadir = "INSERT INTO apuntes " &
-                  "(FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, NotasAPU, CuentaAPU, EjercicioAPU) " &
-                  "VALUES (?, ?, ?, ?, ?, ?, ?)"
+                "(FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, NotasAPU, CuentaAPU, EjercicioAPU) " &
+                "VALUES (?, ?, ?, ?, ?, ?, ?)"
 
             cmdMdb1cr.CommandText = vAñadir
             cmdMdb1cr.Parameters.Clear() ' Limpieza estricta de memoria RAM
@@ -671,15 +678,16 @@ Public Class IntroApuntes
             ' 3. Inyectamos los valores en el orden exacto de los signos de interrogación '?'
             cmdMdb1cr.Parameters.Add("@fec", OleDb.OleDbType.Date).Value = DateTimePicker1.Value.Date
             cmdMdb1cr.Parameters.Add("@con", OleDb.OleDbType.Integer).Value = idConceptoAsiento ' 🌟 Inyecta el ID del Concepto
-            cmdMdb1cr.Parameters.Add("@des", OleDb.OleDbType.VarWChar).Value = TxtDescripcion.Text.Trim()
-            cmdMdb1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = Convert.ToDecimal(TxtImporte.Text)
-            cmdMdb1cr.Parameters.Add("@not", OleDb.OleDbType.VarWChar).Value = TxtNota.Text.Trim()
-            cmdMdb1cr.Parameters.Add("@cue", OleDb.OleDbType.Integer).Value = idCuentaAsiento    ' 🌟 Inyecta el ID de la Cuenta
+            cmdMdb1cr.Parameters.Add("@des", OleDb.OleDbType.VarWChar).Value = CmbDescripcion.Text.Trim()
+            cmdMdb1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = importeNumerico
+            cmdMdb1cr.Parameters.Add("@Not", OleDb.OleDbType.VarWChar).Value = TxtNota.Text.Trim()
+            cmdMdb1cr.Parameters.Add("@cue", OleDb.OleDbType.Integer).Value = Convert.ToInt32(CmbCuenta.SelectedValue)
+            'cmdMdb1cr.Parameters.Add("@cue", OleDb.OleDbType.Integer).Value = idCuentaAsiento    ' 🌟 Inyecta el ID de la Cuenta
             cmdMdb1cr.Parameters.Add("@eje", OleDb.OleDbType.Integer).Value = Convert.ToInt32(vAñoEjercicio)
 
-            ' =========================================================================
-            ' 🕵️ CHIVATO PARAMETROS CONTABLE: SIMULACIÓN DE LA SQL REAL QUE VA A IR A ACCESS
-            ' =========================================================================
+            ''=========================================================================
+            ''🕵️ CHIVATO PARAMETROS CONTABLE: SIMULACIÓN DE LA SQL REAL QUE VA A IR A ACCESS
+            ''=========================================================================
             'Dim sqlSimulada As String = vAñadir
             '' Vamos reemplazando de izquierda a derecha cada signo '?' por su valor real formateado
             '' 1. Fecha
