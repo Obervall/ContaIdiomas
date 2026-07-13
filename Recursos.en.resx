@@ -737,13 +737,13 @@ the file is not open</value>
     <value>CREDIT CARD</value>
   </data>
   <data name="PLAN_PENSIONES" xml:space="preserve">
-    <value>PENSION PLAN</value>
+    <value>ACCOUNT PENSION PLAN</value>
   </data>
   <data name="Desc_PLAN_PENSIONES" xml:space="preserve">
     <value>Pension Plan</value>
   </data>
   <data name="CAJA_EFECTIVO" xml:space="preserve">
-    <value>CASH BOX</value>
+    <value>ACCOUNT CASH BOX</value>
   </data>
   <data name="Desc_CAJA_EFECTIVO" xml:space="preserve">
     <value>Cash at home</value>

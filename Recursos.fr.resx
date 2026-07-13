@@ -737,13 +737,13 @@ le fichier n’est pas ouvert</value>
     <value>FONDS D’INVESTISSEMENT</value>
   </data>
   <data name="PLAN_PENSIONES" xml:space="preserve">
-    <value>PLAN DE RETRAITE</value>
+    <value>COMPTE PLAN DE RETRAITE</value>
   </data>
   <data name="Desc_PLAN_PENSIONES" xml:space="preserve">
     <value>Régime de retraite</value>
   </data>
   <data name="CAJA_EFECTIVO" xml:space="preserve">
-    <value>CAISSE À CAISSES</value>
+    <value>COMPTE CAISSE À CAISSES</value>
   </data>
   <data name="Desc_CAJA_EFECTIVO" xml:space="preserve">
     <value>Espèces à domicile</value>

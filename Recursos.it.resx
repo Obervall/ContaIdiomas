@@ -533,7 +533,7 @@ Non vengono rimossi dal database</value>
     <value>Il programma sarà chiuso a partire dall'anno fiscale in corso</value>
   </data>
   <data name="Cuenta" xml:space="preserve">
-    <value>Account</value>
+    <value>Conto</value>
   </data>
   <data name="Concepto" xml:space="preserve">
     <value>Concetto</value>
@@ -743,13 +743,13 @@ Il file non è aperto</value>
     <value>CARTA DI CREDITO</value>
   </data>
   <data name="PLAN_PENSIONES" xml:space="preserve">
-    <value>PIANO PENSIONISTICO</value>
+    <value>CONTO PIANO PENSIONISTICO</value>
   </data>
   <data name="Desc_PLAN_PENSIONES" xml:space="preserve">
     <value>Piano pensionistico</value>
   </data>
   <data name="CAJA_EFECTIVO" xml:space="preserve">
-    <value>CASSA CONTANTI</value>
+    <value>CONTO CASSA CONTANTI</value>
   </data>
   <data name="Desc_CAJA_EFECTIVO" xml:space="preserve">
     <value>Contanti a casa</value>

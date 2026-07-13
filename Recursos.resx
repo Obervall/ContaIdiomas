@@ -743,13 +743,13 @@ que el archivo no esté abierto</value>
     <value>TARJETA DE CRÉDITO</value>
   </data>
   <data name="PLAN_PENSIONES" xml:space="preserve">
-    <value>PLAN PENSIONES</value>
+    <value>CUENTA PLAN PENSIONES</value>
   </data>
   <data name="Desc_PLAN_PENSIONES" xml:space="preserve">
     <value>Plan de Pensiones</value>
   </data>
   <data name="CAJA_EFECTIVO" xml:space="preserve">
-    <value>CAJA EFECTIVO</value>
+    <value>CUENTA CAJA EFECTIVO</value>
   </data>
   <data name="Desc_CAJA_EFECTIVO" xml:space="preserve">
     <value>Efectivo en casa</value>

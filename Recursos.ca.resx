@@ -734,13 +734,13 @@ que l'arxiu no estigui obert</value>
     <value>COMPTE HABITATGE</value>
   </data>
   <data name="PLAN_PENSIONES" xml:space="preserve">
-    <value>PLA PENSIONS</value>
+    <value>COMPTE PLA PENSIONS</value>
   </data>
   <data name="Desc_PLAN_PENSIONES" xml:space="preserve">
     <value>Pla de Pensions</value>
   </data>
   <data name="CAJA_EFECTIVO" xml:space="preserve">
-    <value>CAIXA EFECTIU</value>
+    <value>COMPTE CAIXA EFECTIU</value>
   </data>
   <data name="Desc_CAJA_EFECTIVO" xml:space="preserve">
     <value>Efectiu a casa</value>

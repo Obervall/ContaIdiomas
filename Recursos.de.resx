@@ -737,13 +737,13 @@ Die Datei ist nicht geöffnet</value>
     <value>INVESTITIONSFONDS</value>
   </data>
   <data name="PLAN_PENSIONES" xml:space="preserve">
-    <value>RENTENVERSICHERUNG</value>
+    <value>KONTO RENTENVERSICHERUNG</value>
   </data>
   <data name="Desc_PLAN_PENSIONES" xml:space="preserve">
     <value>Rentenversicherung</value>
   </data>
   <data name="CAJA_EFECTIVO" xml:space="preserve">
-    <value>KASSE</value>
+    <value>KONTO KASSE</value>
   </data>
   <data name="Desc_CAJA_EFECTIVO" xml:space="preserve">
     <value>Bargeld zu Hause</value>

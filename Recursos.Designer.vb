@@ -272,7 +272,7 @@ Friend Class Recursos
     End Property
     
     '''<summary>
-    '''  Busca una cadena traducida similar a CAJA EFECTIVO.
+    '''  Busca una cadena traducida similar a CUENTA CAJA EFECTIVO.
     '''</summary>
     Friend Shared ReadOnly Property CAJA_EFECTIVO() As String
         Get
@@ -1975,7 +1975,7 @@ Friend Class Recursos
     End Property
     
     '''<summary>
-    '''  Busca una cadena traducida similar a PLAN PENSIONES.
+    '''  Busca una cadena traducida similar a CUENTA PLAN PENSIONES.
     '''</summary>
     Friend Shared ReadOnly Property PLAN_PENSIONES() As String
         Get

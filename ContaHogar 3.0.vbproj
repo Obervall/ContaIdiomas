@@ -1577,6 +1577,7 @@
     <Content Include="Logo ContaHogar.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\Designer.png" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="ADODB">
