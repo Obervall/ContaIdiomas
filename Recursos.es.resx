@@ -961,4 +961,13 @@ cuentas o seleccionando conceptos específicos
 en el listado (Embudo Rosa).
 ¡Menos datos ofrecen un análisis mucho más claro!</value>
   </data>
+  <data name="SeleccioneIdiomaAyuda" xml:space="preserve">
+    <value>Seleccione su idioma preferido para el manual de ayuda</value>
+  </data>
+  <data name="ErrorArchivoAyudaNoEncontrado" xml:space="preserve">
+    <value>No se pudo encontrar el archivo del manual de ayuda seleccionado en su carpeta de Documentos local</value>
+  </data>
+  <data name="Ayuda" xml:space="preserve">
+    <value>Ayuda</value>
+  </data>
 </root>

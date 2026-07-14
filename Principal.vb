@@ -1666,11 +1666,16 @@ Public Class Principal
     End Sub
 
     Private Sub ArchivoDeAyudaToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ArchivoDeAyudaToolStripMenuItem.Click
-        Dim Proceso As New Process
-        Proceso.StartInfo.FileName = IO.Path.Combine(carpetaDB, "Ayuda_ContaHogar 3.0.pdf")
-        Proceso.StartInfo.Verb = "open"
-        Proceso.Start()
+        ' 🚀 INVOCACIÓN MAESTRA: Todo el peso lo maneja el módulo Funciones
+        AbrirSelectorAyudaInternacional()
     End Sub
+
+    'Private Sub ArchivoDeAyudaToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ArchivoDeAyudaToolStripMenuItem.Click
+    '    Dim Proceso As New Process
+    '    Proceso.StartInfo.FileName = IO.Path.Combine(carpetaDB, "Ayuda_ContaHogar 3.0.pdf")
+    '    Proceso.StartInfo.Verb = "open"
+    '    Proceso.Start()
+    'End Sub
 
     Private Sub BtnIniciarBaseDatos_Click(sender As Object, e As EventArgs) Handles BtnIniciarBaseDatos.Click
         ReiniciarBaseDeDatosToolStripMenuItem.PerformClick()

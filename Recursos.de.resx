@@ -961,4 +961,13 @@ Konten oder durch Auswahl bestimmter Konzepte
 auf der Liste (Pink Funnel).
 Weniger Daten bieten eine viel klarere Analyse!</value>
   </data>
+  <data name="SeleccioneIdiomaAyuda" xml:space="preserve">
+    <value>Wählen Sie Ihre bevorzugte Sprache für das Hilfehandbuch aus</value>
+  </data>
+  <data name="ErrorArchivoAyudaNoEncontrado" xml:space="preserve">
+    <value>Konnte die ausgewählte Hilfehandbuchdatei in deinem lokalen Dokumentenordner nicht finden</value>
+  </data>
+  <data name="Ayuda" xml:space="preserve">
+    <value>Hilfe</value>
+  </data>
 </root>

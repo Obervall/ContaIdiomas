@@ -961,4 +961,13 @@ Racconti o selezionando concetti specifici
 nella lista (Pink Funnel).
 Meno dati offrono un'analisi molto più chiara!</value>
   </data>
+  <data name="SeleccioneIdiomaAyuda" xml:space="preserve">
+    <value>Seleziona la lingua preferita per il manuale di aiuto</value>
+  </data>
+  <data name="ErrorArchivoAyudaNoEncontrado" xml:space="preserve">
+    <value>Non sono riuscito a trovare il file del manuale di aiuto selezionato nella cartella Documenti locale</value>
+  </data>
+  <data name="Ayuda" xml:space="preserve">
+    <value>Aiuto</value>
+  </data>
 </root>

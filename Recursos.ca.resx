@@ -961,4 +961,13 @@ comptes o seleccionant conceptes específics
 al llistat (Embut Rosa).
 Menys dades ofereixen una anàlisi molt més clara!</value>
   </data>
+  <data name="SeleccioneIdiomaAyuda" xml:space="preserve">
+    <value>Seleccioni el seu idioma preferit per al manual d' ajuda</value>
+  </data>
+  <data name="ErrorArchivoAyudaNoEncontrado" xml:space="preserve">
+    <value>No es va poder trobar l'arxiu del manual d'ajuda seleccionat a la seva carpeta de Documents local</value>
+  </data>
+  <data name="Ayuda" xml:space="preserve">
+    <value>Ajut</value>
+  </data>
 </root>

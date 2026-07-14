@@ -3315,4 +3315,115 @@ Module Funciones
         DgvCuentasBancarias()
     End Sub
 
+    Public Sub AbrirSelectorAyudaInternacional()
+        ' =========================================================================
+        ' 🚀 REPARADO MODO MAESTRO: SELECTOR DE AYUDA CON CIERRE DE ASPA SEGURO (MSIX)
+        ' =========================================================================
+        Dim frm As New Form()
+        Dim lbl As New Label()
+        Dim btnES As New Button()
+        Dim btnEN As New Button()
+        Dim btnCAT As New Button()
+        Dim btnCancelar As New Button() ' 🚀 Nuevo botón de escape físico
+
+        ' Extraemos los letreros traducidos desde tu resManager
+        Dim txtTitulo As String = resManager.GetString("Ayuda")
+        If String.IsNullOrEmpty(txtTitulo) Then txtTitulo = "Help Manual"
+
+        Dim txtMensaje As String = resManager.GetString("SeleccioneIdiomaAyuda") & ":"
+        If String.IsNullOrEmpty(txtMensaje) Then txtMensaje = "Please select your preferred language for the help manual:"
+
+        Dim txtCancelar As String = resManager.GetString("Cancelar")
+        If String.IsNullOrEmpty(txtCancelar) Then txtCancelar = "Cancel"
+
+        frm.Text = txtTitulo
+        lbl.Text = txtMensaje
+
+        btnES.Text = "Español (PDF)"
+        btnEN.Text = "English (PDF)"
+        btnCAT.Text = "Català (PDF)"
+        btnCancelar.Text = txtCancelar
+
+        ' 🎯 LA CLAVE DEL CAMBIO RELACIONAL:
+        ' Asignamos respuestas lógicas únicas para cada idioma. Dejamos DialogResult.Cancel 
+        ' en exclusiva para el botón Cancelar y la X de la ventana, desvinculándolo del catalán.
+        btnES.DialogResult = DialogResult.Yes      ' Castellano -> Yes
+        btnEN.DialogResult = DialogResult.No       ' Inglés -> No
+        btnCAT.DialogResult = DialogResult.OK       ' Catalán -> OK
+        btnCancelar.DialogResult = DialogResult.Cancel ' Cancelar / Aspa X -> Cancel
+
+        ' --- Estética geométrica simétrica ajustada para 4 botones ---
+        frm.Size = New Size(540, 180) ' Ampliamos un poco el ancho del lienzo
+        frm.FormBorderStyle = FormBorderStyle.FixedDialog
+        frm.MaximizeBox = False
+        frm.MinimizeBox = False
+        frm.StartPosition = FormStartPosition.CenterScreen
+
+        lbl.SetBounds(20, 20, 500, 30)
+        lbl.Font = New Font(lbl.Font.FontFamily, 10, FontStyle.Regular)
+
+        ' Repartimos los 4 botones comerciales de forma equidistante en tu pantalla
+        btnES.SetBounds(20, 75, 110, 35)
+        btnEN.SetBounds(145, 75, 110, 35)
+        btnCAT.SetBounds(270, 75, 110, 35)
+        btnCancelar.SetBounds(395, 75, 110, 35)
+
+        frm.Controls.AddRange(New Control() {lbl, btnES, btnEN, btnCAT, btnCancelar})
+        frm.CancelButton = btnCancelar ' Si pulsan la tecla ESC del teclado, también saldrá en paz
+
+        ' Enfoque dinámico inteligente según la cultura activa de My.Settings
+        Dim culturaActiva As String = My.Settings.CulturaUsuario.ToString().Trim().ToLower()
+        If culturaActiva = "en" Then
+            frm.AcceptButton = btnEN
+            btnEN.Focus()
+        ElseIf culturaActiva = "ca" Then
+            frm.AcceptButton = btnCAT
+            btnCAT.Focus()
+        Else
+            frm.AcceptButton = btnES
+            btnES.Focus()
+        End If
+
+        ' Desplegamos la ventana modal en el monitor y capturamos la respuesta
+        Dim resultado As DialogResult = frm.ShowDialog()
+        frm.Dispose()
+
+        ' 🎯 EVALUACIÓN DE RESPUESTA SANEADA AL 100%
+        Dim nombreArchivoPDF As String = ""
+        Select Case resultado
+            Case DialogResult.Yes
+                nombreArchivoPDF = "Ayuda_ContaHogar_ES.pdf"
+            Case DialogResult.No
+                nombreArchivoPDF = "Help_ContaHogar_EN.pdf"
+            Case DialogResult.OK
+                nombreArchivoPDF = "Ajuda_ContaHogar_CAT.pdf"
+            Case DialogResult.Cancel
+                ' 🔒 CORTAFUEGOS: Si pulsa Cancelar o la X de la ventana, salimos en paz sin hacer NADA
+                Exit Sub
+            Case Else
+                Exit Sub
+        End Select
+
+        ' Engranaje de ruta indestructible nativa hacia tus Documentos
+        Dim carpetaDocumentos As String = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+        Dim carpetaAppOficial As String = IO.Path.Combine(carpetaDocumentos, "ContaHogar3.0")
+        Dim rutaCompletaPDF As String = IO.Path.Combine(carpetaAppOficial, nombreArchivoPDF)
+
+        ' Lanzamos el lector nativo de Windows envuelto en un cortafuegos seguro
+        Try
+            If IO.File.Exists(rutaCompletaPDF) Then
+                Dim Proceso As New Process
+                Proceso.StartInfo.FileName = rutaCompletaPDF
+                Proceso.StartInfo.Verb = "open"
+                Proceso.Start()
+            Else
+                Dim msgFalta As String = resManager.GetString("ErrorArchivoAyudaNoEncontrado")
+                If String.IsNullOrEmpty(msgFalta) Then msgFalta = "The selected help manual file could not be found in your local Documents folder."
+                MsgBox(msgFalta, vbExclamation, resManager.GetString("Aviso"))
+            End If
+        Catch ex As Exception
+            MsgBox(resManager.GetString("Error") & ": " & ex.Message, vbCritical)
+        End Try
+    End Sub
+
 End Module

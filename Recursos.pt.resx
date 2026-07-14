@@ -961,4 +961,13 @@ Relatos ou selecionando conceitos específicos
 na lista (Funil Rosa).
 Menos dados oferecem uma análise muito mais clara!</value>
   </data>
+  <data name="SeleccioneIdiomaAyuda" xml:space="preserve">
+    <value>Selecione o idioma que preferir para o manual de ajuda</value>
+  </data>
+  <data name="ErrorArchivoAyudaNoEncontrado" xml:space="preserve">
+    <value>Não consegui encontrar o arquivo de manual de ajuda selecionado na pasta Documentos local</value>
+  </data>
+  <data name="Ayuda" xml:space="preserve">
+    <value>Ajuda</value>
+  </data>
 </root>

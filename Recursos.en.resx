@@ -961,4 +961,13 @@ accounts or by selecting specific concepts
 on the list (Pink Funnel).
 Less data offers a much clearer analysis!</value>
   </data>
+  <data name="SeleccioneIdiomaAyuda" xml:space="preserve">
+    <value>Please select your preferred language for the help manual</value>
+  </data>
+  <data name="ErrorArchivoAyudaNoEncontrado" xml:space="preserve">
+    <value>The selected help manual file could not be found in your local Documents folder</value>
+  </data>
+  <data name="Ayuda" xml:space="preserve">
+    <value>Help</value>
+  </data>
 </root>

@@ -199,6 +199,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Ayuda.
+    '''</summary>
+    Friend Shared ReadOnly Property Ayuda() As String
+        Get
+            Return ResourceManager.GetString("Ayuda", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Copia de Seguridad.
     '''</summary>
     Friend Shared ReadOnly Property Backup() As String
@@ -934,6 +943,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property ErrorApuntePeriodico() As String
         Get
             Return ResourceManager.GetString("ErrorApuntePeriodico", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a No se pudo encontrar el archivo del manual de ayuda seleccionado en su carpeta de Documentos local.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorArchivoAyudaNoEncontrado() As String
+        Get
+            Return ResourceManager.GetString("ErrorArchivoAyudaNoEncontrado", resourceCulture)
         End Get
     End Property
     
@@ -2124,6 +2142,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property SeleccionaRegistro() As String
         Get
             Return ResourceManager.GetString("SeleccionaRegistro", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Seleccione su idioma preferido para el manual de ayuda.
+    '''</summary>
+    Friend Shared ReadOnly Property SeleccioneIdiomaAyuda() As String
+        Get
+            Return ResourceManager.GetString("SeleccioneIdiomaAyuda", resourceCulture)
         End Get
     End Property
     

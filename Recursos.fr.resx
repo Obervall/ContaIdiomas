@@ -961,4 +961,13 @@ Des comptes rends compte ou en sélectionnant des concepts spécifiques
 sur la liste (Pink Funnel).
 Moins de données offrent une analyse bien plus claire !</value>
   </data>
+  <data name="SeleccioneIdiomaAyuda" xml:space="preserve">
+    <value>Sélectionnez la langue que vous souhaitez pour le manuel d’aide</value>
+  </data>
+  <data name="ErrorArchivoAyudaNoEncontrado" xml:space="preserve">
+    <value>Je n’ai pas trouvé le fichier du manuel d’aide sélectionné dans votre dossier local Documents</value>
+  </data>
+  <data name="Ayuda" xml:space="preserve">
+    <value>À l’aide</value>
+  </data>
 </root>
