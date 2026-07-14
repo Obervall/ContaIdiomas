@@ -98,7 +98,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>Nh+u0hm0elPFEznPrgYAkx4Eia63dGuNxAC49r263Xo=</dsig:DigestValue>
+        <dsig:DigestValue>76qa0hmTMpxYxUcTbgtzTg4Ago1VjIC0dIYKWy9paoY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -110,7 +110,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>+G7YnMaVLMJWxRqwDgiXV1QJJgWVm4G4E2iDLCV3Fn4=</dsig:DigestValue>
+        <dsig:DigestValue>kowVcbiKmHM8dYekR465eoogxvWgFodhTAjOvM2Hjzk=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -786,6 +786,33 @@
       </hash>
     </dependentAssembly>
   </dependency>
+  <file name="Ajuda_ContaHogar_CAT.pdf" size="5751376">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>30tiyfA0dlyfvGpmgj49ld89fyVCYz2slHrXQI7ocfo=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Ayuda_ContaHogar_ES.pdf" size="6000407">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>eqgAxbCJEVi714LHoLCrcDZwzvTE99JNNeQSYqY7jN0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="ContaHogar.mdb" size="495616" writeableType="applicationData">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>B1aMF12QBw6c4uYvLhEzVG6lXmhlCIn0aZbPH72nr34=</dsig:DigestValue>
+    </hash>
+  </file>
   <file name="ContaHogar3.0.exe.config" size="6801">
     <hash>
       <dsig:Transforms>
@@ -802,6 +829,24 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
       <dsig:DigestValue>+ru8ONB/kTEQZ/9E8agrwy5q27aNQ2DGSuBBrqQhLPA=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Help_ContaHogar_EN.pdf" size="5649567">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>jO6vkbQl+QTEF7m0d7mieOrsPRx6l5LxiRV+7LD3jCM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Historial_Versiones - Version_History.pdf" size="133990">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>7VQIPYmRabwu+1OyDgF3EXMkNXPto5P4q5joAOq8Jpw=</dsig:DigestValue>
     </hash>
   </file>
   <file name="HogarMdb.ico" size="245054">

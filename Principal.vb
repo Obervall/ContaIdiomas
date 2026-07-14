@@ -219,6 +219,7 @@ Public Class Principal
         End If
 
         ' 5. 🌟 ASENTAMOS LA VARIABLE GLOBAL Y SCONCRONIZAMOS LAS PREFERENCIAS
+        carpetaDB = carpetaAppOficial
         vRuta = archivoBdDestino
 
         My.Settings.RutaBD = vRuta
@@ -319,13 +320,12 @@ Public Class Principal
             Return
         End Try
 
-        'Hoy (Versión 3.1.1): Dejas tu código con la "3.1.1".
+        'Hoy (Versión 3.2.0): Dejas tu código con la "3.2.0".
         'Y cuando configuremos el manifiesto del proyecto ContaHogarPackaging,
-        'nos aseguraremos de escribir en su casilla de versión: 3.1.1.0 [1.1].
-        'Mañana (Versión 3.1.2): Cambiarás tu línea a My.Settings.Version = "3.1.2",
-        'cambiarás el manifiesto del MSIX a 3.1.2.0 y subirás el nuevo paquete reluciente [1.1].
-
-        My.Settings.Version = "3.1.1.0"
+        'nos aseguraremos de escribir en su casilla de versión: 3.2.1.0 [1.1].
+        'Mañana (Versión 3.2.1.0): Cambiarás tu línea a My.Settings.Version = "3.2.1.0",
+        'cambiarás el manifiesto del MSIX a 3.2.1.0 y subirás el nuevo paquete reluciente [1.1].
+        My.Settings.Version = "3.2.1.0"
         My.Settings.Save()
 
         vMoneda = My.Settings.Moneda
@@ -400,64 +400,6 @@ Public Class Principal
             MsgBox(resManager.GetString("ErrorEscanearPeriodicos") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
 
-        ' =========================================================================
-        ' 3. BUCLE MÁGICO DE VOLCADO QUIRÚRGICO A DIARIO (Inmune a fallos de tipos)
-        ' =========================================================================
-        'For Each asu In listaAsientosAProcesar
-        '    Dim vCodigo As Integer = Convert.ToInt32(asu("CodigoAPP"))
-        '    Dim vDate1 As Date = CDate(asu("FechaAPP"))
-        '    Dim idConcepto As Integer = Convert.ToInt32(asu("ConceptoAPP"))
-        '    Dim vDescripcion As String = ApostrofePorAcentoAgudo(asu("DescripcionAPP").ToString())
-        '    Dim vImporte As String = asu("ImporteAPP").ToString()
-        '    Dim vNotas As String = asu("NotasAPP").ToString()
-        '    Dim vCuenta As String = asu("CuentaAPP").ToString()
-
-        '    ' A. INYECCIÓN PARAMETRIZADA PURA EN LA TABLA DE APUNTES DIARIOS
-        '    vAñadirSql = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) VALUES (?, ?, ?, ?, ?, ?, ?)"
-        '    cmdMdb1cr.CommandText = vAñadirSql
-        '    cmdMdb1cr.Parameters.Clear()
-
-        '    cmdMdb1cr.Parameters.AddWithValue("@FechaAPU", vDate1.Date)
-        '    cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", idConcepto) ' 🚀 ¡EXITO!: Inyectamos el ID entero relacional
-        '    cmdMdb1cr.Parameters.AddWithValue("@DescripcionAPU", vDescripcion.Trim())
-
-        '    Dim paramImp As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteAPU", OleDb.OleDbType.Currency)
-        '    paramImp.Value = Math.Round(ConvertirDecimalSeguro(vImporte), 2)
-
-        '    cmdMdb1cr.Parameters.AddWithValue("@EjercicioAPU", CInt(vAñoEjercicio))
-        '    cmdMdb1cr.Parameters.AddWithValue("@NotasAPU", vNotas.Trim())
-        '    cmdMdb1cr.Parameters.AddWithValue("@CuentaAPU", vCuenta.Trim())
-
-        '    Try
-        '        cmdMdb1cr.ExecuteNonQuery()
-
-        '        ' Averiguamos el nombre corto legible del concepto para enseñarlo en el cartel traducido
-        '        Dim nombreCortoConcepto As String = "CONCEPTO"
-        '        Using con As New OleDbConnection(conexion1.ConnectionString)
-        '            Using cmd As New OleDbCommand("SELECT CodigoCON FROM conceptos WHERE IdConceptoCON = ?", con)
-        '                cmd.Parameters.Add("@id", OleDbType.Integer).Value = idConcepto
-        '                Try
-        '                    con.Open()
-        '                    Dim r = cmd.ExecuteScalar()
-        '                    If r IsNot Nothing Then nombreCortoConcepto = r.ToString().Replace("_", " ").ToUpper()
-        '                Catch
-        '                End Try
-        '            End Using
-        '        End Using
-
-        '        ' Mostramos tu cartel oficial con el idioma regional activo
-        '        MsgBox(vDate1.ToShortDateString() & vbNewLine & nombreCortoConcepto & "     " & vDescripcion & "     " & vImporte & vbNewLine & rmse.GetString("CreadoCorrectamente"), MsgBoxStyle.Information)
-
-        '        ' B. EXTIRPACIÓN DEL VENCIMIENTO YA PROCESADO EN LA TABLA APUPER
-        '        cmdMdb1cr.CommandText = "DELETE FROM apuper WHERE CodigoAPP = ?"
-        '        cmdMdb1cr.Parameters.Clear()
-        '        cmdMdb1cr.Parameters.Add("@cod", OleDbType.Integer).Value = vCodigo
-        '        cmdMdb1cr.ExecuteNonQuery()
-
-        '    Catch ex As Exception
-        '        MsgBox(resManager.GetString("ErrorApuntePeriodico") & ": " & ex.Message, MsgBoxStyle.Critical)
-        '    End Try
-        'Next
         For Each asu In listaAsientosAProcesar
             Dim vCodigo As Integer = Convert.ToInt32(asu("CodigoAPP"))
             Dim vDate1 As Date = CDate(asu("FechaAPP"))
@@ -1920,7 +1862,7 @@ Public Class Principal
 
     Private Sub HistorialDeVersionesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles HistorialDeVersionesToolStripMenuItem.Click
         Dim Proceso As New Process
-        Proceso.StartInfo.FileName = IO.Path.Combine(carpetaDB, "Historial_Versiones.pdf")
+        Proceso.StartInfo.FileName = IO.Path.Combine(carpetaDB, "Historial_Versiones - Version_History.pdf")
         Proceso.StartInfo.Verb = "open"
         Proceso.Start()
     End Sub

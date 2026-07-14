@@ -1,3 +1,8 @@
+C:\ComptaLlar\Hogar\bin\Debug\Ajuda_ContaHogar_CAT.pdf
+C:\ComptaLlar\Hogar\bin\Debug\Ayuda_ContaHogar_ES.pdf
+C:\ComptaLlar\Hogar\bin\Debug\Help_ContaHogar_EN.pdf
+C:\ComptaLlar\Hogar\bin\Debug\Historial_Versiones - Version_History.pdf
+C:\ComptaLlar\Hogar\bin\Debug\ContaHogar.mdb
 C:\ComptaLlar\Hogar\bin\Debug\x86\SqlServerSpatial170.dll
 C:\ComptaLlar\Hogar\bin\Debug\x64\SqlServerSpatial170.dll
 C:\ComptaLlar\Hogar\bin\Debug\arm64\SqlServerSpatial170.dll
@@ -498,4 +503,3 @@ C:\ComptaLlar\Hogar\obj\Debug\ContaHogar3.0.application
 C:\ComptaLlar\Hogar\obj\Debug\ContaHog.276DA8AC.Up2Date
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar3.0.exe
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar3.0.pdb
-C:\ComptaLlar\Hogar\obj\Debug\ContaHogar3.0.exe.config
