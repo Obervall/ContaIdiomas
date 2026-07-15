@@ -56,5 +56,8 @@
     <Setting Name="CulturaUsuario" Type="System.String" Scope="User">
       <Value Profile="(Default)">es-ES</Value>
     </Setting>
+    <Setting Name="PrimerArranqueNuevaEra" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

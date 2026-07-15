@@ -269,6 +269,18 @@ Namespace My
                 Me("CulturaUsuario") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property PrimerArranqueNuevaEra() As Boolean
+            Get
+                Return CType(Me("PrimerArranqueNuevaEra"),Boolean)
+            End Get
+            Set
+                Me("PrimerArranqueNuevaEra") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

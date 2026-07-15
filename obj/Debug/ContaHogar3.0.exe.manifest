@@ -91,14 +91,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ContaHogar3.0.exe" size="4989440">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ContaHogar3.0.exe" size="4998656">
       <assemblyIdentity name="ContaHogar3.0" version="0.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>76qa0hmTMpxYxUcTbgtzTg4Ago1VjIC0dIYKWy9paoY=</dsig:DigestValue>
+        <dsig:DigestValue>bYwXPCqq4lK8xUGAKEECBRJ1mCnx6Ucn6P7WAYUhri0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -110,7 +110,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>kowVcbiKmHM8dYekR465eoogxvWgFodhTAjOvM2Hjzk=</dsig:DigestValue>
+        <dsig:DigestValue>83EfSA7RU8myF5GxPvkqH1qTKU354K/RF4IUHzCbY4Q=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -840,15 +840,6 @@
       <dsig:DigestValue>jO6vkbQl+QTEF7m0d7mieOrsPRx6l5LxiRV+7LD3jCM=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Historial_Versiones - Version_History.pdf" size="133990">
-    <hash>
-      <dsig:Transforms>
-        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-      </dsig:Transforms>
-      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>7VQIPYmRabwu+1OyDgF3EXMkNXPto5P4q5joAOq8Jpw=</dsig:DigestValue>
-    </hash>
-  </file>
   <file name="HogarMdb.ico" size="245054">
     <hash>
       <dsig:Transforms>
@@ -865,6 +856,15 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
       <dsig:DigestValue>nPBt6GGTAkCh8NxO136Ccf0d93RqbVVspuQH1LICDyU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Version.pdf" size="133990">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>7VQIPYmRabwu+1OyDgF3EXMkNXPto5P4q5joAOq8Jpw=</dsig:DigestValue>
     </hash>
   </file>
   <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">

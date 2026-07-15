@@ -197,26 +197,83 @@ Public Class Principal
             archivoBdDestino = IO.Path.Combine(carpetaAppOficial, "ContaHogar.mdb")
         End Try
 
-        ' 4. 🎯 EL PUENTE DE MIGRACIÓN: Sembramos el archivo respetando el histórico del usuario
-        If Not File.Exists(archivoBdDestino) Then
+        ' 4. 🎯 EL PUENTE DE MIGRACIÓN INTELIGENTE (Inmune a cambios de peso de la BD)
+        ' Usamos un booleano en My.Settings para saber si este PC ya fue auditado en el pasado
+        If My.Settings.PrimerArranqueNuevaEra OrElse Not File.Exists(archivoBdDestino) Then
             Try
-                ' ESCENARIO B: ¿El usuario es antiguo y tiene sus apuntes reales en tu vieja ruta de Roaming?
+                ' ESCENARIO B: ¿El usuario tiene un histórico real esperándole en Roaming?
                 If File.Exists(archivoBdAppDataVieja) Then
-                    ' Mudamos su base de datos real intacta a Mis Documentos para no perder ni un céntimo
+                    ' El Puente muerde el anzuelo: machacamos la plantilla limpia del instalador
+                    ' y restauramos sus apuntes históricos reales sin perder ni un céntimo
                     File.Copy(archivoBdAppDataVieja, archivoBdDestino, True)
 
-                    ' ESCENARIO A: Es un usuario 100% nuevo que se descarga la app de la Microsoft Store
+                    ' ESCENARIO A: Es un usuario nuevo. Si el instalador no la dejó caer, la sembramos nosotros
                 Else
-                    ' Extraemos la base limpia y compactada de 488 KB que viaja dentro del paquete MSIX
-                    Dim archivoBdOrigenRuta As String = IO.Path.Combine(Application.StartupPath, "ContaHogar.mdb")
-                    If File.Exists(archivoBdOrigenRuta) Then
-                        File.Copy(archivoBdOrigenRuta, archivoBdDestino, True)
+                    If Not File.Exists(archivoBdDestino) Then
+                        Dim archivoBdOrigenRuta As String = IO.Path.Combine(Application.StartupPath, "ContaHogar.mdb")
+                        If File.Exists(archivoBdOrigenRuta) Then
+                            File.Copy(archivoBdOrigenRuta, archivoBdDestino, True)
+                        End If
                     End If
                 End If
+
+                ' Marcamos el chivato en la RAM para que jamás vuelva a entrar en este bloque de migración
+                My.Settings.PrimerArranqueNuevaEra = False
             Catch ex As Exception
                 MsgBox(rmse.GetString("ErrorCriticoPuenteRescate") & ": " & ex.Message, MsgBoxStyle.Critical)
             End Try
         End If
+
+        '' 4. 🎯 EL PUENTE DE MIGRACIÓN: Sembramos el archivo respetando el histórico del usuario
+        'If Not File.Exists(archivoBdDestino) Then
+        '    Try
+        '        ' ESCENARIO B: ¿El usuario es antiguo y tiene sus apuntes reales en tu vieja ruta de Roaming?
+        '        If File.Exists(archivoBdAppDataVieja) Then
+        '            ' Mudamos su base de datos real intacta a Mis Documentos para no perder ni un céntimo
+        '            File.Copy(archivoBdAppDataVieja, archivoBdDestino, True)
+
+        '            ' ESCENARIO A: Es un usuario 100% nuevo que se descarga la app de la Microsoft Store
+        '        Else
+        '            ' Extraemos la base limpia y compactada de 488 KB que viaja dentro del paquete MSIX
+        '            Dim archivoBdOrigenRuta As String = IO.Path.Combine(Application.StartupPath, "ContaHogar.mdb")
+        '            If File.Exists(archivoBdOrigenRuta) Then
+        '                File.Copy(archivoBdOrigenRuta, archivoBdDestino, True)
+        '            End If
+        '        End If
+        '    Catch ex As Exception
+        '        MsgBox(rmse.GetString("ErrorCriticoPuenteRescate") & ": " & ex.Message, MsgBoxStyle.Critical)
+        '    End Try
+        'End If
+
+        ' =========================================================================
+        ' 🎯 5. SIEMBRA O ACTUALIZACIÓN AUTOMÁTICA DE MANUALES Y HISTORIAL (MSIX)
+        ' =========================================================================
+        ' Metemos en una matriz el nombre exacto de tus 4 archivos PDF del taller
+        Dim documentosPDF() As String = {"Ayuda_ContaHogar_ES.pdf", "Help_ContaHogar_EN.pdf", "Ajuda_ContaHogar_CAT.pdf", "Version.pdf"}
+
+        ' El programa pasa el rodillo por los 4 archivos en cada arranque de la RAM
+        For Each nombrePDF As String In documentosPDF
+            Dim rutaOrigenFabrica As String = IO.Path.Combine(Application.StartupPath, nombrePDF)
+            Dim rutaDestinoBunker As String = IO.Path.Combine(carpetaAppOficial, nombrePDF)
+
+            Try
+                ' 🚀 LA CLAVE DE PRODUCCIÓN: Copiamos el PDF siempre que exista en el instalador.
+                ' Al estar en modo "Copiar siempre" en Visual Studio, si mañana actualizas un manual, 
+                ' el programa machacará el PDF viejo del usuario de forma 100% transparente.
+                If File.Exists(rutaOrigenFabrica) Then
+                    File.Copy(rutaOrigenFabrica, rutaDestinoBunker, True)
+                End If
+            Catch ex As Exception
+                ' Cortafuegos silencioso para que un bloqueo de archivo de un PDF no frene el arranque de la app
+            End Try
+        Next
+
+        ' =========================================================================
+        ' 🌟 6. ASENTAMOS LAS VARIABLES GLOBALES DEL TALLER
+        ' =========================================================================
+        carpetaDB = carpetaAppOficial
+        vRuta = archivoBdDestino
+
 
         ' 5. 🌟 ASENTAMOS LA VARIABLE GLOBAL Y SCONCRONIZAMOS LAS PREFERENCIAS
         carpetaDB = carpetaAppOficial
@@ -1862,7 +1919,7 @@ Public Class Principal
 
     Private Sub HistorialDeVersionesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles HistorialDeVersionesToolStripMenuItem.Click
         Dim Proceso As New Process
-        Proceso.StartInfo.FileName = IO.Path.Combine(carpetaDB, "Historial_Versiones - Version_History.pdf")
+        Proceso.StartInfo.FileName = IO.Path.Combine(carpetaDB, "Version.pdf")
         Proceso.StartInfo.Verb = "open"
         Proceso.Start()
     End Sub
