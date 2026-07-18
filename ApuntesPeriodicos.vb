@@ -91,10 +91,8 @@ Public Class ApuntesPeriodicos
         cmdMdb1cr.Parameters.Clear()
 
         ' =========================================================================
-        ' 🌟 1. CONSULTA SQL MAESTRA RELACIONAL ALINEADA (¡Corregido!)
+        ' 🌟 1. CONSULTA SQL MAESTRA RELACIONAL ALINEADA CON CORTAFUEGOS DE AÑO
         ' =========================================================================
-        ' Traemos las 11 celdas biológicas en su orden real simétrico.
-        ' 🚀 LA CORRECCIÓN: Cambiamos conceptos.DescripcionCON por conceptos.CodigoCON en la segunda columna.
         vtipoSql = "SELECT apuper.FechaAPP As [FechaAPP], " &
                    "conceptos.CodigoCON As [ConceptoAPP], " &
                    "apuper.DescripcionAPP As [DescripcionAPP], " &
@@ -106,12 +104,13 @@ Public Class ApuntesPeriodicos
                    "conceptos.CodigoCON As [CodigoCON], " &
                    "apuper.ConceptoAPP As [IdConceptoCON], " &
                    "apuper.CuentaAPP As [IdCuentaCUE], " &
-                   "conceptos.TipoCON As [TipoCON] " & ' 🚀 LA CLAVE: Inyectamos el Tipo real en la posición 11
+                   "conceptos.TipoCON As [TipoCON] " &
                    "FROM (apuper " &
                    "INNER JOIN conceptos ON apuper.ConceptoAPP = conceptos.IdConceptoCON) " &
                    "INNER JOIN cuentas ON apuper.CuentaAPP = cuentas.IdCuentaCUE"
 
-        vtipoSql += " WHERE apuper.EjercicioAPP <> 0 "
+        ' 🎯 LA ESTOCADA: Filtramos estrictamente por el ejercicio de trabajo actual
+        vtipoSql += " WHERE apuper.EjercicioAPP = ?"
         vtipoSql += " ORDER BY apuper.FechaAPP ASC"
 
         vtipoGrid = "APUNTES_PERIODICOS"

@@ -970,4 +970,10 @@ en el listado (Embudo Rosa).
   <data name="Ayuda" xml:space="preserve">
     <value>Ayuda</value>
   </data>
+  <data name="Validación" xml:space="preserve">
+    <value>Validación</value>
+  </data>
+  <data name="NoEditarFueraEjercicio" xml:space="preserve">
+    <value>No se puede editar un apunte fuera del ejercicio actual</value>
+  </data>
 </root>

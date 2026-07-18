@@ -172,6 +172,13 @@ Public Class Principal
             BarraYMenuConColores.Checked = False
             CambiarColorBarraMenu()
         End If
+        If My.Settings.LogoBuho = True Then
+            LogoBuhoVisibleToolStripMenuItem.Checked = True
+            PictureBox1.Visible = True
+        Else
+            LogoBuhoVisibleToolStripMenuItem.Checked = False
+            PictureBox1.Visible = False
+        End If
 
         '********************************================================****************************************
         ' 🚀 ARRANQUE INTELIGENTE MODO MSIX CON PUENTE DE RESCATE (Sustitución de vRuta)
@@ -382,6 +389,7 @@ Public Class Principal
         'nos aseguraremos de escribir en su casilla de versión: 3.2.1.0 [1.1].
         'Mañana (Versión 3.2.1.0): Cambiarás tu línea a My.Settings.Version = "3.2.1.0",
         'cambiarás el manifiesto del MSIX a 3.2.1.0 y subirás el nuevo paquete reluciente [1.1].
+
         My.Settings.Version = "3.2.1.0"
         My.Settings.Save()
 
@@ -1317,7 +1325,7 @@ Public Class Principal
 
             ' 4. Duplicamos el archivo seleccionado hacia el clon seguro de laboratório en Mis Documentos
             If File.Exists(RutaClonMigrada) Then File.Delete(RutaClonMigrada)
-                File.Copy(RutaOriginalVieja, RutaClonMigrada)
+            File.Copy(RutaOriginalVieja, RutaClonMigrada)
 
             ' =========================================================================
             ' 🌟 FLECO: ENCENDEMOS LA REDONDITA GIRATORIA (UX Premium)
@@ -1329,92 +1337,92 @@ Public Class Principal
             ' =========================================================================
             ' Creamos el clon temporal en el disco duro
             If File.Exists(RutaClonMigrada) Then File.Delete(RutaClonMigrada)
-                File.Copy(RutaOriginalVieja, RutaClonMigrada)
-                ' Tu Paso 1 biológico interroga si la columna sigue siendo Texto
-                Dim necesitaActualizar As Boolean = False
-                Dim stringConexionClon As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & RutaClonMigrada & ";"
-                Using conexionClon As New OleDbConnection(stringConexionClon)
-                    Using cmdClonVerificar As New OleDbCommand("SELECT TOP 1 ConceptoAPU FROM apuntes", conexionClon)
-                        Try
-                            conexionClon.Open()
-                            Using adapter As New OleDbDataAdapter(cmdClonVerificar)
-                                Dim dtPrueba As New DataTable()
-                                adapter.Fill(dtPrueba)
-                                If dtPrueba.Columns("ConceptoAPU").DataType = GetType(String) Then necesitaActualizar = True
-                            End Using
-                        Catch
-                            necesitaActualizar = False
-                        End Try
-                    End Using
+            File.Copy(RutaOriginalVieja, RutaClonMigrada)
+            ' Tu Paso 1 biológico interroga si la columna sigue siendo Texto
+            Dim necesitaActualizar As Boolean = False
+            Dim stringConexionClon As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & RutaClonMigrada & ";"
+            Using conexionClon As New OleDbConnection(stringConexionClon)
+                Using cmdClonVerificar As New OleDbCommand("SELECT TOP 1 ConceptoAPU FROM apuntes", conexionClon)
+                    Try
+                        conexionClon.Open()
+                        Using adapter As New OleDbDataAdapter(cmdClonVerificar)
+                            Dim dtPrueba As New DataTable()
+                            adapter.Fill(dtPrueba)
+                            If dtPrueba.Columns("ConceptoAPU").DataType = GetType(String) Then necesitaActualizar = True
+                        End Using
+                    Catch
+                        necesitaActualizar = False
+                    End Try
                 End Using
-                ' Si la base ya tiene IDs numéricos, limpia el clon y frena el Sub en seco
-                If Not necesitaActualizar Then
-                    If File.Exists(RutaClonMigrada) Then File.Delete(RutaClonMigrada)
-                    MsgBox(rmse.GetString("MsgExisteClonMigracion"), MsgBoxStyle.Information, rmse.GetString("ImportarContahogar"))
-                    Exit Sub
-                End If
-                ' Lanzamos tu rutina específica de alteración estructural aislada
-                MigrarEstructuraBaseDatosExterna(RutaClonMigrada)
-                ' =========================================================================
-                ' 🚀 FASE B: MOTOR DE VOLCADO INTELIGENTE POR TEXTO (Coherencia Total)
-                ' =========================================================================
-                Dim connClonString As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & RutaClonMigrada & ";"
-                Dim connDestinoString As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & vRuta & ";"
-                ' Abrimos las dos compuertas principales una sola vez para todas las tablas
-                Using connClon As New OleDbConnection(connClonString)
-                    Using connDestino As New OleDbConnection(connDestinoString)
-                        Try
-                            connClon.Open()
-                            connDestino.Open()
-                            ' =========================================================================
-                            ' 📌 TRAMO B.1: VOLCADO DE APUNTES DIARIOS CON AUTO-CREACIÓN EN CALIENTE
-                            ' =========================================================================
-                            ' Leemos los campos de texto originales directos de la base vieja
-                            Dim sqlSelectClon As String = "SELECT FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU FROM APUNTES"
-                            Using cmdClon As New OleDbCommand(sqlSelectClon, connClon)
-                                Using reader As OleDbDataReader = cmdClon.ExecuteReader()
-                                    ' Verificación limpia en tu base de datos destino (IDs numéricos nativos)
-                                    Dim sqlCheck As String = "SELECT COUNT(*) FROM APUNTES WHERE FechaAPU = ? AND ConceptoAPU = ? AND DescripcionAPU = ? AND ImporteAPU = ? AND EjercicioAPU = ? AND NotasAPU = ? AND CuentaAPU = ?"
-                                    Using cmdCheck As New OleDbCommand(sqlCheck, connDestino)
-                                        cmdCheck.Parameters.Clear()
-                                        cmdCheck.Parameters.Add("?", OleDbType.Date)
-                                        cmdCheck.Parameters.Add("?", OleDbType.Integer)
-                                        cmdCheck.Parameters.Add("?", OleDbType.VarChar)
-                                        cmdCheck.Parameters.Add("?", OleDbType.Currency)
-                                        cmdCheck.Parameters.Add("?", OleDbType.Integer)
-                                        cmdCheck.Parameters.Add("?", OleDbType.VarChar)
-                                        cmdCheck.Parameters.Add("?", OleDbType.Integer)
-                                        ' Inserción relacional pura y directa en la tabla de destino real
-                                        Dim sqlInsert As String = "INSERT INTO APUNTES (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) VALUES (?, ?, ?, ?, ?, ?, ?)"
-                                        Using cmdInsert As New OleDbCommand(sqlInsert, connDestino)
-                                            cmdInsert.Parameters.Clear()
-                                            cmdInsert.Parameters.Add("?", OleDbType.Date)
-                                            cmdInsert.Parameters.Add("?", OleDbType.Integer)
-                                            cmdInsert.Parameters.Add("?", OleDbType.VarChar)
-                                            cmdInsert.Parameters.Add("?", OleDbType.Currency)
-                                            cmdInsert.Parameters.Add("?", OleDbType.Integer)
-                                            cmdInsert.Parameters.Add("?", OleDbType.VarChar)
-                                            cmdInsert.Parameters.Add("?", OleDbType.Integer)
-                                            ' TRADUCTORES QUIRÚRGICOS: Buscan el ID real en tu base buena usando la palabra exacta en mayúsculas
-                                            Dim cmdIdCON As New OleDbCommand("SELECT IdConceptoCON FROM conceptos WHERE CodigoCON = ? OR DescripcionCON = ?", connDestino)
-                                            cmdIdCON.Parameters.Add("?", OleDbType.VarChar)
-                                            cmdIdCON.Parameters.Add("?", OleDbType.VarChar)
-                                            Dim cmdIdCUE As New OleDbCommand("SELECT IdCuentaCUE FROM cuentas WHERE NombreCUE = ?", connDestino)
-                                            cmdIdCUE.Parameters.Add("?", OleDbType.VarChar)
-                                            Dim contador As Integer = 0
-                                            While reader.Read()
-                                                Dim vFecha As Object = If(reader.IsDBNull(0), DBNull.Value, reader.GetValue(0))
-                                                Dim txtConceptoViejo As String = If(reader.IsDBNull(1), "VARIOS", reader.GetValue(1).ToString().Trim().ToUpper())
-                                                Dim vDescripcion As Object = If(reader.IsDBNull(2), DBNull.Value, reader.GetValue(2))
-                                                Dim vImporte As Object = If(reader.IsDBNull(3), DBNull.Value, reader.GetValue(3))
-                                                Dim vEjercicio As Object = If(reader.IsDBNull(4), DBNull.Value, Convert.ToInt32(reader.GetValue(4)))
-                                                Dim vNotas As Object = If(reader.IsDBNull(5), DBNull.Value, reader.GetValue(5))
-                                                Dim txtCuentaVieja As String = If(reader.IsDBNull(6), "VARIOS", reader.GetValue(6).ToString().Trim().ToUpper())
-                                                ' --- RESOLUCIÓN INTELIGENTE DE CONCEPTOS ---
-                                                Dim idConceptoReal As Integer = 1
-                                                cmdIdCON.Parameters(0).Value = txtConceptoViejo
-                                                cmdIdCON.Parameters(1).Value = txtConceptoViejo
-                                                Dim resC = cmdIdCON.ExecuteScalar()
+            End Using
+            ' Si la base ya tiene IDs numéricos, limpia el clon y frena el Sub en seco
+            If Not necesitaActualizar Then
+                If File.Exists(RutaClonMigrada) Then File.Delete(RutaClonMigrada)
+                MsgBox(rmse.GetString("MsgExisteClonMigracion"), MsgBoxStyle.Information, rmse.GetString("ImportarContahogar"))
+                Exit Sub
+            End If
+            ' Lanzamos tu rutina específica de alteración estructural aislada
+            MigrarEstructuraBaseDatosExterna(RutaClonMigrada)
+            ' =========================================================================
+            ' 🚀 FASE B: MOTOR DE VOLCADO INTELIGENTE POR TEXTO (Coherencia Total)
+            ' =========================================================================
+            Dim connClonString As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & RutaClonMigrada & ";"
+            Dim connDestinoString As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & vRuta & ";"
+            ' Abrimos las dos compuertas principales una sola vez para todas las tablas
+            Using connClon As New OleDbConnection(connClonString)
+                Using connDestino As New OleDbConnection(connDestinoString)
+                    Try
+                        connClon.Open()
+                        connDestino.Open()
+                        ' =========================================================================
+                        ' 📌 TRAMO B.1: VOLCADO DE APUNTES DIARIOS CON AUTO-CREACIÓN EN CALIENTE
+                        ' =========================================================================
+                        ' Leemos los campos de texto originales directos de la base vieja
+                        Dim sqlSelectClon As String = "SELECT FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU FROM APUNTES"
+                        Using cmdClon As New OleDbCommand(sqlSelectClon, connClon)
+                            Using reader As OleDbDataReader = cmdClon.ExecuteReader()
+                                ' Verificación limpia en tu base de datos destino (IDs numéricos nativos)
+                                Dim sqlCheck As String = "SELECT COUNT(*) FROM APUNTES WHERE FechaAPU = ? AND ConceptoAPU = ? AND DescripcionAPU = ? AND ImporteAPU = ? AND EjercicioAPU = ? AND NotasAPU = ? AND CuentaAPU = ?"
+                                Using cmdCheck As New OleDbCommand(sqlCheck, connDestino)
+                                    cmdCheck.Parameters.Clear()
+                                    cmdCheck.Parameters.Add("?", OleDbType.Date)
+                                    cmdCheck.Parameters.Add("?", OleDbType.Integer)
+                                    cmdCheck.Parameters.Add("?", OleDbType.VarChar)
+                                    cmdCheck.Parameters.Add("?", OleDbType.Currency)
+                                    cmdCheck.Parameters.Add("?", OleDbType.Integer)
+                                    cmdCheck.Parameters.Add("?", OleDbType.VarChar)
+                                    cmdCheck.Parameters.Add("?", OleDbType.Integer)
+                                    ' Inserción relacional pura y directa en la tabla de destino real
+                                    Dim sqlInsert As String = "INSERT INTO APUNTES (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) VALUES (?, ?, ?, ?, ?, ?, ?)"
+                                    Using cmdInsert As New OleDbCommand(sqlInsert, connDestino)
+                                        cmdInsert.Parameters.Clear()
+                                        cmdInsert.Parameters.Add("?", OleDbType.Date)
+                                        cmdInsert.Parameters.Add("?", OleDbType.Integer)
+                                        cmdInsert.Parameters.Add("?", OleDbType.VarChar)
+                                        cmdInsert.Parameters.Add("?", OleDbType.Currency)
+                                        cmdInsert.Parameters.Add("?", OleDbType.Integer)
+                                        cmdInsert.Parameters.Add("?", OleDbType.VarChar)
+                                        cmdInsert.Parameters.Add("?", OleDbType.Integer)
+                                        ' TRADUCTORES QUIRÚRGICOS: Buscan el ID real en tu base buena usando la palabra exacta en mayúsculas
+                                        Dim cmdIdCON As New OleDbCommand("SELECT IdConceptoCON FROM conceptos WHERE CodigoCON = ? OR DescripcionCON = ?", connDestino)
+                                        cmdIdCON.Parameters.Add("?", OleDbType.VarChar)
+                                        cmdIdCON.Parameters.Add("?", OleDbType.VarChar)
+                                        Dim cmdIdCUE As New OleDbCommand("SELECT IdCuentaCUE FROM cuentas WHERE NombreCUE = ?", connDestino)
+                                        cmdIdCUE.Parameters.Add("?", OleDbType.VarChar)
+                                        Dim contador As Integer = 0
+                                        While reader.Read()
+                                            Dim vFecha As Object = If(reader.IsDBNull(0), DBNull.Value, reader.GetValue(0))
+                                            Dim txtConceptoViejo As String = If(reader.IsDBNull(1), "VARIOS", reader.GetValue(1).ToString().Trim().ToUpper())
+                                            Dim vDescripcion As Object = If(reader.IsDBNull(2), DBNull.Value, reader.GetValue(2))
+                                            Dim vImporte As Object = If(reader.IsDBNull(3), DBNull.Value, reader.GetValue(3))
+                                            Dim vEjercicio As Object = If(reader.IsDBNull(4), DBNull.Value, Convert.ToInt32(reader.GetValue(4)))
+                                            Dim vNotas As Object = If(reader.IsDBNull(5), DBNull.Value, reader.GetValue(5))
+                                            Dim txtCuentaVieja As String = If(reader.IsDBNull(6), "VARIOS", reader.GetValue(6).ToString().Trim().ToUpper())
+                                            ' --- RESOLUCIÓN INTELIGENTE DE CONCEPTOS ---
+                                            Dim idConceptoReal As Integer = 1
+                                            cmdIdCON.Parameters(0).Value = txtConceptoViejo
+                                            cmdIdCON.Parameters(1).Value = txtConceptoViejo
+                                            Dim resC = cmdIdCON.ExecuteScalar()
 
                                             If resC IsNot Nothing AndAlso Not IsDBNull(resC) Then
                                                 idConceptoReal = Convert.ToInt32(resC)
@@ -1452,109 +1460,109 @@ Public Class Principal
 
                                             ' --- RESOLUCIÓN INTELIGENTE DE CUENTAS BANCARIAS ---
                                             Dim idCuentaReal As Integer = 1
-                                                cmdIdCUE.Parameters(0).Value = txtCuentaVieja
-                                                Dim resQ = cmdIdCUE.ExecuteScalar()
+                                            cmdIdCUE.Parameters(0).Value = txtCuentaVieja
+                                            Dim resQ = cmdIdCUE.ExecuteScalar()
 
-                                                If resQ IsNot Nothing AndAlso Not IsDBNull(resQ) Then
-                                                    idCuentaReal = Convert.ToInt32(resQ)
-                                                Else
-                                                    ' Si el usuario creó una cuenta vieja que no está en la nueva, se da de alta sola (Tipo 1 por defecto)
-                                                    Try
-                                                        Dim cmdMaxCue As New OleDbCommand("SELECT MAX(IdCuentaCUE) FROM cuentas", connDestino)
-                                                        Dim maxQ = cmdMaxCue.ExecuteScalar()
-                                                        Dim nuevoIdCUE As Integer = If(maxQ IsNot Nothing AndAlso Not IsDBNull(maxQ), Convert.ToInt32(maxQ) + 1, 2)
+                                            If resQ IsNot Nothing AndAlso Not IsDBNull(resQ) Then
+                                                idCuentaReal = Convert.ToInt32(resQ)
+                                            Else
+                                                ' Si el usuario creó una cuenta vieja que no está en la nueva, se da de alta sola (Tipo 1 por defecto)
+                                                Try
+                                                    Dim cmdMaxCue As New OleDbCommand("SELECT MAX(IdCuentaCUE) FROM cuentas", connDestino)
+                                                    Dim maxQ = cmdMaxCue.ExecuteScalar()
+                                                    Dim nuevoIdCUE As Integer = If(maxQ IsNot Nothing AndAlso Not IsDBNull(maxQ), Convert.ToInt32(maxQ) + 1, 2)
 
-                                                        Dim cmdInsCue As New OleDbCommand("INSERT INTO cuentas (IdCuentaCUE, NombreCUE, NumeroCUE, TipoCUE, NotasCUE) VALUES (?, ?, 'MIGRADA', 1, 'Cuenta importada automáticamente')", connDestino)
-                                                        cmdInsCue.Parameters.AddWithValue("?", nuevoIdCUE)
-                                                        cmdInsCue.Parameters.AddWithValue("?", txtCuentaVieja)
-                                                        cmdInsCue.ExecuteNonQuery()
-                                                        idCuentaReal = nuevoIdCUE
-                                                    Catch
-                                                        idCuentaReal = 1
-                                                    End Try
-                                                End If
+                                                    Dim cmdInsCue As New OleDbCommand("INSERT INTO cuentas (IdCuentaCUE, NombreCUE, NumeroCUE, TipoCUE, NotasCUE) VALUES (?, ?, 'MIGRADA', 1, 'Cuenta importada automáticamente')", connDestino)
+                                                    cmdInsCue.Parameters.AddWithValue("?", nuevoIdCUE)
+                                                    cmdInsCue.Parameters.AddWithValue("?", txtCuentaVieja)
+                                                    cmdInsCue.ExecuteNonQuery()
+                                                    idCuentaReal = nuevoIdCUE
+                                                Catch
+                                                    idCuentaReal = 1
+                                                End Try
+                                            End If
 
-                                                ' Sincronizamos los parámetros del verificador en destino
-                                                cmdCheck.Parameters(0).Value = vFecha
-                                                cmdCheck.Parameters(1).Value = idConceptoReal
-                                                cmdCheck.Parameters(2).Value = vDescripcion
-                                                cmdCheck.Parameters(3).Value = vImporte
-                                                cmdCheck.Parameters(4).Value = vEjercicio
-                                                cmdCheck.Parameters(5).Value = vNotas
-                                                cmdCheck.Parameters(6).Value = idCuentaReal
-                                                If Convert.ToInt32(cmdCheck.ExecuteScalar()) = 0 Then
+                                            ' Sincronizamos los parámetros del verificador en destino
+                                            cmdCheck.Parameters(0).Value = vFecha
+                                            cmdCheck.Parameters(1).Value = idConceptoReal
+                                            cmdCheck.Parameters(2).Value = vDescripcion
+                                            cmdCheck.Parameters(3).Value = vImporte
+                                            cmdCheck.Parameters(4).Value = vEjercicio
+                                            cmdCheck.Parameters(5).Value = vNotas
+                                            cmdCheck.Parameters(6).Value = idCuentaReal
+                                            If Convert.ToInt32(cmdCheck.ExecuteScalar()) = 0 Then
 
-                                                    cmdInsert.Parameters(0).Value = vFecha
-                                                    cmdInsert.Parameters(1).Value = idConceptoReal
-                                                    cmdInsert.Parameters(2).Value = vDescripcion
-                                                    cmdInsert.Parameters(3).Value = If(IsNumeric(vImporte), Math.Round(Convert.ToDouble(vImporte), 2), vImporte)
-                                                    cmdInsert.Parameters(4).Value = vEjercicio
-                                                    cmdInsert.Parameters(5).Value = vNotas
-                                                    cmdInsert.Parameters(6).Value = idCuentaReal
-                                                    cmdInsert.ExecuteNonQuery()
-                                                    contador += 1
-                                                End If
-                                            End While
-                                            MsgBox(rmse.GetString("TransferenciaApuntes") & ". " & contador.ToString() & " " & rmse.GetString("RegistrosCopiados"), MsgBoxStyle.Information, rmse.GetString("$this.Text"))
-                                        End Using
+                                                cmdInsert.Parameters(0).Value = vFecha
+                                                cmdInsert.Parameters(1).Value = idConceptoReal
+                                                cmdInsert.Parameters(2).Value = vDescripcion
+                                                cmdInsert.Parameters(3).Value = If(IsNumeric(vImporte), Math.Round(Convert.ToDouble(vImporte), 2), vImporte)
+                                                cmdInsert.Parameters(4).Value = vEjercicio
+                                                cmdInsert.Parameters(5).Value = vNotas
+                                                cmdInsert.Parameters(6).Value = idCuentaReal
+                                                cmdInsert.ExecuteNonQuery()
+                                                contador += 1
+                                            End If
+                                        End While
+                                        MsgBox(rmse.GetString("TransferenciaApuntes") & ". " & contador.ToString() & " " & rmse.GetString("RegistrosCopiados"), MsgBoxStyle.Information, rmse.GetString("$this.Text"))
                                     End Using
                                 End Using
                             End Using
-                            ' =========================================================================
-                            ' 🚀 FASE B.1.5: VOLCADO SIMÉTRICO DE AÑOS (EJERCICIOS)
-                            ' =========================================================================
-                            Dim sqlSelectEje As String = "SELECT EjercicioEJE FROM ejercicios"
-                            Using cmdClonEje As New OleDbCommand(sqlSelectEje, connClon)
-                                Using readerEJE As OleDbDataReader = cmdClonEje.ExecuteReader()
+                        End Using
+                        ' =========================================================================
+                        ' 🚀 FASE B.1.5: VOLCADO SIMÉTRICO DE AÑOS (EJERCICIOS)
+                        ' =========================================================================
+                        Dim sqlSelectEje As String = "SELECT EjercicioEJE FROM ejercicios"
+                        Using cmdClonEje As New OleDbCommand(sqlSelectEje, connClon)
+                            Using readerEJE As OleDbDataReader = cmdClonEje.ExecuteReader()
 
-                                    Dim sqlCheckEje As String = "SELECT COUNT(*) FROM ejercicios WHERE EjercicioEJE = ?"
-                                    Using cmdCheckEje As New OleDbCommand(sqlCheckEje, connDestino)
-                                        cmdCheckEje.Parameters.Clear()
-                                        cmdCheckEje.Parameters.Add("?", OleDbType.Integer)
+                                Dim sqlCheckEje As String = "SELECT COUNT(*) FROM ejercicios WHERE EjercicioEJE = ?"
+                                Using cmdCheckEje As New OleDbCommand(sqlCheckEje, connDestino)
+                                    cmdCheckEje.Parameters.Clear()
+                                    cmdCheckEje.Parameters.Add("?", OleDbType.Integer)
 
-                                        Dim sqlInsertEje As String = "INSERT INTO ejercicios (EjercicioEJE) VALUES (?)"
-                                        Using cmdInsertEje As New OleDbCommand(sqlInsertEje, connDestino)
-                                            cmdInsertEje.Parameters.Clear()
-                                            cmdInsertEje.Parameters.Add("?", OleDbType.Integer)
+                                    Dim sqlInsertEje As String = "INSERT INTO ejercicios (EjercicioEJE) VALUES (?)"
+                                    Using cmdInsertEje As New OleDbCommand(sqlInsertEje, connDestino)
+                                        cmdInsertEje.Parameters.Clear()
+                                        cmdInsertEje.Parameters.Add("?", OleDbType.Integer)
 
-                                            Dim contEje As Integer = 0
+                                        Dim contEje As Integer = 0
 
-                                            While readerEJE.Read()
-                                                Dim vAnio As Object = If(readerEJE.IsDBNull(0), Date.Today.Year, Convert.ToInt32(readerEJE.GetValue(0)))
+                                        While readerEJE.Read()
+                                            Dim vAnio As Object = If(readerEJE.IsDBNull(0), Date.Today.Year, Convert.ToInt32(readerEJE.GetValue(0)))
 
-                                                cmdCheckEje.Parameters(0).Value = vAnio
+                                            cmdCheckEje.Parameters(0).Value = vAnio
 
-                                                If Convert.ToInt32(cmdCheckEje.ExecuteScalar()) = 0 Then
-                                                    cmdInsertEje.Parameters(0).Value = vAnio
-                                                    cmdInsertEje.ExecuteNonQuery()
-                                                    contEje += 1
-                                                End If
-                                            End While
-                                        End Using
+                                            If Convert.ToInt32(cmdCheckEje.ExecuteScalar()) = 0 Then
+                                                cmdInsertEje.Parameters(0).Value = vAnio
+                                                cmdInsertEje.ExecuteNonQuery()
+                                                contEje += 1
+                                            End If
+                                        End While
                                     End Using
                                 End Using
                             End Using
+                        End Using
 
-                            ' 🌟 CERROJO DE ORO: Recogemos errores generales y cerramos las conexiones principales
-                        Catch ex As Exception
-                            MsgBox(rmse.GetString("ErrorTransferenciaApuntes") & ": " & ex.Message, MsgBoxStyle.Critical, resManager.GetString("Error"))
-                        End Try
-                    End Using ' 🔒 Cierra biológico definitivo de connDestino
-                End Using ' 🔒 Cierra biológico definitivo de connClon
+                        ' 🌟 CERROJO DE ORO: Recogemos errores generales y cerramos las conexiones principales
+                    Catch ex As Exception
+                        MsgBox(rmse.GetString("ErrorTransferenciaApuntes") & ": " & ex.Message, MsgBoxStyle.Critical, resManager.GetString("Error"))
+                    End Try
+                End Using ' 🔒 Cierra biológico definitivo de connDestino
+            End Using ' 🔒 Cierra biológico definitivo de connClon
 
-                ' =========================================================================
-                ' 🚀 FASE C: PURGA DE LIMPIEZA TOTAL Y NUEVO CARTEL ÚNICO
-                ' =========================================================================
-                Try
-                    If File.Exists(RutaClonMigrada) Then File.Delete(RutaClonMigrada)
-                Catch
-                End Try
-                ' El gran cartel de la victoria comercial premium final
-                MsgBox(rmse.GetString("ImportaciónRelacionalCompletada"), MsgBoxStyle.Information, rmse.GetString("ActualizacionCompletada"))
-                ' =========================================================================
-                ' 🌟 APAGAMOS LA REDONDA QUE GIRA: Libertad al ratón pase lo que pase
-                ' =========================================================================
-            End If
+            ' =========================================================================
+            ' 🚀 FASE C: PURGA DE LIMPIEZA TOTAL Y NUEVO CARTEL ÚNICO
+            ' =========================================================================
+            Try
+                If File.Exists(RutaClonMigrada) Then File.Delete(RutaClonMigrada)
+            Catch
+            End Try
+            ' El gran cartel de la victoria comercial premium final
+            MsgBox(rmse.GetString("ImportaciónRelacionalCompletada"), MsgBoxStyle.Information, rmse.GetString("ActualizacionCompletada"))
+            ' =========================================================================
+            ' 🌟 APAGAMOS LA REDONDA QUE GIRA: Libertad al ratón pase lo que pase
+            ' =========================================================================
+        End If
         Me.Cursor = Cursors.Default
         TsLabelFormulario.ForeColor = Color.Black
         Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
@@ -1660,6 +1668,21 @@ Public Class Principal
         My.Settings.Save()
     End Sub
 
+    Private Sub LogoBuhoVisibleToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LogoBuhoVisibleToolStripMenuItem.Click
+        If LogoBuhoVisibleToolStripMenuItem.Checked Then
+            My.Settings.LogoBuho = True
+        Else
+            My.Settings.LogoBuho = False
+        End If
+        My.Settings.Save()
+        My.Settings.Reload()
+        If My.Settings.LogoBuho = True Then
+            PictureBox1.Visible = True
+        Else
+            PictureBox1.Visible = False
+        End If
+    End Sub
+
     Private Sub BtnAyuda_Click(sender As Object, e As EventArgs) Handles BtnAyuda.Click
         ArchivoDeAyudaToolStripMenuItem.PerformClick()
     End Sub
@@ -1668,13 +1691,6 @@ Public Class Principal
         ' 🚀 INVOCACIÓN MAESTRA: Todo el peso lo maneja el módulo Funciones
         AbrirSelectorAyudaInternacional()
     End Sub
-
-    'Private Sub ArchivoDeAyudaToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ArchivoDeAyudaToolStripMenuItem.Click
-    '    Dim Proceso As New Process
-    '    Proceso.StartInfo.FileName = IO.Path.Combine(carpetaDB, "Ayuda_ContaHogar 3.0.pdf")
-    '    Proceso.StartInfo.Verb = "open"
-    '    Proceso.Start()
-    'End Sub
 
     Private Sub BtnIniciarBaseDatos_Click(sender As Object, e As EventArgs) Handles BtnIniciarBaseDatos.Click
         ReiniciarBaseDeDatosToolStripMenuItem.PerformClick()

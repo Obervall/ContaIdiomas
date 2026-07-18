@@ -8016,4 +8016,7 @@ C :\HomeAccount3.0, qui a été créé, si ce n’était pas le cas, lorsque vo
   <data name="BtnImportarContaHogar.Text" xml:space="preserve">
     <value>Importez l’ancienne base de données Contahogar 2.0 en cours...</value>
   </data>
+  <data name="LogoBuhoVisibleToolStripMenuItem.Text" xml:space="preserve">
+    <value>Logo de la chouette visible</value>
+  </data>
 </root>

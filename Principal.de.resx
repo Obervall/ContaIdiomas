@@ -8018,4 +8018,7 @@ C:\HomeAccount3.0, das erstellt wurde, falls nicht, als du diesen Import akzepti
   <data name="BtnImportarContaHogar.Text" xml:space="preserve">
     <value>Alte Contahogar 2.0-Datenbank in Arbeit importieren...</value>
   </data>
+  <data name="LogoBuhoVisibleToolStripMenuItem.Text" xml:space="preserve">
+    <value>Sichtbares Eulenlogo</value>
+  </data>
 </root>

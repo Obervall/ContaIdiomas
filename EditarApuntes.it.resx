@@ -186,4 +186,7 @@
   <data name="MsgBoxEliminarApunte" xml:space="preserve">
     <value>Sei sicuro di eliminare la voce contabile selezionata?</value>
   </data>
+  <data name="ToolTipModificaImporte" xml:space="preserve">
+    <value>Modifica la Quantità, se è -, digita + il Tipo è responsabile di Cambia il segno</value>
+  </data>
 </root>

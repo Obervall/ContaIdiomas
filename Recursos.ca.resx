@@ -970,4 +970,10 @@ Menys dades ofereixen una anàlisi molt més clara!</value>
   <data name="Ayuda" xml:space="preserve">
     <value>Ajut</value>
   </data>
+  <data name="Validación" xml:space="preserve">
+    <value>Validació</value>
+  </data>
+  <data name="NoEditarFueraEjercicio" xml:space="preserve">
+    <value>No es pot editar un apunt fora de l' exercici actual</value>
+  </data>
 </root>

@@ -1858,6 +1858,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a No se puede editar un apunte fuera del ejercicio actual.
+    '''</summary>
+    Friend Shared ReadOnly Property NoEditarFueraEjercicio() As String
+        Get
+            Return ResourceManager.GetString("NoEditarFueraEjercicio", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a No se encontró el registro para actualizar.
     '''</summary>
     Friend Shared ReadOnly Property NoEncuentraRegistro() As String
@@ -2554,6 +2563,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property Vacio() As String
         Get
             Return ResourceManager.GetString("Vacio", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Validación.
+    '''</summary>
+    Friend Shared ReadOnly Property Validación() As String
+        Get
+            Return ResourceManager.GetString("Validación", resourceCulture)
         End Get
     End Property
     

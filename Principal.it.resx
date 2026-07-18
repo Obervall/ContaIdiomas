@@ -679,4 +679,7 @@ C:\HomeAccount3.0, che è stato creato, se non lo era, quando hai accettato ques
   <data name="BtnImportarContaHogar.Text" xml:space="preserve">
     <value>Importazione del vecchio database Contahogar 2.0 in corso...</value>
   </data>
+  <data name="LogoBuhoVisibleToolStripMenuItem.Text" xml:space="preserve">
+    <value>Logo del gufo visibile</value>
+  </data>
 </root>

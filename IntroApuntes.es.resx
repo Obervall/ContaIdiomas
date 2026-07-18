@@ -389,4 +389,7 @@ Error</value>
   <data name="BtnAyuda" xml:space="preserve">
     <value>Ver la Ayuda para Introducir Apunte</value>
   </data>
+  <data name="ConceptoSeleccionado" xml:space="preserve">
+    <value>Concepto Seleccionado</value>
+  </data>
 </root>

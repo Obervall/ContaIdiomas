@@ -1626,57 +1626,65 @@ Public Class ApuntesContables
         End If
     End Sub
 
-    Private Sub BtnEditarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEditarRegistro.Click
-        filaActual = frmApuntesContables.DgvApuntes.CurrentRow.Index
-        vTxtNombre = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(1).Value.ToString
-
-        ' Rescatamos el ID único del apunte desde la celda oculta de tu nueva estructura (Celda 7 u 8 según tu Grid)
-        ' Si vCodigo sigue funcionando como buscador único, lo mantenemos intacto
-        vCodigo = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(7).Value.ToString
-
-        ' Comparación segura respetando las traducciones del sistema
-        Dim palabraSaldoMayusculas As String = resManager.GetString("Saldo")?.ToUpper()
-        If String.IsNullOrEmpty(palabraSaldoMayusculas) Then palabraSaldoMayusculas = "SALDO"
-
-        If vTxtNombre.ToUpper() = palabraSaldoMayusculas Then
-            MsgBox(resManager.GetString("MsgSaldos2"))
-        Else
-            ' Comprobamos si existe un identificador asociado.
-            If ((frmEditarApuntes Is Nothing) OrElse (Not frmEditarApuntes.IsHandleCreated)) Then
-                frmEditarApuntes = New EditarApuntes
-            End If
-            ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
-            ActualizarTextosFormulario(frmEditarApuntes)
-            ' Llamamos al formulario de manera modal en modo edición
-            vEditar = "SI"
-            frmEditarApuntes.ShowDialog()
-            frmEditarApuntes.Dispose()
-
-            ' =========================================================================
-            ' 🌟 EXCELENTE OPTIMIZACIÓN: ADIÓS AL CÓDIGO REDUNDANTE
-            ' =========================================================================
-            ' Disparamos tu rutina pública para refrescar el Grid con IDs y traducciones
-            RefrescarGridApuntesContables()
-
-            ' Reposicionamos el foco en el registro que el usuario acaba de editar
-            If DgvApuntes.Rows.Count > 0 Then
-                Dim filaEncontrada As Integer = 0
-                For Each row As DataGridViewRow In DgvApuntes.Rows
-                    ' Sincronizamos contra el código identificador único
-                    If CStr(row.Cells(7).Value) = vCodigo Then
-                        filaEncontrada = row.Index
-                        Exit For
-                    End If
-                Next
-
-                DgvApuntes.Rows(filaEncontrada).Selected = True
-                DgvApuntes.CurrentCell = DgvApuntes.Rows(filaEncontrada).Cells(0)
-            End If
-        End If
-    End Sub
-
     Private Sub DgvApuntes_DoubleClick(sender As Object, e As EventArgs) Handles DgvApuntes.DoubleClick
         BtnEditarRegistro.PerformClick()
+    End Sub
+
+    Private Sub BtnEditarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEditarRegistro.Click
+        Dim fechaFila As DateTime
+        If DateTime.TryParse(frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(0).Value.ToString(), fechaFila) Then
+            If fechaFila.Year <> vAñoEjercicio Then
+                MessageBox.Show(resManager.GetString("NoEditarFueraEjercicio"), resManager.GetString("Validación"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Else
+                filaActual = frmApuntesContables.DgvApuntes.CurrentRow.Index
+                vTxtNombre = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(1).Value.ToString
+
+                ' Rescatamos el ID único del apunte desde la celda oculta de tu nueva estructura (Celda 7 u 8 según tu Grid)
+                ' Si vCodigo sigue funcionando como buscador único, lo mantenemos intacto
+                vCodigo = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(7).Value.ToString
+
+                ' Comparación segura respetando las traducciones del sistema
+                Dim palabraSaldoMayusculas As String = resManager.GetString("Saldo")?.ToUpper()
+                If String.IsNullOrEmpty(palabraSaldoMayusculas) Then palabraSaldoMayusculas = "SALDO"
+
+                If vTxtNombre.ToUpper() = palabraSaldoMayusculas Then
+                    MsgBox(resManager.GetString("MsgSaldos2"))
+                Else
+                    ' Comprobamos si existe un identificador asociado.
+                    If ((frmEditarApuntes Is Nothing) OrElse (Not frmEditarApuntes.IsHandleCreated)) Then
+                        frmEditarApuntes = New EditarApuntes
+                    End If
+                    ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+                    ActualizarTextosFormulario(frmEditarApuntes)
+                    ' Llamamos al formulario de manera modal en modo edición
+                    vEditar = "SI"
+                    frmEditarApuntes.ShowDialog()
+                    frmEditarApuntes.Dispose()
+
+                    ' =========================================================================
+                    ' 🌟 EXCELENTE OPTIMIZACIÓN: ADIÓS AL CÓDIGO REDUNDANTE
+                    ' =========================================================================
+                    ' Disparamos tu rutina pública para refrescar el Grid con IDs y traducciones
+                    RefrescarGridApuntesContables()
+
+                    ' Reposicionamos el foco en el registro que el usuario acaba de editar
+                    If DgvApuntes.Rows.Count > 0 Then
+                        Dim filaEncontrada As Integer = 0
+                        For Each row As DataGridViewRow In DgvApuntes.Rows
+                            ' Sincronizamos contra el código identificador único
+                            If CStr(row.Cells(7).Value) = vCodigo Then
+                                filaEncontrada = row.Index
+                                Exit For
+                            End If
+                        Next
+
+                        DgvApuntes.Rows(filaEncontrada).Selected = True
+                        DgvApuntes.CurrentCell = DgvApuntes.Rows(filaEncontrada).Cells(0)
+                    End If
+                End If
+            End If
+        End If
+
     End Sub
 
     Private Sub BtnImprimir_Click(sender As Object, e As EventArgs) Handles BtnImprimir.Click

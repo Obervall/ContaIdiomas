@@ -679,4 +679,7 @@ C:\HomeAccount3.0, que foi criada, caso não fosse, quando você aceitou essa im
   <data name="BtnImportarContaHogar.Text" xml:space="preserve">
     <value>Importar o Antigo Banco de Dados Contahogar 2.0 em Progresso...</value>
   </data>
+  <data name="LogoBuhoVisibleToolStripMenuItem.Text" xml:space="preserve">
+    <value>Logo da coruja visível</value>
+  </data>
 </root>

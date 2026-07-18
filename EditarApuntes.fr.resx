@@ -186,4 +186,7 @@
   <data name="ToolTipSeleccionarConcepto" xml:space="preserve">
     <value>Sélectionnez le concept auquel la note fait référence</value>
   </data>
+  <data name="ToolTipModificaImporte" xml:space="preserve">
+    <value>Modifier la quantité, si c’est -, taper + le type est responsable de Changer le signe</value>
+  </data>
 </root>

@@ -214,19 +214,18 @@ Module Funciones
                 End Using
 
                 ' =========================================================================
-                ' PASO 1: BORRADO (Filtrando por el ID numérico que acabamos de rescatar)
+                ' PASO 1: BORRADO TOTAL (Limpieza absoluta de todos los ejercicios)
                 ' =========================================================================
-                ' Modificamos el DELETE para que busque por el ID del concepto y el año CInt
-                vtipoSql = "DELETE FROM apuntes WHERE apuntes.ConceptoAPU = ? And apuntes.EjercicioAPU = ?"
+                ' Eliminamos el filtro por año para fulminar el ID de toda la base de datos
+                vtipoSql = "DELETE FROM apuntes WHERE apuntes.ConceptoAPU = ?"
                 Using conexionDel As New OleDbConnection(conexion1.ConnectionString)
                     Using cmdDelete As New OleDbCommand(vtipoSql, conexionDel)
-                        ' Al ser Access, añadimos los parámetros en el orden exacto de los signos '?'
+                        ' Inyectamos únicamente el parámetro del ID del concepto
                         cmdDelete.Parameters.AddWithValue("?", idConceptoSaldo)
-                        cmdDelete.Parameters.AddWithValue("?", CInt(vAñoEjercicio))
                         Try
                             conexionDel.Open()
                             Dim filasBorradas As Integer = cmdDelete.ExecuteNonQuery()
-                            ' MsgBox("Se han limpiado correctamente los saldos anteriores: " & filasBorradas.ToString())
+                            ' MsgBox("Limpieza total completada. Filas purgadas: " & filasBorradas.ToString())
                         Catch ex As Exception
                             MsgBox(resManager.GetString("ErrorBorradoSaldoInicial") & ": " & ex.Message)
                             Return False
@@ -498,6 +497,9 @@ Module Funciones
                     adp.SelectCommand.Parameters.Add(New OleDbParameter("@fecha1", OleDbType.Date)).Value = vDate1
                     adp.SelectCommand.Parameters.Add(New OleDbParameter("@fecha2", OleDbType.Date)).Value = vDate2
                 End If
+                ' 🎯 TU NUEVO CORTAFUEGOS: Inyectamos el Año como el último parámetro (Signo ? final)
+                ' Se ejecuta SÍ o SÍ, garantizando que el ejercicio esté blindado antes de rellenar la tabla
+                adp.SelectCommand.Parameters.Add(New OleDbParameter("@ejercicio", OleDbType.Integer)).Value = CInt(vAñoEjercicio)
                 Dim Tabla As New DataTable
                 adp.Fill(Tabla)
                 frmApuntesPeriodicos.DgvApuper.DataSource = Nothing
@@ -1598,11 +1600,11 @@ Module Funciones
                 If celdaType.Value IsNot Nothing AndAlso Not IsDBNull(celdaType.Value) Then
                     Dim tipoCrudoBD As String = celdaType.Value.ToString().Trim().ToUpper()
                     If tipoCrudoBD = "GASTO" Then
-                        Dim txtGasto As String = resManager.GetString("Gasto")
+                        Dim txtGasto As String = resManager.GetString("Gastos")
                         If String.IsNullOrEmpty(txtGasto) Then txtGasto = "EXPENSE"
                         celdaType.Value = txtGasto
                     ElseIf tipoCrudoBD = "INGRESO" Then
-                        Dim txtIngreso As String = resManager.GetString("Ingreso")
+                        Dim txtIngreso As String = resManager.GetString("Ingresos")
                         If String.IsNullOrEmpty(txtIngreso) Then txtIngreso = "INCOME"
                         celdaType.Value = txtIngreso
                     End If
@@ -2890,8 +2892,8 @@ Module Funciones
         combo.DataSource = Nothing
         combo.Items.Clear()
 
-        ' FILTRADO QUIRÚRGICO: Excluimos 'ESPECIAL' de la pantalla de introducción
-        Dim sql As String = "SELECT IdConceptoCON, CodigoCON, DescripcionCON FROM conceptos " &
+        ' FILTRADO QUIRÚRGICO: Excluimos 'ESPECIAL' e INCLUIMOS TipoCON en el SELECT
+        Dim sql As String = "SELECT IdConceptoCON, CodigoCON, DescripcionCON, TipoCON FROM conceptos " &
                             "WHERE TipoCON <> 'ESPECIAL' " &
                             "ORDER BY TipoCON ASC, IdConceptoCON ASC"
 

@@ -25,85 +25,28 @@ Partial Class Principal
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Principal))
         Me.BarraDeMenu = New System.Windows.Forms.MenuStrip()
         Me.ArchivoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SalirMenu = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PreferenciasToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CambiarEjercicioActivoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SalirToolStripMenuItem = New System.Windows.Forms.ToolStripSeparator()
         Me.VerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BarraDeHerramientasMenu = New System.Windows.Forms.ToolStripMenuItem()
         Me.BarraDeEstadoMenu = New System.Windows.Forms.ToolStripMenuItem()
         Me.BarraYMenuConColores = New System.Windows.Forms.ToolStripMenuItem()
         Me.MantenimientosToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ApuntesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.PresupuestosToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.InformesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.HerramientasToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripSeparator16 = New System.Windows.Forms.ToolStripSeparator()
-        Me.AyudaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator21 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripTextBox1 = New System.Windows.Forms.ToolStripTextBox()
-        Me.VactualVDisponible = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BarraDeEstado = New System.Windows.Forms.StatusStrip()
-        Me.TsLabelFormulario = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.TsLabelDia = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.TsLabelHora = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.BarraDeHerramientas = New System.Windows.Forms.ToolStrip()
-        Me.ToolStripLabel12 = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripLabel4 = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripLabel11 = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripLabel16 = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripLabel14 = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripLabel2 = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripLabel3 = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripLabel9 = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripLabel6 = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripLabel7 = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripLabel17 = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripLabel8 = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripSeparator9 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripLabel13 = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripLabel15 = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripLabel10 = New System.Windows.Forms.ToolStripLabel()
-        Me.ToolStripSeparator19 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ToolStripLabel5 = New System.Windows.Forms.ToolStripLabel()
-        Me.LblNotificacion = New System.Windows.Forms.Label()
-        Me.ButtonActualizar = New System.Windows.Forms.Button()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
-        Me.BtnSalir = New System.Windows.Forms.ToolStripButton()
-        Me.BtnPreferencias = New System.Windows.Forms.ToolStripButton()
-        Me.BtnCambiarEjercicioActivo = New System.Windows.Forms.ToolStripButton()
-        Me.BtnConceptos = New System.Windows.Forms.ToolStripButton()
-        Me.BtnCuentasBancarias = New System.Windows.Forms.ToolStripButton()
-        Me.BtnTipoCuentas = New System.Windows.Forms.ToolStripButton()
-        Me.BtnApuntesContables = New System.Windows.Forms.ToolStripButton()
-        Me.BtnIntroducirApuntes = New System.Windows.Forms.ToolStripButton()
-        Me.BtnTraspasoCuentas = New System.Windows.Forms.ToolStripButton()
-        Me.BtnApuntesPeriodicos = New System.Windows.Forms.ToolStripButton()
-        Me.BtnPresupuestos = New System.Windows.Forms.ToolStripButton()
-        Me.BtnDesviacionPresupuestos = New System.Windows.Forms.ToolStripButton()
-        Me.BtnCopiaSeguridad = New System.Windows.Forms.ToolStripButton()
-        Me.BtnRestaurarCopia = New System.Windows.Forms.ToolStripButton()
-        Me.BtnCompactarBaseDatos = New System.Windows.Forms.ToolStripButton()
-        Me.BtnIniciarBaseDatos = New System.Windows.Forms.ToolStripButton()
-        Me.BtnCalculadora = New System.Windows.Forms.ToolStripButton()
-        Me.BtnAyuda = New System.Windows.Forms.ToolStripButton()
-        Me.BtnHistorialVersiones = New System.Windows.Forms.ToolStripButton()
-        Me.BtnAcercade = New System.Windows.Forms.ToolStripButton()
-        Me.BtnImportarContaHogar = New System.Windows.Forms.ToolStripButton()
-        Me.SalirMenu = New System.Windows.Forms.ToolStripMenuItem()
-        Me.PreferenciasToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.CambiarEjercicioActivoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ConceptosContablesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CuentasToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TiposDeCuentasToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ApuntesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.VerApuntesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.IntroducirApuntesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.IntroducirTraspasosToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ApuntesPeriodicosToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PresupuestosToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.IntroducirDaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.VerDesviaciónPresupuestosToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.InformesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ListadosDeApuntesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OrdenadoPorFechasToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OrdenadoPorConceptosToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -128,17 +71,75 @@ Partial Class Principal
         Me.SoloGastosOrdenadoPorFechasToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.SoloGastosOrdenadoPorConceptosToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.SoloGastosOrdenadoPorImportesToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.GráficosDeIngresosPorConceptoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GráficosDeGastosPorConceptoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.HerramientasToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HacerCopiaDeSeguridadToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RestaurarCopiaDeSeguridadToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReiniciarBaseDeDatosToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CompactarBaseDeDatosToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.CalculadoraToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator16 = New System.Windows.Forms.ToolStripSeparator()
+        Me.AyudaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ArchivoDeAyudaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HistorialDeVersionesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AcercaDeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ImportaAntiguoContahogarToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator21 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripTextBox1 = New System.Windows.Forms.ToolStripTextBox()
+        Me.VactualVDisponible = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BarraDeEstado = New System.Windows.Forms.StatusStrip()
+        Me.TsLabelFormulario = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.TsLabelDia = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.TsLabelHora = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.BarraDeHerramientas = New System.Windows.Forms.ToolStrip()
+        Me.ToolStripLabel12 = New System.Windows.Forms.ToolStripLabel()
+        Me.BtnSalir = New System.Windows.Forms.ToolStripButton()
+        Me.BtnPreferencias = New System.Windows.Forms.ToolStripButton()
+        Me.BtnCambiarEjercicioActivo = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripLabel4 = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripLabel11 = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripLabel16 = New System.Windows.Forms.ToolStripLabel()
+        Me.BtnConceptos = New System.Windows.Forms.ToolStripButton()
+        Me.BtnCuentasBancarias = New System.Windows.Forms.ToolStripButton()
+        Me.BtnTipoCuentas = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripLabel14 = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripLabel2 = New System.Windows.Forms.ToolStripLabel()
+        Me.BtnApuntesContables = New System.Windows.Forms.ToolStripButton()
+        Me.BtnIntroducirApuntes = New System.Windows.Forms.ToolStripButton()
+        Me.BtnTraspasoCuentas = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator()
+        Me.BtnApuntesPeriodicos = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripLabel3 = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripLabel9 = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripLabel6 = New System.Windows.Forms.ToolStripLabel()
+        Me.BtnPresupuestos = New System.Windows.Forms.ToolStripButton()
+        Me.BtnDesviacionPresupuestos = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripLabel7 = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripLabel17 = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripLabel8 = New System.Windows.Forms.ToolStripLabel()
+        Me.BtnCopiaSeguridad = New System.Windows.Forms.ToolStripButton()
+        Me.BtnRestaurarCopia = New System.Windows.Forms.ToolStripButton()
+        Me.BtnCompactarBaseDatos = New System.Windows.Forms.ToolStripButton()
+        Me.BtnIniciarBaseDatos = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator9 = New System.Windows.Forms.ToolStripSeparator()
+        Me.BtnCalculadora = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripLabel13 = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripLabel15 = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripLabel10 = New System.Windows.Forms.ToolStripLabel()
+        Me.BtnAyuda = New System.Windows.Forms.ToolStripButton()
+        Me.BtnHistorialVersiones = New System.Windows.Forms.ToolStripButton()
+        Me.BtnAcercade = New System.Windows.Forms.ToolStripButton()
+        Me.BtnImportarContaHogar = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator19 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripLabel5 = New System.Windows.Forms.ToolStripLabel()
+        Me.LblNotificacion = New System.Windows.Forms.Label()
+        Me.ButtonActualizar = New System.Windows.Forms.Button()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.LogoBuhoVisibleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BarraDeMenu.SuspendLayout()
         Me.BarraDeEstado.SuspendLayout()
         Me.BarraDeHerramientas.SuspendLayout()
@@ -159,6 +160,21 @@ Partial Class Principal
         Me.ArchivoToolStripMenuItem.Name = "ArchivoToolStripMenuItem"
         resources.ApplyResources(Me.ArchivoToolStripMenuItem, "ArchivoToolStripMenuItem")
         '
+        'SalirMenu
+        '
+        resources.ApplyResources(Me.SalirMenu, "SalirMenu")
+        Me.SalirMenu.Name = "SalirMenu"
+        '
+        'PreferenciasToolStripMenuItem
+        '
+        resources.ApplyResources(Me.PreferenciasToolStripMenuItem, "PreferenciasToolStripMenuItem")
+        Me.PreferenciasToolStripMenuItem.Name = "PreferenciasToolStripMenuItem"
+        '
+        'CambiarEjercicioActivoToolStripMenuItem
+        '
+        resources.ApplyResources(Me.CambiarEjercicioActivoToolStripMenuItem, "CambiarEjercicioActivoToolStripMenuItem")
+        Me.CambiarEjercicioActivoToolStripMenuItem.Name = "CambiarEjercicioActivoToolStripMenuItem"
+        '
         'SalirToolStripMenuItem
         '
         Me.SalirToolStripMenuItem.Name = "SalirToolStripMenuItem"
@@ -166,7 +182,7 @@ Partial Class Principal
         '
         'VerToolStripMenuItem
         '
-        Me.VerToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BarraDeHerramientasMenu, Me.BarraDeEstadoMenu, Me.BarraYMenuConColores})
+        Me.VerToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BarraDeHerramientasMenu, Me.BarraDeEstadoMenu, Me.BarraYMenuConColores, Me.LogoBuhoVisibleToolStripMenuItem})
         Me.VerToolStripMenuItem.ForeColor = System.Drawing.Color.Black
         Me.VerToolStripMenuItem.Name = "VerToolStripMenuItem"
         resources.ApplyResources(Me.VerToolStripMenuItem, "VerToolStripMenuItem")
@@ -202,365 +218,6 @@ Partial Class Principal
         Me.MantenimientosToolStripMenuItem.Name = "MantenimientosToolStripMenuItem"
         resources.ApplyResources(Me.MantenimientosToolStripMenuItem, "MantenimientosToolStripMenuItem")
         '
-        'ApuntesToolStripMenuItem
-        '
-        Me.ApuntesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.VerApuntesToolStripMenuItem, Me.IntroducirApuntesToolStripMenuItem, Me.IntroducirTraspasosToolStripMenuItem, Me.ToolStripSeparator1, Me.ApuntesPeriodicosToolStripMenuItem})
-        Me.ApuntesToolStripMenuItem.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.ApuntesToolStripMenuItem.Name = "ApuntesToolStripMenuItem"
-        resources.ApplyResources(Me.ApuntesToolStripMenuItem, "ApuntesToolStripMenuItem")
-        '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        resources.ApplyResources(Me.ToolStripSeparator1, "ToolStripSeparator1")
-        '
-        'PresupuestosToolStripMenuItem
-        '
-        Me.PresupuestosToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.IntroducirDaToolStripMenuItem, Me.VerDesviaciónPresupuestosToolStripMenuItem})
-        Me.PresupuestosToolStripMenuItem.Name = "PresupuestosToolStripMenuItem"
-        resources.ApplyResources(Me.PresupuestosToolStripMenuItem, "PresupuestosToolStripMenuItem")
-        '
-        'InformesToolStripMenuItem
-        '
-        Me.InformesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ListadosDeApuntesToolStripMenuItem, Me.ListadosDeApuntesPeriodicosToolStripMenuItem, Me.ToolStripSeparator2, Me.GráficosDeIngresosPorConceptoToolStripMenuItem, Me.GráficosDeGastosPorConceptoToolStripMenuItem})
-        Me.InformesToolStripMenuItem.Name = "InformesToolStripMenuItem"
-        resources.ApplyResources(Me.InformesToolStripMenuItem, "InformesToolStripMenuItem")
-        '
-        'ToolStripSeparator2
-        '
-        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        resources.ApplyResources(Me.ToolStripSeparator2, "ToolStripSeparator2")
-        '
-        'HerramientasToolStripMenuItem
-        '
-        Me.HerramientasToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HacerCopiaDeSeguridadToolStripMenuItem, Me.RestaurarCopiaDeSeguridadToolStripMenuItem, Me.ReiniciarBaseDeDatosToolStripMenuItem, Me.CompactarBaseDeDatosToolStripMenuItem, Me.ToolStripSeparator3, Me.CalculadoraToolStripMenuItem, Me.ToolStripSeparator16})
-        Me.HerramientasToolStripMenuItem.Name = "HerramientasToolStripMenuItem"
-        resources.ApplyResources(Me.HerramientasToolStripMenuItem, "HerramientasToolStripMenuItem")
-        '
-        'ToolStripSeparator3
-        '
-        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        resources.ApplyResources(Me.ToolStripSeparator3, "ToolStripSeparator3")
-        '
-        'ToolStripSeparator16
-        '
-        Me.ToolStripSeparator16.Name = "ToolStripSeparator16"
-        resources.ApplyResources(Me.ToolStripSeparator16, "ToolStripSeparator16")
-        '
-        'AyudaToolStripMenuItem
-        '
-        Me.AyudaToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ArchivoDeAyudaToolStripMenuItem, Me.HistorialDeVersionesToolStripMenuItem, Me.AcercaDeToolStripMenuItem, Me.ImportaAntiguoContahogarToolStripMenuItem, Me.ToolStripSeparator21})
-        Me.AyudaToolStripMenuItem.Name = "AyudaToolStripMenuItem"
-        resources.ApplyResources(Me.AyudaToolStripMenuItem, "AyudaToolStripMenuItem")
-        '
-        'ToolStripSeparator21
-        '
-        Me.ToolStripSeparator21.Name = "ToolStripSeparator21"
-        resources.ApplyResources(Me.ToolStripSeparator21, "ToolStripSeparator21")
-        '
-        'ToolStripTextBox1
-        '
-        resources.ApplyResources(Me.ToolStripTextBox1, "ToolStripTextBox1")
-        Me.ToolStripTextBox1.Name = "ToolStripTextBox1"
-        '
-        'VactualVDisponible
-        '
-        Me.VactualVDisponible.Name = "VactualVDisponible"
-        resources.ApplyResources(Me.VactualVDisponible, "VactualVDisponible")
-        '
-        'BarraDeEstado
-        '
-        Me.BarraDeEstado.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.BarraDeEstado.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TsLabelFormulario, Me.TsLabelDia, Me.TsLabelHora})
-        Me.BarraDeEstado.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow
-        resources.ApplyResources(Me.BarraDeEstado, "BarraDeEstado")
-        Me.BarraDeEstado.Name = "BarraDeEstado"
-        '
-        'TsLabelFormulario
-        '
-        Me.TsLabelFormulario.Name = "TsLabelFormulario"
-        resources.ApplyResources(Me.TsLabelFormulario, "TsLabelFormulario")
-        Me.TsLabelFormulario.Spring = True
-        '
-        'TsLabelDia
-        '
-        Me.TsLabelDia.Name = "TsLabelDia"
-        resources.ApplyResources(Me.TsLabelDia, "TsLabelDia")
-        '
-        'TsLabelHora
-        '
-        Me.TsLabelHora.Name = "TsLabelHora"
-        resources.ApplyResources(Me.TsLabelHora, "TsLabelHora")
-        '
-        'BarraDeHerramientas
-        '
-        Me.BarraDeHerramientas.ImageScalingSize = New System.Drawing.Size(30, 30)
-        Me.BarraDeHerramientas.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel12, Me.BtnSalir, Me.BtnPreferencias, Me.BtnCambiarEjercicioActivo, Me.ToolStripLabel4, Me.ToolStripLabel11, Me.ToolStripLabel16, Me.BtnConceptos, Me.BtnCuentasBancarias, Me.BtnTipoCuentas, Me.ToolStripLabel1, Me.ToolStripLabel14, Me.ToolStripLabel2, Me.BtnApuntesContables, Me.BtnIntroducirApuntes, Me.BtnTraspasoCuentas, Me.ToolStripSeparator6, Me.BtnApuntesPeriodicos, Me.ToolStripLabel3, Me.ToolStripLabel9, Me.ToolStripLabel6, Me.BtnPresupuestos, Me.BtnDesviacionPresupuestos, Me.ToolStripLabel7, Me.ToolStripLabel17, Me.ToolStripLabel8, Me.BtnCopiaSeguridad, Me.BtnRestaurarCopia, Me.BtnCompactarBaseDatos, Me.BtnIniciarBaseDatos, Me.ToolStripSeparator9, Me.BtnCalculadora, Me.ToolStripLabel13, Me.ToolStripLabel15, Me.ToolStripLabel10, Me.BtnAyuda, Me.BtnHistorialVersiones, Me.BtnAcercade, Me.BtnImportarContaHogar, Me.ToolStripSeparator19, Me.ToolStripLabel5})
-        resources.ApplyResources(Me.BarraDeHerramientas, "BarraDeHerramientas")
-        Me.BarraDeHerramientas.Name = "BarraDeHerramientas"
-        Me.BarraDeHerramientas.RenderMode = System.Windows.Forms.ToolStripRenderMode.System
-        '
-        'ToolStripLabel12
-        '
-        resources.ApplyResources(Me.ToolStripLabel12, "ToolStripLabel12")
-        Me.ToolStripLabel12.LinkColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
-        Me.ToolStripLabel12.Name = "ToolStripLabel12"
-        Me.ToolStripLabel12.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal
-        '
-        'ToolStripLabel4
-        '
-        resources.ApplyResources(Me.ToolStripLabel4, "ToolStripLabel4")
-        Me.ToolStripLabel4.Name = "ToolStripLabel4"
-        '
-        'ToolStripLabel11
-        '
-        resources.ApplyResources(Me.ToolStripLabel11, "ToolStripLabel11")
-        Me.ToolStripLabel11.Name = "ToolStripLabel11"
-        '
-        'ToolStripLabel16
-        '
-        resources.ApplyResources(Me.ToolStripLabel16, "ToolStripLabel16")
-        Me.ToolStripLabel16.Name = "ToolStripLabel16"
-        '
-        'ToolStripLabel1
-        '
-        resources.ApplyResources(Me.ToolStripLabel1, "ToolStripLabel1")
-        Me.ToolStripLabel1.Name = "ToolStripLabel1"
-        '
-        'ToolStripLabel14
-        '
-        resources.ApplyResources(Me.ToolStripLabel14, "ToolStripLabel14")
-        Me.ToolStripLabel14.Name = "ToolStripLabel14"
-        '
-        'ToolStripLabel2
-        '
-        resources.ApplyResources(Me.ToolStripLabel2, "ToolStripLabel2")
-        Me.ToolStripLabel2.Name = "ToolStripLabel2"
-        '
-        'ToolStripSeparator6
-        '
-        Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
-        resources.ApplyResources(Me.ToolStripSeparator6, "ToolStripSeparator6")
-        '
-        'ToolStripLabel3
-        '
-        resources.ApplyResources(Me.ToolStripLabel3, "ToolStripLabel3")
-        Me.ToolStripLabel3.Name = "ToolStripLabel3"
-        '
-        'ToolStripLabel9
-        '
-        resources.ApplyResources(Me.ToolStripLabel9, "ToolStripLabel9")
-        Me.ToolStripLabel9.Name = "ToolStripLabel9"
-        '
-        'ToolStripLabel6
-        '
-        resources.ApplyResources(Me.ToolStripLabel6, "ToolStripLabel6")
-        Me.ToolStripLabel6.Name = "ToolStripLabel6"
-        '
-        'ToolStripLabel7
-        '
-        resources.ApplyResources(Me.ToolStripLabel7, "ToolStripLabel7")
-        Me.ToolStripLabel7.Name = "ToolStripLabel7"
-        '
-        'ToolStripLabel17
-        '
-        resources.ApplyResources(Me.ToolStripLabel17, "ToolStripLabel17")
-        Me.ToolStripLabel17.Name = "ToolStripLabel17"
-        '
-        'ToolStripLabel8
-        '
-        resources.ApplyResources(Me.ToolStripLabel8, "ToolStripLabel8")
-        Me.ToolStripLabel8.Name = "ToolStripLabel8"
-        '
-        'ToolStripSeparator9
-        '
-        Me.ToolStripSeparator9.Name = "ToolStripSeparator9"
-        resources.ApplyResources(Me.ToolStripSeparator9, "ToolStripSeparator9")
-        '
-        'ToolStripLabel13
-        '
-        resources.ApplyResources(Me.ToolStripLabel13, "ToolStripLabel13")
-        Me.ToolStripLabel13.Name = "ToolStripLabel13"
-        '
-        'ToolStripLabel15
-        '
-        resources.ApplyResources(Me.ToolStripLabel15, "ToolStripLabel15")
-        Me.ToolStripLabel15.Name = "ToolStripLabel15"
-        '
-        'ToolStripLabel10
-        '
-        resources.ApplyResources(Me.ToolStripLabel10, "ToolStripLabel10")
-        Me.ToolStripLabel10.Name = "ToolStripLabel10"
-        '
-        'ToolStripSeparator19
-        '
-        Me.ToolStripSeparator19.Name = "ToolStripSeparator19"
-        resources.ApplyResources(Me.ToolStripSeparator19, "ToolStripSeparator19")
-        '
-        'ToolStripLabel5
-        '
-        resources.ApplyResources(Me.ToolStripLabel5, "ToolStripLabel5")
-        Me.ToolStripLabel5.Name = "ToolStripLabel5"
-        '
-        'LblNotificacion
-        '
-        resources.ApplyResources(Me.LblNotificacion, "LblNotificacion")
-        Me.LblNotificacion.Name = "LblNotificacion"
-        '
-        'ButtonActualizar
-        '
-        resources.ApplyResources(Me.ButtonActualizar, "ButtonActualizar")
-        Me.ButtonActualizar.Name = "ButtonActualizar"
-        Me.ButtonActualizar.UseVisualStyleBackColor = True
-        '
-        'PictureBox1
-        '
-        Me.PictureBox1.Image = Global.ContaHogar.My.Resources.Resources.Designer
-        resources.ApplyResources(Me.PictureBox1, "PictureBox1")
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.TabStop = False
-        '
-        'BtnSalir
-        '
-        Me.BtnSalir.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        resources.ApplyResources(Me.BtnSalir, "BtnSalir")
-        Me.BtnSalir.Name = "BtnSalir"
-        '
-        'BtnPreferencias
-        '
-        Me.BtnPreferencias.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        resources.ApplyResources(Me.BtnPreferencias, "BtnPreferencias")
-        Me.BtnPreferencias.Name = "BtnPreferencias"
-        '
-        'BtnCambiarEjercicioActivo
-        '
-        Me.BtnCambiarEjercicioActivo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        resources.ApplyResources(Me.BtnCambiarEjercicioActivo, "BtnCambiarEjercicioActivo")
-        Me.BtnCambiarEjercicioActivo.Name = "BtnCambiarEjercicioActivo"
-        '
-        'BtnConceptos
-        '
-        Me.BtnConceptos.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        resources.ApplyResources(Me.BtnConceptos, "BtnConceptos")
-        Me.BtnConceptos.Name = "BtnConceptos"
-        '
-        'BtnCuentasBancarias
-        '
-        Me.BtnCuentasBancarias.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        resources.ApplyResources(Me.BtnCuentasBancarias, "BtnCuentasBancarias")
-        Me.BtnCuentasBancarias.Name = "BtnCuentasBancarias"
-        '
-        'BtnTipoCuentas
-        '
-        Me.BtnTipoCuentas.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        resources.ApplyResources(Me.BtnTipoCuentas, "BtnTipoCuentas")
-        Me.BtnTipoCuentas.Name = "BtnTipoCuentas"
-        '
-        'BtnApuntesContables
-        '
-        Me.BtnApuntesContables.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        resources.ApplyResources(Me.BtnApuntesContables, "BtnApuntesContables")
-        Me.BtnApuntesContables.Name = "BtnApuntesContables"
-        '
-        'BtnIntroducirApuntes
-        '
-        Me.BtnIntroducirApuntes.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        resources.ApplyResources(Me.BtnIntroducirApuntes, "BtnIntroducirApuntes")
-        Me.BtnIntroducirApuntes.Name = "BtnIntroducirApuntes"
-        '
-        'BtnTraspasoCuentas
-        '
-        Me.BtnTraspasoCuentas.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        resources.ApplyResources(Me.BtnTraspasoCuentas, "BtnTraspasoCuentas")
-        Me.BtnTraspasoCuentas.Name = "BtnTraspasoCuentas"
-        '
-        'BtnApuntesPeriodicos
-        '
-        Me.BtnApuntesPeriodicos.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        resources.ApplyResources(Me.BtnApuntesPeriodicos, "BtnApuntesPeriodicos")
-        Me.BtnApuntesPeriodicos.Name = "BtnApuntesPeriodicos"
-        '
-        'BtnPresupuestos
-        '
-        Me.BtnPresupuestos.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        resources.ApplyResources(Me.BtnPresupuestos, "BtnPresupuestos")
-        Me.BtnPresupuestos.Name = "BtnPresupuestos"
-        '
-        'BtnDesviacionPresupuestos
-        '
-        Me.BtnDesviacionPresupuestos.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        resources.ApplyResources(Me.BtnDesviacionPresupuestos, "BtnDesviacionPresupuestos")
-        Me.BtnDesviacionPresupuestos.Name = "BtnDesviacionPresupuestos"
-        '
-        'BtnCopiaSeguridad
-        '
-        Me.BtnCopiaSeguridad.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        resources.ApplyResources(Me.BtnCopiaSeguridad, "BtnCopiaSeguridad")
-        Me.BtnCopiaSeguridad.Name = "BtnCopiaSeguridad"
-        '
-        'BtnRestaurarCopia
-        '
-        Me.BtnRestaurarCopia.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        resources.ApplyResources(Me.BtnRestaurarCopia, "BtnRestaurarCopia")
-        Me.BtnRestaurarCopia.Name = "BtnRestaurarCopia"
-        '
-        'BtnCompactarBaseDatos
-        '
-        Me.BtnCompactarBaseDatos.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        resources.ApplyResources(Me.BtnCompactarBaseDatos, "BtnCompactarBaseDatos")
-        Me.BtnCompactarBaseDatos.Name = "BtnCompactarBaseDatos"
-        '
-        'BtnIniciarBaseDatos
-        '
-        Me.BtnIniciarBaseDatos.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        resources.ApplyResources(Me.BtnIniciarBaseDatos, "BtnIniciarBaseDatos")
-        Me.BtnIniciarBaseDatos.Name = "BtnIniciarBaseDatos"
-        '
-        'BtnCalculadora
-        '
-        Me.BtnCalculadora.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        resources.ApplyResources(Me.BtnCalculadora, "BtnCalculadora")
-        Me.BtnCalculadora.Name = "BtnCalculadora"
-        '
-        'BtnAyuda
-        '
-        Me.BtnAyuda.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        resources.ApplyResources(Me.BtnAyuda, "BtnAyuda")
-        Me.BtnAyuda.Name = "BtnAyuda"
-        '
-        'BtnHistorialVersiones
-        '
-        Me.BtnHistorialVersiones.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        resources.ApplyResources(Me.BtnHistorialVersiones, "BtnHistorialVersiones")
-        Me.BtnHistorialVersiones.Name = "BtnHistorialVersiones"
-        '
-        'BtnAcercade
-        '
-        Me.BtnAcercade.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        resources.ApplyResources(Me.BtnAcercade, "BtnAcercade")
-        Me.BtnAcercade.Name = "BtnAcercade"
-        '
-        'BtnImportarContaHogar
-        '
-        Me.BtnImportarContaHogar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        resources.ApplyResources(Me.BtnImportarContaHogar, "BtnImportarContaHogar")
-        Me.BtnImportarContaHogar.Name = "BtnImportarContaHogar"
-        '
-        'SalirMenu
-        '
-        resources.ApplyResources(Me.SalirMenu, "SalirMenu")
-        Me.SalirMenu.Name = "SalirMenu"
-        '
-        'PreferenciasToolStripMenuItem
-        '
-        resources.ApplyResources(Me.PreferenciasToolStripMenuItem, "PreferenciasToolStripMenuItem")
-        Me.PreferenciasToolStripMenuItem.Name = "PreferenciasToolStripMenuItem"
-        '
-        'CambiarEjercicioActivoToolStripMenuItem
-        '
-        resources.ApplyResources(Me.CambiarEjercicioActivoToolStripMenuItem, "CambiarEjercicioActivoToolStripMenuItem")
-        Me.CambiarEjercicioActivoToolStripMenuItem.Name = "CambiarEjercicioActivoToolStripMenuItem"
-        '
         'ConceptosContablesToolStripMenuItem
         '
         resources.ApplyResources(Me.ConceptosContablesToolStripMenuItem, "ConceptosContablesToolStripMenuItem")
@@ -575,6 +232,13 @@ Partial Class Principal
         '
         resources.ApplyResources(Me.TiposDeCuentasToolStripMenuItem, "TiposDeCuentasToolStripMenuItem")
         Me.TiposDeCuentasToolStripMenuItem.Name = "TiposDeCuentasToolStripMenuItem"
+        '
+        'ApuntesToolStripMenuItem
+        '
+        Me.ApuntesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.VerApuntesToolStripMenuItem, Me.IntroducirApuntesToolStripMenuItem, Me.IntroducirTraspasosToolStripMenuItem, Me.ToolStripSeparator1, Me.ApuntesPeriodicosToolStripMenuItem})
+        Me.ApuntesToolStripMenuItem.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.ApuntesToolStripMenuItem.Name = "ApuntesToolStripMenuItem"
+        resources.ApplyResources(Me.ApuntesToolStripMenuItem, "ApuntesToolStripMenuItem")
         '
         'VerApuntesToolStripMenuItem
         '
@@ -591,10 +255,21 @@ Partial Class Principal
         resources.ApplyResources(Me.IntroducirTraspasosToolStripMenuItem, "IntroducirTraspasosToolStripMenuItem")
         Me.IntroducirTraspasosToolStripMenuItem.Name = "IntroducirTraspasosToolStripMenuItem"
         '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        resources.ApplyResources(Me.ToolStripSeparator1, "ToolStripSeparator1")
+        '
         'ApuntesPeriodicosToolStripMenuItem
         '
         resources.ApplyResources(Me.ApuntesPeriodicosToolStripMenuItem, "ApuntesPeriodicosToolStripMenuItem")
         Me.ApuntesPeriodicosToolStripMenuItem.Name = "ApuntesPeriodicosToolStripMenuItem"
+        '
+        'PresupuestosToolStripMenuItem
+        '
+        Me.PresupuestosToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.IntroducirDaToolStripMenuItem, Me.VerDesviaciónPresupuestosToolStripMenuItem})
+        Me.PresupuestosToolStripMenuItem.Name = "PresupuestosToolStripMenuItem"
+        resources.ApplyResources(Me.PresupuestosToolStripMenuItem, "PresupuestosToolStripMenuItem")
         '
         'IntroducirDaToolStripMenuItem
         '
@@ -605,6 +280,12 @@ Partial Class Principal
         '
         resources.ApplyResources(Me.VerDesviaciónPresupuestosToolStripMenuItem, "VerDesviaciónPresupuestosToolStripMenuItem")
         Me.VerDesviaciónPresupuestosToolStripMenuItem.Name = "VerDesviaciónPresupuestosToolStripMenuItem"
+        '
+        'InformesToolStripMenuItem
+        '
+        Me.InformesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ListadosDeApuntesToolStripMenuItem, Me.ListadosDeApuntesPeriodicosToolStripMenuItem, Me.ToolStripSeparator2, Me.GráficosDeIngresosPorConceptoToolStripMenuItem, Me.GráficosDeGastosPorConceptoToolStripMenuItem})
+        Me.InformesToolStripMenuItem.Name = "InformesToolStripMenuItem"
+        resources.ApplyResources(Me.InformesToolStripMenuItem, "InformesToolStripMenuItem")
         '
         'ListadosDeApuntesToolStripMenuItem
         '
@@ -728,6 +409,11 @@ Partial Class Principal
         Me.SoloGastosOrdenadoPorImportesToolStripMenuItem1.Name = "SoloGastosOrdenadoPorImportesToolStripMenuItem1"
         resources.ApplyResources(Me.SoloGastosOrdenadoPorImportesToolStripMenuItem1, "SoloGastosOrdenadoPorImportesToolStripMenuItem1")
         '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        resources.ApplyResources(Me.ToolStripSeparator2, "ToolStripSeparator2")
+        '
         'GráficosDeIngresosPorConceptoToolStripMenuItem
         '
         resources.ApplyResources(Me.GráficosDeIngresosPorConceptoToolStripMenuItem, "GráficosDeIngresosPorConceptoToolStripMenuItem")
@@ -737,6 +423,12 @@ Partial Class Principal
         '
         resources.ApplyResources(Me.GráficosDeGastosPorConceptoToolStripMenuItem, "GráficosDeGastosPorConceptoToolStripMenuItem")
         Me.GráficosDeGastosPorConceptoToolStripMenuItem.Name = "GráficosDeGastosPorConceptoToolStripMenuItem"
+        '
+        'HerramientasToolStripMenuItem
+        '
+        Me.HerramientasToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HacerCopiaDeSeguridadToolStripMenuItem, Me.RestaurarCopiaDeSeguridadToolStripMenuItem, Me.ReiniciarBaseDeDatosToolStripMenuItem, Me.CompactarBaseDeDatosToolStripMenuItem, Me.ToolStripSeparator3, Me.CalculadoraToolStripMenuItem, Me.ToolStripSeparator16})
+        Me.HerramientasToolStripMenuItem.Name = "HerramientasToolStripMenuItem"
+        resources.ApplyResources(Me.HerramientasToolStripMenuItem, "HerramientasToolStripMenuItem")
         '
         'HacerCopiaDeSeguridadToolStripMenuItem
         '
@@ -758,10 +450,26 @@ Partial Class Principal
         resources.ApplyResources(Me.CompactarBaseDeDatosToolStripMenuItem, "CompactarBaseDeDatosToolStripMenuItem")
         Me.CompactarBaseDeDatosToolStripMenuItem.Name = "CompactarBaseDeDatosToolStripMenuItem"
         '
+        'ToolStripSeparator3
+        '
+        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
+        resources.ApplyResources(Me.ToolStripSeparator3, "ToolStripSeparator3")
+        '
         'CalculadoraToolStripMenuItem
         '
         resources.ApplyResources(Me.CalculadoraToolStripMenuItem, "CalculadoraToolStripMenuItem")
         Me.CalculadoraToolStripMenuItem.Name = "CalculadoraToolStripMenuItem"
+        '
+        'ToolStripSeparator16
+        '
+        Me.ToolStripSeparator16.Name = "ToolStripSeparator16"
+        resources.ApplyResources(Me.ToolStripSeparator16, "ToolStripSeparator16")
+        '
+        'AyudaToolStripMenuItem
+        '
+        Me.AyudaToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ArchivoDeAyudaToolStripMenuItem, Me.HistorialDeVersionesToolStripMenuItem, Me.AcercaDeToolStripMenuItem, Me.ImportaAntiguoContahogarToolStripMenuItem, Me.ToolStripSeparator21})
+        Me.AyudaToolStripMenuItem.Name = "AyudaToolStripMenuItem"
+        resources.ApplyResources(Me.AyudaToolStripMenuItem, "AyudaToolStripMenuItem")
         '
         'ArchivoDeAyudaToolStripMenuItem
         '
@@ -782,6 +490,307 @@ Partial Class Principal
         '
         resources.ApplyResources(Me.ImportaAntiguoContahogarToolStripMenuItem, "ImportaAntiguoContahogarToolStripMenuItem")
         Me.ImportaAntiguoContahogarToolStripMenuItem.Name = "ImportaAntiguoContahogarToolStripMenuItem"
+        '
+        'ToolStripSeparator21
+        '
+        Me.ToolStripSeparator21.Name = "ToolStripSeparator21"
+        resources.ApplyResources(Me.ToolStripSeparator21, "ToolStripSeparator21")
+        '
+        'ToolStripTextBox1
+        '
+        resources.ApplyResources(Me.ToolStripTextBox1, "ToolStripTextBox1")
+        Me.ToolStripTextBox1.Name = "ToolStripTextBox1"
+        '
+        'VactualVDisponible
+        '
+        Me.VactualVDisponible.Name = "VactualVDisponible"
+        resources.ApplyResources(Me.VactualVDisponible, "VactualVDisponible")
+        '
+        'BarraDeEstado
+        '
+        Me.BarraDeEstado.ImageScalingSize = New System.Drawing.Size(20, 20)
+        Me.BarraDeEstado.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TsLabelFormulario, Me.TsLabelDia, Me.TsLabelHora})
+        Me.BarraDeEstado.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow
+        resources.ApplyResources(Me.BarraDeEstado, "BarraDeEstado")
+        Me.BarraDeEstado.Name = "BarraDeEstado"
+        '
+        'TsLabelFormulario
+        '
+        Me.TsLabelFormulario.Name = "TsLabelFormulario"
+        resources.ApplyResources(Me.TsLabelFormulario, "TsLabelFormulario")
+        Me.TsLabelFormulario.Spring = True
+        '
+        'TsLabelDia
+        '
+        Me.TsLabelDia.Name = "TsLabelDia"
+        resources.ApplyResources(Me.TsLabelDia, "TsLabelDia")
+        '
+        'TsLabelHora
+        '
+        Me.TsLabelHora.Name = "TsLabelHora"
+        resources.ApplyResources(Me.TsLabelHora, "TsLabelHora")
+        '
+        'BarraDeHerramientas
+        '
+        Me.BarraDeHerramientas.ImageScalingSize = New System.Drawing.Size(30, 30)
+        Me.BarraDeHerramientas.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel12, Me.BtnSalir, Me.BtnPreferencias, Me.BtnCambiarEjercicioActivo, Me.ToolStripLabel4, Me.ToolStripLabel11, Me.ToolStripLabel16, Me.BtnConceptos, Me.BtnCuentasBancarias, Me.BtnTipoCuentas, Me.ToolStripLabel1, Me.ToolStripLabel14, Me.ToolStripLabel2, Me.BtnApuntesContables, Me.BtnIntroducirApuntes, Me.BtnTraspasoCuentas, Me.ToolStripSeparator6, Me.BtnApuntesPeriodicos, Me.ToolStripLabel3, Me.ToolStripLabel9, Me.ToolStripLabel6, Me.BtnPresupuestos, Me.BtnDesviacionPresupuestos, Me.ToolStripLabel7, Me.ToolStripLabel17, Me.ToolStripLabel8, Me.BtnCopiaSeguridad, Me.BtnRestaurarCopia, Me.BtnCompactarBaseDatos, Me.BtnIniciarBaseDatos, Me.ToolStripSeparator9, Me.BtnCalculadora, Me.ToolStripLabel13, Me.ToolStripLabel15, Me.ToolStripLabel10, Me.BtnAyuda, Me.BtnHistorialVersiones, Me.BtnAcercade, Me.BtnImportarContaHogar, Me.ToolStripSeparator19, Me.ToolStripLabel5})
+        resources.ApplyResources(Me.BarraDeHerramientas, "BarraDeHerramientas")
+        Me.BarraDeHerramientas.Name = "BarraDeHerramientas"
+        Me.BarraDeHerramientas.RenderMode = System.Windows.Forms.ToolStripRenderMode.System
+        '
+        'ToolStripLabel12
+        '
+        resources.ApplyResources(Me.ToolStripLabel12, "ToolStripLabel12")
+        Me.ToolStripLabel12.LinkColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.ToolStripLabel12.Name = "ToolStripLabel12"
+        Me.ToolStripLabel12.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal
+        '
+        'BtnSalir
+        '
+        Me.BtnSalir.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        resources.ApplyResources(Me.BtnSalir, "BtnSalir")
+        Me.BtnSalir.Name = "BtnSalir"
+        '
+        'BtnPreferencias
+        '
+        Me.BtnPreferencias.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        resources.ApplyResources(Me.BtnPreferencias, "BtnPreferencias")
+        Me.BtnPreferencias.Name = "BtnPreferencias"
+        '
+        'BtnCambiarEjercicioActivo
+        '
+        Me.BtnCambiarEjercicioActivo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        resources.ApplyResources(Me.BtnCambiarEjercicioActivo, "BtnCambiarEjercicioActivo")
+        Me.BtnCambiarEjercicioActivo.Name = "BtnCambiarEjercicioActivo"
+        '
+        'ToolStripLabel4
+        '
+        resources.ApplyResources(Me.ToolStripLabel4, "ToolStripLabel4")
+        Me.ToolStripLabel4.Name = "ToolStripLabel4"
+        '
+        'ToolStripLabel11
+        '
+        resources.ApplyResources(Me.ToolStripLabel11, "ToolStripLabel11")
+        Me.ToolStripLabel11.Name = "ToolStripLabel11"
+        '
+        'ToolStripLabel16
+        '
+        resources.ApplyResources(Me.ToolStripLabel16, "ToolStripLabel16")
+        Me.ToolStripLabel16.Name = "ToolStripLabel16"
+        '
+        'BtnConceptos
+        '
+        Me.BtnConceptos.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        resources.ApplyResources(Me.BtnConceptos, "BtnConceptos")
+        Me.BtnConceptos.Name = "BtnConceptos"
+        '
+        'BtnCuentasBancarias
+        '
+        Me.BtnCuentasBancarias.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        resources.ApplyResources(Me.BtnCuentasBancarias, "BtnCuentasBancarias")
+        Me.BtnCuentasBancarias.Name = "BtnCuentasBancarias"
+        '
+        'BtnTipoCuentas
+        '
+        Me.BtnTipoCuentas.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        resources.ApplyResources(Me.BtnTipoCuentas, "BtnTipoCuentas")
+        Me.BtnTipoCuentas.Name = "BtnTipoCuentas"
+        '
+        'ToolStripLabel1
+        '
+        resources.ApplyResources(Me.ToolStripLabel1, "ToolStripLabel1")
+        Me.ToolStripLabel1.Name = "ToolStripLabel1"
+        '
+        'ToolStripLabel14
+        '
+        resources.ApplyResources(Me.ToolStripLabel14, "ToolStripLabel14")
+        Me.ToolStripLabel14.Name = "ToolStripLabel14"
+        '
+        'ToolStripLabel2
+        '
+        resources.ApplyResources(Me.ToolStripLabel2, "ToolStripLabel2")
+        Me.ToolStripLabel2.Name = "ToolStripLabel2"
+        '
+        'BtnApuntesContables
+        '
+        Me.BtnApuntesContables.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        resources.ApplyResources(Me.BtnApuntesContables, "BtnApuntesContables")
+        Me.BtnApuntesContables.Name = "BtnApuntesContables"
+        '
+        'BtnIntroducirApuntes
+        '
+        Me.BtnIntroducirApuntes.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        resources.ApplyResources(Me.BtnIntroducirApuntes, "BtnIntroducirApuntes")
+        Me.BtnIntroducirApuntes.Name = "BtnIntroducirApuntes"
+        '
+        'BtnTraspasoCuentas
+        '
+        Me.BtnTraspasoCuentas.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        resources.ApplyResources(Me.BtnTraspasoCuentas, "BtnTraspasoCuentas")
+        Me.BtnTraspasoCuentas.Name = "BtnTraspasoCuentas"
+        '
+        'ToolStripSeparator6
+        '
+        Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
+        resources.ApplyResources(Me.ToolStripSeparator6, "ToolStripSeparator6")
+        '
+        'BtnApuntesPeriodicos
+        '
+        Me.BtnApuntesPeriodicos.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        resources.ApplyResources(Me.BtnApuntesPeriodicos, "BtnApuntesPeriodicos")
+        Me.BtnApuntesPeriodicos.Name = "BtnApuntesPeriodicos"
+        '
+        'ToolStripLabel3
+        '
+        resources.ApplyResources(Me.ToolStripLabel3, "ToolStripLabel3")
+        Me.ToolStripLabel3.Name = "ToolStripLabel3"
+        '
+        'ToolStripLabel9
+        '
+        resources.ApplyResources(Me.ToolStripLabel9, "ToolStripLabel9")
+        Me.ToolStripLabel9.Name = "ToolStripLabel9"
+        '
+        'ToolStripLabel6
+        '
+        resources.ApplyResources(Me.ToolStripLabel6, "ToolStripLabel6")
+        Me.ToolStripLabel6.Name = "ToolStripLabel6"
+        '
+        'BtnPresupuestos
+        '
+        Me.BtnPresupuestos.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        resources.ApplyResources(Me.BtnPresupuestos, "BtnPresupuestos")
+        Me.BtnPresupuestos.Name = "BtnPresupuestos"
+        '
+        'BtnDesviacionPresupuestos
+        '
+        Me.BtnDesviacionPresupuestos.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        resources.ApplyResources(Me.BtnDesviacionPresupuestos, "BtnDesviacionPresupuestos")
+        Me.BtnDesviacionPresupuestos.Name = "BtnDesviacionPresupuestos"
+        '
+        'ToolStripLabel7
+        '
+        resources.ApplyResources(Me.ToolStripLabel7, "ToolStripLabel7")
+        Me.ToolStripLabel7.Name = "ToolStripLabel7"
+        '
+        'ToolStripLabel17
+        '
+        resources.ApplyResources(Me.ToolStripLabel17, "ToolStripLabel17")
+        Me.ToolStripLabel17.Name = "ToolStripLabel17"
+        '
+        'ToolStripLabel8
+        '
+        resources.ApplyResources(Me.ToolStripLabel8, "ToolStripLabel8")
+        Me.ToolStripLabel8.Name = "ToolStripLabel8"
+        '
+        'BtnCopiaSeguridad
+        '
+        Me.BtnCopiaSeguridad.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        resources.ApplyResources(Me.BtnCopiaSeguridad, "BtnCopiaSeguridad")
+        Me.BtnCopiaSeguridad.Name = "BtnCopiaSeguridad"
+        '
+        'BtnRestaurarCopia
+        '
+        Me.BtnRestaurarCopia.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        resources.ApplyResources(Me.BtnRestaurarCopia, "BtnRestaurarCopia")
+        Me.BtnRestaurarCopia.Name = "BtnRestaurarCopia"
+        '
+        'BtnCompactarBaseDatos
+        '
+        Me.BtnCompactarBaseDatos.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        resources.ApplyResources(Me.BtnCompactarBaseDatos, "BtnCompactarBaseDatos")
+        Me.BtnCompactarBaseDatos.Name = "BtnCompactarBaseDatos"
+        '
+        'BtnIniciarBaseDatos
+        '
+        Me.BtnIniciarBaseDatos.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        resources.ApplyResources(Me.BtnIniciarBaseDatos, "BtnIniciarBaseDatos")
+        Me.BtnIniciarBaseDatos.Name = "BtnIniciarBaseDatos"
+        '
+        'ToolStripSeparator9
+        '
+        Me.ToolStripSeparator9.Name = "ToolStripSeparator9"
+        resources.ApplyResources(Me.ToolStripSeparator9, "ToolStripSeparator9")
+        '
+        'BtnCalculadora
+        '
+        Me.BtnCalculadora.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        resources.ApplyResources(Me.BtnCalculadora, "BtnCalculadora")
+        Me.BtnCalculadora.Name = "BtnCalculadora"
+        '
+        'ToolStripLabel13
+        '
+        resources.ApplyResources(Me.ToolStripLabel13, "ToolStripLabel13")
+        Me.ToolStripLabel13.Name = "ToolStripLabel13"
+        '
+        'ToolStripLabel15
+        '
+        resources.ApplyResources(Me.ToolStripLabel15, "ToolStripLabel15")
+        Me.ToolStripLabel15.Name = "ToolStripLabel15"
+        '
+        'ToolStripLabel10
+        '
+        resources.ApplyResources(Me.ToolStripLabel10, "ToolStripLabel10")
+        Me.ToolStripLabel10.Name = "ToolStripLabel10"
+        '
+        'BtnAyuda
+        '
+        Me.BtnAyuda.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        resources.ApplyResources(Me.BtnAyuda, "BtnAyuda")
+        Me.BtnAyuda.Name = "BtnAyuda"
+        '
+        'BtnHistorialVersiones
+        '
+        Me.BtnHistorialVersiones.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        resources.ApplyResources(Me.BtnHistorialVersiones, "BtnHistorialVersiones")
+        Me.BtnHistorialVersiones.Name = "BtnHistorialVersiones"
+        '
+        'BtnAcercade
+        '
+        Me.BtnAcercade.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        resources.ApplyResources(Me.BtnAcercade, "BtnAcercade")
+        Me.BtnAcercade.Name = "BtnAcercade"
+        '
+        'BtnImportarContaHogar
+        '
+        Me.BtnImportarContaHogar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        resources.ApplyResources(Me.BtnImportarContaHogar, "BtnImportarContaHogar")
+        Me.BtnImportarContaHogar.Name = "BtnImportarContaHogar"
+        '
+        'ToolStripSeparator19
+        '
+        Me.ToolStripSeparator19.Name = "ToolStripSeparator19"
+        resources.ApplyResources(Me.ToolStripSeparator19, "ToolStripSeparator19")
+        '
+        'ToolStripLabel5
+        '
+        resources.ApplyResources(Me.ToolStripLabel5, "ToolStripLabel5")
+        Me.ToolStripLabel5.Name = "ToolStripLabel5"
+        '
+        'LblNotificacion
+        '
+        resources.ApplyResources(Me.LblNotificacion, "LblNotificacion")
+        Me.LblNotificacion.Name = "LblNotificacion"
+        '
+        'ButtonActualizar
+        '
+        resources.ApplyResources(Me.ButtonActualizar, "ButtonActualizar")
+        Me.ButtonActualizar.Name = "ButtonActualizar"
+        Me.ButtonActualizar.UseVisualStyleBackColor = True
+        '
+        'PictureBox1
+        '
+        Me.PictureBox1.Image = Global.ContaHogar.My.Resources.Resources.Designer
+        resources.ApplyResources(Me.PictureBox1, "PictureBox1")
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.TabStop = False
+        '
+        'LogoBuhoVisibleToolStripMenuItem
+        '
+        Me.LogoBuhoVisibleToolStripMenuItem.Checked = True
+        Me.LogoBuhoVisibleToolStripMenuItem.CheckOnClick = True
+        Me.LogoBuhoVisibleToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.LogoBuhoVisibleToolStripMenuItem.Name = "LogoBuhoVisibleToolStripMenuItem"
+        resources.ApplyResources(Me.LogoBuhoVisibleToolStripMenuItem, "LogoBuhoVisibleToolStripMenuItem")
         '
         'Principal
         '
@@ -923,4 +932,5 @@ Partial Class Principal
     Friend WithEvents LblNotificacion As Windows.Forms.Label
     Friend WithEvents ButtonActualizar As Windows.Forms.Button
     Friend WithEvents PictureBox1 As Windows.Forms.PictureBox
+    Friend WithEvents LogoBuhoVisibleToolStripMenuItem As Windows.Forms.ToolStripMenuItem
 End Class

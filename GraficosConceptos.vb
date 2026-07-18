@@ -93,66 +93,6 @@ Public Class GraficosConceptos
         Chart1.ChartAreas("ChartArea1").Area3DStyle.Enable3D = Me.EsGrafico3D
     End Sub
 
-    'Private Sub DibujarGraficoColumnas()
-    '    CrearEstilos()
-
-    '    ' 1. Limpiamos las series antes de rellenar
-    '    Chart1.Series("Gastos").Points.Clear()
-    '    Chart1.Series("Ingresos").Points.Clear()
-
-    '    ' =========================================================================
-    '    ' 🎯 LA ÚNICA COMPUERTA VISUAL MAESTRA: ALINEACIÓN FORZADA DEL EJE X
-    '    ' =========================================================================
-    '    ' Esto obliga a Microsoft Chart a pintar estrictamente TODOS los nombres 
-    '    ' uno detrás de otro (Fila 0, Fila 1, etc.) sin saltarse el primero.
-    '    Chart1.ChartAreas("ChartArea1").AxisX.Interval = 1
-    '    ' =========================================================================
-
-    '    ' 2. Obtenemos el recurso del idioma actual (UI) seleccionado en Preferencias
-    '    Dim recursos As System.Resources.ResourceSet = resManager.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
-
-    '    For x = 0 To miView.Count - 1
-    '        ' Evitamos nulos en la fila de la base de datos
-    '        If miView(x)("Importe") Is DBNull.Value OrElse miView(x)("Importe") Is Nothing Then Continue For
-
-    '        ' --- A. PARSEO SEGURO DEL IMPORTE ---
-    '        Dim importePuro As Decimal = 0.0D
-    '        importePuro = ConvertirDecimalSeguro(miView(x)("Importe"))
-
-    '        ' --- B. TRADUCCIÓN DEL CONCEPTO PARA EL GRÁFICO ---
-    '        Dim conceptoOriginalBD As String = miView(x)("Concepto").ToString().Trim()
-    '        Dim conceptoTraducidoVisual As String = conceptoOriginalBD
-
-    '        If recursos IsNot Nothing Then
-    '            Dim traduccionDirecta As String = recursos.GetString(conceptoOriginalBD)
-    '            Dim traduccionDesc As String = recursos.GetString("Desc_" & conceptoOriginalBD)
-
-    '            If Not String.IsNullOrEmpty(traduccionDirecta) Then
-    '                conceptoTraducidoVisual = traduccionDirecta
-    '            ElseIf Not String.IsNullOrEmpty(traduccionDesc) Then
-    '                conceptoTraducidoVisual = traduccionDesc
-    '            End If
-    '        End If
-
-    '        ' --- C. DIBUJAR EN EL GRÁFICO (Tus colores y signos originales) ---
-    '        If importePuro <= 0 Then
-    '            With Chart1.Series("Gastos")
-    '                vImporteConcepto = Math.Abs(importePuro)
-    '                Dim i As Integer = .Points.AddXY(conceptoTraducidoVisual, vImporteConcepto)
-    '                .Points(i).Color = Color.Red
-    '                .ChartType = SeriesChartType.Column
-    '            End With
-    '        Else
-    '            With Chart1.Series("Ingresos")
-    '                Dim i As Integer = .Points.AddXY(conceptoTraducidoVisual, importePuro)
-    '                .Points(i).Color = Color.Blue
-    '                .ChartType = SeriesChartType.Column
-    '            End With
-    '        End If
-    '    Next
-    'End Sub
-
-
     Private Sub DibujarGraficoColumnas()
         CrearEstilos()
 

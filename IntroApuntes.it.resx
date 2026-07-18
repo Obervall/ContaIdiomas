@@ -210,4 +210,7 @@ Errore</value>
   <data name="SelecDescripcion" xml:space="preserve">
     <value>Seleziona Descrizione o Tipo da Ricercare (almeno 3)</value>
   </data>
+  <data name="ConceptoSeleccionado" xml:space="preserve">
+    <value>Concetto selezionato</value>
+  </data>
 </root>

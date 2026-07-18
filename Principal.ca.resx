@@ -8015,4 +8015,7 @@ C:\ContaHogar3.0, que s'ha creat, si no ho estava, en acceptar aquesta importaci
   <data name="BtnImportarContaHogar.Text" xml:space="preserve">
     <value>Importar Base Dades Antic Contahogar 2.0 En Curs...</value>
   </data>
+  <data name="LogoBuhoVisibleToolStripMenuItem.Text" xml:space="preserve">
+    <value>Logo Buho Visible</value>
+  </data>
 </root>

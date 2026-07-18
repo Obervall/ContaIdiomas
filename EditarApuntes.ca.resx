@@ -186,4 +186,7 @@
   <data name="ToolTipSeleccionarConcepto" xml:space="preserve">
     <value>Seleccionar el Concepte a què es refereix l'Apunt</value>
   </data>
+  <data name="ToolTipModificaImporte" xml:space="preserve">
+    <value>Modificar Import, si és -, escriure en + el Tipus s'encarrega de Canviar el signe</value>
+  </data>
 </root>

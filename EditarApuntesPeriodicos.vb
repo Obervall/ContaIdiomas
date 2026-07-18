@@ -33,9 +33,13 @@ Public Class EditarApuntesPeriodicos
         TL(6) = New ToolTip
         TL(6).SetToolTip(Me.CmbDescripcion, frmEditarApuntes.rmse.GetString("ToolTipSeleccionarDescripcion"))
         TL(7) = New ToolTip
-        TL(7).SetToolTip(Me.TxtImporte, frmEditarApuntes.rmse.GetString("ToolTipIngresarImporte"))
+        TL(7).SetToolTip(Me.TxtImporte, frmEditarApuntes.rmse.GetString("ToolTipModificaImporte"))
         TL(8) = New ToolTip
         TL(8).SetToolTip(Me.BtnCalculadora, resManager.GetString("ToolTipCalculadora"))
+
+        ' Establece el rango usando tu variable vAñoEjercicio
+        DateTimePicker1.MinDate = New DateTime(vAñoEjercicio, 1, 1)
+        DateTimePicker1.MaxDate = New DateTime(vAñoEjercicio, 12, 31)
 
         ' =========================================================================
         ' 🌟 CARGA DE COMBOS DE LA NUEVA ERA (Con Idiomas, Orden A-Z e IDs Numéricos)

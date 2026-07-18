@@ -186,4 +186,7 @@
   <data name="ToolTipSeleccionarConcepto" xml:space="preserve">
     <value>Wählen Sie das Konzept aus, auf das sich die Notiz bezieht</value>
   </data>
+  <data name="ToolTipModificaImporte" xml:space="preserve">
+    <value>Betrag ändern, wenn es -ist, gib in + ein, der Typ ist verantwortlich für Zeichen ändern</value>
+  </data>
 </root>

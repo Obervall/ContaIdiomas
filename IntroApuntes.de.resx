@@ -210,4 +210,7 @@ Fehler</value>
   <data name="SelecCuenta" xml:space="preserve">
     <value>Wählen Sie das Konto aus, auf das sich der Eintrag bezieht</value>
   </data>
+  <data name="ConceptoSeleccionado" xml:space="preserve">
+    <value>Ausgewähltes Konzept</value>
+  </data>
 </root>

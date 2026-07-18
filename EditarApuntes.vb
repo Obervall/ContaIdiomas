@@ -33,9 +33,13 @@ Public Class EditarApuntes
         TL(6) = New ToolTip
         TL(6).SetToolTip(Me.CmbDescripcion, rmse.GetString("ToolTipSeleccionarDescripcion"))
         TL(7) = New ToolTip
-        TL(7).SetToolTip(Me.TxtImporte, rmse.GetString("ToolTipIngresarImporte"))
+        TL(7).SetToolTip(Me.TxtImporte, rmse.GetString("ToolTipModificaImporte"))
         TL(8) = New ToolTip
         TL(8).SetToolTip(Me.BtnCalculadora, resManager.GetString("ToolTipCalculadora"))
+
+        ' Establece el rango usando tu variable vAñoEjercicio
+        DateTimePicker1.MinDate = New DateTime(vAñoEjercicio, 1, 1)
+        DateTimePicker1.MaxDate = New DateTime(vAñoEjercicio, 12, 31)
 
         ' Llenar los Combo
         '*****************
@@ -83,7 +87,7 @@ Public Class EditarApuntes
         CmbCuenta.SelectedValue = Convert.ToInt32(frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(10).Value)
         CmbDescripcion.Text = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(2).Value.ToString
         vimporteAPU = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(3).Value
-        TxtImporte.Text = Math.Abs(vimporteAPU).ToString("N2")
+        TxtImporte.Text = Convert.ToDecimal(vimporteAPU).ToString("N2")
         TxtNota.Text = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(5).Value.ToString
         vCodigoAPU = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(7).Value
 
@@ -155,8 +159,21 @@ Public Class EditarApuntes
         ' Guardamos el importe limpio y aplicamos el signo contable según el tipo
         vimporteAPU = importeDecimal
 
-        ' Usamos ToUpper para que la validación del signo sea 100% inmune a mayúsculas/minúsculas
-        If TxtTipoConcepto.Text.ToUpper() = "GASTO" Then
+        ' =========================================================================
+        ' 🎯 VALIDACIÓN DEL SIGNO INMUNE A IDIOMAS (Castellano / Catalán / Inglés)
+        ' =========================================================================
+        Dim tipoDeFabrica As String = ""
+
+        ' Extraemos de forma segura el TipoCON original oculto en la RAM del combo
+        If CmbConcepto.SelectedItem IsNot Nothing Then
+            Dim filaSeleccionada As DataRowView = CType(CmbConcepto.SelectedItem, DataRowView)
+            If filaSeleccionada.Row.Table.Columns.Contains("TipoCON") Then
+                tipoDeFabrica = filaSeleccionada("TipoCON").ToString().Trim().ToUpper()
+            End If
+        End If
+
+        ' Evaluamos el signo usando el dato rígido de la Base de Datos, nunca el texto de la pantalla
+        If tipoDeFabrica = "GASTO" Then
             vimporteAPU = -Math.Abs(vimporteAPU)
         Else
             vimporteAPU = Math.Abs(vimporteAPU)
@@ -221,8 +238,7 @@ Public Class EditarApuntes
     End Sub
 
     Private Sub CmbConcepto_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbConcepto.SelectedIndexChanged
-        ' 🌟 ESCUDO DE CARGA: Si el formulario se está iniciando o limpiando, salimos de inmediato
-        If cargandoFormulario Then Exit Sub
+        ' 🌟 Quitamos el escudo de carga solo para el Tipo de Concepto, para que pinte al editar
         If CmbConcepto.SelectedIndex < 0 Then Exit Sub
 
         Try
@@ -230,23 +246,21 @@ Public Class EditarApuntes
             Dim descripcionOriginal As String = ""
             Dim tipoOriginal As String = ""
 
-            ' 🌟 EXTRACCIÓN MAESTRA DESDE MEMORIA (Cero consultas DataReader a Access)
-            ' Como el combo está enlazado a un DataTable, convertimos el ítem actual en un DataRowView
+            ' 🌟 EXTRACCIÓN MAESTRA DESDE MEMORIA
             If CmbConcepto.SelectedItem IsNot Nothing Then
                 Dim filaSeleccionada As DataRowView = CType(CmbConcepto.SelectedItem, DataRowView)
 
                 codigoOriginal = filaSeleccionada("CodigoCON").ToString().Trim()
                 descripcionOriginal = filaSeleccionada("DescripcionCON").ToString().Trim()
 
-                ' Leemos el TipoCON de forma segura desde la memoria de la app
                 If filaSeleccionada.Row.Table.Columns.Contains("TipoCON") Then
                     tipoOriginal = filaSeleccionada("TipoCON").ToString().Trim()
                 End If
             End If
 
-            ' 3. Traducir y asignar los textos a la interfaz de forma segura sin tocar la BD
+            ' 3. Traducir y asignar los textos a la interfaz de forma segura
             If Not String.IsNullOrEmpty(codigoOriginal) Then
-                vConcepto = codigoOriginal ' Guardamos el código original en español para tus lógicas
+                vConcepto = codigoOriginal
 
                 ' --- TRADUCIR EL TIPO (Gasto / Ingreso / Especial) ---
                 Dim tradTipo As String = ""
@@ -256,25 +270,25 @@ Public Class EditarApuntes
                     Case "ESPECIAL" : tradTipo = resManager.GetString("Tipo_Especial")
                 End Select
                 If String.IsNullOrEmpty(tradTipo) Then tradTipo = tipoOriginal
+
+                ' 🎯 INYECCIÓN BLINDADA: Rellenamos el cuadro de la derecha sí o sí
                 TxtTipoConcepto.Text = tradTipo
 
-                ' --- TRADUCIR LAS DESCRIPCIONES (Desc_NOMBRE) ---
+                ' 🌟 ESCUDO REDUCIDO: Las descripciones solo cambian si el usuario interactúa con el ratón
+                If cargandoFormulario Then Exit Sub
+
+                ' --- TRADUCIR LAS DESCRIPCIONES ---
                 Dim llaveDesc As String = "Desc_" & codigoOriginal.Replace(" ", "_")
                 Dim tradDesc As String = resManager.GetString(llaveDesc)
 
-                ' Si no tiene traducción en el ResX, dejamos la descripción original de la BD
                 If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
-
                 CmbDescripcion.Text = tradDesc
-                ' Si tienes TxtDescripcion en este form, lo rellenas; si no, deja solo el combo
-                ' TxtDescripcion.Text = tradDesc 
             End If
 
         Catch ex As Exception
             MsgBox(resManager.GetString("ErrorSincronizarCON") & ": " & ex.Message, MsgBoxStyle.Critical, resManager.GetString("Error"))
         End Try
     End Sub
-
 
     Private Sub TxtImporte_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtImporte.KeyPress
         SoloNumerosConPunto(e)

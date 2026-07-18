@@ -281,6 +281,18 @@ Namespace My
                 Me("PrimerArranqueNuevaEra") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property LogoBuho() As Boolean
+            Get
+                Return CType(Me("LogoBuho"),Boolean)
+            End Get
+            Set
+                Me("LogoBuho") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

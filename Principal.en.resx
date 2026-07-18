@@ -8001,4 +8001,7 @@ C:\HomeAccount3.0, which was created, if it wasn't, when you accepted this impor
   <data name="BtnImportarContaHogar.Text" xml:space="preserve">
     <value>Import Old Contahogar 2.0 Database In Progress...</value>
   </data>
+  <data name="LogoBuhoVisibleToolStripMenuItem.Text" xml:space="preserve">
+    <value>Visible owl logo</value>
+  </data>
 </root>

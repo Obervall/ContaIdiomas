@@ -850,4 +850,7 @@
   <data name="MsgBoxEliminarApunte" xml:space="preserve">
     <value>¿Estas seguro de Eliminar el Apunte Contable seleccionado?</value>
   </data>
+  <data name="ToolTipModificaImporte" xml:space="preserve">
+    <value>Modificar Importe, si es -, escribir en + el Tipo se encarga de Cambiar el signo</value>
+  </data>
 </root>

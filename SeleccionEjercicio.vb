@@ -17,8 +17,17 @@ Public Class SeleccionEjercicio
                     vCantAños += 1
                     CmbEjercicio.Items.Add(drMdb1.GetValue(0))
                 End While
-                CmbEjercicio.Text = Str(vAñoActual).ToString
-                vAñoEjercicio = vAñoActual
+
+                ' 🎯 LA ESTOCADA: Seleccionamos de forma rígida el último año de la lista (el más reciente)
+                If CmbEjercicio.Items.Count > 0 Then
+                    CmbEjercicio.SelectedIndex = CmbEjercicio.Items.Count - 1
+                    ' Sincronizamos las variables globales con el año real que acaba de capturar el combo
+                    vAñoEjercicio = Convert.ToInt32(CmbEjercicio.SelectedItem)
+                Else
+                    ' Salvavidas clásico por si la tabla estuviera virgen
+                    CmbEjercicio.Text = Str(vAñoActual).ToString
+                    vAñoEjercicio = vAñoActual
+                End If
             Else
                 MsgBox(rmse.GetString("MsgNoExistenReg"))
             End If

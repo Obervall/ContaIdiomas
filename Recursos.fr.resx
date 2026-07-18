@@ -970,4 +970,10 @@ Moins de données offrent une analyse bien plus claire !</value>
   <data name="Ayuda" xml:space="preserve">
     <value>À l’aide</value>
   </data>
+  <data name="Validación" xml:space="preserve">
+    <value>Validation</value>
+  </data>
+  <data name="NoEditarFueraEjercicio" xml:space="preserve">
+    <value>Vous ne pouvez pas modifier une entrée en dehors de l’exercice fiscal en cours</value>
+  </data>
 </root>

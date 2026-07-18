@@ -970,4 +970,10 @@ Weniger Daten bieten eine viel klarere Analyse!</value>
   <data name="Ayuda" xml:space="preserve">
     <value>Hilfe</value>
   </data>
+  <data name="Validación" xml:space="preserve">
+    <value>Validierung</value>
+  </data>
+  <data name="NoEditarFueraEjercicio" xml:space="preserve">
+    <value>Sie können einen Eintrag außerhalb des aktuellen Haushaltsjahres nicht bearbeiten</value>
+  </data>
 </root>

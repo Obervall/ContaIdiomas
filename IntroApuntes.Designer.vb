@@ -172,7 +172,7 @@ Partial Class IntroApuntes
         '
         'CmbConcepto
         '
-        Me.CmbConcepto.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
+        Me.CmbConcepto.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
         Me.CmbConcepto.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
         Me.CmbConcepto.FormattingEnabled = True
         resources.ApplyResources(Me.CmbConcepto, "CmbConcepto")
