@@ -369,7 +369,7 @@ Public Class Principal
         'Mañana (Versión 3.2.1.0): Cambiarás tu línea a My.Settings.Version = "3.2.1.0",
         'cambiarás el manifiesto del MSIX a 3.2.1.0 y subirás el nuevo paquete reluciente [1.1].
 
-        My.Settings.Version = "3.2.1"
+        My.Settings.Version = "3.2.2"
         My.Settings.Save()
 
         vMoneda = My.Settings.Moneda

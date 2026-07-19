@@ -503,4 +503,3 @@ C:\ComptaLlar\Hogar\obj\Release\ContaHogar3.0.application
 C:\ComptaLlar\Hogar\obj\Release\ContaHog.276DA8AC.Up2Date
 C:\ComptaLlar\Hogar\obj\Release\ContaHogar3.0.exe
 C:\ComptaLlar\Hogar\obj\Release\ContaHogar3.0.pdb
-C:\ComptaLlar\Hogar\obj\Release\ContaHogar3.0.exe.config
