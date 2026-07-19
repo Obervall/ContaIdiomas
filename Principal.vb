@@ -231,27 +231,6 @@ Public Class Principal
             End Try
         End If
 
-        '' 4. 🎯 EL PUENTE DE MIGRACIÓN: Sembramos el archivo respetando el histórico del usuario
-        'If Not File.Exists(archivoBdDestino) Then
-        '    Try
-        '        ' ESCENARIO B: ¿El usuario es antiguo y tiene sus apuntes reales en tu vieja ruta de Roaming?
-        '        If File.Exists(archivoBdAppDataVieja) Then
-        '            ' Mudamos su base de datos real intacta a Mis Documentos para no perder ni un céntimo
-        '            File.Copy(archivoBdAppDataVieja, archivoBdDestino, True)
-
-        '            ' ESCENARIO A: Es un usuario 100% nuevo que se descarga la app de la Microsoft Store
-        '        Else
-        '            ' Extraemos la base limpia y compactada de 488 KB que viaja dentro del paquete MSIX
-        '            Dim archivoBdOrigenRuta As String = IO.Path.Combine(Application.StartupPath, "ContaHogar.mdb")
-        '            If File.Exists(archivoBdOrigenRuta) Then
-        '                File.Copy(archivoBdOrigenRuta, archivoBdDestino, True)
-        '            End If
-        '        End If
-        '    Catch ex As Exception
-        '        MsgBox(rmse.GetString("ErrorCriticoPuenteRescate") & ": " & ex.Message, MsgBoxStyle.Critical)
-        '    End Try
-        'End If
-
         ' =========================================================================
         ' 🎯 5. SIEMBRA O ACTUALIZACIÓN AUTOMÁTICA DE MANUALES Y HISTORIAL (MSIX)
         ' =========================================================================
