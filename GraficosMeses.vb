@@ -115,6 +115,10 @@ Public Class GraficosMeses
     Private Sub DibujarGraficoColumnas()
         CrearEstilos()
 
+        ' Esto rompe el "bloqueo" del gráfico de pastel aunque una serie esté vacía
+        Chart1.Series("Gastos").ChartType = SeriesChartType.Column
+        Chart1.Series("Ingresos").ChartType = SeriesChartType.Column
+
         Chart1.Series("Gastos").Points.Clear()
         Chart1.Series("Ingresos").Points.Clear()
 
@@ -155,6 +159,10 @@ Public Class GraficosMeses
 
         CrearEstilos()
 
+        ' Esto rompe el "bloqueo" del gráfico de pastel aunque una serie esté vacía
+        Chart1.Series("Gastos").ChartType = SeriesChartType.Column
+        Chart1.Series("Ingresos").ChartType = SeriesChartType.Column
+
         Chart1.Series("Gastos").Points.Clear()
         Chart1.Series("Ingresos").Points.Clear()
 
@@ -185,6 +193,10 @@ Public Class GraficosMeses
         TsBtnPastel.Checked = False
 
         CrearEstilos()
+
+        ' Esto rompe el "bloqueo" del gráfico de pastel aunque una serie esté vacía
+        Chart1.Series("Gastos").ChartType = SeriesChartType.Column
+        Chart1.Series("Ingresos").ChartType = SeriesChartType.Column
 
         Chart1.Series("Gastos").Points.Clear()
         Chart1.Series("Ingresos").Points.Clear()
@@ -257,7 +269,6 @@ Public Class GraficosMeses
             End With
         Next
     End Sub
-
 
     Private Sub TSBtnImprimir_Click(sender As Object, e As EventArgs) Handles TSBtnImprimir.Click
         ' PREGUNTA DE ORIENTACIÓN: Preguntamos si desea imprimir en Horizontal (Landscape)
