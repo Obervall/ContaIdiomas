@@ -389,6 +389,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Control de Seguridad Windows.
+    '''</summary>
+    Friend Shared ReadOnly Property ControlSeguridadWindows() As String
+        Get
+            Return ResourceManager.GetString("ControlSeguridadWindows", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Cuenta.
     '''</summary>
     Friend Shared ReadOnly Property Cuenta() As String
@@ -898,6 +907,16 @@ Friend Class Recursos
     Friend Shared ReadOnly Property EL_CORTE_INGLES() As String
         Get
             Return ResourceManager.GetString("EL_CORTE_INGLES", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a El antivirus o la protección de Windows está bloqueando el acceso a Mis Documentos.
+    '''Por favor, añade este programa a la lista de exclusiones o permite el acceso controlado a carpetas para poder usar ContaHogar 3.0.
+    '''</summary>
+    Friend Shared ReadOnly Property Error_Permisos_Antivirus() As String
+        Get
+            Return ResourceManager.GetString("Error_Permisos_Antivirus", resourceCulture)
         End Get
     End Property
     

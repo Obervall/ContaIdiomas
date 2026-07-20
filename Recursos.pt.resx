@@ -976,4 +976,11 @@ Menos dados oferecem uma análise muito mais clara!</value>
   <data name="NoEditarFueraEjercicio" xml:space="preserve">
     <value>Você não pode editar uma entrada fora do ano fiscal atual</value>
   </data>
+  <data name="Error_Permisos_Antivirus" xml:space="preserve">
+    <value>Seu antivírus ou proteção do Windows está bloqueando o acesso aos Meus Documentos.
+Por favor, adicione este programa à lista de exclusão ou permita o acesso controlado de pastas para usar o ContaHogar 3.0</value>
+  </data>
+  <data name="ControlSeguridadWindows" xml:space="preserve">
+    <value>Controle de Segurança do Windows</value>
+  </data>
 </root>

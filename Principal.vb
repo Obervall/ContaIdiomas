@@ -193,16 +193,37 @@ Public Class Principal
         Dim carpetaDBVieja As String = IO.Path.Combine(appDataPathViejo, "A.Oberholzer", "ContaHogar3.0")
         Dim archivoBdAppDataVieja As String = IO.Path.Combine(carpetaDBVieja, "ContaHogar.mdb")
 
-        ' 3. Creamos la nueva carpeta física en Mis Documentos si es la primera vez que entra
+        ' =========================================================================
+        ' 🎯 PASO 3: CREACIÓN DE LA CARPETA EN DOCUMENTOS CON CORTAFUEGOS ANTIVIRUS
+        ' =========================================================================
         Try
             If Not Directory.Exists(carpetaAppOficial) Then
                 Directory.CreateDirectory(carpetaAppOficial)
             End If
+
+        Catch ex As UnauthorizedAccessException
+            ' 🚨 EL CORTAFUEGOS DEL ANTIVIRUS: Si salta el bloqueo estricto de Windows o Windows Defender
+            Dim msgAntivirus As String = "El antivirus o la protección de Windows está bloqueando el acceso a 'Mis Documentos'." & vbCrLf &
+                                         "Por favor, añade este programa a la lista de exclusiones o permite el acceso controlado a carpetas para poder usar ContaHogar 3.0."
+
+            ' Pescamos de forma segura la traducción si existe en tu ResX (Castellano / Catalán / Inglés)
+            If resManager IsNot Nothing Then
+                Dim tradAnti As String = resManager.GetString("Error_Permisos_Antivirus")
+                If Not String.IsNullOrEmpty(tradAnti) Then msgAntivirus = tradAnti
+            End If
+
+            MsgBox(msgAntivirus, MsgBoxStyle.Critical, resManager.GetString("ControlSeguridadWindows"))
+
+            ' Cerramos la aplicación de inmediato para evitar que intente operar sin permisos reales
+            Application.Exit()
+            Exit Sub
+
         Catch ex As Exception
-            ' Cortafuegos de emergencia por si Mis Documentos estuviera restringido por OneDrive
+            ' Cortafuegos secundario dócil por si Mis Documentos estuviera restringido por OneDrive corporativo
             carpetaAppOficial = carpetaDocumentos
             archivoBdDestino = IO.Path.Combine(carpetaAppOficial, "ContaHogar.mdb")
         End Try
+
 
         ' 4. 🎯 EL PUENTE DE MIGRACIÓN INTELIGENTE (Inmune a cambios de peso de la BD)
         ' Usamos un booleano en My.Settings para saber si este PC ya fue auditado en el pasado

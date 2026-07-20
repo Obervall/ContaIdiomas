@@ -976,4 +976,11 @@ en el listado (Embudo Rosa).
   <data name="NoEditarFueraEjercicio" xml:space="preserve">
     <value>No se puede editar un apunte fuera del ejercicio actual</value>
   </data>
+  <data name="Error_Permisos_Antivirus" xml:space="preserve">
+    <value>El antivirus o la protección de Windows está bloqueando el acceso a Mis Documentos.
+Por favor, añade este programa a la lista de exclusiones o permite el acceso controlado a carpetas para poder usar ContaHogar 3.0</value>
+  </data>
+  <data name="ControlSeguridadWindows" xml:space="preserve">
+    <value>Control de Seguridad Windows</value>
+  </data>
 </root>

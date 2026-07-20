@@ -976,4 +976,11 @@ Menys dades ofereixen una anàlisi molt més clara!</value>
   <data name="NoEditarFueraEjercicio" xml:space="preserve">
     <value>No es pot editar un apunt fora de l' exercici actual</value>
   </data>
+  <data name="Error_Permisos_Antivirus" xml:space="preserve">
+    <value>L'antivirus o la protecció de Windows està bloquejant l'accés als meus Documents.
+Per favor, afegeix aquest programa a la llista d'exclusions o permet l'accés controlat a carpetes per poder usar ContaHogar 3.0</value>
+  </data>
+  <data name="ControlSeguridadWindows" xml:space="preserve">
+    <value>Control de Seguretat Windows</value>
+  </data>
 </root>

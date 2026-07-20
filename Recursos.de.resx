@@ -976,4 +976,11 @@ Weniger Daten bieten eine viel klarere Analyse!</value>
   <data name="NoEditarFueraEjercicio" xml:space="preserve">
     <value>Sie können einen Eintrag außerhalb des aktuellen Haushaltsjahres nicht bearbeiten</value>
   </data>
+  <data name="Error_Permisos_Antivirus" xml:space="preserve">
+    <value>Dein Antiviren- oder Windows-Schutz blockiert den Zugriff auf Meine Dokumente.
+Bitte fügen Sie dieses Programm der Ausschlussliste hinzu oder erlauben Sie kontrollierten Ordnerzugriff, um ContaHogar 3.0 zu verwenden</value>
+  </data>
+  <data name="ControlSeguridadWindows" xml:space="preserve">
+    <value>Windows Security Control</value>
+  </data>
 </root>

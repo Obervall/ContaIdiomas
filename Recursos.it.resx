@@ -976,4 +976,11 @@ Meno dati offrono un'analisi molto più chiara!</value>
   <data name="NoEditarFueraEjercicio" xml:space="preserve">
     <value>Non puoi modificare una voce al di fuori dell'anno fiscale corrente</value>
   </data>
+  <data name="Error_Permisos_Antivirus" xml:space="preserve">
+    <value>Il tuo antivirus o la protezione di Windows sta bloccando l'accesso a My Documents.
+Si prega di aggiungere questo programma alla lista di esclusioni o consentire l'accesso controllato alle cartelle per utilizzare ContaHogar 3.0</value>
+  </data>
+  <data name="ControlSeguridadWindows" xml:space="preserve">
+    <value>Controllo della Sicurezza di Windows</value>
+  </data>
 </root>

@@ -976,4 +976,11 @@ Less data offers a much clearer analysis!</value>
   <data name="NoEditarFueraEjercicio" xml:space="preserve">
     <value>You cannot edit an entry outside of the current fiscal year</value>
   </data>
+  <data name="Error_Permisos_Antivirus" xml:space="preserve">
+    <value>Your antivirus or Windows protection is blocking access to My Documents.
+Please add this program to the exclusion list or allow controlled folder access in order to use ContaHogar 3.0</value>
+  </data>
+  <data name="ControlSeguridadWindows" xml:space="preserve">
+    <value>Windows Security Control</value>
+  </data>
 </root>
