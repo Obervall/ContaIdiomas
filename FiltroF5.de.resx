@@ -130,10 +130,10 @@
     <value>Filterinformationen: </value>
   </data>
   <data name="BtnAceptar.Text" xml:space="preserve">
-    <value>Akzeptieren</value>
+    <value>Ok</value>
   </data>
   <data name="BtnCancelar.Text" xml:space="preserve">
-    <value>Stornieren</value>
+    <value>Abbrechen</value>
   </data>
   <data name="ChkOtrosFiltros.Text" xml:space="preserve">
     <value>Behalten Sie die anderen Filter</value>

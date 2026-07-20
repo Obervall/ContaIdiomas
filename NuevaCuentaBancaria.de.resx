@@ -133,10 +133,10 @@
     <value>Accountdaten: </value>
   </data>
   <data name="BtnCancelar.Text" xml:space="preserve">
-    <value>Abbruch</value>
+    <value>Abbrechen</value>
   </data>
   <data name="BtnAceptar.Text" xml:space="preserve">
-    <value>Akzeptieren</value>
+    <value>Buchen</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Neues Bankkonto</value>

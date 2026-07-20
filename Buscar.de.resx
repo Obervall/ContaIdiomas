@@ -127,10 +127,10 @@
     <value>Suchinformationen: </value>
   </data>
   <data name="BtnAceptar.Text" xml:space="preserve">
-    <value>Akzeptieren</value>
+    <value>Ok</value>
   </data>
   <data name="BtnCancelar.Text" xml:space="preserve">
-    <value>Stornieren</value>
+    <value>Abbrechen</value>
   </data>
   <data name="ChkPrimerRegistro.Text" xml:space="preserve">
     <value>Beginnen Sie mit der ersten Registrierung</value>

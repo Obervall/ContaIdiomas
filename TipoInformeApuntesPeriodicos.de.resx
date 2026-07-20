@@ -133,10 +133,10 @@
     <value>Wählen Sie die Art des Berichts</value>
   </data>
   <data name="BtnAceptar.Text" xml:space="preserve">
-    <value>Akzeptieren</value>
+    <value>Ok</value>
   </data>
   <data name="BtnCancelar.Text" xml:space="preserve">
-    <value>Abbruch</value>
+    <value>Abbrechen</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Art des Berichts Periodische Notizen</value>

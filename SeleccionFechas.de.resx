@@ -124,12 +124,12 @@
     <value>Datum bis:</value>
   </data>
   <data name="BtnAceptar.Text" xml:space="preserve">
-    <value>Akzeptieren</value>
+    <value>Ok</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Wählen Sie die Daten aus</value>
   </data>
   <data name="BtnCancelar.Text" xml:space="preserve">
-    <value>Stornieren</value>
+    <value>Abbrechen</value>
   </data>
 </root>

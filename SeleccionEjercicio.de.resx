@@ -124,7 +124,7 @@
     <value>Neu anlegen</value>
   </data>
   <data name="BtnAceptar.Text" xml:space="preserve">
-    <value>&amp;Akzeptieren</value>
+    <value>&amp;Ok</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Wählen Sie die Übung aus</value>
@@ -157,6 +157,6 @@
     <value>Fehlersuche nach der neuen Übung </value>
   </data>
   <data name="BtnCancelar.Text" xml:space="preserve">
-    <value>Stornieren</value>
+    <value>Abbrechen</value>
   </data>
 </root>

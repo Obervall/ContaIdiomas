@@ -239,10 +239,10 @@ Sie werden nicht aus der Datenbank entfernt</value>
     <value>Alle Felder</value>
   </data>
   <data name="ToolTipAceptar" xml:space="preserve">
-    <value>Akzeptieren und beenden</value>
+    <value>Buchen &amp; Schließen</value>
   </data>
   <data name="ToolTipCancelar" xml:space="preserve">
-    <value>Stornieren</value>
+    <value>Abbrechen</value>
   </data>
   <data name="ErrorModificarRegistro" xml:space="preserve">
     <value>Fehler bei der Änderung des Registers</value>
@@ -680,7 +680,7 @@ Die Datei ist nicht geöffnet</value>
     <value>Nein</value>
   </data>
   <data name="BotonAceptar" xml:space="preserve">
-    <value>Akzeptieren</value>
+    <value>Ok</value>
   </data>
   <data name="EL_CORTE_INGLES" xml:space="preserve">
     <value>EL CORTE INGLES</value>
