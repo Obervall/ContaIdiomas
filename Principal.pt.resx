@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="VerToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Ver</value>
+    <value>&amp;Visualizar</value>
   </data>
   <data name="MantenimientosToolStripMenuItem.Text" xml:space="preserve">
     <value>Manutenções</value>
@@ -130,10 +130,10 @@
     <value>Orçamentos</value>
   </data>
   <data name="InformesToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Informes</value>
+    <value>&amp;Relatorios</value>
   </data>
   <data name="HerramientasToolStripMenuItem.Text" xml:space="preserve">
-    <value>Herramientas</value>
+    <value>Ferramentas</value>
   </data>
   <data name="AyudaToolStripMenuItem.Text" xml:space="preserve">
     <value>Ajuda</value>
@@ -496,7 +496,7 @@
     <value>Orçamentos, esvaziamento!</value>
   </data>
   <data name="ArchivoToolStripMenuItem.Text" xml:space="preserve">
-    <value>Casa</value>
+    <value>&amp;Início</value>
   </data>
   <data name="ListadoApuntesOrdenadoFechas" xml:space="preserve">
     <value>Lista de Notas Ordenadas por Data</value>

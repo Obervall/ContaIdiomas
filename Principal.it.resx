@@ -136,7 +136,7 @@
     <value>Esci dall’applicazione</value>
   </data>
   <data name="ArchivoToolStripMenuItem.Text" xml:space="preserve">
-    <value>Casa</value>
+    <value>&amp;Home</value>
   </data>
   <data name="BarraDeHerramientasMenu.Text" xml:space="preserve">
     <value>Barra degli strumenti</value>
@@ -157,7 +157,7 @@
     <value>Nascondi/Visualizza i colori nella barra e nel menu</value>
   </data>
   <data name="VerToolStripMenuItem.Text" xml:space="preserve">
-    <value>Vista</value>
+    <value>&amp;Visualizza</value>
   </data>
   <data name="ConceptosContablesToolStripMenuItem.Text" xml:space="preserve">
     <value>Concetti contabili</value>
@@ -175,7 +175,7 @@
     <value>Tipi di account</value>
   </data>
   <data name="MantenimientosToolStripMenuItem.Text" xml:space="preserve">
-    <value>Manutenzione</value>
+    <value>&amp;Manutenzione</value>
   </data>
   <data name="VerApuntesToolStripMenuItem.Text" xml:space="preserve">
     <value>Visualizza Note</value>
@@ -202,7 +202,7 @@
     <value>Aggiungere, modificare, cancellare o fare riferimento a note periodiche</value>
   </data>
   <data name="ApuntesToolStripMenuItem.Text" xml:space="preserve">
-    <value>Note</value>
+    <value>&amp;Scritture</value>
   </data>
   <data name="IntroducirDaToolStripMenuItem.Text" xml:space="preserve">
     <value>Inserisci i dati di bilancio</value>
@@ -217,7 +217,7 @@
     <value>Mostra grafico e variazioni di budget</value>
   </data>
   <data name="PresupuestosToolStripMenuItem.Text" xml:space="preserve">
-    <value>Bilanci</value>
+    <value>Budget</value>
   </data>
   <data name="OrdenadoPorFechasToolStripMenuItem.Text" xml:space="preserve">
     <value>Ordinato per date</value>

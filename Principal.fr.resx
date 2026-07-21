@@ -222,7 +222,7 @@
     <value>49, 24</value>
   </data>
   <data name="VerToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Voir</value>
+    <value>&amp;Affichage</value>
   </data>
   <data name="ConceptosContablesToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -275,7 +275,7 @@
     <value>82, 24</value>
   </data>
   <data name="MantenimientosToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Entretien</value>
+    <value>&amp;Maintenance</value>
   </data>
   <data name="VerApuntesToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -357,7 +357,7 @@
     <value>97, 24</value>
   </data>
   <data name="ApuntesToolStripMenuItem.Text" xml:space="preserve">
-    <value>Éscritures</value>
+    <value>Écritures</value>
   </data>
   <data name="IntroducirDaToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -587,7 +587,7 @@
     <value>101, 24</value>
   </data>
   <data name="InformesToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Information</value>
+    <value>&amp;Rapports</value>
   </data>
   <data name="HacerCopiaDeSeguridadToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -7830,7 +7830,7 @@
     <value>Budgets, vidange !</value>
   </data>
   <data name="ArchivoToolStripMenuItem.Text" xml:space="preserve">
-    <value>Accueil</value>
+    <value>&amp;Accueil</value>
   </data>
   <data name="ListadoApuntesOrdenadoFechas" xml:space="preserve">
     <value>Liste des notes triées par date</value>
