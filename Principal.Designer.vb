@@ -33,6 +33,7 @@ Partial Class Principal
         Me.BarraDeHerramientasMenu = New System.Windows.Forms.ToolStripMenuItem()
         Me.BarraDeEstadoMenu = New System.Windows.Forms.ToolStripMenuItem()
         Me.BarraYMenuConColores = New System.Windows.Forms.ToolStripMenuItem()
+        Me.LogoBuhoVisibleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MantenimientosToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ConceptosContablesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CuentasToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -139,7 +140,6 @@ Partial Class Principal
         Me.LblNotificacion = New System.Windows.Forms.Label()
         Me.ButtonActualizar = New System.Windows.Forms.Button()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
-        Me.LogoBuhoVisibleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BarraDeMenu.SuspendLayout()
         Me.BarraDeEstado.SuspendLayout()
         Me.BarraDeHerramientas.SuspendLayout()
@@ -210,6 +210,14 @@ Partial Class Principal
         Me.BarraYMenuConColores.CheckState = System.Windows.Forms.CheckState.Checked
         Me.BarraYMenuConColores.Name = "BarraYMenuConColores"
         resources.ApplyResources(Me.BarraYMenuConColores, "BarraYMenuConColores")
+        '
+        'LogoBuhoVisibleToolStripMenuItem
+        '
+        Me.LogoBuhoVisibleToolStripMenuItem.Checked = True
+        Me.LogoBuhoVisibleToolStripMenuItem.CheckOnClick = True
+        Me.LogoBuhoVisibleToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.LogoBuhoVisibleToolStripMenuItem.Name = "LogoBuhoVisibleToolStripMenuItem"
+        resources.ApplyResources(Me.LogoBuhoVisibleToolStripMenuItem, "LogoBuhoVisibleToolStripMenuItem")
         '
         'MantenimientosToolStripMenuItem
         '
@@ -783,14 +791,6 @@ Partial Class Principal
         resources.ApplyResources(Me.PictureBox1, "PictureBox1")
         Me.PictureBox1.Name = "PictureBox1"
         Me.PictureBox1.TabStop = False
-        '
-        'LogoBuhoVisibleToolStripMenuItem
-        '
-        Me.LogoBuhoVisibleToolStripMenuItem.Checked = True
-        Me.LogoBuhoVisibleToolStripMenuItem.CheckOnClick = True
-        Me.LogoBuhoVisibleToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.LogoBuhoVisibleToolStripMenuItem.Name = "LogoBuhoVisibleToolStripMenuItem"
-        resources.ApplyResources(Me.LogoBuhoVisibleToolStripMenuItem, "LogoBuhoVisibleToolStripMenuItem")
         '
         'Principal
         '

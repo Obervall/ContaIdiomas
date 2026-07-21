@@ -89,6 +89,9 @@ Module Funciones
     Public vTotalPresupuestoYTD As Double = 0
     Public vTotalRealYTD As Double = 0
     Public vTipoConceptoGlobalActual As String = "GASTO"
+    Public vAviso2 As Boolean = False
+    Public vAvisoDiasRestantes As Integer
+
 
     Public Structure ElementoCombo
         Public Property TextoMostrar As String  ' Lo que ve el usuario (ej: "Ausgaben")
@@ -140,14 +143,16 @@ Module Funciones
             Dim txtTitol As String = If(resManager?.GetString("TitolApp", culturaActivaEnVivo), "ContaHogar")
             Dim txtVersio As String = If(resManager?.GetString("Versio", culturaActivaEnVivo), "Versión")
             Dim txtExercici As String = If(resManager?.GetString("Ejercicio", culturaActivaEnVivo), "Ejercicio")
+            Dim txtAvisoDiasRestantes As String = If(vAviso2, resManager.GetString("VersionEvaluacion") & ":  " & vAvisoDiasRestantes & " " & resManager.GetString("dias"), "")
 
             ' Forzamos el ensamblado del rótulo de cabecera de forma dócil e indestructible
-            f.Text = String.Format("{0} ContaHogar 3.0  -  {1}: {2}  -  {3}: {4}",
+            f.Text = String.Format("{0} ContaHogar 3.0 Premium  -  {1}: {2}  -  {3}: {4}       {5}",
                                         txtTitol.Trim(),
                                         txtVersio.Trim(),
                                         My.Settings.Version,
                                         txtExercici.Trim(),
-                                        vAñoEjercicio.ToString())
+                                        vAñoEjercicio.ToString(),
+                                        txtAvisoDiasRestantes.Trim())
         End If
     End Sub
 

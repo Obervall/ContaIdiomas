@@ -976,11 +976,25 @@ Meno dati offrono un'analisi molto più chiara!</value>
   <data name="NoEditarFueraEjercicio" xml:space="preserve">
     <value>Non puoi modificare una voce al di fuori dell'anno fiscale corrente</value>
   </data>
-  <data name="Error_Permisos_Antivirus" xml:space="preserve">
-    <value>Il tuo antivirus o la protezione di Windows sta bloccando l'accesso a My Documents.
-Si prega di aggiungere questo programma alla lista di esclusioni o consentire l'accesso controllato alle cartelle per utilizzare ContaHogar 3.0</value>
-  </data>
   <data name="ControlSeguridadWindows" xml:space="preserve">
     <value>Controllo della Sicurezza di Windows</value>
+  </data>
+  <data name="MsgPeriodoPruebaExpirado" xml:space="preserve">
+    <value>Il tuo periodo di prova di 30 giorni è terminato. Per favore,
+acquista la versione completa dal Microsoft Store.</value>
+  </data>
+  <data name="PeriodoPrueba" xml:space="preserve">
+    <value>Periodo di prova scaduto</value>
+  </data>
+  <data name="VersionEvaluacion" xml:space="preserve">
+    <value>Versione di valutazione. Rimangono</value>
+  </data>
+  <data name="dias" xml:space="preserve">
+    <value>Giorni</value>
+  </data>
+  <data name="Error_Permisos_Antivirus" xml:space="preserve">
+    <value>Il tuo antivirus o la protezione di Windows sta bloccando l'accesso a My Documents.
+Per favore, aggiungi questo programma alla lista delle esclusioni
+oppure consente un accesso controllato alle cartelle per poter utilizzare ContaHogar 3.0 Premium.</value>
   </data>
 </root>

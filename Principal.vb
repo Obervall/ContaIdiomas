@@ -108,6 +108,10 @@ Public Class Principal
     End Sub
 
     Private Sub Principal_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        'My.Settings.FechaInicioPrueba = Date.MinValue  ' Para limpiar la fecha de prueba y reiniciar el periodo de evaluación
+        VerificarPruebaInterna()
+
         ActualizarTextosFormulario(Me)
 
         RefrescarMenus()
@@ -204,7 +208,7 @@ Public Class Principal
         Catch ex As UnauthorizedAccessException
             ' 🚨 EL CORTAFUEGOS DEL ANTIVIRUS: Si salta el bloqueo estricto de Windows o Windows Defender
             Dim msgAntivirus As String = "El antivirus o la protección de Windows está bloqueando el acceso a 'Mis Documentos'." & vbCrLf &
-                                         "Por favor, añade este programa a la lista de exclusiones o permite el acceso controlado a carpetas para poder usar ContaHogar 3.0."
+                                         "Por favor, añade este programa a la lista de exclusiones o permite el acceso controlado a carpetas para poder usar ContaHogar 3.0 Premium."
 
             ' Pescamos de forma segura la traducción si existe en tu ResX (Castellano / Catalán / Inglés)
             If resManager IsNot Nothing Then
@@ -2107,6 +2111,42 @@ Public Class Principal
         Finally
             Me.Cursor = Cursors.Default
         End Try
+    End Sub
+
+    Public Sub VerificarPruebaInterna()
+        'My.Settings.FechaInicioPrueba = Date.Today.AddDays(-31) ' Forzamos que pasaran 31 días
+
+        If My.Settings.FechaInicioPrueba = Date.MinValue Then
+            My.Settings.FechaInicioPrueba = Date.Today
+            My.Settings.Save()
+        End If
+
+        Dim diasPasados As Integer = (Date.Today - My.Settings.FechaInicioPrueba).Days
+        Dim diasRestantes As Integer = 30 - diasPasados
+
+        If diasRestantes <= 0 Then
+            MsgBox(resManager.GetString("MsgPeriodoPruebaExpirado"), MsgBoxStyle.Critical, resManager.GetString("PeriodoPrueba"))
+
+            ' Redirección nativa y web a ContaHogar 3.0 Premium
+            Dim vinculoProfundo As String = "ms-windows-store://pdp/?productid=9MWDQ6FK2P72"
+            Try
+                System.Diagnostics.Process.Start(New System.Diagnostics.ProcessStartInfo(vinculoProfundo) With {
+            .UseShellExecute = True
+        })
+            Catch ex As Exception
+                Dim urlWeb As String = "https://microsoft.com"
+                System.Diagnostics.Process.Start(New System.Diagnostics.ProcessStartInfo(urlWeb) With {
+            .UseShellExecute = True
+        })
+            End Try
+
+            End
+        ElseIf diasRestantes >= 1 And diasRestantes <= 30 Then
+            vAviso2 = True
+            vAvisoDiasRestantes = diasRestantes
+            ' Mostramos los días que le quedan en tu etiqueta del formulario que hay en Funciones
+        End If
+
     End Sub
 
 End Class

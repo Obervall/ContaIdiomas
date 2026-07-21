@@ -884,6 +884,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a días.
+    '''</summary>
+    Friend Shared ReadOnly Property dias() As String
+        Get
+            Return ResourceManager.GetString("dias", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a CAJA EFECTIVO.
     '''</summary>
     Friend Shared ReadOnly Property EFECTIVO() As String
@@ -912,7 +921,8 @@ Friend Class Recursos
     
     '''<summary>
     '''  Busca una cadena traducida similar a El antivirus o la protección de Windows está bloqueando el acceso a Mis Documentos.
-    '''Por favor, añade este programa a la lista de exclusiones o permite el acceso controlado a carpetas para poder usar ContaHogar 3.0.
+    '''Por favor, añade este programa a la lista de exclusiones
+    '''o permite el acceso controlado a carpetas para poder usar ContaHogar 3.0 Premium..
     '''</summary>
     Friend Shared ReadOnly Property Error_Permisos_Antivirus() As String
         Get
@@ -1832,6 +1842,16 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Su periodo de prueba de 30 días ha finalizado. Por favor,
+    '''adquiera la versión completa en la Microsoft Store..
+    '''</summary>
+    Friend Shared ReadOnly Property MsgPeriodoPruebaExpirado() As String
+        Get
+            Return ResourceManager.GetString("MsgPeriodoPruebaExpirado", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Por favor, seleccione primero las filas que desea eliminar utilizando las celdas de la izquierda.
     '''</summary>
     Friend Shared ReadOnly Property MsgSeleccionarFilasEliminar() As String
@@ -2008,6 +2028,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property PENSION() As String
         Get
             Return ResourceManager.GetString("PENSION", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Periodo de Prueba Expirado.
+    '''</summary>
+    Friend Shared ReadOnly Property PeriodoPrueba() As String
+        Get
+            Return ResourceManager.GetString("PeriodoPrueba", resourceCulture)
         End Get
     End Property
     
@@ -2627,6 +2656,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property VersionDisponible() As String
         Get
             Return ResourceManager.GetString("VersionDisponible", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Versión de evaluación. Quedan.
+    '''</summary>
+    Friend Shared ReadOnly Property VersionEvaluacion() As String
+        Get
+            Return ResourceManager.GetString("VersionEvaluacion", resourceCulture)
         End Get
     End Property
     

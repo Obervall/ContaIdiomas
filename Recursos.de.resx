@@ -976,11 +976,25 @@ Weniger Daten bieten eine viel klarere Analyse!</value>
   <data name="NoEditarFueraEjercicio" xml:space="preserve">
     <value>Sie können einen Eintrag außerhalb des aktuellen Haushaltsjahres nicht bearbeiten</value>
   </data>
-  <data name="Error_Permisos_Antivirus" xml:space="preserve">
-    <value>Dein Antiviren- oder Windows-Schutz blockiert den Zugriff auf Meine Dokumente.
-Bitte fügen Sie dieses Programm der Ausschlussliste hinzu oder erlauben Sie kontrollierten Ordnerzugriff, um ContaHogar 3.0 zu verwenden</value>
-  </data>
   <data name="ControlSeguridadWindows" xml:space="preserve">
     <value>Windows Security Control</value>
+  </data>
+  <data name="MsgPeriodoPruebaExpirado" xml:space="preserve">
+    <value>Ihre 30-tägige Probezeit ist beendet. Bitte,
+Kaufen Sie die Vollversion im Microsoft Store.</value>
+  </data>
+  <data name="PeriodoPrueba" xml:space="preserve">
+    <value>Abgelaufene Probezeit</value>
+  </data>
+  <data name="VersionEvaluacion" xml:space="preserve">
+    <value>Bewertungsversion. Sie bleiben bestehen</value>
+  </data>
+  <data name="dias" xml:space="preserve">
+    <value>Tage</value>
+  </data>
+  <data name="Error_Permisos_Antivirus" xml:space="preserve">
+    <value>Dein Antiviren- oder Windows-Schutz blockiert den Zugriff auf Meine Dokumente.
+Bitte fügen Sie dieses Programm auf die Ausschlussliste hinzu
+oder ermöglicht kontrollierten Zugriff auf Ordner, um ContaHogar 3.0 Premium nutzen zu können.</value>
   </data>
 </root>

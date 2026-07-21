@@ -976,11 +976,25 @@ Less data offers a much clearer analysis!</value>
   <data name="NoEditarFueraEjercicio" xml:space="preserve">
     <value>You cannot edit an entry outside of the current fiscal year</value>
   </data>
-  <data name="Error_Permisos_Antivirus" xml:space="preserve">
-    <value>Your antivirus or Windows protection is blocking access to My Documents.
-Please add this program to the exclusion list or allow controlled folder access in order to use ContaHogar 3.0</value>
-  </data>
   <data name="ControlSeguridadWindows" xml:space="preserve">
     <value>Windows Security Control</value>
+  </data>
+  <data name="MsgPeriodoPruebaExpirado" xml:space="preserve">
+    <value>Your 30-day trial period has ended. Please,
+purchase the full version from the Microsoft Store.</value>
+  </data>
+  <data name="PeriodoPrueba" xml:space="preserve">
+    <value>Expired Trial Period</value>
+  </data>
+  <data name="VersionEvaluacion" xml:space="preserve">
+    <value>Evaluation version. They remain</value>
+  </data>
+  <data name="dias" xml:space="preserve">
+    <value>days</value>
+  </data>
+  <data name="Error_Permisos_Antivirus" xml:space="preserve">
+    <value>Your antivirus or Windows protection is blocking access to My Documents.
+Please add this program to the exclusion list
+or allows controlled access to folders to be able to use ContaHogar 3.0 Premium.</value>
   </data>
 </root>

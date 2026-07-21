@@ -976,11 +976,25 @@ Menys dades ofereixen una anàlisi molt més clara!</value>
   <data name="NoEditarFueraEjercicio" xml:space="preserve">
     <value>No es pot editar un apunt fora de l' exercici actual</value>
   </data>
-  <data name="Error_Permisos_Antivirus" xml:space="preserve">
-    <value>L'antivirus o la protecció de Windows està bloquejant l'accés als meus Documents.
-Per favor, afegeix aquest programa a la llista d'exclusions o permet l'accés controlat a carpetes per poder usar ContaHogar 3.0</value>
-  </data>
   <data name="ControlSeguridadWindows" xml:space="preserve">
     <value>Control de Seguretat Windows</value>
+  </data>
+  <data name="MsgPeriodoPruebaExpirado" xml:space="preserve">
+    <value>El seu període de prova de 30 dies ha finalitzat. Per favor,
+adquireixi la versió completa a la Microsoft Store.</value>
+  </data>
+  <data name="PeriodoPrueba" xml:space="preserve">
+    <value>Període de Prova Expirat</value>
+  </data>
+  <data name="VersionEvaluacion" xml:space="preserve">
+    <value>Versió d'avaluació. Queden</value>
+  </data>
+  <data name="dias" xml:space="preserve">
+    <value>dies</value>
+  </data>
+  <data name="Error_Permisos_Antivirus" xml:space="preserve">
+    <value>L'antivirus o la protecció de Windows està bloquejant l'accés als meus Documents.
+Per favor, afegeix aquest programa a la llista d'exclusions
+o permet l'accés controlat a carpetes per poder usar ContaHogar 3.0 Premium.</value>
   </data>
 </root>

@@ -293,6 +293,17 @@ Namespace My
                 Me("LogoBuho") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+        Public Property FechaInicioPrueba() As Date
+            Get
+                Return CType(Me("FechaInicioPrueba"),Date)
+            End Get
+            Set
+                Me("FechaInicioPrueba") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

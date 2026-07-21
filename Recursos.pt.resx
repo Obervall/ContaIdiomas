@@ -976,11 +976,25 @@ Menos dados oferecem uma análise muito mais clara!</value>
   <data name="NoEditarFueraEjercicio" xml:space="preserve">
     <value>Você não pode editar uma entrada fora do ano fiscal atual</value>
   </data>
-  <data name="Error_Permisos_Antivirus" xml:space="preserve">
-    <value>Seu antivírus ou proteção do Windows está bloqueando o acesso aos Meus Documentos.
-Por favor, adicione este programa à lista de exclusão ou permita o acesso controlado de pastas para usar o ContaHogar 3.0</value>
-  </data>
   <data name="ControlSeguridadWindows" xml:space="preserve">
     <value>Controle de Segurança do Windows</value>
+  </data>
+  <data name="MsgPeriodoPruebaExpirado" xml:space="preserve">
+    <value>Seu período de teste de 30 dias acabou. Por favor,
+compre a versão completa na Microsoft Store.</value>
+  </data>
+  <data name="PeriodoPrueba" xml:space="preserve">
+    <value>Período de Teste Expirado</value>
+  </data>
+  <data name="VersionEvaluacion" xml:space="preserve">
+    <value>Versão de avaliação. Eles permanecem</value>
+  </data>
+  <data name="dias" xml:space="preserve">
+    <value>Dias</value>
+  </data>
+  <data name="Error_Permisos_Antivirus" xml:space="preserve">
+    <value>Seu antivírus ou proteção do Windows está bloqueando o acesso aos Meus Documentos.
+Por favor, adicione este programa à lista de exclusão
+ou permite acesso controlado a pastas para poder usar o ContaHogar 3.0 Premium.</value>
   </data>
 </root>

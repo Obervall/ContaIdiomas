@@ -978,9 +978,23 @@ en el listado (Embudo Rosa).
   </data>
   <data name="Error_Permisos_Antivirus" xml:space="preserve">
     <value>El antivirus o la protección de Windows está bloqueando el acceso a Mis Documentos.
-Por favor, añade este programa a la lista de exclusiones o permite el acceso controlado a carpetas para poder usar ContaHogar 3.0</value>
+Por favor, añade este programa a la lista de exclusiones
+o permite el acceso controlado a carpetas para poder usar ContaHogar 3.0 Premium.</value>
   </data>
   <data name="ControlSeguridadWindows" xml:space="preserve">
     <value>Control de Seguridad Windows</value>
+  </data>
+  <data name="MsgPeriodoPruebaExpirado" xml:space="preserve">
+    <value>Su periodo de prueba de 30 días ha finalizado. Por favor,
+adquiera la versión completa en la Microsoft Store.</value>
+  </data>
+  <data name="PeriodoPrueba" xml:space="preserve">
+    <value>Periodo de Prueba Expirado</value>
+  </data>
+  <data name="VersionEvaluacion" xml:space="preserve">
+    <value>Versión de evaluación. Quedan</value>
+  </data>
+  <data name="dias" xml:space="preserve">
+    <value>días</value>
   </data>
 </root>

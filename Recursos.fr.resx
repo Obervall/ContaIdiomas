@@ -976,11 +976,25 @@ Moins de données offrent une analyse bien plus claire !</value>
   <data name="NoEditarFueraEjercicio" xml:space="preserve">
     <value>Vous ne pouvez pas modifier une entrée en dehors de l’exercice fiscal en cours</value>
   </data>
-  <data name="Error_Permisos_Antivirus" xml:space="preserve">
-    <value>Votre antivirus ou la protection de Windows bloque l’accès à Mes Documents.
-Veuillez ajouter ce programme à la liste d’exclusion ou autoriser l’accès contrôlé à des dossiers afin d’utiliser ContaHogar 3.0</value>
-  </data>
   <data name="ControlSeguridadWindows" xml:space="preserve">
     <value>Contrôle de sécurité Windows</value>
+  </data>
+  <data name="MsgPeriodoPruebaExpirado" xml:space="preserve">
+    <value>Votre période d’essai de 30 jours est terminée. S’il vous plaît,
+achetez la version complète sur le Microsoft Store.</value>
+  </data>
+  <data name="PeriodoPrueba" xml:space="preserve">
+    <value>Période d’essai expirée</value>
+  </data>
+  <data name="VersionEvaluacion" xml:space="preserve">
+    <value>Version d’évaluation. Ils restent</value>
+  </data>
+  <data name="dias" xml:space="preserve">
+    <value>Jours</value>
+  </data>
+  <data name="Error_Permisos_Antivirus" xml:space="preserve">
+    <value>Votre antivirus ou la protection de Windows bloque l’accès à Mes Documents.
+Veuillez ajouter ce programme à la liste des exclusions
+ou permet un accès contrôlé aux dossiers pour pouvoir utiliser ContaHogar 3.0 Premium.</value>
   </data>
 </root>
