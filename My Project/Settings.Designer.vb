@@ -296,12 +296,12 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
-        Public Property FechaInicioPrueba() As Date
+        Public Property vPantalla() As Date
             Get
-                Return CType(Me("FechaInicioPrueba"),Date)
+                Return CType(Me("vPantalla"),Date)
             End Get
             Set
-                Me("FechaInicioPrueba") = value
+                Me("vPantalla") = value
             End Set
         End Property
     End Class

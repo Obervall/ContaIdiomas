@@ -2116,12 +2116,12 @@ Public Class Principal
     Public Sub VerificarPruebaInterna()
         'My.Settings.FechaInicioPrueba = Date.Today.AddDays(-31) ' Forzamos que pasaran 31 días
 
-        If My.Settings.FechaInicioPrueba = Date.MinValue Then
-            My.Settings.FechaInicioPrueba = Date.Today
+        If My.Settings.vPantalla = Date.MinValue Then
+            My.Settings.vPantalla = Date.Today
             My.Settings.Save()
         End If
 
-        Dim diasPasados As Integer = (Date.Today - My.Settings.FechaInicioPrueba).Days
+        Dim diasPasados As Integer = (Date.Today - My.Settings.vPantalla).Days
         Dim diasRestantes As Integer = 30 - diasPasados
 
         If diasRestantes <= 0 Then
@@ -2144,7 +2144,7 @@ Public Class Principal
         ElseIf diasRestantes >= 1 And diasRestantes <= 30 Then
             vAviso2 = True
             vAvisoDiasRestantes = diasRestantes
-            ' Mostramos los días que le quedan en tu etiqueta del formulario que hay en Funciones
+            ' Mostramos los días que le quedan en la etiqueta del formulario que hay en Funciones
         End If
 
     End Sub

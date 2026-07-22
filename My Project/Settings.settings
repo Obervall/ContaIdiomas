@@ -62,7 +62,7 @@
     <Setting Name="LogoBuho" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="FechaInicioPrueba" Type="System.DateTime" Scope="User">
+    <Setting Name="vPantalla" Type="System.DateTime" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>
