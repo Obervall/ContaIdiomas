@@ -110,7 +110,7 @@ Public Class Principal
     Private Sub Principal_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         'My.Settings.FechaInicioPrueba = Date.MinValue  ' Para limpiar la fecha de prueba y reiniciar el periodo de evaluación
-        'VerificarPruebaInterna()
+        VerificarPruebaInterna()
 
         ActualizarTextosFormulario(Me)
 
@@ -2114,39 +2114,71 @@ Public Class Principal
     End Sub
 
     Public Sub VerificarPruebaInterna()
-        'My.Settings.FechaInicioPrueba = Date.Today.AddDays(-31) ' Forzamos que pasaran 31 días
+        Dim diasRestantes As Integer = -1
 
-        If My.Settings.vPantalla = Date.MinValue Then
-            My.Settings.vPantalla = Date.Today
-            My.Settings.Save()
+        Try
+            ' Ejecutamos un comando rápido de PowerShell que consulta la API de la Store directamente al OS
+            Dim psCommand As String = "$ctx = [Windows.Services.Store.StoreContext]::GetDefault(); " &
+                                  "$lic = $ctx.GetAppLicenseAsync().GetResults(); " &
+                                  "if($lic.IsTrial){ " &
+                                  "  $days = ($lic.ExpirationDate - [DateTimeOffset]::UtcNow).TotalDays; " &
+                                  "  [Math]::Ceiling($days) " &
+                                  "}else{ 999 }"
+
+            Dim startInfo As New ProcessStartInfo() With {
+            .FileName = "powershell.exe",
+            .Arguments = $"-NoProfile -Command ""[void][Window.Services.Store.StoreContext, Windows, ContentType=WindowsRuntime]; {psCommand}""",
+            .UseShellExecute = False,
+            .RedirectStandardOutput = True,
+            .CreateNoWindow = True
+        }
+
+            Using process As Process = Process.Start(startInfo)
+                ' Espera como máximo 1 segundo (1000 ms) para no congelar la app si no hay Store
+                If process.WaitForExit(1000) Then
+                    Dim output As String = process.StandardOutput.ReadToEnd().Trim()
+                    If Not Integer.TryParse(output, diasRestantes) Then
+                        diasRestantes = -1
+                    End If
+                Else
+                    ' Si tarda más de un segundo, cancelamos y forzamos Plan B
+                    process.Kill()
+                    diasRestantes = -1
+                End If
+            End Using
+
+            ' LÍNEA TEMPORAL PARA PRUEBAS: Simulamos que a un usuario real le quedan 5 días
+            'diasRestantes = 5
+
+        Catch ex As Exception
+            diasRestantes = -1 ' Si falla el script, activa el plan B local
+        End Try
+
+        ' Lógica de control (Plan B local si da -1)
+        If diasRestantes = -1 Then
+            If My.Settings.vPantalla = Date.MinValue Then
+                My.Settings.vPantalla = Date.Today
+                My.Settings.Save()
+            End If
+            Dim diasPasados As Integer = (Date.Today - My.Settings.vPantalla).Days
+            diasRestantes = 30 - diasPasados
         End If
 
-        Dim diasPasados As Integer = (Date.Today - My.Settings.vPantalla).Days
-        Dim diasRestantes As Integer = 30 - diasPasados
-
+        ' Verificación de expiración
         If diasRestantes <= 0 Then
             MsgBox(resManager.GetString("MsgPeriodoPruebaExpirado"), MsgBoxStyle.Critical, resManager.GetString("PeriodoPrueba"))
 
-            ' Redirección nativa y web a ContaHogar 3.0 Premium
             Dim vinculoProfundo As String = "ms-windows-store://pdp/?productid=9MWDQ6FK2P72"
             Try
-                System.Diagnostics.Process.Start(New System.Diagnostics.ProcessStartInfo(vinculoProfundo) With {
-            .UseShellExecute = True
-        })
+                System.Diagnostics.Process.Start(New System.Diagnostics.ProcessStartInfo(vinculoProfundo) With {.UseShellExecute = True})
             Catch ex As Exception
-                Dim urlWeb As String = "https://microsoft.com"
-                System.Diagnostics.Process.Start(New System.Diagnostics.ProcessStartInfo(urlWeb) With {
-            .UseShellExecute = True
-        })
+                System.Diagnostics.Process.Start(New System.Diagnostics.ProcessStartInfo("https://microsoft.com") With {.UseShellExecute = True})
             End Try
-
             End
         ElseIf diasRestantes >= 1 And diasRestantes <= 30 Then
             vAviso2 = True
             vAvisoDiasRestantes = diasRestantes
-            ' Mostramos los días que le quedan en la etiqueta del formulario que hay en Funciones
         End If
-
     End Sub
 
 End Class

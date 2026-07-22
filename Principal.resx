@@ -8797,4 +8797,22 @@ C:\ContaHogar3.0, que se ha creado, si no lo estaba, al aceptar esta importació
   <data name="ErrorCriticoRestauracion" xml:space="preserve">
     <value>Error crítico durante la restauración de la base de datos</value>
   </data>
+  <data name="ListadoApuntesSoloGastosFechas" xml:space="preserve">
+    <value>Listado Apuntes Solo Gastos Ordenado por Fechas</value>
+  </data>
+  <data name="ListadoApuntesSoloGastosConceptos" xml:space="preserve">
+    <value>Listado Apuntes Solo Gastos Ordenado por Conceptos</value>
+  </data>
+  <data name="ListadoApuntesSoloGastosImportes" xml:space="preserve">
+    <value>Listado Apuntes Solo Gastos Ordenado por Importes</value>
+  </data>
+  <data name="ListadoPeriodicosSoloGastosFechas" xml:space="preserve">
+    <value>Listado Apuntes Periódicos Solo Gastos Ordenado por Fechas</value>
+  </data>
+  <data name="ListadoPeriodicosSoloGastosConceptos" xml:space="preserve">
+    <value>Listado Apuntes Periódicos Solo Gastos Ordenado por Conceptos</value>
+  </data>
+  <data name="ListadoPeriodicosSoloGastosImportes" xml:space="preserve">
+    <value>Listado Apuntes Periódicos Solo Gastos Ordenado por Importes</value>
+  </data>
 </root>
