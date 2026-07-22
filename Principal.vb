@@ -110,7 +110,7 @@ Public Class Principal
     Private Sub Principal_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         'My.Settings.FechaInicioPrueba = Date.MinValue  ' Para limpiar la fecha de prueba y reiniciar el periodo de evaluación
-        VerificarPruebaInterna()
+        'VerificarPruebaInterna()
 
         ActualizarTextosFormulario(Me)
 
