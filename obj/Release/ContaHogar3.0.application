@@ -14,14 +14,14 @@
     <framework targetVersion="4.7.2" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="ContaHogar3.0.exe.manifest" size="51093">
+    <dependentAssembly dependencyType="install" codebase="ContaHogar3.0.exe.manifest" size="51499">
       <assemblyIdentity name="ContaHogar3.0.exe" version="1.8.3.3" publicKeyToken="0000000000000000" language="es-ES" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>yW8hU9S4vxjq3QH1QK6MjTZuGoAtkEY1hWzhraK1Kiw=</dsig:DigestValue>
+        <dsig:DigestValue>T2bwmoScORM73c4fw+40AEWibEKtMCwFaI5svnfsRbQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

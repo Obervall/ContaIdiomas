@@ -148,16 +148,7 @@ Você pode enviar impressões e sugestões para:
   <data name="VersionDisponible" xml:space="preserve">
     <value>Versão disponível</value>
   </data>
-  <data name="TextoAutorizaUso" xml:space="preserve">
-    <value>O uso é autorizado em</value>
-  </data>
-  <data name="TextoCodigoActivacion" xml:space="preserve">
-    <value>Código de Ativação</value>
-  </data>
-  <data name="SinActivar" xml:space="preserve">
-    <value>Não ativado</value>
-  </data>
-  <data name="ModoDemo" xml:space="preserve">
-    <value>Modo de demonstração</value>
+  <data name="BtnPrivacidad.Text" xml:space="preserve">
+    <value>Política de Privacidade</value>
   </data>
 </root>

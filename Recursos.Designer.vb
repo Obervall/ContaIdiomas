@@ -985,6 +985,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a No se pudo encontrar el archivo de Política de Privacidad en su carpeta de Documentos local.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorArchivoPrivacidadNoEncontrado() As String
+        Get
+            Return ResourceManager.GetString("ErrorArchivoPrivacidadNoEncontrado", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Error al realizar la Copia de Seguridad de la Base de Datos,
     '''revise que no exista otra Copia con el mismo nombre o
     '''que el archivo no esté abierto.

@@ -997,4 +997,7 @@ acquista la versione completa dal Microsoft Store.</value>
 Per favore, aggiungi questo programma alla lista delle esclusioni
 oppure consente un accesso controllato alle cartelle per poter utilizzare ContaHogar 3.0 Premium.</value>
   </data>
+  <data name="ErrorArchivoPrivacidadNoEncontrado" xml:space="preserve">
+    <value>Non sono riuscito a trovare il file dell'Informativa sulla Privacy nella cartella Documenti locale</value>
+  </data>
 </root>

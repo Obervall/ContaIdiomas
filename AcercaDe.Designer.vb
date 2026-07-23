@@ -29,6 +29,7 @@ Partial Class AcercaDe
         Me.Label2 = New System.Windows.Forms.Label()
         Me.LblVersion = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
+        Me.BtnPrivacidad = New System.Windows.Forms.Button()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -64,10 +65,17 @@ Partial Class AcercaDe
         resources.ApplyResources(Me.Label3, "Label3")
         Me.Label3.Name = "Label3"
         '
+        'BtnPrivacidad
+        '
+        resources.ApplyResources(Me.BtnPrivacidad, "BtnPrivacidad")
+        Me.BtnPrivacidad.Name = "BtnPrivacidad"
+        Me.BtnPrivacidad.UseVisualStyleBackColor = True
+        '
         'AcercaDe
         '
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.BtnPrivacidad)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.LblVersion)
         Me.Controls.Add(Me.Label2)
@@ -89,4 +97,5 @@ Partial Class AcercaDe
     Friend WithEvents LblVersion As Windows.Forms.Label
     Public WithEvents Label1 As Windows.Forms.Label
     Friend WithEvents Label3 As Windows.Forms.Label
+    Friend WithEvents BtnPrivacidad As Windows.Forms.Button
 End Class

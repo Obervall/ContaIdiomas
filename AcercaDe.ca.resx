@@ -148,16 +148,7 @@ Podeu enviar impressions i suggeriments a:
   <data name="VersionDisponible" xml:space="preserve">
     <value>Versió disponible</value>
   </data>
-  <data name="TextoAutorizaUso" xml:space="preserve">
-    <value>S'autoritza l'ús a</value>
-  </data>
-  <data name="TextoCodigoActivacion" xml:space="preserve">
-    <value>Codi Activació</value>
-  </data>
-  <data name="SinActivar" xml:space="preserve">
-    <value>Sense Activar</value>
-  </data>
-  <data name="ModoDemo" xml:space="preserve">
-    <value>Mode Demo</value>
+  <data name="BtnPrivacidad.Text" xml:space="preserve">
+    <value>Política de Privacitat</value>
   </data>
 </root>

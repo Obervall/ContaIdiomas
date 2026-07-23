@@ -997,4 +997,7 @@ adquiera la versión completa en la Microsoft Store.</value>
   <data name="dias" xml:space="preserve">
     <value>días</value>
   </data>
+  <data name="ErrorArchivoPrivacidadNoEncontrado" xml:space="preserve">
+    <value>No se pudo encontrar el archivo de Política de Privacidad en su carpeta de Documentos local</value>
+  </data>
 </root>

@@ -413,7 +413,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;PictureBox1.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="Label1.Location" type="System.Drawing.Point, System.Drawing">
     <value>161, 29</value>
@@ -447,7 +447,7 @@ Puedes enviar impresiones y sugerencias a:
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label1.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="BtnAceptar.Location" type="System.Drawing.Point, System.Drawing">
     <value>516, 195</value>
@@ -471,7 +471,7 @@ Puedes enviar impresiones y sugerencias a:
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BtnAceptar.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="Label2.Location" type="System.Drawing.Point, System.Drawing">
     <value>20, 262</value>
@@ -498,7 +498,7 @@ Puedes enviar impresiones y sugerencias a:
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label2.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="LblVersion.Location" type="System.Drawing.Point, System.Drawing">
     <value>20, 313</value>
@@ -522,7 +522,7 @@ Puedes enviar impresiones y sugerencias a:
     <value>$this</value>
   </data>
   <data name="&gt;&gt;LblVersion.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="Label3.Location" type="System.Drawing.Point, System.Drawing">
     <value>161, 176</value>
@@ -549,6 +549,33 @@ Puedes enviar impresiones y sugerencias a:
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label3.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="BtnPrivacidad.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BtnPrivacidad.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 392</value>
+  </data>
+  <data name="BtnPrivacidad.Size" type="System.Drawing.Size, System.Drawing">
+    <value>253, 44</value>
+  </data>
+  <data name="BtnPrivacidad.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="BtnPrivacidad.Text" xml:space="preserve">
+    <value>Política de Privacidad</value>
+  </data>
+  <data name="&gt;&gt;BtnPrivacidad.Name" xml:space="preserve">
+    <value>BtnPrivacidad</value>
+  </data>
+  <data name="&gt;&gt;BtnPrivacidad.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnPrivacidad.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BtnPrivacidad.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -1331,18 +1358,6 @@ Puedes enviar impresiones y sugerencias a:
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ModoDemo" xml:space="preserve">
-    <value>Modo Demo</value>
-  </data>
-  <data name="SinActivar" xml:space="preserve">
-    <value>Sin Activar</value>
-  </data>
-  <data name="TextoAutorizaUso" xml:space="preserve">
-    <value>Se autoriza el uso a</value>
-  </data>
-  <data name="TextoCodigoActivacion" xml:space="preserve">
-    <value>Código Activación</value>
   </data>
   <data name="VersionDisponible" xml:space="preserve">
     <value>Versión disponible</value>

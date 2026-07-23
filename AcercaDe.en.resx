@@ -148,16 +148,7 @@ You can send impressions and suggestions to:
   <data name="VersionDisponible" xml:space="preserve">
     <value>Available Version</value>
   </data>
-  <data name="TextoAutorizaUso" xml:space="preserve">
-    <value>Use is authorized at</value>
-  </data>
-  <data name="TextoCodigoActivacion" xml:space="preserve">
-    <value>Activation Code</value>
-  </data>
-  <data name="SinActivar" xml:space="preserve">
-    <value>Not activated</value>
-  </data>
-  <data name="ModoDemo" xml:space="preserve">
-    <value>Demo Mode</value>
+  <data name="BtnPrivacidad.Text" xml:space="preserve">
+    <value>Privacy Policy</value>
   </data>
 </root>

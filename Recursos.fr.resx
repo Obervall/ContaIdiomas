@@ -997,4 +997,7 @@ achetez la version complète sur le Microsoft Store.</value>
 Veuillez ajouter ce programme à la liste des exclusions
 ou permet un accès contrôlé aux dossiers pour pouvoir utiliser ContaHogar 3.0 Premium.</value>
   </data>
+  <data name="ErrorArchivoPrivacidadNoEncontrado" xml:space="preserve">
+    <value>Je n’ai pas trouvé le fichier de politique de confidentialité dans votre dossier local Documents</value>
+  </data>
 </root>

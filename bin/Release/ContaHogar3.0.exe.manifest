@@ -91,14 +91,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ContaHogar3.0.exe" size="4958720">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ContaHogar3.0.exe" size="4961280">
       <assemblyIdentity name="ContaHogar3.0" version="0.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>vdyRh63PsQ5sfyx/khFgj89CHp3Hs4WE9IYj/WHHyAc=</dsig:DigestValue>
+        <dsig:DigestValue>JiUEBZV57EFaBkaGe738rb8VyFQUJ/bYs34vxbnLJPE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -110,7 +110,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>lsJVb+z5x2nDtwJ1vOI728sIlu2mE+wplMB5nyWDoj0=</dsig:DigestValue>
+        <dsig:DigestValue>5B8kJ+z+KTNDnJ4/3IcZmjy7412lEVeobaEG3Xhbjk4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -856,6 +856,15 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
       <dsig:DigestValue>nPBt6GGTAkCh8NxO136Ccf0d93RqbVVspuQH1LICDyU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Politica de Privacidad.pdf" size="247300">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>JQ/WH7TxU0FmH4jmjhaVHOPTy+ouYrNsBbLDnZjc9Ks=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Version.pdf" size="133990">

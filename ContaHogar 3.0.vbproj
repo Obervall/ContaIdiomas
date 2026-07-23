@@ -1592,6 +1592,9 @@
     <Content Include="Logo ContaHogar.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Politica de Privacidad.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\Designer.png" />
   </ItemGroup>
   <ItemGroup>
