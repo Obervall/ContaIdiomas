@@ -109,7 +109,7 @@ Public Class Principal
 
     Private Sub Principal_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        'My.Settings.FechaInicioPrueba = Date.MinValue  ' Para limpiar la fecha de prueba y reiniciar el periodo de evaluación
+        'My.Settings.vPantalla = Date.MinValue  ' Para limpiar la fecha de prueba y reiniciar el periodo de evaluación
         VerificarPruebaInterna()
 
         ActualizarTextosFormulario(Me)
@@ -394,7 +394,7 @@ Public Class Principal
         'Mañana (Versión 3.2.1.0): Cambiarás tu línea a My.Settings.Version = "3.2.1.0",
         'cambiarás el manifiesto del MSIX a 3.2.1.0 y subirás el nuevo paquete reluciente [1.1].
 
-        My.Settings.Version = "3.2.2"
+        My.Settings.Version = "3.2.4"
         My.Settings.Save()
 
         vMoneda = My.Settings.Moneda
