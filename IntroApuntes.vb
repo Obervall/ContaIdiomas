@@ -146,6 +146,35 @@ Public Class IntroApuntes
             CmbConcepto.SelectedIndex = -1
             CmbConcepto.SelectedIndex = 0
         End If
+
+        ' =========================================================================
+        ' 🎯 LA HERENCIA MAESTRA: Sincronizamos los combos con el filtro de fondo
+        ' =========================================================================
+        Try
+            ' 1. Sincronizar el combo de Cuenta (Si en la pantalla de atrás hay filtro activo)
+            If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
+                Dim idCuentaFiltro As Integer = Convert.ToInt32(frmApuntesContables.CmbCuenta.SelectedValue)
+                If idCuentaFiltro > 0 Then
+                    CmbCuenta.SelectedValue = idCuentaFiltro
+                    ' Disparamos el SelectedIndexChanged manual por software si fuera necesario
+                End If
+            End If
+
+            ' 2. Sincronizar el combo de Concepto (Si en la pantalla de atrás hay filtro activo)
+            If frmApuntesContables.BtnFiltroConcepto.Enabled = False Then
+                Dim idConceptoFiltro As Integer = Convert.ToInt32(frmApuntesContables.CmbConcepto.SelectedValue)
+                If idConceptoFiltro > 0 Then
+                    CmbConcepto.SelectedValue = idConceptoFiltro
+
+                    ' 🚀 ACTUALIZACIÓN AUTOMÁTICA EN LA RAM DE LA INTERFAZ
+                    ' Forzamos a que pinte el tipo (Gasto/Ingreso) y la descripción por defecto
+                    CmbConcepto_SelectedIndexChanged(CmbConcepto, EventArgs.Empty)
+                End If
+            End If
+        Catch ex As Exception
+            ' Cortafuegos silencioso de seguridad para el monitor
+        End Try
+
     End Sub
 
 
@@ -371,12 +400,18 @@ Public Class IntroApuntes
             vLetras = TxtBuscarLetras.Text
 
             RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-            CmbDescripcion.DroppedDown = False
-            CmbDescripcion.SelectedIndex = -1
 
-            If CmbDescripcion.Items.Count > 0 Then
-                CmbDescripcion.Items.Clear()
-            End If
+            ' =========================================================================
+            ' 🎯 EL ESCUDO DE ACERTIJO: Vaciamos la lista de forma dócil sin provocar al motor Win32
+            ' =========================================================================
+            Try
+                CmbDescripcion.DroppedDown = False
+                CmbDescripcion.DataSource = Nothing ' Desvinculamos la caché relacional
+                CmbDescripcion.SelectedIndex = -1
+            Catch ex As Exception
+                ' Cortafuegos silencioso
+            End Try
+            ' =========================================================================
 
             AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
             CmbDescripcion.Text = ""
