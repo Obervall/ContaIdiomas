@@ -515,12 +515,15 @@ Public Class IntroPresupuestos
 
     Private Sub TxtAnual_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtAnual.KeyPress
         ' 1. EL TRUCO DEL TECLADO NUMÉRICO: Reemplazamos el punto por la coma ARRIBA DEL TODO 
-        ' para que cuando el código intente parsear el número, ya tenga el signo decimal correcto
         If e.KeyChar = "."c Then
             e.KeyChar = ","c
         End If
 
-        SoloNumerosConPunto(e)
+        ' 🎯 EL ESCUDO FILTRADO: Si no es un número, ni borrar hacia atrás (Control), ni la coma decimal, ni el Intro... lo bloqueamos
+        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) AndAlso e.KeyChar <> ","c AndAlso e.KeyChar <> ChrW(Keys.Enter) Then
+            e.Handled = True
+            Exit Sub
+        End If
 
         If e.KeyChar = ChrW(Keys.Enter) Then
             ' Evitamos el pitido molesto de Windows al pulsar Enter de forma inmediata
@@ -537,7 +540,7 @@ Public Class IntroPresupuestos
             ' Calcular el reparto mensual exacto usando aritmética estricta de Decimal
             Dim importeRepartido As Decimal = Math.Round(importeAnualPure / 12D, 2)
 
-            ' Llenamos los primeros 11 meses con el valor redondeado y ajustamos el pico en el último (Idéntico a tu botón Aceptar)
+            ' Llenamos los primeros 11 meses con el valor redondeado y ajustamos el pico en el último
             Dim acumuladoPrimerosMeses As Decimal = 0.0D
             Dim importesMensuales(11) As Double
 
@@ -574,7 +577,11 @@ Public Class IntroPresupuestos
             e.KeyChar = ","c
         End If
 
-        SoloNumerosConPunto(e)
+        ' 🎯 EL ESCUDO FILTRADO MULTI-CAJA: Protegemos todos los meses de letras y caracteres extraños
+        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) AndAlso e.KeyChar <> ","c AndAlso e.KeyChar <> ChrW(Keys.Enter) Then
+            e.Handled = True
+            Exit Sub
+        End If
 
         If e.KeyChar = ChrW(Keys.Enter) Then
             ' Evitamos el pitido molesto de Windows al pulsar Enter de forma inmediata
