@@ -26,8 +26,7 @@ Public Class AcercaDe
         Dim rutaCompletaPDF As String = IO.Path.Combine(carpetaAppOficial, "Politica de Privacidad.pdf")
 
         ' URL de respaldo en la nube
-        Dim urlPrivacidad As String = "https://filedn.eu/ljfTvwyEW2tVj4PWYI9927f/ContaHogar/Politica%20de%20Privacidad.pdf"
-
+        Dim urlPrivacidad As String = "https://1drv.ms/b/c/1e195f066363b218/IQDyv4fHzLkjQZWFc7UmbvqJATQLSZyMXUcM-pzaiWvA1Ow?e=WhFxNG"
         Try
             Dim Proceso As New Process()
 
