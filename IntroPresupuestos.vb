@@ -514,55 +514,42 @@ Public Class IntroPresupuestos
     End Sub
 
     Private Sub TxtAnual_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtAnual.KeyPress
-        ' 1. EL TRUCO DEL TECLADO NUMÉRICO: Reemplazamos el punto por la coma ARRIBA DEL TODO 
-        If e.KeyChar = "."c Then
-            e.KeyChar = ","c
-        End If
-
-        ' 🎯 EL ESCUDO FILTRADO: Si no es un número, ni borrar hacia atrás (Control), ni la coma decimal, ni el Intro... lo bloqueamos
-        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) AndAlso e.KeyChar <> ","c AndAlso e.KeyChar <> ChrW(Keys.Enter) Then
+        ' 1. 🛡️ EL ESCUDO UNIVERSAL ADMITE TODO: Números, borrar, punto, coma o el Intro
+        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) AndAlso e.KeyChar <> "."c AndAlso e.KeyChar <> ","c AndAlso e.KeyChar <> ChrW(Keys.Enter) Then
             e.Handled = True
             Exit Sub
         End If
 
         If e.KeyChar = ChrW(Keys.Enter) Then
-            ' Evitamos el pitido molesto de Windows al pulsar Enter de forma inmediata
             e.Handled = True
 
-            ' Convertir el texto a número de forma segura en Decimal
+            ' 2. 🎯 EL PARSEO INVARIANTE INMUNE A IDIOMAS: Prosa limpia de fábrica
+            Dim texto As String = TxtAnual.Text.Trim().Replace(",", ".")
             Dim importeAnualPure As Decimal = 0
-            Decimal.TryParse(TxtAnual.Text.Trim(), importeAnualPure)
 
-            ' Guardamos en tu variable global y formateamos la caja anual
+            ' Formateo universal absoluto (Estilo Internacional de Redmond)
+            Dim estilo As System.Globalization.NumberStyles = System.Globalization.NumberStyles.AllowDecimalPoint Or System.Globalization.NumberStyles.AllowThousands
+            Decimal.TryParse(texto, estilo, System.Globalization.CultureInfo.InvariantCulture, importeAnualPure)
+
             vAnual = Convert.ToDouble(importeAnualPure)
             TxtAnual.Text = importeAnualPure.ToString("N2")
 
-            ' Calcular el reparto mensual exacto usando aritmética estricta de Decimal
+            ' (Tu bloque clásico intacto del reparto mensual)
             Dim importeRepartido As Decimal = Math.Round(importeAnualPure / 12D, 2)
-
-            ' Llenamos los primeros 11 meses con el valor redondeado y ajustamos el pico en el último
             Dim acumuladoPrimerosMeses As Decimal = 0.0D
             Dim importesMensuales(11) As Double
-
             For i As Integer = 0 To 10
                 importesMensuales(i) = Convert.ToDouble(importeRepartido)
                 acumuladoPrimerosMeses += importeRepartido
             Next
             importesMensuales(11) = Convert.ToDouble(importeAnualPure - acumuladoPrimerosMeses)
-
-            ' Sincronizamos tus 12 variables globales de fábrica con precisión
             vEnero = importesMensuales(0) : vFebrero = importesMensuales(1) : vMarzo = importesMensuales(2) : vAbril = importesMensuales(3)
             vMayo = importesMensuales(4) : vJunio = importesMensuales(5) : vJulio = importesMensuales(6) : vAgosto = importesMensuales(7)
             vSeptiembre = importesMensuales(8) : vOctubre = importesMensuales(9) : vNoviembre = importesMensuales(10) : vDiciembre = importesMensuales(11)
-
-            ' Rellenar las 12 cajas de la interfaz usando tu array limpio
-            Dim cajasMeses As TextBox() = {TxtEnero, TxtFebrero, TxtMarzo, TxtAbril, TxtMayo, TxtJunio,
-                                           TxtJulio, TxtAgosto, TxtSeptiembre, TxtOctubre, TxtNoviembre, TxtDiciembre}
-
+            Dim cajasMeses As TextBox() = {TxtEnero, TxtFebrero, TxtMarzo, TxtAbril, TxtMayo, TxtJunio, TxtJulio, TxtAgosto, TxtSeptiembre, TxtOctubre, TxtNoviembre, TxtDiciembre}
             For idx As Integer = 0 To 11
                 cajasMeses(idx).Text = importesMensuales(idx).ToString("N2")
             Next
-
             RdbMensual.Select()
         End If
     End Sub
@@ -572,29 +559,26 @@ Public Class IntroPresupuestos
     TxtMayo.KeyPress, TxtJunio.KeyPress, TxtJulio.KeyPress, TxtAgosto.KeyPress,
     TxtSeptiembre.KeyPress, TxtOctubre.KeyPress, TxtNoviembre.KeyPress, TxtDiciembre.KeyPress
 
-        ' 1. EL TRUCO DEL TECLADO NUMÉRICO: Reemplazamos el punto por la coma ARRIBA DEL TODO
-        If e.KeyChar = "."c Then
-            e.KeyChar = ","c
-        End If
-
-        ' 🎯 EL ESCUDO FILTRADO MULTI-CAJA: Protegemos todos los meses de letras y caracteres extraños
-        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) AndAlso e.KeyChar <> ","c AndAlso e.KeyChar <> ChrW(Keys.Enter) Then
+        ' 1. 🛡️ EL ESCUDO UNIVERSAL MULTI-CAJA
+        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) AndAlso e.KeyChar <> "."c AndAlso e.KeyChar <> ","c AndAlso e.KeyChar <> ChrW(Keys.Enter) Then
             e.Handled = True
             Exit Sub
         End If
 
         If e.KeyChar = ChrW(Keys.Enter) Then
-            ' Evitamos el pitido molesto de Windows al pulsar Enter de forma inmediata
             e.Handled = True
 
             Dim txt As TextBox = CType(sender, TextBox)
-            Dim valorIngresado As Decimal = 0
-            Decimal.TryParse(txt.Text.Trim(), valorIngresado)
 
-            ' Formateamos la caja actual inmediatamente
+            ' 2. 🎯 EL PARSEO INVARIANTE EN LOS MESES
+            Dim texto As String = txt.Text.Trim().Replace(",", ".")
+            Dim valorIngresado As Decimal = 0
+
+            Dim estilo As System.Globalization.NumberStyles = System.Globalization.NumberStyles.AllowDecimalPoint Or System.Globalization.NumberStyles.AllowThousands
+            Decimal.TryParse(texto, estilo, System.Globalization.CultureInfo.InvariantCulture, valorIngresado)
+
             txt.Text = valorIngresado.ToString("N2")
 
-            ' Controlamos el foco siguiente y guardamos en la variable global (Tu fantástica matriz de saltos)
             Dim numDouble As Double = Convert.ToDouble(valorIngresado)
             Select Case txt.Name
                 Case "TxtEnero" : vEnero = numDouble : TxtFebrero.Select()
@@ -611,7 +595,6 @@ Public Class IntroPresupuestos
                 Case "TxtDiciembre" : vDiciembre = numDouble : BtnAceptar.Select()
             End Select
 
-            ' Calculamos la suma total usando tus variables globales y guardando en Decimal para no perder céntimos
             Dim sumaDecimal As Decimal = Convert.ToDecimal(vEnero + vFebrero + vMarzo + vAbril + vMayo + vJunio + vJulio + vAgosto + vSeptiembre + vOctubre + vNoviembre + vDiciembre)
             vAnual = Convert.ToDouble(sumaDecimal)
             TxtAnual.Text = sumaDecimal.ToString("N2")
