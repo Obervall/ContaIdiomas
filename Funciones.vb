@@ -3433,4 +3433,20 @@ Module Funciones
         End Try
     End Sub
 
+    ''' <summary>
+    ''' Transforma cualquier texto con puntos o comas en un número Decimal perfecto, 
+    ''' sin importar el idioma de Windows (Español, Catalán, Inglés, Alemán, etc.)
+    ''' </summary>
+    Public Function ParsearImporteUniversal(ByVal textoImporte As String) As Decimal
+        Dim textoLimpio As String = textoImporte.Trim().Replace(",", ".")
+        Dim importeResultado As Decimal = 0
+
+        ' Formateo universal absoluto (Estilo Internacional de Redmond)
+        Dim estilo As System.Globalization.NumberStyles = System.Globalization.NumberStyles.AllowDecimalPoint Or System.Globalization.NumberStyles.AllowThousands
+
+        Decimal.TryParse(textoLimpio, estilo, System.Globalization.CultureInfo.InvariantCulture, importeResultado)
+
+        Return importeResultado
+    End Function
+
 End Module

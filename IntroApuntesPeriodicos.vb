@@ -216,12 +216,27 @@ Public Class IntroApuntesPeriodicos
     End Sub
 
     Private Sub TxtImporte_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtImporte.KeyPress
-        SoloNumerosConPunto(e)
-        If e.KeyChar = ChrW(Keys.Enter) Then
-            CmbCuenta.Select()
+        ' 1. 🛡️ EL ESCUDO UNIVERSAL ADMITE TODO: Números, borrar (Control), punto, coma o el Intro
+        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) AndAlso e.KeyChar <> "."c AndAlso e.KeyChar <> ","c AndAlso e.KeyChar <> ChrW(Keys.Enter) Then
+            e.Handled = True
+            Exit Sub
         End If
-        If e.KeyChar.ToString() = "." Then
-            e.KeyChar = ","
+
+        ' 2. 🎯 AL PULSAR INTRO: Pasamos el rodillo internacional e inyectamos en la variable de apuntes
+        If e.KeyChar = ChrW(Keys.Enter) Then
+            e.Handled = True
+
+            ' Invocamos tu función global centralizada: Cero grasa digital en la RAM
+            Dim importeFinal As Decimal = ParsearImporteUniversal(TxtImporte.Text)
+
+            ' Guardamos de forma segura en tu variable global de doble precisión (vImporteAPU)
+            vImporteAPU = Convert.ToDouble(importeFinal)
+
+            ' Formateamos la caja visual con el estándar de dos decimales de gala
+            TxtImporte.Text = importeFinal.ToString("N2")
+
+            ' Mandamos el cursor directo al combo de la Cuenta de forma dócil
+            CmbCuenta.Select()
         End If
     End Sub
 

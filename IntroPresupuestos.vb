@@ -523,14 +523,8 @@ Public Class IntroPresupuestos
         If e.KeyChar = ChrW(Keys.Enter) Then
             e.Handled = True
 
-            ' 2. 🎯 EL PARSEO INVARIANTE INMUNE A IDIOMAS: Prosa limpia de fábrica
-            Dim texto As String = TxtAnual.Text.Trim().Replace(",", ".")
-            Dim importeAnualPure As Decimal = 0
-
-            ' Formateo universal absoluto (Estilo Internacional de Redmond)
-            Dim estilo As System.Globalization.NumberStyles = System.Globalization.NumberStyles.AllowDecimalPoint Or System.Globalization.NumberStyles.AllowThousands
-            Decimal.TryParse(texto, estilo, System.Globalization.CultureInfo.InvariantCulture, importeAnualPure)
-
+            ' 🎯 INVOCAMOS LA FUNCIÓN INTERNACIONAL: Cero errores en inglés o catalán
+            Dim importeAnualPure As Decimal = ParsearImporteUniversal(TxtAnual.Text)
             vAnual = Convert.ToDouble(importeAnualPure)
             TxtAnual.Text = importeAnualPure.ToString("N2")
 

@@ -1,6 +1,7 @@
 ﻿Imports System.Data
 Imports System.Diagnostics
 Imports System.Windows.Forms
+Imports VSLangProj
 
 Public Class TraspasoCuentas
 
@@ -100,16 +101,30 @@ Public Class TraspasoCuentas
     End Sub
 
     Private Sub TxtImporte_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtImporte.KeyPress
-        SoloNumerosConPunto(e)
-        If e.KeyChar = ChrW(Keys.Enter) Then
-            TxtNota.Select()
+        ' 1. 🛡️ EL ESCUDO UNIVERSAL ADMITE TODO: Números, borrar (Control), punto, coma o el Intro
+        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) AndAlso e.KeyChar <> "."c AndAlso e.KeyChar <> ","c AndAlso e.KeyChar <> ChrW(Keys.Enter) Then
+            e.Handled = True
+            Exit Sub
         End If
-        If e.KeyChar.ToString() = "." Then
-            e.KeyChar = ","
+
+        ' 2. 🎯 AL PULSAR INTRO: Pasamos el rodillo internacional y saltamos de casilla
+        If e.KeyChar = ChrW(Keys.Enter) Then
+            e.Handled = True
+
+            ' Invocamos tu función global del módulo: Cero errores en catalán o inglés
+            Dim importeFinal As Decimal = ParsearImporteUniversal(TxtImporte.Text)
+
+            ' Guardamos en tu variable global de traspasos (vImporteAPU) y formateamos con dos decimales
+            vImporteAPU = Convert.ToDouble(importeFinal)
+            TxtImporte.Text = importeFinal.ToString("N2")
+
+            ' Mandamos el cursor directo al cuadro de la nota de forma dócil
+            TxtNota.Select()
         End If
     End Sub
 
     Private Sub TxtImporte_Click(sender As Object, e As EventArgs) Handles TxtImporte.Click
+        ' Selección limpia del texto al hacer clic para que pueda escribir encima sin borrar a mano
         TxtImporte.SelectAll()
     End Sub
 
