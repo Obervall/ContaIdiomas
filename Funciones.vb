@@ -5,7 +5,9 @@ Imports System.Data.OleDb
 Imports System.Diagnostics
 Imports System.Drawing
 Imports System.Globalization
+Imports System.IO
 Imports System.Linq
+Imports System.Net
 Imports System.Reflection
 Imports System.Resources
 Imports System.Threading
@@ -3448,5 +3450,74 @@ Module Funciones
 
         Return importeResultado
     End Function
+
+    ''' <summary>
+    ''' Comprueba en tu nube de pCloud si existe una nueva versión del MSI clásico para los usuarios VIP.
+    ''' </summary>
+    Public Sub VerificarActualizacionesVIP(ByVal formularioPadre As Form)
+        ' 🚨 EL CORTAFUEGOS DE LA STORE: Si por error se ejecuta en el MSIX, salimos de inmediato
+#If CONFIG = "ReleaseStore" Then
+            Exit Sub
+#End If
+
+        ' =========================================================================
+        ' 🚀 EL RADAR VIP COMPLETO: Buscador y Descargador Automático vía pCloud
+        ' =========================================================================
+        ' 💡 REGLA DE ORO: Para compilar la versión de la Store (MSIX Premium),
+        ' simplemente coméntale esta línea de abajo poniendo la comilla simple (')
+        ' para que los robots de Redmond no te metan un hachazo en la certificación.
+
+        'MsgBox("Se ha detectado que estás ejecutando la versión VIP de ContaHogar 3.0. Se comprobará automáticamente si hay actualizaciones disponibles en tu nube pCloud.", MsgBoxStyle.Information, "Actualizador VIP")
+        Try
+            ' 1. Leemos el archivo de texto en tu servidor pCloud para pescar la versión
+            Dim MyUrl As String = "https://filedn.eu/ljfTvwyEW2tVj4PWYI9927f/ContaHogar/Hogar2.txt"
+            Dim MyHttpWebRequest As HttpWebRequest = CType(WebRequest.Create(MyUrl), HttpWebRequest)
+            MyHttpWebRequest.Credentials = CredentialCache.DefaultCredentials
+            Dim MyHttpWebResponse As HttpWebResponse = CType(MyHttpWebRequest.GetResponse(), HttpWebResponse)
+            Dim MyStream As Stream = MyHttpWebResponse.GetResponseStream
+            Dim MyStreamReader As New StreamReader(MyStream)
+            Dim MyHtml As String = MyStreamReader.ReadToEnd
+            Dim MyHtmlEnLineas() As String = MyHtml.Split(vbNewLine)
+
+            Dim vNewVersion As String = MyHtmlEnLineas(3)
+            vNewVersion = Mid(vNewVersion, 10)
+            vNewVersion = Trim(vNewVersion)
+
+            ' 2. Comparamos los números de compilación de forma matemática pura
+            Dim versionActual As New Version(My.Settings.Version)
+            Dim versionNueva As New Version(vNewVersion)
+
+            ' 3. Si la de internet es superior, disparamos tu cañón de descarga visual
+            If versionNueva > versionActual Then
+                Dim msg As String = "¡Hay una nueva actualización disponible para tu ContaHogar 3.0!" & vbCrLf & vbCrLf &
+                                   "• Tu versión actual: " & My.Settings.Version & vbCrLf &
+                                   "• Nueva versión: " & vNewVersion & vbCrLf & vbCrLf &
+                                   "¿Deseas descargar e instalar el nuevo parche .msi ahora mismo de forma automática?"
+
+                If MsgBox(msg, MsgBoxStyle.YesNo + MsgBoxStyle.Information, "Actualizador ContaHogar VIP") = MsgBoxResult.Yes Then
+
+                    ' Aseguramos que la carpeta local exista en el disco duro para que no rompa el hilo
+                    If Not Directory.Exists("C:\ContaHogar3.0") Then
+                        Directory.CreateDirectory("C:\ContaHogar3.0")
+                    End If
+
+                    ' 🎯 TU JUGADA MAESTRA: Descarga en caliente con barra de progreso nativa de Windows
+                    Dim descargar As New Devices.Computer
+                    With descargar
+                        .Network.DownloadFile("https://filedn.eu/ljfTvwyEW2tVj4PWYI9927f/ContaHogar/Actualizar/" & vNewVersion & "/InstaladorContaHogar3.0.msi", "C:\ContaHogar3.0\InstaladorContaHogar3.0.msi", "", "", False, 1000, True, 3)
+                    End With
+
+                    ' 🚀 LA ESTOCADA FINAL: Lanzamos el instalador ejecutable recién bajado al vuelo
+                    MsgBox("El instalador se ha descargado correctamente. Ahora se iniciará la instalación.")
+                    System.Diagnostics.Process.Start("C:\ContaHogar3.0\InstaladorContaHogar3.0.msi")
+
+                    ' Cierre limpio de la versión vieja para que el .msi machaque los archivos sin bloqueos de RAM
+                    Application.Exit()
+                End If
+            End If
+        Catch ex As Exception
+            ' Cortafuegos silencioso: Si falla el pCloud o no hay red, abre dócil sin pitar
+        End Try
+    End Sub
 
 End Module
