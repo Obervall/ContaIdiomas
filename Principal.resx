@@ -121,6 +121,37 @@
     <value>17, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="BarraDeMenu.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="BarraDeMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1225, 31</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="BarraDeMenu.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="BarraDeMenu.Text" xml:space="preserve">
+    <value>BarraDeMenu</value>
+  </data>
+  <data name="&gt;&gt;BarraDeMenu.Name" xml:space="preserve">
+    <value>BarraDeMenu</value>
+  </data>
+  <data name="&gt;&gt;BarraDeMenu.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BarraDeMenu.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BarraDeMenu.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="ArchivoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 27</value>
+  </data>
+  <data name="ArchivoToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Inicio</value>
+  </data>
   <data name="SalirMenu.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
@@ -191,11 +222,11 @@
   <data name="SalirToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>251, 6</value>
   </data>
-  <data name="ArchivoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 27</value>
+  <data name="VerToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 27</value>
   </data>
-  <data name="ArchivoToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Inicio</value>
+  <data name="VerToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Ver</value>
   </data>
   <data name="BarraDeHerramientasMenu.Size" type="System.Drawing.Size, System.Drawing">
     <value>261, 26</value>
@@ -230,11 +261,11 @@
   <data name="LogoBuhoVisibleToolStripMenuItem.Text" xml:space="preserve">
     <value>Logo Buho Visible</value>
   </data>
-  <data name="VerToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 27</value>
+  <data name="MantenimientosToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 27</value>
   </data>
-  <data name="VerToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Ver</value>
+  <data name="MantenimientosToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Mantenimientos</value>
   </data>
   <data name="ConceptosContablesToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -286,12 +317,6 @@
   <data name="TiposDeCuentasToolStripMenuItem.Text" xml:space="preserve">
     <value>Tipos de Cuentas</value>
   </data>
-  <data name="MantenimientosToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 27</value>
-  </data>
-  <data name="MantenimientosToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Mantenimientos</value>
-  </data>
   <data name="VerApuntesToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
@@ -326,24 +351,6 @@
   <data name="IntroducirApuntesToolStripMenuItem.ToolTipText" xml:space="preserve">
     <value>Introducir varios Apuntes Contables seguidos</value>
   </data>
-  <data name="IntroducirTraspasosToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
-        cQAAEnEB89x6jgAAAMBJREFUWEftjkEKxDAMA/P/V+VnuwTWYIaoOHLZUwRGKJTpjHFzg8w5P+vGGK9d
-        MH/c52SB1SudbgkQ5nRLgDB2RbIlQBi7KmkLEBbv6tT3toCCVfdKS2AHO9mZYwkoWHWHlC2wgz3tXbcE
-        FEztXbcECIt3dep7W4AwNn/KvdISIIxNSe7MsQQUrLpDyhbYwU525lgCClbdIWULEBbv6tT3tgBhbPXT
-        3C0BwtgnkpYAYU63BAhzuiXw1h0J3Nz8O1+DKEa3nNAkNgAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="IntroducirTraspasosToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>224, 26</value>
-  </data>
-  <data name="IntroducirTraspasosToolStripMenuItem.Text" xml:space="preserve">
-    <value>Introducir Traspasos</value>
-  </data>
-  <data name="IntroducirTraspasosToolStripMenuItem.ToolTipText" xml:space="preserve">
-    <value>Introducir Traspasos entre Cuentas</value>
-  </data>
   <data name="ToolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
     <value>221, 6</value>
   </data>
@@ -373,6 +380,12 @@
   </data>
   <data name="ApuntesToolStripMenuItem.Text" xml:space="preserve">
     <value>Apuntes</value>
+  </data>
+  <data name="PresupuestosToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>109, 27</value>
+  </data>
+  <data name="PresupuestosToolStripMenuItem.Text" xml:space="preserve">
+    <value>Presupuestos</value>
   </data>
   <data name="IntroducirDaToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -409,11 +422,25 @@
   <data name="VerDesviaciónPresupuestosToolStripMenuItem.ToolTipText" xml:space="preserve">
     <value>Mostrar Gráfico y Desviación Presupuestos</value>
   </data>
-  <data name="PresupuestosToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 27</value>
+  <data name="InformesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>81, 27</value>
   </data>
-  <data name="PresupuestosToolStripMenuItem.Text" xml:space="preserve">
-    <value>Presupuestos</value>
+  <data name="InformesToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Informes</value>
+  </data>
+  <data name="ListadosDeApuntesToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
+        cQAAEnEB89x6jgAAAGRJREFUOE+dzcsNwDAIA1D2n4rNUjUNkqHUQC35ks+zyJM17Curmy9oX6oqrQEA
+        eaATCsTF2BLohAJxMbYEOqFAXLRVDAWynIeucO6BuH4X8RLIgh8QHAH2mQKTZsBGJkmBH5ULtrFNY27T
+        2tgAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="ListadosDeApuntesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>321, 26</value>
+  </data>
+  <data name="ListadosDeApuntesToolStripMenuItem.Text" xml:space="preserve">
+    <value>Listados de Apuntes</value>
   </data>
   <data name="OrdenadoPorFechasToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>353, 26</value>
@@ -475,19 +502,20 @@
   <data name="SoloGastosOrdenadoPorImportesToolStripMenuItem.Text" xml:space="preserve">
     <value>Solo Gastos Ordenado por Importes</value>
   </data>
-  <data name="ListadosDeApuntesToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="ListadosDeApuntesPeriodicosToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
-        cQAAEnEB89x6jgAAAGRJREFUOE+dzcsNwDAIA1D2n4rNUjUNkqHUQC35ks+zyJM17Curmy9oX6oqrQEA
-        eaATCsTF2BLohAJxMbYEOqFAXLRVDAWynIeucO6BuH4X8RLIgh8QHAH2mQKTZsBGJkmBH5ULtrFNY27T
-        2tgAAAAASUVORK5CYII=
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
+        cQAAEnEB89x6jgAAAK5JREFUWEftlFEKwCAMQz26R/NmG+KqxQ2XdhFkGHj0xyVRmSEsrGMirzpmyBTe
+        SuTppfmYwpuKUUoJRodXF0v4IjvnCA3PksVsYN3ukoGrhMwYy316pvZxlRDENMQIo0v85yRYmEtMAlL/
+        S1OEFqiLr88+8PlFLEb9XY7Q4dXFEr7IzjlCw7NkMRtYt7tk4Coh8+llQ6f2cZUQxLR/70foEv85CRbm
+        EhPZ2tqqOgG2rbd4Y0+K9wAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="ListadosDeApuntesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ListadosDeApuntesPeriodicosToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>321, 26</value>
   </data>
-  <data name="ListadosDeApuntesToolStripMenuItem.Text" xml:space="preserve">
-    <value>Listados de Apuntes</value>
+  <data name="ListadosDeApuntesPeriodicosToolStripMenuItem.Text" xml:space="preserve">
+    <value>Listados de Apuntes Periodicos</value>
   </data>
   <data name="OrdenadoPorFechasToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
     <value>353, 26</value>
@@ -549,21 +577,6 @@
   <data name="SoloGastosOrdenadoPorImportesToolStripMenuItem1.Text" xml:space="preserve">
     <value>Solo Gastos Ordenado por Importes</value>
   </data>
-  <data name="ListadosDeApuntesPeriodicosToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
-        cQAAEnEB89x6jgAAAK5JREFUWEftlFEKwCAMQz26R/NmG+KqxQ2XdhFkGHj0xyVRmSEsrGMirzpmyBTe
-        SuTppfmYwpuKUUoJRodXF0v4IjvnCA3PksVsYN3ukoGrhMwYy316pvZxlRDENMQIo0v85yRYmEtMAlL/
-        S1OEFqiLr88+8PlFLEb9XY7Q4dXFEr7IzjlCw7NkMRtYt7tk4Coh8+llQ6f2cZUQxLR/70foEv85CRbm
-        EhPZ2tqqOgG2rbd4Y0+K9wAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="ListadosDeApuntesPeriodicosToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>321, 26</value>
-  </data>
-  <data name="ListadosDeApuntesPeriodicosToolStripMenuItem.Text" xml:space="preserve">
-    <value>Listados de Apuntes Periodicos</value>
-  </data>
   <data name="ToolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
     <value>318, 6</value>
   </data>
@@ -598,11 +611,11 @@
   <data name="GráficosDeGastosPorConceptoToolStripMenuItem.Text" xml:space="preserve">
     <value>Gráficos de Gastos por Concepto</value>
   </data>
-  <data name="InformesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>81, 27</value>
+  <data name="HerramientasToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>112, 27</value>
   </data>
-  <data name="InformesToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Informes</value>
+  <data name="HerramientasToolStripMenuItem.Text" xml:space="preserve">
+    <value>Herramientas</value>
   </data>
   <data name="HacerCopiaDeSeguridadToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -740,11 +753,11 @@
   <data name="ToolStripSeparator16.Size" type="System.Drawing.Size, System.Drawing">
     <value>287, 6</value>
   </data>
-  <data name="HerramientasToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>112, 27</value>
+  <data name="AyudaToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>65, 27</value>
   </data>
-  <data name="HerramientasToolStripMenuItem.Text" xml:space="preserve">
-    <value>Herramientas</value>
+  <data name="AyudaToolStripMenuItem.Text" xml:space="preserve">
+    <value>Ayuda</value>
   </data>
   <data name="ArchivoDeAyudaToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -842,13 +855,6 @@
   <data name="ToolStripSeparator21.Size" type="System.Drawing.Size, System.Drawing">
     <value>359, 6</value>
   </data>
-  <data name="AyudaToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 27</value>
-  </data>
-  <data name="AyudaToolStripMenuItem.Text" xml:space="preserve">
-    <value>Ayuda</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="ToolStripTextBox1.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -870,33 +876,33 @@
   <data name="VactualVDisponible.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="BarraDeMenu.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="BarraDeMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1225, 31</value>
-  </data>
-  <data name="BarraDeMenu.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="BarraDeMenu.Text" xml:space="preserve">
-    <value>BarraDeMenu</value>
-  </data>
-  <data name="&gt;&gt;BarraDeMenu.Name" xml:space="preserve">
-    <value>BarraDeMenu</value>
-  </data>
-  <data name="&gt;&gt;BarraDeMenu.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;BarraDeMenu.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;BarraDeMenu.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
   <metadata name="BarraDeEstado.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>234, 18</value>
   </metadata>
+  <data name="BarraDeEstado.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 656</value>
+  </data>
+  <data name="BarraDeEstado.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1225, 26</value>
+  </data>
+  <data name="BarraDeEstado.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="BarraDeEstado.Text" xml:space="preserve">
+    <value>BarraDeEstado</value>
+  </data>
+  <data name="&gt;&gt;BarraDeEstado.Name" xml:space="preserve">
+    <value>BarraDeEstado</value>
+  </data>
+  <data name="&gt;&gt;BarraDeEstado.Type" xml:space="preserve">
+    <value>System.Windows.Forms.StatusStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BarraDeEstado.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BarraDeEstado.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="TsLabelFormulario.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
     <value>No</value>
@@ -925,33 +931,33 @@
   <data name="TsLabelHora.Text" xml:space="preserve">
     <value>TsLabelHora</value>
   </data>
-  <data name="BarraDeEstado.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 656</value>
-  </data>
-  <data name="BarraDeEstado.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1225, 26</value>
-  </data>
-  <data name="BarraDeEstado.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="BarraDeEstado.Text" xml:space="preserve">
-    <value>BarraDeEstado</value>
-  </data>
-  <data name="&gt;&gt;BarraDeEstado.Name" xml:space="preserve">
-    <value>BarraDeEstado</value>
-  </data>
-  <data name="&gt;&gt;BarraDeEstado.Type" xml:space="preserve">
-    <value>System.Windows.Forms.StatusStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;BarraDeEstado.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;BarraDeEstado.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
   <metadata name="BarraDeHerramientas.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>457, 16</value>
   </metadata>
+  <data name="BarraDeHerramientas.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 31</value>
+  </data>
+  <data name="BarraDeHerramientas.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1225, 37</value>
+  </data>
+  <data name="BarraDeHerramientas.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="BarraDeHerramientas.Text" xml:space="preserve">
+    <value>BarraDeHerramientas</value>
+  </data>
+  <data name="&gt;&gt;BarraDeHerramientas.Name" xml:space="preserve">
+    <value>BarraDeHerramientas</value>
+  </data>
+  <data name="&gt;&gt;BarraDeHerramientas.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BarraDeHerramientas.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BarraDeHerramientas.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="ToolStripLabel12.AutoSize" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -1184,24 +1190,6 @@
   </data>
   <data name="BtnIntroducirApuntes.Text" xml:space="preserve">
     <value>Introducir varios Apuntes Contables seguidos</value>
-  </data>
-  <data name="BtnTraspasoCuentas.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAADASURBVFhH7Y5BCsQwDAPz/1flZ7sE1mCGqDhy2VMERiiU
-        6Yxxc4PMOT/rxhivXTB/3OdkgdUrnW4JEOZ0S4AwdkWyJUAYuyppCxAW7+rU97aAglX3SktgBzvZmWMJ
-        KFh1h5QtsIM97V23BBRM7V23BAiLd3Xqe1uAMDZ/yr3SEiCMTUnuzLEEFKy6Q8oW2MFOduZYAgpW3SFl
-        CxAW7+rU97YAYWz109wtAcLYJ5KWAGFOtwQIc7ol8NYdCdzc/DtfgyhGt5zQJDYAAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="BtnTraspasoCuentas.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="BtnTraspasoCuentas.Size" type="System.Drawing.Size, System.Drawing">
-    <value>34, 34</value>
-  </data>
-  <data name="BtnTraspasoCuentas.Text" xml:space="preserve">
-    <value>Introducir Traspasos entre Cuentas</value>
   </data>
   <data name="ToolStripSeparator6.Size" type="System.Drawing.Size, System.Drawing">
     <value>6, 37</value>
@@ -1589,30 +1577,6 @@
   </data>
   <data name="ToolStripLabel5.Size" type="System.Drawing.Size, System.Drawing">
     <value>7, 30</value>
-  </data>
-  <data name="BarraDeHerramientas.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 31</value>
-  </data>
-  <data name="BarraDeHerramientas.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1225, 37</value>
-  </data>
-  <data name="BarraDeHerramientas.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="BarraDeHerramientas.Text" xml:space="preserve">
-    <value>BarraDeHerramientas</value>
-  </data>
-  <data name="&gt;&gt;BarraDeHerramientas.Name" xml:space="preserve">
-    <value>BarraDeHerramientas</value>
-  </data>
-  <data name="&gt;&gt;BarraDeHerramientas.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;BarraDeHerramientas.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;BarraDeHerramientas.ZOrder" xml:space="preserve">
-    <value>3</value>
   </data>
   <data name="LblNotificacion.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -8002,12 +7966,6 @@
   <data name="&gt;&gt;IntroducirApuntesToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;IntroducirTraspasosToolStripMenuItem.Name" xml:space="preserve">
-    <value>IntroducirTraspasosToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;IntroducirTraspasosToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;ToolStripSeparator1.Name" xml:space="preserve">
     <value>ToolStripSeparator1</value>
   </data>
@@ -8408,12 +8366,6 @@
     <value>BtnIntroducirApuntes</value>
   </data>
   <data name="&gt;&gt;BtnIntroducirApuntes.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;BtnTraspasoCuentas.Name" xml:space="preserve">
-    <value>BtnTraspasoCuentas</value>
-  </data>
-  <data name="&gt;&gt;BtnTraspasoCuentas.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ToolStripSeparator6.Name" xml:space="preserve">

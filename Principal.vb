@@ -618,37 +618,6 @@ Public Class Principal
         Return
     End Sub
 
-    Private Sub BtnTraspasoCuentas_Click(sender As Object, e As EventArgs) Handles BtnTraspasoCuentas.Click
-        ' 1. 🛡️ SEGURIDAD ABSOLUTA: Buscamos de forma segura la ventana activa en el sistema
-        If frmApuntesContables Is Nothing OrElse frmApuntesContables.IsDisposed Then
-            frmApuntesContables = New ApuntesContables
-        End If
-
-        ' 🎯 LA ESTOCADA INVISIBLE: Forzamos a que el formulario construya todos sus 
-        ' controles y rejillas de forma física en la RAM sin llegar a mostrar la ventana en pantalla.
-        ' Esto crea el 'Handle' real, eliminando el NullReference del DataGridView de raíz.
-        Dim punteroFantasma As IntPtr = frmApuntesContables.Handle
-
-        ' 🚀 CIRCUITO SEGURO: Ahora la rejilla existe al 100% en la trastienda de Windows,
-        ' ejecutamos el traspaso y el formulario clásico se queda virgen para abrirse en modal después.
-        Try
-            frmApuntesContables.BtnTraspasarRegistro_Click(Nothing, Nothing)
-        Catch ex As Exception
-            ' Cortafuegos silencioso
-        End Try
-    End Sub
-
-    Private Sub IntroducirTraspasosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles IntroducirTraspasosToolStripMenuItem.Click
-        ' 🌟 LA CORRECCIÓN CLAVE: Buscamos de forma segura la ventana activa en el sistema
-        ' Si la variable global es Nothing o se cerró, volvemos a instanciarla para que no dé el NullReference
-        If frmApuntesContables Is Nothing OrElse frmApuntesContables.IsDisposed Then
-            frmApuntesContables = New ApuntesContables
-        End If
-
-        ' Ahora que es 100% seguro que el objeto existe en la RAM, invocamos la apertura
-        frmApuntesContables.BtnTraspasarRegistro_Click(Nothing, Nothing)
-    End Sub
-
 
     Private Sub BtnApuntesPeriodicos_Click(sender As Object, e As EventArgs) Handles BtnApuntesPeriodicos.Click
         ApuntesPeriodicosToolStripMenuItem.PerformClick()
