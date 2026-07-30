@@ -233,33 +233,43 @@ Public Class Principal
             archivoBdDestino = IO.Path.Combine(carpetaAppOficial, "ContaHogar.mdb")
         End Try
 
+        ' =========================================================================
+        ' 🎯 EL ESCUDO DE ACERO 3.2.6: BLINDAJE INTEGRAL CONTRA ACTUALIZACIONES
+        ' =========================================================================
+        ' Lo primero que hace la CPU es comprobar si el usuario YA tiene una base de datos viva en Local
+        If File.Exists(archivoBdDestino) Then
 
-        ' 4. 🎯 EL PUENTE DE MIGRACIÓN INTELIGENTE (Inmune a cambios de peso de la BD)
-        ' Usamos un booleano en My.Settings para saber si este PC ya fue auditado en el pasado
-        If My.Settings.PrimerArranqueNuevaEra OrElse Not File.Exists(archivoBdDestino) Then
+            ' 🛡️ ¡EL CORTAFUEGOS INDESTRUCTIBLE! Si el archivo existe con sus apuntes, PROHIBIDO TOCAR NADA.
+            ' Forzamos la variable a False por seguridad, salvamos y pasamos de largo hacia la interfaz
+            My.Settings.PrimerArranqueNuevaEra = False
+            My.Settings.Save()
+
+        Else
+            ' SÓLO si la ruta de destino está completamente vacía de verdad, evaluamos el Puente de Rescate
             Try
-                ' ESCENARIO B: ¿El usuario tiene un histórico real esperándole en Roaming?
+                ' ESCENARIO B: ¿El usuario tiene un histórico real esperándole en Roaming de la era clásica?
                 If File.Exists(archivoBdAppDataVieja) Then
-                    ' El Puente muerde el anzuelo: machacamos la plantilla limpia del instalador
-                    ' y restauramos sus apuntes históricos reales sin perder ni un céntimo
-                    File.Copy(archivoBdAppDataVieja, archivoBdDestino, True)
+                    ' El Puente muerde el anzuelo: pescamos sus apuntes históricos de la vieja escuela
+                    File.Copy(archivoBdAppDataVieja, archivoBdDestino, False) ' 🌟 False = Prohibido machacar si hubiera algo
 
-                    ' ESCENARIO A: Es un usuario nuevo. Si el instalador no la dejó caer, la sembramos nosotros
+                    ' ESCENARIO A: Es un usuario nuevo o limpio. Sembramos la base de datos de fábrica
                 Else
-                    If Not File.Exists(archivoBdDestino) Then
-                        Dim archivoBdOrigenRuta As String = IO.Path.Combine(Application.StartupPath, "ContaHogar.mdb")
-                        If File.Exists(archivoBdOrigenRuta) Then
-                            File.Copy(archivoBdOrigenRuta, archivoBdDestino, True)
-                        End If
+                    Dim archivoBdOrigenRuta As String = IO.Path.Combine(Application.StartupPath, "ContaHogar.mdb")
+                    If File.Exists(archivoBdOrigenRuta) Then
+                        ' Sembramos la plantilla limpia de fábrica de forma dócil
+                        File.Copy(archivoBdOrigenRuta, archivoBdDestino, False) ' 🌟 False = Seguridad absoluta
                     End If
                 End If
 
-                ' Marcamos el chivato en la RAM para que jamás vuelva a entrar en este bloque de migración
+                ' Marcamos el chivato en la RAM y sellamos el disco duro al microsegundo
                 My.Settings.PrimerArranqueNuevaEra = False
+                My.Settings.Save()
+
             Catch ex As Exception
                 MsgBox(rmse.GetString("ErrorCriticoPuenteRescate") & ": " & ex.Message, MsgBoxStyle.Critical)
             End Try
         End If
+
 
         ' =========================================================================
         ' 🎯 5. SIEMBRA O ACTUALIZACIÓN AUTOMÁTICA DE MANUALES Y HISTORIAL (MSIX)
