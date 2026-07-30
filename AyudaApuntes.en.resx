@@ -117,19 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Quick Introduction Guide</value>
+  </data>
   <data name="Label1.Text" xml:space="preserve">
     <value>Step 1: 
 Select a Concept, you will see in Descriptions 1 and 2, the one that is by default.
 
 Step 2:
-If Description 2 of the Concept is not the desired one, type in the drop-down menu, you will pass the text to "Search Description:" type at least three letters and Description 2: will open, with the words that contain the letters of "Search Description:".
+If Description 2 of the Concept is not the desired one, type in "Search Description:" type at least three letters and Description 2: will open, with the words that contain the letters of "Search Description:".
 To go to the drop-down, press Enter and with the Arrows move through the drop-down and finish by pressing Enter to jump to the Amount.
 
 Note:
 You can go back to modify what you wrote.
 In case you want to save a new description that does not exist, keep typing and as it will not find any match, it will ask you if you want to add that Text, once you pass the Text to Description 2:, you can complete it.</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Quick Introduction Guide</value>
   </data>
 </root>

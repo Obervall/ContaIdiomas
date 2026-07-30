@@ -5,7 +5,6 @@ Imports System.Diagnostics
 Imports System.Drawing
 Imports System.Linq
 Imports System.Windows.Forms
-Imports VSLangProj
 Imports ToolTip = System.Windows.Forms.ToolTip
 
 Public Class IntroApuntes
@@ -72,7 +71,7 @@ Public Class IntroApuntes
         TL(7) = New ToolTip
         TL(7).SetToolTip(Me.TxtImporte, rmse.GetString("ImporteAsiento"))
         TL(8) = New ToolTip
-        TL(8).SetToolTip(Me.BtnCalculadora, rmse.GetString("ToolTipCalculadora"))
+        TL(8).SetToolTip(Me.BtnCalculadora, resManager.GetString("ToolTipCalculadora"))
         TL(9) = New ToolTip
         TL(9).SetToolTip(Me.BtnConcepto, resManager.GetString("BtnConcepto"))
         TL(10) = New ToolTip
@@ -349,7 +348,7 @@ Public Class IntroApuntes
             RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
             TxtBuscarLetras.Text = ""
             AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-            TxtBuscarLetras.Enabled = False
+            'TxtBuscarLetras.Enabled = False
 
             ' 3. Aseguramos el texto en el combo y en tu variable global
             CmbDescripcion.Text = textoSeleccionado
@@ -434,7 +433,7 @@ Public Class IntroApuntes
     Private Sub CmbDescripcion_GotFocus(sender As Object, e As EventArgs) Handles CmbDescripcion.GotFocus
         ' Si venimos del combo de conceptos, nos aseguramos de dejar guardado su valor real
         If vCombo = "concepto" Then
-            TxtBuscarLetras.Enabled = False
+            'TxtBuscarLetras.Enabled = False
             CmbConcepto.DroppedDown = False
             CmbConcepto.Text = vConcepto
         End If
@@ -477,7 +476,7 @@ Public Class IntroApuntes
         AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
 
         ' Lo dejamos deshabilitado momentáneamente mientras se introduce el dinero
-        TxtBuscarLetras.Enabled = False
+        'TxtBuscarLetras.Enabled = False
         vCombo = ""
     End Sub
 
@@ -576,15 +575,6 @@ Public Class IntroApuntes
         TxtImporte.Text = "0"
         TxtNota.Text = ""
         TxtDescripcion.Text = ""
-
-        '' NUEVO: Forzar de forma segura la selección del primer concepto tras guardar
-        'If CmbConcepto.Items.Count > 1 Then
-        '    CmbConcepto.SelectedIndex = -1 ' Lo bajamos a vacío primero
-        '    CmbConcepto.SelectedIndex = 0  ' Lo subimos a la posición 1 para que rellene las descripciones
-        'ElseIf CmbConcepto.Items.Count > 0 Then
-        '    CmbConcepto.SelectedIndex = -1
-        '    CmbConcepto.SelectedIndex = 0
-        'End If
 
         ' 3. ¡La clave! Forzamos al formulario a procesar los cambios visuales antes de seguir
         Application.DoEvents()
@@ -1016,6 +1006,18 @@ Public Class IntroApuntes
             e.SuppressKeyPress = True
             e.Handled = True
 
+            ' 🚀 LA ESTOCADA ASÍNCRONA SIMÉTRICA: 
+            ' Le damos un milisegundo de tregua a la interfaz para que asimile el cierre de la tecla
+            ' y clame el cursor dentro del buscador de forma indestructible use la tecla que use.
+            BeginInvoke(Sub()
+                            Try
+                                TxtBuscarLetras.Focus()
+                                TxtBuscarLetras.SelectionStart = TxtBuscarLetras.Text.Length
+                            Catch
+                                ' Cortafuegos silencioso
+                            End Try
+                        End Sub)
+
             Dim idConceptoSel As Integer = 0
             Dim codigoOriginal As String = ""
             Dim descripcionOriginal As String = ""
@@ -1098,7 +1100,7 @@ Public Class IntroApuntes
     End Sub
 
     Private Sub CmbConcepto_MouseClick(sender As Object, e As MouseEventArgs) Handles CmbConcepto.MouseClick
-        TxtBuscarLetras.Enabled = False
+        'TxtBuscarLetras.Enabled = False
         vIntro = "NO"
         ' Solo forzamos el despliegue automático si el usuario NO ha pulsado la flecha nativa
         ' (Nos aseguramos comprobando si la lista ya está abierta o abriéndola suavemente)
@@ -1113,9 +1115,10 @@ Public Class IntroApuntes
         If cargandoFormulario Then Exit Sub
         If CmbConcepto.SelectedIndex < 0 Then Exit Sub
 
-        ' Se buscan Conceptos según lo seleccionado para mostrar su descripción y tipo en los cuadros de abajo
-        '*****************************************************************************************************
-        If vIntro = "NO" Then
+		' Se buscan Conceptos según lo seleccionado para mostrar su descripción y tipo en los cuadros de abajo
+		'*****************************************************************************************************
+		If vIntro = "NO" Then
+            TxtBuscarLetras.Text = ""
             Try
                 Dim codigoOriginal As String = ""
                 Dim descripcionOriginal As String = ""
@@ -1133,6 +1136,27 @@ Public Class IntroApuntes
                     If filaSeleccionada.Row.Table.Columns.Contains("TipoCON") Then
                         tipoOriginal = filaSeleccionada("TipoCON").ToString().Trim()
                     End If
+
+                    ' =========================================================================
+                    ' 🎯 SINCRONIZACIÓN ASÍNCRONA PREMIUM 3.2.6 (Inmune a DropDownList)
+                    ' =========================================================================
+                    ' Le damos un microsegundo de tregua a la CPU para que el motor cargue las descripciones
+                    ' antes de forzar la selección visual en la pantalla.
+                    Dim copiaDescripcion As String = descripcionOriginal
+                    BeginInvoke(Sub()
+                                    Try
+                                        ' 1. Intentamos la vía dócil asignando el texto
+                                        CmbDescripcion.Text = copiaDescripcion
+
+                                        ' 2. 🛡️ EL SALVAVIDAS DE REDMOND: Si se quedó sordo por el DropDownList,
+                                        ' obligamos al motor Win32 a buscar el texto exacto en su colección
+                                        If CmbDescripcion.SelectedIndex = -1 Then
+                                            CmbDescripcion.SelectedIndex = CmbDescripcion.FindStringExact(copiaDescripcion)
+                                        End If
+                                    Catch
+                                        ' Cortafuegos silencioso
+                                    End Try
+                                End Sub)
                 End If
 
                 ' 3. Traducir y asignar los textos a la interfaz de forma segura
@@ -1164,6 +1188,15 @@ Public Class IntroApuntes
             Catch ex As Exception
                 MsgBox(resManager.GetString("ErrorSincronizarCON") & ": " & ex.Message, MsgBoxStyle.Critical, resManager.GetString("Error"))
             End Try
+        End If
+    End Sub
+
+    Private Sub CmbDescripcion_Enter(sender As Object, e As EventArgs) Handles CmbDescripcion.Enter
+        ' 🛡️ EL ESCUDO ADUANERO: Si el foco entra al combo pero el buscador está vacío o listo,
+        ' desviamos el cursor obligatoriamente a la caja de texto para unificar el criterio
+        If TxtBuscarLetras.Focused = False Then
+            TxtBuscarLetras.Focus()
+            TxtBuscarLetras.SelectionStart = TxtBuscarLetras.Text.Length
         End If
     End Sub
 

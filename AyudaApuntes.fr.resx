@@ -117,19 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Guide d’introduction rapide</value>
+  </data>
   <data name="Label1.Text" xml:space="preserve">
     <value>Étape 1 : 
 Sélectionnez un concept, vous verrez dans les descriptions 1 et 2, celui qui est par défaut.
 
 Étape 2 :
-Si la Description 2 du Concept n’est pas celle souhaitée, tapez dans le menu déroulant, vous passerez le texte à « Description de recherche : » tapez au moins trois lettres et Description 2 : s’ouvrira, avec les mots contenant les lettres « Description de recherche : ».
+Si la Description 2 du concept n’est pas celle souhaitée, tapez « Description de recherche : » tapez au moins trois lettres et Description 2 : s’ouvrira, avec les mots contenant les lettres « Description de recherche : ».
 Pour accéder au menu déroulant, appuyez sur Entrée et avec les flèches, avancez dans le menu déroulant et terminez en appuyant sur Entrée pour sauter au montant.
 
 Note :
 Vous pouvez revenir modifier ce que vous avez écrit.
 Si vous souhaitez sauvegarder une nouvelle description qui n’existe pas, continuez à taper et comme elle ne trouvera aucune correspondance, il vous demandera si vous souhaitez ajouter ce texte, une fois que vous aurez passé le texte à la Description 2 :, vous pourrez le compléter.</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Guide d’introduction rapide</value>
   </data>
 </root>

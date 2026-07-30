@@ -117,19 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Schneller Einführungsleitfaden</value>
+  </data>
   <data name="Label1.Text" xml:space="preserve">
     <value>Schritt 1: 
 Wähle ein Konzept aus, das du in Beschreibungen 1 und 2 siehst, also das Standardkonzept.
 
 Schritt 2:
-Wenn Beschreibung 2 des Konzepts nicht die gewünschte ist, gib ins Dropdown-Menü ein, dann gibst du den Text an "Beschreibung suchen:" gib mindestens drei Buchstaben ein und Beschreibung 2: öffnet sich mit den Wörtern, die die Buchstaben von "Suchbeschreibung:" enthalten.
+Wenn Beschreibung 2 des Konzepts nicht die gewünschte ist, geben Sie "Search Description:" ein, geben Sie mindestens drei Buchstaben ein und Description 2: wird geöffnet, mit den Wörtern, die die Buchstaben von "Search Description:" enthalten.
 Um zum Dropdown-Menü zu gelangen, drücken Sie Enter und gehen Sie mit den Pfeilen durch das Dropdown-Menü und beenden Sie die Eingabe, um zum Betrag zu springen.
 
 Hinweis:
 Du kannst zurückgehen und das, was du geschrieben hast, ändern.
 Falls du eine neue Beschreibung speichern möchtest, die nicht existiert, tippe weiter und da sie keine Übereinstimmung findet, wird sie dich gefragt, ob du den Text hinzufügen möchtest; sobald du den Text zu Beschreibung 2:, kannst du ihn ausfüllen.</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Schneller Einführungsleitfaden</value>
   </data>
 </root>

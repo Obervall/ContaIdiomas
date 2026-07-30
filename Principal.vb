@@ -117,6 +117,7 @@ Public Class Principal
         'VerificarActualizacionesVIP(Me)
 
 
+
         ActualizarTextosFormulario(Me)
 
         RefrescarMenus()
@@ -234,7 +235,7 @@ Public Class Principal
         End Try
 
         ' =========================================================================
-        ' 🎯 EL ESCUDO DE ACERO 3.2.6: BLINDAJE INTEGRAL CONTRA ACTUALIZACIONES
+        ' 🎯 EL ESCUDO DE ACERO: BLINDAJE INTEGRAL CONTRA ACTUALIZACIONES
         ' =========================================================================
         ' Lo primero que hace la CPU es comprobar si el usuario YA tiene una base de datos viva en Local
         If File.Exists(archivoBdDestino) Then
@@ -409,7 +410,7 @@ Public Class Principal
         'Mañana (Versión 3.2.1.0): Cambiarás tu línea a My.Settings.Version = "3.2.1.0",
         'cambiarás el manifiesto del MSIX a 3.2.1.0 y subirás el nuevo paquete reluciente [1.1].
 
-        My.Settings.Version = "3.2.6"
+        My.Settings.Version = "3.2.7"
         My.Settings.Save()
 
         vMoneda = My.Settings.Moneda

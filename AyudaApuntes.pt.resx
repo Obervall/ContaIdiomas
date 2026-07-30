@@ -117,19 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Guia Rápido de Introdução</value>
+  </data>
   <data name="Label1.Text" xml:space="preserve">
     <value>Passo 1: 
 Selecione um conceito, você verá nas Descrições 1 e 2, aquele que é padrão.
 
 Passo 2:
-Se a Descrição 2 do Conceito não for a desejada, digite no menu suspenso, você passará o texto para "Descrição de Pesquisa:" digite pelo menos três letras e Descrição 2: será aberta, com as palavras que contêm as letras de "Descrição de Pesquisa:".
+Se a Descrição 2 do Conceito não for a desejada, digite "Descrição de Pesquisa:" digite pelo menos três letras e Descrição 2: abrirá, com as palavras que contêm as letras de "Descrição de Pesquisa:".
 Para ir até o menu suspenso, pressione Enter e, com as Setas, avance pelo menu suspenso e termine pressionando Enter para pular até o Quanto.
 
 Nota:
 Você pode voltar para modificar o que escreveu.
 Caso você queira salvar uma nova descrição que não existe, continue digitando e, como não encontrará nenhuma correspondência, ele perguntará se você quer adicionar esse texto; depois de passar o texto para a Descrição 2:, você pode completá-lo.</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Guia Rápido de Introdução</value>
   </data>
 </root>

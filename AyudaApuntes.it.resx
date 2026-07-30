@@ -117,19 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Guida Introduttiva Rapida</value>
+  </data>
   <data name="Label1.Text" xml:space="preserve">
     <value>Passo 1: 
 Seleziona un concetto, vedrai nelle Descrizioni 1 e 2, quello che è di default.
 
 Passo 2:
-Se la Descrizione 2 del Concetto non è quella desiderata, digita nel menu a tendina, passerai il testo a "Descrizione di ricerca:" digita almeno tre lettere e Descrizione 2: si aprirà, con le parole che contengono le lettere di "Descrizione di ricerca:".
+Se la Descrizione 2 del Concetto non è quella desiderata, digita "Descrizione di ricerca:" digita almeno tre lettere e Descrizione 2: si aprirà, con le parole che contengono le lettere "Descrizione di ricerca:".
 Per andare al menu a discesa, premi Invio e con le frecce spostati attraverso il menu a discesa e concludi premendo Invio per saltare alla Somma.
 
 Nota:
 Puoi tornare indietro per modificare ciò che hai scritto.
 Nel caso volessi salvare una nuova descrizione che non esiste, continua a digitare e, dato che non troverà corrispondenza, ti chiederà se vuoi aggiungere quel testo; una volta passato il testo alla Descrizione 2:, puoi completarlo.</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Guida Introduttiva Rapida</value>
   </data>
 </root>
