@@ -111,7 +111,8 @@ Public Class Principal
 
         'My.Settings.vPantalla = Date.MinValue  ' Para limpiar la fecha de prueba y reiniciar el periodo de evaluación
         'Comentar cuando se Compile con MSI y descomentar cuando se compile con MSIX
-        VerificarPruebaInterna()
+        ' Lo quito del todo
+        'VerificarPruebaInterna()
 
         'Comentar cuando se Compile con MSIX y descomentar cuando se compile con MSI
         'VerificarActualizacionesVIP(Me)
