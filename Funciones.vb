@@ -3380,6 +3380,28 @@ Module Funciones
         frm.Controls.AddRange(New Control() {lbl, btnES, btnEN, btnCAT, btnCancelar})
         frm.CancelButton = btnCancelar ' Si pulsan la tecla ESC del teclado, también saldrá en paz
 
+        ' =========================================================================
+        ' 🚀 CONFIGURACIÓN DE ACCIONES DINÁMICAS INMUNES AL ANTIVIRUS (VERSIÓN 3.2.8.0)
+        ' =========================================================================
+        ' 1. Sabor de Boca Español: Al pulsar, arrastra el PDF al búnker seguro de AppData
+        AddHandler btnES.Click, Sub(s, ev)
+                                    EjecutarPDFIdiomasSeguro("Ayuda_ContaHogar_ES.pdf")
+                                    frm.Close()
+                                End Sub
+
+        ' 2. Sabor de Boca Catalán: Clonación e inicio libre de alertas visuales
+        AddHandler btnCAT.Click, Sub(s, ev)
+                                     EjecutarPDFIdiomasSeguro("Ajuda_ContaHogar_CAT.pdf")
+                                     frm.Close()
+                                 End Sub
+
+        ' 3. Sabor de Boca Inglés: Apertura fina como la seda en el navegador internacional
+        AddHandler btnEN.Click, Sub(s, ev)
+                                    EjecutarPDFIdiomasSeguro("Help_ContaHogar_EN.pdf")
+                                    frm.Close()
+                                End Sub
+
+
         ' Enfoque dinámico inteligente según la cultura activa de My.Settings
         Dim culturaActiva As String = My.Settings.CulturaUsuario.ToString().Trim().ToLower()
         If culturaActiva = "en" Then
@@ -3434,6 +3456,39 @@ Module Funciones
             MsgBox(resManager.GetString("Error") & ": " & ex.Message, vbCritical)
         End Try
     End Sub
+
+    ''' <summary>
+    ''' Copia el PDF de idioma seleccionado desde la carpeta bloqueada de la Store hacia la ruta 
+    ''' segura de datos local (AppData) y lo abre sin despertar alarmas del antivirus.
+    ''' </summary>
+    Public Sub EjecutarPDFIdiomasSeguro(ByVal nombreArchivoPDF As String)
+        Try
+            ' 1. Ruta de origen (La carpeta de la Store bloqueada)
+            Dim rutaOrigenPDF As String = System.IO.Path.Combine(Application.StartupPath, nombreArchivoPDF)
+
+            ' 2. Ruta de destino segura (El búnker de datos local autorizado por Windows)
+            Dim carpetaSegura As String = Application.LocalUserAppDataPath
+            Dim rutaDestinoPDF As String = System.IO.Path.Combine(carpetaSegura, nombreArchivoPDF)
+
+            ' 3. 🛡️ EL ESCUDO: Si no existe en la zona segura, lo clonamos en frío
+            If System.IO.File.Exists(rutaOrigenPDF) Then
+                If Not System.IO.File.Exists(rutaDestinoPDF) Then
+                    System.IO.File.Copy(rutaOrigenPDF, rutaDestinoPDF, True)
+                End If
+            End If
+
+            ' 4. 🚀 LANZAMIENTO INMUNE: Abrimos el manual del idioma correspondiente desde AppData
+            If System.IO.File.Exists(rutaDestinoPDF) Then
+                System.Diagnostics.Process.Start(New System.Diagnostics.ProcessStartInfo(rutaDestinoPDF) With {.UseShellExecute = True})
+            Else
+                MsgBox("No s'ha trobat el manual d'ajuda.", MsgBoxStyle.Information, "ContaHogar")
+            End If
+
+        Catch ex As Exception
+            MsgBox("Error al obrir el manual: " & ex.Message, MsgBoxStyle.Critical)
+        End Try
+    End Sub
+
 
     ''' <summary>
     ''' Transforma cualquier texto con puntos o comas en un número Decimal perfecto, 
