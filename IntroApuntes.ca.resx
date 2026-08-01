@@ -213,4 +213,7 @@ Error</value>
   <data name="ConceptoSeleccionado" xml:space="preserve">
     <value>Concepte Seleccionat</value>
   </data>
+  <data name="Label9.Text" xml:space="preserve">
+    <value>Descripció del farciment 2</value>
+  </data>
 </root>

@@ -603,4 +603,10 @@ después por Conceptos Diversos</value>
   <data name="ArchivosDeExcel" xml:space="preserve">
     <value>Archivos de Excel</value>
   </data>
+  <data name="ExportacionCompletada" xml:space="preserve">
+    <value>Exportación completada con éxito</value>
+  </data>
+  <data name="ErrorExportacion" xml:space="preserve">
+    <value>Error al exportar</value>
+  </data>
 </root>

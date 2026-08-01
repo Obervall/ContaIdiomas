@@ -3564,11 +3564,11 @@ Module Funciones
 
                     ' 🚀 LA ESTOCADA FINAL: Lanzamos el instalador ejecutable recién bajado al vuelo
                     MsgBox("El instalador se ha descargado correctamente. Ahora se iniciará la instalación.")
-					System.Diagnostics.Process.Start("C:\ContaHogar3.0\InstaladorContaHogar3.0.msi")
-					My.Settings.Version = vNewVersion
-					My.Settings.Save()
-					' Cierre limpio de la versión vieja para que el .msi machaque los archivos sin bloqueos de RAM
-					Application.Exit()
+                    System.Diagnostics.Process.Start("C:\ContaHogar3.0\InstaladorContaHogar3.0.msi")
+                    My.Settings.Version = vNewVersion
+                    My.Settings.Save()
+                    ' Cierre limpio de la versión vieja para que el .msi machaque los archivos sin bloqueos de RAM
+                    Application.Exit()
                 End If
             End If
         Catch ex As Exception

@@ -244,4 +244,10 @@ després per Conceptes Diversos</value>
   <data name="TodosLosArchivos" xml:space="preserve">
     <value>Tots els Arxius</value>
   </data>
+  <data name="ExportacionCompletada" xml:space="preserve">
+    <value>Exportació completada amb èxit</value>
+  </data>
+  <data name="ErrorExportacion" xml:space="preserve">
+    <value>Error al exportar</value>
+  </data>
 </root>

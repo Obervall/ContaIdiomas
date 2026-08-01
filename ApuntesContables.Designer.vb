@@ -1,27 +1,27 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class ApuntesContables
-    Inherits System.Windows.Forms.Form
+	Inherits System.Windows.Forms.Form
 
-    'Form reemplaza a Dispose para limpiar la lista de componentes.
-    <System.Diagnostics.DebuggerNonUserCode()>
-    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
-        Try
-            If disposing AndAlso components IsNot Nothing Then
-                components.Dispose()
-            End If
-        Finally
-            MyBase.Dispose(disposing)
-        End Try
-    End Sub
+	'Form reemplaza a Dispose para limpiar la lista de componentes.
+	<System.Diagnostics.DebuggerNonUserCode()>
+	Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+		Try
+			If disposing AndAlso components IsNot Nothing Then
+				components.Dispose()
+			End If
+		Finally
+			MyBase.Dispose(disposing)
+		End Try
+	End Sub
 
-    'Requerido por el Diseñador de Windows Forms
-    Private components As System.ComponentModel.IContainer
+	'Requerido por el Diseñador de Windows Forms
+	Private components As System.ComponentModel.IContainer
 
-    'NOTA: el Diseñador de Windows Forms necesita el siguiente procedimiento
-    'Se puede modificar usando el Diseñador de Windows Forms.  
-    'No lo modifique con el editor de código.
-    <System.Diagnostics.DebuggerStepThrough()>
-    Private Sub InitializeComponent()
+	'NOTA: el Diseñador de Windows Forms necesita el siguiente procedimiento
+	'Se puede modificar usando el Diseñador de Windows Forms.  
+	'No lo modifique con el editor de código.
+	<System.Diagnostics.DebuggerStepThrough()>
+	Private Sub InitializeComponent()
 		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ApuntesContables))
 		Me.GroupBox1 = New System.Windows.Forms.GroupBox()
 		Me.TxtNumRegistros = New System.Windows.Forms.TextBox()
@@ -83,7 +83,6 @@ Partial Class ApuntesContables
 		Me.PrintDocument1 = New System.Drawing.Printing.PrintDocument()
 		Me.BtnAumentar = New System.Windows.Forms.Button()
 		Me.BtnNormal = New System.Windows.Forms.Button()
-		Me.BtnExcel2 = New System.Windows.Forms.Button()
 		Me.GroupBox1.SuspendLayout()
 		Me.GroupBox2.SuspendLayout()
 		Me.GroupBox3.SuspendLayout()
@@ -381,7 +380,6 @@ Partial Class ApuntesContables
 		'
 		'GroupBox7
 		'
-		Me.GroupBox7.Controls.Add(Me.BtnExcel2)
 		Me.GroupBox7.Controls.Add(Me.TxtSaldo)
 		Me.GroupBox7.Controls.Add(Me.TxtGastos)
 		Me.GroupBox7.Controls.Add(Me.TxtIngresos)
@@ -494,12 +492,6 @@ Partial Class ApuntesContables
 		Me.BtnNormal.Name = "BtnNormal"
 		Me.BtnNormal.UseVisualStyleBackColor = True
 		'
-		'BtnExcel2
-		'
-		resources.ApplyResources(Me.BtnExcel2, "BtnExcel2")
-		Me.BtnExcel2.Name = "BtnExcel2"
-		Me.BtnExcel2.UseVisualStyleBackColor = True
-		'
 		'ApuntesContables
 		'
 		resources.ApplyResources(Me, "$this")
@@ -542,64 +534,63 @@ Partial Class ApuntesContables
 	End Sub
 
 	Friend WithEvents GroupBox1 As Windows.Forms.GroupBox
-    Friend WithEvents GroupBox2 As Windows.Forms.GroupBox
-    Friend WithEvents GroupBox3 As Windows.Forms.GroupBox
-    Friend WithEvents BtnSalir As Windows.Forms.Button
-    Friend WithEvents TxtNumRegistros As Windows.Forms.TextBox
-    Friend WithEvents LblNumRegistros As Windows.Forms.Label
-    Friend WithEvents Label1 As Windows.Forms.Label
-    Friend WithEvents BtnEditarRegistro As Windows.Forms.Button
-    Friend WithEvents BtnEliminarRegistro As Windows.Forms.Button
-    Friend WithEvents BtnAñadirRegistro As Windows.Forms.Button
-    Friend WithEvents GroupBox4 As Windows.Forms.GroupBox
-    Friend WithEvents GroupBox5 As Windows.Forms.GroupBox
-    Friend WithEvents GroupBox6 As Windows.Forms.GroupBox
-    Friend WithEvents GroupBox7 As Windows.Forms.GroupBox
-    Friend WithEvents DgvApuntes As Windows.Forms.DataGridView
-    Friend WithEvents BtnCalculadora As Windows.Forms.Button
-    Friend WithEvents BtnGraficos As Windows.Forms.Button
-    Friend WithEvents BtnImprimir As Windows.Forms.Button
-    Friend WithEvents BtnSeguirBuscando As Windows.Forms.Button
-    Friend WithEvents BtnBuscarRegistro As Windows.Forms.Button
-    Friend WithEvents Label3 As Windows.Forms.Label
-    Friend WithEvents Label4 As Windows.Forms.Label
-    Friend WithEvents Label6 As Windows.Forms.Label
-    Friend WithEvents Label5 As Windows.Forms.Label
-    Friend WithEvents Label9 As Windows.Forms.Label
-    Friend WithEvents Label8 As Windows.Forms.Label
-    Friend WithEvents Label7 As Windows.Forms.Label
-    Friend WithEvents TxtSaldo As Windows.Forms.TextBox
-    Friend WithEvents TxtGastos As Windows.Forms.TextBox
-    Friend WithEvents TxtIngresos As Windows.Forms.TextBox
-    Friend WithEvents BtnSinFiltroCuenta As Windows.Forms.Button
-    Friend WithEvents BtnFiltroCuenta As Windows.Forms.Button
-    Friend WithEvents CmbCuenta As Windows.Forms.ComboBox
-    Friend WithEvents BtnSinFiltroConcepto As Windows.Forms.Button
-    Friend WithEvents BtnFiltroConcepto As Windows.Forms.Button
-    Friend WithEvents CmbConcepto As Windows.Forms.ComboBox
-    Friend WithEvents DateTimePicker2 As Windows.Forms.DateTimePicker
-    Friend WithEvents DateTimePicker1 As Windows.Forms.DateTimePicker
-    Friend WithEvents BtnSinFiltroFecha As Windows.Forms.Button
-    Friend WithEvents BtnFiltroFecha As Windows.Forms.Button
-    Friend WithEvents TxtConcepto As Windows.Forms.TextBox
-    Friend WithEvents GroupBox8 As Windows.Forms.GroupBox
-    Friend WithEvents BtnUltimo As Windows.Forms.Button
-    Friend WithEvents BtnSiguiente As Windows.Forms.Button
-    Friend WithEvents BtnAnterior As Windows.Forms.Button
-    Friend WithEvents BtnPrimero As Windows.Forms.Button
-    Friend WithEvents BtnEliminaSeleccion As Windows.Forms.Button
-    Friend WithEvents BtnFiltroChekedList As Windows.Forms.Button
-    Friend WithEvents LblApuntes As Windows.Forms.Label
-    Friend WithEvents BtnFechas As Windows.Forms.Button
-    Friend WithEvents ListBox1 As Windows.Forms.ListBox
-    Friend WithEvents BtnFechasFondo As Windows.Forms.Button
-    Friend WithEvents BtnFiltroF5 As Windows.Forms.Button
-    Friend WithEvents BtnF6 As Windows.Forms.Button
-    Friend WithEvents BtnExcel As Windows.Forms.Button
-    Friend WithEvents PrbExport As Windows.Forms.ProgressBar
-    Friend WithEvents PrintDocument1 As Drawing.Printing.PrintDocument
-    Friend WithEvents BtnAumentar As Windows.Forms.Button
-    Friend WithEvents BtnNormal As Windows.Forms.Button
-    Public WithEvents BtnTraspasarRegistro As Windows.Forms.Button
-	Friend WithEvents BtnExcel2 As Windows.Forms.Button
+	Friend WithEvents GroupBox2 As Windows.Forms.GroupBox
+	Friend WithEvents GroupBox3 As Windows.Forms.GroupBox
+	Friend WithEvents BtnSalir As Windows.Forms.Button
+	Friend WithEvents TxtNumRegistros As Windows.Forms.TextBox
+	Friend WithEvents LblNumRegistros As Windows.Forms.Label
+	Friend WithEvents Label1 As Windows.Forms.Label
+	Friend WithEvents BtnEditarRegistro As Windows.Forms.Button
+	Friend WithEvents BtnEliminarRegistro As Windows.Forms.Button
+	Friend WithEvents BtnAñadirRegistro As Windows.Forms.Button
+	Friend WithEvents GroupBox4 As Windows.Forms.GroupBox
+	Friend WithEvents GroupBox5 As Windows.Forms.GroupBox
+	Friend WithEvents GroupBox6 As Windows.Forms.GroupBox
+	Friend WithEvents GroupBox7 As Windows.Forms.GroupBox
+	Friend WithEvents DgvApuntes As Windows.Forms.DataGridView
+	Friend WithEvents BtnCalculadora As Windows.Forms.Button
+	Friend WithEvents BtnGraficos As Windows.Forms.Button
+	Friend WithEvents BtnImprimir As Windows.Forms.Button
+	Friend WithEvents BtnSeguirBuscando As Windows.Forms.Button
+	Friend WithEvents BtnBuscarRegistro As Windows.Forms.Button
+	Friend WithEvents Label3 As Windows.Forms.Label
+	Friend WithEvents Label4 As Windows.Forms.Label
+	Friend WithEvents Label6 As Windows.Forms.Label
+	Friend WithEvents Label5 As Windows.Forms.Label
+	Friend WithEvents Label9 As Windows.Forms.Label
+	Friend WithEvents Label8 As Windows.Forms.Label
+	Friend WithEvents Label7 As Windows.Forms.Label
+	Friend WithEvents TxtSaldo As Windows.Forms.TextBox
+	Friend WithEvents TxtGastos As Windows.Forms.TextBox
+	Friend WithEvents TxtIngresos As Windows.Forms.TextBox
+	Friend WithEvents BtnSinFiltroCuenta As Windows.Forms.Button
+	Friend WithEvents BtnFiltroCuenta As Windows.Forms.Button
+	Friend WithEvents CmbCuenta As Windows.Forms.ComboBox
+	Friend WithEvents BtnSinFiltroConcepto As Windows.Forms.Button
+	Friend WithEvents BtnFiltroConcepto As Windows.Forms.Button
+	Friend WithEvents CmbConcepto As Windows.Forms.ComboBox
+	Friend WithEvents DateTimePicker2 As Windows.Forms.DateTimePicker
+	Friend WithEvents DateTimePicker1 As Windows.Forms.DateTimePicker
+	Friend WithEvents BtnSinFiltroFecha As Windows.Forms.Button
+	Friend WithEvents BtnFiltroFecha As Windows.Forms.Button
+	Friend WithEvents TxtConcepto As Windows.Forms.TextBox
+	Friend WithEvents GroupBox8 As Windows.Forms.GroupBox
+	Friend WithEvents BtnUltimo As Windows.Forms.Button
+	Friend WithEvents BtnSiguiente As Windows.Forms.Button
+	Friend WithEvents BtnAnterior As Windows.Forms.Button
+	Friend WithEvents BtnPrimero As Windows.Forms.Button
+	Friend WithEvents BtnEliminaSeleccion As Windows.Forms.Button
+	Friend WithEvents BtnFiltroChekedList As Windows.Forms.Button
+	Friend WithEvents LblApuntes As Windows.Forms.Label
+	Friend WithEvents BtnFechas As Windows.Forms.Button
+	Friend WithEvents ListBox1 As Windows.Forms.ListBox
+	Friend WithEvents BtnFechasFondo As Windows.Forms.Button
+	Friend WithEvents BtnFiltroF5 As Windows.Forms.Button
+	Friend WithEvents BtnF6 As Windows.Forms.Button
+	Friend WithEvents BtnExcel As Windows.Forms.Button
+	Friend WithEvents PrbExport As Windows.Forms.ProgressBar
+	Friend WithEvents PrintDocument1 As Drawing.Printing.PrintDocument
+	Friend WithEvents BtnAumentar As Windows.Forms.Button
+	Friend WithEvents BtnNormal As Windows.Forms.Button
+	Public WithEvents BtnTraspasarRegistro As Windows.Forms.Button
 End Class

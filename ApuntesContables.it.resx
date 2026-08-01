@@ -244,4 +244,10 @@ poi da Concetti Vari</value>
   <data name="TodosLosArchivos" xml:space="preserve">
     <value>Tutti i file</value>
   </data>
+  <data name="ExportacionCompletada" xml:space="preserve">
+    <value>Esportazione completata con successo</value>
+  </data>
+  <data name="ErrorExportacion" xml:space="preserve">
+    <value>Esportazione di errori</value>
+  </data>
 </root>

@@ -244,4 +244,10 @@ puis par Concepts divers</value>
   <data name="TodosLosArchivos" xml:space="preserve">
     <value>Tous les fichiers</value>
   </data>
+  <data name="ExportacionCompletada" xml:space="preserve">
+    <value>Exportation réussie</value>
+  </data>
+  <data name="ErrorExportacion" xml:space="preserve">
+    <value>Exportation d’erreurs</value>
+  </data>
 </root>

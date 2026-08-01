@@ -244,4 +244,10 @@ then by Miscellaneous Concepts</value>
   <data name="TodosLosArchivos" xml:space="preserve">
     <value>All Files</value>
   </data>
+  <data name="ExportacionCompletada" xml:space="preserve">
+    <value>Export completed successfully</value>
+  </data>
+  <data name="ErrorExportacion" xml:space="preserve">
+    <value>Error Exporting</value>
+  </data>
 </root>
