@@ -1764,7 +1764,7 @@ Public Class ApuntesContables
                                     End If
 
                                     If j = 0 Then
-                                        dr1(j) = Convert.ToDateTime(celdaValor).ToString("yyyy/MM/dd")
+                                        dr1(j) = Convert.ToDateTime(celdaValor) ' .ToString("yyyy/MM/dd")
                                     ElseIf j = 1 Or j = 2 Or j = 6 Then
                                         dr1(j) = Trim(celdaValor.ToString())
                                     ElseIf j = 3 Then
@@ -1794,7 +1794,7 @@ Public Class ApuntesContables
                                 End If
 
                                 If j = 0 Then
-                                    dr1(j) = Convert.ToDateTime(celdaValor).ToString("yyyy/MM/dd")
+                                    dr1(j) = Convert.ToDateTime(celdaValor) '.ToString("yyyy/MM/dd")
                                 ElseIf j = 1 Or j = 2 Or j = 6 Then
                                     dr1(j) = Trim(celdaValor.ToString())
                                 ElseIf j = 3 Or j = 4 Then
