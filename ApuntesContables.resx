@@ -1438,6 +1438,41 @@
   <data name="&gt;&gt;GroupBox6.ZOrder" xml:space="preserve">
     <value>11</value>
   </data>
+  <data name="BtnExcel2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
+        cQAAEnEB89x6jgAAAR1JREFUWEfNkoEOgyAMRPvpfJp/xlK1rp5XqAbcLrkwC/beiiKlVHQpMtUi8s1j
+        4bVKXZZlypoEmKOfTyANwF4esW4AGtoEKPu4xq/mFMAMcQB9cGYAeEb9RBQAD2Hz9fB6g86y3WvGXhTg
+        eNibW+gp3F2PhaMyNQ7gCwDBwlnjbC0GaEHAP7/rPEALAr4LbJyt5QACCC9snK21AfydBxDeOOrIOQAf
+        7oEYxL6HwjAmDsDCOxC9sFsTsGLkCMLEwlhNdel5TCBjMp0ojNVUHAAa6wEva3IBIgDMXo8BmNl+q6Z6
+        DIDqhbGa6v8BMFzlm6F7+/6c9tbftwFG6f8B3gjvAsy0haspgEHgBzTSKYCZNogQ4I1JnMJbALOMWR8j
+        BX+inBPgMAAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="BtnExcel2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BtnExcel2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>547, 11</value>
+  </data>
+  <data name="BtnExcel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 34</value>
+  </data>
+  <data name="BtnExcel2.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;BtnExcel2.Name" xml:space="preserve">
+    <value>BtnExcel2</value>
+  </data>
+  <data name="&gt;&gt;BtnExcel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnExcel2.Parent" xml:space="preserve">
+    <value>GroupBox7</value>
+  </data>
+  <data name="&gt;&gt;BtnExcel2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="TxtSaldo.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -1463,7 +1498,7 @@
     <value>GroupBox7</value>
   </data>
   <data name="&gt;&gt;TxtSaldo.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="TxtGastos.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1490,7 +1525,7 @@
     <value>GroupBox7</value>
   </data>
   <data name="&gt;&gt;TxtGastos.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="TxtIngresos.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1517,7 +1552,7 @@
     <value>GroupBox7</value>
   </data>
   <data name="&gt;&gt;TxtIngresos.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="Label9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1550,7 +1585,7 @@
     <value>GroupBox7</value>
   </data>
   <data name="&gt;&gt;Label9.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="Label8.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1583,7 +1618,7 @@
     <value>GroupBox7</value>
   </data>
   <data name="&gt;&gt;Label8.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="Label7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1616,7 +1651,7 @@
     <value>GroupBox7</value>
   </data>
   <data name="&gt;&gt;Label7.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="GroupBox7.Location" type="System.Drawing.Point, System.Drawing">
     <value>601, 144</value>
@@ -1998,75 +2033,5 @@
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ToolTipLabelApuntes" xml:space="preserve">
-    <value>Con Tecla Suprimir: Elimina filas seleccionadas
-Con F5: Filtra por Descripción
-Con F6: Refresca la Parrilla Apuntes y Quita Filtros</value>
-  </data>
-  <data name="EliminarApuntes" xml:space="preserve">
-    <value>Apuntes Borrados!!</value>
-  </data>
-  <data name="EliminarApuntesError" xml:space="preserve">
-    <value>Error al Eliminar los Apuntes relacionados con el Concepto Contable</value>
-  </data>
-  <data name="ToolTipListBox" xml:space="preserve">
-    <value>Con Tecla Esc: Cierra Listado</value>
-  </data>
-  <data name="ToolTipChekedList" xml:space="preserve">
-    <value>Abre Listado de Conceptos para múltiple selecció</value>
-  </data>
-  <data name="ToolTipFechas" xml:space="preserve">
-    <value>Activar o Desactivar Acceso a Datos anteriores al Ejercicio Actual</value>
-  </data>
-  <data name="ToolTipExcel" xml:space="preserve">
-    <value>Exportar Apuntes a Excel</value>
-  </data>
-  <data name="ToolTipAumentar" xml:space="preserve">
-    <value>Aumentar medida del Font</value>
-  </data>
-  <data name="ToolTipNormal" xml:space="preserve">
-    <value>Restaurar medida del Fomt</value>
-  </data>
-  <data name="ToolTipF5" xml:space="preserve">
-    <value>Filtra por Descripción</value>
-  </data>
-  <data name="ToolTipTraspasar" xml:space="preserve">
-    <value>Traspasar de una Cuenta a otra</value>
-  </data>
-  <data name="MsgText3" xml:space="preserve">
-    <value>Diversos Conceptos Seleccionados</value>
-  </data>
-  <data name="MsgText4" xml:space="preserve">
-    <value>DIVERSOS CONCEPTOS</value>
-  </data>
-  <data name="MsgText2" xml:space="preserve">
-    <value>Introducción de Apuntes</value>
-  </data>
-  <data name="MsgText1" xml:space="preserve">
-    <value>Aviso de Filtros</value>
-  </data>
-  <data name="RutaExcelExiste" xml:space="preserve">
-    <value>Ya existe la Ruta C:\ContaHogar3.0\Excel</value>
-  </data>
-  <data name="RutaExcelCreada" xml:space="preserve">
-    <value>Ruta C:\ContaHogar3.0\Excel, Creada</value>
-  </data>
-  <data name="MsgAviso1" xml:space="preserve">
-    <value>Hay Diversos Conceptos Seleccionados.
-Filtrar Primero por Cuentas y Fechas,
-después por Conceptos Diversos</value>
-  </data>
-  <data name="MsgSaldos1" xml:space="preserve">
-    <value>Los Saldos iniciales, NO se pueden Borrar</value>
-  </data>
-  <data name="MsgSaldos2" xml:space="preserve">
-    <value>Los Saldos iniciales, NO se pueden Editar</value>
-  </data>
-  <data name="ArchivosDeExcel" xml:space="preserve">
-    <value>Archivos de Excel</value>
-  </data>
-  <data name="TodosLosArchivos" xml:space="preserve">
-    <value>Todos los Archivos</value>
   </data>
 </root>

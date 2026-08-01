@@ -115,7 +115,7 @@ Public Class Principal
         'VerificarPruebaInterna()
 
         'Comentar cuando se Compile con MSIX y descomentar cuando se compile con MSI
-        'VerificarActualizacionesVIP(Me)
+        VerificarActualizacionesVIP(Me)
 
 
 

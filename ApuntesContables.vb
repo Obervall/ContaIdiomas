@@ -1872,6 +1872,249 @@ Public Class ApuntesContables
         End Using
     End Sub
 
+    Private Sub BtnExcel2_Click(sender As Object, e As EventArgs) Handles BtnExcel2.Click
+        'LlenarExcel(DgvApuntes)
+        '' Si no hay PathExportar lo creamos.
+        If My.Settings.PathExportar = "" Then
+            Dim path As String = "C:\ContaHogar3.0\Excel"
+            If Directory.Exists(path) Then
+                'MsgBox("Ya existe la Ruta C:\ContaHogar3.0\Excel.")
+            Else
+                Directory.CreateDirectory(path)
+                'MsgBox("Ruta C:\ContaHogar3.0\Excel, Creada.")
+            End If
+            My.Settings.PathExportar = path
+            My.Settings.Save()
+            My.Settings.Reload()
+        End If
+        Try
+            If ((DgvApuntes.Columns.Count = 0) Or (DgvApuntes.Rows.Count = 0)) Then
+                Exit Sub
+            End If
+            Dim vNumRegistros As String = DgvApuntes.Rows.Count
+            PrbExport.Visible = True
+            PrbExport.Minimum = 0
+            PrbExport.Maximum = vNumRegistros
+            PrbExport.Value = 0
+
+            'Creando Dataset para Exportar
+            Dim dset As New DataSet
+            'Agregar tabla al Dataset
+            dset.Tables.Add()
+
+            'AGregar Columna a la tabla
+            For i As Integer = 0 To DgvApuntes.ColumnCount - 5
+                dset.Tables(0).Columns.Add(DgvApuntes.Columns(i).HeaderText)
+            Next
+
+            'Agregar filas a la tabla
+            Dim dr1 As DataRow
+            Dim vSuma As Double = 0
+            vLetras = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            vNumeros = "0123456789"
+			If DgvApuntes.SelectedRows.Count > 1 Then 'Si hay filas seleccionadas, se exportan solo las filas seleccionadas
+				For i As Integer = 0 To DgvApuntes.RowCount - 1
+					If DgvApuntes.Rows(i).Selected Then
+						dr1 = dset.Tables(0).NewRow
+
+						' Controlamos no desbordar las columnas del dataset (recuerda que creaste ColumnCount - 5)
+						Dim maxColumnas As Integer = Math.Min(DgvApuntes.Columns.Count - 1, dset.Tables(0).Columns.Count - 1)
+
+						For j As Integer = 0 To maxColumnas
+							Dim celdaValor As Object = DgvApuntes.Rows(i).Cells(j).Value
+
+							' Si la celda es completamente nula o DBNull, la tratamos de forma segura
+							If celdaValor Is Nothing OrElse IsDBNull(celdaValor) Then
+								If j = 3 OrElse j = 4 Then
+									dr1(j) = 0
+								Else
+									dr1(j) = ""
+								End If
+								Continue For ' Salta al siguiente ciclo de columna de forma segura
+							End If
+
+							' Si la celda SÍ tiene datos, procesamos según la columna
+							If j = 0 Then
+								dr1(j) = Format(celdaValor, "yyyy/MM/dd")
+
+							ElseIf j = 1 Or j = 2 Or j = 6 Then
+								' .ToString seguro que nunca fallará con DBNull gracias al filtro de arriba
+								dr1(j) = Trim(celdaValor.ToString())
+
+							ElseIf j = 3 Then
+								Dim numValor As Double = Convert.ToDouble(celdaValor)
+								dr1(j) = FormatCurrency(numValor)
+								vSuma = vSuma + numValor
+
+							ElseIf j = 4 Then
+								dr1(j) = FormatCurrency(vSuma)
+
+							ElseIf j = 5 Then
+								vNotas = Trim(celdaValor.ToString())
+								If String.Compare(vNotas, vLetras) > 0 Or String.Compare(vNotas, vNumeros) > 0 Then
+									dr1(j) = "*" & vNotas
+								Else
+									dr1(j) = ""
+								End If
+							End If
+						Next
+						dset.Tables(0).Rows.Add(dr1)
+					End If
+				Next
+			Else 'Si no hay filas seleccionadas, se exportan todas las filas
+                MsgBox("Se exportarán todas las filas del Grid, ya que no hay ninguna seleccionada.", MsgBoxStyle.Information, "Exportación a Excel")
+                For i As Integer = 0 To DgvApuntes.RowCount - 1
+                    dr1 = dset.Tables(0).NewRow
+
+                    ' Controlamos no desbordar las columnas del dataset (según el conteo con el que lo creaste)
+                    Dim maxColumnas As Integer = Math.Min(DgvApuntes.Columns.Count - 1, dset.Tables(0).Columns.Count - 1)
+
+                    For j As Integer = 0 To maxColumnas
+                        Dim celdaValor As Object = DgvApuntes.Rows(i).Cells(j).Value
+
+                        ' Si la celda está vacía en la base de datos o grilla, evitamos que colapse
+                        If celdaValor Is Nothing OrElse IsDBNull(celdaValor) Then
+                            If j = 3 OrElse j = 4 Then
+                                dr1(j) = 0
+                            Else
+                                dr1(j) = ""
+                            End If
+                            Continue For ' Salta de forma segura a la siguiente columna
+                        End If
+
+
+                        ' Si la celda contiene información, se procesa con total seguridad
+                        If j = 0 Then
+                            dr1(j) = Format(celdaValor, "yyyy/MM/dd")
+
+                        ElseIf j = 1 Or j = 2 Or j = 6 Then
+                            dr1(j) = Trim(celdaValor.ToString())
+
+                        ElseIf j = 3 Or j = 4 Then
+                            ' Guardamos el valor numérico puro de la celda
+                            dr1(j) = Convert.ToDouble(DgvApuntes.Rows(i).Cells(j).Value)
+
+                            'ElseIf j = 3 Or j = 4 Then
+                            '    Dim numValor As Double = Convert.ToDouble(celdaValor)
+                            '    dr1(j) = FormatCurrency(numValor)
+
+                        ElseIf j = 5 Then
+                            vNotas = Trim(celdaValor.ToString())
+                            If String.Compare(vNotas, vLetras) > 0 Or String.Compare(vNotas, vNumeros) > 0 Then
+                                dr1(j) = "*" & vNotas
+                            Else
+                                dr1(j) = ""
+                            End If
+                        End If
+                    Next
+                    dset.Tables(0).Rows.Add(dr1)
+                Next
+            End If
+
+            Dim aplicacion As New Microsoft.Office.Interop.Excel.Application
+            Dim wBook As Microsoft.Office.Interop.Excel.Workbook
+            Dim wSheet As Microsoft.Office.Interop.Excel.Worksheet
+
+            wBook = aplicacion.Workbooks.Add()
+            wSheet = wBook.ActiveSheet()
+
+            Dim dt As System.Data.DataTable = dset.Tables(0)
+            Dim dc As System.Data.DataColumn
+            Dim dr As System.Data.DataRow
+            Dim colIndex As Integer = 0
+            Dim rowIndex As Integer = 0
+
+            For Each dc In dt.Columns
+                colIndex = colIndex + 1
+                aplicacion.Cells(1, colIndex) = dc.ColumnName
+            Next
+
+            For Each dr In dt.Rows
+                PrbExport.Value = rowIndex
+                rowIndex = rowIndex + 1
+                colIndex = 0
+
+                For Each dc In dt.Columns
+                    colIndex = colIndex + 1
+                    Dim valorCelda As Object = dr(dc.ColumnName)
+
+                    ' Identificamos las columnas de Importe (colIndex = 4, columna D) y Saldo (colIndex = 5, columna E)
+                    If colIndex = 4 OrElse colIndex = 5 Then
+                        ' 1. Forzamos a Excel a tratar la celda como número estándar inicialmente
+                        aplicacion.Cells(rowIndex + 1, colIndex).NumberFormat = "0.00"
+
+                        ' 2. Convertimos el dato a Double puro antes de enviarlo, asegurando que no viaje como Texto
+                        If valorCelda IsNot Nothing AndAlso Not IsDBNull(valorCelda) AndAlso IsNumeric(valorCelda) Then
+                            aplicacion.Cells(rowIndex + 1, colIndex).Value = Convert.ToDouble(valorCelda)
+                        Else
+                            aplicacion.Cells(rowIndex + 1, colIndex).Value = 0.0
+                        End If
+                    Else
+                        ' Para las columnas de texto (Fechas, Conceptos, Notas) se escribe directo
+                        aplicacion.Cells(rowIndex + 1, colIndex).Value = valorCelda
+                    End If
+                Next
+            Next
+
+            ' Configurar con negrilla la cabecera y tenga autofit
+            wSheet.Rows.Item(1).Font.Bold = 1
+            wSheet.Columns.AutoFit()
+
+            ' 3. APLICACIÓN DEL FORMATO CONTABLE CON NEGATIVOS EN ROJO DIRECTAMENTE EN EXCEL
+            ' Usamos un formato universal compatible. Nota: Asegúrate de que vMoneda contenga el símbolo "€" o similar.
+            Dim formatoMonedaRojo As String = "#,##0.00 €;[Red]-#,##0.00 €"
+
+            ' Aplicamos de forma masiva a todo el rango numérico escrito
+            wSheet.Range("D2:D" & (rowIndex + 1)).NumberFormat = formatoMonedaRojo
+            wSheet.Range("E2:E" & (rowIndex + 1)).NumberFormat = formatoMonedaRojo
+
+
+
+            'For Each dr In dt.Rows
+            '    PrbExport.Value = rowIndex
+            '    rowIndex = rowIndex + 1
+            '    colIndex = 0
+            '    For Each dc In dt.Columns
+            '        colIndex = colIndex + 1
+            '        aplicacion.Cells(rowIndex + 1, colIndex) = dr(dc.ColumnName)
+            '    Next
+            'Next
+
+            '' Configurar con negrilla la cabecera y tenga autofit
+            'wSheet.Rows.Item(1).Font.Bold = 1
+            'wSheet.Columns.AutoFit()
+
+            '' 3. APLICACIÓN DEL FORMATO CONTABLE CON NEGATIVOS EN ROJO DIRECTAMENTE EN EXCEL
+            '' Seleccionamos los rangos desde la fila 2 hasta la última fila escrita para las columnas D (3) y E (4)
+            '' El formato "#,##0.00 €;[Red]-#,##0.00 €" define: Positivos estándar; Negativos en ROJO con signo menos.
+            'Dim formatoMonedaRojo As String = "#,##0.00 €;[Red]-#,##0.00 " & vMoneda
+            'wSheet.Range("D2", "D" & (rowIndex + 1)).NumberFormat = formatoMonedaRojo
+            'wSheet.Range("E2", "E" & (rowIndex + 1)).NumberFormat = formatoMonedaRojo
+
+            Dim strFileName As String = My.Settings.PathExportar & "\" & vAñoEjercicio & "_Apuntes.xlsx"
+            Dim blnFileOpen As Boolean = False
+            Try
+                Dim fileTemp As System.IO.FileStream = System.IO.File.OpenWrite(strFileName)
+                fileTemp.Close()
+            Catch ex As Exception
+                'MessageBox.Show("El documento se encuentra abierto, ciérrelo para exportar.", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1)    
+                blnFileOpen = False
+            End Try
+
+            If System.IO.File.Exists(strFileName) Then
+                System.IO.File.Delete(strFileName)
+            End If
+            'MessageBox.Show("El documento fue exportado correctamente.", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1)
+            wBook.SaveAs(strFileName)
+            aplicacion.Workbooks.Open(strFileName)
+            aplicacion.Visible = True
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, "ContaHogar 3.0", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+        PrbExport.Visible = False
+    End Sub
+
+
     Public Sub BtnTraspasarRegistro_Click(sender As Object, e As EventArgs) Handles BtnTraspasarRegistro.Click
         ' Comprobamos si existe un identificador asociado.
         If ((frmTraspasoCuentas Is Nothing) OrElse (Not frmTraspasoCuentas.IsHandleCreated)) Then
@@ -2173,7 +2416,7 @@ Public Class ApuntesContables
 
                 ' Buscamos el ID numérico real del concepto "SALDO" de forma segura y aislada
                 Dim idConceptoSaldo As Integer = 1
-                Using cmdBuscarId As New OleDb.OleDbCommand("SELECT IdConceptoCON FROM conceptos WHERE CodigoCON = 'SALDO'", conexion1)
+                Using cmdBuscarId As New OleDb.OleDbCommand("Select IdConceptoCON FROM conceptos WHERE CodigoCON = 'SALDO'", conexion1)
                     Dim resId = cmdBuscarId.ExecuteScalar()
                     If resId IsNot Nothing AndAlso Not IsDBNull(resId) Then idConceptoSaldo = Convert.ToInt32(resId)
                 End Using

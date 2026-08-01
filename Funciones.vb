@@ -3419,42 +3419,42 @@ Module Funciones
         Dim resultado As DialogResult = frm.ShowDialog()
         frm.Dispose()
 
-        ' 🎯 EVALUACIÓN DE RESPUESTA SANEADA AL 100%
-        Dim nombreArchivoPDF As String = ""
-        Select Case resultado
-            Case DialogResult.Yes
-                nombreArchivoPDF = "Ayuda_ContaHogar_ES.pdf"
-            Case DialogResult.No
-                nombreArchivoPDF = "Help_ContaHogar_EN.pdf"
-            Case DialogResult.OK
-                nombreArchivoPDF = "Ajuda_ContaHogar_CAT.pdf"
-            Case DialogResult.Cancel
-                ' 🔒 CORTAFUEGOS: Si pulsa Cancelar o la X de la ventana, salimos en paz sin hacer NADA
-                Exit Sub
-            Case Else
-                Exit Sub
-        End Select
+        '' 🎯 EVALUACIÓN DE RESPUESTA SANEADA AL 100%
+        'Dim nombreArchivoPDF As String = ""
+        'Select Case resultado
+        '    Case DialogResult.Yes
+        '        nombreArchivoPDF = "Ayuda_ContaHogar_ES.pdf"
+        '    Case DialogResult.No
+        '        nombreArchivoPDF = "Help_ContaHogar_EN.pdf"
+        '    Case DialogResult.OK
+        '        nombreArchivoPDF = "Ajuda_ContaHogar_CAT.pdf"
+        '    Case DialogResult.Cancel
+        '        ' 🔒 CORTAFUEGOS: Si pulsa Cancelar o la X de la ventana, salimos en paz sin hacer NADA
+        '        Exit Sub
+        '    Case Else
+        '        Exit Sub
+        'End Select
 
-        ' Engranaje de ruta indestructible nativa hacia tus Documentos
-        Dim carpetaDocumentos As String = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-        Dim carpetaAppOficial As String = IO.Path.Combine(carpetaDocumentos, "ContaHogar3.0")
-        Dim rutaCompletaPDF As String = IO.Path.Combine(carpetaAppOficial, nombreArchivoPDF)
+        '' Engranaje de ruta indestructible nativa hacia tus Documentos
+        'Dim carpetaDocumentos As String = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+        'Dim carpetaAppOficial As String = IO.Path.Combine(carpetaDocumentos, "ContaHogar3.0")
+        'Dim rutaCompletaPDF As String = IO.Path.Combine(carpetaAppOficial, nombreArchivoPDF)
 
         ' Lanzamos el lector nativo de Windows envuelto en un cortafuegos seguro
-        Try
-            If IO.File.Exists(rutaCompletaPDF) Then
-                Dim Proceso As New Process
-                Proceso.StartInfo.FileName = rutaCompletaPDF
-                Proceso.StartInfo.Verb = "open"
-                Proceso.Start()
-            Else
-                Dim msgFalta As String = resManager.GetString("ErrorArchivoAyudaNoEncontrado")
-                If String.IsNullOrEmpty(msgFalta) Then msgFalta = "The selected help manual file could not be found in your local Documents folder."
-                MsgBox(msgFalta, vbExclamation, resManager.GetString("Aviso"))
-            End If
-        Catch ex As Exception
-            MsgBox(resManager.GetString("Error") & ": " & ex.Message, vbCritical)
-        End Try
+        'Try
+        '    If IO.File.Exists(rutaCompletaPDF) Then
+        '        Dim Proceso As New Process
+        '        Proceso.StartInfo.FileName = rutaCompletaPDF
+        '        Proceso.StartInfo.Verb = "open"
+        '        Proceso.Start()
+        '    Else
+        '        Dim msgFalta As String = resManager.GetString("ErrorArchivoAyudaNoEncontrado")
+        '        If String.IsNullOrEmpty(msgFalta) Then msgFalta = "The selected help manual file could not be found in your local Documents folder."
+        '        MsgBox(msgFalta, vbExclamation, resManager.GetString("Aviso"))
+        '    End If
+        'Catch ex As Exception
+        '    MsgBox(resManager.GetString("Error") & ": " & ex.Message, vbCritical)
+        'End Try
     End Sub
 
     ''' <summary>
@@ -3481,11 +3481,11 @@ Module Funciones
             If System.IO.File.Exists(rutaDestinoPDF) Then
                 System.Diagnostics.Process.Start(New System.Diagnostics.ProcessStartInfo(rutaDestinoPDF) With {.UseShellExecute = True})
             Else
-                MsgBox("No s'ha trobat el manual d'ajuda.", MsgBoxStyle.Information, "ContaHogar")
+                MsgBox(resManager.GetString("ErrorArchivoAyudaNoEncontrado"), MsgBoxStyle.Information, resManager.GetString("Aviso"))
             End If
 
         Catch ex As Exception
-            MsgBox("Error al obrir el manual: " & ex.Message, MsgBoxStyle.Critical)
+            MsgBox(resManager.GetString("Error") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
     End Sub
 
@@ -3564,10 +3564,11 @@ Module Funciones
 
                     ' 🚀 LA ESTOCADA FINAL: Lanzamos el instalador ejecutable recién bajado al vuelo
                     MsgBox("El instalador se ha descargado correctamente. Ahora se iniciará la instalación.")
-                    System.Diagnostics.Process.Start("C:\ContaHogar3.0\InstaladorContaHogar3.0.msi")
-
-                    ' Cierre limpio de la versión vieja para que el .msi machaque los archivos sin bloqueos de RAM
-                    Application.Exit()
+					System.Diagnostics.Process.Start("C:\ContaHogar3.0\InstaladorContaHogar3.0.msi")
+					My.Settings.Version = vNewVersion
+					My.Settings.Save()
+					' Cierre limpio de la versión vieja para que el .msi machaque los archivos sin bloqueos de RAM
+					Application.Exit()
                 End If
             End If
         Catch ex As Exception
