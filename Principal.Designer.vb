@@ -40,7 +40,6 @@ Partial Class Principal
 		Me.TiposDeCuentasToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.ApuntesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.VerApuntesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-		Me.IntroducirApuntesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
 		Me.ApuntesPeriodicosToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.PresupuestosToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -109,7 +108,6 @@ Partial Class Principal
 		Me.ToolStripLabel14 = New System.Windows.Forms.ToolStripLabel()
 		Me.ToolStripLabel2 = New System.Windows.Forms.ToolStripLabel()
 		Me.BtnApuntesContables = New System.Windows.Forms.ToolStripButton()
-		Me.BtnIntroducirApuntes = New System.Windows.Forms.ToolStripButton()
 		Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator()
 		Me.BtnApuntesPeriodicos = New System.Windows.Forms.ToolStripButton()
 		Me.ToolStripLabel3 = New System.Windows.Forms.ToolStripLabel()
@@ -241,7 +239,7 @@ Partial Class Principal
 		'
 		'ApuntesToolStripMenuItem
 		'
-		Me.ApuntesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.VerApuntesToolStripMenuItem, Me.IntroducirApuntesToolStripMenuItem, Me.ToolStripSeparator1, Me.ApuntesPeriodicosToolStripMenuItem})
+		Me.ApuntesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.VerApuntesToolStripMenuItem, Me.ToolStripSeparator1, Me.ApuntesPeriodicosToolStripMenuItem})
 		Me.ApuntesToolStripMenuItem.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer))
 		Me.ApuntesToolStripMenuItem.Name = "ApuntesToolStripMenuItem"
 		resources.ApplyResources(Me.ApuntesToolStripMenuItem, "ApuntesToolStripMenuItem")
@@ -250,11 +248,6 @@ Partial Class Principal
 		'
 		resources.ApplyResources(Me.VerApuntesToolStripMenuItem, "VerApuntesToolStripMenuItem")
 		Me.VerApuntesToolStripMenuItem.Name = "VerApuntesToolStripMenuItem"
-		'
-		'IntroducirApuntesToolStripMenuItem
-		'
-		resources.ApplyResources(Me.IntroducirApuntesToolStripMenuItem, "IntroducirApuntesToolStripMenuItem")
-		Me.IntroducirApuntesToolStripMenuItem.Name = "IntroducirApuntesToolStripMenuItem"
 		'
 		'ToolStripSeparator1
 		'
@@ -534,7 +527,7 @@ Partial Class Principal
 		'BarraDeHerramientas
 		'
 		Me.BarraDeHerramientas.ImageScalingSize = New System.Drawing.Size(30, 30)
-		Me.BarraDeHerramientas.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel12, Me.BtnSalir, Me.BtnPreferencias, Me.BtnCambiarEjercicioActivo, Me.ToolStripLabel4, Me.ToolStripLabel11, Me.ToolStripLabel16, Me.BtnConceptos, Me.BtnCuentasBancarias, Me.BtnTipoCuentas, Me.ToolStripLabel1, Me.ToolStripLabel14, Me.ToolStripLabel2, Me.BtnApuntesContables, Me.BtnIntroducirApuntes, Me.ToolStripSeparator6, Me.BtnApuntesPeriodicos, Me.ToolStripLabel3, Me.ToolStripLabel9, Me.ToolStripLabel6, Me.BtnPresupuestos, Me.BtnDesviacionPresupuestos, Me.ToolStripLabel7, Me.ToolStripLabel17, Me.ToolStripLabel8, Me.BtnCopiaSeguridad, Me.BtnRestaurarCopia, Me.BtnCompactarBaseDatos, Me.BtnIniciarBaseDatos, Me.ToolStripSeparator9, Me.BtnCalculadora, Me.ToolStripLabel13, Me.ToolStripLabel15, Me.ToolStripLabel10, Me.BtnAyuda, Me.BtnHistorialVersiones, Me.BtnAcercade, Me.BtnImportarContaHogar, Me.ToolStripSeparator19, Me.ToolStripLabel5})
+		Me.BarraDeHerramientas.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel12, Me.BtnSalir, Me.BtnPreferencias, Me.BtnCambiarEjercicioActivo, Me.ToolStripLabel4, Me.ToolStripLabel11, Me.ToolStripLabel16, Me.BtnConceptos, Me.BtnCuentasBancarias, Me.BtnTipoCuentas, Me.ToolStripLabel1, Me.ToolStripLabel14, Me.ToolStripLabel2, Me.BtnApuntesContables, Me.ToolStripSeparator6, Me.BtnApuntesPeriodicos, Me.ToolStripLabel3, Me.ToolStripLabel9, Me.ToolStripLabel6, Me.BtnPresupuestos, Me.BtnDesviacionPresupuestos, Me.ToolStripLabel7, Me.ToolStripLabel17, Me.ToolStripLabel8, Me.BtnCopiaSeguridad, Me.BtnRestaurarCopia, Me.BtnCompactarBaseDatos, Me.BtnIniciarBaseDatos, Me.ToolStripSeparator9, Me.BtnCalculadora, Me.ToolStripLabel13, Me.ToolStripLabel15, Me.ToolStripLabel10, Me.BtnAyuda, Me.BtnHistorialVersiones, Me.BtnAcercade, Me.BtnImportarContaHogar, Me.ToolStripSeparator19, Me.ToolStripLabel5})
 		resources.ApplyResources(Me.BarraDeHerramientas, "BarraDeHerramientas")
 		Me.BarraDeHerramientas.Name = "BarraDeHerramientas"
 		Me.BarraDeHerramientas.RenderMode = System.Windows.Forms.ToolStripRenderMode.System
@@ -617,12 +610,6 @@ Partial Class Principal
 		Me.BtnApuntesContables.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
 		resources.ApplyResources(Me.BtnApuntesContables, "BtnApuntesContables")
 		Me.BtnApuntesContables.Name = "BtnApuntesContables"
-		'
-		'BtnIntroducirApuntes
-		'
-		Me.BtnIntroducirApuntes.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-		resources.ApplyResources(Me.BtnIntroducirApuntes, "BtnIntroducirApuntes")
-		Me.BtnIntroducirApuntes.Name = "BtnIntroducirApuntes"
 		'
 		'ToolStripSeparator6
 		'
@@ -818,40 +805,38 @@ Partial Class Principal
     Friend WithEvents CuentasToolStripMenuItem As Windows.Forms.ToolStripMenuItem
     Friend WithEvents ApuntesToolStripMenuItem As Windows.Forms.ToolStripMenuItem
     Friend WithEvents VerApuntesToolStripMenuItem As Windows.Forms.ToolStripMenuItem
-    Friend WithEvents IntroducirApuntesToolStripMenuItem As Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator1 As Windows.Forms.ToolStripSeparator
-    Friend WithEvents ApuntesPeriodicosToolStripMenuItem As Windows.Forms.ToolStripMenuItem
-    Friend WithEvents PresupuestosToolStripMenuItem As Windows.Forms.ToolStripMenuItem
-    Friend WithEvents IntroducirDaToolStripMenuItem As Windows.Forms.ToolStripMenuItem
-    Friend WithEvents VerDesviaciónPresupuestosToolStripMenuItem As Windows.Forms.ToolStripMenuItem
-    Friend WithEvents InformesToolStripMenuItem As Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ListadosDeApuntesToolStripMenuItem As Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ListadosDeApuntesPeriodicosToolStripMenuItem As Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator2 As Windows.Forms.ToolStripSeparator
-    Friend WithEvents GráficosDeIngresosPorConceptoToolStripMenuItem As Windows.Forms.ToolStripMenuItem
-    Friend WithEvents GráficosDeGastosPorConceptoToolStripMenuItem As Windows.Forms.ToolStripMenuItem
-    Friend WithEvents HerramientasToolStripMenuItem As Windows.Forms.ToolStripMenuItem
-    Friend WithEvents HacerCopiaDeSeguridadToolStripMenuItem As Windows.Forms.ToolStripMenuItem
-    Friend WithEvents RestaurarCopiaDeSeguridadToolStripMenuItem As Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator3 As Windows.Forms.ToolStripSeparator
-    Friend WithEvents CalculadoraToolStripMenuItem As Windows.Forms.ToolStripMenuItem
-    Friend WithEvents AyudaToolStripMenuItem As Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ArchivoDeAyudaToolStripMenuItem As Windows.Forms.ToolStripMenuItem
-    Friend WithEvents AcercaDeToolStripMenuItem As Windows.Forms.ToolStripMenuItem
-    Friend WithEvents TsLabelDia As Windows.Forms.ToolStripStatusLabel
-    Friend WithEvents TsLabelHora As Windows.Forms.ToolStripStatusLabel
-    Friend WithEvents BarraDeHerramientas As Windows.Forms.ToolStrip
-    Friend WithEvents BtnConceptos As Windows.Forms.ToolStripButton
-    Friend WithEvents BtnCuentasBancarias As Windows.Forms.ToolStripButton
-    Friend WithEvents ToolStripLabel1 As Windows.Forms.ToolStripLabel
-    Friend WithEvents ToolStripLabel2 As Windows.Forms.ToolStripLabel
-    Friend WithEvents BtnApuntesContables As Windows.Forms.ToolStripButton
-    Friend WithEvents BtnApuntesPeriodicos As Windows.Forms.ToolStripButton
-    Friend WithEvents ToolStripLabel3 As Windows.Forms.ToolStripLabel
-    Friend WithEvents ToolStripSeparator6 As Windows.Forms.ToolStripSeparator
-    Friend WithEvents BtnIntroducirApuntes As Windows.Forms.ToolStripButton
-    Friend WithEvents ToolStripLabel6 As Windows.Forms.ToolStripLabel
-    Friend WithEvents BtnPresupuestos As Windows.Forms.ToolStripButton
+	Friend WithEvents ToolStripSeparator1 As Windows.Forms.ToolStripSeparator
+	Friend WithEvents ApuntesPeriodicosToolStripMenuItem As Windows.Forms.ToolStripMenuItem
+	Friend WithEvents PresupuestosToolStripMenuItem As Windows.Forms.ToolStripMenuItem
+	Friend WithEvents IntroducirDaToolStripMenuItem As Windows.Forms.ToolStripMenuItem
+	Friend WithEvents VerDesviaciónPresupuestosToolStripMenuItem As Windows.Forms.ToolStripMenuItem
+	Friend WithEvents InformesToolStripMenuItem As Windows.Forms.ToolStripMenuItem
+	Friend WithEvents ListadosDeApuntesToolStripMenuItem As Windows.Forms.ToolStripMenuItem
+	Friend WithEvents ListadosDeApuntesPeriodicosToolStripMenuItem As Windows.Forms.ToolStripMenuItem
+	Friend WithEvents ToolStripSeparator2 As Windows.Forms.ToolStripSeparator
+	Friend WithEvents GráficosDeIngresosPorConceptoToolStripMenuItem As Windows.Forms.ToolStripMenuItem
+	Friend WithEvents GráficosDeGastosPorConceptoToolStripMenuItem As Windows.Forms.ToolStripMenuItem
+	Friend WithEvents HerramientasToolStripMenuItem As Windows.Forms.ToolStripMenuItem
+	Friend WithEvents HacerCopiaDeSeguridadToolStripMenuItem As Windows.Forms.ToolStripMenuItem
+	Friend WithEvents RestaurarCopiaDeSeguridadToolStripMenuItem As Windows.Forms.ToolStripMenuItem
+	Friend WithEvents ToolStripSeparator3 As Windows.Forms.ToolStripSeparator
+	Friend WithEvents CalculadoraToolStripMenuItem As Windows.Forms.ToolStripMenuItem
+	Friend WithEvents AyudaToolStripMenuItem As Windows.Forms.ToolStripMenuItem
+	Friend WithEvents ArchivoDeAyudaToolStripMenuItem As Windows.Forms.ToolStripMenuItem
+	Friend WithEvents AcercaDeToolStripMenuItem As Windows.Forms.ToolStripMenuItem
+	Friend WithEvents TsLabelDia As Windows.Forms.ToolStripStatusLabel
+	Friend WithEvents TsLabelHora As Windows.Forms.ToolStripStatusLabel
+	Friend WithEvents BarraDeHerramientas As Windows.Forms.ToolStrip
+	Friend WithEvents BtnConceptos As Windows.Forms.ToolStripButton
+	Friend WithEvents BtnCuentasBancarias As Windows.Forms.ToolStripButton
+	Friend WithEvents ToolStripLabel1 As Windows.Forms.ToolStripLabel
+	Friend WithEvents ToolStripLabel2 As Windows.Forms.ToolStripLabel
+	Friend WithEvents BtnApuntesContables As Windows.Forms.ToolStripButton
+	Friend WithEvents BtnApuntesPeriodicos As Windows.Forms.ToolStripButton
+	Friend WithEvents ToolStripLabel3 As Windows.Forms.ToolStripLabel
+	Friend WithEvents ToolStripSeparator6 As Windows.Forms.ToolStripSeparator
+	Friend WithEvents ToolStripLabel6 As Windows.Forms.ToolStripLabel
+	Friend WithEvents BtnPresupuestos As Windows.Forms.ToolStripButton
     Friend WithEvents BtnDesviacionPresupuestos As Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripLabel7 As Windows.Forms.ToolStripLabel
     Friend WithEvents ToolStripLabel8 As Windows.Forms.ToolStripLabel

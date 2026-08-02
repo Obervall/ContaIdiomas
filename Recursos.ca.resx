@@ -1000,4 +1000,7 @@ o permet l'accés controlat a carpetes per poder usar ContaHogar 3.0 Premium.</v
   <data name="ErrorArchivoPrivacidadNoEncontrado" xml:space="preserve">
     <value>No es va poder trobar l'arxiu de Política de Privacitat a la seva carpeta de Documents local</value>
   </data>
+  <data name="EnCurso" xml:space="preserve">
+    <value>En curs...</value>
+  </data>
 </root>

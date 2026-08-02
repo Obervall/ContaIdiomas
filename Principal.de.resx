@@ -8015,10 +8015,15 @@ C:\HomeAccount3.0, das erstellt wurde, falls nicht, als du diesen Import akzepti
   <data name="ErrorCriticoRestauracion" xml:space="preserve">
     <value>Kritischer Fehler während der Datenbankwiederherstellung</value>
   </data>
-  <data name="BtnImportarContaHogar.Text" xml:space="preserve">
-    <value>Alte Contahogar 2.0-Datenbank in Arbeit importieren...</value>
-  </data>
   <data name="LogoBuhoVisibleToolStripMenuItem.Text" xml:space="preserve">
     <value>Sichtbares Eulenlogo</value>
+  </data>
+  <data name="BtnImportarContaHogar.Text" xml:space="preserve">
+    <value>Import der alten Datenbank Contahogar 2.0</value>
+  </data>
+  <data name="PeriodoVencido" xml:space="preserve">
+    <value>Die 30-tägige Probezeit ist abgelaufen.
+Die Premium-Lizenz erwerben unter
+Microsoft Store, um fortzufahren.</value>
   </data>
 </root>

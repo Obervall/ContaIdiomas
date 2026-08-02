@@ -1000,4 +1000,7 @@ oppure consente un accesso controllato alle cartelle per poter utilizzare ContaH
   <data name="ErrorArchivoPrivacidadNoEncontrado" xml:space="preserve">
     <value>Non sono riuscito a trovare il file dell'Informativa sulla Privacy nella cartella Documenti locale</value>
   </data>
+  <data name="EnCurso" xml:space="preserve">
+    <value>In corso...</value>
+  </data>
 </root>

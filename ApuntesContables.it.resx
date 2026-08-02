@@ -256,4 +256,19 @@ poi da Concetti Vari</value>
   <data name="ErrorAbrirArchivo" xml:space="preserve">
     <value>Non è stato possibile aprire Excel automaticamente</value>
   </data>
+  <data name="ToolTipImportarBanco" xml:space="preserve">
+    <value>Estratto conto della Banca di Importazione</value>
+  </data>
+  <data name="SeleccionaExtracto" xml:space="preserve">
+    <value>Seleziona l'estratto conto Excel della tua banca</value>
+  </data>
+  <data name="ProcederaAnalizarArchivo" xml:space="preserve">
+    <value>L'Archivio sarà analizzato</value>
+  </data>
+  <data name="ImportacionBancaria" xml:space="preserve">
+    <value>Importazione bancaria</value>
+  </data>
+  <data name="ErrorAbrirExcelBanco" xml:space="preserve">
+    <value>Errore nell'apertura del file bancario</value>
+  </data>
 </root>

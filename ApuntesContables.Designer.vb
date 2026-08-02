@@ -83,6 +83,7 @@ Partial Class ApuntesContables
 		Me.PrintDocument1 = New System.Drawing.Printing.PrintDocument()
 		Me.BtnAumentar = New System.Windows.Forms.Button()
 		Me.BtnNormal = New System.Windows.Forms.Button()
+		Me.BtnImportarBanco = New System.Windows.Forms.Button()
 		Me.GroupBox1.SuspendLayout()
 		Me.GroupBox2.SuspendLayout()
 		Me.GroupBox3.SuspendLayout()
@@ -120,6 +121,7 @@ Partial Class ApuntesContables
 		'
 		'GroupBox2
 		'
+		Me.GroupBox2.Controls.Add(Me.BtnImportarBanco)
 		Me.GroupBox2.Controls.Add(Me.BtnF6)
 		Me.GroupBox2.Controls.Add(Me.BtnFiltroF5)
 		Me.GroupBox2.Controls.Add(Me.BtnEliminaSeleccion)
@@ -492,6 +494,12 @@ Partial Class ApuntesContables
 		Me.BtnNormal.Name = "BtnNormal"
 		Me.BtnNormal.UseVisualStyleBackColor = True
 		'
+		'BtnImportarBanco
+		'
+		resources.ApplyResources(Me.BtnImportarBanco, "BtnImportarBanco")
+		Me.BtnImportarBanco.Name = "BtnImportarBanco"
+		Me.BtnImportarBanco.UseVisualStyleBackColor = True
+		'
 		'ApuntesContables
 		'
 		resources.ApplyResources(Me, "$this")
@@ -593,4 +601,5 @@ Partial Class ApuntesContables
 	Friend WithEvents BtnAumentar As Windows.Forms.Button
 	Friend WithEvents BtnNormal As Windows.Forms.Button
 	Public WithEvents BtnTraspasarRegistro As Windows.Forms.Button
+	Public WithEvents BtnImportarBanco As Windows.Forms.Button
 End Class

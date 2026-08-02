@@ -256,4 +256,19 @@ puis par Concepts divers</value>
   <data name="ErrorAbrirArchivo" xml:space="preserve">
     <value>Impossible d’ouvrir Excel automatiquement</value>
   </data>
+  <data name="ToolTipImportarBanco" xml:space="preserve">
+    <value>Relevé bancaire d’importation</value>
+  </data>
+  <data name="SeleccionaExtracto" xml:space="preserve">
+    <value>Sélectionnez le relevé Excel de votre banque</value>
+  </data>
+  <data name="ProcederaAnalizarArchivo" xml:space="preserve">
+    <value>Les Archives seront analysées</value>
+  </data>
+  <data name="ImportacionBancaria" xml:space="preserve">
+    <value>Importation bancaire</value>
+  </data>
+  <data name="ErrorAbrirExcelBanco" xml:space="preserve">
+    <value>Erreur d’ouverture du fichier bancaire</value>
+  </data>
 </root>

@@ -14,7 +14,7 @@ Public Class ApuntesContables
     Public vRow, vRowSeguir, vCampo, vContador, vCantidadFilas, PrintLine, Contador, filaSelec As Integer
     Public fechaformatomin, fechaformatomax As Date
     Public x, y, z As Integer
-    Public TL(29) As ToolTip
+    Public TL(30) As ToolTip
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     ' Método recursivo para actualizar la fuente de todos los controles
@@ -124,6 +124,8 @@ Public Class ApuntesContables
         TL(28).SetToolTip(Me.BtnAumentar, rmse.GetString("ToolTipAumentar"))
         TL(29) = New ToolTip
         TL(29).SetToolTip(Me.BtnNormal, rmse.GetString("ToolTipNormal"))
+        TL(30) = New ToolTip
+        TL(30).SetToolTip(Me.BtnImportarBanco, rmse.GetString("ToolTipImportarBanco"))
 
         ' Añade una línea por cada GroupBox donde tengas estos botones:
         AddHandler Me.GroupBox3.MouseMove, AddressOf VerificarFiltrosDesactivados
@@ -2222,6 +2224,48 @@ Public Class ApuntesContables
             End If
         End If
     End Sub
+
+    Private Sub BtnImportarBanco_Click(sender As Object, e As EventArgs) Handles BtnImportarBanco.Click
+        ' 🎯 EL ABREPUERTAS BANCARIO: Seleccionamos el archivo Excel del BBVA u Openbank
+        Try
+            Using ofd As New OpenFileDialog()
+                ' 1. Filtramos rígidamente para que el usuario solo pueda elegir matrices Excel limpias
+                ofd.Filter = rmse.GetString("ArchivosDeExcel") & " (*.xlsx;*.xls)|*.xlsx;*.xls|" & rmse.GetString("TodosLosArchivos") & " (*.*)|*.*"
+                ofd.Title = rmse.GetString("SeleccionaExtracto")
+
+                ' 2. Memoria elástica de carpetas: Arrancamos en la última ruta de exportación para su comodidad
+                If Not String.IsNullOrEmpty(My.Settings.PathExportar) AndAlso System.IO.Directory.Exists(My.Settings.PathExportar) Then
+                    ofd.InitialDirectory = My.Settings.PathExportar
+                Else
+                    ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+                End If
+
+                ' 3. Desplegamos la persiana gráfica en el monitor del usuario
+                If ofd.ShowDialog() = DialogResult.OK Then
+                    Dim rutaArchivoExcelBanco As String = ofd.FileName
+
+                    ' 🚀 ADAPTACIÓN PREMIUM INTERNACIONAL UNIFICADA (Inmune a grasa digital)
+                    ' Pescamos los textos traducidos desde el búnker de recursos .resx
+                    Dim textoMensaje As String = rmse.GetString("ProcederaAnalizarArchivo") & ": " & System.IO.Path.GetFileName(rutaArchivoExcelBanco)
+                    Dim textoTitulo As String = rmse.GetString("ImportacionBancaria")
+
+                    ' Invocamos tu función reina para que pinte la interfaz simétrica en pantalla
+                    If ConfirmarAccionTraducida(textoMensaje, textoTitulo) = MsgBoxResult.Yes Then
+
+                        ' =========================================================================
+                        ' 🚀 PRÓXIMA PARADA: Aquí invocaremos al motor del Mapeo de Columnas Inteligente
+                        ' (El Radar de Cabeceras que se traga el BBVA u Openbank sin inmutarse)
+                        ' =========================================================================
+                        ' ProcesarMatrizBancariaExcel(rutaArchivoExcelBanco)
+
+                    End If
+                End If
+            End Using
+        Catch ex As Exception
+            MsgBox(rmse.GetString("ErrorAbrirExcelBanco") & ": " & ex.Message, MsgBoxStyle.Critical)
+        End Try
+    End Sub
+
 
     Public Sub BtnF6_Click(sender As Object, e As EventArgs) Handles BtnF6.Click
         'Vuelve a Refrecar el DataGrid y dejar los Btn de los Filtros sin Filtrar

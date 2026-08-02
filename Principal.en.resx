@@ -7998,10 +7998,15 @@ C:\HomeAccount3.0, which was created, if it wasn't, when you accepted this impor
   <data name="ErrorCriticoRestauracion" xml:space="preserve">
     <value>Critical Error During Database Restore</value>
   </data>
-  <data name="BtnImportarContaHogar.Text" xml:space="preserve">
-    <value>Import Old Contahogar 2.0 Database In Progress...</value>
-  </data>
   <data name="LogoBuhoVisibleToolStripMenuItem.Text" xml:space="preserve">
     <value>Visible owl logo</value>
+  </data>
+  <data name="BtnImportarContaHogar.Text" xml:space="preserve">
+    <value>Import Old Database Contahogar 2.0</value>
+  </data>
+  <data name="PeriodoVencido" xml:space="preserve">
+    <value>The 30-day trial period has expired.
+Purchase the Premium license at
+Microsoft Store, to continue.</value>
   </data>
 </root>

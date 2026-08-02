@@ -1000,4 +1000,7 @@ adquiera la versión completa en la Microsoft Store.</value>
   <data name="ErrorArchivoPrivacidadNoEncontrado" xml:space="preserve">
     <value>No se pudo encontrar el archivo de Política de Privacidad en su carpeta de Documentos local</value>
   </data>
+  <data name="EnCurso" xml:space="preserve">
+    <value>En Curso...</value>
+  </data>
 </root>

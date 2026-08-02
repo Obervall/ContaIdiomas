@@ -1000,4 +1000,7 @@ oder ermöglicht kontrollierten Zugriff auf Ordner, um ContaHogar 3.0 Premium nu
   <data name="ErrorArchivoPrivacidadNoEncontrado" xml:space="preserve">
     <value>Ich konnte die Datenschutzrichtlinie in deinem lokalen Dokumentenordner nicht finden</value>
   </data>
+  <data name="EnCurso" xml:space="preserve">
+    <value>Läuft weiter...</value>
+  </data>
 </root>

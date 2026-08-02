@@ -1000,4 +1000,7 @@ ou permet un accès contrôlé aux dossiers pour pouvoir utiliser ContaHogar 3.0
   <data name="ErrorArchivoPrivacidadNoEncontrado" xml:space="preserve">
     <value>Je n’ai pas trouvé le fichier de politique de confidentialité dans votre dossier local Documents</value>
   </data>
+  <data name="EnCurso" xml:space="preserve">
+    <value>En cours...</value>
+  </data>
 </root>

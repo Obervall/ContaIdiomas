@@ -676,10 +676,15 @@ C:\HomeAccount3.0, que foi criada, caso não fosse, quando você aceitou essa im
   <data name="ErrorCriticoRestauracion" xml:space="preserve">
     <value>Erro crítico durante a restauração do banco de dados</value>
   </data>
-  <data name="BtnImportarContaHogar.Text" xml:space="preserve">
-    <value>Importar o Antigo Banco de Dados Contahogar 2.0 em Progresso...</value>
-  </data>
   <data name="LogoBuhoVisibleToolStripMenuItem.Text" xml:space="preserve">
     <value>Logo da coruja visível</value>
+  </data>
+  <data name="BtnImportarContaHogar.Text" xml:space="preserve">
+    <value>Importar Banco de Dados Antigo Contahogar 2.0</value>
+  </data>
+  <data name="PeriodoVencido" xml:space="preserve">
+    <value>O período experimental de 30 dias expirou.
+Compre a licença Premium em
+Microsoft Store, para continuar.</value>
   </data>
 </root>

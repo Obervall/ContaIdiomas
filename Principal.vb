@@ -110,13 +110,26 @@ Public Class Principal
     Private Sub Principal_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         'My.Settings.vPantalla = Date.MinValue  ' Para limpiar la fecha de prueba y reiniciar el periodo de evaluación
-        'Comentar cuando se Compile con MSI y descomentar cuando se compile con MSIX
-        ' Lo quito del todo
-        'VerificarPruebaInterna()
 
-        'Comentar cuando se Compile con MSIX y descomentar cuando se compile con MSI
-        VerificarActualizacionesVIP(Me)
+        ' =========================================================================
+        ' 🎯 FIJADOR DE CULTURA INDESTRUCTIBLE: INMUNE A LA AMNESIA DE LA STORE
+        ' =========================================================================
+        Try
+            ' 1. Interrogamos al búnker de las Settings para saber qué idioma prefiere el usuario
+            Dim idiomaGuardado As String = My.Settings.CulturaUsuario.ToString().Trim().ToLower()
 
+            ' 2. Si hay una cultura real registrada, forzamos a los hilos de la CPU a obedecerla
+            If Not String.IsNullOrEmpty(idiomaGuardado) Then
+                Dim culturaEspecifica As New System.Globalization.CultureInfo(idiomaGuardado)
+
+                ' Seteamos la cultura de interfaz y de formatos relacionales al unísono
+                System.Threading.Thread.CurrentThread.CurrentUICulture = culturaEspecifica
+                System.Threading.Thread.CurrentThread.CurrentCulture = culturaEspecifica
+            End If
+
+        Catch ex As Exception
+            ' Cortafuegos silencioso por si el PC estuviera virgen en el primer inicio
+        End Try
 
 
         ActualizarTextosFormulario(Me)
@@ -159,6 +172,71 @@ Public Class Principal
             My.Settings.UpgradeRequired = False
             My.Settings.Save() ' Guarda el cambio para que no lo haga más en esta versión
         End If
+
+        ' =========================================================================
+        ' 🔒 EL CORTAFUEGOS COMERCIAL INTELIGENTE POR RUTA (VERSIÓN 3.2.8.0)
+        ' =========================================================================
+
+        ' 🎪 VARIABLES TRAMPA DE TESTEO (Bórralas o coméntalas tras la prueba)
+        'Dim esInstalacionStore As Boolean = True ' Forzamos a la CPU a creer que viene de la Store
+        'My.Settings.FechaPrimerArranque = Date.Now.AddDays(-40) ' Simulamos que se instaló hace 40 días
+
+        Try
+            ' 1. RADAR DE LA STORE POR TEXTO DE RUTA: 
+            ' Las aplicaciones de la Microsoft Store corren siempre dentro del búnker "windowsapps".
+            ' Si el texto de la ruta contiene esa palabra, sabemos al 100% que el usuario viene de la Store.
+            ' Si viene de tu instalador .msi tradicional (VIP), dará False y pasará de largo volando.
+            Dim rutaEjecucion As String = AppDomain.CurrentDomain.BaseDirectory.ToLower()
+            Dim esInstalacionStore As Boolean = rutaEjecucion.Contains("windowsapps")
+
+            '🛡️ CONTROL PARA INSTALACIÓN TRADICIONAL (TUS CLIENTES VIP / .MSI)
+            If Not esInstalacionStore Then
+				' ¡MAESTRO! Al estar aquí dentro, Visual Studio solo ejecutará este chivato
+				' si el programa corre fuera de la Store. ¡Cero comentarios manuales en el código!
+				VerificarActualizacionesVIP(Me)
+                'MsgBox("¡Bienvenido a ContaHogar 3.0 Premium!" & vbCrLf &
+                ' "Estás ejecutando la versión tradicional de instalación VIP (.msi)." & vbCrLf &
+                ' "El programa no aplicará el candado de 30 días ni la verificación de Store.", MsgBoxStyle.Information, "ContaHogar Premium")
+            End If
+
+            ' 2. 🛡️ EL ESCUDO: El candado de los 30 días SOLO muerde si el usuario es de la Store
+            If esInstalacionStore AndAlso My.Settings.LicenciaActivada = False Then
+
+                ' ¿Es la primera vez en la vida que abre el programa? Sembramos la fecha de inicio
+                If My.Settings.FechaPrimerArranque = #1/1/0001# Then
+                    My.Settings.FechaPrimerArranque = Date.Now
+                    My.Settings.Save()
+                End If
+
+                ' Calculamos matemáticamente cuántos días reales han transcurrido en el disco duro
+                Dim diasEvaluacion As Integer = CInt(DateDiff(DateInterval.Day, My.Settings.FechaPrimerArranque, Date.Now))
+
+                ' 🪓 EL HACHAZO: Si los días superan el mes de gracia, cerramos el grifo comercial
+                If diasEvaluacion > 30 Then
+                    Dim msgVencido As String = rmse.GetString("PeriodoVencido")
+                    MsgBox(msgVencido, MsgBoxStyle.Critical, rmse.GetString("$this.Text") & " Premium")
+
+                    Dim vinculoProfundo As String = "ms-windows-store://pdp/?productid=9MWDQ6FK2P72"
+                    Try
+                        System.Diagnostics.Process.Start(New System.Diagnostics.ProcessStartInfo(vinculoProfundo) With {.UseShellExecute = True})
+                    Catch ex As Exception
+                        System.Diagnostics.Process.Start(New System.Diagnostics.ProcessStartInfo("https://microsoft.com") With {.UseShellExecute = True})
+                    End Try
+                    Application.Exit()
+                    End
+                Else
+                    ' =========================================================================
+                    ' 🚀 EL CHIVATO VISUAL DE LA REVOLUCIÓN 3.2.8.0
+                    ' =========================================================================
+                    ' Si el usuario de la Store está dentro del mes de gracia (días <= 30),
+                    ' invocamos tu función interna para que le pinte arriba en la barra de título (Me.Text)
+                    ' los días restantes en catalán, castellano o inglés de forma 100% elegante.
+                    VerificarPruebaInterna()
+                End If
+            End If
+        Catch ex As Exception
+            ' Cortafuegos preventivo
+        End Try
 
         ' Leemos los Settings para mostrar o no la Barra de Herramientas, la Barra de Estado y el Color en las Barras
         If My.Settings.BarraHerramientas = True Then
@@ -601,28 +679,6 @@ Public Class Principal
         ' 9. Restaurar el texto de espera de la barra
         Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
-
-    Private Sub BtnIntroducirApuntes_Click(sender As Object, e As EventArgs) Handles BtnIntroducirApuntes.Click
-        IntroducirApuntesToolStripMenuItem.PerformClick()
-    End Sub
-
-    Private Sub IntroducirApuntesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles IntroducirApuntesToolStripMenuItem.Click
-        TsLabelFormulario.Text = rmse.GetString("IntroducirApuntesToolStripMenuItem.Text")
-        ' Comprobamos si existe un identificador asociado.
-        If ((frmIntroApuntes Is Nothing) OrElse (Not frmIntroApuntes.IsHandleCreated)) Then
-            frmIntroApuntes = New IntroApuntes
-        End If
-        ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
-        ActualizarTextosFormulario(frmIntroApuntes)
-        ' Llamamos al formulario de manera modal.
-        frmIntroApuntes.ShowDialog()
-        'MessageBox.Show("Se ha cerrado el formulario.")
-        ' Destruimos el formulario.
-        frmIntroApuntes.Dispose()
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
-        Return
-    End Sub
-
 
     Private Sub BtnApuntesPeriodicos_Click(sender As Object, e As EventArgs) Handles BtnApuntesPeriodicos.Click
         ApuntesPeriodicosToolStripMenuItem.PerformClick()
@@ -1253,6 +1309,7 @@ Public Class Principal
 
         Dim respuesta As MsgBoxResult = ConfirmarAccionTraducida(rmse.GetString("MsgImportar1"), rmse.GetString("ImportarContahogar"))
         If respuesta = vbYes Then
+            TsLabelFormulario.Text = rmse.GetString("BtnImportarContaHogar.Text") & " " & resManager.GetString("EnCurso")
             ' =========================================================================
             ' 🚀 COMPRESIÓN COMPLETA: BACKUP AUTOMÁTICO A SACO (¡Inmune a Colisiones!)
             ' =========================================================================
@@ -1309,6 +1366,7 @@ Public Class Principal
                         RutaOriginalVieja = ofd.FileName
                     Else
                         ' Si el usuario cancela la búsqueda, apagamos la redonda y abortamos de forma limpia
+                        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
                         Me.Cursor = Cursors.Default
                         Exit Sub
                     End If

@@ -8013,9 +8013,14 @@ C:\ContaHogar3.0, que s'ha creat, si no ho estava, en acceptar aquesta importaci
     <value>Error crític durant la restauració de la base de dades</value>
   </data>
   <data name="BtnImportarContaHogar.Text" xml:space="preserve">
-    <value>Importar Base Dades Antic Contahogar 2.0 En Curs...</value>
+    <value>Importar Base Dades Antic Contahogar 2.0</value>
   </data>
   <data name="LogoBuhoVisibleToolStripMenuItem.Text" xml:space="preserve">
     <value>Logo Buho Visible</value>
+  </data>
+  <data name="PeriodoVencido" xml:space="preserve">
+    <value>El període de prova de 30 dies ha expirat.
+Compra la llicència Premium a
+Microsoft Store, per continuar.</value>
   </data>
 </root>

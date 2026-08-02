@@ -7557,7 +7557,7 @@
     <value>Historial de Versiones</value>
   </data>
   <data name="BtnImportarContaHogar.Text" xml:space="preserve">
-    <value>Importar Base Datos Antiguo Contahogar 2.0 En Curso...</value>
+    <value>Importar Base Datos Antiguo Contahogar 2.0</value>
   </data>
   <data name="BarraDeHerramientas.Text" xml:space="preserve">
     <value>BarraDeHerramientas</value>
@@ -7813,5 +7813,10 @@ C:\ContaHogar3.0, que se ha creado, si no lo estaba, al aceptar esta importació
   </data>
   <data name="LogoBuhoVisibleToolStripMenuItem.Text" xml:space="preserve">
     <value>Logo Buho Visible</value>
+  </data>
+  <data name="PeriodoVencido" xml:space="preserve">
+    <value>El periodo de prueba de 30 días ha vencido.
+Adquiere la licencia Premium en
+Microsoft Store, para continuar.</value>
   </data>
 </root>

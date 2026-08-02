@@ -256,4 +256,19 @@ després per Conceptes Diversos</value>
   <data name="AbrirArchivo" xml:space="preserve">
     <value>Vols obrir ara mateix el fitxer d'Excel generat?</value>
   </data>
+  <data name="ToolTipImportarBanco" xml:space="preserve">
+    <value>Importar Extracte Bancari</value>
+  </data>
+  <data name="SeleccionaExtracto" xml:space="preserve">
+    <value>Selecciona l'extracte d'Excel del teu banc</value>
+  </data>
+  <data name="ProcederaAnalizarArchivo" xml:space="preserve">
+    <value>L'Arxiu serà analitzat</value>
+  </data>
+  <data name="ImportacionBancaria" xml:space="preserve">
+    <value>Importació bancària</value>
+  </data>
+  <data name="ErrorAbrirExcelBanco" xml:space="preserve">
+    <value>Error d'obertura del fitxer bancari</value>
+  </data>
 </root>

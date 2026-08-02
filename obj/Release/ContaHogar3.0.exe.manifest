@@ -91,26 +91,26 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ContaHogar3.0.exe" size="4958720">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ContaHogar3.0.exe" size="4950016">
       <assemblyIdentity name="ContaHogar3.0" version="0.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>vRHMDL79wPIoLh6xgdWXKzWP//A3hnwG2Bavf4ubmho=</dsig:DigestValue>
+        <dsig:DigestValue>VCP8NWUX37NxF5p0F+e3XvKCcjPHLKWdGBmiRlEvtK4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="es\ContaHogar3.0.resources.dll" size="570368">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="es\ContaHogar3.0.resources.dll" size="570880">
       <assemblyIdentity name="ContaHogar3.0.resources" version="0.0.0.0" language="es" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>7ao7v44KG1iiUEOEXXv8DxarWFdSAxpGCL6LWz9DKaY=</dsig:DigestValue>
+        <dsig:DigestValue>FDSKXDJnoKbMLu/b/hxlmbiYrBrgkrNZHvZtAb30jEY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -813,13 +813,13 @@
       <dsig:DigestValue>B1aMF12QBw6c4uYvLhEzVG6lXmhlCIn0aZbPH72nr34=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="ContaHogar3.0.exe.config" size="7109">
+  <file name="ContaHogar3.0.exe.config" size="7321">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>bsN2VHPgZsozA5eCzySIRt7Pn/Nu+1iWGkBGEejUk8E=</dsig:DigestValue>
+      <dsig:DigestValue>gfSZWSd+mz4ZKFQVA6dPlyLKVOGrFIEBdxvSOI9xB7M=</dsig:DigestValue>
     </hash>
   </file>
   <file name="CuentaHogar.ico" size="44979">

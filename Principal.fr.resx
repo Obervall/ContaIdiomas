@@ -8013,10 +8013,15 @@ C :\HomeAccount3.0, qui a été créé, si ce n’était pas le cas, lorsque vo
   <data name="ErrorCriticoRestauracion" xml:space="preserve">
     <value>Erreur critique lors de la restauration de la base de données</value>
   </data>
-  <data name="BtnImportarContaHogar.Text" xml:space="preserve">
-    <value>Importez l’ancienne base de données Contahogar 2.0 en cours...</value>
-  </data>
   <data name="LogoBuhoVisibleToolStripMenuItem.Text" xml:space="preserve">
     <value>Logo de la chouette visible</value>
+  </data>
+  <data name="BtnImportarContaHogar.Text" xml:space="preserve">
+    <value>Importer l’ancienne base de données Contahogar 2.0</value>
+  </data>
+  <data name="PeriodoVencido" xml:space="preserve">
+    <value>La période d’essai de 30 jours est terminée.
+Achetez la licence Premium à
+Microsoft Store, à suivre.</value>
   </data>
 </root>

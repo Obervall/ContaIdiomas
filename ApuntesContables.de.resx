@@ -256,4 +256,19 @@ dann von Miscellaneous Concepts</value>
   <data name="ErrorAbrirArchivo" xml:space="preserve">
     <value>Excel konnte Excel nicht automatisch öffnen</value>
   </data>
+  <data name="ToolTipImportarBanco" xml:space="preserve">
+    <value>Import-Bankauszug</value>
+  </data>
+  <data name="SeleccionaExtracto" xml:space="preserve">
+    <value>Wählen Sie den Excel-Kontoauszug Ihrer Bank aus</value>
+  </data>
+  <data name="ProcederaAnalizarArchivo" xml:space="preserve">
+    <value>Das Archiv wird analysiert</value>
+  </data>
+  <data name="ImportacionBancaria" xml:space="preserve">
+    <value>Bankimport</value>
+  </data>
+  <data name="ErrorAbrirExcelBanco" xml:space="preserve">
+    <value>Fehler beim Öffnen der Bankakte</value>
+  </data>
 </root>

@@ -21,7 +21,7 @@ Imports System
 '''<summary>
 '''  Clase de recurso fuertemente tipado, para buscar cadenas traducidas, etc.
 '''</summary>
-<Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0"),  _
+<Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0"),  _
  Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
  Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute()>  _
 Friend Class Recursos
@@ -916,6 +916,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property EL_CORTE_INGLES() As String
         Get
             Return ResourceManager.GetString("EL_CORTE_INGLES", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a En Curso....
+    '''</summary>
+    Friend Shared ReadOnly Property EnCurso() As String
+        Get
+            Return ResourceManager.GetString("EnCurso", resourceCulture)
         End Get
     End Property
     

@@ -256,4 +256,19 @@ then by Miscellaneous Concepts</value>
   <data name="ErrorAbrirArchivo" xml:space="preserve">
     <value>Could not open Excel automatically</value>
   </data>
+  <data name="ToolTipImportarBanco" xml:space="preserve">
+    <value>Import Bank Statement</value>
+  </data>
+  <data name="SeleccionaExtracto" xml:space="preserve">
+    <value>Select your bank's Excel statement</value>
+  </data>
+  <data name="ProcederaAnalizarArchivo" xml:space="preserve">
+    <value>The Archive will be analysed</value>
+  </data>
+  <data name="ImportacionBancaria" xml:space="preserve">
+    <value>Bank Import</value>
+  </data>
+  <data name="ErrorAbrirExcelBanco" xml:space="preserve">
+    <value>Error opening bank file</value>
+  </data>
 </root>
