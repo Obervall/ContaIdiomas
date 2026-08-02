@@ -250,4 +250,10 @@ després per Conceptes Diversos</value>
   <data name="ErrorExportacion" xml:space="preserve">
     <value>Error al exportar</value>
   </data>
+  <data name="ErrorAbrirArchivo" xml:space="preserve">
+    <value>No s'ha pogut obrir l'Excel automáticamente</value>
+  </data>
+  <data name="AbrirArchivo" xml:space="preserve">
+    <value>Vols obrir ara mateix el fitxer d'Excel generat?</value>
+  </data>
 </root>

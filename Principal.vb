@@ -120,7 +120,6 @@ Public Class Principal
 
 
         ActualizarTextosFormulario(Me)
-
         RefrescarMenus()
 
         '' Esto te mostrará en la ventana de "Salida" los nombres exactos detectados
@@ -405,13 +404,7 @@ Public Class Principal
             Return
         End Try
 
-        'Hoy (Versión 3.2.0): Dejas tu código con la "3.2.0".
-        'Y cuando configuremos el manifiesto del proyecto ContaHogarPackaging,
-        'nos aseguraremos de escribir en su casilla de versión: 3.2.1.0 [1.1].
-        'Mañana (Versión 3.2.1.0): Cambiarás tu línea a My.Settings.Version = "3.2.1.0",
-        'cambiarás el manifiesto del MSIX a 3.2.1.0 y subirás el nuevo paquete reluciente [1.1].
-
-        My.Settings.Version = "3.2.7"
+        My.Settings.Version = "3.2.8"
         My.Settings.Save()
 
         vMoneda = My.Settings.Moneda

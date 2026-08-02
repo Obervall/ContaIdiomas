@@ -6,7 +6,6 @@ Imports System.Drawing
 Imports System.IO
 Imports System.Windows.Forms
 
-
 Public Class ApuntesContables
 
     Private cargandoFormulario As Boolean = True
@@ -1702,7 +1701,6 @@ Public Class ApuntesContables
         frmTipoInformeApuntes.Dispose()
     End Sub
 
-
     Private Sub BtnExcel_Click(sender As Object, e As EventArgs) Handles BtnExcel.Click
         ' =========================================================================
         ' 🚀 MOTOR DE EXPORTACIÓN UNIVERSAL (COMPATIBLE CON LIBREOFFICE Y MS EXCEL)
@@ -1710,7 +1708,17 @@ Public Class ApuntesContables
         Using sfd As New SaveFileDialog()
             sfd.Filter = rmse.GetString("ArchivosDeExcel") & " (*.xlsx)|*.xlsx|" & rmse.GetString("TodosLosArchivos") & "(* .*)|*.*"
             sfd.FileName = vAñoEjercicio & "_" & rmse.GetString("LblApuntes.Text") & ".xlsx"
-            sfd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+
+            ' 🎯 LA RECTIFICACIÓN MAESTRA: Leemos la ruta que tienes guardada en tu panel
+            Dim rutaGuardada As String = My.Settings.PathExportar
+
+            ' Si la variable tiene una ruta real y esa carpeta existe físicamente en el disco duro, la abrimos.
+            ' Si estuviera vacía (primer arranque), usamos "Mis Documentos" como salvavidas preventivo.
+            If Not String.IsNullOrEmpty(rutaGuardada) AndAlso System.IO.Directory.Exists(rutaGuardada) Then
+                sfd.InitialDirectory = rutaGuardada
+            Else
+                sfd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            End If
 
             If sfd.ShowDialog() = DialogResult.OK Then
                 Dim strFileName As String = sfd.FileName
@@ -1764,7 +1772,7 @@ Public Class ApuntesContables
                                     End If
 
                                     If j = 0 Then
-                                        dr1(j) = Convert.ToDateTime(celdaValor) ' .ToString("yyyy/MM/dd")
+                                        dr1(j) = Convert.ToDateTime(celdaValor).ToString("dd/MM/yyyy")
                                     ElseIf j = 1 Or j = 2 Or j = 6 Then
                                         dr1(j) = Trim(celdaValor.ToString())
                                     ElseIf j = 3 Then
@@ -1794,7 +1802,7 @@ Public Class ApuntesContables
                                 End If
 
                                 If j = 0 Then
-                                    dr1(j) = Convert.ToDateTime(celdaValor) '.ToString("yyyy/MM/dd")
+                                    dr1(j) = Convert.ToDateTime(celdaValor).ToString("dd/MM/yyyy")
                                 ElseIf j = 1 Or j = 2 Or j = 6 Then
                                     dr1(j) = Trim(celdaValor.ToString())
                                 ElseIf j = 3 Or j = 4 Then
@@ -1834,8 +1842,18 @@ Public Class ApuntesContables
                     End Using
 
                     PrbExport.Visible = False
-                    MessageBox.Show(rmse.GetString("ExportacionCompletada") & ".", frmPrincipal.rmse.GetString("$this.Text"), MessageBoxButtons.OK, MessageBoxIcon.Information)
 
+                    ' 🚀 EL DISPARADOR PREMIUM: Preguntamos al usuario de forma dócil
+                    Dim msgOpen As String = rmse.GetString("AbrirArchivo")
+                    Dim tituloExportacion As String = rmse.GetString("ExportacionCompletada")
+                    If ConfirmarAccionTraducida(msgOpen, tituloExportacion) = MsgBoxResult.Yes Then
+                        Try
+                            ' Despierta el visor nativo de Excel de Windows usando la ruta real (.FileName)
+                            System.Diagnostics.Process.Start(New System.Diagnostics.ProcessStartInfo(strFileName) With {.UseShellExecute = True})
+                        Catch ex As Exception
+                            MsgBox(rmse.GetString("ErrorAbrirArchivo") & ": " & ex.Message, MsgBoxStyle.Critical)
+                        End Try
+                    End If
                 Catch ex As Exception
                     PrbExport.Visible = False
                     MessageBox.Show(rmse.GetString("ErrorExportacion") & ": " & ex.Message, resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -1843,7 +1861,6 @@ Public Class ApuntesContables
             End If
         End Using
     End Sub
-
 
     Public Sub BtnTraspasarRegistro_Click(sender As Object, e As EventArgs) Handles BtnTraspasarRegistro.Click
         ' Comprobamos si existe un identificador asociado.

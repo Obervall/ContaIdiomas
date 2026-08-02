@@ -250,4 +250,10 @@ puis par Concepts divers</value>
   <data name="ErrorExportacion" xml:space="preserve">
     <value>Exportation d’erreurs</value>
   </data>
+  <data name="AbrirArchivo" xml:space="preserve">
+    <value>Voulez-vous ouvrir le fichier Excel généré tout de suite ?</value>
+  </data>
+  <data name="ErrorAbrirArchivo" xml:space="preserve">
+    <value>Impossible d’ouvrir Excel automatiquement</value>
+  </data>
 </root>

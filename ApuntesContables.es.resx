@@ -609,4 +609,10 @@ después por Conceptos Diversos</value>
   <data name="ErrorExportacion" xml:space="preserve">
     <value>Error al exportar</value>
   </data>
+  <data name="AbrirArchivo" xml:space="preserve">
+    <value>¿Deseas abrir el archivo Excel generado ahora mismo?</value>
+  </data>
+  <data name="ErrorAbrirArchivo" xml:space="preserve">
+    <value>No se ha podido abrir el Excel automáticamente</value>
+  </data>
 </root>

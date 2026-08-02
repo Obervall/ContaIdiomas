@@ -250,4 +250,10 @@ poi da Concetti Vari</value>
   <data name="ErrorExportacion" xml:space="preserve">
     <value>Esportazione di errori</value>
   </data>
+  <data name="AbrirArchivo" xml:space="preserve">
+    <value>Vuoi aprire subito il file Excel generato?</value>
+  </data>
+  <data name="ErrorAbrirArchivo" xml:space="preserve">
+    <value>Non è stato possibile aprire Excel automaticamente</value>
+  </data>
 </root>

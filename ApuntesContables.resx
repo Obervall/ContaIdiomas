@@ -2075,4 +2075,10 @@ Con F6: Refresca la Parrilla Apuntes y Quita Filtros</value>
   <data name="ToolTipTraspasar" xml:space="preserve">
     <value>Traspasar de una Cuenta a otra</value>
   </data>
+  <data name="AbrirArchivo" xml:space="preserve">
+    <value>¿Deseas abrir el archivo Excel generado ahora mismo?</value>
+  </data>
+  <data name="ErrorAbrirArchivo" xml:space="preserve">
+    <value>No se ha podido abrir el Excel automáticamente</value>
+  </data>
 </root>

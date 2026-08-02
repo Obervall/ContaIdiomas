@@ -250,4 +250,10 @@ dann von Miscellaneous Concepts</value>
   <data name="ErrorExportacion" xml:space="preserve">
     <value>Fehler-Exportierung</value>
   </data>
+  <data name="AbrirArchivo" xml:space="preserve">
+    <value>Möchtest du die generierte Excel-Datei jetzt öffnen?</value>
+  </data>
+  <data name="ErrorAbrirArchivo" xml:space="preserve">
+    <value>Excel konnte Excel nicht automatisch öffnen</value>
+  </data>
 </root>

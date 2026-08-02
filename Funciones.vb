@@ -3087,8 +3087,6 @@ Module Funciones
         If String.IsNullOrEmpty(textoSi) OrElse String.IsNullOrEmpty(textoNo) Then
             ' 🎯 CAPTURA DIRECTA DESDE LA INTERFAZ: Leemos el texto del combo de idioma de tu pantalla
             Dim idiomaActivo As String = frmPreferencias.CmbElegirIdioma.Text.Trim().ToUpper()
-
-
             If idiomaActivo.Contains("CAT") Then
                 textoSi = "Sí"
                 textoNo = "No"
@@ -3418,43 +3416,6 @@ Module Funciones
         ' Desplegamos la ventana modal en el monitor y capturamos la respuesta
         Dim resultado As DialogResult = frm.ShowDialog()
         frm.Dispose()
-
-        '' 🎯 EVALUACIÓN DE RESPUESTA SANEADA AL 100%
-        'Dim nombreArchivoPDF As String = ""
-        'Select Case resultado
-        '    Case DialogResult.Yes
-        '        nombreArchivoPDF = "Ayuda_ContaHogar_ES.pdf"
-        '    Case DialogResult.No
-        '        nombreArchivoPDF = "Help_ContaHogar_EN.pdf"
-        '    Case DialogResult.OK
-        '        nombreArchivoPDF = "Ajuda_ContaHogar_CAT.pdf"
-        '    Case DialogResult.Cancel
-        '        ' 🔒 CORTAFUEGOS: Si pulsa Cancelar o la X de la ventana, salimos en paz sin hacer NADA
-        '        Exit Sub
-        '    Case Else
-        '        Exit Sub
-        'End Select
-
-        '' Engranaje de ruta indestructible nativa hacia tus Documentos
-        'Dim carpetaDocumentos As String = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-        'Dim carpetaAppOficial As String = IO.Path.Combine(carpetaDocumentos, "ContaHogar3.0")
-        'Dim rutaCompletaPDF As String = IO.Path.Combine(carpetaAppOficial, nombreArchivoPDF)
-
-        ' Lanzamos el lector nativo de Windows envuelto en un cortafuegos seguro
-        'Try
-        '    If IO.File.Exists(rutaCompletaPDF) Then
-        '        Dim Proceso As New Process
-        '        Proceso.StartInfo.FileName = rutaCompletaPDF
-        '        Proceso.StartInfo.Verb = "open"
-        '        Proceso.Start()
-        '    Else
-        '        Dim msgFalta As String = resManager.GetString("ErrorArchivoAyudaNoEncontrado")
-        '        If String.IsNullOrEmpty(msgFalta) Then msgFalta = "The selected help manual file could not be found in your local Documents folder."
-        '        MsgBox(msgFalta, vbExclamation, resManager.GetString("Aviso"))
-        '    End If
-        'Catch ex As Exception
-        '    MsgBox(resManager.GetString("Error") & ": " & ex.Message, vbCritical)
-        'End Try
     End Sub
 
     ''' <summary>
