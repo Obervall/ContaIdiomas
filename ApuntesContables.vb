@@ -2225,7 +2225,8 @@ Public Class ApuntesContables
         End If
     End Sub
 
-    Private Sub BtnImportarBanco_Click(sender As Object, e As EventArgs) Handles BtnImportarBanco.Click
+	Private Sub BtnImportarBanco_Click(sender As Object, e As EventArgs) Handles BtnImportarBanco.Click
+
         ' 🎯 EL ABREPUERTAS BANCARIO: Seleccionamos el archivo Excel del BBVA u Openbank
         Try
             Using ofd As New OpenFileDialog()
@@ -2251,7 +2252,47 @@ Public Class ApuntesContables
 
                     ' Invocamos tu función reina para que pinte la interfaz simétrica en pantalla
                     If ConfirmarAccionTraducida(textoMensaje, textoTitulo) = MsgBoxResult.Yes Then
-                        ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, 6, 3, 4, 6, 1) 'BBVA c/c
+                        ' =========================================================================
+                        ' 🎯 EXTRACCIÓN AUTOMÁTICA DESDE THE COMBOCUENTAS (VERSIÓN 3.2.8.0)
+                        ' =========================================================================
+                        If CmbCuenta.SelectedItem IsNot Nothing Then
+                            Try
+                                ' 1. Convertimos el ítem seleccionado en un DataRowView para leer la memoria
+                                Dim filaCuenta As DataRowView = CType(CmbCuenta.SelectedItem, DataRowView)
+
+                                ' Pesca de las dos variables clave de tu captura: las Notas y el ID de la Cuenta
+                                Dim textoNotas As String = filaCuenta("Notes").ToString().Trim()
+                                Dim idBanco As Integer = Convert.ToInt32(filaCuenta("IdCuenta")) ' [Ajusta al nombre de tu ID de cuenta]
+
+                                ' 2. 🛡️ EL ESCUDO: Verificamos que tenga el molde de los paréntesis (6, 3, 4, 6)
+                                If textoNotas.Contains("(") AndAlso textoNotas.Contains(")") Then
+
+                                    ' Desnudamos el texto quitando los paréntesis
+                                    Dim textoLimpio As String = textoNotas.Replace("(", "").Replace(")", "").Trim()
+                                    Dim coordenadas() As String = textoLimpio.Split(","c)
+
+                                    ' Convertimos los fragmentos de texto en enteros puros en la RAM
+                                    Dim filaInicio As Integer = Convert.ToInt32(coordenadas(0).Trim())
+                                    Dim colFecha As Integer = Convert.ToInt32(coordenadas(1).Trim())
+                                    Dim colConcepto As Integer = Convert.ToInt32(coordenadas(2).Trim())
+                                    Dim colImporte As Integer = Convert.ToInt32(coordenadas(3).Trim())
+
+                                    ' 🚀 LA ESTOCADA PERFECTA: Invocamos tu función pasándole los 4 números + tu ID del Banco final
+                                    MsgBox(rutaArchivoExcelBanco & vbCrLf & filaInicio & vbCrLf & colFecha & vbCrLf & colConcepto & vbCrLf & colImporte & vbCrLf & idBanco)
+                                    ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, filaInicio, colFecha, colConcepto, colImporte, idBanco)
+
+                                Else
+                                    MsgBox("Aquest compte no té assignades les coordenades a 'Notes'.", MsgBoxStyle.Information, "ContaHogar")
+                                End If
+
+                            Catch ex As Exception
+                                MsgBox("Error al desmenuzar las Notas de la cuenta: " & ex.Message, MsgBoxStyle.Critical)
+                            End Try
+                        End If
+
+
+
+                        'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, 6, 3, 4, 6, 1) 'BBVA c/c
                         'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, 6, 2, 4, 5, 1) 'BBVA VISA
                         'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, 12, 4, 6, 8, 11) 'OPENBANK
 
