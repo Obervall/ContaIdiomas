@@ -1808,13 +1808,13 @@ Public Class Principal
             ' =========================================================================
             cmdMdb1cr.Parameters.Clear()
 
-            ' Eliminar Registros extracto
-            Try
-                cmdMdb1cr.CommandText = "DELETE FROM extracto"
-                cmdMdb1cr.ExecuteNonQuery()
-            Catch ex As Exception
-                MsgBox(ex.Message, MsgBoxStyle.Critical)
-            End Try
+            '' Eliminar Registros extracto
+            'Try
+            '    cmdMdb1cr.CommandText = "DELETE FROM extracto"
+            '    cmdMdb1cr.ExecuteNonQuery()
+            'Catch ex As Exception
+            '    MsgBox(ex.Message, MsgBoxStyle.Critical)
+            'End Try
 
             ' Eliminar Registros Tempapu
             Try

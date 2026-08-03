@@ -2251,12 +2251,9 @@ Public Class ApuntesContables
 
                     ' Invocamos tu función reina para que pinte la interfaz simétrica en pantalla
                     If ConfirmarAccionTraducida(textoMensaje, textoTitulo) = MsgBoxResult.Yes Then
-
-                        ' =========================================================================
-                        ' 🚀 PRÓXIMA PARADA: Aquí invocaremos al motor del Mapeo de Columnas Inteligente
-                        ' (El Radar de Cabeceras que se traga el BBVA u Openbank sin inmutarse)
-                        ' =========================================================================
-                        ' ProcesarMatrizBancariaExcel(rutaArchivoExcelBanco)
+                        ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, 6, 3, 4, 6, 1) 'BBVA c/c
+                        'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, 6, 2, 4, 5, 1) 'BBVA VISA
+                        'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, 12, 4, 6, 8, 11) 'OPENBANK
 
                     End If
                 End If

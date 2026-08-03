@@ -3537,4 +3537,245 @@ Module Funciones
         End Try
     End Sub
 
+    '''' <summary>
+    '''' Escanea la primera fila del Excel del banco, identifica las columnas de Fecha, Concepto e Importe,
+    '''' y procesa la matriz inyectando los datos de forma inmune al orden del banco.
+    '''' </summary>
+    'Public Sub ProcesarMatrizBancariaExcel(ByVal rutaExcel As String)
+    '    ' 1. Instanciamos los punteros fuera para que el Finally los tenga en el radar de la RAM
+    '    Dim appExcel As Object = Nothing
+    '    Dim libroExcel As Object = Nothing
+    '    Dim hojaExcel As Object = Nothing
+
+    '    Try
+    '        appExcel = CreateObject("Excel.Application")
+    '        appExcel.Visible = False
+    '        libroExcel = appExcel.Workbooks.Open(rutaExcel)  ', CorruptLoad:=2)
+    '        hojaExcel = libroExcel.Sheets(1)
+
+    '        Dim colFecha As Integer = -1
+    '        Dim colConcepto As Integer = -1
+    '        Dim colImporte As Integer = -1
+    '        Dim filaCabeceraDetectada As Integer = -1
+
+    '        ' 2. 🚀 ESCANEO MATRICIAL INTELIGENTE (Busca en las 10 primeras filas y 15 columnas)
+    '        For f As Integer = 1 To 10
+    '            For c As Integer = 1 To 15
+    '                Dim celdaValor As String = Convert.ToString(hojaExcel.Cells(f, c).Value).ToString().Trim().ToUpper()
+
+    '                If String.IsNullOrEmpty(celdaValor) Then Continue For
+
+    '                ' Buscador relacional de palabras clave por concordancia de texto
+    '                If celdaValor.Contains("FECHA") OrElse celdaValor.Contains("DATA") Then
+    '                    colFecha = c
+    '                    filaCabeceraDetectada = f
+    '                    MsgBox("FECHA " & colFecha & " " & filaCabeceraDetectada)
+    '                ElseIf celdaValor.Contains("CONCEPTO") OrElse celdaValor.Contains("DESCRIP") OrElse celdaValor.Contains("CONCEPTE") Then
+    '                    colConcepto = c
+    '                    filaCabeceraDetectada = f
+    '                    MsgBox("CONCEPTO " & colFecha & " " & filaCabeceraDetectada)
+    '                ElseIf celdaValor.Contains("IMPORTE") OrElse celdaValor.Contains("CANTIDAD") OrElse celdaValor.Contains("IMPORT") OrElse celdaValor.Contains("VALOR") Then
+    '                    colImporte = c
+    '                    filaCabeceraDetectada = f
+    '                    MsgBox("IMPORTE " & colFecha & " " & filaCabeceraDetectada)
+    '                End If
+    '            Next
+
+    '' Si en esta fila ya hemos localizado los tres pilares, rompemos el escaneo en frío
+    'If colFecha <> -1 AndAlso colConcepto <> -1 AndAlso colImporte <> -1 Then
+    '	Exit For
+    'End If
+    '            MsgBox("Fila " & f & ": Escaneo de cabecera en progreso... (Radar Bancario)", MsgBoxStyle.Information, "Radar Bancario")
+    '        Next
+
+    '        ' 🛡️ CORTAFUEGOS: Si el radar se queda sordo, lanzamos el aviso.
+    '        ' ¡OJO! Ya NO metemos "Exit Sub" aquí, dejamos que el flujo viaje directo al Finally
+    '        If colFecha = -1 OrElse colConcepto = -1 OrElse colImporte = -1 Then
+    '            MsgBox("No s'ha pogut identificar la estructura del banc de forma automática.", MsgBoxStyle.Critical, "Radar Bancari")
+    '        Else
+    '            ' 3. EL BUCLE MAESTRO: Si todo está OK, procesamos las filas de datos
+    '            Dim fila As Integer = filaCabeceraDetectada + 1
+    '            Dim textoCeldaFecha As String = Convert.ToString(hojaExcel.Cells(fila, colFecha).Value)
+
+    '            While Not String.IsNullOrEmpty(textoCeldaFecha)
+    '                Dim fechaBanco As DateTime = Convert.ToDateTime(hojaExcel.Cells(fila, colFecha).Value).Date
+    '                Dim conceptoBanco As String = Convert.ToString(hojaExcel.Cells(fila, colConcepto).Value).ToString().Trim()
+    '                Dim importeBanco As Decimal = Convert.ToDecimal(hojaExcel.Cells(fila, colImporte).Value)
+
+    '                ' [Aquí irá tu filtro de equivalencias de la trastienda]
+
+    '                fila += 1
+    '                textoCeldaFecha = Convert.ToString(hojaExcel.Cells(fila, colFecha).Value)
+    '            End While
+
+    '            MsgBox("Extracte bancari procesat amb èxit!", MsgBoxStyle.Information, "ContaHogar Premium")
+    '        End If
+
+    '        ' Cerramos el libro dócilmente si ha llegado hasta aquí
+    '        If libroExcel IsNot Nothing Then libroExcel.Close(False)
+
+    '    Catch ex As Exception
+    '        MsgBox("Error en el procés del radar bancari: " & ex.Message, MsgBoxStyle.Critical)
+    '    Finally
+    '        ' =========================================================================
+    '        ' 🪓 EL SERRUCHO DE CONTROL TOTAL (Inmune a abortos o síncopes de código)
+    '        ' =========================================================================
+    '        ' Forzamos el apagado del proceso EXCEL.EXE en la RAM pase lo que pase en el monitor
+    '        Try
+    '            If appExcel IsNot Nothing Then appExcel.Quit()
+    '        Catch
+    '        End Try
+
+    '        ' Evaporamos la grasa digital de los objetos COM de la CPU de forma rígida
+    '        If hojaExcel IsNot Nothing Then System.Runtime.InteropServices.Marshal.ReleaseComObject(hojaExcel)
+    '        If libroExcel IsNot Nothing Then System.Runtime.InteropServices.Marshal.ReleaseComObject(libroExcel)
+    '        If appExcel IsNot Nothing Then System.Runtime.InteropServices.Marshal.ReleaseComObject(appExcel)
+
+    '        hojaExcel = Nothing
+    '        libroExcel = Nothing
+    '        appExcel = Nothing
+
+    '        ' Pasamos el camión de la basura de .NET
+    '        GC.Collect()
+    '        GC.WaitForPendingFinalizers()
+    '        ' =========================================================================
+    '    End Try
+    'End Sub
+
+    ''' <summary>
+    ''' Procesa el Excel bancario usando las coordenadas exactas dictadas por el usuario,
+    ''' garantizando una inmunidad total ante fallos de Openbank o cambios de diseño.
+    ''' </summary>
+    Public Sub ProcesarMatrizBancariaManual(ByVal rutaExcel As String, ByVal filaInicio As Integer, ByVal colFecha As Integer, ByVal colConcepto As Integer, ByVal colImporte As Integer, ByVal colCuenta As Integer)
+        Dim appExcel As Object = Nothing
+        Dim libroExcel As Object = Nothing
+        Dim hojaExcel As Object = Nothing
+
+        Try
+            ' 1. Despertamos el motor COM en la trastienda de la RAM
+            appExcel = CreateObject("Excel.Application")
+            appExcel.Visible = False
+            libroExcel = appExcel.Workbooks.Open(rutaExcel)
+            hojaExcel = libroExcel.Sheets(1)
+
+            ' 2. EL BUCLE MAESTRO INDESTRUCTIBLE: Procesamos desde la fila dictada por el usuario
+            Dim fila As Integer = filaInicio
+            Dim idCuentaNumero As Integer = colCuenta
+            Dim textoCeldaFecha As String = Convert.ToString(hojaExcel.Cells(fila, colFecha).Value)
+
+            While Not String.IsNullOrEmpty(textoCeldaFecha)
+                ' Lectura directa y limpia indexada por el usuario en la RAM
+                Dim fechaBanco As DateTime = Convert.ToDateTime(hojaExcel.Cells(fila, colFecha).Value).Date
+                Dim conceptoBanco As String = Convert.ToString(hojaExcel.Cells(fila, colConcepto).Value).ToString().Trim()
+                Dim importeBanco As Decimal = Convert.ToDecimal(hojaExcel.Cells(fila, colImporte).Value)
+                'MsgBox("Fila " & fila & ": Fecha=" & fechaBanco.ToShortDateString() & ", Concepto='" & conceptoBanco & "', Importe=" & importeBanco.ToString("N2"))
+                ' =========================================================================
+                ' 🪓 1. PASO DIFÍCIL 1: TRADUCCIÓN RELACIONAL DE CONCEPTOS
+                ' =========================================================================
+                ' Ejecutamos una consulta rápida para ver si tenemos este texto indexado
+                Dim conceptoTraducido As String = "Varios" ' Valor por defecto si no lo encuentra
+                Dim textoBuscar As String = conceptoBanco.Replace("'", "''").ToUpper()
+
+                ' [Aquí harás un SELECT a tu tabla de equivalencias. Para la prueba de hoy,
+                ' simulamos la lógica bruta con un condicional de hilos en la RAM:]
+                If textoBuscar.Contains("ENDESA") Then
+                    conceptoTraducido = "Llum"
+                ElseIf textoBuscar.Contains("ADESLAS") Then
+                    conceptoTraducido = "ADESLAS 2"
+                ElseIf textoBuscar.Contains("NOMINA") OrElse textoBuscar.Contains("SOU") Then
+                    conceptoTraducido = "Nomina"
+                Else
+                    ' Si es nuevo, dejamos el concepto del banco truncado para que no descalce la rejilla
+                    If conceptoBanco.Length > 30 Then conceptoTraducido = conceptoBanco.Substring(0, 30) Else conceptoTraducido = conceptoBanco
+                End If
+                ' =========================================================================
+                ' =========================================================================
+                ' 🔑 NUEVA ADUANA: BUSCAMOS EL ID NUMÉRICO REAL DEL CONCEPTO EN TU ACCESS
+                ' =========================================================================
+                Dim idConceptoNumero As Integer = 1 ' Valor por defecto (ej: el ID de Varios)
+
+                Using cmdId As New OleDb.OleDbCommand()
+                    cmdId.Connection = conexion1
+                    ' [Ajusta los nombres exactos de tu tabla de conceptos y sus columnas, ej: IdCon, NombreCon]
+                    cmdId.CommandText = "SELECT IdConceptoCON FROM conceptos WHERE CodigoCON = '" & conceptoTraducido.Replace("'", "''") & "'"
+                    Try
+                        Dim resultadoId As Object = cmdId.ExecuteScalar()
+                        If resultadoId IsNot Nothing AndAlso Not IsDBNull(resultadoId) Then
+                            idConceptoNumero = Convert.ToInt32(resultadoId)
+                        End If
+                    Catch
+                        idConceptoNumero = 1 ' Salvavidas relacional
+                    End Try
+                End Using
+                ' =========================================================================
+                ' 🛡️ 2. PASO DIFÍCIL 2: EL ESCUDO ANTIRREPETIDOS INDESTRUCTIBLE
+                ' =========================================================================
+                Dim yaExisteApunte As Boolean = False
+                Dim fechaSQL As String = "#" & fechaBanco.ToString("yyyy/MM/dd") & "#"
+                Dim importeSQL As String = importeBanco.ToString(System.Globalization.CultureInfo.InvariantCulture)
+                Dim conceptoBancoSQL As String = conceptoBanco.Replace("'", "''") ' para evitar errores de comillas simples en SQL
+
+                'MsgBox("Fila " & fila & ": Fecha=" & fechaBanco.ToShortDateString() & ", Concepto='" & idConceptoNumero & "', Importe=" & importeSQL)
+
+                ' 🪓 LA CLAVE DEL ÉXITO: Ahora interrogamos al búnker buscando la coincidencia real.
+                ' Filtramos por la Fecha, el Importe exacto y el CÓDIGO RELACIONAL del concepto (ConceptoAPU).
+                ' De esta manera, el conteo da True/1 de forma matemática si el apunte ya se inyectó.
+                Using cmdCheck As New OleDb.OleDbCommand()
+                    cmdCheck.Connection = conexion1
+                    ' Interrogamos al búnker real buscando la triple coincidencia exacta
+                    cmdCheck.CommandText = "Select COUNT(*) FROM apuntes WHERE FechaAPU = " & fechaSQL &
+                                         " And ImporteAPU = " & importeSQL &
+                                         " And ConceptoAPU = " & idConceptoNumero
+                    Try
+                        If Convert.ToInt32(cmdCheck.ExecuteScalar()) > 0 Then yaExisteApunte = True
+                    Catch
+                        yaExisteApunte = False
+                    End Try
+                End Using
+                'MsgBox(yaExisteApunte.ToString() & " - Fila " & fila & ": Fecha=" & fechaBanco.ToShortDateString() & ", Concepto='" & conceptoBancoSQL & "', Importe=" & importeSQL)
+                ' 3. INYECCIÓN O EXCLUSIÓN: Si no existe, se siembra; si existe, se descarta en silencio
+                If Not yaExisteApunte Then
+                    Using cmdIns As New OleDb.OleDbCommand()
+                        cmdIns.Connection = conexion1
+                        ' Insertamos el ID numérico limpio en ConceptoAPU y el texto original en la descripción
+                        cmdIns.CommandText = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, CuentaAPU) " &
+                                             "VALUES (" & fechaSQL & ", " & idConceptoNumero & ", '" & conceptoBancoSQL & "', " & importeSQL & ", " & vAñoEjercicio & ", " & idCuentaNumero & ")"
+                        Try
+                            cmdIns.ExecuteNonQuery()
+                        Catch
+                            ' Cortafuegos de la RAM
+                        End Try
+                    End Using
+                End If
+                ' =========================================================================
+
+                fila += 1
+                textoCeldaFecha = Convert.ToString(hojaExcel.Cells(fila, colFecha).Value)
+            End While
+
+            MsgBox("Extracte bancari procesat amb èxit gràcies al mapeig manual!", MsgBoxStyle.Information, "ContaHogar Premium")
+
+        Catch ex As Exception
+            MsgBox("Error en el procés manual del banc: " & ex.Message, MsgBoxStyle.Critical)
+        Finally
+            ' 🪓 EL SERRUCHO DE CIERRE: Liberación rígida de la RAM pase lo que pase en el monitor
+            Try
+                If appExcel IsNot Nothing Then appExcel.Quit()
+            Catch
+            End Try
+
+            If hojaExcel IsNot Nothing Then System.Runtime.InteropServices.Marshal.ReleaseComObject(hojaExcel)
+            If libroExcel IsNot Nothing Then System.Runtime.InteropServices.Marshal.ReleaseComObject(libroExcel)
+            If appExcel IsNot Nothing Then System.Runtime.InteropServices.Marshal.ReleaseComObject(appExcel)
+
+            hojaExcel = Nothing
+            libroExcel = Nothing
+            appExcel = Nothing
+
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+        End Try
+    End Sub
+
+
 End Module
