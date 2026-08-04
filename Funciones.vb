@@ -3647,6 +3647,16 @@ Module Funciones
     ''' garantizando una inmunidad total ante fallos de Openbank o cambios de diseño.
     ''' </summary>
     Public Sub ProcesarMatrizBancariaManual(ByVal rutaExcel As String, ByVal filaInicio As Integer, ByVal colFecha As Integer, ByVal colConcepto As Integer, ByVal colImporte As Integer, ByVal colCuenta As Integer)
+
+        ' 🪓 EL SERRUCHO DE MANTENIMIENTO DE LA TABLA EXTRACTO
+        ' Borramos todos los apuntes temporales viejos, pero RESPETAMOS RIGIDAMENTE las reglas del diccionario
+        Using cmdClean As New OleDb.OleDbCommand("DELETE * FROM extracto WHERE NotasAPU <> 'DICCIONARIO'", conexion1)
+            Try
+                cmdClean.ExecuteNonQuery()
+            Catch
+            End Try
+        End Using
+
         Dim appExcel As Object = Nothing
         Dim libroExcel As Object = Nothing
         Dim hojaExcel As Object = Nothing
@@ -3669,77 +3679,75 @@ Module Funciones
                 Dim conceptoBanco As String = Convert.ToString(hojaExcel.Cells(fila, colConcepto).Value).ToString().Trim()
                 Dim importeBanco As Decimal = Convert.ToDecimal(hojaExcel.Cells(fila, colImporte).Value)
                 'MsgBox("Fila " & fila & ": Fecha=" & fechaBanco.ToShortDateString() & ", Concepto='" & conceptoBanco & "', Importe=" & importeBanco.ToString("N2"))
+
                 ' =========================================================================
-                ' 🪓 1. PASO DIFÍCIL 1: TRADUCCIÓN RELACIONAL DE CONCEPTOS
+                ' 🧠 1. PASO DIFÍCIL 1 REPARADO: TRADUCCIÓN POR TU TABLA "EXTRACTO"
                 ' =========================================================================
-                ' Ejecutamos una consulta rápida para ver si tenemos este texto indexado
-                Dim conceptoTraducido As String = "Varios" ' Valor por defecto si no lo encuentra
+                Dim idConceptoNumero As Integer = 1 ' ID 1 (Varios) por defecto de fábrica
                 Dim textoBuscar As String = conceptoBanco.Replace("'", "''").ToUpper()
 
-                ' [Aquí harás un SELECT a tu tabla de equivalencias. Para la prueba de hoy,
-                ' simulamos la lógica bruta con un condicional de hilos en la RAM:]
-                If textoBuscar.Contains("ENDESA") Then
-                    conceptoTraducido = "Llum"
-                ElseIf textoBuscar.Contains("ADESLAS") Then
-                    conceptoTraducido = "ADESLAS 2"
-                ElseIf textoBuscar.Contains("NOMINA") OrElse textoBuscar.Contains("SOU") Then
-                    conceptoTraducido = "Nomina"
-                Else
-                    ' Si es nuevo, dejamos el concepto del banco truncado para que no descalce la rejilla
-                    If conceptoBanco.Length > 30 Then conceptoTraducido = conceptoBanco.Substring(0, 30) Else conceptoTraducido = conceptoBanco
-                End If
-                ' =========================================================================
-                ' =========================================================================
-                ' 🔑 NUEVA ADUANA: BUSCAMOS EL ID NUMÉRICO REAL DEL CONCEPTO EN TU ACCESS
-                ' =========================================================================
-                Dim idConceptoNumero As Integer = 1 ' Valor por defecto (ej: el ID de Varios)
+                ' Interrogamos al diccionario usando las columnas reales de tu monitor
+                Using cmdTrad As New OleDb.OleDbCommand()
+                    cmdTrad.Connection = conexion1
 
-                Using cmdId As New OleDb.OleDbCommand()
-                    cmdId.Connection = conexion1
-                    ' [Ajusta los nombres exactos de tu tabla de conceptos y sus columnas, ej: IdCon, NombreCon]
-                    cmdId.CommandText = "SELECT IdConceptoCON FROM conceptos WHERE CodigoCON = '" & conceptoTraducido.Replace("'", "''") & "'"
+                    ' 🪓 LA ESTOCADA MAESTRA: Filtramos strictly por NotasAPU = 'DICCIONARIO'
+                    ' y comparamos si el chorizo del banco contiene tu palabra clave de DescripcionAPU
+                    cmdTrad.CommandText = "SELECT ConceptoAPU FROM extracto WHERE NotasAPU = 'DICCIONARIO' AND '" & textoBuscar & "' LIKE '%' & UCase(DescripcionAPU) & '%'"
+
                     Try
-                        Dim resultadoId As Object = cmdId.ExecuteScalar()
-                        If resultadoId IsNot Nothing AndAlso Not IsDBNull(resultadoId) Then
-                            idConceptoNumero = Convert.ToInt32(resultadoId)
+                        Dim resultadoTrad As Object = cmdTrad.ExecuteScalar()
+                        If resultadoTrad IsNot Nothing AndAlso Not IsDBNull(resultadoTrad) Then
+                            idConceptoNumero = Convert.ToInt32(resultadoTrad)
                         End If
                     Catch
                         idConceptoNumero = 1 ' Salvavidas relacional
                     End Try
                 End Using
+
+
+                '' =========================================================================
+                '' 🚀 EL CHIVATO DE CONTROL DE CALIDAD (Para tu prueba en caliente)
+                '' =========================================================================
+                '' Este mensaje saltará en tu monitor por cada fila del Excel cantándote la jugada
+                'MsgBox("Text Banc: " & conceptoBanco & vbCrLf &
+                '       "ID Traduit detectat: " & idConceptoNumero.ToString(),
+                '       MsgBoxStyle.Information, "Prueba Paso Difícil 1")
+                '' =========================================================================
+
+
+                ' [El Paso Difícil 1 ya te busca el idConceptoNumero en el diccionario dócilmente]
+
                 ' =========================================================================
-                ' 🛡️ 2. PASO DIFÍCIL 2: EL ESCUDO ANTIRREPETIDOS INDESTRUCTIBLE
+                ' 🛡️ 2. PASO DIFÍCIL 2 DEFINTIVO: EL ESCUDO ANTIRREPETIDOS POR ID NUMÉRICO
                 ' =========================================================================
                 Dim yaExisteApunte As Boolean = False
                 Dim fechaSQL As String = "#" & fechaBanco.ToString("yyyy/MM/dd") & "#"
                 Dim importeSQL As String = importeBanco.ToString(System.Globalization.CultureInfo.InvariantCulture)
-                Dim conceptoBancoSQL As String = conceptoBanco.Replace("'", "''") ' para evitar errores de comillas simples en SQL
+                Dim conceptoBancoSQL As String = conceptoBanco.Replace("'", "''")
 
-                'MsgBox("Fila " & fila & ": Fecha=" & fechaBanco.ToShortDateString() & ", Concepto='" & idConceptoNumero & "', Importe=" & importeSQL)
-
-                ' 🪓 LA CLAVE DEL ÉXITO: Ahora interrogamos al búnker buscando la coincidencia real.
-                ' Filtramos por la Fecha, el Importe exacto y el CÓDIGO RELACIONAL del concepto (ConceptoAPU).
-                ' De esta manera, el conteo da True/1 de forma matemática si el apunte ya se inyectó.
                 Using cmdCheck As New OleDb.OleDbCommand()
                     cmdCheck.Connection = conexion1
-                    ' Interrogamos al búnker real buscando la triple coincidencia exacta
-                    cmdCheck.CommandText = "Select COUNT(*) FROM apuntes WHERE FechaAPU = " & fechaSQL &
-                                         " And ImporteAPU = " & importeSQL &
-                                         " And ConceptoAPU = " & idConceptoNumero
+
+                    ' El escudo interroga a tus apuntes reales buscando si ya inyectaste este cromo
+                    cmdCheck.CommandText = "SELECT COUNT(*) FROM apuntes WHERE FechaAPU = " & fechaSQL &
+                                         " AND ImporteAPU = " & importeSQL &
+                                         " AND ConceptoAPU = " & idConceptoNumero
                     Try
                         If Convert.ToInt32(cmdCheck.ExecuteScalar()) > 0 Then yaExisteApunte = True
                     Catch
                         yaExisteApunte = False
                     End Try
                 End Using
-                'MsgBox(yaExisteApunte.ToString() & " - Fila " & fila & ": Fecha=" & fechaBanco.ToShortDateString() & ", Concepto='" & conceptoBancoSQL & "', Importe=" & importeSQL)
-                ' 3. INYECCIÓN O EXCLUSIÓN: Si no existe, se siembra; si existe, se descarta en silencio
+
+                ' 3. INYECCIÓN INDUSTRIAL LIMPIA EN TU TABLA REAL DE APUNTES
                 If Not yaExisteApunte Then
                     Using cmdIns As New OleDb.OleDbCommand()
                         cmdIns.Connection = conexion1
-                        ' Insertamos el ID numérico limpio en ConceptoAPU y el texto original en la descripción
+
+                        ' Insertamos el ID de tu concepto limpio en ConceptoAPU (ej: el 5 de Adeslas)
+                        ' y el chorizo del banco en la descripción para que el usuario no pierda el detalle
                         cmdIns.CommandText = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, CuentaAPU) " &
-                                             "VALUES (" & fechaSQL & ", " & idConceptoNumero & ", '" & conceptoBancoSQL & "', " & importeSQL & ", " & vAñoEjercicio & ", " & idCuentaNumero & ")"
+                                             "VALUES (" & fechaSQL & ", " & idConceptoNumero & ", '" & conceptoBancoSQL & "', " & importeSQL & ", " & vAñoEjercicio & ", " & colCuenta & ")"
                         Try
                             cmdIns.ExecuteNonQuery()
                         Catch

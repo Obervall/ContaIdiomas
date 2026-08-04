@@ -1808,7 +1808,7 @@ Public Class Principal
             ' =========================================================================
             cmdMdb1cr.Parameters.Clear()
 
-            '' Eliminar Registros extracto
+            '' Eliminar Registros extracto (NO SE BORRA PORQUE SE USA PARA IMPORTAR DATOS DE LOS BANCOS)
             'Try
             '    cmdMdb1cr.CommandText = "DELETE FROM extracto"
             '    cmdMdb1cr.ExecuteNonQuery()

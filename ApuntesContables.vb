@@ -2244,7 +2244,6 @@ Public Class ApuntesContables
                 ' 3. Desplegamos la persiana gráfica en el monitor del usuario
                 If ofd.ShowDialog() = DialogResult.OK Then
                     Dim rutaArchivoExcelBanco As String = ofd.FileName
-
                     ' 🚀 ADAPTACIÓN PREMIUM INTERNACIONAL UNIFICADA (Inmune a grasa digital)
                     ' Pescamos los textos traducidos desde el búnker de recursos .resx
                     Dim textoMensaje As String = rmse.GetString("ProcederaAnalizarArchivo") & ": " & System.IO.Path.GetFileName(rutaArchivoExcelBanco)
@@ -2252,50 +2251,58 @@ Public Class ApuntesContables
 
                     ' Invocamos tu función reina para que pinte la interfaz simétrica en pantalla
                     If ConfirmarAccionTraducida(textoMensaje, textoTitulo) = MsgBoxResult.Yes Then
+
                         ' =========================================================================
-                        ' 🎯 EXTRACCIÓN AUTOMÁTICA DESDE THE COMBOCUENTAS (VERSIÓN 3.2.8.0)
+                        ' 🚀 EXTRACCIÓN SEGURO POR SQL INDESTRUCTIBLE (VERSIÓN 3.2.8.0)
                         ' =========================================================================
-                        If CmbCuenta.SelectedItem IsNot Nothing Then
+                        If Not String.IsNullOrEmpty(CmbCuenta.Text) Then
                             Try
-                                ' 1. Convertimos el ítem seleccionado en un DataRowView para leer la memoria
-                                Dim filaCuenta As DataRowView = CType(CmbCuenta.SelectedItem, DataRowView)
+                                ' 1. Pesca del texto que el usuario ve real en su monitor (ej: "BBVA")
+                                Dim nombreCuentaABuscar As String = CmbCuenta.Text.Replace("'", "''").Trim()
 
-                                ' Pesca de las dos variables clave de tu captura: las Notas y el ID de la Cuenta
-                                Dim textoNotas As String = filaCuenta("Notes").ToString().Trim()
-                                Dim idBanco As Integer = Convert.ToInt32(filaCuenta("IdCuenta")) ' [Ajusta al nombre de tu ID de cuenta]
+                                Dim textoNotas As String = ""
+                                Dim idBanco As Integer = 0
 
-                                ' 2. 🛡️ EL ESCUDO: Verificamos que tenga el molde de los paréntesis (6, 3, 4, 6)
-                                If textoNotas.Contains("(") AndAlso textoNotas.Contains(")") Then
+                                ' 2. INTERROGATORIO AL BÚNKER DE ACCESS: Rescatamos las NotasCUE y el ID de un viaje
+                                Using cmdMdb As New OleDb.OleDbCommand()
+                                    cmdMdb.Connection = conexion1 ' [Ajusta a tu variable global de conexión activa]
 
-                                    ' Desnudamos el texto quitando los paréntesis
+                                    ' Buscamos la fila exacta que coincide con el texto seleccionado por el usuario
+                                    cmdMdb.CommandText = "SELECT IdCuentaCUE, NotasCUE FROM cuentas WHERE NombreCUE = '" & nombreCuentaABuscar & "'"
+
+                                    Using dr As OleDb.OleDbDataReader = cmdMdb.ExecuteReader()
+                                        If dr.Read() Then
+                                            textoNotas = dr("NotasCUE").ToString().Trim()
+                                            idBanco = Convert.ToInt32(dr("IdCuentaCUE"))
+                                        End If
+                                    End Using
+                                End Using
+
+                                ' 3. 🛡️ EL ESCUDO ADUANERO: Desmenuzamos el paréntesis (6, 3, 4, 6) si todo ha ido OK
+                                If idBanco > 0 AndAlso textoNotas.Contains("(") AndAlso textoNotas.Contains(")") Then
+
+                                    ' Quitamos los paréntesis de la RAM
                                     Dim textoLimpio As String = textoNotas.Replace("(", "").Replace(")", "").Trim()
                                     Dim coordenadas() As String = textoLimpio.Split(","c)
 
-                                    ' Convertimos los fragmentos de texto en enteros puros en la RAM
+                                    ' Convertimos los trozos en enteros numéricos puros en millonésimas de segundo
                                     Dim filaInicio As Integer = Convert.ToInt32(coordenadas(0).Trim())
                                     Dim colFecha As Integer = Convert.ToInt32(coordenadas(1).Trim())
                                     Dim colConcepto As Integer = Convert.ToInt32(coordenadas(2).Trim())
                                     Dim colImporte As Integer = Convert.ToInt32(coordenadas(3).Trim())
 
-                                    ' 🚀 LA ESTOCADA PERFECTA: Invocamos tu función pasándole los 4 números + tu ID del Banco final
-                                    MsgBox(rutaArchivoExcelBanco & vbCrLf & filaInicio & vbCrLf & colFecha & vbCrLf & colConcepto & vbCrLf & colImporte & vbCrLf & idBanco)
+                                    ' 🚀 LA ESTOCADA PERFECTA: Invocamos tu función pasándole las 4 coordenadas + tu ID de Cuenta real final
                                     ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, filaInicio, colFecha, colConcepto, colImporte, idBanco)
-
+                                    'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, 6, 3, 4, 6, 1) 'BBVA c/c
+                                    'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, 6, 2, 4, 5, 1) 'BBVA VISA
+                                    'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, 12, 4, 6, 8, 11) 'OPENBANK
                                 Else
-                                    MsgBox("Aquest compte no té assignades les coordenades a 'Notes'.", MsgBoxStyle.Information, "ContaHogar")
+                                    MsgBox("Aquest compte no té assignades les coordenades o el format a 'NotasCUE' és incorrecte.", MsgBoxStyle.Information, "ContaHogar")
                                 End If
-
                             Catch ex As Exception
-                                MsgBox("Error al desmenuzar las Notas de la cuenta: " & ex.Message, MsgBoxStyle.Critical)
+                                MsgBox("Error al buscar o desmenuzar las Notas de la cuenta: " & ex.Message, MsgBoxStyle.Critical)
                             End Try
                         End If
-
-
-
-                        'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, 6, 3, 4, 6, 1) 'BBVA c/c
-                        'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, 6, 2, 4, 5, 1) 'BBVA VISA
-                        'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, 12, 4, 6, 8, 11) 'OPENBANK
-
                     End If
                 End If
             End Using

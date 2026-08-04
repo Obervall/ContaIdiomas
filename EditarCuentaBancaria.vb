@@ -170,16 +170,21 @@ Public Class EditarCuentaBancaria
             vtipoSql = "DELETE FROM apuntes WHERE apuntes.CuentaAPU = ?"
             cmdMdb1cr.CommandText = vtipoSql
             cmdMdb1cr.Parameters.Clear()
-            ' 🚀 CORRECCIÓN CLAVE: Le damos un nombre alfanumérico al parámetro en la RAM
-            cmdMdb1cr.Parameters.Add("@idApu", OleDbType.Integer).Value = vIdCuenta
+
+            ' 🎯 CORRECCIÓN CLAVE: Pasamos el ID numérico de la cuenta que quieres borrar
+            ' (Asegúrate de cambiar "vIdCuentaActiva" por tu variable real del ID de la cuenta)
+            cmdMdb1cr.Parameters.Add("@idCuenta", OleDbType.Integer).Value = Convert.ToInt32(vIdCuenta)
 
             Try
                 filasAfectadas = cmdMdb1cr.ExecuteNonQuery()
-                If filasAfectadas > 0 Then
-                    MsgBox(frmApuntesContables.rmse.GetString("EliminarApuntes"))
-                End If
             Catch ex As Exception
-                MsgBox(frmApuntesContables.rmse.GetString("EliminarApuntesError") & vbNewLine & ex.Message)
+                ' 🛡️ ESCUDO ANTI-NULLREFERENCE: Si el traductor externo falla, usamos un texto de salvavidas
+                Dim msgError As String = "Error al eliminar los apuntes de la cuenta."
+                Try
+                    msgError = frmApuntesContables.rmse.GetString("EliminarApuntesError")
+                Catch
+                End Try
+                MsgBox(msgError & vbNewLine & ex.Message, MsgBoxStyle.Critical)
             End Try
 
             ' --- 2. ELIMINAR REGISTROS EN APUNTES PERIÓDICOS ---
