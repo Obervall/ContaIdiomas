@@ -1808,14 +1808,6 @@ Public Class Principal
             ' =========================================================================
             cmdMdb1cr.Parameters.Clear()
 
-            '' Eliminar Registros extracto (NO SE BORRA PORQUE SE USA PARA IMPORTAR DATOS DE LOS BANCOS)
-            'Try
-            '    cmdMdb1cr.CommandText = "DELETE FROM extracto"
-            '    cmdMdb1cr.ExecuteNonQuery()
-            'Catch ex As Exception
-            '    MsgBox(ex.Message, MsgBoxStyle.Critical)
-            'End Try
-
             ' Eliminar Registros Tempapu
             Try
                 cmdMdb1cr.CommandText = "DELETE FROM tempapu"

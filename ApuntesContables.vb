@@ -2225,7 +2225,7 @@ Public Class ApuntesContables
         End If
     End Sub
 
-	Private Sub BtnImportarBanco_Click(sender As Object, e As EventArgs) Handles BtnImportarBanco.Click
+    Private Sub BtnImportarBanco_Click(sender As Object, e As EventArgs) Handles BtnImportarBanco.Click
 
         ' 🎯 EL ABREPUERTAS BANCARIO: Seleccionamos el archivo Excel del BBVA u Openbank
         Try
@@ -2234,12 +2234,20 @@ Public Class ApuntesContables
                 ofd.Filter = rmse.GetString("ArchivosDeExcel") & " (*.xlsx;*.xls)|*.xlsx;*.xls|" & rmse.GetString("TodosLosArchivos") & " (*.*)|*.*"
                 ofd.Title = rmse.GetString("SeleccionaExtracto")
 
-                ' 2. Memoria elástica de carpetas: Arrancamos en la última ruta de exportación para su comodidad
-                If Not String.IsNullOrEmpty(My.Settings.PathExportar) AndAlso System.IO.Directory.Exists(My.Settings.PathExportar) Then
-                    ofd.InitialDirectory = My.Settings.PathExportar
+                ' =========================================================================
+                ' 🎯 DIRECTO A DESCARGAS (VERSIÓN 3.2.8.0 Premium)
+                ' =========================================================================
+                ' 1. Calculamos la ruta biológica de la carpeta de descargas de este PC
+                Dim rutaDescargasWindows As String = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads")
+
+                ' 2. Forzamos al explorador a brotar clavado allí de forma obligatoria y rígida
+                If System.IO.Directory.Exists(rutaDescargasWindows) Then
+                    ofd.InitialDirectory = rutaDescargasWindows
                 Else
+                    ' Salvavidas ultra-remoto por si el sistema operativo no tuviera la carpeta
                     ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
                 End If
+                ' =========================================================================
 
                 ' 3. Desplegamos la persiana gráfica en el monitor del usuario
                 If ofd.ShowDialog() = DialogResult.OK Then
@@ -2293,9 +2301,9 @@ Public Class ApuntesContables
 
                                     ' 🚀 LA ESTOCADA PERFECTA: Invocamos tu función pasándole las 4 coordenadas + tu ID de Cuenta real final
                                     ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, filaInicio, colFecha, colConcepto, colImporte, idBanco)
-                                    'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, 6, 3, 4, 6, 1) 'BBVA c/c
-                                    'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, 6, 2, 4, 5, 1) 'BBVA VISA
-                                    'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, 12, 4, 6, 8, 11) 'OPENBANK
+                                    'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, 5, 3, 4, 6, 1) 'BBVA c/c
+                                    'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, 5, 2, 4, 5, 1) 'BBVA VISA
+                                    'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, 11, 4, 6, 8, 11) 'OPENBANK
                                 Else
                                     MsgBox("Aquest compte no té assignades les coordenades o el format a 'NotasCUE' és incorrecte.", MsgBoxStyle.Information, "ContaHogar")
                                 End If
