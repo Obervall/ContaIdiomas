@@ -242,6 +242,12 @@
     <Compile Include="ImprimirForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="AprendizajeBancario.Designer.vb">
+      <DependentUpon>AprendizajeBancario.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AprendizajeBancario.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="IntroApuntesPeriodicos.Designer.vb">
       <DependentUpon>IntroApuntesPeriodicos.vb</DependentUpon>
     </Compile>
@@ -1076,6 +1082,30 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ImprimirForm.resx">
       <DependentUpon>ImprimirForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AprendizajeBancario.ca.resx">
+      <DependentUpon>AprendizajeBancario.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AprendizajeBancario.de.resx">
+      <DependentUpon>AprendizajeBancario.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AprendizajeBancario.en.resx">
+      <DependentUpon>AprendizajeBancario.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AprendizajeBancario.es.resx">
+      <DependentUpon>AprendizajeBancario.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AprendizajeBancario.fr.resx">
+      <DependentUpon>AprendizajeBancario.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AprendizajeBancario.it.resx">
+      <DependentUpon>AprendizajeBancario.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AprendizajeBancario.pt.resx">
+      <DependentUpon>AprendizajeBancario.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AprendizajeBancario.resx">
+      <DependentUpon>AprendizajeBancario.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="IntroApuntes.ca.resx">
       <DependentUpon>IntroApuntes.vb</DependentUpon>
