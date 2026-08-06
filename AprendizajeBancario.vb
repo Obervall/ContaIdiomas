@@ -14,12 +14,83 @@ Public Class AprendizajeBancario
     Public vDescripcionAPU, vNotasAPU, vCuentaAPU, strText, vIntro, vLetras, vCombo, vDescripcion As String
     Public vImporteAPU As Double
     Public i, primero, nuevo As Integer
-    Private TL(13) As ToolTip
+    Private TL(11) As ToolTip
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
     Dim textoAutocompletadoEnAzul As String = ""
+    ' Variable global del formulario para memorizar qué fila exacta estamos procesando en la Pasarela
+    Private vIdExtractoActual As Integer = 0
 
+    ''' <summary>
+    ''' Succiona la primera fila de tipo 'TEMPORAL' de la tabla extracto y rellena 
+    ''' automáticamente las casillas de la interfaz para que el usuario decida si importar o saltar.
+    ''' </summary>
+    Public Sub CargarPrimerConceptoBancario()
+        Try
+            ' 1. INTERROGATORIO AL BÚNKER: Buscamos por CodigoAPU en tu conexion1 las filas 'TEMPORAL'
+            Using cmdTop As New OleDb.OleDbCommand()
+                cmdTop.Connection = conexion1 ' 🔌 Tu conexión real homologada
+                cmdTop.CommandText = "SELECT TOP 1 CodigoAPU, FechaAPU, DescripcionAPU, ImporteAPU, CuentaAPU FROM extracto WHERE NotasAPU = 'TEMPORAL' ORDER BY CodigoAPU ASC"
+
+                Using dr As OleDb.OleDbDataReader = cmdTop.ExecuteReader()
+                    If dr.Read() Then
+                        ' 🔑 Guardamos el ID único en la memoria de la RAM para saber luego a quién procesar o borrar
+                        vIdExtractoActual = Convert.ToInt32(dr("CodigoAPU"))
+
+                        ' 2. RELLENADO DE CASILLAS BIOLÓGICO (Alineado con tus controles reales)
+                        ' Pasamos la fecha como texto formateado corto a tu txtFecha de toda la vida
+                        DateTimePicker1.Value = Convert.ToDateTime(dr("FechaAPU")).Date
+
+                        ' Estampamos el chorizo de texto crudo de Openbank/BBVA directo en la Descripción 1
+                        TxtDescripcion.Text = dr("DescripcionAPU").ToString().Trim()
+
+                        ' =========================================================================
+                        ' 🪓 EL SERRUCHO INDUSTRIAL DE DECIMALES (INMUNE AL 100% A WINDOWS ALEMÁN)
+                        ' =========================================================================
+                        ' 1. Convertimos el valor de la base de datos a decimal puro
+                        Dim valorDecimalPuro As Decimal = Convert.ToDecimal(dr("ImporteAPU"))
+
+                        ' 2. Forzamos el formateo rígido con punto decimal de toda la vida: "466.67"
+                        Dim textoPuroPunto As String = valorDecimalPuro.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)
+
+                        ' =========================================================================
+                        ' 🎯 EL CORTAFUEGOS DECIMAL DE GALA PARA CASILLAS (INMUNE A MONITOR ALEMÁN)
+                        ' =========================================================================
+                        ' Forzamos al formateador visual a usar la cultura de puntos y comas española,
+                        ' de esta manera el "466,67" se pintará perfecto con su coma decimal en cualquier PC del planeta.
+                        Dim culturaVisual As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("es-ES")
+                        TxtImporte.Text = Convert.ToDecimal(dr("ImporteAPU")).ToString("N2", culturaVisual)
+                        ' =========================================================================
+
+                        ' Clavamos el combo de la Cuenta indexando el ID que capturó el radar
+                        Dim idCuentaBanco As Integer = Convert.ToInt32(dr("CuentaAPU"))
+                        CmbCuenta.SelectedValue = idCuentaBanco
+
+                        ' 🎯 ACCIÓN PREMIUM DE FOCO: Ponemos por defecto el combo de Conceptos en el ID 1 (Varios)
+                        ' y clavamos el cursor parpadeando allí dentro para que el usuario solo tenga que teclear
+                        CmbConcepto.SelectedValue = 1
+                        CmbConcepto.Focus()
+
+                    Else
+                        ' 🎉 ¡EL TRIUNFO TOTAL DEL ASISTENTE ARTESANAL! Si ya no quedan más filas temporales, cerramos el taller
+                        MsgBox("S'ha completat la revisió de l'extracte bancari de forma neta!", MsgBoxStyle.Information, "Pasarela ContaHogar")
+                        vIdExtractoActual = 0
+
+                        ' En forma Modal, es asi
+                        'Me.Close() ' Bajamos la persiana automáticamente
+
+                        'En forma NO modal, es asi
+                        Me.Dispose()
+                    End If
+                End Using
+            End Using
+
+        Catch ex As Exception
+            MsgBox("Error al succionar el registro de la pasarela: " & ex.Message, MsgBoxStyle.Critical)
+        End Try
+    End Sub
 
     Private Sub IntroApuntes_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
         Me.KeyPreview = True
 
         Label7.Text = vMoneda
@@ -55,33 +126,31 @@ Public Class AprendizajeBancario
         End If
 
         TL(0) = New ToolTip
-        TL(0).SetToolTip(Me.BtnHoy, resManager.GetString("IrAHoy"))
+        TL(0).SetToolTip(Me.BtnAceptarOtro, rmse.GetString("BtnAceptarOtro.Text"))
         TL(1) = New ToolTip
-        TL(1).SetToolTip(Me.BtnAceptarOtro, rmse.GetString("BtnAceptarOtro.Text"))
+        TL(1).SetToolTip(Me.BtnSaltarApuntes, rmse.GetString("BtnSaltarApuntes.Text"))
         TL(2) = New ToolTip
-        TL(2).SetToolTip(Me.BtnAceptarSalir, rmse.GetString("BtnAceptarSalir.Text"))
+        TL(2).SetToolTip(Me.BtnCancelar, rmse.GetString("BtnCancelar.Text") & " " & rmse.GetString("$this.Text"))
         TL(3) = New ToolTip
-        TL(3).SetToolTip(Me.BtnCancelar, rmse.GetString("BtnCancelar.Text") & " " & rmse.GetString("$this.Text"))
+        TL(3).SetToolTip(Me.CmbConcepto, rmse.GetString("SelecConcepto"))
         TL(4) = New ToolTip
-        TL(4).SetToolTip(Me.CmbConcepto, rmse.GetString("SelecConcepto"))
+        TL(4).SetToolTip(Me.CmbCuenta, rmse.GetString("SelecCuenta"))
         TL(5) = New ToolTip
-        TL(5).SetToolTip(Me.CmbCuenta, rmse.GetString("SelecCuenta"))
+        TL(5).SetToolTip(Me.CmbDescripcion, rmse.GetString("SelecDescripcion"))
         TL(6) = New ToolTip
-        TL(6).SetToolTip(Me.CmbDescripcion, rmse.GetString("SelecDescripcion"))
+        TL(6).SetToolTip(Me.TxtImporte, rmse.GetString("ImporteAsiento"))
         TL(7) = New ToolTip
-        TL(7).SetToolTip(Me.TxtImporte, rmse.GetString("ImporteAsiento"))
+        TL(7).SetToolTip(Me.BtnConcepto, resManager.GetString("BtnConcepto"))
         TL(8) = New ToolTip
-        TL(8).SetToolTip(Me.BtnCalculadora, resManager.GetString("ToolTipCalculadora"))
+        TL(8).SetToolTip(Me.BtnDescripcion, rmse.GetString("BtnDescripcion"))
         TL(9) = New ToolTip
-        TL(9).SetToolTip(Me.BtnConcepto, resManager.GetString("BtnConcepto"))
+        TL(9).SetToolTip(Me.TxtBuscarLetras, rmse.GetString("TxtABuscar"))
         TL(10) = New ToolTip
-        TL(10).SetToolTip(Me.BtnCuenta, resManager.GetString("BtnCuenta"))
+        TL(10).SetToolTip(Me.BtnAyuda, rmse.GetString("BtnAyuda"))
         TL(11) = New ToolTip
-        TL(11).SetToolTip(Me.BtnDescripcion, rmse.GetString("BtnDescripcion"))
-        TL(12) = New ToolTip
-        TL(12).SetToolTip(Me.TxtBuscarLetras, rmse.GetString("TxtABuscar"))
-        TL(13) = New ToolTip
-        TL(13).SetToolTip(Me.BtnAyuda, rmse.GetString("BtnAyuda"))
+        TL(11).SetToolTip(Me.TxtDescripcion, My.Settings.RutaBD)
+        ' Añade una línea por cada GroupBox donde tengas estos botones:
+        AddHandler Me.GroupBox1.MouseMove, AddressOf VerificarFiltrosDesactivados
 
         CmbConcepto.DropDownStyle = ComboBoxStyle.DropDownList
 
@@ -127,10 +196,9 @@ Public Class AprendizajeBancario
             If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
         End Try
 
-        TxtImporte.Text = "0"
 
         ' --- ÚLTIMAS LÍNEAS DE TU INTROAPUNTES_LOAD ---
-        TxtImporte.Text = "0"
+        'TxtImporte.Text = "0"
 
         ' 🌟 LA CORRECCIÓN CLAVE: Apagamos el escudo protector AQUÍ, 
         ' justo antes de forzar la selección para que el evento deje pasar los datos
@@ -541,22 +609,76 @@ Public Class AprendizajeBancario
         End If
     End Sub
 
-    Private Sub BtnHoy_Click(sender As Object, e As EventArgs) Handles BtnHoy.Click
-        If vAñoEjercicio <> vAñoActual Then
-            MsgBox(rmse.GetString("EjercicioActual"), MsgBoxStyle.Information, rmse.GetString("Fecha31Diciembre"))
-            DateTimePicker1.Value = New Date(vAñoEjercicio, 12, 31)
-        Else
-            DateTimePicker1.Value = vfechaHoy
-        End If
-    End Sub
+    Private Sub BtnSaltarApuntes_Click(sender As Object, e As EventArgs) Handles BtnSaltarApuntes.Click
+        If vIdExtractoActual = 0 Then Exit Sub
 
-    Private Sub BtnAceptarSalir_Click(sender As Object, e As EventArgs) Handles BtnAceptarSalir.Click
-        GrabarYRefrescarGrid()
-        Me.Close()
+        Try
+            ' 🪓 Limpiamos el cromo de la pasarela temporal extracto para avanzar
+            Using cmdDel As New OleDb.OleDbCommand("DELETE * FROM extracto WHERE CodigoAPU = " & vIdExtractoActual, conexion1)
+                cmdDel.ExecuteNonQuery()
+            End Using
+
+            ' Succionamos la siguiente línea del banco dócilmente
+            CargarPrimerConceptoBancario()
+
+        Catch ex As Exception
+            MsgBox("Error al saltar l'apunt: " & ex.Message, MsgBoxStyle.Critical)
+        End Try
     End Sub
 
     Private Sub BtnAceptarOtro_Click(sender As Object, e As EventArgs) Handles BtnAceptarOtro.Click
-        GrabarYRefrescarGrid()
+        'GrabarYRefrescarGrid()
+        ' Cortafuegos preventivo
+        If vIdExtractoActual = 0 Then Exit Sub
+
+        Try
+            ' 1. PESCA DE VARIABLES PURAS DESDE TU INTERFAZ ELÁSTICA
+            Dim fechaSQL As String = "#" & DateTimePicker1.Value.ToString("yyyy/MM/dd") & "#"
+            Dim importeSQL As String = Convert.ToDecimal(TxtImporte.Text).ToString(System.Globalization.CultureInfo.InvariantCulture)
+            Dim idConcepto As Integer = Convert.ToInt32(CmbConcepto.SelectedValue)
+            Dim idCuenta As Integer = Convert.ToInt32(CmbCuenta.SelectedValue)
+
+            ' Guardamos en tus apuntes oficiales el texto pulido que tú hayas retocado o elegido en la Descripció 2
+            Dim descripcionUsuario As String = CmbDescripcion.Text.Replace("'", "''").Trim()
+            Dim notaSQL As String = TxtNota.Text.Replace("'", "''").Trim()
+
+            ' 2. 📁 INYECCIÓN DIRECTA EN TU TABLA REAL DE APUNTES
+            Using cmdIns As New OleDb.OleDbCommand()
+                cmdIns.Connection = conexion1
+                cmdIns.CommandText = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, CuentaAPU, NotasAPU) " &
+                                     "VALUES (" & fechaSQL & ", " & idConcepto & ", '" & descripcionUsuario & "', " & importeSQL & ", " & vAñoEjercicio & ", " & idCuenta & ", '" & notaSQL & "')"
+                cmdIns.ExecuteNonQuery()
+            End Using
+
+            ' 3. 🪓 ELIMINACIÓN DE LA PASARELA: Borramos este cromo de la tabla temporal extracto
+            Using cmdDel As New OleDb.OleDbCommand("DELETE * FROM extracto WHERE CodigoAPU = " & vIdExtractoActual, conexion1)
+                cmdDel.ExecuteNonQuery()
+            End Using
+
+            ' 4. 🚀 SIGUIENTE FILA: Succionamos el próximo apunte del banco en millonésimas de segundo
+            CargarPrimerConceptoBancario()
+
+        Catch ex As Exception
+            MsgBox("Error al desar l'apunt real: " & ex.Message, MsgBoxStyle.Critical)
+        End Try
+
+
+
+        vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
+        vtipoGrid = "APUNTES_CONTABLES"
+
+        LlenarGrid(vtipoSql, vtipoGrid, "1")
+        TraducirGridApuntesBD(frmApuntesContables.DgvApuntes)
+
+        vFilaActual = frmApuntesContables.DgvApuntes.CurrentRow.Index
+        If vFilaActual = frmApuntesContables.DgvApuntes.RowCount - 1 Then
+            MsgBox(resManager.GetString("MsgFila2"))
+        Else
+            vFila = frmApuntesContables.DgvApuntes.RowCount - 1
+            frmApuntesContables.DgvApuntes.Rows(vFila).Selected = True
+            frmApuntesContables.DgvApuntes.CurrentCell = frmApuntesContables.DgvApuntes.Rows(vFila).Cells(0)
+        End If
+
 
         ' =====================================================================
         ' 🛠️ REINICIO ASISTIDO DE PASOS PARA INTRODUCIR OTRO APUNTE
@@ -572,9 +694,9 @@ Public Class AprendizajeBancario
         vIntro = "NO"
 
         ' 1. Limpias los textos normales
-        TxtImporte.Text = "0"
+        'TxtImporte.Text = "0"
         TxtNota.Text = ""
-        TxtDescripcion.Text = ""
+        'TxtDescripcion.Text = ""
 
         ' 3. ¡La clave! Forzamos al formulario a procesar los cambios visuales antes de seguir
         Application.DoEvents()
@@ -657,30 +779,7 @@ Public Class AprendizajeBancario
             cmdMdb1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = importeNumerico
             cmdMdb1cr.Parameters.Add("@Not", OleDb.OleDbType.VarWChar).Value = TxtNota.Text.Trim()
             cmdMdb1cr.Parameters.Add("@cue", OleDb.OleDbType.Integer).Value = Convert.ToInt32(CmbCuenta.SelectedValue)
-            'cmdMdb1cr.Parameters.Add("@cue", OleDb.OleDbType.Integer).Value = idCuentaAsiento    ' 🌟 Inyecta el ID de la Cuenta
             cmdMdb1cr.Parameters.Add("@eje", OleDb.OleDbType.Integer).Value = Convert.ToInt32(vAñoEjercicio)
-
-            ''=========================================================================
-            ''🕵️ CHIVATO PARAMETROS CONTABLE: SIMULACIÓN DE LA SQL REAL QUE VA A IR A ACCESS
-            ''=========================================================================
-            'Dim sqlSimulada As String = vAñadir
-            '' Vamos reemplazando de izquierda a derecha cada signo '?' por su valor real formateado
-            '' 1. Fecha
-            'sqlSimulada = ReemplazarPrimerInterrogante(sqlSimulada, "#" & DateTimePicker1.Value.ToString("yyyy-MM-dd") & "#")
-            '' 2. ID Concepto
-            'sqlSimulada = ReemplazarPrimerInterrogante(sqlSimulada, idConceptoAsiento.ToString())
-            '' 3. Descripción
-            'sqlSimulada = ReemplazarPrimerInterrogante(sqlSimulada, "'" & TxtDescripcion.Text.Replace("'", "''") & "'")
-            '' 4. Importe
-            'sqlSimulada = ReemplazarPrimerInterrogante(sqlSimulada, TxtImporte.Text.Replace(",", "."))
-            '' 5. Notas
-            'sqlSimulada = ReemplazarPrimerInterrogante(sqlSimulada, "'" & TxtNota.Text.Replace("'", "''") & "'")
-            '' 6. ID Cuenta
-            'sqlSimulada = ReemplazarPrimerInterrogante(sqlSimulada, idCuentaAsiento.ToString())
-            '' 7. Ejercicio
-            'sqlSimulada = ReemplazarPrimerInterrogante(sqlSimulada, vAñoEjercicio)
-            '' Lanzamos la ventana para inspeccionar el texto exacto con tus datos
-            'MsgBox("SQL SIMULADA DE GRABACIÓN:" & vbCrLf & vbCrLf & sqlSimulada, MsgBoxStyle.Information, "Depuración de Parámetros")
 
             Try
                 cmdMdb1cr.ExecuteNonQuery()
@@ -840,42 +939,6 @@ Public Class AprendizajeBancario
         Me.Close()
     End Sub
 
-    Private Sub BtnCalculadora_Click(sender As Object, e As EventArgs) Handles BtnCalculadora.Click
-        Dim Proceso As New Process()
-        Proceso.StartInfo.FileName = "calc.exe"
-        Proceso.StartInfo.Arguments = ""
-        Proceso.Start()
-    End Sub
-
-    Private Sub BtnCuenta_Click(sender As Object, e As EventArgs) Handles BtnCuenta.Click
-        ' 1. Abrimos la pantalla de mantenimiento de cuentas del formulario principal
-        frmPrincipal.CuentasToolStripMenuItem.PerformClick()
-
-        ' =========================================================================
-        ' 🌟 RECARGA DE LA NUEVA ERA: ENLACE SIMÉTRICO DE CUENTAS BANCARIAS
-        ' =========================================================================
-        ' Encendemos el escudo protector para que los eventos de cambio no se vuelvan locos al recargar
-        cargandoFormulario = True
-
-        Try
-            ' 2. Llamamos a tu rutina exclusiva para refrescar e inyectar las cuentas con sus IDs numéricos
-            LlenarComboCuentasGenerico(Me.CmbCuenta)
-
-            ' 3. Apagamos el escudo protector para permitir la interacción del usuario
-            cargandoFormulario = False
-
-            ' 4. Volvemos a aplicar tu vaivén maestro de índices para forzar el relleno en la rejilla
-            If CmbCuenta.Items.Count > 0 Then
-                CmbCuenta.SelectedIndex = -1 ' Reseteamos a vacío primero
-                CmbCuenta.SelectedIndex = 0  ' Seleccionamos el primer elemento de forma segura
-            End If
-
-        Catch ex As Exception
-            cargandoFormulario = False
-            MsgBox(resManager.GetString("ErrorRefrecarCUE") & ": " & ex.Message, MsgBoxStyle.Critical)
-        End Try
-    End Sub
-
     Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         ' Se verifica si la razón para cerrar es la 3, es decir, el botón X.
         If e.CloseReason = 3 Then
@@ -934,14 +997,6 @@ Public Class AprendizajeBancario
         ' Llenar el Combo Descripción
         '****************************
         LlenarDescripcion()
-    End Sub
-
-    Private Sub DateTimePicker1_LostFocus(sender As Object, e As EventArgs) Handles DateTimePicker1.LostFocus
-        BtnCalculadora.TabIndex = 0
-        BtnConcepto.TabIndex = 0
-        BtnDescripcion.TabIndex = 0
-        BtnHoy.TabIndex = 0
-        BtnCuenta.TabIndex = 0
     End Sub
 
     Private Sub CmbDescripcion_Click(sender As Object, e As EventArgs) Handles CmbDescripcion.Click
@@ -1087,7 +1142,7 @@ Public Class AprendizajeBancario
                 CmbDescripcion.Text = tradDesc
                 vDescripcion = tradDesc
 
-                If TypeOf TxtDescripcion Is TextBox Then TxtDescripcion.Text = tradDesc
+                'If TypeOf TxtDescripcion Is TextBox Then TxtDescripcion.Text = tradDesc
             End If
             ' =====================================================================
 
@@ -1181,7 +1236,7 @@ Public Class AprendizajeBancario
                     If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
 
                     CmbDescripcion.Text = tradDesc
-                    TxtDescripcion.Text = tradDesc
+                    'TxtDescripcion.Text = tradDesc
 
                 End If
 
@@ -1283,5 +1338,44 @@ Public Class AprendizajeBancario
 
         Return ""
     End Function
+
+    Private Sub VerificarFiltrosDesactivados(sender As Object, e As MouseEventArgs) Handles Me.MouseMove
+        ' 🚀 REPARADO MODO ESCÁNER: Conectado al MouseMove del formulario para sortear el bloqueo del .Enabled = False
+
+        ' Diccionario con tus controles deshabilitados y sus ToolTips correspondientes
+        Dim controlesBloqueados As New Dictionary(Of Control, ToolTip) From {
+            {Me.TxtDescripcion, TL(11)}
+        }
+
+        ' Capturamos la posición del ratón exacta respecto al Formulario Principal (Me)
+        Dim posRatonRelativaAlForm As Point = Me.PointToClient(Cursor.Position)
+
+        For Each par In controlesBloqueados
+            Dim control As Control = par.Key
+            Dim tool As ToolTip = par.Value
+
+            If Not control.Enabled Then
+                ' 🎯 LA JUGADA MAESTRA: Traducimos las coordenadas al contenedor donde vive el control gris
+                Dim posRatonRelativaAlPadre As Point = control.Parent.PointToClient(Cursor.Position)
+
+                ' Si las coordenadas del ratón caen dentro del rectángulo físico del control gris
+                If control.Bounds.Contains(posRatonRelativaAlPadre) Then
+
+                    ' Cargamos dinámicamente su texto correspondiente desde tu recurso (My.Settings o textos fijos)
+                    Dim textoCartelito As String = ""
+                    If control Is Me.TxtDescripcion Then
+                        textoCartelito = TxtDescripcion.Text
+                    End If
+
+                    ' Hacemos brotar el globo flotante reluciente desplazado 15 píxeles para que no lo tape el cursor
+                    tool.Show(textoCartelito, Me, posRatonRelativaAlForm.X + 15, posRatonRelativaAlForm.Y + 15)
+                    Exit Sub
+                End If
+            End If
+        Next
+
+        ' Si el ratón se sale del perímetro de los cuadros grises, apagamos los carteles de inmediato
+        TL(11).Hide(Me)
+    End Sub
 
 End Class

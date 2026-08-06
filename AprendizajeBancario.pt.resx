@@ -135,33 +135,21 @@
   <data name="Label1.Text" xml:space="preserve">
     <value>Data:</value>
   </data>
-  <data name="GroupBox1.Text" xml:space="preserve">
-    <value>Nota Dados: </value>
-  </data>
   <data name="BtnCancelar.Text" xml:space="preserve">
     <value>Cancelar</value>
   </data>
-  <data name="BtnAceptarSalir.Text" xml:space="preserve">
-    <value>Aceitar e Sair</value>
-  </data>
   <data name="BtnAceptarOtro.Text" xml:space="preserve">
     <value>Aceitar e outros</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Introdução de Notas</value>
   </data>
   <data name="ErrorLlenarDesplegable" xml:space="preserve">
     <value>Erro ao preencher o menu suspenso.
 Erro</value>
   </data>
   <data name="Label8.Text" xml:space="preserve">
-    <value>Descrição 2:</value>
+    <value>Descrição:</value>
   </data>
   <data name="LblBuscarLetras.Text" xml:space="preserve">
     <value>Descrição da Busca:</value>
-  </data>
-  <data name="Label3.Text" xml:space="preserve">
-    <value>Descrição 1:</value>
   </data>
   <data name="SelecConcepto" xml:space="preserve">
     <value>Selecione o Conceito</value>
@@ -215,5 +203,17 @@ Erro</value>
   </data>
   <data name="Label9.Text" xml:space="preserve">
     <value>Preencha a descrição 2</value>
+  </data>
+  <data name="Label3.Text" xml:space="preserve">
+    <value>Descrição do banco:</value>
+  </data>
+  <data name="GroupBox1.Text" xml:space="preserve">
+    <value>Dados de Entrada Bancária:</value>
+  </data>
+  <data name="BtnSaltarApuntes.Text" xml:space="preserve">
+    <value>Nota de pular</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Introdução das Cédulas</value>
   </data>
 </root>

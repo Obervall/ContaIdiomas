@@ -22,7 +22,7 @@ Partial Class AprendizajeBancario
 	'No lo modifique con el editor de código.
 	<System.Diagnostics.DebuggerStepThrough()>
 	Private Sub InitializeComponent()
-		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(IntroApuntes))
+		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AprendizajeBancario))
 		Me.GroupBox1 = New System.Windows.Forms.GroupBox()
 		Me.BtnAyuda = New System.Windows.Forms.Button()
 		Me.TxtBuscarLetras = New System.Windows.Forms.TextBox()
@@ -31,10 +31,7 @@ Partial Class AprendizajeBancario
 		Me.LblBuscarLetras = New System.Windows.Forms.Label()
 		Me.BtnDescripcion = New System.Windows.Forms.Button()
 		Me.CmbDescripcion = New System.Windows.Forms.ComboBox()
-		Me.BtnCuenta = New System.Windows.Forms.Button()
-		Me.BtnCalculadora = New System.Windows.Forms.Button()
 		Me.BtnConcepto = New System.Windows.Forms.Button()
-		Me.BtnHoy = New System.Windows.Forms.Button()
 		Me.TxtTipoConcepto = New System.Windows.Forms.TextBox()
 		Me.TxtImporte = New System.Windows.Forms.TextBox()
 		Me.TxtNota = New System.Windows.Forms.TextBox()
@@ -49,15 +46,13 @@ Partial Class AprendizajeBancario
 		Me.Label2 = New System.Windows.Forms.Label()
 		Me.Label1 = New System.Windows.Forms.Label()
 		Me.BtnCancelar = New System.Windows.Forms.Button()
-		Me.BtnAceptarSalir = New System.Windows.Forms.Button()
+		Me.BtnSaltarApuntes = New System.Windows.Forms.Button()
 		Me.BtnAceptarOtro = New System.Windows.Forms.Button()
-		Me.Label9 = New System.Windows.Forms.Label()
 		Me.GroupBox1.SuspendLayout()
 		Me.SuspendLayout()
 		'
 		'GroupBox1
 		'
-		Me.GroupBox1.Controls.Add(Me.Label9)
 		Me.GroupBox1.Controls.Add(Me.BtnAyuda)
 		Me.GroupBox1.Controls.Add(Me.TxtBuscarLetras)
 		Me.GroupBox1.Controls.Add(Me.Label8)
@@ -65,10 +60,7 @@ Partial Class AprendizajeBancario
 		Me.GroupBox1.Controls.Add(Me.LblBuscarLetras)
 		Me.GroupBox1.Controls.Add(Me.BtnDescripcion)
 		Me.GroupBox1.Controls.Add(Me.CmbDescripcion)
-		Me.GroupBox1.Controls.Add(Me.BtnCuenta)
-		Me.GroupBox1.Controls.Add(Me.BtnCalculadora)
 		Me.GroupBox1.Controls.Add(Me.BtnConcepto)
-		Me.GroupBox1.Controls.Add(Me.BtnHoy)
 		Me.GroupBox1.Controls.Add(Me.TxtTipoConcepto)
 		Me.GroupBox1.Controls.Add(Me.TxtImporte)
 		Me.GroupBox1.Controls.Add(Me.TxtNota)
@@ -125,29 +117,11 @@ Partial Class AprendizajeBancario
 		resources.ApplyResources(Me.CmbDescripcion, "CmbDescripcion")
 		Me.CmbDescripcion.Name = "CmbDescripcion"
 		'
-		'BtnCuenta
-		'
-		resources.ApplyResources(Me.BtnCuenta, "BtnCuenta")
-		Me.BtnCuenta.Name = "BtnCuenta"
-		Me.BtnCuenta.UseVisualStyleBackColor = True
-		'
-		'BtnCalculadora
-		'
-		resources.ApplyResources(Me.BtnCalculadora, "BtnCalculadora")
-		Me.BtnCalculadora.Name = "BtnCalculadora"
-		Me.BtnCalculadora.UseVisualStyleBackColor = True
-		'
 		'BtnConcepto
 		'
 		resources.ApplyResources(Me.BtnConcepto, "BtnConcepto")
 		Me.BtnConcepto.Name = "BtnConcepto"
 		Me.BtnConcepto.UseVisualStyleBackColor = True
-		'
-		'BtnHoy
-		'
-		resources.ApplyResources(Me.BtnHoy, "BtnHoy")
-		Me.BtnHoy.Name = "BtnHoy"
-		Me.BtnHoy.UseVisualStyleBackColor = True
 		'
 		'TxtTipoConcepto
 		'
@@ -168,8 +142,8 @@ Partial Class AprendizajeBancario
 		'
 		Me.CmbCuenta.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
 		Me.CmbCuenta.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
-		Me.CmbCuenta.FormattingEnabled = True
 		resources.ApplyResources(Me.CmbCuenta, "CmbCuenta")
+		Me.CmbCuenta.FormattingEnabled = True
 		Me.CmbCuenta.Name = "CmbCuenta"
 		'
 		'CmbConcepto
@@ -182,8 +156,8 @@ Partial Class AprendizajeBancario
 		'
 		'DateTimePicker1
 		'
-		Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
 		resources.ApplyResources(Me.DateTimePicker1, "DateTimePicker1")
+		Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
 		Me.DateTimePicker1.Name = "DateTimePicker1"
 		'
 		'Label7
@@ -227,11 +201,11 @@ Partial Class AprendizajeBancario
 		Me.BtnCancelar.Name = "BtnCancelar"
 		Me.BtnCancelar.UseVisualStyleBackColor = True
 		'
-		'BtnAceptarSalir
+		'BtnSaltarApuntes
 		'
-		resources.ApplyResources(Me.BtnAceptarSalir, "BtnAceptarSalir")
-		Me.BtnAceptarSalir.Name = "BtnAceptarSalir"
-		Me.BtnAceptarSalir.UseVisualStyleBackColor = True
+		resources.ApplyResources(Me.BtnSaltarApuntes, "BtnSaltarApuntes")
+		Me.BtnSaltarApuntes.Name = "BtnSaltarApuntes"
+		Me.BtnSaltarApuntes.UseVisualStyleBackColor = True
 		'
 		'BtnAceptarOtro
 		'
@@ -239,23 +213,18 @@ Partial Class AprendizajeBancario
 		Me.BtnAceptarOtro.Name = "BtnAceptarOtro"
 		Me.BtnAceptarOtro.UseVisualStyleBackColor = True
 		'
-		'Label9
-		'
-		resources.ApplyResources(Me.Label9, "Label9")
-		Me.Label9.Name = "Label9"
-		'
-		'IntroApuntes
+		'AprendizajeBancario
 		'
 		resources.ApplyResources(Me, "$this")
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.Controls.Add(Me.BtnAceptarOtro)
-		Me.Controls.Add(Me.BtnAceptarSalir)
+		Me.Controls.Add(Me.BtnSaltarApuntes)
 		Me.Controls.Add(Me.BtnCancelar)
 		Me.Controls.Add(Me.GroupBox1)
 		Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
 		Me.MaximizeBox = False
 		Me.MinimizeBox = False
-		Me.Name = "IntroApuntes"
+		Me.Name = "AprendizajeBancario"
 		Me.GroupBox1.ResumeLayout(False)
 		Me.GroupBox1.PerformLayout()
 		Me.ResumeLayout(False)
@@ -271,13 +240,10 @@ Partial Class AprendizajeBancario
 	Friend WithEvents Label2 As Windows.Forms.Label
 	Friend WithEvents Label1 As Windows.Forms.Label
 	Friend WithEvents BtnCancelar As Windows.Forms.Button
-	Friend WithEvents BtnAceptarSalir As Windows.Forms.Button
+	Friend WithEvents BtnSaltarApuntes As Windows.Forms.Button
 	Friend WithEvents BtnAceptarOtro As Windows.Forms.Button
 	Friend WithEvents DateTimePicker1 As Windows.Forms.DateTimePicker
-	Friend WithEvents BtnCuenta As Windows.Forms.Button
-	Friend WithEvents BtnCalculadora As Windows.Forms.Button
 	Friend WithEvents BtnConcepto As Windows.Forms.Button
-	Friend WithEvents BtnHoy As Windows.Forms.Button
 	Friend WithEvents TxtTipoConcepto As Windows.Forms.TextBox
 	Friend WithEvents TxtImporte As Windows.Forms.TextBox
 	Friend WithEvents TxtNota As Windows.Forms.TextBox
@@ -290,5 +256,4 @@ Partial Class AprendizajeBancario
 	Friend WithEvents TxtDescripcion As Windows.Forms.TextBox
 	Friend WithEvents TxtBuscarLetras As Windows.Forms.TextBox
 	Friend WithEvents BtnAyuda As Windows.Forms.Button
-	Friend WithEvents Label9 As Windows.Forms.Label
 End Class

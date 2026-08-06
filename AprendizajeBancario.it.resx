@@ -121,7 +121,7 @@
     <value>Aiuto (?)</value>
   </data>
   <data name="Label8.Text" xml:space="preserve">
-    <value>Descrizione 2:</value>
+    <value>Descrizione:</value>
   </data>
   <data name="LblBuscarLetras.Text" xml:space="preserve">
     <value>Descrizione della ricerca:</value>
@@ -138,29 +138,17 @@
   <data name="Label4.Text" xml:space="preserve">
     <value>Importo:</value>
   </data>
-  <data name="Label3.Text" xml:space="preserve">
-    <value>Descrizione 1:</value>
-  </data>
   <data name="Label2.Text" xml:space="preserve">
     <value>Concetto:</value>
   </data>
   <data name="Label1.Text" xml:space="preserve">
     <value>Data:</value>
   </data>
-  <data name="GroupBox1.Text" xml:space="preserve">
-    <value>Note Dati: </value>
-  </data>
   <data name="BtnCancelar.Text" xml:space="preserve">
     <value>Cancella</value>
   </data>
-  <data name="BtnAceptarSalir.Text" xml:space="preserve">
-    <value>Accettazione ed uscita</value>
-  </data>
   <data name="BtnAceptarOtro.Text" xml:space="preserve">
     <value>Accetta e altro</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Introduzione delle Note</value>
   </data>
   <data name="AñadirDescripcion" xml:space="preserve">
     <value>Aggiungiamo la descrizione</value>
@@ -215,5 +203,17 @@ Errore</value>
   </data>
   <data name="Label9.Text" xml:space="preserve">
     <value>Inserisci la descrizione 2</value>
+  </data>
+  <data name="Label3.Text" xml:space="preserve">
+    <value>Descrizione della banca:</value>
+  </data>
+  <data name="GroupBox1.Text" xml:space="preserve">
+    <value>Dati di inserimento bancario:</value>
+  </data>
+  <data name="BtnSaltarApuntes.Text" xml:space="preserve">
+    <value>Nota saltante</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Introduzione delle banconote</value>
   </data>
 </root>

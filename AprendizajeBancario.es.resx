@@ -300,10 +300,10 @@
 </value>
   </data>
   <data name="Label3.Text" xml:space="preserve">
-    <value>Descripción 1:</value>
+    <value>Descripción del Banco:</value>
   </data>
   <data name="Label8.Text" xml:space="preserve">
-    <value>Descripción 2:</value>
+    <value>Descripción:</value>
   </data>
   <data name="BtnAyuda.Text" xml:space="preserve">
     <value>Ayuda (?)</value>
@@ -330,19 +330,19 @@
     <value>Fecha:</value>
   </data>
   <data name="GroupBox1.Text" xml:space="preserve">
-    <value>Datos del Apunte: </value>
+    <value>Datos del Apunte Bancario:</value>
   </data>
   <data name="BtnCancelar.Text" xml:space="preserve">
     <value>Cancelar</value>
   </data>
-  <data name="BtnAceptarSalir.Text" xml:space="preserve">
-    <value>Aceptar y Salir</value>
+  <data name="BtnSaltarApuntes.Text" xml:space="preserve">
+    <value>Saltar Apunte</value>
   </data>
   <data name="BtnAceptarOtro.Text" xml:space="preserve">
     <value>Aceptar y Otro</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Introducción de Apuntes</value>
+    <value>Introducción de Apuntes Bancarios</value>
   </data>
   <data name="SelecCuenta" xml:space="preserve">
     <value>Seleccionar la Cuenta a la que se refiere el Apunte</value>

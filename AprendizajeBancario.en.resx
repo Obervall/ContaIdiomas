@@ -135,33 +135,21 @@
   <data name="Label1.Text" xml:space="preserve">
     <value>Date:</value>
   </data>
-  <data name="GroupBox1.Text" xml:space="preserve">
-    <value>Note Data: </value>
-  </data>
   <data name="BtnCancelar.Text" xml:space="preserve">
     <value>Cancel</value>
   </data>
-  <data name="BtnAceptarSalir.Text" xml:space="preserve">
-    <value>Accept and Exit</value>
-  </data>
   <data name="BtnAceptarOtro.Text" xml:space="preserve">
     <value>Accept and New</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Introduction of Transactions</value>
   </data>
   <data name="ErrorLlenarDesplegable" xml:space="preserve">
     <value>Error filling out the drop-down.
 Error</value>
   </data>
   <data name="Label8.Text" xml:space="preserve">
-    <value>Description 2:</value>
+    <value>Description:</value>
   </data>
   <data name="LblBuscarLetras.Text" xml:space="preserve">
     <value>Search Description:</value>
-  </data>
-  <data name="Label3.Text" xml:space="preserve">
-    <value>Description 1:</value>
   </data>
   <data name="SelecConcepto" xml:space="preserve">
     <value>Select the Concept</value>
@@ -215,5 +203,17 @@ Error</value>
   </data>
   <data name="Label9.Text" xml:space="preserve">
     <value>Fill Description 2</value>
+  </data>
+  <data name="Label3.Text" xml:space="preserve">
+    <value>Bank Description:</value>
+  </data>
+  <data name="GroupBox1.Text" xml:space="preserve">
+    <value>Bank Entry Data:</value>
+  </data>
+  <data name="BtnSaltarApuntes.Text" xml:space="preserve">
+    <value>Skip Note</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Introduction of Bank Notes</value>
   </data>
 </root>

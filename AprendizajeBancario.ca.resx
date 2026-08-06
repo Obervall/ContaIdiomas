@@ -136,19 +136,16 @@
     <value>Data:</value>
   </data>
   <data name="GroupBox1.Text" xml:space="preserve">
-    <value>Dades de l'Apunt: </value>
+    <value>Dades de l'Apunt Bancari:</value>
   </data>
   <data name="BtnCancelar.Text" xml:space="preserve">
     <value>Cancel·lar</value>
-  </data>
-  <data name="BtnAceptarSalir.Text" xml:space="preserve">
-    <value>Acceptar i Sortir</value>
   </data>
   <data name="BtnAceptarOtro.Text" xml:space="preserve">
     <value>Acceptar i Un altre</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Introducció d'Apunts</value>
+    <value>Introducció d'Apunts Bancaris</value>
   </data>
   <data name="SelecConcepto" xml:space="preserve">
     <value>Seleccionar el Concepte</value>
@@ -157,14 +154,8 @@
     <value>Error en omplir el desplegable. 
 Error</value>
   </data>
-  <data name="Label8.Text" xml:space="preserve">
-    <value>Descripció 2:</value>
-  </data>
   <data name="LblBuscarLetras.Text" xml:space="preserve">
     <value>Cercar Descripció:</value>
-  </data>
-  <data name="Label3.Text" xml:space="preserve">
-    <value>Descripció 1:</value>
   </data>
   <data name="SelecDescripcion" xml:space="preserve">
     <value>Seleccionar la Descripció o Escriure per Buscar (3)</value>
@@ -215,5 +206,14 @@ Error</value>
   </data>
   <data name="Label9.Text" xml:space="preserve">
     <value>Omplir Descripció 2</value>
+  </data>
+  <data name="Label8.Text" xml:space="preserve">
+    <value>Descripció:</value>
+  </data>
+  <data name="Label3.Text" xml:space="preserve">
+    <value>Descripció del banc:</value>
+  </data>
+  <data name="BtnSaltarApuntes.Text" xml:space="preserve">
+    <value>Nota saltar-se</value>
   </data>
 </root>
