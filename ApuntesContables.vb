@@ -2299,17 +2299,32 @@ Public Class ApuntesContables
                                     Dim colConcepto As Integer = Convert.ToInt32(coordenadas(2).Trim())
                                     Dim colImporte As Integer = Convert.ToInt32(coordenadas(3).Trim())
 
+                                    ' =========================================================================
+                                    ' 🎯 TU NUEVO INVENTO PREMIUM: EL RADAR DEL SALDO ELÁSTICO (VERSIÓN 3.2.8.0)
+                                    ' =========================================================================
+                                    Dim colSaldo As Integer = 0 ' Por defecto 0 (Significa que este Excel no tiene saldo final, como la VISA)
+
+                                    ' Verificamos si el usuario ha metido la quinta coordenada (ej: 5 elementos en la matriz)
+                                    If coordenadas.Length >= 5 AndAlso Not String.IsNullOrEmpty(coordenadas(4).Trim()) Then
+                                        Try
+                                            ' Succionamos el número de la columna del saldo en frío
+                                            colSaldo = Convert.ToInt32(coordenadas(4).Trim())
+                                        Catch
+                                            colSaldo = 0 ' Salvavidas por si hubieran escrito caracteres raros
+                                        End Try
+                                    End If
+
                                     ' 🚀 LA ESTOCADA PERFECTA: Invocamos tu función pasándole las 4 coordenadas + tu ID de Cuenta real final
-                                    ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, filaInicio, colFecha, colConcepto, colImporte, idBanco)
-                                    'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, 5, 3, 4, 6, 1) 'BBVA c/c
-                                    'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, 5, 2, 4, 5, 1) 'BBVA VISA
-                                    'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, 11, 4, 6, 8, 11) 'OPENBANK
+                                    ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, filaInicio, colFecha, colConcepto, colImporte, idBanco, colSaldo)
                                 Else
                                     MsgBox("Aquest compte no té assignades les coordenades o el format a 'NotasCUE' és incorrecte.", MsgBoxStyle.Information, "ContaHogar")
                                 End If
                             Catch ex As Exception
                                 MsgBox("Error al buscar o desmenuzar las Notas de la cuenta: " & ex.Message, MsgBoxStyle.Critical)
                             End Try
+                            'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco,5,3,4,6,8) 'BBVA c/c
+                            'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco,5,2,4,5,) 'BBVA VISA
+                            'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco,11,4,6,8,10) 'OPENBANK
                         End If
                     End If
                 End If

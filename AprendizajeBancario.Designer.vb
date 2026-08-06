@@ -24,7 +24,6 @@ Partial Class AprendizajeBancario
 	Private Sub InitializeComponent()
 		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AprendizajeBancario))
 		Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-		Me.BtnAyuda = New System.Windows.Forms.Button()
 		Me.TxtBuscarLetras = New System.Windows.Forms.TextBox()
 		Me.Label8 = New System.Windows.Forms.Label()
 		Me.TxtDescripcion = New System.Windows.Forms.TextBox()
@@ -48,12 +47,17 @@ Partial Class AprendizajeBancario
 		Me.BtnCancelar = New System.Windows.Forms.Button()
 		Me.BtnSaltarApuntes = New System.Windows.Forms.Button()
 		Me.BtnAceptarOtro = New System.Windows.Forms.Button()
+		Me.TxtSaldoFinal = New System.Windows.Forms.TextBox()
+		Me.Label9 = New System.Windows.Forms.Label()
+		Me.Label10 = New System.Windows.Forms.Label()
 		Me.GroupBox1.SuspendLayout()
 		Me.SuspendLayout()
 		'
 		'GroupBox1
 		'
-		Me.GroupBox1.Controls.Add(Me.BtnAyuda)
+		Me.GroupBox1.Controls.Add(Me.Label10)
+		Me.GroupBox1.Controls.Add(Me.Label9)
+		Me.GroupBox1.Controls.Add(Me.TxtSaldoFinal)
 		Me.GroupBox1.Controls.Add(Me.TxtBuscarLetras)
 		Me.GroupBox1.Controls.Add(Me.Label8)
 		Me.GroupBox1.Controls.Add(Me.TxtDescripcion)
@@ -77,13 +81,6 @@ Partial Class AprendizajeBancario
 		resources.ApplyResources(Me.GroupBox1, "GroupBox1")
 		Me.GroupBox1.Name = "GroupBox1"
 		Me.GroupBox1.TabStop = False
-		'
-		'BtnAyuda
-		'
-		resources.ApplyResources(Me.BtnAyuda, "BtnAyuda")
-		Me.BtnAyuda.Name = "BtnAyuda"
-		Me.BtnAyuda.TabStop = False
-		Me.BtnAyuda.UseVisualStyleBackColor = True
 		'
 		'TxtBuscarLetras
 		'
@@ -213,6 +210,21 @@ Partial Class AprendizajeBancario
 		Me.BtnAceptarOtro.Name = "BtnAceptarOtro"
 		Me.BtnAceptarOtro.UseVisualStyleBackColor = True
 		'
+		'TxtSaldoFinal
+		'
+		resources.ApplyResources(Me.TxtSaldoFinal, "TxtSaldoFinal")
+		Me.TxtSaldoFinal.Name = "TxtSaldoFinal"
+		'
+		'Label9
+		'
+		resources.ApplyResources(Me.Label9, "Label9")
+		Me.Label9.Name = "Label9"
+		'
+		'Label10
+		'
+		resources.ApplyResources(Me.Label10, "Label10")
+		Me.Label10.Name = "Label10"
+		'
 		'AprendizajeBancario
 		'
 		resources.ApplyResources(Me, "$this")
@@ -255,5 +267,7 @@ Partial Class AprendizajeBancario
 	Friend WithEvents Label8 As Windows.Forms.Label
 	Friend WithEvents TxtDescripcion As Windows.Forms.TextBox
 	Friend WithEvents TxtBuscarLetras As Windows.Forms.TextBox
-	Friend WithEvents BtnAyuda As Windows.Forms.Button
+	Friend WithEvents Label9 As Windows.Forms.Label
+	Friend WithEvents TxtSaldoFinal As Windows.Forms.TextBox
+	Friend WithEvents Label10 As Windows.Forms.Label
 End Class

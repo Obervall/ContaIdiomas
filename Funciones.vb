@@ -93,6 +93,7 @@ Module Funciones
     Public vTipoConceptoGlobalActual As String = "GASTO"
     Public vAviso2 As Boolean = False
     Public vAvisoDiasRestantes As Integer
+    Public vSaldoFinal As Decimal
 
 
     Public Structure ElementoCombo
@@ -3542,7 +3543,7 @@ Module Funciones
     ''' Lee el Excel del banco a saco según las coordenadas dictadas por el usuario
     ''' y siembra la tabla temporal 'extracto' con todas las filas listas para la Pasarela.
     ''' </summary>
-    Public Sub ProcesarMatrizBancariaManual(ByVal rutaExcel As String, ByVal filaInicio As Integer, ByVal colFecha As Integer, ByVal colConcepto As Integer, ByVal colImporte As Integer, ByVal idCuenta As Integer)
+    Public Sub ProcesarMatrizBancariaManual(ByVal rutaExcel As String, ByVal filaInicio As Integer, ByVal colFecha As Integer, ByVal colConcepto As Integer, ByVal colImporte As Integer, ByVal idCuenta As Integer, ByVal colSaldo As Integer)
         Dim appExcel As Object = Nothing
         Dim libroExcel As Object = Nothing
         Dim hojaExcel As Object = Nothing
@@ -3569,6 +3570,7 @@ Module Funciones
 
             Dim fila As Integer = filaInicio + 1 ' Arrancamos la lectura de datos
             Dim celdasVaciasSeguidas As Integer = 0
+            Dim filaactual As Integer = 0
             '
             ' 3. 🚀 EL BUCLE MAESTRO INDESTRUCTIBLE (Tu cabecera de siempre)
             While True
@@ -3593,7 +3595,13 @@ Module Funciones
                 ' Volvemos a tus asignaciones clásicas, directas y dóciles de toda la vida
                 Dim fechaBanco As DateTime = Convert.ToDateTime(hojaExcel.Cells(fila, colFecha).Value).Date
                 Dim conceptoBanco As String = Convert.ToString(hojaExcel.Cells(fila, colConcepto).Value).ToString().Trim()
-                Dim importeBanco As Decimal = Convert.ToDecimal(hojaExcel.Cells(fila, colImporte).Value)
+				Dim importeBanco As Decimal = Convert.ToDecimal(hojaExcel.Cells(fila, colImporte).Value)
+
+                filaActual += 1
+
+                If colSaldo > 0 And filaactual = 1 Then
+                    vSaldoFinal = Convert.ToDecimal(hojaExcel.Cells(fila, colSaldo).Value)
+                End If
                 ' =========================================================================
 
                 ' Cortafuegos antidesbordamiento a los 70 caracteres que tiene tu base de datos
@@ -3643,7 +3651,7 @@ Module Funciones
 
                     ' 2. Calculamos el punto exacto: el mismo "Top" del padre y a la derecha de su ancho
                     ' (Me representa al formulario contenedor de Apuntes Contables que vemos de fondo)
-                    Dim ejeX As Integer = frmApuntesContables.Left + frmApuntesContables.Width - frmIA.Width - 20 ' Restamos 20 píxeles por si el borde de Windows
+                    Dim ejeX As Integer = frmApuntesContables.Left + frmApuntesContables.Width - frmIA.Width ' no Restamos 20 píxeles por si el borde de Windows
                     Dim ejeY As Integer = frmApuntesContables.Top + 40             ' Sumamos 40 píxeles para alinear con tu barra superior
 
                     ' 3. Clavamos la bandera en el monitor real

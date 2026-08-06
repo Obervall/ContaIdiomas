@@ -117,34 +117,95 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="BtnAyuda.Location" type="System.Drawing.Point, System.Drawing">
-    <value>391, 12</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Label10.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
-  <data name="BtnAyuda.Size" type="System.Drawing.Size, System.Drawing">
-    <value>163, 32</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="Label10.Location" type="System.Drawing.Point, System.Drawing">
+    <value>294, 258</value>
+  </data>
+  <data name="Label10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>106, 27</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="BtnAyuda.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
+  <data name="Label10.TabIndex" type="System.Int32, mscorlib">
+    <value>105</value>
   </data>
-  <data name="BtnAyuda.Text" xml:space="preserve">
-    <value>Ayuda (?)</value>
+  <data name="Label10.Text" xml:space="preserve">
+    <value>Saldo:</value>
   </data>
-  <data name="BtnAyuda.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="Label10.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
   </data>
-  <data name="&gt;&gt;BtnAyuda.Name" xml:space="preserve">
-    <value>BtnAyuda</value>
+  <data name="&gt;&gt;Label10.Name" xml:space="preserve">
+    <value>Label10</value>
   </data>
-  <data name="&gt;&gt;BtnAyuda.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;Label10.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;BtnAyuda.Parent" xml:space="preserve">
+  <data name="&gt;&gt;Label10.Parent" xml:space="preserve">
     <value>GroupBox1</value>
   </data>
-  <data name="&gt;&gt;BtnAyuda.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;Label10.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="Label9.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label9.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Label9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>535, 261</value>
+  </data>
+  <data name="Label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>19, 20</value>
+  </data>
+  <data name="Label9.TabIndex" type="System.Int32, mscorlib">
+    <value>104</value>
+  </data>
+  <data name="Label9.Text" xml:space="preserve">
+    <value>€</value>
+  </data>
+  <data name="&gt;&gt;Label9.Name" xml:space="preserve">
+    <value>Label9</value>
+  </data>
+  <data name="&gt;&gt;Label9.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label9.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;Label9.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="TxtSaldoFinal.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="TxtSaldoFinal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>406, 258</value>
+  </data>
+  <data name="TxtSaldoFinal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>123, 27</value>
+  </data>
+  <data name="TxtSaldoFinal.TabIndex" type="System.Int32, mscorlib">
+    <value>103</value>
+  </data>
+  <data name="TxtSaldoFinal.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;TxtSaldoFinal.Name" xml:space="preserve">
+    <value>TxtSaldoFinal</value>
+  </data>
+  <data name="&gt;&gt;TxtSaldoFinal.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TxtSaldoFinal.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;TxtSaldoFinal.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="TxtBuscarLetras.Location" type="System.Drawing.Point, System.Drawing">
     <value>256, 182</value>
@@ -165,9 +226,8 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;TxtBuscarLetras.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="Label8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -196,7 +256,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;Label8.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="TxtDescripcion.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -220,7 +280,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;TxtDescripcion.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="LblBuscarLetras.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 182</value>
@@ -247,7 +307,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;LblBuscarLetras.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="BtnDescripcion.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -259,7 +319,7 @@
 </value>
   </data>
   <data name="BtnDescripcion.Location" type="System.Drawing.Point, System.Drawing">
-    <value>520, 254</value>
+    <value>520, 213</value>
   </data>
   <data name="BtnDescripcion.Size" type="System.Drawing.Size, System.Drawing">
     <value>34, 34</value>
@@ -277,13 +337,13 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;BtnDescripcion.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="CmbDescripcion.Location" type="System.Drawing.Point, System.Drawing">
     <value>166, 217</value>
   </data>
   <data name="CmbDescripcion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>389, 28</value>
+    <value>348, 28</value>
   </data>
   <data name="CmbDescripcion.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -298,7 +358,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;CmbDescripcion.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="BtnConcepto.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -328,7 +388,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;BtnConcepto.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>9</value>
   </data>
   <data name="TxtTipoConcepto.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -352,7 +412,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;TxtTipoConcepto.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>10</value>
   </data>
   <data name="TxtImporte.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -379,7 +439,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;TxtImporte.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>11</value>
   </data>
   <data name="TxtNota.Location" type="System.Drawing.Point, System.Drawing">
     <value>137, 361</value>
@@ -403,7 +463,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;TxtNota.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>12</value>
   </data>
   <data name="CmbCuenta.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -427,7 +487,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;CmbCuenta.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>13</value>
   </data>
   <data name="CmbConcepto.Location" type="System.Drawing.Point, System.Drawing">
     <value>166, 124</value>
@@ -451,7 +511,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;CmbConcepto.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>14</value>
   </data>
   <data name="DateTimePicker1.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -475,7 +535,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;DateTimePicker1.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>15</value>
   </data>
   <data name="Label7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -502,7 +562,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;Label7.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>16</value>
   </data>
   <data name="Label6.Location" type="System.Drawing.Point, System.Drawing">
     <value>14, 361</value>
@@ -529,7 +589,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;Label6.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>17</value>
   </data>
   <data name="Label5.Location" type="System.Drawing.Point, System.Drawing">
     <value>14, 309</value>
@@ -556,7 +616,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;Label5.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>18</value>
   </data>
   <data name="Label4.Location" type="System.Drawing.Point, System.Drawing">
     <value>14, 258</value>
@@ -583,7 +643,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;Label4.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>19</value>
   </data>
   <data name="Label3.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 57</value>
@@ -610,7 +670,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;Label3.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>20</value>
   </data>
   <data name="Label2.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 123</value>
@@ -637,7 +697,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;Label2.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>21</value>
   </data>
   <data name="Label1.Location" type="System.Drawing.Point, System.Drawing">
     <value>271, 57</value>
@@ -664,7 +724,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;Label1.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>22</value>
   </data>
   <data name="GroupBox1.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 10.2pt, style=Bold</value>

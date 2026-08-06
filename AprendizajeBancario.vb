@@ -91,9 +91,25 @@ Public Class AprendizajeBancario
 
     Private Sub IntroApuntes_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
+		' 🔒 DECAPITAMOS EL CAMINO DEL TABULADOR EN LAS CASILLAS DE SOLO LECTURA
+		' El cursor jamás se detendrá aquí dentro al pulsar el Tabulador
+		TxtImporte.TabStop = False
+		BtnConcepto.TabStop = False
+        BtnDescripcion.TabStop = False
+        CmbCuenta.TabStop = False ' Si el banco tampoco se toca, lo capamos también
+
+        ' 🎯 EL FOCO DE ENTRADA: Obligamos al cursor a nacer parpadeando en el combo limpio
+        CmbConcepto.TabStop = True
+        CmbConcepto.Focus()
+
+
         Me.KeyPreview = True
 
         Label7.Text = vMoneda
+        Label9.Text = vMoneda
+        TxtSaldoFinal.Text = vSaldoFinal.ToString("N2")
+
+
         vIntro = "NO"
         ' 1. Convertimos el año base de forma segura a número entero
         Dim anio As Integer
@@ -662,10 +678,55 @@ Public Class AprendizajeBancario
             MsgBox("Error al desar l'apunt real: " & ex.Message, MsgBoxStyle.Critical)
         End Try
 
+        ' 🌟 SANEAMIENTO PREVENTIVO DE PARÁMETROS PARA EL REFRESCO
+        cmdMdb1cr.Parameters.Clear()
 
+        ' Consulta SQL Maestra de 11 celdas relacionales (Tu diseño perfecto)
+        vtipoSql = "SELECT apuntes.FechaAPU As [FechaAPU], " &
+                           "conceptos.DescripcionCON As [ConceptoAPU], " &
+                           "apuntes.DescripcionAPU As [DescripcionAPU], " &
+                           "apuntes.ImporteAPU As [ImporteAPU], " &
+                           "apuntes.ImporteAPU As [SaldoAPU], " &
+                           "apuntes.NotasAPU As [NotasAPU], " &
+                           "cuentas.NombreCUE As [CuentaAPU], " &
+                           "apuntes.CodigoAPU As [CodigoAPU], " &
+                           "conceptos.CodigoCON As [CodigoCON], " &
+                           "apuntes.ConceptoAPU As [IdConceptoCON], " &
+                           "apuntes.CuentaAPU As [IdCuentaCUE] " &
+                           "FROM (apuntes " &
+                           "INNER JOIN conceptos ON apuntes.ConceptoAPU = conceptos.IdConceptoCON) " &
+                           "INNER JOIN cuentas ON apuntes.CuentaAPU = cuentas.IdCuentaCUE"
+
+        vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
+
+        ' 🌟 CORRECCIÓN 1: Filtro por ID numérico de Cuenta (Sin comillas simples)
+        If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
+            Dim idCuentaPrincipal As Integer = Convert.ToInt32(frmApuntesContables.CmbCuenta.SelectedValue)
+            vtipoSql += $" And apuntes.CuentaAPU = {idCuentaPrincipal} "
+        End If
+
+        ' 🌟 CORRECCIÓN 2: Filtro por ID numérico de Concepto (Sin comillas simples)
+        If frmApuntesContables.BtnFiltroConcepto.Enabled = False Then
+            Dim idConceptoPrincipal As Integer = Convert.ToInt32(frmApuntesContables.CmbConcepto.SelectedValue)
+            vtipoSql += $" And apuntes.ConceptoAPU = {idConceptoPrincipal} "
+        End If
+
+        ' 🌟 CORRECCIÓN 3: Sincronización estricta de parámetros de fechas
+        If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
+            vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
+            vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
+
+            vtipoSql += " And apuntes.FechaAPU >= ?"
+            vtipoSql += " And apuntes.FechaAPU <= ?"
+
+            ' Inyectamos los valores en el comando global en el orden de los signos '?'
+            cmdMdb1cr.Parameters.AddWithValue("?", vDate1)
+            cmdMdb1cr.Parameters.AddWithValue("?", vDate2)
+        End If
 
         vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
         vtipoGrid = "APUNTES_CONTABLES"
+
 
         LlenarGrid(vtipoSql, vtipoGrid, "1")
         TraducirGridApuntesBD(frmApuntesContables.DgvApuntes)
@@ -946,7 +1007,7 @@ Public Class AprendizajeBancario
         End If
     End Sub
 
-    Private Sub BtnAyuda_Click(sender As Object, e As EventArgs) Handles BtnAyuda.Click
+    Private Sub BtnAyuda_Click(sender As Object, e As EventArgs)
         ' 🛠️ CONTROL DE VENTANA FLOTANTE INDEPENDIENTE
         ' Comprobamos si la ventana de ayuda ya está abierta en pantalla
         Dim frmExistente As AyudaApuntes = Application.OpenForms.OfType(Of AyudaApuntes)().FirstOrDefault()

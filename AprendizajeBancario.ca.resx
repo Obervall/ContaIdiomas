@@ -214,6 +214,6 @@ Error</value>
     <value>Descripció del banc:</value>
   </data>
   <data name="BtnSaltarApuntes.Text" xml:space="preserve">
-    <value>Nota saltar-se</value>
+    <value>Saltar l'Apunt</value>
   </data>
 </root>
