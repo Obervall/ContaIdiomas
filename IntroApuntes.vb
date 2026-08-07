@@ -201,19 +201,36 @@ Public Class IntroApuntes
 
                 If respuesta = vbYes Then
                     vIntro = "SI"
-                    CmbDescripcion.Text = TxtBuscarLetras.Text
                     vDescripcion = TxtBuscarLetras.Text
 
+                    ' 🛡️ 1. DESCONECTAMOS LOS CABLES ELÉCTRICOS DE LA RAM
                     RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-                    TxtBuscarLetras.Text = ""
-                    AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+                    RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
 
-                    TxtBuscarLetras.Enabled = True
+                    ' 2. TRASPASO DE TEXTOS EN FRÍO
+                    CmbDescripcion.Text = vDescripcion
+
+                    ' 🪓 EL TRUCO DEL INGENIERO JEFE: Desactivamos la casilla superior provisionalmente
+                    ' para que Windows Forms no pueda arrastrarle el cursor bajo ningún concepto.
+                    TxtBuscarLetras.Enabled = False
+                    TxtBuscarLetras.Text = ""
                     vLetras = ""
 
+                    ' 🔌 3. VOLVEMOS A CONECTAR LOS CABLES
+                    AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+                    AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+
+                    ' 4. ENTREGAMOS EL CURSOR DE FORMA INALTERABLE ABAJO
+                    Application.DoEvents()
+                    CmbDescripcion.Enabled = True
                     CmbDescripcion.Focus()
+
                     CmbDescripcion.SelectionStart = CmbDescripcion.Text.Length
                     CmbDescripcion.SelectionLength = 0
+
+                    ' 🔓 VOLVEMOS A DESPERTAR EL TEXTBOX ARRIBA (Pero el cursor ya se ha quedado anclado abajo)
+                    Application.DoEvents()
+                    TxtBuscarLetras.Enabled = True
                 Else
                     RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
                     If TxtBuscarLetras.Text.Length > 0 Then
@@ -250,10 +267,14 @@ Public Class IntroApuntes
 
         ' Evitamos ejecutar la base de datos si el cuadro superior se limpia de forma automática
         If String.IsNullOrEmpty(vLetras) Then
+            ' Desenchufamos el combo temporalmente para que no salte su SelectedIndexChanged al vaciarlo
             RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+
             CmbDescripcion.SelectedIndex = -1
             CmbDescripcion.Text = ""
             If CmbDescripcion.Items.Count > 0 Then CmbDescripcion.Items.Clear()
+
+            ' Volvemos a enchufar el cable del combo dócilmente
             AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
             Exit Sub
         End If
@@ -261,7 +282,6 @@ Public Class IntroApuntes
         ' Forzamos a evaluar el bloque de consulta SQL de descripción siempre
         BuscarLetras("descripcion")
     End Sub
-
     Private Function GuardarApunteEnBaseDatos() As Boolean
         If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
 
@@ -431,26 +451,33 @@ Public Class IntroApuntes
     End Sub
 
     Private Sub CmbDescripcion_GotFocus(sender As Object, e As EventArgs) Handles CmbDescripcion.GotFocus
+        ' 🛡️ CORTAFUEGOS DE ALTA NUEVA (Tu escudo definitivo contra el robo del cursor)
+        ' Si venimos de pulsar "SÍ" para añadir una descripción, saltamos la inicialización
+        ' para evitar que los refrescos automáticos de Windows le devuelvan el foco al TextBox superior.
+        If vIntro = "SI" Then
+            vCombo = "descripcion"
+            CmbDescripcion.SelectionStart = CmbDescripcion.Text.Length
+            CmbDescripcion.SelectionLength = 0
+            Exit Sub ' 🪓 Cortamos el hilo aquí y dejamos el cursor parpadeando inmóvil en el combo!
+        End If
+
+        ' =====================================================================
+        ' 📁 COMPORTAMIENTO CLÁSICO DE TU FORMULARIO (Para cuando navegas normal)
+        ' =====================================================================
         ' Si venimos del combo de conceptos, nos aseguramos de dejar guardado su valor real
         If vCombo = "concepto" Then
-            'TxtBuscarLetras.Enabled = False
             CmbConcepto.DroppedDown = False
             CmbConcepto.Text = vConcepto
         End If
 
-        ' Preparamos el entorno para la descripción
-        ' 🛠️ AJUSTE: Solo ponemos vIntro en "NO" si no estábamos ya editando una descripción nueva ("SI")
-        If vIntro <> "SI" Then vIntro = "NO"
+        ' Preparamos el entorno para la descripción normal
+        vIntro = "NO"
         vCombo = "descripcion"
 
-        ' 🛠️ CORRECCIÓN ABSOLUTA: Cambiamos Lower por Normal para liberar las Mayúsculas/Minúsculas
+        ' Cambiamos Lower por Normal para liberar las Mayúsculas/Minúsculas
         TxtBuscarLetras.CharacterCasing = CharacterCasing.Normal
 
-        ' =====================================================================
-        ' 🛠️ CONTROL INTELIGENTE DE BORRADO (MANTENIDO)
-        ' =====================================================================
-        ' SI EL COMBO YA TIENE TEXTO (porque el concepto le ha metido la descripción por defecto),
-        ' NO lo borramos. Solo seleccionamos el texto para que el usuario pueda escribir encima si quiere.
+        ' CONTROL INTELIGENTE DE BORRADO (MANTENIDO)
         If String.IsNullOrEmpty(CmbDescripcion.Text) Then
             RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
             CmbDescripcion.SelectedIndex = -1
@@ -458,12 +485,6 @@ Public Class IntroApuntes
             AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
         Else
             ' Si ya tiene texto, colocamos el cursor al final de la palabra de forma limpia
-            CmbDescripcion.SelectionStart = CmbDescripcion.Text.Length
-            CmbDescripcion.SelectionLength = 0
-        End If
-
-        ' 🛠️ MEJORA DE NAVEGACIÓN: Si estamos en modo de alta nueva, controlamos el cursor parpadeante
-        If vIntro = "SI" Then
             CmbDescripcion.SelectionStart = CmbDescripcion.Text.Length
             CmbDescripcion.SelectionLength = 0
         End If

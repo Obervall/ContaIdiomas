@@ -281,21 +281,60 @@ Public Class AprendizajeBancario
                 ' Bloque de alta de descripción nueva
                 Dim respuesta As MsgBoxResult = ConfirmarAccionTraducida(rmse.GetString("NoExistenDescripciones") & ": -" & TxtBuscarLetras.Text.ToUpper() & "-" & vbCrLf & "¿" & rmse.GetString("AñadirDescripcion") & "?", rmse.GetString("$this.Text"))
 
+                '           If respuesta = vbYes Then
+                '               vIntro = "SI"
+                '               CmbDescripcion.Text = TxtBuscarLetras.Text
+                '               vDescripcion = TxtBuscarLetras.Text
+
+                '               RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+                '               TxtBuscarLetras.Text = ""
+                '               AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+
+                '               TxtBuscarLetras.Enabled = True
+                '               vLetras = ""
+
+                '               ' 1. Forzamos a Windows a vaciar la cola de mensajes gráficos pendientes de la pantalla
+                '               Application.DoEvents()
+
+                '               ' 2. Activamos el combo dócilmente
+                '               CmbDescripcion.Enabled = True ' Nos aseguramos de que no esté capado
+                'CmbDescripcion.Focus()
+                '               ' 3. Clavamos el cursor al final de las letras heredadas
+                '               If Not String.IsNullOrEmpty(CmbDescripcion.Text) Then
+                '                   CmbDescripcion.SelectionStart = CmbDescripcion.Text.Length
+                '                   CmbDescripcion.SelectionLength = 0
+                '               End If
                 If respuesta = vbYes Then
                     vIntro = "SI"
-                    CmbDescripcion.Text = TxtBuscarLetras.Text
                     vDescripcion = TxtBuscarLetras.Text
 
+                    ' 🛡️ EL ESCUDO DE HANDLERS TOTAL: Desenchufamos los DOS cables a la vez para limpiar la RAM
                     RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-                    TxtBuscarLetras.Text = ""
-                    AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+                    RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
 
-                    TxtBuscarLetras.Enabled = True
+                    ' Forzamos los textos en frío sin disparar bucles fantasma en segundo plano
+                    CmbDescripcion.Text = vDescripcion
+                    TxtBuscarLetras.Text = ""
+                    TxtBuscarLetras.Enabled = False
                     vLetras = ""
 
+                    ' 🔌 VOLVEMOS A CONECTAR LOS DOS CABLES (Mesa de operaciones libre de corriente)
+                    AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+                    AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+
+                    ' 🎯 LA ESTOCADA DEL FOCO: Forzamos a Windows a procesar los gráficos y clavamos el cursor
+                    Application.DoEvents()
+                    CmbDescripcion.Enabled = True
                     CmbDescripcion.Focus()
                     CmbDescripcion.SelectionStart = CmbDescripcion.Text.Length
                     CmbDescripcion.SelectionLength = 0
+
+                    ' 🔓 VOLVEMOS A DESPERTAR EL TEXTBOX ARRIBA (Pero el cursor ya se ha quedado anclado abajo)
+                    Application.DoEvents()
+                    TxtBuscarLetras.Enabled = True
+
+                    ' Chivato de control (Brotará triunfal en tu monitor)
+                    'MsgBox("Foco entregado con éxito al combo descripción!")
                 Else
                     RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
                     If TxtBuscarLetras.Text.Length > 0 Then
@@ -332,10 +371,14 @@ Public Class AprendizajeBancario
 
         ' Evitamos ejecutar la base de datos si el cuadro superior se limpia de forma automática
         If String.IsNullOrEmpty(vLetras) Then
+            ' Desenchufamos el combo temporalmente para que no salte su SelectedIndexChanged al vaciarlo
             RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+
             CmbDescripcion.SelectedIndex = -1
             CmbDescripcion.Text = ""
             If CmbDescripcion.Items.Count > 0 Then CmbDescripcion.Items.Clear()
+
+            ' Volvemos a enchufar el cable del combo dócilmente
             AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
             Exit Sub
         End If
@@ -343,7 +386,6 @@ Public Class AprendizajeBancario
         ' Forzamos a evaluar el bloque de consulta SQL de descripción siempre
         BuscarLetras("descripcion")
     End Sub
-
     Private Sub CmbDescripcion_KeyDown(sender As Object, e As KeyEventArgs) Handles CmbDescripcion.KeyDown
         If e.KeyCode = Keys.Enter Then
             e.SuppressKeyPress = True
@@ -364,8 +406,7 @@ Public Class AprendizajeBancario
             ' 4. Cerramos el desplegable y mandamos el cursor al Importe
             If CmbDescripcion.DroppedDown Then CmbDescripcion.DroppedDown = False
 
-            ' 💡 REEMPLAZA "TxtImporte" por el nombre exacto de tu caja de texto del importe
-            TxtImporte.Select()
+            TxtNota.Select()
         End If
     End Sub
 
@@ -427,10 +468,6 @@ Public Class AprendizajeBancario
     End Sub
 
     Private Sub CmbDescripcion_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbDescripcion.SelectedIndexChanged
-        ' OPTIMIZACIÓN CRÍTICA: Eliminamos la consulta SQL redundante a la base de datos.
-        ' Cuando el usuario hace clic en un elemento de la lista, el combo ya adquiere ese texto de forma nativa.
-        ' No necesitas abrir drMdb1, ni hacer un SELECT, ni volver a setear el .Text.
-
         If vIntro = "NO" Then
             ' Guardamos el valor seleccionado en tu variable global por si la usas en otro sitio
             vDescripcion = CmbDescripcion.Text.Trim()
@@ -438,17 +475,27 @@ Public Class AprendizajeBancario
     End Sub
 
     Private Sub CmbDescripcion_GotFocus(sender As Object, e As EventArgs) Handles CmbDescripcion.GotFocus
+        ' 🛡️ CORTAFUEGOS DE ALTA NUEVA (Tu escudo definitivo contra el robo del cursor)
+        ' Si venimos de pulsar "SÍ" para añadir una descripción, saltamos la inicialización
+        ' para evitar que los refrescos automáticos de Windows le devuelvan el foco al TextBox superior.
+        If vIntro = "SI" Then
+            vCombo = "descripcion"
+            CmbDescripcion.SelectionStart = CmbDescripcion.Text.Length
+            CmbDescripcion.SelectionLength = 0
+            Exit Sub ' 🪓 Cortamos el hilo aquí y dejamos el cursor parpadeando inmóvil en el combo!
+        End If
+
         ' Si venimos del combo de conceptos, nos aseguramos de dejar guardado su valor real
         If vCombo = "concepto" Then
-            'TxtBuscarLetras.Enabled = False
             CmbConcepto.DroppedDown = False
             CmbConcepto.Text = vConcepto
         End If
 
-        ' Preparamos el entorno para la descripción
-        ' 🛠️ AJUSTE: Solo ponemos vIntro en "NO" si no estábamos ya editando una descripción nueva ("SI")
-        If vIntro <> "SI" Then vIntro = "NO"
-        vCombo = "descripcion"
+		' Preparamos el entorno para la descripción
+		' 🛠️ AJUSTE: Solo ponemos vIntro en "NO" si no estábamos ya editando una descripción nueva ("SI")
+		'If vIntro <> "SI" Then vIntro = "NO"
+		vIntro = "NO"
+		vCombo = "descripcion"
 
         ' 🛠️ CORRECCIÓN ABSOLUTA: Cambiamos Lower por Normal para liberar las Mayúsculas/Minúsculas
         TxtBuscarLetras.CharacterCasing = CharacterCasing.Normal
