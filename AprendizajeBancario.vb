@@ -1,7 +1,6 @@
 ﻿Imports System.Collections.Generic
 Imports System.Data
 Imports System.Data.OleDb
-Imports System.Diagnostics
 Imports System.Drawing
 Imports System.Linq
 Imports System.Windows.Forms
@@ -162,7 +161,7 @@ Public Class AprendizajeBancario
         TL(9) = New ToolTip
         TL(9).SetToolTip(Me.TxtBuscarLetras, rmse.GetString("TxtABuscar"))
         TL(10) = New ToolTip
-        TL(10).SetToolTip(Me.BtnAyuda, rmse.GetString("BtnAyuda"))
+        TL(10).SetToolTip(Me.BtnSaltarApuntes, rmse.GetString("BtnSaltarApuntes.Text"))
         TL(11) = New ToolTip
         TL(11).SetToolTip(Me.TxtDescripcion, My.Settings.RutaBD)
         ' Añade una línea por cada GroupBox donde tengas estos botones:
@@ -261,7 +260,6 @@ Public Class AprendizajeBancario
 
     End Sub
 
-
     Private Sub TxtBuscarLetras_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtBuscarLetras.KeyDown
         ' Si el usuario pulsa FLECHA ABAJO desde el cuadro de búsqueda, saltamos al combo de forma inteligente
         If e.KeyCode = Keys.Down Then
@@ -345,81 +343,6 @@ Public Class AprendizajeBancario
         ' Forzamos a evaluar el bloque de consulta SQL de descripción siempre
         BuscarLetras("descripcion")
     End Sub
-
-    Private Function GuardarApunteEnBaseDatos() As Boolean
-        If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-
-        Dim txtConcepto As String = Trim(CmbConcepto.Text)
-
-        ' TRADUCCIÓN INVERSA: Buscamos la clave neutra para guardarla limpia en la BD (ej: GAS_NATURAL)
-        vConceptoAPU = ObtenerClaveNeutral(txtConcepto, resManager)
-        If String.IsNullOrEmpty(vConceptoAPU) Then vConceptoAPU = txtConcepto
-
-        vDescripcionAPU = Trim(CmbDescripcion.Text)
-        vNotasAPU = Trim(TxtNota.Text)
-        vCuentaAPU = Trim(CmbCuenta.Text)
-
-        ' MULTIIDIOMA: Pasamos la fecha como objeto Date puro de .NET. Ya NO necesitas formatearla a String.
-        Dim fechaAsiento As Date = DateTimePicker1.Value.Date
-
-        ' Conversión segura multiidioma del cuadro de texto (¡Centralizado en tu módulo!)
-        Dim importeDecimal As Decimal = ConvertirDecimalSeguro(TxtImporte.Text)
-
-        ' 4. Asignamos el valor limpio y exacto a tu variable aplicando el signo correcto
-        If TxtTipoConcepto.Text = "GASTO" Then
-            vImporteAPU = -Math.Abs(importeDecimal)
-        Else
-            vImporteAPU = Math.Abs(importeDecimal)
-        End If
-
-        ' 1. CONSTRUCCIÓN SQL PARA EL INSERT PARAMETRIZADO (Adiós a #, comillas simples y Str)
-        vAñadirSql = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, NotasAPU, CuentaAPU) " &
-                     "VALUES (?, ?, ?, ?, ?, ?, ?)"
-
-        cmdMdb1cr.CommandText = vAñadirSql
-
-        ' Limpiamos y asignamos los parámetros en el orden EXACTO de los comodines '?'
-        cmdMdb1cr.Parameters.Clear()
-        cmdMdb1cr.Parameters.AddWithValue("@FechaAPU", fechaAsiento)
-        cmdMdb1cr.Parameters.AddWithValue("@ConceptoAPU", vConceptoAPU)
-        cmdMdb1cr.Parameters.AddWithValue("@DescripcionAPU", vDescripcionAPU)
-
-        ' Usamos Currency para que Access no se sature con la precisión decimal
-        Dim paramImporte As OleDb.OleDbParameter = cmdMdb1cr.Parameters.Add("@ImporteAPU", OleDb.OleDbType.Currency)
-        paramImporte.Value = Math.Round(vImporteAPU, 2)
-
-        cmdMdb1cr.Parameters.AddWithValue("@EjercicioAPU", CInt(vAñoEjercicio))
-        cmdMdb1cr.Parameters.AddWithValue("@NotasAPU", vNotasAPU)
-        cmdMdb1cr.Parameters.AddWithValue("@CuentaAPU", vCuentaAPU)
-
-        Try
-            ' Ejecutamos la inserción de forma segura
-            cmdMdb1cr.ExecuteNonQuery()
-
-            ' 2. REFRESH DE LA GRILLA PARAMETRIZADO
-            vtipoSql = "SELECT apuntes.FechaAPU, apuntes.ConceptoAPU, apuntes.DescripcionAPU, apuntes.ImporteAPU, apuntes.ImporteAPU, apuntes.NotasAPU, apuntes.CuentaAPU, apuntes.CodigoAPU FROM apuntes " &
-                       "WHERE apuntes.EjercicioAPU = ? " &
-                       "ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
-
-            cmdMdb1cr.CommandText = vtipoSql
-
-            ' Limpiamos y asignamos el parámetro del WHERE
-            cmdMdb1cr.Parameters.Clear()
-            cmdMdb1cr.Parameters.AddWithValue("@EjercicioAPU", CInt(vAñoEjercicio))
-
-            vtipoGrid = "APUNTES_CONTABLES"
-            LlenarGrid(vtipoSql, vtipoGrid, "1")
-            TraducirGridApuntesBD(frmApuntesContables.DgvApuntes)
-
-            Return True
-        Catch ex As Exception
-            MessageBox.Show(rmse.GetString("ErrorGrabarRegistro") & ": " & ex.Message,
-                            "Error de Almacenamiento",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error)
-            Return False
-        End Try
-    End Function
 
     Private Sub CmbDescripcion_KeyDown(sender As Object, e As KeyEventArgs) Handles CmbDescripcion.KeyDown
         If e.KeyCode = Keys.Enter Then
@@ -553,17 +476,6 @@ Public Class AprendizajeBancario
         End If
     End Sub
 
-    Private Sub TxtImporte_GotFocus(sender As Object, e As EventArgs) Handles TxtImporte.GotFocus
-        ' Limpiamos el texto del buscador de forma segura
-        RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-        TxtBuscarLetras.Text = ""
-        AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-
-        ' Lo dejamos deshabilitado momentáneamente mientras se introduce el dinero
-        'TxtBuscarLetras.Enabled = False
-        vCombo = ""
-    End Sub
-
     Private Sub BtnConcepto_Click(sender As Object, e As EventArgs) Handles BtnConcepto.Click
         ' 1. Abrimos la pantalla de mantenimiento de conceptos del formulario principal
         frmPrincipal.ConceptosContablesToolStripMenuItem.PerformClick()
@@ -594,31 +506,6 @@ Public Class AprendizajeBancario
         End Try
     End Sub
 
-    Private Sub TxtImporte_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtImporte.KeyPress
-        ' 1. 🛡️ EL ESCUDO UNIVERSAL ADMITE TODO: Números, borrar (Control), punto, coma o el Intro
-        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) AndAlso e.KeyChar <> "."c AndAlso e.KeyChar <> ","c AndAlso e.KeyChar <> ChrW(Keys.Enter) Then
-            e.Handled = True
-            Exit Sub
-        End If
-
-        ' 2. 🎯 AL PULSAR INTRO: Pasamos el rodillo internacional e inyectamos en la variable de apuntes
-        If e.KeyChar = ChrW(Keys.Enter) Then
-            e.Handled = True
-
-            ' Invocamos tu función global centralizada: Cero grasa digital en la RAM
-            Dim importeFinal As Decimal = ParsearImporteUniversal(TxtImporte.Text)
-
-            ' Guardamos de forma segura en tu variable global de doble precisión (vImporteAPU)
-            vImporteAPU = Convert.ToDouble(importeFinal)
-
-            ' Formateamos la caja visual con el estándar de dos decimales de gala
-            TxtImporte.Text = importeFinal.ToString("N2")
-
-            ' Mandamos el cursor directo al combo de la Cuenta de forma dócil
-            CmbCuenta.Select()
-        End If
-    End Sub
-
     Private Sub TxtNota_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtNota.KeyPress
         If e.KeyChar = ChrW(Keys.Enter) Then
             BtnAceptarOtro.Select()
@@ -643,11 +530,17 @@ Public Class AprendizajeBancario
     End Sub
 
     Private Sub BtnAceptarOtro_Click(sender As Object, e As EventArgs) Handles BtnAceptarOtro.Click
-        'GrabarYRefrescarGrid()
         ' Cortafuegos preventivo
         If vIdExtractoActual = 0 Then Exit Sub
 
         Try
+            ' =========================================================================
+            ' 🎯 RETENCIÓN DE MEMORIA PREMIUM (Tu invento de IntroApuntes)
+            ' =========================================================================
+            ' Capturamos el ID del concepto seleccionado por el usuario ANTES de mutar la RAM
+            Dim idConceptoAMemorizar As Integer = Convert.ToInt32(CmbConcepto.SelectedValue)
+            ' =========================================================================
+
             ' 1. PESCA DE VARIABLES PURAS DESDE TU INTERFAZ ELÁSTICA
             Dim fechaSQL As String = "#" & DateTimePicker1.Value.ToString("yyyy/MM/dd") & "#"
             Dim importeSQL As String = Convert.ToDecimal(TxtImporte.Text).ToString(System.Globalization.CultureInfo.InvariantCulture)
@@ -673,6 +566,15 @@ Public Class AprendizajeBancario
 
             ' 4. 🚀 SIGUIENTE FILA: Succionamos el próximo apunte del banco en millonésimas de segundo
             CargarPrimerConceptoBancario()
+
+            ' =========================================================================
+            ' 🪓 EL TIRO DE GRACIA: Obligamos al Combo a recuperar el valor memorizado
+            ' =========================================================================
+            ' En lugar de resetearse al ID 1 (Varios), el combo se clava en tu última decisión
+            If vIdExtractoActual > 0 Then
+                CmbConcepto.SelectedValue = idConceptoAMemorizar
+                CmbConcepto.Focus() ' Clavamos el cursor allí de nuevo para el Tabulador
+            End If
 
         Catch ex As Exception
             MsgBox("Error al desar l'apunt real: " & ex.Message, MsgBoxStyle.Critical)
@@ -726,8 +628,6 @@ Public Class AprendizajeBancario
 
         vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
         vtipoGrid = "APUNTES_CONTABLES"
-
-
         LlenarGrid(vtipoSql, vtipoGrid, "1")
         TraducirGridApuntesBD(frmApuntesContables.DgvApuntes)
 
@@ -755,9 +655,7 @@ Public Class AprendizajeBancario
         vIntro = "NO"
 
         ' 1. Limpias los textos normales
-        'TxtImporte.Text = "0"
         TxtNota.Text = ""
-        'TxtDescripcion.Text = ""
 
         ' 3. ¡La clave! Forzamos al formulario a procesar los cambios visuales antes de seguir
         Application.DoEvents()

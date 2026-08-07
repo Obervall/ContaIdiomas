@@ -216,4 +216,7 @@ Fehler</value>
   <data name="$this.Text" xml:space="preserve">
     <value>Einführung von Banknoten</value>
   </data>
+  <data name="Label10.Text" xml:space="preserve">
+    <value>Gesamtsaldo:</value>
+  </data>
 </root>

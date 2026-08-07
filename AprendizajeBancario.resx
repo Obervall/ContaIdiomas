@@ -123,10 +123,10 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="Label10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>294, 258</value>
+    <value>263, 258</value>
   </data>
   <data name="Label10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>106, 27</value>
+    <value>137, 27</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="Label10.TabIndex" type="System.Int32, mscorlib">
@@ -418,7 +418,7 @@
     <value>False</value>
   </data>
   <data name="TxtImporte.Location" type="System.Drawing.Point, System.Drawing">
-    <value>140, 258</value>
+    <value>109, 258</value>
   </data>
   <data name="TxtImporte.Size" type="System.Drawing.Size, System.Drawing">
     <value>123, 27</value>
@@ -541,7 +541,7 @@
     <value>True</value>
   </data>
   <data name="Label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>269, 261</value>
+    <value>238, 261</value>
   </data>
   <data name="Label7.Size" type="System.Drawing.Size, System.Drawing">
     <value>19, 20</value>
@@ -619,10 +619,10 @@
     <value>18</value>
   </data>
   <data name="Label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 258</value>
+    <value>10, 258</value>
   </data>
   <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 27</value>
+    <value>93, 27</value>
   </data>
   <data name="Label4.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -814,7 +814,7 @@
   <data name="BtnSaltarApuntes.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAfCAYAAACGVs+MAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wgAADsIBFShKgAAAB01JREFUWEe9lmtQlNcZx2liwBgQUYziNVpUFK+ICrWJ1qSdSdtpM04/2Hs7Jmk/
+        wQAADsEBuJFr7QAAB01JREFUWEe9lmtQlNcZx2liwBgQUYziNVpUFK+ICrWJ1qSdSdtpM04/2Hs7Jmk/
         ZKaf+qmXsU06bWwb1Co3BRZkQRF2QWBZgoAkTWcamybKigwLu+yFe2BZFpZ99913f53zvkvVskxSe2Hm
         N4c5+5zn/M//nOfZjUH9k/j1uw6ySi0cqrhNdkUn2RWWT4GIuxNlPhoirpNsvYWssk6OG7uxenzEQJii
         ziH2GAY50jbLkTY/zwlaZz8FInYmynwURFwk75FWP5lmLydvOIUAhZeb7extkXj2z/DsO/8fDr8HxxoG
@@ -976,5 +976,59 @@
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="BtnDescripcion" xml:space="preserve">
+    <value>Llena Descripciones, de Apuntes guardados</value>
+  </data>
+  <data name="SelecConcepto" xml:space="preserve">
+    <value>Seleccionar el Concepto</value>
+  </data>
+  <data name="ErrorLlenarDesplegable" xml:space="preserve">
+    <value>Error al llenar el desplegable.
+Error</value>
+  </data>
+  <data name="SelecDescripcion" xml:space="preserve">
+    <value>Seleccionar la Descripción o Escribir para Buscar (3 mínimo)</value>
+  </data>
+  <data name="ImporteAsiento" xml:space="preserve">
+    <value>Importe del Apunte</value>
+  </data>
+  <data name="TxtABuscar" xml:space="preserve">
+    <value>Texto a Buscar</value>
+  </data>
+  <data name="ErrorBuscarLetrasDescripcion" xml:space="preserve">
+    <value>Error al Buscar Letras en Descripción</value>
+  </data>
+  <data name="EjercicioActual" xml:space="preserve">
+    <value>El año del Ejercicio no coincide con el año Actual,
+se establece la fecha del 31 de diciembre del año del Ejercicio</value>
+  </data>
+  <data name="Fecha31Diciembre" xml:space="preserve">
+    <value>Fecha establecida el 31 de diciembre</value>
+  </data>
+  <data name="ErrorGrabarRegistro" xml:space="preserve">
+    <value>Error al Grabar el Registro, Verificar que la Fecha es Correcta y el Importe no tenga letras…
+Error</value>
+  </data>
+  <data name="NoCantidadImporte" xml:space="preserve">
+    <value>No hay Cantidad en Importe</value>
+  </data>
+  <data name="BtnAyuda.Text" xml:space="preserve">
+    <value>Ayuda (?)</value>
+  </data>
+  <data name="NoExistenDescripciones" xml:space="preserve">
+    <value>No existen Descripciones con</value>
+  </data>
+  <data name="AñadirDescripcion" xml:space="preserve">
+    <value>Añadimos la descripción</value>
+  </data>
+  <data name="BtnAyuda" xml:space="preserve">
+    <value>Ver la Ayuda para Introducir Apunte</value>
+  </data>
+  <data name="SelecCuenta" xml:space="preserve">
+    <value>Seleccionar la Cuenta a la que se refiere el Apunte</value>
+  </data>
+  <data name="ConceptoSeleccionado" xml:space="preserve">
+    <value>Concepto Seleccionado</value>
   </data>
 </root>

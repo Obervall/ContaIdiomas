@@ -24,6 +24,9 @@ Partial Class AprendizajeBancario
 	Private Sub InitializeComponent()
 		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AprendizajeBancario))
 		Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+		Me.Label10 = New System.Windows.Forms.Label()
+		Me.Label9 = New System.Windows.Forms.Label()
+		Me.TxtSaldoFinal = New System.Windows.Forms.TextBox()
 		Me.TxtBuscarLetras = New System.Windows.Forms.TextBox()
 		Me.Label8 = New System.Windows.Forms.Label()
 		Me.TxtDescripcion = New System.Windows.Forms.TextBox()
@@ -47,9 +50,6 @@ Partial Class AprendizajeBancario
 		Me.BtnCancelar = New System.Windows.Forms.Button()
 		Me.BtnSaltarApuntes = New System.Windows.Forms.Button()
 		Me.BtnAceptarOtro = New System.Windows.Forms.Button()
-		Me.TxtSaldoFinal = New System.Windows.Forms.TextBox()
-		Me.Label9 = New System.Windows.Forms.Label()
-		Me.Label10 = New System.Windows.Forms.Label()
 		Me.GroupBox1.SuspendLayout()
 		Me.SuspendLayout()
 		'
@@ -81,6 +81,21 @@ Partial Class AprendizajeBancario
 		resources.ApplyResources(Me.GroupBox1, "GroupBox1")
 		Me.GroupBox1.Name = "GroupBox1"
 		Me.GroupBox1.TabStop = False
+		'
+		'Label10
+		'
+		resources.ApplyResources(Me.Label10, "Label10")
+		Me.Label10.Name = "Label10"
+		'
+		'Label9
+		'
+		resources.ApplyResources(Me.Label9, "Label9")
+		Me.Label9.Name = "Label9"
+		'
+		'TxtSaldoFinal
+		'
+		resources.ApplyResources(Me.TxtSaldoFinal, "TxtSaldoFinal")
+		Me.TxtSaldoFinal.Name = "TxtSaldoFinal"
 		'
 		'TxtBuscarLetras
 		'
@@ -209,21 +224,6 @@ Partial Class AprendizajeBancario
 		resources.ApplyResources(Me.BtnAceptarOtro, "BtnAceptarOtro")
 		Me.BtnAceptarOtro.Name = "BtnAceptarOtro"
 		Me.BtnAceptarOtro.UseVisualStyleBackColor = True
-		'
-		'TxtSaldoFinal
-		'
-		resources.ApplyResources(Me.TxtSaldoFinal, "TxtSaldoFinal")
-		Me.TxtSaldoFinal.Name = "TxtSaldoFinal"
-		'
-		'Label9
-		'
-		resources.ApplyResources(Me.Label9, "Label9")
-		Me.Label9.Name = "Label9"
-		'
-		'Label10
-		'
-		resources.ApplyResources(Me.Label10, "Label10")
-		Me.Label10.Name = "Label10"
 		'
 		'AprendizajeBancario
 		'

@@ -395,4 +395,7 @@ Error</value>
   <data name="Label9.Text" xml:space="preserve">
     <value>Llenar Descripción 2</value>
   </data>
+  <data name="Label10.Text" xml:space="preserve">
+    <value>Saldo Total:</value>
+  </data>
 </root>

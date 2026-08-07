@@ -216,4 +216,7 @@ Error</value>
   <data name="BtnSaltarApuntes.Text" xml:space="preserve">
     <value>Saltar l'Apunt</value>
   </data>
+  <data name="Label10.Text" xml:space="preserve">
+    <value>Saldo Total:</value>
+  </data>
 </root>
