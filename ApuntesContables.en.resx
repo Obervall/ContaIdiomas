@@ -271,4 +271,10 @@ then by Miscellaneous Concepts</value>
   <data name="ErrorAbrirExcelBanco" xml:space="preserve">
     <value>Error opening bank file</value>
   </data>
+  <data name="NoTieneCoordenadasProcesarExcel" xml:space="preserve">
+    <value>This Account does NOT have coordinates or the Incorrect Format (1,1,1,1,1).</value>
+  </data>
+  <data name="ErrorDesmenuzarCuenta" xml:space="preserve">
+    <value>Error searching or breaking down Account Notes</value>
+  </data>
 </root>

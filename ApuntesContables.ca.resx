@@ -271,4 +271,10 @@ després per Conceptes Diversos</value>
   <data name="ErrorAbrirExcelBanco" xml:space="preserve">
     <value>Error d'obertura del fitxer bancari</value>
   </data>
+  <data name="NoTieneCoordenadasProcesarExcel" xml:space="preserve">
+    <value>Aquest Compte NO té coordenades ni el Format Incorrecte (1,1,1,1,1).</value>
+  </data>
+  <data name="ErrorDesmenuzarCuenta" xml:space="preserve">
+    <value>Cerca d'errors o desglossament Notes del compte</value>
+  </data>
 </root>

@@ -330,7 +330,7 @@
     <value>Fecha:</value>
   </data>
   <data name="GroupBox1.Text" xml:space="preserve">
-    <value>Datos del Apunte Bancario:</value>
+    <value>Datos del Excel Bancario:</value>
   </data>
   <data name="BtnCancelar.Text" xml:space="preserve">
     <value>Cancelar</value>
@@ -342,7 +342,7 @@
     <value>Aceptar y Otro</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Introducción de Apuntes Bancarios</value>
+    <value>Introducción desde Excel Bancario</value>
   </data>
   <data name="SelecCuenta" xml:space="preserve">
     <value>Seleccionar la Cuenta a la que se refiere el Apunte</value>
@@ -397,5 +397,11 @@ Error</value>
   </data>
   <data name="Label10.Text" xml:space="preserve">
     <value>Saldo Total:</value>
+  </data>
+  <data name="ExtractoCompletado" xml:space="preserve">
+    <value>Se ha Completado la revisión del Extracto Bancario!</value>
+  </data>
+  <data name="ErrorEnExtracto" xml:space="preserve">
+    <value>Error al succionar el registro de la pasarela</value>
   </data>
 </root>

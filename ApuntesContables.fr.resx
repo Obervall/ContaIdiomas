@@ -271,4 +271,10 @@ puis par Concepts divers</value>
   <data name="ErrorAbrirExcelBanco" xml:space="preserve">
     <value>Erreur d’ouverture du fichier bancaire</value>
   </data>
+  <data name="NoTieneCoordenadasProcesarExcel" xml:space="preserve">
+    <value>Ce compte N’A PAS de coordonnées ni de format incorrect (1,1,1,1,1,1).</value>
+  </data>
+  <data name="ErrorDesmenuzarCuenta" xml:space="preserve">
+    <value>Recherche d’erreurs ou décomposition des notes de compte</value>
+  </data>
 </root>

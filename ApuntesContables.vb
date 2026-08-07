@@ -2254,7 +2254,7 @@ Public Class ApuntesContables
                     Dim rutaArchivoExcelBanco As String = ofd.FileName
                     ' 🚀 ADAPTACIÓN PREMIUM INTERNACIONAL UNIFICADA (Inmune a grasa digital)
                     ' Pescamos los textos traducidos desde el búnker de recursos .resx
-                    Dim textoMensaje As String = rmse.GetString("ProcederaAnalizarArchivo") & ": " & System.IO.Path.GetFileName(rutaArchivoExcelBanco)
+                    Dim textoMensaje As String = rmse.GetString("ProcederaAnalizarArchivo") & ": " & vbCrLf & System.IO.Path.GetFileName(rutaArchivoExcelBanco)
                     Dim textoTitulo As String = rmse.GetString("ImportacionBancaria")
 
                     ' Invocamos tu función reina para que pinte la interfaz simétrica en pantalla
@@ -2316,15 +2316,15 @@ Public Class ApuntesContables
 
                                     ' 🚀 LA ESTOCADA PERFECTA: Invocamos tu función pasándole las 4 coordenadas + tu ID de Cuenta real final
                                     ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, filaInicio, colFecha, colConcepto, colImporte, idBanco, colSaldo)
+                                    'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco,5,3,4,6,8) 'BBVA c/c
+                                    'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco,5,2,4,5,) 'BBVA VISA
+                                    'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco,11,4,6,8,10) 'OPENBANK
                                 Else
-                                    MsgBox("Aquest compte no té assignades les coordenades o el format a 'NotasCUE' és incorrecte.", MsgBoxStyle.Information, "ContaHogar")
+                                    MsgBox(rmse.GetString("NoTieneCoordenadasProcesarExcel"), MsgBoxStyle.Information, "ContaHogar 3.0 Premium")
                                 End If
                             Catch ex As Exception
-                                MsgBox("Error al buscar o desmenuzar las Notas de la cuenta: " & ex.Message, MsgBoxStyle.Critical)
+                                MsgBox(rmse.GetString("ErrorDesmenuzarCuenta") & ": " & ex.Message, MsgBoxStyle.Critical)
                             End Try
-                            'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco,5,3,4,6,8) 'BBVA c/c
-                            'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco,5,2,4,5,) 'BBVA VISA
-                            'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco,11,4,6,8,10) 'OPENBANK
                         End If
                     End If
                 End If

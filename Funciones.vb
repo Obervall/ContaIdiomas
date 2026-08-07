@@ -3660,7 +3660,7 @@ Module Funciones
                     ' 🚀 LANZAMIENTO ELÁSTICO NO MODAL FLOTANTE
                     frmIA.Show(frmApuntesContables)
                 Else
-                    MsgBox("L'arxiu de text no conté registres vàlids per processar.", MsgBoxStyle.Information, "ContaHogar")
+                    MsgBox("L'arxiu de text no conté registres vàlids per processar.", MsgBoxStyle.Information, "ContaHogar 3.0 Premium")
                 End If
             End Using
 

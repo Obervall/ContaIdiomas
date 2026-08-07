@@ -136,16 +136,13 @@
     <value>Data:</value>
   </data>
   <data name="GroupBox1.Text" xml:space="preserve">
-    <value>Dades de l'Apunt Bancari:</value>
+    <value>Dades de l'Excel Bancari:</value>
   </data>
   <data name="BtnCancelar.Text" xml:space="preserve">
     <value>Cancel·lar</value>
   </data>
   <data name="BtnAceptarOtro.Text" xml:space="preserve">
     <value>Acceptar i Un altre</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Introducció d'Apunts Bancaris</value>
   </data>
   <data name="SelecConcepto" xml:space="preserve">
     <value>Seleccionar el Concepte</value>
@@ -218,5 +215,14 @@ Error</value>
   </data>
   <data name="Label10.Text" xml:space="preserve">
     <value>Saldo Total:</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Introducció des d'Excel Bancari</value>
+  </data>
+  <data name="ExtractoCompletado" xml:space="preserve">
+    <value>Revisió de l'extracte bancari completada!</value>
+  </data>
+  <data name="ErrorEnExtracto" xml:space="preserve">
+    <value>Error que absorbeix el registre de la passarel·la</value>
   </data>
 </root>

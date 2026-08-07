@@ -71,7 +71,7 @@ Public Class AprendizajeBancario
 
                     Else
                         ' 🎉 ¡EL TRIUNFO TOTAL DEL ASISTENTE ARTESANAL! Si ya no quedan más filas temporales, cerramos el taller
-                        MsgBox("S'ha completat la revisió de l'extracte bancari de forma neta!", MsgBoxStyle.Information, "Pasarela ContaHogar")
+                        MsgBox(rmse.GetString("ExtractoCompletado"), MsgBoxStyle.Information, "ContaHogar 3.0 Premium")
                         vIdExtractoActual = 0
 
                         ' En forma Modal, es asi
@@ -84,7 +84,7 @@ Public Class AprendizajeBancario
             End Using
 
         Catch ex As Exception
-            MsgBox("Error al succionar el registro de la pasarela: " & ex.Message, MsgBoxStyle.Critical)
+            MsgBox(rmse.GetString("ErrorEnExtracto") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
     End Sub
 
@@ -280,30 +280,6 @@ Public Class AprendizajeBancario
             If vCombo = "descripcion_vacia" Then
                 ' Bloque de alta de descripción nueva
                 Dim respuesta As MsgBoxResult = ConfirmarAccionTraducida(rmse.GetString("NoExistenDescripciones") & ": -" & TxtBuscarLetras.Text.ToUpper() & "-" & vbCrLf & "¿" & rmse.GetString("AñadirDescripcion") & "?", rmse.GetString("$this.Text"))
-
-                '           If respuesta = vbYes Then
-                '               vIntro = "SI"
-                '               CmbDescripcion.Text = TxtBuscarLetras.Text
-                '               vDescripcion = TxtBuscarLetras.Text
-
-                '               RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-                '               TxtBuscarLetras.Text = ""
-                '               AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-
-                '               TxtBuscarLetras.Enabled = True
-                '               vLetras = ""
-
-                '               ' 1. Forzamos a Windows a vaciar la cola de mensajes gráficos pendientes de la pantalla
-                '               Application.DoEvents()
-
-                '               ' 2. Activamos el combo dócilmente
-                '               CmbDescripcion.Enabled = True ' Nos aseguramos de que no esté capado
-                'CmbDescripcion.Focus()
-                '               ' 3. Clavamos el cursor al final de las letras heredadas
-                '               If Not String.IsNullOrEmpty(CmbDescripcion.Text) Then
-                '                   CmbDescripcion.SelectionStart = CmbDescripcion.Text.Length
-                '                   CmbDescripcion.SelectionLength = 0
-                '               End If
                 If respuesta = vbYes Then
                     vIntro = "SI"
                     vDescripcion = TxtBuscarLetras.Text
@@ -332,9 +308,6 @@ Public Class AprendizajeBancario
                     ' 🔓 VOLVEMOS A DESPERTAR EL TEXTBOX ARRIBA (Pero el cursor ya se ha quedado anclado abajo)
                     Application.DoEvents()
                     TxtBuscarLetras.Enabled = True
-
-                    ' Chivato de control (Brotará triunfal en tu monitor)
-                    'MsgBox("Foco entregado con éxito al combo descripción!")
                 Else
                     RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
                     If TxtBuscarLetras.Text.Length > 0 Then
@@ -711,236 +684,6 @@ Public Class AprendizajeBancario
         DateTimePicker1.Focus()
     End Sub
 
-    Public Sub GrabarYRefrescarGrid()
-        If TxtImporte.Text <> "0" Then
-            ' 1. Convertimos el texto de la caja a un número Decimal limpio y seguro
-            Dim importeNumerico As Decimal = ConvertirDecimalSeguro(TxtImporte.Text)
-
-            ' 🚀 JUGADA MAESTRA 1: Capturamos la descripción antes del salto de foco.
-            ' Si la caja manual TxtDescripcion tiene letras, priorizamos su texto. Si no, usamos el Combo.
-            Dim descripcionDefinitiva As String = CmbDescripcion.Text.Trim()
-            If TxtDescripcion.Visible = True AndAlso TxtDescripcion.Text.Trim() <> "" Then
-                descripcionDefinitiva = TxtDescripcion.Text.Trim()
-            End If
-
-            ' 2. Conseguimos el texto exacto que hay en la pantalla (pasado a MAYÚSCULAS)
-            Dim tipoEnPantalla As String = TxtTipoConcepto.Text.Trim().ToUpper()
-
-            ' 3. Recuperamos la traducción oficial en inglés (o el idioma activo) usando tu KEY real: "Tipo_Gasto"
-            Dim tipoTraducido As String = ""
-            If resManager IsNot Nothing Then
-                tipoTraducido = resManager.GetString("Tipo_Gasto")
-            End If
-
-            ' 4. EVALUACIÓN DE IDIOMA SEGURA: ¿Es "GASTO" en español o coincide con la traducción?
-            If tipoEnPantalla = "GASTO" OrElse (tipoTraducido <> "" AndAlso tipoEnPantalla = tipoTraducido.Trim().ToUpper()) Then
-                ' Si es un gasto y el usuario lo escribió en positivo, lo convertimos a negativo matemáticamente
-                If importeNumerico > 0 Then
-                    importeNumerico = importeNumerico * -1
-                End If
-            End If
-
-            ' Asignamos el valor numérico final a tu variable global
-            vImporteAPU = importeNumerico
-            vNotasAPU = TxtNota.Text
-
-            ' --- RECUPERAR NOMBRE DE CUENTA EN ESPAÑOL SEGURO ---
-            vCuentaAPU = ""
-            If CmbCuenta.SelectedIndex >= 0 Then
-                cmdMdb1cr.CommandText = "SELECT NombreCUE FROM cuentas ORDER BY NombreCUE ASC"
-                Try
-                    Dim drCuentaGuardar As OleDbDataReader = cmdMdb1cr.ExecuteReader()
-                    Dim contCUE As Integer = 0
-                    While drCuentaGuardar.Read()
-                        If contCUE = CmbCuenta.SelectedIndex Then
-                            vCuentaAPU = drCuentaGuardar("NombreCUE").ToString()
-                            Exit While
-                        End If
-                        contCUE += 1
-                    End While
-                    drCuentaGuardar.Close()
-                Catch ex As Exception
-                    ' Si falla por cualquier motivo, dejamos el texto del combo como salvavidas
-                    vCuentaAPU = CmbCuenta.Text.ToString()
-                End Try
-            Else
-                vCuentaAPU = CmbCuenta.Text.ToString()
-            End If
-
-            Dim idConceptoAsiento As Integer = Convert.ToInt32(CmbConcepto.SelectedValue)
-            Dim idCuentaAsiento As Integer = Convert.ToInt32(CmbCuenta.SelectedValue)
-
-            ' 2. Construimos la SQL relacional con parámetros puros para evitar errores de comas o tipos
-            vAñadir = "INSERT INTO apuntes " &
-                "(FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, NotasAPU, CuentaAPU, EjercicioAPU) " &
-                "VALUES (?, ?, ?, ?, ?, ?, ?)"
-
-            cmdMdb1cr.CommandText = vAñadir
-            cmdMdb1cr.Parameters.Clear() ' Limpieza estricta de memoria RAM
-
-            ' 3. Inyectamos los valores en el orden exacto de los signos de interrogación '?'
-            cmdMdb1cr.Parameters.Add("@fec", OleDb.OleDbType.Date).Value = DateTimePicker1.Value.Date
-            cmdMdb1cr.Parameters.Add("@con", OleDb.OleDbType.Integer).Value = idConceptoAsiento ' 🌟 Inyecta el ID del Concepto
-            cmdMdb1cr.Parameters.Add("@des", OleDb.OleDbType.VarWChar).Value = CmbDescripcion.Text.Trim()
-            cmdMdb1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = importeNumerico
-            cmdMdb1cr.Parameters.Add("@Not", OleDb.OleDbType.VarWChar).Value = TxtNota.Text.Trim()
-            cmdMdb1cr.Parameters.Add("@cue", OleDb.OleDbType.Integer).Value = Convert.ToInt32(CmbCuenta.SelectedValue)
-            cmdMdb1cr.Parameters.Add("@eje", OleDb.OleDbType.Integer).Value = Convert.ToInt32(vAñoEjercicio)
-
-            Try
-                cmdMdb1cr.ExecuteNonQuery()
-            Catch ex As Exception
-                MsgBox(rmse.GetString("ErrorGrabarRegistro") & ": " & ex.ToString, vbExclamation, rmse.GetString("$this.Text"))
-            End Try
-
-
-            If frmApuntesContables.ListBox1.SelectedItems.Count = 0 Then
-                ' 🌟 SANEAMIENTO PREVENTIVO DE PARÁMETROS PARA EL REFRESCO
-                cmdMdb1cr.Parameters.Clear()
-
-                ' Consulta SQL Maestra de 11 celdas relacionales (Tu diseño perfecto)
-                vtipoSql = "SELECT apuntes.FechaAPU As [FechaAPU], " &
-                           "conceptos.DescripcionCON As [ConceptoAPU], " &
-                           "apuntes.DescripcionAPU As [DescripcionAPU], " &
-                           "apuntes.ImporteAPU As [ImporteAPU], " &
-                           "apuntes.ImporteAPU As [SaldoAPU], " &
-                           "apuntes.NotasAPU As [NotasAPU], " &
-                           "cuentas.NombreCUE As [CuentaAPU], " &
-                           "apuntes.CodigoAPU As [CodigoAPU], " &
-                           "conceptos.CodigoCON As [CodigoCON], " &
-                           "apuntes.ConceptoAPU As [IdConceptoCON], " &
-                           "apuntes.CuentaAPU As [IdCuentaCUE] " &
-                           "FROM (apuntes " &
-                           "INNER JOIN conceptos ON apuntes.ConceptoAPU = conceptos.IdConceptoCON) " &
-                           "INNER JOIN cuentas ON apuntes.CuentaAPU = cuentas.IdCuentaCUE"
-
-                vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-
-                ' 🌟 CORRECCIÓN 1: Filtro por ID numérico de Cuenta (Sin comillas simples)
-                If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
-                    Dim idCuentaPrincipal As Integer = Convert.ToInt32(frmApuntesContables.CmbCuenta.SelectedValue)
-                    vtipoSql += $" And apuntes.CuentaAPU = {idCuentaPrincipal} "
-                End If
-
-                ' 🌟 CORRECCIÓN 2: Filtro por ID numérico de Concepto (Sin comillas simples)
-                If frmApuntesContables.BtnFiltroConcepto.Enabled = False Then
-                    Dim idConceptoPrincipal As Integer = Convert.ToInt32(frmApuntesContables.CmbConcepto.SelectedValue)
-                    vtipoSql += $" And apuntes.ConceptoAPU = {idConceptoPrincipal} "
-                End If
-
-                ' 🌟 CORRECCIÓN 3: Sincronización estricta de parámetros de fechas
-                If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
-                    vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
-                    vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
-
-                    vtipoSql += " And apuntes.FechaAPU >= ?"
-                    vtipoSql += " And apuntes.FechaAPU <= ?"
-
-                    ' Inyectamos los valores en el comando global en el orden de los signos '?'
-                    cmdMdb1cr.Parameters.AddWithValue("?", vDate1)
-                    cmdMdb1cr.Parameters.AddWithValue("?", vDate2)
-                End If
-
-                vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
-                vtipoGrid = "APUNTES_CONTABLES"
-
-                LlenarGrid(vtipoSql, vtipoGrid, "1")
-                TraducirGridApuntesBD(frmApuntesContables.DgvApuntes)
-
-                vFilaActual = frmApuntesContables.DgvApuntes.CurrentRow.Index
-                If vFilaActual = frmApuntesContables.DgvApuntes.RowCount - 1 Then
-                    MsgBox(resManager.GetString("MsgFila2"))
-                Else
-                    vFila = frmApuntesContables.DgvApuntes.RowCount - 1
-                    frmApuntesContables.DgvApuntes.Rows(vFila).Selected = True
-                    frmApuntesContables.DgvApuntes.CurrentCell = frmApuntesContables.DgvApuntes.Rows(vFila).Cells(0)
-                End If
-            Else
-                ' =========================================================================
-                ' 🌟 RAMA B: REFRESCO CUANDO EL LISTBOX LATERAL TIENE MULTISELECCIÓN
-                ' =========================================================================
-                ' 1. Saneamiento preventivo de parámetros en la memoria de la app
-                cmdMdb1cr.Parameters.Clear()
-
-                ' 2. Buscamos el ID numérico real del concepto "SALDO" de forma segura y aislada
-                Dim idConceptoSaldo As Integer = 1
-                Using cmdBuscarId As New OleDb.OleDbCommand("SELECT IdConceptoCON FROM conceptos WHERE CodigoCON = 'SALDO'", conexion1)
-                    Dim resId = cmdBuscarId.ExecuteScalar()
-                    If resId IsNot Nothing AndAlso Not IsDBNull(resId) Then idConceptoSaldo = Convert.ToInt32(resId)
-                End Using
-
-                ' Guardamos si el filtro de fechas de la pantalla principal está activo
-                Dim tieneFechasActivo As Boolean = (frmApuntesContables.BtnFiltroFecha.Enabled = False)
-
-                ' 🌟 CONSULTA SQL MAESTRA DE 11 CELDAS RELACIONALES (Tu diseño perfecto para nombres claros)
-                Dim sqlBase As String = "SELECT apuntes.FechaAPU As [FechaAPU], conceptos.DescripcionCON As [ConceptoAPU], apuntes.DescripcionAPU As [DescripcionAPU], apuntes.ImporteAPU As [ImporteAPU], apuntes.ImporteAPU As [SaldoAPU], apuntes.NotasAPU As [NotasAPU], cuentas.NombreCUE As [CuentaAPU], apuntes.CodigoAPU As [CodigoAPU], conceptos.CodigoCON As [CodigoCON], apuntes.ConceptoAPU As [IdConceptoCON], apuntes.CuentaAPU As [IdCuentaCUE] FROM (apuntes INNER JOIN conceptos ON apuntes.ConceptoAPU = conceptos.IdConceptoCON) INNER JOIN cuentas ON apuntes.CuentaAPU = cuentas.IdCuentaCUE"
-                vtipoSql = sqlBase
-
-                If frmApuntesContables.BtnFechasClick = "SI" Then
-                    vtipoSql += $" WHERE apuntes.ConceptoAPU <> {idConceptoSaldo} And apuntes.EjercicioAPU <> 0 "
-                Else
-                    vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-                End If
-
-                ' 🌟 RECOLECCIÓN DE IDs NUMÉRICOS DESDE EL LISTBOX DE LA PANTALLA PRINCIPAL
-                Dim listaIdsConceptos As New List(Of Integer)
-                Dim i As Integer
-
-                For i = 0 To frmApuntesContables.ListBox1.SelectedItems.Count - 1
-                    Dim vConceptoFila As String = frmApuntesContables.ListBox1.SelectedItems(i).ToString()
-                    If vConceptoFila.StartsWith("**") Then Continue For
-
-                    ' Buscamos el ID numérico original mapeando el texto del ListBox
-                    Dim idConceptoEncontrado As Integer = 0
-                    Using cmdId As New OleDb.OleDbCommand("SELECT IdConceptoCON FROM conceptos WHERE CodigoCON = ?", conexion1)
-                        cmdId.Parameters.AddWithValue("?", vConceptoFila)
-                        Dim resId = cmdId.ExecuteScalar()
-                        If resId IsNot Nothing AndAlso Not IsDBNull(resId) Then idConceptoEncontrado = Convert.ToInt32(resId)
-                    End Using
-
-                    If idConceptoEncontrado > 0 Then listaIdsConceptos.Add(idConceptoEncontrado)
-                Next
-
-                ' Si por un fallo la lista está vacía, le inyectamos un 0 de salvavidas
-                If listaIdsConceptos.Count = 0 Then listaIdsConceptos.Add(0)
-
-                ' Inyectamos el filtro IN de enteros inmune a fallos de combinación
-                vtipoSql += " And apuntes.ConceptoAPU IN (" & String.Join(",", listaIdsConceptos) & ") "
-
-                ' CORRECCIÓN: Filtro por ID numérico de Cuenta (Leyendo el SelectedValue de la pantalla principal)
-                If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
-                    Dim idCuentaPrincipal As Integer = Convert.ToInt32(frmApuntesContables.CmbCuenta.SelectedValue)
-                    vtipoSql += $" And apuntes.CuentaAPU = {idCuentaPrincipal} "
-                End If
-
-                ' 🌟 CRÍTICO: Las interrogaciones de fecha van SIEMPRE al final de las condiciones del WHERE
-                If tieneFechasActivo Then
-                    vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
-                    vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
-                    vtipoSql += " And apuntes.FechaAPU >= ?"
-                    vtipoSql += " And apuntes.FechaAPU <= ?"
-
-                    cmdMdb1cr.Parameters.AddWithValue("?", vDate1)
-                    cmdMdb1cr.Parameters.AddWithValue("?", vDate2)
-                End If
-
-                vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
-                vtipoGrid = "APUNTES_CONTABLES"
-
-                LlenarGrid(vtipoSql, vtipoGrid, "1")
-                TraducirGridApuntesBD(frmApuntesContables.DgvApuntes)
-
-                If frmApuntesContables.DgvApuntes.RowCount - 1 >= 0 Then
-                    vFila = frmApuntesContables.DgvApuntes.RowCount - 1
-                    frmApuntesContables.DgvApuntes.Rows(vFila).Selected = True
-                    frmApuntesContables.DgvApuntes.CurrentCell = frmApuntesContables.DgvApuntes.Rows(vFila).Cells(0)
-                End If
-            End If
-        Else
-            MsgBox(rmse.GetString("NoCantidadImporte"), vbExclamation, rmse.GetString("$this.Text"))
-        End If
-    End Sub
-
     Private Sub BtnCancelar_Click(sender As Object, e As EventArgs) Handles BtnCancelar.Click
         Me.Close()
     End Sub
@@ -949,40 +692,6 @@ Public Class AprendizajeBancario
         ' Se verifica si la razón para cerrar es la 3, es decir, el botón X.
         If e.CloseReason = 3 Then
             e.Cancel = False ' NO Se cancela la solicitud de cerrar
-        End If
-    End Sub
-
-    Private Sub BtnAyuda_Click(sender As Object, e As EventArgs)
-        ' 🛠️ CONTROL DE VENTANA FLOTANTE INDEPENDIENTE
-        ' Comprobamos si la ventana de ayuda ya está abierta en pantalla
-        Dim frmExistente As AyudaApuntes = Application.OpenForms.OfType(Of AyudaApuntes)().FirstOrDefault()
-
-        If frmExistente IsNot Nothing Then
-            ' Si ya estaba abierta, la cerramos (esto disparará automáticamente el evento FormClosed)
-            frmExistente.Close()
-        Else
-            ' --- DESPLAZAR EL FORMULARIO ACTUAL A LA IZQUIERDA ---
-            Dim pixelesDesplazamiento As Integer = 150
-            Me.Left -= pixelesDesplazamiento
-
-            ' Creamos la instancia de la ventana de ayuda
-            Dim frmAyuda As New AyudaApuntes()
-
-            ' --- DETECTAR EL CIERRE (BOTÓN O CRUZ X) ---
-            ' Usamos AddHandler para ejecutar código cuando frmAyuda se cierre por cualquier motivo
-            AddHandler frmAyuda.FormClosed, Sub(s, ev)
-                                                ' Cuando la ayuda se cierra, devolvemos el formulario principal a la derecha
-                                                Me.Left += pixelesDesplazamiento
-                                            End Sub
-
-            ' CÁLCULO DE POSICIÓN: Se calcula usando la NUEVA posición del formulario actual
-            Dim x As Integer = Me.Location.X + Me.Width
-            Dim y As Integer = Me.Location.Y
-
-            frmAyuda.Location = New Point(x, y)
-
-            ' La mostramos en modo "Show"
-            frmAyuda.Show(Me)
         End If
     End Sub
 
@@ -1007,17 +716,6 @@ Public Class AprendizajeBancario
 
     Private Sub CmbDescripcion_Click(sender As Object, e As EventArgs) Handles CmbDescripcion.Click
         CmbDescripcion.DroppedDown = True
-    End Sub
-
-    Private Sub DateTimePicker1_KeyDown(sender As Object, e As KeyEventArgs) Handles DateTimePicker1.KeyDown
-        ' Verificamos si la tecla presionada es Enter
-        If e.KeyCode = Keys.Enter Then
-            ' 1. Evitar el sonido de "beep" al pulsar Enter
-            e.SuppressKeyPress = True
-            CmbConcepto.Select()
-            ' Opcional: Ejecutar una búsqueda o guardar valor
-            'BtnHoy.PerformClick()
-        End If
     End Sub
 
     Public Sub LlenarDescripcion()

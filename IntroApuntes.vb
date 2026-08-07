@@ -595,7 +595,7 @@ Public Class IntroApuntes
         ' 1. Limpias los textos normales
         TxtImporte.Text = "0"
         TxtNota.Text = ""
-        TxtDescripcion.Text = ""
+        'TxtDescripcion.Text = ""
 
         ' 3. ¡La clave! Forzamos al formulario a procesar los cambios visuales antes de seguir
         Application.DoEvents()

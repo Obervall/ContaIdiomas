@@ -207,16 +207,22 @@ Error</value>
   <data name="Label3.Text" xml:space="preserve">
     <value>Bank Description:</value>
   </data>
-  <data name="GroupBox1.Text" xml:space="preserve">
-    <value>Bank Entry Data:</value>
-  </data>
   <data name="BtnSaltarApuntes.Text" xml:space="preserve">
     <value>Skip Note</value>
   </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Introduction of Bank Notes</value>
-  </data>
   <data name="Label10.Text" xml:space="preserve">
     <value>Total Balance:</value>
+  </data>
+  <data name="GroupBox1.Text" xml:space="preserve">
+    <value>Banking Excel Data:</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Getting started from Excel Banking</value>
+  </data>
+  <data name="ExtractoCompletado" xml:space="preserve">
+    <value>Bank Statement Review Completed!</value>
+  </data>
+  <data name="ErrorEnExtracto" xml:space="preserve">
+    <value>Error sucking up gateway registration</value>
   </data>
 </root>

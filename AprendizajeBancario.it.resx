@@ -207,16 +207,22 @@ Errore</value>
   <data name="Label3.Text" xml:space="preserve">
     <value>Descrizione della banca:</value>
   </data>
-  <data name="GroupBox1.Text" xml:space="preserve">
-    <value>Dati di inserimento bancario:</value>
-  </data>
   <data name="BtnSaltarApuntes.Text" xml:space="preserve">
     <value>Nota saltante</value>
   </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Introduzione delle banconote</value>
-  </data>
   <data name="Label10.Text" xml:space="preserve">
     <value>Saldo Totale:</value>
+  </data>
+  <data name="GroupBox1.Text" xml:space="preserve">
+    <value>Dati Excel bancari:</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Iniziare con Excel Banking</value>
+  </data>
+  <data name="ExtractoCompletado" xml:space="preserve">
+    <value>Revisione estratti conto bancari completata!</value>
+  </data>
+  <data name="ErrorEnExtracto" xml:space="preserve">
+    <value>Errore che assorbe la registrazione del gateway</value>
   </data>
 </root>

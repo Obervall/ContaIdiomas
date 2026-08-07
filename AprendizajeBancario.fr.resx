@@ -135,9 +135,6 @@
   <data name="Label1.Text" xml:space="preserve">
     <value>Date:</value>
   </data>
-  <data name="GroupBox1.Text" xml:space="preserve">
-    <value>Données d’entrée bancaire :</value>
-  </data>
   <data name="BtnCancelar.Text" xml:space="preserve">
     <value>Annuler</value>
   </data>
@@ -213,10 +210,19 @@ Erreur</value>
   <data name="BtnSaltarApuntes.Text" xml:space="preserve">
     <value>Note sautée</value>
   </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Introduction des billets de banque</value>
-  </data>
   <data name="Label10.Text" xml:space="preserve">
     <value>Solde Total :</value>
+  </data>
+  <data name="GroupBox1.Text" xml:space="preserve">
+    <value>Données Excel bancaires :</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Débuts avec Excel Banking</value>
+  </data>
+  <data name="ExtractoCompletado" xml:space="preserve">
+    <value>Examen du relevé bancaire terminé !</value>
+  </data>
+  <data name="ErrorEnExtracto" xml:space="preserve">
+    <value>Erreur qui aspire l’enregistrement de la passerelle</value>
   </data>
 </root>

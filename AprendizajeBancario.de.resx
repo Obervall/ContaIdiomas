@@ -207,16 +207,22 @@ Fehler</value>
   <data name="Label3.Text" xml:space="preserve">
     <value>Bankbeschreibung:</value>
   </data>
-  <data name="GroupBox1.Text" xml:space="preserve">
-    <value>Bankeingangsdaten:</value>
-  </data>
   <data name="BtnSaltarApuntes.Text" xml:space="preserve">
     <value>Überspring-Notiz</value>
   </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Einführung von Banknoten</value>
-  </data>
   <data name="Label10.Text" xml:space="preserve">
     <value>Gesamtsaldo:</value>
+  </data>
+  <data name="GroupBox1.Text" xml:space="preserve">
+    <value>Bank-Excel-Daten:</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Einstieg mit Excel Banking</value>
+  </data>
+  <data name="ExtractoCompletado" xml:space="preserve">
+    <value>Überprüfung des Kontoauszugs abgeschlossen!</value>
+  </data>
+  <data name="ErrorEnExtracto" xml:space="preserve">
+    <value>Fehler absorbiert die Gateway-Registrierung</value>
   </data>
 </root>

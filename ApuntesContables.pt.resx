@@ -271,4 +271,10 @@ depois por Conceitos Diversos</value>
   <data name="ErrorAbrirExcelBanco" xml:space="preserve">
     <value>Erro ao abrir arquivo bancário</value>
   </data>
+  <data name="NoTieneCoordenadasProcesarExcel" xml:space="preserve">
+    <value>Esta Conta NÃO possui coordenadas nem o Formato Incorreto (1,1,1,1,1).</value>
+  </data>
+  <data name="ErrorDesmenuzarCuenta" xml:space="preserve">
+    <value>Busca de erros ou decomposição das Notas da Conta</value>
+  </data>
 </root>
