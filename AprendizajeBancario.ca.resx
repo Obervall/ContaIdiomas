@@ -142,7 +142,7 @@
     <value>Cancel·lar</value>
   </data>
   <data name="BtnAceptarOtro.Text" xml:space="preserve">
-    <value>Acceptar i Un altre</value>
+    <value>Acceptar i un altre</value>
   </data>
   <data name="SelecConcepto" xml:space="preserve">
     <value>Seleccionar el Concepte</value>
@@ -155,7 +155,7 @@ Error</value>
     <value>Cercar Descripció:</value>
   </data>
   <data name="SelecDescripcion" xml:space="preserve">
-    <value>Seleccionar la Descripció o Escriure per Buscar (3)</value>
+    <value>Seleccionar la Descripció o Escriure per Buscar (3 mínim)</value>
   </data>
   <data name="ImporteAsiento" xml:space="preserve">
     <value>Import de l'Apunt</value>
@@ -224,5 +224,11 @@ Error</value>
   </data>
   <data name="ErrorEnExtracto" xml:space="preserve">
     <value>Error que absorbeix el registre de la passarel·la</value>
+  </data>
+  <data name="ErrorSaltarApunte" xml:space="preserve">
+    <value>Error de nota de saltar</value>
+  </data>
+  <data name="ErrorGuardarApunte" xml:space="preserve">
+    <value>Error en desar l'entrada real</value>
   </data>
 </root>

@@ -1003,4 +1003,10 @@ oppure consente un accesso controllato alle cartelle per poter utilizzare ContaH
   <data name="EnCurso" xml:space="preserve">
     <value>In corso...</value>
   </data>
+  <data name="ArchivoNoContieneRegistros" xml:space="preserve">
+    <value>Il file non contiene registrazioni valide da elaborare</value>
+  </data>
+  <data name="ErrorProcesarMatrizBancaria" xml:space="preserve">
+    <value>Matrice della Banca di Elaborazione degli Errori</value>
+  </data>
 </root>

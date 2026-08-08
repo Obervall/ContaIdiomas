@@ -3666,12 +3666,12 @@ Module Funciones
                     ' 🚀 LANZAMIENTO ELÁSTICO NO MODAL FLOTANTE
                     frmIA.Show(frmApuntesContables)
                 Else
-                    MsgBox("L'arxiu de text no conté registres vàlids per processar.", MsgBoxStyle.Information, "ContaHogar 3.0 Premium")
+                    MsgBox(resManager.GetString("ArchivoNoContieneRegistros"), MsgBoxStyle.Information, "ContaHogar 3.0 Premium")
                 End If
             End Using
 
         Catch ex As Exception
-            MsgBox("Error en el procés de la matriz bancària: " & ex.Message, MsgBoxStyle.Critical)
+            MsgBox(resManager.GetString("ErrorProcesarMatrizBancaria") & ": " & ex.Message, MsgBoxStyle.Critical)
         Finally
             ' Liberación de punteros rígida en la CPU
             If hojaExcel IsNot Nothing Then System.Runtime.InteropServices.Marshal.ReleaseComObject(hojaExcel)

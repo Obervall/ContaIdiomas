@@ -225,4 +225,10 @@ Error</value>
   <data name="ErrorEnExtracto" xml:space="preserve">
     <value>Error sucking up gateway registration</value>
   </data>
+  <data name="ErrorSaltarApunte" xml:space="preserve">
+    <value>Skip Note Error</value>
+  </data>
+  <data name="ErrorGuardarApunte" xml:space="preserve">
+    <value>Error Saving the Actual Entry</value>
+  </data>
 </root>

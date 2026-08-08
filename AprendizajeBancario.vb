@@ -2,7 +2,6 @@
 Imports System.Data
 Imports System.Data.OleDb
 Imports System.Drawing
-Imports System.Linq
 Imports System.Windows.Forms
 Imports ToolTip = System.Windows.Forms.ToolTip
 
@@ -553,7 +552,7 @@ Public Class AprendizajeBancario
             CargarPrimerConceptoBancario()
 
         Catch ex As Exception
-            MsgBox("Error al saltar l'apunt: " & ex.Message, MsgBoxStyle.Critical)
+            MsgBox(rmse.GetString("ErrorSaltarApunte") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
     End Sub
 
@@ -608,7 +607,7 @@ Public Class AprendizajeBancario
             End If
 
         Catch ex As Exception
-            MsgBox("Error al desar l'apunt real: " & ex.Message, MsgBoxStyle.Critical)
+            MsgBox(rmse.GetString("ErrorGuardarApunte") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
 
         ' 🌟 SANEAMIENTO PREVENTIVO DE PARÁMETROS PARA EL REFRESCO
@@ -704,19 +703,6 @@ Public Class AprendizajeBancario
         If e.CloseReason = 3 Then
             e.Cancel = False ' NO Se cancela la solicitud de cerrar
         End If
-    End Sub
-
-    Private Sub CmbCuenta_KeyDown(sender As Object, e As KeyEventArgs) Handles CmbCuenta.KeyDown
-        ' Verificamos si la tecla presionada es Enter
-        If e.KeyCode = Keys.Enter Then
-            ' 1. Evitar el sonido de "beep" al pulsar Enter
-            e.SuppressKeyPress = True
-            TxtNota.Select()
-        End If
-    End Sub
-
-    Private Sub CmbCuenta_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbCuenta.KeyPress
-        e.KeyChar = Char.ToUpper(e.KeyChar)
     End Sub
 
     Private Sub BtnDescripcion_Click(sender As Object, e As EventArgs) Handles BtnDescripcion.Click

@@ -1003,4 +1003,10 @@ adquiera la versión completa en la Microsoft Store.</value>
   <data name="EnCurso" xml:space="preserve">
     <value>En Curso...</value>
   </data>
+  <data name="ArchivoNoContieneRegistros" xml:space="preserve">
+    <value>El Archivo No contiene Registros válidos para procesar</value>
+  </data>
+  <data name="ErrorProcesarMatrizBancaria" xml:space="preserve">
+    <value>Error al Procesar Matriz Bancaria</value>
+  </data>
 </root>

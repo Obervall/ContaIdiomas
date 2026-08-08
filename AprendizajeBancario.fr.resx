@@ -225,4 +225,10 @@ Erreur</value>
   <data name="ErrorEnExtracto" xml:space="preserve">
     <value>Erreur qui aspire l’enregistrement de la passerelle</value>
   </data>
+  <data name="ErrorSaltarApunte" xml:space="preserve">
+    <value>Erreur de note de saut</value>
+  </data>
+  <data name="ErrorGuardarApunte" xml:space="preserve">
+    <value>Erreur lors de la sauvegarde de l’entrée réelle</value>
+  </data>
 </root>

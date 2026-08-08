@@ -28,6 +28,7 @@ Partial Class ApuntesContables
 		Me.LblNumRegistros = New System.Windows.Forms.Label()
 		Me.Label1 = New System.Windows.Forms.Label()
 		Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+		Me.BtnManualBancarioPdf = New System.Windows.Forms.Button()
 		Me.BtnImportarBanco = New System.Windows.Forms.Button()
 		Me.BtnF6 = New System.Windows.Forms.Button()
 		Me.BtnFiltroF5 = New System.Windows.Forms.Button()
@@ -82,9 +83,6 @@ Partial Class ApuntesContables
 		Me.LblApuntes = New System.Windows.Forms.Label()
 		Me.ListBox1 = New System.Windows.Forms.ListBox()
 		Me.PrintDocument1 = New System.Drawing.Printing.PrintDocument()
-		Me.BtnAumentar = New System.Windows.Forms.Button()
-		Me.BtnNormal = New System.Windows.Forms.Button()
-		Me.BtnManualBancarioPdf = New System.Windows.Forms.Button()
 		Me.GroupBox1.SuspendLayout()
 		Me.GroupBox2.SuspendLayout()
 		Me.GroupBox3.SuspendLayout()
@@ -135,6 +133,12 @@ Partial Class ApuntesContables
 		resources.ApplyResources(Me.GroupBox2, "GroupBox2")
 		Me.GroupBox2.Name = "GroupBox2"
 		Me.GroupBox2.TabStop = False
+		'
+		'BtnManualBancarioPdf
+		'
+		resources.ApplyResources(Me.BtnManualBancarioPdf, "BtnManualBancarioPdf")
+		Me.BtnManualBancarioPdf.Name = "BtnManualBancarioPdf"
+		Me.BtnManualBancarioPdf.UseVisualStyleBackColor = True
 		'
 		'BtnImportarBanco
 		'
@@ -490,24 +494,6 @@ Partial Class ApuntesContables
 		Me.ListBox1.Name = "ListBox1"
 		Me.ListBox1.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
 		'
-		'BtnAumentar
-		'
-		resources.ApplyResources(Me.BtnAumentar, "BtnAumentar")
-		Me.BtnAumentar.Name = "BtnAumentar"
-		Me.BtnAumentar.UseVisualStyleBackColor = True
-		'
-		'BtnNormal
-		'
-		resources.ApplyResources(Me.BtnNormal, "BtnNormal")
-		Me.BtnNormal.Name = "BtnNormal"
-		Me.BtnNormal.UseVisualStyleBackColor = True
-		'
-		'BtnManualBancarioPdf
-		'
-		resources.ApplyResources(Me.BtnManualBancarioPdf, "BtnManualBancarioPdf")
-		Me.BtnManualBancarioPdf.Name = "BtnManualBancarioPdf"
-		Me.BtnManualBancarioPdf.UseVisualStyleBackColor = True
-		'
 		'ApuntesContables
 		'
 		resources.ApplyResources(Me, "$this")
@@ -517,8 +503,6 @@ Partial Class ApuntesContables
 		Me.Controls.Add(Me.GroupBox2)
 		Me.Controls.Add(Me.GroupBox8)
 		Me.Controls.Add(Me.GroupBox1)
-		Me.Controls.Add(Me.BtnNormal)
-		Me.Controls.Add(Me.BtnAumentar)
 		Me.Controls.Add(Me.ListBox1)
 		Me.Controls.Add(Me.LblApuntes)
 		Me.Controls.Add(Me.DgvApuntes)
@@ -606,8 +590,6 @@ Partial Class ApuntesContables
 	Friend WithEvents BtnExcel As Windows.Forms.Button
 	Friend WithEvents PrbExport As Windows.Forms.ProgressBar
 	Friend WithEvents PrintDocument1 As Drawing.Printing.PrintDocument
-	Friend WithEvents BtnAumentar As Windows.Forms.Button
-	Friend WithEvents BtnNormal As Windows.Forms.Button
 	Public WithEvents BtnTraspasarRegistro As Windows.Forms.Button
 	Public WithEvents BtnImportarBanco As Windows.Forms.Button
 	Friend WithEvents BtnManualBancarioPdf As Windows.Forms.Button

@@ -1003,4 +1003,10 @@ or allows controlled access to folders to be able to use ContaHogar 3.0 Premium.
   <data name="EnCurso" xml:space="preserve">
     <value>Ongoing...</value>
   </data>
+  <data name="ArchivoNoContieneRegistros" xml:space="preserve">
+    <value>File Contains No Valid Records to Process</value>
+  </data>
+  <data name="ErrorProcesarMatrizBancaria" xml:space="preserve">
+    <value>Error Processing Bank Matrix</value>
+  </data>
 </root>

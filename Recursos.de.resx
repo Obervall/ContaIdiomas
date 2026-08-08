@@ -1003,4 +1003,10 @@ oder ermöglicht kontrollierten Zugriff auf Ordner, um ContaHogar 3.0 Premium nu
   <data name="EnCurso" xml:space="preserve">
     <value>Läuft weiter...</value>
   </data>
+  <data name="ArchivoNoContieneRegistros" xml:space="preserve">
+    <value>Datei enthält keine gültigen Datensätze zur Verarbeitung</value>
+  </data>
+  <data name="ErrorProcesarMatrizBancaria" xml:space="preserve">
+    <value>Fehlerverarbeitungs-Bankmatrix</value>
+  </data>
 </root>

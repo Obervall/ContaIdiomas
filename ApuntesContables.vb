@@ -14,7 +14,7 @@ Public Class ApuntesContables
     Public vRow, vRowSeguir, vCampo, vContador, vCantidadFilas, PrintLine, Contador, filaSelec As Integer
     Public fechaformatomin, fechaformatomax As Date
     Public x, y, z, filaInicio, colFecha, colConcepto, colImporte, idBanco, colSaldo As Integer
-    Public TL(31) As ToolTip
+    Public TL(29) As ToolTip
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     ' Método recursivo para actualizar la fuente de todos los controles
@@ -121,13 +121,9 @@ Public Class ApuntesContables
         TL(27) = New ToolTip
         TL(27).SetToolTip(Me.BtnExcel, rmse.GetString("ToolTipExcel"))
         TL(28) = New ToolTip
-        TL(28).SetToolTip(Me.BtnAumentar, rmse.GetString("ToolTipAumentar"))
+        TL(28).SetToolTip(Me.BtnImportarBanco, rmse.GetString("ToolTipImportarBanco"))
         TL(29) = New ToolTip
-        TL(29).SetToolTip(Me.BtnNormal, rmse.GetString("ToolTipNormal"))
-        TL(30) = New ToolTip
-        TL(30).SetToolTip(Me.BtnImportarBanco, rmse.GetString("ToolTipImportarBanco"))
-        TL(31) = New ToolTip
-        TL(31).SetToolTip(Me.BtnManualBancarioPdf, rmse.GetString("ToolTipManualBancarioPdf"))
+        TL(29).SetToolTip(Me.BtnManualBancarioPdf, rmse.GetString("ToolTipManualBancarioPdf"))
 
 
         ' Añade una línea por cada GroupBox donde tengas estos botones:
@@ -2141,15 +2137,6 @@ Public Class ApuntesContables
         End If
     End Sub
 
-    Private Sub BtnAumentar_Click(sender As Object, e As EventArgs) Handles BtnAumentar.Click
-        ' Cambia a tamaño 14 (puedes usar una variable para ir sumando de 2 en 2)
-        CambiarTamañoFuente(Me.Controls, 14.0F)
-    End Sub
-
-    Private Sub BtnNormal_Click(sender As Object, e As EventArgs) Handles BtnNormal.Click
-        CambiarTamañoFuente(Me.Controls, 10.0F)
-    End Sub
-
     Private Sub BtnFiltroF5_Click(sender As Object, e As EventArgs) Handles BtnFiltroF5.Click
         ' Filtra Apuntes por la Descripción Seleccionada
         ' **********************************************
@@ -2350,7 +2337,6 @@ Public Class ApuntesContables
             MsgBox(rmse.GetString("ErrorAbrirManual") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
     End Sub
-
 
     Public Sub BtnF6_Click(sender As Object, e As EventArgs) Handles BtnF6.Click
         'Vuelve a Refrecar el DataGrid y dejar los Btn de los Filtros sin Filtrar

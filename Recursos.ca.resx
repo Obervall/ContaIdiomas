@@ -1003,4 +1003,10 @@ o permet l'accés controlat a carpetes per poder usar ContaHogar 3.0 Premium.</v
   <data name="EnCurso" xml:space="preserve">
     <value>En curs...</value>
   </data>
+  <data name="ArchivoNoContieneRegistros" xml:space="preserve">
+    <value>El fitxer no conté registres vàlids per processar</value>
+  </data>
+  <data name="ErrorProcesarMatrizBancaria" xml:space="preserve">
+    <value>Matriu del Banc de Processament d'Errors</value>
+  </data>
 </root>

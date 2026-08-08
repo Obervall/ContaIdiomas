@@ -154,6 +154,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a El Archivo No contiene Registros válidos para procesar.
+    '''</summary>
+    Friend Shared ReadOnly Property ArchivoNoContieneRegistros() As String
+        Get
+            Return ResourceManager.GetString("ArchivoNoContieneRegistros", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Atención.
     '''</summary>
     Friend Shared ReadOnly Property Atencion() As String
@@ -1388,6 +1397,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property ErrormutacionBDclonada() As String
         Get
             Return ResourceManager.GetString("ErrormutacionBDclonada", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Error al Procesar Matriz Bancaria.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorProcesarMatrizBancaria() As String
+        Get
+            Return ResourceManager.GetString("ErrorProcesarMatrizBancaria", resourceCulture)
         End Get
     End Property
     

@@ -1003,4 +1003,10 @@ ou permite acesso controlado a pastas para poder usar o ContaHogar 3.0 Premium.<
   <data name="EnCurso" xml:space="preserve">
     <value>Em andamento...</value>
   </data>
+  <data name="ArchivoNoContieneRegistros" xml:space="preserve">
+    <value>Arquivo não contém registros válidos para processar</value>
+  </data>
+  <data name="ErrorProcesarMatrizBancaria" xml:space="preserve">
+    <value>Matriz do Banco de Processamento de Erros</value>
+  </data>
 </root>

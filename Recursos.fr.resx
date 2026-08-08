@@ -1003,4 +1003,10 @@ ou permet un accès contrôlé aux dossiers pour pouvoir utiliser ContaHogar 3.0
   <data name="EnCurso" xml:space="preserve">
     <value>En cours...</value>
   </data>
+  <data name="ArchivoNoContieneRegistros" xml:space="preserve">
+    <value>Le fichier ne contient aucun enregistrement valide à traiter</value>
+  </data>
+  <data name="ErrorProcesarMatrizBancaria" xml:space="preserve">
+    <value>Matrice de la banque de traitement des erreurs</value>
+  </data>
 </root>
