@@ -271,10 +271,20 @@ després per Conceptes Diversos</value>
   <data name="ErrorAbrirExcelBanco" xml:space="preserve">
     <value>Error d'obertura del fitxer bancari</value>
   </data>
-  <data name="NoTieneCoordenadasProcesarExcel" xml:space="preserve">
-    <value>Aquest Compte NO té coordenades ni el Format Incorrecte (1,1,1,1,1).</value>
-  </data>
   <data name="ErrorDesmenuzarCuenta" xml:space="preserve">
     <value>Cerca d'errors o desglossament Notes del compte</value>
+  </data>
+  <data name="NoSeEncuentraManualPdf" xml:space="preserve">
+    <value>El fitxer PDF del Manual no es trobava a la carpeta de l'aplicació</value>
+  </data>
+  <data name="ErrorAbrirManual" xml:space="preserve">
+    <value>Error d'obrir el Manual PDF</value>
+  </data>
+  <data name="ToolTipManualBancarioPdf" xml:space="preserve">
+    <value>Descarrega l'extracte bancari d'importació manual</value>
+  </data>
+  <data name="NoTieneCoordenadasProcesarExcel" xml:space="preserve">
+    <value>Aquest compte NO té coordenades ni el format correcte (1,1,1,1,1).
+Si necessites ajuda, toca el botó PDF adjacent.</value>
   </data>
 </root>

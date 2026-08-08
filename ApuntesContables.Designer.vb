@@ -28,6 +28,7 @@ Partial Class ApuntesContables
 		Me.LblNumRegistros = New System.Windows.Forms.Label()
 		Me.Label1 = New System.Windows.Forms.Label()
 		Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+		Me.BtnImportarBanco = New System.Windows.Forms.Button()
 		Me.BtnF6 = New System.Windows.Forms.Button()
 		Me.BtnFiltroF5 = New System.Windows.Forms.Button()
 		Me.BtnEliminaSeleccion = New System.Windows.Forms.Button()
@@ -83,7 +84,7 @@ Partial Class ApuntesContables
 		Me.PrintDocument1 = New System.Drawing.Printing.PrintDocument()
 		Me.BtnAumentar = New System.Windows.Forms.Button()
 		Me.BtnNormal = New System.Windows.Forms.Button()
-		Me.BtnImportarBanco = New System.Windows.Forms.Button()
+		Me.BtnManualBancarioPdf = New System.Windows.Forms.Button()
 		Me.GroupBox1.SuspendLayout()
 		Me.GroupBox2.SuspendLayout()
 		Me.GroupBox3.SuspendLayout()
@@ -121,6 +122,7 @@ Partial Class ApuntesContables
 		'
 		'GroupBox2
 		'
+		Me.GroupBox2.Controls.Add(Me.BtnManualBancarioPdf)
 		Me.GroupBox2.Controls.Add(Me.BtnImportarBanco)
 		Me.GroupBox2.Controls.Add(Me.BtnF6)
 		Me.GroupBox2.Controls.Add(Me.BtnFiltroF5)
@@ -133,6 +135,12 @@ Partial Class ApuntesContables
 		resources.ApplyResources(Me.GroupBox2, "GroupBox2")
 		Me.GroupBox2.Name = "GroupBox2"
 		Me.GroupBox2.TabStop = False
+		'
+		'BtnImportarBanco
+		'
+		resources.ApplyResources(Me.BtnImportarBanco, "BtnImportarBanco")
+		Me.BtnImportarBanco.Name = "BtnImportarBanco"
+		Me.BtnImportarBanco.UseVisualStyleBackColor = True
 		'
 		'BtnF6
 		'
@@ -494,11 +502,11 @@ Partial Class ApuntesContables
 		Me.BtnNormal.Name = "BtnNormal"
 		Me.BtnNormal.UseVisualStyleBackColor = True
 		'
-		'BtnImportarBanco
+		'BtnManualBancarioPdf
 		'
-		resources.ApplyResources(Me.BtnImportarBanco, "BtnImportarBanco")
-		Me.BtnImportarBanco.Name = "BtnImportarBanco"
-		Me.BtnImportarBanco.UseVisualStyleBackColor = True
+		resources.ApplyResources(Me.BtnManualBancarioPdf, "BtnManualBancarioPdf")
+		Me.BtnManualBancarioPdf.Name = "BtnManualBancarioPdf"
+		Me.BtnManualBancarioPdf.UseVisualStyleBackColor = True
 		'
 		'ApuntesContables
 		'
@@ -602,4 +610,5 @@ Partial Class ApuntesContables
 	Friend WithEvents BtnNormal As Windows.Forms.Button
 	Public WithEvents BtnTraspasarRegistro As Windows.Forms.Button
 	Public WithEvents BtnImportarBanco As Windows.Forms.Button
+	Friend WithEvents BtnManualBancarioPdf As Windows.Forms.Button
 End Class

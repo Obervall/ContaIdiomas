@@ -271,10 +271,20 @@ puis par Concepts divers</value>
   <data name="ErrorAbrirExcelBanco" xml:space="preserve">
     <value>Erreur d’ouverture du fichier bancaire</value>
   </data>
-  <data name="NoTieneCoordenadasProcesarExcel" xml:space="preserve">
-    <value>Ce compte N’A PAS de coordonnées ni de format incorrect (1,1,1,1,1,1).</value>
-  </data>
   <data name="ErrorDesmenuzarCuenta" xml:space="preserve">
     <value>Recherche d’erreurs ou décomposition des notes de compte</value>
+  </data>
+  <data name="NoSeEncuentraManualPdf" xml:space="preserve">
+    <value>Le fichier PDF du Manuel n’a pas été trouvé dans le dossier de l’application</value>
+  </data>
+  <data name="ErrorAbrirManual" xml:space="preserve">
+    <value>Erreur d’ouverture du manuel PDF</value>
+  </data>
+  <data name="ToolTipManualBancarioPdf" xml:space="preserve">
+    <value>Télécharger le relevé bancaire d’importation manuel</value>
+  </data>
+  <data name="NoTieneCoordenadasProcesarExcel" xml:space="preserve">
+    <value>Ce compte N’A PAS de coordonnées ni de format correct (1,1,1,1,1).
+Si vous avez besoin d’aide, appuyez sur le bouton PDF adjacent.</value>
   </data>
 </root>

@@ -13,8 +13,8 @@ Public Class ApuntesContables
     Public vTxtDescripcion, BtnFechasClick, vTipoConcepto, vCodigo, carpetaPdf As String
     Public vRow, vRowSeguir, vCampo, vContador, vCantidadFilas, PrintLine, Contador, filaSelec As Integer
     Public fechaformatomin, fechaformatomax As Date
-    Public x, y, z As Integer
-    Public TL(30) As ToolTip
+    Public x, y, z, filaInicio, colFecha, colConcepto, colImporte, idBanco, colSaldo As Integer
+    Public TL(31) As ToolTip
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     ' Método recursivo para actualizar la fuente de todos los controles
@@ -126,6 +126,9 @@ Public Class ApuntesContables
         TL(29).SetToolTip(Me.BtnNormal, rmse.GetString("ToolTipNormal"))
         TL(30) = New ToolTip
         TL(30).SetToolTip(Me.BtnImportarBanco, rmse.GetString("ToolTipImportarBanco"))
+        TL(31) = New ToolTip
+        TL(31).SetToolTip(Me.BtnManualBancarioPdf, rmse.GetString("ToolTipManualBancarioPdf"))
+
 
         ' Añade una línea por cada GroupBox donde tengas estos botones:
         AddHandler Me.GroupBox3.MouseMove, AddressOf VerificarFiltrosDesactivados
@@ -2227,6 +2230,69 @@ Public Class ApuntesContables
 
     Private Sub BtnImportarBanco_Click(sender As Object, e As EventArgs) Handles BtnImportarBanco.Click
 
+        ' =========================================================================
+        ' 🚀 EXTRACCIÓN SEGURO POR SQL INDESTRUCTIBLE (VERSIÓN 3.2.8.0)
+        ' =========================================================================
+        If Not String.IsNullOrEmpty(CmbCuenta.Text) Then
+            Try
+                ' 1. Pesca del texto que el usuario ve real en su monitor (ej: "BBVA")
+                Dim nombreCuentaABuscar As String = CmbCuenta.Text.Replace("'", "''").Trim()
+
+                Dim textoNotas As String = ""
+                idBanco = 0
+                colSaldo = 0
+
+                ' 2. INTERROGATORIO AL BÚNKER DE ACCESS: Rescatamos las NotasCUE y el ID de un viaje
+                Using cmdMdb As New OleDb.OleDbCommand()
+                    cmdMdb.Connection = conexion1 ' [Ajusta a tu variable global de conexión activa]
+
+                    ' Buscamos la fila exacta que coincide con el texto seleccionado por el usuario
+                    cmdMdb.CommandText = "SELECT IdCuentaCUE, NotasCUE FROM cuentas WHERE NombreCUE = '" & nombreCuentaABuscar & "'"
+
+                    Using dr As OleDb.OleDbDataReader = cmdMdb.ExecuteReader()
+                        If dr.Read() Then
+                            textoNotas = dr("NotasCUE").ToString().Trim()
+                            idBanco = Convert.ToInt32(dr("IdCuentaCUE"))
+                        End If
+                    End Using
+                End Using
+
+                ' 3. 🛡️ EL ESCUDO ADUANERO: Desmenuzamos el paréntesis (6, 3, 4, 6) si todo ha ido OK
+                If idBanco > 0 AndAlso textoNotas.Contains("(") AndAlso textoNotas.Contains(")") Then
+
+                    ' Quitamos los paréntesis de la RAM
+                    Dim textoLimpio As String = textoNotas.Replace("(", "").Replace(")", "").Trim()
+                    Dim coordenadas() As String = textoLimpio.Split(","c)
+
+                    ' Convertimos los trozos en enteros numéricos puros en millonésimas de segundo
+                    filaInicio = Convert.ToInt32(coordenadas(0).Trim())
+                    colFecha = Convert.ToInt32(coordenadas(1).Trim())
+                    colConcepto = Convert.ToInt32(coordenadas(2).Trim())
+                    colImporte = Convert.ToInt32(coordenadas(3).Trim())
+
+                    ' =========================================================================
+                    ' 🎯 TU NUEVO INVENTO PREMIUM: EL RADAR DEL SALDO ELÁSTICO (VERSIÓN 3.2.8.0)
+                    ' =========================================================================
+                    colSaldo = 0 ' Por defecto 0 (Significa que este Excel no tiene saldo final, como la VISA)
+
+                    ' Verificamos si el usuario ha metido la quinta coordenada (ej: 5 elementos en la matriz)
+                    If coordenadas.Length >= 5 AndAlso Not String.IsNullOrEmpty(coordenadas(4).Trim()) Then
+                        Try
+                            ' Succionamos el número de la columna del saldo en frío
+                            colSaldo = Convert.ToInt32(coordenadas(4).Trim())
+                        Catch
+                            colSaldo = 0 ' Salvavidas por si hubieran escrito caracteres raros
+                        End Try
+                    End If
+                Else
+                    MsgBox(rmse.GetString("NoTieneCoordenadasProcesarExcel"), MsgBoxStyle.Information, "ContaHogar 3.0 Premium")
+                    Exit Sub
+                End If
+            Catch ex As Exception
+                MsgBox(rmse.GetString("ErrorDesmenuzarCuenta") & ": " & ex.Message, MsgBoxStyle.Critical)
+            End Try
+        End If
+
         ' 🎯 EL ABREPUERTAS BANCARIO: Seleccionamos el archivo Excel del BBVA u Openbank
         Try
             Using ofd As New OpenFileDialog()
@@ -2259,78 +2325,29 @@ Public Class ApuntesContables
 
                     ' Invocamos tu función reina para que pinte la interfaz simétrica en pantalla
                     If ConfirmarAccionTraducida(textoMensaje, textoTitulo) = MsgBoxResult.Yes Then
-
-                        ' =========================================================================
-                        ' 🚀 EXTRACCIÓN SEGURO POR SQL INDESTRUCTIBLE (VERSIÓN 3.2.8.0)
-                        ' =========================================================================
-                        If Not String.IsNullOrEmpty(CmbCuenta.Text) Then
-                            Try
-                                ' 1. Pesca del texto que el usuario ve real en su monitor (ej: "BBVA")
-                                Dim nombreCuentaABuscar As String = CmbCuenta.Text.Replace("'", "''").Trim()
-
-                                Dim textoNotas As String = ""
-                                Dim idBanco As Integer = 0
-
-                                ' 2. INTERROGATORIO AL BÚNKER DE ACCESS: Rescatamos las NotasCUE y el ID de un viaje
-                                Using cmdMdb As New OleDb.OleDbCommand()
-                                    cmdMdb.Connection = conexion1 ' [Ajusta a tu variable global de conexión activa]
-
-                                    ' Buscamos la fila exacta que coincide con el texto seleccionado por el usuario
-                                    cmdMdb.CommandText = "SELECT IdCuentaCUE, NotasCUE FROM cuentas WHERE NombreCUE = '" & nombreCuentaABuscar & "'"
-
-                                    Using dr As OleDb.OleDbDataReader = cmdMdb.ExecuteReader()
-                                        If dr.Read() Then
-                                            textoNotas = dr("NotasCUE").ToString().Trim()
-                                            idBanco = Convert.ToInt32(dr("IdCuentaCUE"))
-                                        End If
-                                    End Using
-                                End Using
-
-                                ' 3. 🛡️ EL ESCUDO ADUANERO: Desmenuzamos el paréntesis (6, 3, 4, 6) si todo ha ido OK
-                                If idBanco > 0 AndAlso textoNotas.Contains("(") AndAlso textoNotas.Contains(")") Then
-
-                                    ' Quitamos los paréntesis de la RAM
-                                    Dim textoLimpio As String = textoNotas.Replace("(", "").Replace(")", "").Trim()
-                                    Dim coordenadas() As String = textoLimpio.Split(","c)
-
-                                    ' Convertimos los trozos en enteros numéricos puros en millonésimas de segundo
-                                    Dim filaInicio As Integer = Convert.ToInt32(coordenadas(0).Trim())
-                                    Dim colFecha As Integer = Convert.ToInt32(coordenadas(1).Trim())
-                                    Dim colConcepto As Integer = Convert.ToInt32(coordenadas(2).Trim())
-                                    Dim colImporte As Integer = Convert.ToInt32(coordenadas(3).Trim())
-
-                                    ' =========================================================================
-                                    ' 🎯 TU NUEVO INVENTO PREMIUM: EL RADAR DEL SALDO ELÁSTICO (VERSIÓN 3.2.8.0)
-                                    ' =========================================================================
-                                    Dim colSaldo As Integer = 0 ' Por defecto 0 (Significa que este Excel no tiene saldo final, como la VISA)
-
-                                    ' Verificamos si el usuario ha metido la quinta coordenada (ej: 5 elementos en la matriz)
-                                    If coordenadas.Length >= 5 AndAlso Not String.IsNullOrEmpty(coordenadas(4).Trim()) Then
-                                        Try
-                                            ' Succionamos el número de la columna del saldo en frío
-                                            colSaldo = Convert.ToInt32(coordenadas(4).Trim())
-                                        Catch
-                                            colSaldo = 0 ' Salvavidas por si hubieran escrito caracteres raros
-                                        End Try
-                                    End If
-
-                                    ' 🚀 LA ESTOCADA PERFECTA: Invocamos tu función pasándole las 4 coordenadas + tu ID de Cuenta real final
-                                    ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, filaInicio, colFecha, colConcepto, colImporte, idBanco, colSaldo)
-                                    'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco,5,3,4,6,8) 'BBVA c/c
-                                    'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco,5,2,4,5,) 'BBVA VISA
-                                    'ProcesarMatrizBancariaManual(rutaArchivoExcelBanco,11,4,6,8,10) 'OPENBANK
-                                Else
-                                    MsgBox(rmse.GetString("NoTieneCoordenadasProcesarExcel"), MsgBoxStyle.Information, "ContaHogar 3.0 Premium")
-                                End If
-                            Catch ex As Exception
-                                MsgBox(rmse.GetString("ErrorDesmenuzarCuenta") & ": " & ex.Message, MsgBoxStyle.Critical)
-                            End Try
-                        End If
+                        ' 🚀 LA ESTOCADA PERFECTA: Invocamos tu función pasándole las 4 coordenadas + tu ID de Cuenta real final
+                        ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, filaInicio, colFecha, colConcepto, colImporte, idBanco, colSaldo)
                     End If
                 End If
             End Using
         Catch ex As Exception
             MsgBox(rmse.GetString("ErrorAbrirExcelBanco") & ": " & ex.Message, MsgBoxStyle.Critical)
+        End Try
+    End Sub
+
+    Private Sub BtnManualBancarioPDF_Click(sender As Object, e As EventArgs) Handles BtnManualBancarioPdf.Click
+        Try
+            ' 🎯 Buscamos el PDF dentro de la carpeta oficial de instalación del programa
+            Dim rutaManualPDF As String = System.IO.Path.Combine(Application.StartupPath, "Manual_Importacion_Bancaria.pdf")
+
+            If System.IO.File.Exists(rutaManualPDF) Then
+                ' Lanzamos el proceso en frío al sistema operativo Windows
+                System.Diagnostics.Process.Start(New System.Diagnostics.ProcessStartInfo(rutaManualPDF) With {.UseShellExecute = True})
+            Else
+                MsgBox(rmse.GetString("NoSeEncuentraManualPdf") & ". ", MsgBoxStyle.Exclamation, "ContaHogar 3.0 Premium")
+            End If
+        Catch ex As Exception
+            MsgBox(rmse.GetString("ErrorAbrirManual") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
     End Sub
 

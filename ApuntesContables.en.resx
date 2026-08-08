@@ -271,10 +271,20 @@ then by Miscellaneous Concepts</value>
   <data name="ErrorAbrirExcelBanco" xml:space="preserve">
     <value>Error opening bank file</value>
   </data>
-  <data name="NoTieneCoordenadasProcesarExcel" xml:space="preserve">
-    <value>This Account does NOT have coordinates or the Incorrect Format (1,1,1,1,1).</value>
-  </data>
   <data name="ErrorDesmenuzarCuenta" xml:space="preserve">
     <value>Error searching or breaking down Account Notes</value>
+  </data>
+  <data name="NoSeEncuentraManualPdf" xml:space="preserve">
+    <value>The PDF Manual file was not found in the application folder</value>
+  </data>
+  <data name="ErrorAbrirManual" xml:space="preserve">
+    <value>Error opening the PDF Manual</value>
+  </data>
+  <data name="ToolTipManualBancarioPdf" xml:space="preserve">
+    <value>Download Manual Import Bank Statement</value>
+  </data>
+  <data name="NoTieneCoordenadasProcesarExcel" xml:space="preserve">
+    <value>This Account does NOT have coordinates or the correct Format (1,1,1,1,1).
+If you need help, tap the adjacent PDF button.</value>
   </data>
 </root>

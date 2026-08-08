@@ -18,6 +18,8 @@ Public Class AprendizajeBancario
     Dim textoAutocompletadoEnAzul As String = ""
     ' Variable global del formulario para memorizar qué fila exacta estamos procesando en la Pasarela
     Private vIdExtractoActual As Integer = 0
+    Public vValorPrimero As Integer = 1
+    Public vValorTotal As Integer = 0
 
     ''' <summary>
     ''' Succiona la primera fila de tipo 'TEMPORAL' de la tabla extracto y rellena 
@@ -80,6 +82,9 @@ Public Class AprendizajeBancario
                         'En forma NO modal, es asi
                         Me.Dispose()
                     End If
+                    ' Concatenamos la traducción de "Label3.Text" con el avance: ej "Apunte 1/40"
+                    Label3.Text = rmse.GetString("Label3.Text") & " " & vValorPrimero.ToString() & "/" & vValorTotal.ToString()
+
                 End Using
             End Using
 
@@ -542,6 +547,9 @@ Public Class AprendizajeBancario
             End Using
 
             ' Succionamos la siguiente línea del banco dócilmente
+            ' 🛗 EL ASCENSOR: Sumamos un cromo más al marcador visual antes de succionar la siguiente fila
+            vValorPrimero += 1
+
             CargarPrimerConceptoBancario()
 
         Catch ex As Exception
@@ -585,6 +593,9 @@ Public Class AprendizajeBancario
             End Using
 
             ' 4. 🚀 SIGUIENTE FILA: Succionamos el próximo apunte del banco en millonésimas de segundo
+            ' 🛗 EL ASCENSOR: Sumamos un cromo más al marcador visual antes de succionar la siguiente fila
+            vValorPrimero += 1
+
             CargarPrimerConceptoBancario()
 
             ' =========================================================================

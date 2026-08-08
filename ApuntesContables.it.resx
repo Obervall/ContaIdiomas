@@ -271,10 +271,20 @@ poi da Concetti Vari</value>
   <data name="ErrorAbrirExcelBanco" xml:space="preserve">
     <value>Errore nell'apertura del file bancario</value>
   </data>
-  <data name="NoTieneCoordenadasProcesarExcel" xml:space="preserve">
-    <value>Questo Account NON ha coordinate né il Formato Errato (1,1,1,1,1).</value>
-  </data>
   <data name="ErrorDesmenuzarCuenta" xml:space="preserve">
     <value>Ricerca o suddivisione degli errori Note del conto</value>
+  </data>
+  <data name="NoSeEncuentraManualPdf" xml:space="preserve">
+    <value>Il file PDF del Manuale non si trovava nella cartella dell'applicazione</value>
+  </data>
+  <data name="ErrorAbrirManual" xml:space="preserve">
+    <value>Errore nell'apertura del Manuale PDF</value>
+  </data>
+  <data name="ToolTipManualBancarioPdf" xml:space="preserve">
+    <value>Scarica manuale dell'estratto conto bancario di importazione</value>
+  </data>
+  <data name="NoTieneCoordenadasProcesarExcel" xml:space="preserve">
+    <value>Questo Account NON ha coordinate né il formato corretto (1,1,1,1,1).
+Se hai bisogno di aiuto, tocca il pulsante PDF adiacente.</value>
   </data>
 </root>

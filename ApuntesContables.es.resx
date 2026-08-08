@@ -631,9 +631,19 @@ después por Conceptos Diversos</value>
     <value>Error al abrir el archivo del banco</value>
   </data>
   <data name="NoTieneCoordenadasProcesarExcel" xml:space="preserve">
-    <value>Esta Cuenta NO tiene coordenadas o el Formato (1,1,1,1,1) Incorrecto.</value>
+    <value>Esta Cuenta NO tiene coordenadas o el Formato (1,1,1,1,1) correcto.
+Si necesitas ayuda, pulsar el Botón PDF adyacente.</value>
   </data>
   <data name="ErrorDesmenuzarCuenta" xml:space="preserve">
     <value>Error al buscar o desmenuzar las Notas de la Cuenta</value>
+  </data>
+  <data name="NoSeEncuentraManualPdf" xml:space="preserve">
+    <value>No se ha encontrado el archivo del Manual PDF en la carpeta de la aplicación</value>
+  </data>
+  <data name="ErrorAbrirManual" xml:space="preserve">
+    <value>Error al abrir el Manual PDF</value>
+  </data>
+  <data name="ToolTipManualBancarioPdf" xml:space="preserve">
+    <value>Descargar Manual Importar Extracto Banco</value>
   </data>
 </root>

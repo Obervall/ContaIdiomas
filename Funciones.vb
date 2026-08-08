@@ -3637,8 +3637,14 @@ Module Funciones
             ' Contamos si han entrado filas temporales en la base de datos
             Using cmdCheckNew As New OleDb.OleDbCommand("SELECT COUNT(*) FROM extracto WHERE NotasAPU = 'TEMPORAL'", conexion1)
                 If Convert.ToInt32(cmdCheckNew.ExecuteScalar()) > 0 Then
+                    Dim totalFilas As Integer = Convert.ToInt32(cmdCheckNew.ExecuteScalar())
                     ' Instanciamos la ventana artesanal
                     Dim frmIA As New AprendizajeBancario()
+
+                    ' 🎯 PASAMOS EL TOTAL DE FILAS A LA MEMORIA DEL FORMULARIO
+                    frmIA.vValorTotal = totalFilas
+                    frmIA.vValorPrimero = 1 ' Reseteamos a 1 siempre al arrancar
+
 
                     ' Pasamos el rodillo de succión para alimentar los TextBox (tu línea clásica)
                     frmIA.CargarPrimerConceptoBancario()

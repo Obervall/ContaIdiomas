@@ -271,10 +271,20 @@ dann von Miscellaneous Concepts</value>
   <data name="ErrorAbrirExcelBanco" xml:space="preserve">
     <value>Fehler beim Öffnen der Bankakte</value>
   </data>
-  <data name="NoTieneCoordenadasProcesarExcel" xml:space="preserve">
-    <value>Dieses Konto hat KEINE Koordinaten oder das falsche Format (1,1,1,1,1).</value>
-  </data>
   <data name="ErrorDesmenuzarCuenta" xml:space="preserve">
     <value>Fehlersuche oder Aufschlüsselung von Kontonotizen</value>
+  </data>
+  <data name="NoSeEncuentraManualPdf" xml:space="preserve">
+    <value>Die PDF-Handbuchdatei wurde im Anwendungsordner nicht gefunden</value>
+  </data>
+  <data name="ErrorAbrirManual" xml:space="preserve">
+    <value>Fehler beim Öffnen des PDF-Handbuchs</value>
+  </data>
+  <data name="ToolTipManualBancarioPdf" xml:space="preserve">
+    <value>Laden Sie den manuellen Importkontoauszug herunter</value>
+  </data>
+  <data name="NoTieneCoordenadasProcesarExcel" xml:space="preserve">
+    <value>Dieses Konto hat KEINE Koordinaten oder das korrekte Format (1,1,1,1,1).
+Wenn du Hilfe brauchst, tippe auf den angrenzenden PDF-Button.</value>
   </data>
 </root>
