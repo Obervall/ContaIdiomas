@@ -280,11 +280,11 @@ dann von Miscellaneous Concepts</value>
   <data name="ErrorAbrirManual" xml:space="preserve">
     <value>Fehler beim Öffnen des PDF-Handbuchs</value>
   </data>
-  <data name="ToolTipManualBancarioPdf" xml:space="preserve">
-    <value>Laden Sie den manuellen Importkontoauszug herunter</value>
-  </data>
   <data name="NoTieneCoordenadasProcesarExcel" xml:space="preserve">
     <value>Dieses Konto hat KEINE Koordinaten oder das korrekte Format (1,1,1,1,1).
 Wenn du Hilfe brauchst, tippe auf den angrenzenden PDF-Button.</value>
+  </data>
+  <data name="ToolTipManualBancarioPdf" xml:space="preserve">
+    <value>Hilfehandbuch herunterladen</value>
   </data>
 </root>

@@ -644,6 +644,6 @@ Si necesitas ayuda, pulsar el Botón PDF adyacente.</value>
     <value>Error al abrir el Manual PDF</value>
   </data>
   <data name="ToolTipManualBancarioPdf" xml:space="preserve">
-    <value>Descargar Manual Importar Extracto Banco</value>
+    <value>Descargar Manual Ayuda</value>
   </data>
 </root>

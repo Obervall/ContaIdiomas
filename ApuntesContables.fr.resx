@@ -280,11 +280,11 @@ puis par Concepts divers</value>
   <data name="ErrorAbrirManual" xml:space="preserve">
     <value>Erreur d’ouverture du manuel PDF</value>
   </data>
-  <data name="ToolTipManualBancarioPdf" xml:space="preserve">
-    <value>Télécharger le relevé bancaire d’importation manuel</value>
-  </data>
   <data name="NoTieneCoordenadasProcesarExcel" xml:space="preserve">
     <value>Ce compte N’A PAS de coordonnées ni de format correct (1,1,1,1,1).
 Si vous avez besoin d’aide, appuyez sur le bouton PDF adjacent.</value>
+  </data>
+  <data name="ToolTipManualBancarioPdf" xml:space="preserve">
+    <value>Télécharger le manuel d’aide</value>
   </data>
 </root>

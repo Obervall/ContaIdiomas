@@ -280,11 +280,11 @@ then by Miscellaneous Concepts</value>
   <data name="ErrorAbrirManual" xml:space="preserve">
     <value>Error opening the PDF Manual</value>
   </data>
-  <data name="ToolTipManualBancarioPdf" xml:space="preserve">
-    <value>Download Manual Import Bank Statement</value>
-  </data>
   <data name="NoTieneCoordenadasProcesarExcel" xml:space="preserve">
     <value>This Account does NOT have coordinates or the correct Format (1,1,1,1,1).
 If you need help, tap the adjacent PDF button.</value>
+  </data>
+  <data name="ToolTipManualBancarioPdf" xml:space="preserve">
+    <value>Download Help Manual</value>
   </data>
 </root>

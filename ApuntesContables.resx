@@ -2135,7 +2135,7 @@ después por Conceptos Diversos</value>
     <value>Error al abrir el Manual PDF</value>
   </data>
   <data name="ToolTipManualBancarioPdf" xml:space="preserve">
-    <value>Descargar Manual Importar Extracto Banco</value>
+    <value>Descargar Manual Ayuda</value>
   </data>
   <data name="NoTieneCoordenadasProcesarExcel" xml:space="preserve">
     <value>Esta Cuenta NO tiene coordenadas o el Formato (1,1,1,1,1) correcto.

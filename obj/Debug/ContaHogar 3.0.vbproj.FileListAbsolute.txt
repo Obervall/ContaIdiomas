@@ -5,6 +5,9 @@ C:\ComptaLlar\Hogar\bin\Debug\arm64\SqlServerSpatial170.dll
 C:\ComptaLlar\Hogar\bin\Debug\Ajuda_ContaHogar_CAT.pdf
 C:\ComptaLlar\Hogar\bin\Debug\Ayuda_ContaHogar_ES.pdf
 C:\ComptaLlar\Hogar\bin\Debug\Help_ContaHogar_EN.pdf
+C:\ComptaLlar\Hogar\bin\Debug\Manual_Importacion_Bancaria.pdf
+C:\ComptaLlar\Hogar\bin\Debug\Manual_Import_Bank_Transactions.pdf
+C:\ComptaLlar\Hogar\bin\Debug\Manual_Transaccions_Bancarias.pdf
 C:\ComptaLlar\Hogar\bin\Debug\Version.pdf
 C:\ComptaLlar\Hogar\bin\Debug\Logo ContaHogar.ico
 C:\ComptaLlar\Hogar\bin\Debug\Politica de Privacidad.pdf

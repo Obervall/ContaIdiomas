@@ -2323,19 +2323,7 @@ Public Class ApuntesContables
     End Sub
 
     Private Sub BtnManualBancarioPDF_Click(sender As Object, e As EventArgs) Handles BtnManualBancarioPdf.Click
-        Try
-            ' 🎯 Buscamos el PDF dentro de la carpeta oficial de instalación del programa
-            Dim rutaManualPDF As String = System.IO.Path.Combine(Application.StartupPath, "Manual_Importacion_Bancaria.pdf")
-
-            If System.IO.File.Exists(rutaManualPDF) Then
-                ' Lanzamos el proceso en frío al sistema operativo Windows
-                System.Diagnostics.Process.Start(New System.Diagnostics.ProcessStartInfo(rutaManualPDF) With {.UseShellExecute = True})
-            Else
-                MsgBox(rmse.GetString("NoSeEncuentraManualPdf") & ". ", MsgBoxStyle.Exclamation, "ContaHogar 3.0 Premium")
-            End If
-        Catch ex As Exception
-            MsgBox(rmse.GetString("ErrorAbrirManual") & ": " & ex.Message, MsgBoxStyle.Critical)
-        End Try
+        AbrirSelectorManualImportarBancoInternacional()
     End Sub
 
     Public Sub BtnF6_Click(sender As Object, e As EventArgs) Handles BtnF6.Click

@@ -3419,6 +3419,103 @@ Module Funciones
         frm.Dispose()
     End Sub
 
+    Public Sub AbrirSelectorManualImportarBancoInternacional()
+        ' =========================================================================
+        ' 🚀 REPARADO MODO MAESTRO: SELECTOR DE AYUDA CON CIERRE DE ASPA SEGURO (MSIX)
+        ' =========================================================================
+        Dim frm As New Form()
+        Dim lbl As New Label()
+        Dim btnES As New Button()
+        Dim btnEN As New Button()
+        Dim btnCAT As New Button()
+        Dim btnCancelar As New Button() ' 🚀 Nuevo botón de escape físico
+
+        ' Extraemos los letreros traducidos desde tu resManager
+        Dim txtTitulo As String = resManager.GetString("Ayuda")
+        If String.IsNullOrEmpty(txtTitulo) Then txtTitulo = "Help Manual"
+
+        Dim txtMensaje As String = resManager.GetString("SeleccioneIdiomaAyuda") & ":"
+        If String.IsNullOrEmpty(txtMensaje) Then txtMensaje = "Please select your preferred language for the help manual:"
+
+        Dim txtCancelar As String = resManager.GetString("Cancelar")
+        If String.IsNullOrEmpty(txtCancelar) Then txtCancelar = "Cancel"
+
+        frm.Text = txtTitulo
+        lbl.Text = txtMensaje
+
+        btnES.Text = "Español (PDF)"
+        btnEN.Text = "English (PDF)"
+        btnCAT.Text = "Català (PDF)"
+        btnCancelar.Text = txtCancelar
+
+        ' 🎯 LA CLAVE DEL CAMBIO RELACIONAL:
+        ' Asignamos respuestas lógicas únicas para cada idioma. Dejamos DialogResult.Cancel 
+        ' en exclusiva para el botón Cancelar y la X de la ventana, desvinculándolo del catalán.
+        btnES.DialogResult = DialogResult.Yes      ' Castellano -> Yes
+        btnEN.DialogResult = DialogResult.No       ' Inglés -> No
+        btnCAT.DialogResult = DialogResult.OK       ' Catalán -> OK
+        btnCancelar.DialogResult = DialogResult.Cancel ' Cancelar / Aspa X -> Cancel
+
+        ' --- Estética geométrica simétrica ajustada para 4 botones ---
+        frm.Size = New Size(540, 180) ' Ampliamos un poco el ancho del lienzo
+        frm.FormBorderStyle = FormBorderStyle.FixedDialog
+        frm.MaximizeBox = False
+        frm.MinimizeBox = False
+        frm.StartPosition = FormStartPosition.CenterScreen
+
+        lbl.SetBounds(20, 20, 500, 30)
+        lbl.Font = New Font(lbl.Font.FontFamily, 10, FontStyle.Regular)
+
+        ' Repartimos los 4 botones comerciales de forma equidistante en tu pantalla
+        btnES.SetBounds(20, 75, 110, 35)
+        btnEN.SetBounds(145, 75, 110, 35)
+        btnCAT.SetBounds(270, 75, 110, 35)
+        btnCancelar.SetBounds(395, 75, 110, 35)
+
+        frm.Controls.AddRange(New Control() {lbl, btnES, btnEN, btnCAT, btnCancelar})
+        frm.CancelButton = btnCancelar ' Si pulsan la tecla ESC del teclado, también saldrá en paz
+
+        ' =========================================================================
+        ' 🚀 CONFIGURACIÓN DE ACCIONES DINÁMICAS INMUNES AL ANTIVIRUS (VERSIÓN 3.2.8.0)
+        ' =========================================================================
+        ' 1. Sabor de Boca Español: Al pulsar, arrastra el PDF al búnker seguro de AppData
+        AddHandler btnES.Click, Sub(s, ev)
+                                    EjecutarPDFIdiomasSeguro("Manual_Importacion_Bancaria.pdf")
+                                    frm.Close()
+                                End Sub
+
+        ' 2. Sabor de Boca Catalán: Clonación e inicio libre de alertas visuales
+        AddHandler btnCAT.Click, Sub(s, ev)
+                                     EjecutarPDFIdiomasSeguro("Manual_Transaccions_Bancarias.pdf")
+                                     frm.Close()
+                                 End Sub
+
+        ' 3. Sabor de Boca Inglés: Apertura fina como la seda en el navegador internacional
+        AddHandler btnEN.Click, Sub(s, ev)
+                                    EjecutarPDFIdiomasSeguro("Manual_Import_Bank_Transactions.pdf")
+                                    frm.Close()
+                                End Sub
+
+
+        ' Enfoque dinámico inteligente según la cultura activa de My.Settings
+        Dim culturaActiva As String = My.Settings.CulturaUsuario.ToString().Trim().ToLower()
+        If culturaActiva = "en" Then
+            frm.AcceptButton = btnEN
+            btnEN.Focus()
+        ElseIf culturaActiva = "ca" Then
+            frm.AcceptButton = btnCAT
+            btnCAT.Focus()
+        Else
+            frm.AcceptButton = btnES
+            btnES.Focus()
+        End If
+
+        ' Desplegamos la ventana modal en el monitor y capturamos la respuesta
+        Dim resultado As DialogResult = frm.ShowDialog()
+        frm.Dispose()
+    End Sub
+
+
     ''' <summary>
     ''' Copia el PDF de idioma seleccionado desde la carpeta bloqueada de la Store hacia la ruta 
     ''' segura de datos local (AppData) y lo abre sin despertar alarmas del antivirus.
