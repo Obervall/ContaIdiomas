@@ -272,7 +272,7 @@ després per Conceptes Diversos</value>
     <value>Error d'obertura del fitxer bancari</value>
   </data>
   <data name="ErrorDesmenuzarCuenta" xml:space="preserve">
-    <value>Cerca d'errors o desglossament Notes del compte</value>
+    <value>Error al cercar o desglossar Notes del Compte</value>
   </data>
   <data name="NoSeEncuentraManualPdf" xml:space="preserve">
     <value>El fitxer PDF del Manual no es trobava a la carpeta de l'aplicació</value>

@@ -504,3 +504,14 @@ C:\ComptaLlar\Hogar\obj\Release\ContaHogar3.0.application
 C:\ComptaLlar\Hogar\obj\Release\ContaHog.276DA8AC.Up2Date
 C:\ComptaLlar\Hogar\obj\Release\ContaHogar3.0.exe
 C:\ComptaLlar\Hogar\obj\Release\ContaHogar3.0.pdb
+C:\ComptaLlar\Hogar\bin\Release\Manual_Importacion_Bancaria.pdf
+C:\ComptaLlar\Hogar\bin\Release\Manual_Import_Bank_Transactions.pdf
+C:\ComptaLlar\Hogar\bin\Release\Manual_Transaccions_Bancarias.pdf
+C:\ComptaLlar\Hogar\obj\Release\ContaHogar.AprendizajeBancario.resources
+C:\ComptaLlar\Hogar\obj\Release\ContaHogar.AprendizajeBancario.ca.resources
+C:\ComptaLlar\Hogar\obj\Release\ContaHogar.AprendizajeBancario.de.resources
+C:\ComptaLlar\Hogar\obj\Release\ContaHogar.AprendizajeBancario.en.resources
+C:\ComptaLlar\Hogar\obj\Release\ContaHogar.AprendizajeBancario.es.resources
+C:\ComptaLlar\Hogar\obj\Release\ContaHogar.AprendizajeBancario.fr.resources
+C:\ComptaLlar\Hogar\obj\Release\ContaHogar.AprendizajeBancario.it.resources
+C:\ComptaLlar\Hogar\obj\Release\ContaHogar.AprendizajeBancario.pt.resources

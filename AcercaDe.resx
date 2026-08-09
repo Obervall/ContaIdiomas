@@ -428,7 +428,7 @@
     <value>1</value>
   </data>
   <data name="Label1.Text" xml:space="preserve">
-    <value>ContaHogar 3.0
+    <value>ContaHogar 3.0 Premium
 
 Esta aplicación la he hecho teniendo como referencia,
 la de ContaHogar, creada por Eugenio Glez.
@@ -1351,7 +1351,7 @@ Puedes enviar impresiones y sugerencias a:
     <value>CenterParent</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Acerca de ContaHogar 3.0</value>
+    <value>Acerca de ContaHogar 3.0 Premium</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>AcercaDe</value>

@@ -23,10 +23,10 @@ Public Class AcercaDe
         ' Ruta local hacia tus Documentos
         Dim carpetaDocumentos As String = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
         Dim carpetaAppOficial As String = IO.Path.Combine(carpetaDocumentos, "ContaHogar3.0")
-        Dim rutaCompletaPDF As String = IO.Path.Combine(carpetaAppOficial, "Politica de Privacidad.pdf")
+		Dim rutaCompletaPDF As String = IO.Path.Combine(carpetaAppOficial, "Politica de Privacidad.pdf")
 
-        ' URL de respaldo en la nube
-        Dim urlPrivacidad As String = "https://1drv.ms/b/c/1e195f066363b218/IQDyv4fHzLkjQZWFc7UmbvqJATQLSZyMXUcM-pzaiWvA1Ow?e=WhFxNG"
+		' URL de respaldo en la nube ONE drive (asegúrate de que sea pública y accesible)
+		Dim urlPrivacidad As String = "https://1drv.ms/b/c/1e195f066363b218/IQDyv4fHzLkjQZWFc7UmbvqJATQLSZyMXUcM-pzaiWvA1Ow?e=WhFxNG"
         Try
             Dim Proceso As New Process()
 

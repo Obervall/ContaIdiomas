@@ -3305,7 +3305,7 @@ Module Funciones
             .Columns(2).FillWeight = 120
             .Columns(2).Visible = True
 
-            .Columns(3).HeaderText = resManager.GetString("Importe") & " " & vMoneda
+            .Columns(3).HeaderText = resManager.GetString("Saldo") & " " & vMoneda
             .Columns(3).FillWeight = 60
             .Columns(3).DefaultCellStyle.Format = "N2"
             .Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight

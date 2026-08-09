@@ -2244,39 +2244,55 @@ Public Class ApuntesContables
                     End Using
                 End Using
 
-                ' 3. 🛡️ EL ESCUDO ADUANERO: Desmenuzamos el paréntesis (6, 3, 4, 6) si todo ha ido OK
+                ' =========================================================================
+                ' 🎯 3. EL ESCUDO ADUANERO ELÁSTICO (VERSIÓN 3.2.9.1 - Inmune a Textos Libres)
+                ' =========================================================================
+                Dim aduanaOK As Boolean = False
+
                 If idBanco > 0 AndAlso textoNotas.Contains("(") AndAlso textoNotas.Contains(")") Then
 
-                    ' Quitamos los paréntesis de la RAM
-                    Dim textoLimpio As String = textoNotas.Replace("(", "").Replace(")", "").Trim()
-                    Dim coordenadas() As String = textoLimpio.Split(","c)
+                    ' 🧠 EL RADAR REGEX: Localiza el paréntesis místico en cualquier rincón del campo NotasCUE
+                    Dim patronRegex As String = "\(([^)]+)\)"
+                    Dim coincidencia As System.Text.RegularExpressions.Match = System.Text.RegularExpressions.Regex.Match(textoNotas, patronRegex)
 
-                    ' Convertimos los trozos en enteros numéricos puros en millonésimas de segundo
-                    filaInicio = Convert.ToInt32(coordenadas(0).Trim())
-                    colFecha = Convert.ToInt32(coordenadas(1).Trim())
-                    colConcepto = Convert.ToInt32(coordenadas(2).Trim())
-                    colImporte = Convert.ToInt32(coordenadas(3).Trim())
+                    If coincidencia.Success Then
+                        ' Succionamos STRICTLY el contenido del paréntesis (ej: "5,4,3,5,8" o "5,4,3,5,")
+                        ' Eliminando toda la literatura personal del usuario que tenga alrededor de un plumazo
+                        Dim textoInterior As String = coincidencia.Groups(1).Value.Trim()
+                        Dim coordenadas() As String = textoInterior.Split(","c)
 
-                    ' =========================================================================
-                    ' 🎯 TU NUEVO INVENTO PREMIUM: EL RADAR DEL SALDO ELÁSTICO (VERSIÓN 3.2.8.0)
-                    ' =========================================================================
-                    colSaldo = 0 ' Por defecto 0 (Significa que este Excel no tiene saldo final, como la VISA)
+                        ' Cortafuegos: Al menos necesitamos las 4 coordenadas clásicas para operar
+                        If coordenadas.Length >= 4 Then
+                            Try
+                                ' Convertimos los trozos cargándolos en tus variables públicas del módulo
+                                filaInicio = Convert.ToInt32(coordenadas(0).Trim())
+                                colFecha = Convert.ToInt32(coordenadas(1).Trim())
+                                colConcepto = Convert.ToInt32(coordenadas(2).Trim())
+                                colImporte = Convert.ToInt32(coordenadas(3).Trim())
+                                colSaldo = 0 ' Por defecto 0 (Significa que este Excel no tiene saldo final, como la VISA)
 
-                    ' Verificamos si el usuario ha metido la quinta coordenada (ej: 5 elementos en la matriz)
-                    If coordenadas.Length >= 5 AndAlso Not String.IsNullOrEmpty(coordenadas(4).Trim()) Then
-                        Try
-                            ' Succionamos el número de la columna del saldo en frío
-                            colSaldo = Convert.ToInt32(coordenadas(4).Trim())
-                        Catch
-                            colSaldo = 0 ' Salvavidas por si hubieran escrito caracteres raros
-                        End Try
+                                ' Verificamos si el usuario ha metido la quinta coordenada (el saldo)
+                                If coordenadas.Length >= 5 AndAlso Not String.IsNullOrEmpty(coordenadas(4).Trim()) Then
+                                    colSaldo = Convert.ToInt32(coordenadas(4).Trim())
+                                End If
+
+                                aduanaOK = True ' ¡Filtro superado con éxito!
+
+                            Catch ex As Exception
+                                aduanaOK = False ' Cortafuegos por si hubieran metido letras dentro del paréntesis
+                            End Try
+                        End If
                     End If
-                Else
+                End If
+
+                ' 🪓 CONTROL FINAL DE RECHAZO O CONTINUACIÓN
+                If Not aduanaOK Then
                     MsgBox(rmse.GetString("NoTieneCoordenadasProcesarExcel"), MsgBoxStyle.Information, "ContaHogar 3.0 Premium")
-                    Exit Sub
+                    Exit Sub ' Frenazo rígido si el formato es incorrecto
                 End If
             Catch ex As Exception
                 MsgBox(rmse.GetString("ErrorDesmenuzarCuenta") & ": " & ex.Message, MsgBoxStyle.Critical)
+                Exit Sub
             End Try
         End If
 
