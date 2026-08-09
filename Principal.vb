@@ -135,37 +135,6 @@ Public Class Principal
         ActualizarTextosFormulario(Me)
         RefrescarMenus()
 
-        '' Esto te mostrará en la ventana de "Salida" los nombres exactos detectados
-        'For Each res In Assembly.GetExecutingAssembly().GetManifestResourceNames()
-        '    MsgBox(res)
-        'Next
-
-        ' Ejemplo de uso del ResourceManager para obtener una cadena traducida
-        'Dim rm As New ResourceManager("Contahogar.Recursos", Assembly.GetExecutingAssembly())
-        'Dim mensaje As String = resManager.GetString("SinFiltrar")
-        'MsgBox(mensaje)
-
-        '    ' 1. Creamos un lector para recorrer los recursos del componente
-        '    Dim conjuntoRecursos As System.Resources.ResourceSet =
-        'rmse.GetResourceSet(System.Globalization.CultureInfo.CurrentCulture, True, True)
-
-        '    ' 2. Verificamos que contenga elementos antes de continuar
-        '    If conjuntoRecursos IsNot Nothing Then
-
-        '        ' 3. Recorremos cada recurso individualmente
-        '        For Each elemento As System.Collections.DictionaryEntry In conjuntoRecursos
-
-        '            ' 4. Mostramos el nombre del recurso y su contenido
-        '            MsgBox("Clave: " & elemento.Key.ToString() & vbCrLf &
-        '           "Valor: " & elemento.Value.ToString(),
-        '           MsgBoxStyle.Information,
-        '           "Recurso Detectado")
-        '        Next
-        '    Else
-        '        MsgBox("No se encontraron recursos guardados.", MsgBoxStyle.Exclamation)
-        '    End If
-
-
         ' El instalador actualiza los archivos, pero este código migra las preferencias
         If My.Settings.UpgradeRequired Then
             My.Settings.Upgrade()
@@ -173,8 +142,11 @@ Public Class Principal
             My.Settings.Save() ' Guarda el cambio para que no lo haga más en esta versión
         End If
 
+        My.Settings.Version = "3.2.9"
+        My.Settings.Save()
+
         ' =========================================================================
-        ' 🔒 EL CORTAFUEGOS COMERCIAL INTELIGENTE POR RUTA (VERSIÓN 3.2.8.0)
+        ' 🔒 EL CORTAFUEGOS COMERCIAL INTELIGENTE POR RUTA (VERSIÓN 3.2.9.0)
         ' =========================================================================
 
         ' 🎪 VARIABLES TRAMPA DE TESTEO (Bórralas o coméntalas tras la prueba)
@@ -191,12 +163,12 @@ Public Class Principal
 
             '🛡️ CONTROL PARA INSTALACIÓN TRADICIONAL (TUS CLIENTES VIP / .MSI)
             If Not esInstalacionStore Then
-				' ¡MAESTRO! Al estar aquí dentro, Visual Studio solo ejecutará este chivato
-				' si el programa corre fuera de la Store. ¡Cero comentarios manuales en el código!
-				VerificarActualizacionesVIP(Me)
+                ' ¡MAESTRO! Al estar aquí dentro, Visual Studio solo ejecutará este chivato
+                ' si el programa corre fuera de la Store. ¡Cero comentarios manuales en el código!
+                VerificarActualizacionesVIP(Me)
                 'MsgBox("¡Bienvenido a ContaHogar 3.0 Premium!" & vbCrLf &
                 ' "Estás ejecutando la versión tradicional de instalación VIP (.msi)." & vbCrLf &
-                ' "El programa no aplicará el candado de 30 días ni la verificación de Store.", MsgBoxStyle.Information, "ContaHogar Premium")
+                ' "El programa no aplicará el candado de 30 días ni la verificación de Store.", MsgBoxStyle.Information, "ContaHogar 3.0 Premium")
             End If
 
             ' 2. 🛡️ EL ESCUDO: El candado de los 30 días SOLO muerde si el usuario es de la Store
@@ -481,9 +453,6 @@ Public Class Principal
             MsgBox(ex.ToString)
             Return
         End Try
-
-        My.Settings.Version = "3.2.8"
-        My.Settings.Save()
 
         vMoneda = My.Settings.Moneda
 
