@@ -351,11 +351,6 @@ Public Class Principal
         carpetaDB = carpetaAppOficial
         vRuta = archivoBdDestino
 
-
-        ' 5. 🌟 ASENTAMOS LA VARIABLE GLOBAL Y SCONCRONIZAMOS LAS PREFERENCIAS
-        carpetaDB = carpetaAppOficial
-        vRuta = archivoBdDestino
-
         My.Settings.RutaBD = vRuta
         My.Settings.Save()
         My.Settings.Reload()
