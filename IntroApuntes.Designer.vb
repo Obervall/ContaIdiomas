@@ -24,6 +24,7 @@ Partial Class IntroApuntes
     Private Sub InitializeComponent()
 		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(IntroApuntes))
 		Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+		Me.Label9 = New System.Windows.Forms.Label()
 		Me.BtnAyuda = New System.Windows.Forms.Button()
 		Me.TxtBuscarLetras = New System.Windows.Forms.TextBox()
 		Me.Label8 = New System.Windows.Forms.Label()
@@ -51,7 +52,6 @@ Partial Class IntroApuntes
 		Me.BtnCancelar = New System.Windows.Forms.Button()
 		Me.BtnAceptarSalir = New System.Windows.Forms.Button()
 		Me.BtnAceptarOtro = New System.Windows.Forms.Button()
-		Me.Label9 = New System.Windows.Forms.Label()
 		Me.GroupBox1.SuspendLayout()
 		Me.SuspendLayout()
 		'
@@ -85,6 +85,11 @@ Partial Class IntroApuntes
 		resources.ApplyResources(Me.GroupBox1, "GroupBox1")
 		Me.GroupBox1.Name = "GroupBox1"
 		Me.GroupBox1.TabStop = False
+		'
+		'Label9
+		'
+		resources.ApplyResources(Me.Label9, "Label9")
+		Me.Label9.Name = "Label9"
 		'
 		'BtnAyuda
 		'
@@ -121,6 +126,7 @@ Partial Class IntroApuntes
 		'
 		'CmbDescripcion
 		'
+		Me.CmbDescripcion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
 		Me.CmbDescripcion.FormattingEnabled = True
 		resources.ApplyResources(Me.CmbDescripcion, "CmbDescripcion")
 		Me.CmbDescripcion.Name = "CmbDescripcion"
@@ -238,11 +244,6 @@ Partial Class IntroApuntes
 		resources.ApplyResources(Me.BtnAceptarOtro, "BtnAceptarOtro")
 		Me.BtnAceptarOtro.Name = "BtnAceptarOtro"
 		Me.BtnAceptarOtro.UseVisualStyleBackColor = True
-		'
-		'Label9
-		'
-		resources.ApplyResources(Me.Label9, "Label9")
-		Me.Label9.Name = "Label9"
 		'
 		'IntroApuntes
 		'
