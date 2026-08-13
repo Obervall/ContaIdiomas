@@ -195,7 +195,7 @@ Public Class Principal
                         System.Diagnostics.Process.Start(New System.Diagnostics.ProcessStartInfo("https://microsoft.com") With {.UseShellExecute = True})
                     End Try
                     Application.Exit()
-                    End
+                    Return
                 Else
                     ' =========================================================================
                     ' 🚀 EL CHIVATO VISUAL DE LA REVOLUCIÓN 3.2.8.0
