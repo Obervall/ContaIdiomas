@@ -18,7 +18,8 @@ Public Class Preferencias
         TxtBaseDatos.Text = My.Settings.RutaBD
 
         estaCargado = False ' Se establece la variable estaCargado a False al iniciar la carga
-        ' del formulario para evitar que los eventos de cambio de las preferencias se ejecuten antes de cargar los valores.
+        ' del formulario para evitar que los eventos de cambio de las preferencias se
+        ' ejecuten antes de cargar los valores.
 
         TL(0) = New ToolTip
         TL(0).SetToolTip(Me.TxtBaseDatos, My.Settings.RutaBD)
