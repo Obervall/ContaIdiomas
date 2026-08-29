@@ -3401,18 +3401,19 @@ Module Funciones
                                     frm.Close()
                                 End Sub
 
-
-        ' Enfoque dinámico inteligente según la cultura activa de My.Settings
+        ' Enfoque dinámico inteligente: asignamos el botón por defecto adaptado al mercado internacional
         Dim culturaActiva As String = My.Settings.CulturaUsuario.ToString().Trim().ToLower()
-        If culturaActiva = "en" Then
-            frm.AcceptButton = btnEN
-            btnEN.Focus()
-        ElseIf culturaActiva = "ca" Then
+        If culturaActiva = "ca" Then
             frm.AcceptButton = btnCAT
             btnCAT.Focus()
-        Else
+        ElseIf culturaActiva = "es" Then
             frm.AcceptButton = btnES
             btnES.Focus()
+        Else
+            ' Si el idioma es inglés ("en") o cualquiera de los nuevos (de, fr, it, pt), 
+            ' ponemos el foco por defecto en el botón de Inglés como estándar global.
+            frm.AcceptButton = btnEN
+            btnEN.Focus()
         End If
 
         ' Desplegamos la ventana modal en el monitor y capturamos la respuesta
@@ -3538,14 +3539,20 @@ Module Funciones
             End If
 
             ' 4. 🚀 LANZAMIENTO INMUNE: Abrimos el manual del idioma correspondiente desde AppData
+            ' Salvavidas de título para tus MsgBox usando tu nueva Key global unificada
+            Dim txtTituloApp As String = If(resManager?.GetString("AppDisplayName"), "ContaHogar 3.0 Premium")
+
             If System.IO.File.Exists(rutaDestinoPDF) Then
                 System.Diagnostics.Process.Start(New System.Diagnostics.ProcessStartInfo(rutaDestinoPDF) With {.UseShellExecute = True})
             Else
-                MsgBox(resManager.GetString("ErrorArchivoAyudaNoEncontrado"), MsgBoxStyle.Information, resManager.GetString("Aviso"))
+                ' 🎯 REPARADO: Ahora el título del aviso cambia dinámicamente según el idioma activo de la Store
+                MsgBox(resManager.GetString("ErrorArchivoAyudaNoEncontrado"), MsgBoxStyle.Information, txtTituloApp)
             End If
 
         Catch ex As Exception
-            MsgBox(resManager.GetString("Error") & ": " & ex.Message, MsgBoxStyle.Critical)
+            ' 🎯 REPARADO: Añadido el título dinámico también en el Catch de errores fatales
+            Dim txtTituloApp As String = If(resManager?.GetString("AppDisplayName"), "ContaHogar 3.0 Premium")
+            MsgBox(resManager.GetString("Error") & ": " & ex.Message, MsgBoxStyle.Critical, txtTituloApp)
         End Try
     End Sub
 

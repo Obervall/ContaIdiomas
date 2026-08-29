@@ -91,14 +91,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ContaHogar3.0.exe" size="5074944">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ContaHogar3.0.exe" size="5065216">
       <assemblyIdentity name="ContaHogar3.0" version="0.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>mu5KBAFEkmMMQ+4EtPZ1xCh4ooCOnqZ9Of5fCY4w3WM=</dsig:DigestValue>
+        <dsig:DigestValue>ccwMaBErsiAEoMSz5otPZ3i2PYEdkhEPEI66hu8w32Y=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -110,7 +110,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>MfijVdOKVOFuoD/JyRvJxP4hHPfLziooWi0vgoBMLfs=</dsig:DigestValue>
+        <dsig:DigestValue>OnJn8j6C69i3XQhoIix+y6DTFmTKQAynobmJvb2DW28=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -894,13 +894,13 @@
       <dsig:DigestValue>JQ/WH7TxU0FmH4jmjhaVHOPTy+ouYrNsBbLDnZjc9Ks=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Version.pdf" size="4452222">
+  <file name="Version.pdf" size="4142232">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>jedoO1mr/ca7oOasuUkYZc1H1FTkY8ANhMjOb+CBsaw=</dsig:DigestValue>
+      <dsig:DigestValue>V2+Tq0vfDWcFL9I6De94C5nsz8QSuY+qiwPy19pXT9k=</dsig:DigestValue>
     </hash>
   </file>
   <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
