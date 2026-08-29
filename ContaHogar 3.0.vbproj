@@ -329,16 +329,6 @@
     <Compile Include="SeleccionFechas.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Strings\en-US\Resources1.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resw</DependentUpon>
-    </Compile>
-    <Compile Include="Strings\es-ES\Resources1.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resw</DependentUpon>
-    </Compile>
     <Compile Include="TipoCuentasBancarias.Designer.vb">
       <DependentUpon>TipoCuentasBancarias.vb</DependentUpon>
     </Compile>
@@ -1446,16 +1436,6 @@
     <EmbeddedResource Include="SeleccionFechas.resx">
       <DependentUpon>SeleccionFechas.vb</DependentUpon>
     </EmbeddedResource>
-    <None Include="Strings\es-ES\Resources.resw">
-      <CustomToolNamespace>My.Resources</CustomToolNamespace>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources1.Designer.vb</LastGenOutput>
-    </None>
-    <None Include="Strings\en-US\Resources.resw">
-      <CustomToolNamespace>My.Resources</CustomToolNamespace>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources1.Designer.vb</LastGenOutput>
-    </None>
     <EmbeddedResource Include="TipoCuentasBancarias.ca.resx">
       <DependentUpon>TipoCuentasBancarias.vb</DependentUpon>
     </EmbeddedResource>
