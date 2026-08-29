@@ -72,7 +72,8 @@ Public Class AprendizajeBancario
 
                     Else
                         ' 🎉 ¡EL TRIUNFO TOTAL DEL ASISTENTE ARTESANAL! Si ya no quedan más filas temporales, cerramos el taller
-                        MsgBox(rmse.GetString("ExtractoCompletado"), MsgBoxStyle.Information, "ContaHogar 3.0 Premium")
+                        MsgBox(rmse.GetString("ExtractoCompletado"), MsgBoxStyle.Information, resManager.GetString("AppDisplayName"))
+
                         vIdExtractoActual = 0
 
                         ' En forma Modal, es asi
@@ -92,12 +93,12 @@ Public Class AprendizajeBancario
         End Try
     End Sub
 
-    Private Sub IntroApuntes_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub AprendizajeBancario_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-		' 🔒 DECAPITAMOS EL CAMINO DEL TABULADOR EN LAS CASILLAS DE SOLO LECTURA
-		' El cursor jamás se detendrá aquí dentro al pulsar el Tabulador
-		TxtImporte.TabStop = False
-		BtnConcepto.TabStop = False
+        ' 🔒 DECAPITAMOS EL CAMINO DEL TABULADOR EN LAS CASILLAS DE SOLO LECTURA
+        ' El cursor jamás se detendrá aquí dentro al pulsar el Tabulador
+        TxtImporte.TabStop = False
+        BtnConcepto.TabStop = False
         BtnDescripcion.TabStop = False
         CmbCuenta.TabStop = False ' Si el banco tampoco se toca, lo capamos también
 

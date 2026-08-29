@@ -154,6 +154,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a ContaHogar 3.0 Premium.
+    '''</summary>
+    Friend Shared ReadOnly Property AppDisplayName() As String
+        Get
+            Return ResourceManager.GetString("AppDisplayName", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a El Archivo No contiene Registros válidos para procesar.
     '''</summary>
     Friend Shared ReadOnly Property ArchivoNoContieneRegistros() As String

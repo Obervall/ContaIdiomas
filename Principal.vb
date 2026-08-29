@@ -264,7 +264,7 @@ Public Class Principal
         Catch ex As UnauthorizedAccessException
             ' 🚨 EL CORTAFUEGOS DEL ANTIVIRUS: Si salta el bloqueo estricto de Windows o Windows Defender
             Dim msgAntivirus As String = "El antivirus o la protección de Windows está bloqueando el acceso a 'Mis Documentos'." & vbCrLf &
-                                         "Por favor, añade este programa a la lista de exclusiones o permite el acceso controlado a carpetas para poder usar ContaHogar 3.0 Premium."
+                                         "Por favor, añade este programa a la lista de exclusiones o permite el acceso controlado a carpetas para poder usar " & resManager.GetString("AppDisplayName") & "."
 
             ' Pescamos de forma segura la traducción si existe en tu ResX (Castellano / Catalán / Inglés)
             If resManager IsNot Nothing Then
@@ -1372,7 +1372,7 @@ Public Class Principal
             ' Si la base ya tiene IDs numéricos, limpia el clon y frena el Sub en seco
             If Not necesitaActualizar Then
                 If File.Exists(RutaClonMigrada) Then File.Delete(RutaClonMigrada)
-                MsgBox(rmse.GetString("MsgExisteClonMigracion"), MsgBoxStyle.Information, rmse.GetString("ImportarContahogar"))
+                MsgBox(rmse.GetString("MsgExisteClonMigracion"), MsgBoxStyle.Information, rmse.GetString("AppDisplayName"))
                 Exit Sub
             End If
             ' Lanzamos tu rutina específica de alteración estructural aislada

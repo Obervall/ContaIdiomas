@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Label1.Text" xml:space="preserve">
-    <value>ContaHogar 3.0 Premium
+    <value>FinançasDomésticas 3.0 Premium
 
 Fiz este aplicativo tendo como referência,
 o do ContaHogar, criado por Eugenio Glez.
@@ -140,7 +140,7 @@ Você pode enviar impressões e sugestões para:
     <value>contahogar2@gmail.com</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Sobre ContaHogar 3.0 Premium</value>
+    <value>Sobre FinançasDomésticas 3.0 Premium</value>
   </data>
   <data name="VersionInstalada" xml:space="preserve">
     <value>Versão Instalada</value>

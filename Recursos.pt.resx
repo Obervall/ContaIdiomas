@@ -995,7 +995,7 @@ compre a versão completa na Microsoft Store.</value>
   <data name="Error_Permisos_Antivirus" xml:space="preserve">
     <value>Seu antivírus ou proteção do Windows está bloqueando o acesso aos Meus Documentos.
 Por favor, adicione este programa à lista de exclusão
-ou permite acesso controlado a pastas para poder usar o ContaHogar 3.0 Premium.</value>
+ou permite acesso controlado a pastas para poder usar o FinançasDomésticas 3.0 Premium.</value>
   </data>
   <data name="ErrorArchivoPrivacidadNoEncontrado" xml:space="preserve">
     <value>Não consegui encontrar o arquivo da Política de Privacidade na pasta Documentos local</value>
@@ -1008,5 +1008,8 @@ ou permite acesso controlado a pastas para poder usar o ContaHogar 3.0 Premium.<
   </data>
   <data name="ErrorProcesarMatrizBancaria" xml:space="preserve">
     <value>Matriz do Banco de Processamento de Erros</value>
+  </data>
+  <data name="AppDisplayName" xml:space="preserve">
+    <value>FinançasDomésticas 3.0 Premium</value>
   </data>
 </root>

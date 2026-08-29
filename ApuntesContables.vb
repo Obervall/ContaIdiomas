@@ -2287,7 +2287,7 @@ Public Class ApuntesContables
 
                 ' 🪓 CONTROL FINAL DE RECHAZO O CONTINUACIÓN
                 If Not aduanaOK Then
-                    MsgBox(rmse.GetString("NoTieneCoordenadasProcesarExcel"), MsgBoxStyle.Information, "ContaHogar 3.0 Premium")
+                    MsgBox(rmse.GetString("NoTieneCoordenadasProcesarExcel"), MsgBoxStyle.Information, resManager.GetString("AppDisplayName"))
                     Exit Sub ' Frenazo rígido si el formato es incorrecto
                 End If
             Catch ex As Exception

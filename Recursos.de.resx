@@ -995,7 +995,7 @@ Kaufen Sie die Vollversion im Microsoft Store.</value>
   <data name="Error_Permisos_Antivirus" xml:space="preserve">
     <value>Dein Antiviren- oder Windows-Schutz blockiert den Zugriff auf Meine Dokumente.
 Bitte fügen Sie dieses Programm auf die Ausschlussliste hinzu
-oder ermöglicht kontrollierten Zugriff auf Ordner, um ContaHogar 3.0 Premium nutzen zu können.</value>
+oder ermöglicht kontrollierten Zugriff auf Ordner, um Haushaltsbuch 3.0 Premium nutzen zu können.</value>
   </data>
   <data name="ErrorArchivoPrivacidadNoEncontrado" xml:space="preserve">
     <value>Ich konnte die Datenschutzrichtlinie in deinem lokalen Dokumentenordner nicht finden</value>
@@ -1008,5 +1008,8 @@ oder ermöglicht kontrollierten Zugriff auf Ordner, um ContaHogar 3.0 Premium nu
   </data>
   <data name="ErrorProcesarMatrizBancaria" xml:space="preserve">
     <value>Fehlerverarbeitungs-Bankmatrix</value>
+  </data>
+  <data name="AppDisplayName" xml:space="preserve">
+    <value>Haushaltsbuch 3.0 Premium</value>
   </data>
 </root>

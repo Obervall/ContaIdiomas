@@ -995,7 +995,7 @@ purchase the full version from the Microsoft Store.</value>
   <data name="Error_Permisos_Antivirus" xml:space="preserve">
     <value>Your antivirus or Windows protection is blocking access to My Documents.
 Please add this program to the exclusion list
-or allows controlled access to folders to be able to use ContaHogar 3.0 Premium.</value>
+or allows controlled access to folders to be able to use HomeBudget 3.0 Premium.</value>
   </data>
   <data name="ErrorArchivoPrivacidadNoEncontrado" xml:space="preserve">
     <value>Could not find the Privacy Policy file in your local Documents folder</value>
@@ -1008,5 +1008,8 @@ or allows controlled access to folders to be able to use ContaHogar 3.0 Premium.
   </data>
   <data name="ErrorProcesarMatrizBancaria" xml:space="preserve">
     <value>Error Processing Bank Matrix</value>
+  </data>
+  <data name="AppDisplayName" xml:space="preserve">
+    <value>HomeBudget 3.0 Premium</value>
   </data>
 </root>

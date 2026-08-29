@@ -995,7 +995,7 @@ adquireixi la versió completa a la Microsoft Store.</value>
   <data name="Error_Permisos_Antivirus" xml:space="preserve">
     <value>L'antivirus o la protecció de Windows està bloquejant l'accés als meus Documents.
 Per favor, afegeix aquest programa a la llista d'exclusions
-o permet l'accés controlat a carpetes per poder usar ContaHogar 3.0 Premium.</value>
+o permet l'accés controlat a carpetes per poder usar GestióDomèstica 3.0 Premium.</value>
   </data>
   <data name="ErrorArchivoPrivacidadNoEncontrado" xml:space="preserve">
     <value>No es va poder trobar l'arxiu de Política de Privacitat a la seva carpeta de Documents local</value>
@@ -1008,5 +1008,8 @@ o permet l'accés controlat a carpetes per poder usar ContaHogar 3.0 Premium.</v
   </data>
   <data name="ErrorProcesarMatrizBancaria" xml:space="preserve">
     <value>Matriu del Banc de Processament d'Errors</value>
+  </data>
+  <data name="AppDisplayName" xml:space="preserve">
+    <value>GestióDomèstica 3.0 Premium</value>
   </data>
 </root>

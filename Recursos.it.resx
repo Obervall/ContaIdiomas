@@ -995,7 +995,7 @@ acquista la versione completa dal Microsoft Store.</value>
   <data name="Error_Permisos_Antivirus" xml:space="preserve">
     <value>Il tuo antivirus o la protezione di Windows sta bloccando l'accesso a My Documents.
 Per favore, aggiungi questo programma alla lista delle esclusioni
-oppure consente un accesso controllato alle cartelle per poter utilizzare ContaHogar 3.0 Premium.</value>
+oppure consente un accesso controllato alle cartelle per poter utilizzare GestioneSpese Casa 3.0 Premium.</value>
   </data>
   <data name="ErrorArchivoPrivacidadNoEncontrado" xml:space="preserve">
     <value>Non sono riuscito a trovare il file dell'Informativa sulla Privacy nella cartella Documenti locale</value>
@@ -1008,5 +1008,8 @@ oppure consente un accesso controllato alle cartelle per poter utilizzare ContaH
   </data>
   <data name="ErrorProcesarMatrizBancaria" xml:space="preserve">
     <value>Matrice della Banca di Elaborazione degli Errori</value>
+  </data>
+  <data name="AppDisplayName" xml:space="preserve">
+    <value>GestioneSpese Casa 3.0 Premium</value>
   </data>
 </root>

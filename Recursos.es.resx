@@ -1009,4 +1009,7 @@ adquiera la versión completa en la Microsoft Store.</value>
   <data name="ErrorProcesarMatrizBancaria" xml:space="preserve">
     <value>Error al Procesar Matriz Bancaria</value>
   </data>
+  <data name="AppDisplayName" xml:space="preserve">
+    <value>ContaHogar 3.0 Premium</value>
+  </data>
 </root>

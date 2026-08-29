@@ -142,14 +142,14 @@ Module Funciones
             ' Capturamos el idioma activo de la sesión de la RAM
             Dim culturaActivaEnVivo As System.Globalization.CultureInfo = Threading.Thread.CurrentThread.CurrentUICulture
 
-            ' Leemos del resManager general con su salvavidas de texto plano por defecto
-            Dim txtTitol As String = If(resManager?.GetString("TitolApp", culturaActivaEnVivo), "ContaHogar")
+            ' Leemos del resManager general con su salvavidas de texto plano por defecto (Usando tu nueva Key)
+            Dim txtTitol As String = If(resManager?.GetString("AppDisplayName", culturaActivaEnVivo), "ContaHogar 3.0 Premium")
             Dim txtVersio As String = If(resManager?.GetString("Versio", culturaActivaEnVivo), "Versión")
             Dim txtExercici As String = If(resManager?.GetString("Ejercicio", culturaActivaEnVivo), "Ejercicio")
             Dim txtAvisoDiasRestantes As String = If(vAviso2, resManager.GetString("VersionEvaluacion") & ":  " & vAvisoDiasRestantes & " " & resManager.GetString("dias"), "")
 
             ' Forzamos el ensamblado del rótulo de cabecera de forma dócil e indestructible
-            f.Text = String.Format("{0} ContaHogar 3.0 Premium  -  {1}: {2}  -  {3}: {4}       {5}",
+            f.Text = String.Format("{0}  -  {1}: {2}  -  {3}: {4}       {5}",
                                         txtTitol.Trim(),
                                         txtVersio.Trim(),
                                         My.Settings.Version,
@@ -157,6 +157,7 @@ Module Funciones
                                         vAñoEjercicio.ToString(),
                                         txtAvisoDiasRestantes.Trim())
         End If
+
     End Sub
 
     ' Método intermedio recursivo indispensable para limpiar tu antiguo bucle con "HasChildren"
@@ -3603,12 +3604,12 @@ Module Funciones
 
             ' 3. Si la de internet es superior, disparamos tu cañón de descarga visual
             If versionNueva > versionActual Then
-                Dim msg As String = "¡Hay una nueva actualización disponible para tu ContaHogar 3.0!" & vbCrLf & vbCrLf &
+                Dim msg As String = "¡Hay una nueva actualización disponible para tu " & resManager.GetString("AppDisplayName") & "!" & vbCrLf & vbCrLf &
                                    "• Tu versión actual: " & My.Settings.Version & vbCrLf &
                                    "• Nueva versión: " & vNewVersion & vbCrLf & vbCrLf &
                                    "¿Deseas descargar e instalar el nuevo parche .msi ahora mismo de forma automática?"
 
-                If MsgBox(msg, MsgBoxStyle.YesNo + MsgBoxStyle.Information, "Actualizador ContaHogar VIP") = MsgBoxResult.Yes Then
+                If MsgBox(msg, MsgBoxStyle.YesNo + MsgBoxStyle.Information, "Actualizador " & resManager.GetString("AppDisplayName")) = MsgBoxResult.Yes Then
 
                     ' Aseguramos que la carpeta local exista en el disco duro para que no rompa el hilo
                     If Not Directory.Exists("C:\ContaHogar3.0") Then
@@ -3763,7 +3764,7 @@ Module Funciones
                     ' 🚀 LANZAMIENTO ELÁSTICO NO MODAL FLOTANTE
                     frmIA.Show(frmApuntesContables)
                 Else
-                    MsgBox(resManager.GetString("ArchivoNoContieneRegistros"), MsgBoxStyle.Information, "ContaHogar 3.0 Premium")
+                    MsgBox(resManager.GetString("ArchivoNoContieneRegistros"), MsgBoxStyle.Information, resManager.GetString("AppDisplayName"))
                 End If
             End Using
 
