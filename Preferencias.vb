@@ -167,45 +167,19 @@ Public Class Preferencias
                 cultura = "it"
             End If
 
+            ' 1. Guardamos la nueva cultura elegida por el usuario
             My.Settings.CulturaUsuario = cultura
             My.Settings.Save()
-            My.Settings.Reload()
 
-            ' Llamamos a la función del módulo
-            My.Resources.Culture = New System.Globalization.CultureInfo(cultura)
-            CambiarIdiomaGlobal(cultura)
+            ' 2. Mostramos un aviso dócil informando del reinicio inmediato
+            Dim txtAviso As String = If(resManager?.GetString("AppDisplayName"), "ContaHogar 3.0 Premium")
+            Dim txtMensajeReinicio As String = If(resManager?.GetString("MsgReinicioIdioma"), "La aplicación se reiniciará para aplicar el nuevo idioma.")
 
-            ' 1. Cambiar la cultura del hilo (para nuevos formularios)
-            Dim nuevaCultura As New System.Globalization.CultureInfo(cultura)
-            System.Threading.Thread.CurrentThread.CurrentUICulture = nuevaCultura
-            System.Threading.Thread.CurrentThread.CurrentCulture = nuevaCultura
-            System.Globalization.CultureInfo.DefaultThreadCurrentCulture = nuevaCultura
-            System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = nuevaCultura
+            MsgBox(txtMensajeReinicio, MsgBoxStyle.Information, txtAviso)
 
-            ' 2. Aplicar a todos los formularios abiertos
-            For Each f As Form In Application.OpenForms
-                'MsgBox("Aplicando idioma a: " & f.Name)
-                If TypeOf f Is Preferencias Then
-                    ActualizarTextosFormulario(f)
-                End If
-                ' 3. Refrescar el formulario Principal
-                If TypeOf f Is Principal Then
-                    Dim frmPrincipal = DirectCast(f, Principal)
-                    frmPrincipal.RefrescarTextos()
-                    frmPrincipal.RefrescarMenus()
-                End If
-                ' 4. Aplicamos los recursos a cada control del formulario
-                Dim resManager As New ComponentResourceManager(f.GetType())
-                AplicarRecursosAControles(f, resManager)
-                ' 5. Opcional: Actualiza el título del formulario
-                If TypeOf f Is Preferencias Then
-                    resManager.ApplyResources(f, "$this")
-                End If
-            Next
+            ' 3. Cerramos todos los hilos gráficos y volvemos a arrancar desde cero
+            Application.Restart()
         End If
-        ' Refrescamos los valores de las preferencias después de cambiar el idioma
-        TxtPathExportar.Text = My.Settings.PathExportar
-        TxtBaseDatos.Text = My.Settings.RutaBD
     End Sub
 
     Private Sub CmbMonedas_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbMonedas.SelectedIndexChanged
