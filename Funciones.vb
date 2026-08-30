@@ -3508,8 +3508,10 @@ Module Funciones
             frm.AcceptButton = btnCAT
             btnCAT.Focus()
         Else
-            frm.AcceptButton = btnES
-            btnES.Focus()
+            ' Si el idioma es inglés ("en") o cualquiera de los nuevos (de, fr, it, pt), 
+            ' ponemos el foco por defecto en el botón de Inglés como estándar global.
+            frm.AcceptButton = btnEN
+            btnEN.Focus()
         End If
 
         ' Desplegamos la ventana modal en el monitor y capturamos la respuesta

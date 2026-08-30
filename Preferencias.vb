@@ -79,21 +79,39 @@ Public Class Preferencias
     End Sub
 
     Private Sub ChbPantallaCompleta_Click(sender As Object, e As EventArgs) Handles ChbPantallaCompleta.Click
-        ChbPantallaCompleta.Checked = True
-        ChbPantallaCierre.Checked = False
-        My.Settings.PantallaCompleta = True
-        My.Settings.PantallaCierre = False
-        My.Settings.Save()
-        My.Settings.Reload()
+        If ChbPantallaCompleta.Checked Then
+            ChbPantallaCompleta.Checked = True
+            ChbPantallaCierre.Checked = False
+            My.Settings.PantallaCompleta = True
+            My.Settings.PantallaCierre = False
+            My.Settings.Save()
+            My.Settings.Reload()
+        Else
+            ChbPantallaCompleta.Checked = False
+            ChbPantallaCierre.Checked = True
+            My.Settings.PantallaCompleta = False
+            My.Settings.PantallaCierre = True
+            My.Settings.Save()
+            My.Settings.Reload()
+        End If
     End Sub
 
     Private Sub ChbPantallaCierre_Click(sender As Object, e As EventArgs) Handles ChbPantallaCierre.Click
-        ChbPantallaCompleta.Checked = False
-        ChbPantallaCierre.Checked = True
-        My.Settings.PantallaCompleta = False
-        My.Settings.PantallaCierre = True
-        My.Settings.Save()
-        My.Settings.Reload()
+        If ChbPantallaCierre.Checked Then
+            ChbPantallaCompleta.Checked = False
+            ChbPantallaCierre.Checked = True
+            My.Settings.PantallaCompleta = False
+            My.Settings.PantallaCierre = True
+            My.Settings.Save()
+            My.Settings.Reload()
+        Else
+            ChbPantallaCompleta.Checked = True
+            ChbPantallaCierre.Checked = False
+            My.Settings.PantallaCompleta = True
+            My.Settings.PantallaCierre = False
+            My.Settings.Save()
+            My.Settings.Reload()
+        End If
     End Sub
 
     Private Sub CheckBox1_Click(sender As Object, e As EventArgs) Handles CheckBox1.Click

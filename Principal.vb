@@ -7,6 +7,7 @@ Imports System.IO
 Imports System.Linq
 Imports System.Windows.Forms
 Imports ClosedXML.Excel
+Imports ContaHogar.My
 
 Public Class Principal
 
@@ -108,6 +109,9 @@ Public Class Principal
     End Sub
 
     Private Sub Principal_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        Me.StartPosition = FormStartPosition.Manual
+
 
         'My.Settings.vPantalla = Date.MinValue  ' Para limpiar la fecha de prueba y reiniciar el periodo de evaluación
 
@@ -355,53 +359,61 @@ Public Class Principal
         My.Settings.Save()
         My.Settings.Reload()
 
-        'Leemos el Settings para saber los Monitores que había la última vez
-        '********************************************************************
-        CantPantallas = My.Settings.Pantallas
+        ' 1. Detectamos los monitores actuales sin necesidad de bucles For Each
+        Dim vPantallas As Integer = Screen.AllScreens.Length
+        Dim CantPantallas As Integer = My.Settings.Pantallas
 
-        'Se examinan todas las pantallas y se detectan cuantas hay
-        '**********************************************************
-        vPantallas = 0
-        For Each scrn As Screen In Screen.AllScreens
-            vPantallas += 1
-        Next
+        ' Creamos variables numéricas nativas para evitar romper cadenas de texto
+        Dim x As Integer = 150
+        Dim y As Integer = 100
+        Dim vWidth As Integer = 1139
+        Dim vHeigth As Integer = 629
 
-        If vPantallas = 1 And CantPantallas >= 2 Then
-            vPosicion = "{x=150,y=0}"
-            x = Val(Mid(vPosicion, 4, (InStrRev(vPosicion, ",") - 1)))
-            y = Val(Mid(vPosicion, (InStrRev(vPosicion, "=") + 1)))
+        ' 2. Si pasamos de varios monitores a solo uno, aplicamos las medidas a salvo
+        If vPantallas = 1 AndAlso CantPantallas >= 2 Then
+            x = 150
+            y = 100 ' Le asignamos 100 directamente para evitar el techo 0
             vWidth = 1139
             vHeigth = 629
         Else
-            vPosicion = My.Settings.Posicion
-            x = Val(Mid(vPosicion, 4, (InStrRev(vPosicion, ",") - 1)))
-            y = Val(Mid(vPosicion, (InStrRev(vPosicion, "=") + 1)))
+            ' 🛡️ ESCUDO EXTRACCIÓN SEGURO: En lugar de usar Mid/InStr, leemos las variables directas que guardamos en Closing
+            ' Si por lo que sea My.Settings guarda un valor corrupto, usamos un Try/Catch silencioso
+            Try
+                ' Como en FormClosing guardas Me.Width y Me.Height en propiedades numéricas separadas, las usamos directamente!
+                vWidth = If(My.Settings.PantallaAncho > 0, My.Settings.PantallaAncho, 1139)
+                vHeigth = If(My.Settings.PantallaAlto > 0, My.Settings.PantallaAlto, 629)
 
-            ' PARACHOQUES: Si la posición guardada es el techo total (0), 
-            ' le forzamos a bajar un poco (ej. 100) para que no se quede atrapado
-            If y = 0 Then y = 100
+                ' Para recuperar X e Y sin romper el texto, usamos el objeto Point nativo si es posible,
+                ' o simplemente lee de variables numéricas si las creas en Settings. 
+                ' Como usas Me.Location.ToString(), lo desmenuzamos de forma inmune a espacios o mayúsculas:
+                Dim limpio As String = My.Settings.Posicion.Replace("{", "").Replace("}", "").Replace(" ", "").ToLower()
+                ' Resultado esperado uniforme: "x=150,y=100"
+                Dim partes() As String = limpio.Split(","c)
+                x = CInt(Val(partes(0).Split("="c)(1)))
+                y = CInt(Val(partes(1).Split("="c)(1)))
+            Catch
+                ' Si el parseo de la cadena falla por culpa del idioma, forzamos valores seguros por defecto
+                x = 150
+                y = 100
+            End Try
 
-            vWidth = My.Settings.PantallaAncho
-            vHeigth = My.Settings.PantallaAlto
+            ' PARACHOQUES: Tu regla de que no se quede atrapado en el techo absoluto
+            If y <= 0 Then y = 100
         End If
-        ' Tu código original con el CInt que blinda el multiidioma
-        Me.Location = New Point(CInt(x), CInt(y))
-        Me.Size = New Size(CInt(vWidth), CInt(vHeigth))
 
-        'Si en el ChbPantallaCompleta.Checked = True, se abre Pantalla Completa
-        '***********************************************************************
+        ' 3. Aplicamos la ubicación inicial calculada
+        Me.Location = New Point(x, y)
+        Me.Size = New Size(vWidth, vHeigth)
+
+        ' 4. Reglas de Pantalla Completa o Cierre (Mantenemos tu lógica intacta)
+        ' Si la opción de pantalla completa está activa, maximizamos la ventana de forma nativa
         If My.Settings.PantallaCompleta = True Then
-            Me.Location = New Point(0, 0)
-            Me.Size = Screen.PrimaryScreen.WorkingArea.Size
-            Me.Height = Screen.PrimaryScreen.WorkingArea.Height
+            Me.WindowState = FormWindowState.Maximized
         End If
-
         If My.Settings.PantallaCierre = True Then
             Me.Location = New Point(x, y)
             Me.Size = New Size(vWidth, vHeigth)
         End If
-
-        AnchoFrmPrincipal = Me.Size.Width
 
         tipoDsn = "AccessMdb" ' Se conecta a Mdb
         Conectarse(tipoDsn)
@@ -606,6 +618,8 @@ Public Class Principal
             End Try
         Next
         ActualizarTextosFormulario(Me)
+        ' En lugar de Me.Size, oblígalo redefiniendo los límites nativos:
+        Me.SetBounds(x, y, vWidth, vHeigth)
     End Sub
 
     Private Sub IP_Timer(ByVal sender As Object, ByVal e As EventArgs)
@@ -1919,21 +1933,29 @@ Public Class Principal
     End Sub
 
     Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
-        ' Se verifica si la razón para cerrar es la 3, es decir, el botón X.
-        If e.CloseReason = 3 Then
+        Try
+            ' Guardamos las medidas actuales de la ventana principal
             My.Settings.PantallaAncho = Me.Width
             My.Settings.PantallaAlto = Me.Height
-            My.Settings.Posicion = Me.Location.ToString
-            CantPantallas = 0
-            For Each scrn As Screen In Screen.AllScreens
-                CantPantallas += 1
-            Next
-            My.Settings.Pantallas = CantPantallas
+            My.Settings.Posicion = Me.Location.ToString()
+
+            ' Contamos las pantallas activas de forma directa y limpia sin bucles
+            My.Settings.Pantallas = Screen.AllScreens.Length
+
+            ' Consolidamos los datos en el disco duro del usuario
             My.Settings.Save()
-            My.Settings.Reload()
-            e.Cancel = False ' NO Se cancela la solicitud de cerrar
-        End If
+
+            ' Nota: My.Settings.Reload() no es necesario aquí porque la app ya se está cerrando, 
+            ' pero no rompe nada si decides dejarlo.
+
+        Catch ex As Exception
+            ' Evitamos que un fallo al guardar las coordenadas congele el cierre de la app
+        End Try
+
+        ' Garantizamos que el formulario se cierre en paz bajo cualquier circunstancia
+        e.Cancel = False
     End Sub
+
 
     Private Sub BtnHistorialVersiones_Click(sender As Object, e As EventArgs) Handles BtnHistorialVersiones.Click
         HistorialDeVersionesToolStripMenuItem.PerformClick()

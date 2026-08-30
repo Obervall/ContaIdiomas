@@ -768,8 +768,8 @@ Partial Class Principal
 		'
 		'Principal
 		'
+		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
 		resources.ApplyResources(Me, "$this")
-		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
 		Me.Controls.Add(Me.PictureBox1)
 		Me.Controls.Add(Me.ButtonActualizar)
 		Me.Controls.Add(Me.LblNotificacion)
