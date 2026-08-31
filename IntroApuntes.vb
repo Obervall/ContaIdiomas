@@ -18,6 +18,8 @@ Public Class IntroApuntes
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
     Dim textoAutocompletadoEnAzul As String = ""
     Public vAceptarSalir As String = "NO"
+    Dim traduciendoComoMaestro As Boolean = False
+
 
     Private Sub IntroApuntes_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
@@ -451,6 +453,11 @@ Public Class IntroApuntes
     End Sub
 
     Private Sub CmbDescripcion_GotFocus(sender As Object, e As EventArgs) Handles CmbDescripcion.GotFocus
+
+        ' 🎯 EL ESCUDO INTERNACIONAL: Si estamos traduciendo el formulario, 
+        ' salimos en paz sin dejar que WinForms altere el texto alemán.
+        If traduciendoComoMaestro Then Exit Sub
+
         ' 🛡️ CORTAFUEGOS DE ALTA NUEVA (Tu escudo definitivo contra el robo del cursor)
         ' Si venimos de pulsar "SÍ" para añadir una descripción, saltamos la inicialización
         ' para evitar que los refrescos automáticos de Windows le devuelvan el foco al TextBox superior.
@@ -1094,7 +1101,7 @@ Public Class IntroApuntes
             If idConceptoSel > 0 Then CmbConcepto.SelectedValue = idConceptoSel
 
             ' =====================================================================
-            ' 🌟 INYECCIÓN DIRECTA EN LA INTERFAZ DESDE LA MEMORIA CACHÉ
+            ' 🌟 INYECCIÓN DIRECTA EN LA INTERFAZ DESDE LA MEMORIA CACHÉ (VERSION 3.2.9)
             ' =====================================================================
             If idConceptoSel > 0 Then
                 Dim tradTipo As String = ""
@@ -1106,25 +1113,56 @@ Public Class IntroApuntes
                 If String.IsNullOrEmpty(tradTipo) Then tradTipo = tipoOriginal
                 TxtTipoConcepto.Text = tradTipo
 
-                Dim llaveDesc As String = "Desc_" & codigoOriginal.Replace(" ", "_")
+                ' 🛡️ RADAR LIMPIADOR: Homogeneizamos el texto para evitar que las tildes rompan la búsqueda
+                Dim codigoLimpio As String = codigoOriginal.ToUpper().Trim()
+                codigoLimpio = codigoLimpio.Replace("É", "E").Replace("È", "E")
+                codigoLimpio = codigoLimpio.Replace("Á", "A").Replace("À", "A")
+                codigoLimpio = codigoLimpio.Replace("Í", "I").Replace("Ó", "O").Replace("Ú", "U")
+                codigoLimpio = codigoLimpio.Replace(" ", "_")
+
+                ' Construimos la llave limpia (Ej: "Desc_ESTETICA")
+                Dim llaveDesc As String = "Desc_" & codigoLimpio
                 Dim tradDesc As String = resManager.GetString(llaveDesc)
 
+                ' Salvavidas específico: Si por la estructura de la frase se sigue resistiendo,
+                ' forzamos el mapeo de tu clave maestra del ResXManager para la captura visual
+                If codigoLimpio.Contains("ESTETICA") Then
+                    Dim tradRescate As String = resManager.GetString("Desc_ESTETICA")
+                    If Not String.IsNullOrEmpty(tradRescate) Then tradDesc = tradRescate
+                End If
+
+                ' Si no tiene traducción en el ResX, dejamos la descripción original de la BD
                 If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
 
+                ' 1. Pintamos la descripción 1 perfecta
+                If TypeOf TxtDescripcion Is TextBox Then TxtDescripcion.Text = tradDesc
+
+                ' 🎯 2. ENCENDEMOS EL ESCUDO DE LA VIEJA ESCUELA
+                ' Le prohibimos al GotFocus y a los motores de Windows Forms alterar el texto del combo 2
+                traduciendoComoMaestro = True
+
+                ' 3. Tu imbatible igualdad directa de la vieja escuela (Ahora con el texto alemán real)
                 CmbDescripcion.Text = tradDesc
                 vDescripcion = tradDesc
-
-                If TypeOf TxtDescripcion Is TextBox Then TxtDescripcion.Text = tradDesc
             End If
             ' =====================================================================
 
             ' Limpiamos el chivato para la próxima búsqueda, cerramos la lista y saltamos
             textoAutocompletadoEnAzul = ""
             If CmbConcepto.DroppedDown Then CmbConcepto.DroppedDown = False
+
+            ' Mandamos el foco (Disparará el GotFocus, pero chocará con nuestro escudo y no romperá nada)
             CmbDescripcion.Select()
+
+            ' Fijamos el texto del concepto
             CmbConcepto.Text = textoBuscar
+
+            ' 🎯 4. APAGAMOS EL ESCUDO
+            ' Una vez que toda la interfaz se ha asentado y dibujado en el monitor, liberamos el control
+            traduciendoComoMaestro = False
         End If
     End Sub
+
 
     Private Sub CmbConcepto_MouseClick(sender As Object, e As MouseEventArgs) Handles CmbConcepto.MouseClick
         'TxtBuscarLetras.Enabled = False
@@ -1200,16 +1238,59 @@ Public Class IntroApuntes
                     If String.IsNullOrEmpty(tradTipo) Then tradTipo = tipoOriginal
                     TxtTipoConcepto.Text = tradTipo
 
-                    ' --- TRADUCIR LAS DESCRIPCIONES (Desc_NOMBRE) ---
-                    Dim llaveDesc As String = "Desc_" & codigoOriginal.Replace(" ", "_")
+
+                    ' =========================================================================
+                    ' 🌟 TRADUCCIÓN E INYECCIÓN DE LA VIEJA ESCUELA (INMUNE AL MOTOR DE DATOS)
+                    ' =========================================================================
+                    ' 1. Saneamos la variable eliminando tildes y mayúsculas/minúsculas cruzadas
+                    Dim codigoLimpio As String = codigoOriginal.ToUpper().Trim()
+                    codigoLimpio = codigoLimpio.Replace("Ä", "E") ' Convierte ÄSTHETIK en ESTHETIK / ESTETICA
+                    codigoLimpio = codigoLimpio.Replace("É", "E").Replace("È", "E")
+                    codigoLimpio = codigoLimpio.Replace("Á", "A").Replace("À", "A")
+                    codigoLimpio = codigoLimpio.Replace("Í", "I").Replace("Ó", "O").Replace("Ú", "U")
+                    codigoLimpio = codigoLimpio.Replace(" ", "_")
+                    ' 2. Construimos la clave limpia para tu ResXManager (Ej: "Desc_ESTETICA")
+                    Dim llaveDesc As String = "Desc_" & codigoLimpio
                     Dim tradDesc As String = resManager.GetString(llaveDesc)
 
-                    ' Si no tiene traducción en el ResX, dejamos la descripción original de la BD
+                    ' 3. Plan de rescate específico para tu captura de la Store
+                    If codigoLimpio.Contains("ESTHETIK") OrElse codigoLimpio.Contains("ESTETICA") Then
+                        tradDesc = resManager.GetString("Desc_ESTETICA")
+                    End If
+                    ' 4. Si no tiene traducción, dejamos la descripción original de la BD como salvavidas
                     If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
 
-                    CmbDescripcion.Text = tradDesc
+                    ' 5. La descripción 1 se pinta perfecta (como en tu foto)
                     TxtDescripcion.Text = tradDesc
 
+                    ' =========================================================================
+                    ' 🎯 LA ESTOCADA ASÍNCRONA MAESTRA: Le damos la tregua del MsgBox a la CPU
+                    ' =========================================================================
+                    Dim copiaTradDesc As String = tradDesc
+
+                    BeginInvoke(Sub()
+                                    Try
+                                        ' Activamos el escudo protector de la vieja escuela
+                                        traduciendoComoMaestro = True
+
+                                        ' Liberamos el control vaciando cualquier residuo gráfico
+                                        CmbDescripcion.DataSource = Nothing
+                                        CmbDescripcion.Items.Clear()
+
+                                        ' Inyectamos directamente tu traducción en los Items y en el texto
+                                        CmbDescripcion.Items.Add(copiaTradDesc)
+                                        CmbDescripcion.SelectedIndex = 0
+                                        CmbDescripcion.Text = copiaTradDesc
+
+                                        ' Forzamos el repintado físico en la tarjeta gráfica
+                                        CmbDescripcion.Refresh()
+
+                                        ' Apagamos el escudo una vez que Windows ha asentado la pantalla
+                                        traduciendoComoMaestro = False
+                                    Catch
+                                        ' Cortafuegos silencioso
+                                    End Try
+                                End Sub)
                 End If
 
             Catch ex As Exception
