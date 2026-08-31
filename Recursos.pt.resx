@@ -1012,4 +1012,10 @@ ou permite acesso controlado a pastas para poder usar o FinançasDomésticas 3.0
   <data name="AppDisplayName" xml:space="preserve">
     <value>FinançasDomésticas 3.0 Premium</value>
   </data>
+  <data name="SeCrearaEjercicio" xml:space="preserve">
+    <value>exercício será criado</value>
+  </data>
+  <data name="CreadoCorrectamente" xml:space="preserve">
+    <value>Criado corretamente</value>
+  </data>
 </root>

@@ -1012,4 +1012,10 @@ ou permet un accès contrôlé aux dossiers pour pouvoir utiliser FinancesFamill
   <data name="AppDisplayName" xml:space="preserve">
     <value>FinancesFamille 3.0 Premium</value>
   </data>
+  <data name="SeCrearaEjercicio" xml:space="preserve">
+    <value>lexercice sera créé</value>
+  </data>
+  <data name="CreadoCorrectamente" xml:space="preserve">
+    <value>Créé correctement</value>
+  </data>
 </root>

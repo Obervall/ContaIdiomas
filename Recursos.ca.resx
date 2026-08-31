@@ -1012,4 +1012,10 @@ o permet l'accés controlat a carpetes per poder usar GestióDomèstica 3.0 Prem
   <data name="AppDisplayName" xml:space="preserve">
     <value>GestióDomèstica 3.0 Premium</value>
   </data>
+  <data name="SeCrearaEjercicio" xml:space="preserve">
+    <value>es crearà exercici</value>
+  </data>
+  <data name="CreadoCorrectamente" xml:space="preserve">
+    <value>creat correctament</value>
+  </data>
 </root>

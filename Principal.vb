@@ -435,23 +435,52 @@ Public Class Principal
                 End While
                 'MsgBox("Ya Existe registro del " & vAñoActual.ToString)
             Else
-                MsgBox(resManager.GetString("NoExistenRegistros") & " " & vAñoActual.ToString & ", " & rmse.GetString("SeCrearaEjercicio"))
+                ' =========================================================================
+                ' 🎯 RADAR DE CULTURA NATIVA DE WINDOWS (Inmune a bases de datos vacías)
+                ' =========================================================================
+                ' Capturamos el idioma real del Windows del usuario (ej: "de", "fr", "en", "es")
+                Dim idiomaSistema As String = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName.ToLower()
+
+                ' Forzamos a la CPU a trabajar bajo la cultura del sistema operativo del cliente
+                Dim culturaNativa As New System.Globalization.CultureInfo(idiomaSistema)
+                System.Threading.Thread.CurrentThread.CurrentUICulture = culturaNativa
+                System.Threading.Thread.CurrentThread.CurrentCulture = culturaNativa
+
+                ' 🎯 REPARADO: Asignación directa y global sin usar objetos locales cruzados
+                My.Resources.Culture = culturaNativa
+
+                ' 1. Primer aviso dócil unificado (Traducido automáticamente al idioma de Windows)
+                ' Nota: Si tu resManager lee de los recursos globales, puedes usar My.Resources.NombreClave directamente,
+                ' o usar tu resManager local que ahora heredará automáticamente la cultura del hilo (Thread).
+                Dim txtMensaje1 As String = resManager.GetString("NoExistenRegistros") & " " & vAñoActual.ToString() & ", " & resManager.GetString("SeCrearaEjercicio")
+                Dim txtTituloApp As String = If(resManager.GetString("AppDisplayName"), "ContaHogar 3.0 Premium")
+
+                MsgBox(txtMensaje1, MsgBoxStyle.Information, txtTituloApp)
+
                 drMdb1.Close()
-                ' 1. Diseñamos la estructura limpia para ejercicios usando el comodín '?'
+
+                ' 2. Diseñamos la estructura limpia para ejercicios usando el comodín '?'
                 tipoSql = "INSERT INTO ejercicios (EjercicioEJE) VALUES (?)"
                 cmdMdb1cr.CommandText = tipoSql
 
-                ' 2. Limpiamos parámetros e inyectamos el año como un número entero puro
+                ' 3. Limpiamos parámetros e inyectamos el año como un número entero puro
                 cmdMdb1cr.Parameters.Clear()
                 cmdMdb1cr.Parameters.AddWithValue("@EjercicioEJE", CInt(vAñoActual))
                 cmdMdb1cr.CommandText = tipoSql
+
                 Try
                     cmdMdb1cr.ExecuteNonQuery()
                     vAñoEjercicio = vAñoActual
-                    MsgBox(resManager.GetString("Ejercicio") & " " & vAñoActual.ToString & " " & rmse.GetString("CreadoCorrectamente"))
+
+                    ' 4. Aviso de éxito unificado
+                    Dim txtMensajeExito As String = resManager.GetString("Ejercicio") & " " & vAñoActual.ToString() & " " & resManager.GetString("CreadoCorrectamente")
+                    MsgBox(txtMensajeExito, MsgBoxStyle.Information, txtTituloApp)
+
                 Catch ex As Exception
-                    MsgBox(resManager.GetString("ErrorAlCrearEjercicio") & " " & vAñoActual.ToString)
-                    MsgBox(ex.ToString)
+                    ' 5. Parachoques de errores fatales localizado
+                    Dim txtError As String = resManager.GetString("ErrorAlCrearEjercicio") & " " & vAñoActual.ToString()
+                    MsgBox(txtError, MsgBoxStyle.Critical, txtTituloApp)
+                    MsgBox(ex.ToString(), MsgBoxStyle.Critical, "SQL Debug")
                 End Try
             End If
             drMdb1.Close()

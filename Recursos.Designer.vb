@@ -416,6 +416,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a .
+    '''</summary>
+    Friend Shared ReadOnly Property CreadoCorrectamente() As String
+        Get
+            Return ResourceManager.GetString("CreadoCorrectamente", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Cuenta.
     '''</summary>
     Friend Shared ReadOnly Property Cuenta() As String
@@ -2208,6 +2217,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property SaldosGeneradosExito() As String
         Get
             Return ResourceManager.GetString("SaldosGeneradosExito", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a .
+    '''</summary>
+    Friend Shared ReadOnly Property SeCrearaEjercicio() As String
+        Get
+            Return ResourceManager.GetString("SeCrearaEjercicio", resourceCulture)
         End Get
     End Property
     

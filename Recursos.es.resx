@@ -1012,4 +1012,10 @@ adquiera la versión completa en la Microsoft Store.</value>
   <data name="AppDisplayName" xml:space="preserve">
     <value>ContaHogar 3.0 Premium</value>
   </data>
+  <data name="SeCrearaEjercicio" xml:space="preserve">
+    <value>se creará ejercicio</value>
+  </data>
+  <data name="CreadoCorrectamente" xml:space="preserve">
+    <value>creado correctamente</value>
+  </data>
 </root>

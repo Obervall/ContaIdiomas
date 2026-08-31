@@ -1012,4 +1012,10 @@ or allows controlled access to folders to be able to use HomeBudget 3.0 Premium.
   <data name="AppDisplayName" xml:space="preserve">
     <value>HomeBudget 3.0 Premium</value>
   </data>
+  <data name="SeCrearaEjercicio" xml:space="preserve">
+    <value>exercise will be created</value>
+  </data>
+  <data name="CreadoCorrectamente" xml:space="preserve">
+    <value>Created correctly</value>
+  </data>
 </root>

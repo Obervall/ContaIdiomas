@@ -1057,55 +1057,7 @@
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="SelecConcepto" xml:space="preserve">
-    <value>Seleccionar el Concepto</value>
-  </data>
-  <data name="ErrorLlenarDesplegable" xml:space="preserve">
-    <value>Error al llenar el desplegable.
-Error</value>
-  </data>
-  <data name="SelecDescripcion" xml:space="preserve">
-    <value>Seleccionar la Descripción o Escribir para Buscar (3 mínimo)</value>
-  </data>
-  <data name="ImporteAsiento" xml:space="preserve">
-    <value>Importe del Apunte</value>
-  </data>
-  <data name="BtnDescripcion" xml:space="preserve">
-    <value>Llena Descripciones, de Apuntes guardados</value>
-  </data>
-  <data name="TxtABuscar" xml:space="preserve">
-    <value>Texto a Buscar</value>
-  </data>
-  <data name="ErrorBuscarLetrasDescripcion" xml:space="preserve">
-    <value>Error al Buscar Letras en Descripción</value>
-  </data>
-  <data name="EjercicioActual" xml:space="preserve">
-    <value>El año del Ejercicio no coincide con el año Actual,
-se establece la fecha del 31 de diciembre del año del Ejercicio</value>
-  </data>
-  <data name="Fecha31Diciembre" xml:space="preserve">
-    <value>Fecha establecida el 31 de diciembre</value>
-  </data>
-  <data name="ErrorGrabarRegistro" xml:space="preserve">
-    <value>Error al Grabar el Registro, Verificar que la Fecha es Correcta y el Importe no tenga letras…
-Error</value>
-  </data>
   <data name="NoCantidadImporte" xml:space="preserve">
     <value>No hay Cantidad en Importe</value>
-  </data>
-  <data name="NoExistenDescripciones" xml:space="preserve">
-    <value>No existen Descripciones con</value>
-  </data>
-  <data name="AñadirDescripcion" xml:space="preserve">
-    <value>Añadimos la descripción</value>
-  </data>
-  <data name="BtnAyuda" xml:space="preserve">
-    <value>Ver la Ayuda para Introducir Apunte</value>
-  </data>
-  <data name="SelecCuenta" xml:space="preserve">
-    <value>Seleccionar la Cuenta a la que se refiere el Apunte</value>
-  </data>
-  <data name="ConceptoSeleccionado" xml:space="preserve">
-    <value>Concepto Seleccionado</value>
   </data>
 </root>

@@ -7754,12 +7754,6 @@
   <data name="LblAvisoActivacion" xml:space="preserve">
     <value>"Software in Demo Mode. Please activate the software to remove this warning."</value>
   </data>
-  <data name="SeCrearaEjercicio" xml:space="preserve">
-    <value>exercise will be created</value>
-  </data>
-  <data name="CreadoCorrectamente" xml:space="preserve">
-    <value>Created correctly</value>
-  </data>
   <data name="TraspasoCuentas" xml:space="preserve">
     <value>Transfer between Accounts</value>
   </data>

@@ -1012,4 +1012,10 @@ oder ermöglicht kontrollierten Zugriff auf Ordner, um Haushaltsbuch 3.0 Premium
   <data name="AppDisplayName" xml:space="preserve">
     <value>Haushaltsbuch 3.0 Premium</value>
   </data>
+  <data name="SeCrearaEjercicio" xml:space="preserve">
+    <value>wird die Übung erstellt</value>
+  </data>
+  <data name="CreadoCorrectamente" xml:space="preserve">
+    <value>Korrekt erstellt</value>
+  </data>
 </root>

@@ -126,7 +126,6 @@ Partial Class IntroApuntes
 		'
 		'CmbDescripcion
 		'
-		Me.CmbDescripcion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
 		Me.CmbDescripcion.FormattingEnabled = True
 		resources.ApplyResources(Me.CmbDescripcion, "CmbDescripcion")
 		Me.CmbDescripcion.Name = "CmbDescripcion"

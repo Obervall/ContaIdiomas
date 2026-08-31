@@ -1012,4 +1012,10 @@ oppure consente un accesso controllato alle cartelle per poter utilizzare Gestio
   <data name="AppDisplayName" xml:space="preserve">
     <value>GestioneSpese Casa 3.0 Premium</value>
   </data>
+  <data name="SeCrearaEjercicio" xml:space="preserve">
+    <value>Sarà creato un esercizio</value>
+  </data>
+  <data name="CreadoCorrectamente" xml:space="preserve">
+    <value>Creato correttamente</value>
+  </data>
 </root>

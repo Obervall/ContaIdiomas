@@ -7769,12 +7769,6 @@
   <data name="LblAvisoActivacion" xml:space="preserve">
     <value>"Software en mode demo. Per favor, activi el programari per treure aquesta advertència."</value>
   </data>
-  <data name="SeCrearaEjercicio" xml:space="preserve">
-    <value>es crearà exercici</value>
-  </data>
-  <data name="CreadoCorrectamente" xml:space="preserve">
-    <value>creat correctament</value>
-  </data>
   <data name="TraspasoCuentas" xml:space="preserve">
     <value>Traspàs entre Comptes</value>
   </data>
