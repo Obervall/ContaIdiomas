@@ -121,7 +121,7 @@
     <value>Exercici</value>
   </data>
   <data name="TitolApp" xml:space="preserve">
-    <value>Els meus comptes amb</value>
+    <value>Els meus Comptes amb </value>
   </data>
   <data name="Versio" xml:space="preserve">
     <value>Versió</value>
@@ -130,77 +130,77 @@
     <value>Aplica el filtre als Registres</value>
   </data>
   <data name="ToolTipQuitarFiltro" xml:space="preserve">
-    <value>Elimina el filtre dels registres</value>
+    <value>Treure el filtre als Registres</value>
   </data>
   <data name="ToolTipAñadir" xml:space="preserve">
-    <value>Afegeix registre</value>
+    <value>Afegir Registre</value>
   </data>
   <data name="ToolTipEditar" xml:space="preserve">
-    <value>Edita el registre</value>
+    <value>Editar Registre</value>
   </data>
   <data name="ToolTipEliminar" xml:space="preserve">
-    <value>Esborrar el registre</value>
+    <value>Eliminar Registre</value>
   </data>
   <data name="ToolTipBuscar" xml:space="preserve">
     <value>Cercar Registre</value>
   </data>
   <data name="ToolTipImprimir" xml:space="preserve">
-    <value>Imprès</value>
+    <value>Imprimir</value>
   </data>
   <data name="ToolTipSeguirBuscando" xml:space="preserve">
-    <value>Fes clic per continuar la cerca o F3</value>
+    <value>Polsar per Seguir Buscant o F3</value>
   </data>
   <data name="ToolTipGraficos" xml:space="preserve">
-    <value>Gràfics del programa</value>
+    <value>Mostrar Gràfics</value>
   </data>
   <data name="ToolTipCalculadora" xml:space="preserve">
-    <value>Activa la calculadora</value>
+    <value>Activar la Calculadora</value>
   </data>
   <data name="ToolTipSalir" xml:space="preserve">
-    <value>Finestra de sortida/tancament</value>
+    <value>Sortir/Tancar Finestra</value>
   </data>
   <data name="ToolTipPrimero" xml:space="preserve">
-    <value>Anar a la Primera Inscripció</value>
+    <value>Anar al Primer Registre</value>
   </data>
   <data name="ToolTipAnterior" xml:space="preserve">
-    <value>Ves a Registre Anterior</value>
+    <value>Anar a l'Anterior Registre</value>
   </data>
   <data name="ToolTipSiguiente" xml:space="preserve">
-    <value>Ves a Següent Registre</value>
+    <value>Anar al Següent Registre</value>
   </data>
   <data name="ToolTipUltimo" xml:space="preserve">
-    <value>Anar a Última Inscripció</value>
+    <value>Anar a l'Últim Registre</value>
   </data>
   <data name="ToolTipEliminaSeleccion" xml:space="preserve">
-    <value>Eliminació de files seleccionades de la graella
-No s'eliminen de la base de dades</value>
+    <value>Suprimir les Files Seleccionades de la Graella
+No s'Eliminen de la Base de Dades</value>
   </data>
   <data name="MsgErrorFecha" xml:space="preserve">
-    <value>Format de data invàlid</value>
+    <value>Format de data no vàlid</value>
   </data>
   <data name="MsgDatos1" xml:space="preserve">
-    <value>No hi ha cap coincidència amb les dades introduïdes</value>
+    <value>No hi ha cap Coincidència amb les dades Introduïdes</value>
   </data>
   <data name="MsgDatos2" xml:space="preserve">
-    <value>No hi ha més registres que coincideixin amb les dades introduïdes</value>
+    <value>No hi ha més Registres que Coincideixin amb les dades Introduïdes</value>
   </data>
   <data name="MsgFila1" xml:space="preserve">
-    <value>Primera fila seleccionada</value>
+    <value>Fila Primera Seleccionada</value>
   </data>
   <data name="MsgFila2" xml:space="preserve">
-    <value>Última fila seleccionada</value>
+    <value>Fila Última Seleccionada</value>
   </data>
   <data name="NoExistenRegistros" xml:space="preserve">
-    <value>No hi ha registres de la</value>
+    <value>No hi ha registres del</value>
   </data>
   <data name="ErrorAlCrearEjercicio" xml:space="preserve">
-    <value>Exercici de creació d'errors</value>
+    <value>Error en crear l'exercici</value>
   </data>
   <data name="ErrorAlBuscarEjercicio" xml:space="preserve">
-    <value>Cerca d'errors per a exercici</value>
+    <value>Error en buscar l'exercici</value>
   </data>
   <data name="VersionInstalada" xml:space="preserve">
-    <value>Versió instal·lada:</value>
+    <value>Versió Instal·lada:</value>
   </data>
   <data name="VersionDisponible" xml:space="preserve">
     <value>Versió disponible:</value>
@@ -209,7 +209,7 @@ No s'eliminen de la base de dades</value>
     <value>(Filtrat)</value>
   </data>
   <data name="SinFiltrar" xml:space="preserve">
-    <value>(Sense filtres)</value>
+    <value>(Sense Filtrar)</value>
   </data>
   <data name="CON" xml:space="preserve">
     <value>AMB</value>
@@ -230,25 +230,25 @@ No s'eliminen de la base de dades</value>
     <value>DESPESA</value>
   </data>
   <data name="Tipo_Ingreso" xml:space="preserve">
-    <value>INGRESSOS</value>
+    <value>INGRÉS</value>
   </data>
   <data name="Tipo_Especial" xml:space="preserve">
     <value>ESPECIAL</value>
   </data>
   <data name="Tipo_Traspaso" xml:space="preserve">
-    <value>TRANSFERÈNCIA</value>
+    <value>TRASPÀS</value>
   </data>
   <data name="Todos_Los_Campos" xml:space="preserve">
-    <value>Tots els camps</value>
+    <value>Tots els Camps</value>
   </data>
   <data name="ToolTipAceptar" xml:space="preserve">
-    <value>Acceptar i sortir</value>
+    <value>Acceptar i Sortir</value>
   </data>
   <data name="ToolTipCancelar" xml:space="preserve">
-    <value>Cancel·la</value>
+    <value>Cancel·lar</value>
   </data>
   <data name="ErrorModificarRegistro" xml:space="preserve">
-    <value>Error en la modificació del registre</value>
+    <value>Error en Modificar el Registre</value>
   </data>
   <data name="Nombre" xml:space="preserve">
     <value>Nom</value>
@@ -257,13 +257,13 @@ No s'eliminen de la base de dades</value>
     <value>Número</value>
   </data>
   <data name="Saldo" xml:space="preserve">
-    <value>Equilibri</value>
+    <value>Saldo</value>
   </data>
   <data name="ErrorAlEjecutar" xml:space="preserve">
-    <value>Execució d'errors</value>
+    <value>Error en executar</value>
   </data>
   <data name="EFECTIVO" xml:space="preserve">
-    <value>CAIXA DE DINERS</value>
+    <value>CAIXA EFECTIU</value>
   </data>
   <data name="BBVA" xml:space="preserve">
     <value>BBVA</value>
@@ -272,55 +272,55 @@ No s'eliminen de la base de dades</value>
     <value>OPENBANK</value>
   </data>
   <data name="PLAN_DE_PENSIONES" xml:space="preserve">
-    <value>PLA DE PENSIONS</value>
+    <value>PLA PENSIONS</value>
   </data>
   <data name="FinalTabla" xml:space="preserve">
-    <value>Ha arribat al fons de la taula</value>
+    <value>Ha arribat al final de la taula</value>
   </data>
   <data name="Existe" xml:space="preserve">
-    <value>ja existeix a</value>
+    <value>ja existeix en</value>
   </data>
   <data name="NoHayDatos" xml:space="preserve">
-    <value>No hi ha CAP Dada a</value>
+    <value>NO hi ha Dades en</value>
   </data>
   <data name="RegistroBorrado" xml:space="preserve">
-    <value>El registre ha estat esborrat amb èxit</value>
+    <value>El registre ha estat esborrat correctament</value>
   </data>
   <data name="RegistroNoBorradoVerificar" xml:space="preserve">
-    <value>No es va poder esborrar el registre. Verificar</value>
+    <value>El registre no es va poder esborrar. Verifiqui-ho</value>
   </data>
   <data name="ErrorEliminarRegistro" xml:space="preserve">
-    <value>No s'ha pogut eliminar el registre</value>
+    <value>Error en intentar eliminar el registre</value>
   </data>
   <data name="Error" xml:space="preserve">
     <value>Error</value>
   </data>
   <data name="AccionCancelada" xml:space="preserve">
-    <value>Acció cancel·lada</value>
+    <value>Acció Cancel·lada</value>
   </data>
   <data name="ErrorVerificarIntegridad" xml:space="preserve">
-    <value>Fallada en verificar la integritat</value>
+    <value>Error en Verificar la Integritat</value>
   </data>
   <data name="AGUA" xml:space="preserve">
     <value>AIGUA</value>
   </data>
   <data name="ALIMENTACION" xml:space="preserve">
-    <value>MENJAR</value>
+    <value>ALIMENTACIÓ</value>
   </data>
   <data name="CANAL+" xml:space="preserve">
-    <value>CANAL+</value>
+    <value>CANAL +</value>
   </data>
   <data name="CASA" xml:space="preserve">
     <value>CASA</value>
   </data>
   <data name="CLIENTE00" xml:space="preserve">
-    <value>CLIENT</value>
+    <value>CLIENTE00</value>
   </data>
   <data name="COMUNIDAD" xml:space="preserve">
     <value>COMUNITAT</value>
   </data>
   <data name="DECESOS" xml:space="preserve">
-    <value>DEFUNCIONS</value>
+    <value>DECESSOS</value>
   </data>
   <data name="ESTETICA" xml:space="preserve">
     <value>ESTÈTICA</value>
@@ -335,10 +335,10 @@ No s'eliminen de la base de dades</value>
     <value>GASOLINA</value>
   </data>
   <data name="GASTOS_BANCARIOS" xml:space="preserve">
-    <value>CÀRRECS BANCARIS</value>
+    <value>DESPESES BANCÀRIES</value>
   </data>
   <data name="HACIENDA" xml:space="preserve">
-    <value>TREASURY</value>
+    <value>HISENDA</value>
   </data>
   <data name="IMPUESTO_1" xml:space="preserve">
     <value>IMPOST 1</value>
@@ -347,10 +347,10 @@ No s'eliminen de la base de dades</value>
     <value>IMPOST 2</value>
   </data>
   <data name="IMPUESTO_3" xml:space="preserve">
-    <value>TAX 3</value>
+    <value>IMPOST 3</value>
   </data>
   <data name="IMPUESTO_4" xml:space="preserve">
-    <value>TAX 4</value>
+    <value>IMPOST 4</value>
   </data>
   <data name="IMPUESTO_5" xml:space="preserve">
     <value>IMPOST 5</value>
@@ -365,34 +365,34 @@ No s'eliminen de la base de dades</value>
     <value>LLUM</value>
   </data>
   <data name="OCIO" xml:space="preserve">
-    <value>OCI</value>
+    <value>LLEURE</value>
   </data>
   <data name="PENSION" xml:space="preserve">
     <value>PENSIÓ</value>
   </data>
   <data name="REGULARIZACION_1" xml:space="preserve">
-    <value>REGULARITZACIÓ 1</value>
+    <value>REGULARITZACIO 1</value>
   </data>
   <data name="REGULARIZACION_2" xml:space="preserve">
-    <value>REGULARITZACIÓ 2</value>
+    <value>REGULARITZACIO 2</value>
   </data>
   <data name="ROPA" xml:space="preserve">
     <value>ROBA</value>
   </data>
   <data name="SEGURO_CASA" xml:space="preserve">
-    <value>ASSEGURANÇA DE LA LLAR</value>
+    <value>ASSEGURANÇA CASA</value>
   </data>
   <data name="SEGURO_COCHE" xml:space="preserve">
-    <value>ASSEGURANÇA DE COTXE</value>
+    <value>ASSEGURANÇA COTXE</value>
   </data>
   <data name="SEGURO_MOTO" xml:space="preserve">
-    <value>ASSEGURANÇA DE MOTOCICLETES</value>
+    <value>ASSEGURANÇA MOTO</value>
   </data>
   <data name="TELEFONO" xml:space="preserve">
     <value>TELÈFON</value>
   </data>
   <data name="TRASPASO" xml:space="preserve">
-    <value>TRANSFERÈNCIA</value>
+    <value>TRASPÀS</value>
   </data>
   <data name="VARIOS" xml:space="preserve">
     <value>DIVERSOS</value>
@@ -404,25 +404,25 @@ No s'eliminen de la base de dades</value>
     <value>Aigua</value>
   </data>
   <data name="Desc_ALIMENTACION" xml:space="preserve">
-    <value>Menjar</value>
+    <value>Dinar</value>
   </data>
   <data name="Desc_CANAL+" xml:space="preserve">
     <value>Canal Plus Digital</value>
   </data>
   <data name="Desc_CASA" xml:space="preserve">
-    <value>Serveis domèstics</value>
+    <value>Estris Casa</value>
   </data>
   <data name="Desc_CLIENTE00" xml:space="preserve">
-    <value>Client</value>
+    <value>Client Vario</value>
   </data>
   <data name="Desc_COMUNIDAD" xml:space="preserve">
-    <value>Aparcament comunitari</value>
+    <value>Comunitat Pàrquing</value>
   </data>
   <data name="Desc_DECESOS" xml:space="preserve">
-    <value>Defuncions</value>
+    <value>Decessos</value>
   </data>
   <data name="Desc_ESTETICA" xml:space="preserve">
-    <value>Estètica i perruqueria</value>
+    <value>Estètica i Perruqueria</value>
   </data>
   <data name="Desc_FARMACIA" xml:space="preserve">
     <value>Farmàcia</value>
@@ -431,82 +431,82 @@ No s'eliminen de la base de dades</value>
     <value>Gas Natural</value>
   </data>
   <data name="Desc_GASOLINA" xml:space="preserve">
-    <value>Gasolina o gas-oil</value>
+    <value>Gasolina o Gas-Oil</value>
   </data>
   <data name="Desc_GASTOS_BANCARIOS" xml:space="preserve">
-    <value>Comissions Bancàries</value>
+    <value>Despeses Bancàries</value>
   </data>
   <data name="Desc_HACIENDA" xml:space="preserve">
-    <value>Finances Públiques</value>
+    <value>Hisenda Pública</value>
   </data>
   <data name="Desc_IMPUESTO_1" xml:space="preserve">
-    <value>Impost sobre escombraries</value>
+    <value>Impost Escombraries</value>
   </data>
   <data name="Desc_IMPUESTO_2" xml:space="preserve">
-    <value>Impost Ibi</value>
+    <value>Impost IBI</value>
   </data>
   <data name="Desc_IMPUESTO_3" xml:space="preserve">
-    <value>Impost sobre vehicles</value>
+    <value>Impost Vehicle</value>
   </data>
   <data name="Desc_IMPUESTO_4" xml:space="preserve">
-    <value>Impost sobre motocicletes</value>
+    <value>Impost Moto</value>
   </data>
   <data name="Desc_IMPUESTO_5" xml:space="preserve">
-    <value>Impost sobre el CO2</value>
+    <value>Impost CO2</value>
   </data>
   <data name="Desc_INTERESES" xml:space="preserve">
-    <value>Interessos bancaris</value>
+    <value>Interessos Bancaris</value>
   </data>
   <data name="Desc_JARDIN" xml:space="preserve">
     <value>Plantes</value>
   </data>
   <data name="Desc_LUZ" xml:space="preserve">
-    <value>Companyia Lleugera</value>
+    <value>Companyia Llum</value>
   </data>
   <data name="Desc_OCIO" xml:space="preserve">
-    <value>Diversió i entreteniment</value>
+    <value>Diversió i Entreteniment</value>
   </data>
   <data name="Desc_PENSION" xml:space="preserve">
-    <value>Pensió o salari</value>
+    <value>Pensió o Sou</value>
   </data>
   <data name="Desc_REGULARIZACION_1" xml:space="preserve">
-    <value>Regularització dels ingressos</value>
+    <value>Regularització d'Ingressos</value>
   </data>
   <data name="Desc_REGULARIZACION_2" xml:space="preserve">
-    <value>Regularització de despeses</value>
+    <value>Regularització de Despeses</value>
   </data>
   <data name="Desc_ROPA" xml:space="preserve">
-    <value>Roba i sabates</value>
+    <value>Roba i Sabates</value>
   </data>
   <data name="Desc_SEGURO_CASA" xml:space="preserve">
-    <value>Assegurança de la llar</value>
+    <value>Assegurança Casa</value>
   </data>
   <data name="Desc_SEGURO_COCHE" xml:space="preserve">
-    <value>Assegurança de cotxe</value>
+    <value>Assegurança Cotxe</value>
   </data>
   <data name="Desc_SEGURO_MOTO" xml:space="preserve">
-    <value>Assegurança de motocicletes</value>
+    <value>Assegurança Moto</value>
   </data>
   <data name="Desc_TELEFONO" xml:space="preserve">
     <value>Telèfon</value>
   </data>
   <data name="Desc_TRASPASO" xml:space="preserve">
-    <value>Transferència entre comptes</value>
+    <value>Traspàs entre comptes</value>
   </data>
   <data name="Desc_VARIOS" xml:space="preserve">
-    <value>Diversos injustificats</value>
+    <value>Diversos sense Justificar</value>
   </data>
   <data name="Desc_VEHICULOS" xml:space="preserve">
-    <value>Cotxe i moto</value>
+    <value>Cotxe i Moto</value>
   </data>
   <data name="NoHayDatosHistoricos" xml:space="preserve">
-    <value>No hi ha dades històriques d'anys anteriors per generar saldos inicials</value>
+    <value>No hi ha dades històriques en anys anteriors per generar saldos inicials</value>
   </data>
   <data name="Aviso" xml:space="preserve">
     <value>Avís</value>
   </data>
   <data name="TituloReporteConceptos" xml:space="preserve">
-    <value>Llista de conceptes comptables</value>
+    <value>Llistat de Conceptes Comptables</value>
   </data>
   <data name="Desc_BBVA" xml:space="preserve">
     <value>BBVA</value>
@@ -521,16 +521,16 @@ No s'eliminen de la base de dades</value>
     <value>Èxit</value>
   </data>
   <data name="ErrorLeerHistoricos" xml:space="preserve">
-    <value>Error en llegir històric</value>
+    <value>Error en llegir històrics</value>
   </data>
   <data name="ErrorInsertarSaldos" xml:space="preserve">
-    <value>Error en la inserció dels balanços inicials</value>
+    <value>Error en inserir els saldos inicials</value>
   </data>
   <data name="Pagina" xml:space="preserve">
     <value>Pàgina</value>
   </data>
   <data name="CerrarApp" xml:space="preserve">
-    <value>El programa estarà tancat a partir de l'any fiscal actual</value>
+    <value>Es tancarà el programa per iniciar amb l'Exercici Actual</value>
   </data>
   <data name="Cuenta" xml:space="preserve">
     <value>Compte</value>
@@ -542,28 +542,28 @@ No s'eliminen de la base de dades</value>
     <value>Data</value>
   </data>
   <data name="Importe" xml:space="preserve">
-    <value>Quantitat</value>
+    <value>Import</value>
   </data>
   <data name="IrAHoy" xml:space="preserve">
     <value>Anar a Avui</value>
   </data>
   <data name="BtnCuenta" xml:space="preserve">
-    <value>Afegeix, edita, elimina o consulta comptes bancaris</value>
+    <value>Afegeix, Edita, Esborra o Consulta Comptes Bancaris</value>
   </data>
   <data name="BtnConcepto" xml:space="preserve">
-    <value>Afegir, editar, eliminar o consultar conceptes</value>
+    <value>Afegeix, Edita, Esborra o Consulta Conceptes</value>
   </data>
   <data name="Desde" xml:space="preserve">
-    <value>De</value>
+    <value>Des de</value>
   </data>
   <data name="Hasta" xml:space="preserve">
-    <value>Fins a</value>
+    <value>Fins</value>
   </data>
   <data name="TotalIngresos" xml:space="preserve">
-    <value>Ingressos totals</value>
+    <value>Total Ingressos</value>
   </data>
   <data name="TotalGastos" xml:space="preserve">
-    <value>Despeses totals</value>
+    <value>Total Despeses</value>
   </data>
   <data name="TOTAL" xml:space="preserve">
     <value>TOTAL</value>
@@ -584,19 +584,19 @@ No s'eliminen de la base de dades</value>
     <value>Conceptes</value>
   </data>
   <data name="ErrorLimpiarTemporal" xml:space="preserve">
-    <value>Error netejant la taula temporal</value>
+    <value>Error en netejar la taula Temporal</value>
   </data>
   <data name="Cuentas" xml:space="preserve">
     <value>Comptes</value>
   </data>
   <data name="ErrorGrabarTemporal" xml:space="preserve">
-    <value>Desament d'errors en Temporal</value>
+    <value>Error en Gravar en Temporal</value>
   </data>
   <data name="PreguntaHorizontal" xml:space="preserve">
-    <value>Vols imprimir el gràfic en orientació horitzontal?</value>
+    <value>Desitges imprimir el gràfic en orientació Horitzontal?</value>
   </data>
   <data name="TituloPregunta" xml:space="preserve">
-    <value>Orientació de la pàgina</value>
+    <value>Orientació de pàgina</value>
   </data>
   <data name="Realidad" xml:space="preserve">
     <value>Realitat</value>
@@ -605,10 +605,10 @@ No s'eliminen de la base de dades</value>
     <value>Pressupostat</value>
   </data>
   <data name="ToolTipGraficos2D" xml:space="preserve">
-    <value>Gràfics 2D d'exhibició</value>
+    <value>Mostrar Gràfics 2D</value>
   </data>
   <data name="ToolTipGraficos3D" xml:space="preserve">
-    <value>Mostra gràfics 3D</value>
+    <value>Mostrar Gràfics 3D</value>
   </data>
   <data name="Fechas" xml:space="preserve">
     <value>Dates</value>
@@ -617,16 +617,16 @@ No s'eliminen de la base de dades</value>
     <value>Mesos</value>
   </data>
   <data name="ErrorEjecutarSaldo" xml:space="preserve">
-    <value>Saldo corrent d'errors:</value>
+    <value>Error en Executar Saldo:</value>
   </data>
   <data name="ToolTipF6" xml:space="preserve">
-    <value>Refrescant la graella de notes i eliminant filtres</value>
+    <value>Refrescar la Parrilla Apunts i Treure Filtres</value>
   </data>
   <data name="AvisoConceptoProtegido" xml:space="preserve">
-    <value>Els conceptes de sistema per defecte estan protegits contra modificacions; si no s'han d'utilitzar, es poden eliminar.</value>
+    <value>Els conceptes predeterminats del sistema estan protegits contra modificacions</value>
   </data>
   <data name="NoConectoPor" xml:space="preserve">
-    <value>No connectat per</value>
+    <value>No es va connectar per</value>
   </data>
   <data name="SoloAdmitePunto" xml:space="preserve">
     <value>Només admet el . Punt com a separador decimal</value>
@@ -638,46 +638,46 @@ No s'eliminen de la base de dades</value>
     <value>Informació</value>
   </data>
   <data name="ActualizarVersion" xml:space="preserve">
-    <value>Vols actualitzar a la versió</value>
+    <value>Vols actualitzar la Versió</value>
   </data>
   <data name="GuardarCopiaSeguridad" xml:space="preserve">
-    <value>Vols desar una còpia de seguretat de la base de dades?</value>
+    <value>Vols guardar una Còpia de Seguretat de la Base de Dades?</value>
   </data>
   <data name="BackupSatisfactorioBuscarActualizacio" xml:space="preserve">
-    <value>Còpia de seguretat feta amb èxit. 
-Ara, l'actualització es descarregarà</value>
+    <value>Còpia de Seguretat realitzat satisfactòriament. 
+Ara, es descarregarà l'actualització</value>
   </data>
   <data name="Backup" xml:space="preserve">
-    <value>Suplent</value>
+    <value>Còpia de Seguretat</value>
   </data>
   <data name="ErrorBackup" xml:space="preserve">
-    <value>Error durant la còpia de seguretat de la base de dades, 
-comprova que no hi hagi cap altra còpia amb el mateix nom o
-El fitxer no està obert</value>
+    <value>Error en realitzar la Còpia de Seguretat de la Base de Dades.
+Revisi que no existeixi una altra Còpia amb el mateix nom o
+que l'arxiu no estigui obert</value>
   </data>
   <data name="AhoraDescargaActualizacion" xml:space="preserve">
-    <value>Ara, l'actualització es descarregarà</value>
+    <value>Ara, es descarregarà l'actualització</value>
   </data>
   <data name="ActualizarSoftware" xml:space="preserve">
-    <value>Programari d'actualització</value>
+    <value>Actualitzar Programari</value>
   </data>
   <data name="DescargadaActualizacion" xml:space="preserve">
-    <value>L'actualització s'ha descarregat</value>
+    <value>S'ha descarregat l'actualització</value>
   </data>
   <data name="ProcederaInstalar" xml:space="preserve">
-    <value>S'instal·larà. Toca OK per continuar</value>
+    <value>es procedirà a instal·lar-la. Pulsa Acceptar per continuar</value>
   </data>
   <data name="ErrorDescargarActualizacion" xml:space="preserve">
-    <value>Error de descàrrega de l'actualització</value>
+    <value>Error en descarregar l'actualització</value>
   </data>
   <data name="ErrorDescargarActualizacion2" xml:space="preserve">
-    <value>Comprova que la teva connexió a internet o el fitxer no estiguin oberts</value>
+    <value>revisi la seva connexió a Internet o que l'arxiu no estigui obert</value>
   </data>
   <data name="NoConectadoRed" xml:space="preserve">
-    <value>No estàs connectat a cap xarxa per comprovar si hi ha una nova versió</value>
+    <value>No estàs connectat a una xarxa per comprovar nova Versió</value>
   </data>
   <data name="Vacio" xml:space="preserve">
-    <value>Sense programació...</value>
+    <value>Sense Programar..</value>
   </data>
   <data name="BotonSi" xml:space="preserve">
     <value>Sí</value>
@@ -686,10 +686,10 @@ El fitxer no està obert</value>
     <value>No</value>
   </data>
   <data name="BotonAceptar" xml:space="preserve">
-    <value>Accepta</value>
+    <value>Acceptar</value>
   </data>
   <data name="EL_CORTE_INGLES" xml:space="preserve">
-    <value>EL CORTE INGLÉS</value>
+    <value>EL CORTE INGLES</value>
   </data>
   <data name="Desc_EL_CORTE_INGLES" xml:space="preserve">
     <value>El Corte Inglés</value>
@@ -701,94 +701,94 @@ El fitxer no està obert</value>
     <value>Atenció</value>
   </data>
   <data name="ConceptoYRegistrosEliminados" xml:space="preserve">
-    <value>El concepte i tots els seus registres vinculats han estat eliminats amb èxit</value>
+    <value>El concepte i tots els seus registres vinculats han estat eliminats correctament</value>
   </data>
   <data name="ErrorConceptoYRegistrosEliminados" xml:space="preserve">
-    <value>Error durant l'eliminació en cascada</value>
+    <value>Error durant l' eliminació en cascada</value>
   </data>
   <data name="ErrorRecuperarID" xml:space="preserve">
-    <value>Error en recuperar l'identificador numèric del registre</value>
+    <value>Error en recuperar l' identificador numèric del registre</value>
   </data>
   <data name="NoEncuentraRegistro" xml:space="preserve">
-    <value>No s'ha trobat el registre per actualitzar-lo</value>
+    <value>No es va trobar el registre per actualitzar</value>
   </data>
   <data name="Desc_EFECTIVO" xml:space="preserve">
-    <value>Efectiu</value>
+    <value>Diners en Efectiu</value>
   </data>
   <data name="CUENTA_CORRIENTE" xml:space="preserve">
     <value>COMPTE CORRENT</value>
   </data>
   <data name="CUENTA_VIVIENDA" xml:space="preserve">
-    <value>COMPTE D'HABITATGE</value>
+    <value>COMPTE HABITATGE</value>
   </data>
   <data name="Desc_CUENTA_CORRIENTE" xml:space="preserve">
-    <value>Compte corrent bancari</value>
+    <value>Compte Corrent Bancari</value>
   </data>
   <data name="Desc_CUENTA_VIVIENDA" xml:space="preserve">
-    <value>Compte de residència principal</value>
+    <value>Compte Habitatge Habitual</value>
   </data>
   <data name="Desc_FONDO_DE_INVERSION" xml:space="preserve">
-    <value>Banc del Fons d'Inversió</value>
+    <value>Fons d'Inversió Banc</value>
   </data>
   <data name="FONDO_DE_INVERSION" xml:space="preserve">
     <value>FONS D'INVERSIÓ</value>
   </data>
   <data name="Desc_PLAN_DE_PENSIONES" xml:space="preserve">
-    <value>Pla de pensions</value>
+    <value>Pla de Pensions</value>
   </data>
   <data name="Desc_TARJETA_DE_CREDITO" xml:space="preserve">
-    <value>Targeta de crèdit</value>
+    <value>Targeta de Crèdit</value>
   </data>
   <data name="TARJETA_DE_CREDITO" xml:space="preserve">
-    <value>TARGETA DE CRÈDIT</value>
+    <value>TARGETA D'CRÉDIT</value>
   </data>
   <data name="PLAN_PENSIONES" xml:space="preserve">
-    <value>COMPTE DEL PLA DE PENSIONS</value>
+    <value>COMPTE PLA PENSIONS</value>
   </data>
   <data name="Desc_PLAN_PENSIONES" xml:space="preserve">
-    <value>Pla de pensions</value>
+    <value>Pla de Pensions</value>
   </data>
   <data name="CAJA_EFECTIVO" xml:space="preserve">
-    <value>COMPTE DE CAIXA</value>
+    <value>COMPTE CAIXA EFECTIU</value>
   </data>
   <data name="Desc_CAJA_EFECTIVO" xml:space="preserve">
     <value>Efectiu a casa</value>
   </data>
   <data name="ErrorFiltrar" xml:space="preserve">
-    <value>Filtratge d'errors a la pantalla</value>
+    <value>Error en filtrar en pantalla</value>
   </data>
   <data name="SeleccionaRegistro" xml:space="preserve">
-    <value>Selecciona un registre per editar o eliminar</value>
+    <value>Selecciona un Registre per Editar o Eliminar</value>
   </data>
   <data name="ErrorDuplicados" xml:space="preserve">
-    <value>Comprovació d'errors per a duplicats</value>
+    <value>Error en verificar duplicats</value>
   </data>
   <data name="ErrorGrabarRegistro" xml:space="preserve">
-    <value>Registre de desament d'errors</value>
+    <value>Error al Gravar Registre</value>
   </data>
   <data name="SaldoInicial" xml:space="preserve">
-    <value>Balanç inicial</value>
+    <value>Saldo Inicial</value>
   </data>
   <data name="ErrorCargarCONyCUE" xml:space="preserve">
-    <value>Conceptes o comptes de càrrega d'errors a la introducció</value>
+    <value>Error en carregar conceptes o comptes en introducció</value>
   </data>
   <data name="ErrorSincronizarCON" xml:space="preserve">
-    <value>Concepte de sincronització d'errors</value>
+    <value>Error en sincronitzar el concepte</value>
   </data>
   <data name="ErrorRefrescarCON" xml:space="preserve">
-    <value>Error en actualitzar la combinació de conceptes</value>
+    <value>Error en refrescar el combo de conceptes</value>
   </data>
   <data name="ErrorLlenarCmbDescripcion" xml:space="preserve">
-    <value>Error en omplir la Descripció del Combo</value>
+    <value>Error en omplir el Combo Descripció</value>
   </data>
   <data name="ErrorActualizarApunte" xml:space="preserve">
-    <value>Error actualitzant l'entrada</value>
+    <value>Error en actualitzar l' apunt</value>
   </data>
   <data name="AvisoNoHayRegistrosEjercicio" xml:space="preserve">
-    <value>Nota: No hi ha cap entrada publicada per al compte seleccionat per a aquest exercici</value>
+    <value>Avís: No existeixen apunts registrats per al compte seleccionat en aquest exercici</value>
   </data>
   <data name="ErrorCrearRuta" xml:space="preserve">
-    <value>Ruta de creació d'errors</value>
+    <value>Error en Crear Ruta</value>
   </data>
   <data name="Origen" xml:space="preserve">
     <value>Origen</value>
@@ -797,88 +797,88 @@ El fitxer no està obert</value>
     <value>Destinació</value>
   </data>
   <data name="ErrorLlenarConceptos" xml:space="preserve">
-    <value>Ompliment d'errors en conceptes</value>
+    <value>Error en omplir Conceptes</value>
   </data>
   <data name="ErrorLlenarCuentas" xml:space="preserve">
-    <value>Error en omplir comptes</value>
+    <value>Error en omplir Comptes</value>
   </data>
   <data name="MsgConfirmarBorradoSingular" xml:space="preserve">
-    <value>Estàs completament segur que vols eliminar FÍSICAMENT l'entrada seleccionada de la base de dades?</value>
+    <value>¿Está completament segur de que desitja eliminar FÍSICAMENT de la Base de Dades l'apunt seleccionat?</value>
   </data>
   <data name="MsgConfirmarBorradoPlural" xml:space="preserve">
-    <value>Estàs completament segur que vols eliminar FÍSICAMENT les notes de {0} seleccionades de la base de dades?</value>
+    <value>¿Está completament segur de que desitja eliminar FÍSICAMENT de la Base de Dades els {0} apunts seleccionats?</value>
   </data>
   <data name="ConfirmarBorrado" xml:space="preserve">
-    <value>Confirma l'esborrat múltiple</value>
+    <value>Confirmar Esborrat Múltiple</value>
   </data>
   <data name="ErrorBorrarFilaID" xml:space="preserve">
-    <value>Error en eliminar la fila amb ID {0}:</value>
+    <value>Error en esborrar la fila amb ID {0}:</value>
   </data>
   <data name="MsgLoteEliminadoExito" xml:space="preserve">
-    <value>Operació completada. {0} registres físics han estat eliminats de la base de dades</value>
+    <value>Operació completada. S'han eliminat {0} registres físics de la Base de Dades</value>
   </data>
   <data name="TituloBorradoFinalizado" xml:space="preserve">
-    <value>Eliminació completada</value>
+    <value>Esborrat Finalitzat</value>
   </data>
   <data name="ErrorLeerEjercicio" xml:space="preserve">
-    <value>Error en llegir l'exercici</value>
+    <value>Error en llegir l' exercici</value>
   </data>
   <data name="Desc_SALDO" xml:space="preserve">
-    <value>Balanç inicial</value>
+    <value>Saldo inicial</value>
   </data>
   <data name="ErrorCargarDescripciones" xml:space="preserve">
-    <value>Error carregant descripcions històriques</value>
+    <value>Error en carregar descripcions històriques</value>
   </data>
   <data name="ErrorIniciaDesplegables" xml:space="preserve">
-    <value>Error inicialitzant els desplegables d'edició periòdica</value>
+    <value>Error en inicialitzar els desplegables d' edició periòdica</value>
   </data>
   <data name="ToolTipEliminarPresupuesto" xml:space="preserve">
-    <value>Elimina els pressupostos mensuals de l'element seleccionat</value>
+    <value>Eliminar Pressupostos mensuals del Concepte seleccionat</value>
   </data>
   <data name="NoDescripcionSaldo" xml:space="preserve">
-    <value>No pots crear una descripció amb el nom</value>
+    <value>No és pot crear una descripció amb el nom</value>
   </data>
   <data name="ErrorBorradoSaldoInicial" xml:space="preserve">
-    <value>Error en executar l'esborrat inicial amb ID</value>
+    <value>Error en executar l' esborrat inicial amb ID</value>
   </data>
   <data name="ErrorGenerarSaldoIniciales" xml:space="preserve">
-    <value>Saldes inicials generadores d'errors</value>
+    <value>Error en generar saldos inicials</value>
   </data>
   <data name="ErrorInsertarReal" xml:space="preserve">
-    <value>Error Insert Realitat</value>
+    <value>Error Inserir Realitat</value>
   </data>
   <data name="ErrorInsertarCero" xml:space="preserve">
-    <value>Insereix error zero</value>
+    <value>Error Inserir Zero</value>
   </data>
   <data name="ErrorUpdate1" xml:space="preserve">
-    <value>Error de crema 1 (intern)</value>
+    <value>Error Gravar 1 (Intern)</value>
   </data>
   <data name="ErrorUpdate2" xml:space="preserve">
-    <value>Error de crema 2 (intern)</value>
+    <value>Error Gravar 2 (Intern)</value>
   </data>
   <data name="ErrorGeneral" xml:space="preserve">
     <value>Error General</value>
   </data>
   <data name="ErrorLocalizarTraspaso" xml:space="preserve">
-    <value>Error en localitzar el concepte TRANSFER</value>
+    <value>Error en localitzar el concepte TRASPÀS</value>
   </data>
   <data name="ErrorCargarCON" xml:space="preserve">
-    <value>No s'han pogut carregar conceptes</value>
+    <value>Error en carregar els conceptes</value>
   </data>
   <data name="ErrorCargarCUE" xml:space="preserve">
-    <value>No s'ha pogut carregar comptes</value>
+    <value>Error en carregar els comptes</value>
   </data>
   <data name="EstructuraActualizada" xml:space="preserve">
-    <value>L'estructura de la base de dades s'ha actualitzat de manera exhaustiva a la nova versió</value>
+    <value>L' estructura de la base de dades s' ha actualitzat de manera integral a la nova versió</value>
   </data>
   <data name="ActualizacionCompletada" xml:space="preserve">
-    <value>Actualització completada</value>
+    <value>Actualització Completada</value>
   </data>
   <data name="ErrorMigracion" xml:space="preserve">
-    <value>Fallada crítica durant la migració completa</value>
+    <value>Error crític durant la Migració completa</value>
   </data>
   <data name="ErrorMigracionInterrumpida" xml:space="preserve">
-    <value>Migració interrompuda</value>
+    <value>Migració Interrompuda</value>
   </data>
   <data name="SI" xml:space="preserve">
     <value>Sí</value>
@@ -887,118 +887,118 @@ El fitxer no està obert</value>
     <value>No</value>
   </data>
   <data name="ErrorLeerCON" xml:space="preserve">
-    <value>Conceptes de lectura d'errors</value>
+    <value>Error Llegir Conceptes</value>
   </data>
   <data name="ErrorApuntePeriodico" xml:space="preserve">
-    <value>Error en executar l'entrada automàtica</value>
+    <value>Error en executar l' assentament automàtic</value>
   </data>
   <data name="ErrorEscanearPeriodicos" xml:space="preserve">
-    <value>Caducitats periòdiques d'escaneig d'errors</value>
+    <value>Error en escanejar venciments periòdics</value>
   </data>
   <data name="AvisoTipoCuentaProtegido" xml:space="preserve">
-    <value>Els tipus de comptes per defecte del sistema estan protegits de modificacions; si no es vol utilitzar, es pot eliminar</value>
+    <value>Els tipus de comptes predeterminats del sistema estan protegits contra modificacions, si no es farà servir es pot Eliminar</value>
   </data>
   <data name="ErrorIniciarConceptos" xml:space="preserve">
-    <value>No s'han pogut inicialitzar els elements pressupostaris</value>
+    <value>Error en inicialitzar els conceptes del pressupost</value>
   </data>
   <data name="ErrorIniciarComponentes" xml:space="preserve">
-    <value>Fallada a l'hora d'inicialitzar components independents</value>
+    <value>Error en inicialitzar components independents</value>
   </data>
   <data name="MsgSeleccionarFilasEliminar" xml:space="preserve">
-    <value>Si us plau, selecciona primer les files que vols eliminar utilitzant les cel·les de l'esquerra</value>
+    <value>Per favor, seleccioni primer les files que desitja eliminar utilitzant les cel·les de l'esquerra</value>
   </data>
   <data name="ErrorRellenarListBox" xml:space="preserve">
-    <value>Error omplint el ConceptListBox</value>
+    <value>Error en omplir el ListBox de conceptes</value>
   </data>
   <data name="ErrorImportesMensuales" xml:space="preserve">
-    <value>Error de lectura de les quantitats mensuals</value>
+    <value>Error en llegir imports mensuals</value>
   </data>
   <data name="ErrorVaciarApuntes" xml:space="preserve">
-    <value>Notes de buidatge d'errors</value>
+    <value>Error al Buidar Apunts</value>
   </data>
   <data name="ErrorVaciarPeriodicos" xml:space="preserve">
-    <value>Error en buidar diaris</value>
+    <value>Error al Buidar Periòdics</value>
   </data>
   <data name="ErrorVaciarPresupuesto" xml:space="preserve">
-    <value>Cometes de buidatge d'errors</value>
+    <value>Error al Buidar Pressupostos</value>
   </data>
   <data name="ErrorLeerAcumulado" xml:space="preserve">
-    <value>Lectura d'errors acumulada</value>
+    <value>Error en llegir acumulat</value>
   </data>
   <data name="ErrorConsolidarConceptos" xml:space="preserve">
-    <value>Error en la consolidació de conceptes nadius</value>
+    <value>Error en consolidar conceptes nadiu</value>
   </data>
   <data name="ErrorConsolidarCuentas" xml:space="preserve">
-    <value>Error de consolidació de comptes natiu</value>
+    <value>Error en consolidar comptes nadiu</value>
   </data>
   <data name="ErrormutacionBDclonada" xml:space="preserve">
-    <value>Fallada de la mutació de la base de dades clonada</value>
+    <value>Error en la mutació de la BD clonada</value>
   </data>
   <data name="ErrorCrearCopiaSeguridad" xml:space="preserve">
-    <value>Error generant la còpia de seguretat</value>
+    <value>Error en generar la còpia de seguretat</value>
   </data>
   <data name="ErrorRefrescarCUE" xml:space="preserve">
-    <value>Error en actualitzar la combinació de comptes</value>
+    <value>Error en refrescar el combo de comptes</value>
   </data>
   <data name="NumeroPagos" xml:space="preserve">
-    <value>Import dels pagaments</value>
+    <value>Quantitat Pagaments</value>
   </data>
   <data name="NumeroCobros" xml:space="preserve">
-    <value>Quantitat de col·leccions</value>
+    <value>Quantitat Cobraments</value>
   </data>
   <data name="1erPago" xml:space="preserve">
-    <value>Primer pagament</value>
+    <value>1r Pagament</value>
   </data>
   <data name="1erCobro" xml:space="preserve">
-    <value>Primera càrrega</value>
+    <value>1r Cobrament</value>
   </data>
   <data name="TipoGrafico" xml:space="preserve">
-    <value>Consell pràctic: 
-Per a una visualització òptima i nítida
-i detallat dels teus gràfics, recomanem
-Redueix el rang utilitzant filtres de data, 
-Explica o seleccionant conceptes específics
-a la llista (Pink Funnel). 
+    <value>Consell Pràctic:
+Per obtenir una visualització òptima, nítida
+i detallada dels teus gràfics, et recomanem
+acotar el rang mitjançant els filtres de dates,
+comptes o seleccionant conceptes específics
+al llistat (Embut Rosa).
 Menys dades ofereixen una anàlisi molt més clara!</value>
   </data>
   <data name="SeleccioneIdiomaAyuda" xml:space="preserve">
-    <value>Selecciona l'idioma que prefereixis per al manual d'ajuda</value>
+    <value>Seleccioni el seu idioma preferit per al manual d'ajuda</value>
   </data>
   <data name="ErrorArchivoAyudaNoEncontrado" xml:space="preserve">
-    <value>No he pogut trobar el fitxer del manual d'ajuda seleccionat a la carpeta local de Documents</value>
+    <value>No es va poder trobar l'arxiu del manual d'ajuda seleccionat a la seva carpeta de Documents local</value>
   </data>
   <data name="Ayuda" xml:space="preserve">
-    <value>Ajuda</value>
+    <value>Ajut</value>
   </data>
   <data name="Validación" xml:space="preserve">
     <value>Validació</value>
   </data>
   <data name="NoEditarFueraEjercicio" xml:space="preserve">
-    <value>No pots editar una entrada fora de l'exercici fiscal actual</value>
+    <value>No es pot editar un apunt fora de l' exercici actual</value>
   </data>
   <data name="Error_Permisos_Antivirus" xml:space="preserve">
-    <value>El teu antivirus o la protecció de Windows està bloquejant l'accés a Els meus documents. 
-Si us plau, afegeix aquest programa a la llista d'exclusions
-o permet un accés controlat a carpetes per poder utilitzar ContaHogar 3.0 Premium.</value>
+    <value>L'antivirus o la protecció de Windows està bloquejant l'accés als meus Documents.
+Per favor, afegeix aquest programa a la llista d'exclusions
+o permet l'accés controlat a carpetes per poder usar GestióDomèstica 3.0 Premium.</value>
   </data>
   <data name="ControlSeguridadWindows" xml:space="preserve">
-    <value>Control de Seguretat de Windows</value>
+    <value>Control de Seguretat Windows</value>
   </data>
   <data name="MsgPeriodoPruebaExpirado" xml:space="preserve">
-    <value>El teu període de prova de 30 dies ha acabat. Si us plau 
-compra la versió completa a la Microsoft Store.</value>
+    <value>El seu període de prova de 30 dies ha finalitzat. Per favor,
+adquireixi la versió completa a la Microsoft Store.</value>
   </data>
   <data name="PeriodoPrueba" xml:space="preserve">
-    <value>Període de prova expirat</value>
+    <value>Període de Prova Expirat</value>
   </data>
   <data name="VersionEvaluacion" xml:space="preserve">
-    <value>Versió d'avaluació. Es mantenen</value>
+    <value>Versió d'avaluació. Queden</value>
   </data>
   <data name="dias" xml:space="preserve">
-    <value>Dies</value>
+    <value>dies</value>
   </data>
   <data name="ErrorArchivoPrivacidadNoEncontrado" xml:space="preserve">
-    <value>No he pogut trobar el fitxer de Política de Privacitat a la carpeta de Documents local</value>
+    <value>No es va poder trobar l'arxiu de Política de Privacitat a la seva carpeta de Documents local</value>
   </data>
   <data name="EnCurso" xml:space="preserve">
     <value>En curs...</value>
@@ -1010,9 +1010,15 @@ compra la versió completa a la Microsoft Store.</value>
     <value>Matriu del Banc de Processament d'Errors</value>
   </data>
   <data name="AppDisplayName" xml:space="preserve">
-    <value>ContaHogar 3.0 Premium</value>
+    <value>GestióDomèstica 3.0 Premium</value>
   </data>
   <data name="MsgReinicioIdioma" xml:space="preserve">
     <value>L'aplicació es reiniciarà per aplicar el nou idioma</value>
+  </data>
+  <data name="SeCrearaEjercicio" xml:space="preserve">
+    <value>es crearà exercici</value>
+  </data>
+  <data name="CreadoCorrectamente" xml:space="preserve">
+    <value>creat correctament</value>
   </data>
 </root>

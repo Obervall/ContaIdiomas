@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Label1.Text" xml:space="preserve">
+    <value>Reg.:</value>
+  </data>
+  <data name="GroupBox1.Text" xml:space="preserve">
+    <value>Registres</value>
+  </data>
+  <data name="GroupBox2.Text" xml:space="preserve">
+    <value>Edició</value>
+  </data>
+  <data name="GroupBox3.Text" xml:space="preserve">
+    <value>Informes</value>
+  </data>
+  <data name="BtnSalir.Text" xml:space="preserve">
+    <value>Sortir</value>
+  </data>
+  <data name="Label3.Text" xml:space="preserve">
+    <value>Compte:</value>
+  </data>
+  <data name="GroupBox4.Text" xml:space="preserve">
+    <value>Comptes</value>
+  </data>
+  <data name="Label4.Text" xml:space="preserve">
+    <value>Concepte:</value>
+  </data>
+  <data name="GroupBox5.Text" xml:space="preserve">
+    <value>Conceptes</value>
+  </data>
+  <data name="Label6.Text" xml:space="preserve">
+    <value>Fins a:</value>
+  </data>
+  <data name="Label5.Text" xml:space="preserve">
+    <value>Des de:</value>
+  </data>
+  <data name="GroupBox6.Text" xml:space="preserve">
+    <value>Dates</value>
+  </data>
+  <data name="Label9.Text" xml:space="preserve">
+    <value>Saldo:</value>
+  </data>
+  <data name="Label8.Text" xml:space="preserve">
+    <value>Despeses:</value>
+  </data>
+  <data name="Label7.Text" xml:space="preserve">
+    <value>Ingressos:</value>
+  </data>
+  <data name="GroupBox7.Text" xml:space="preserve">
+    <value>Totals</value>
+  </data>
+  <data name="GroupBox8.Text" xml:space="preserve">
+    <value>Desplaçar</value>
+  </data>
+  <data name="LblApuntes.Text" xml:space="preserve">
+    <value>APUNTS</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Apunts Comptables</value>
+  </data>
+  <data name="EliminarApuntes" xml:space="preserve">
+    <value>Apunts Esborrats!!</value>
+  </data>
+  <data name="EliminarApuntesError" xml:space="preserve">
+    <value>Error en Eliminar els Apunts relacionats amb el Concepte Comptable</value>
+  </data>
+  <data name="ToolTipLabelApuntes" xml:space="preserve">
+    <value>Amb Tecla Suprimir: Elimina files seleccionades
+Amb F5: Filtra per Descripció
+Amb F6: Actualitza la graella Apunts i treu Filtres</value>
+  </data>
+  <data name="ToolTipListBox" xml:space="preserve">
+    <value>Amb Tecla Esc: Tanca Llistat</value>
+  </data>
+  <data name="ToolTipChekedList" xml:space="preserve">
+    <value>Obre Llistat de Conceptes per a múltiple selecció</value>
+  </data>
+  <data name="ToolTipFechas" xml:space="preserve">
+    <value>Activar o Desactivar Accés a Dades anteriors a l'Exercici Actual</value>
+  </data>
+  <data name="ToolTipExcel" xml:space="preserve">
+    <value>Exportar Apunts a Excel</value>
+  </data>
+  <data name="ToolTipAumentar" xml:space="preserve">
+    <value>Augmentar mida de la Font</value>
+  </data>
+  <data name="ToolTipNormal" xml:space="preserve">
+    <value>Restaurar mida de la Font</value>
+  </data>
+  <data name="ToolTipF5" xml:space="preserve">
+    <value>Filtra per Descripció</value>
+  </data>
+  <data name="ToolTipTraspasar" xml:space="preserve">
+    <value>Traspassar d'un Compte a un altre</value>
+  </data>
+  <data name="MsgText3" xml:space="preserve">
+    <value>Diversos Conceptes Seleccionats</value>
+  </data>
+  <data name="MsgText4" xml:space="preserve">
+    <value>DIVERSOS CONCEPTES</value>
+  </data>
+  <data name="MsgText2" xml:space="preserve">
+    <value>Introducció d'Apunts</value>
+  </data>
+  <data name="MsgText1" xml:space="preserve">
+    <value>Avís de Filtres</value>
+  </data>
+  <data name="RutaExcelExiste" xml:space="preserve">
+    <value>Ja existeix la Ruta C:\ContaHogar3.0\Excel</value>
+  </data>
+  <data name="RutaExcelCreada" xml:space="preserve">
+    <value>Ruta C:\ContaHogar3.0\Excel, Creada</value>
+  </data>
+  <data name="MsgAviso1" xml:space="preserve">
+    <value>Hi ha Diversos Conceptes Seleccionats.
+Filtrar Primer per Comptes i Dates,
+després per Conceptes Diversos</value>
+  </data>
+  <data name="MsgSaldos1" xml:space="preserve">
+    <value>Els Saldos inicials, NO es poden Esborrar</value>
+  </data>
+  <data name="MsgSaldos2" xml:space="preserve">
+    <value>Els Saldos inicials, NO es poden Editar</value>
+  </data>
+  <data name="ArchivosDeExcel" xml:space="preserve">
+    <value>Arxius d'Excel</value>
+  </data>
+  <data name="TodosLosArchivos" xml:space="preserve">
+    <value>Tots els Arxius</value>
+  </data>
+  <data name="ExportacionCompletada" xml:space="preserve">
+    <value>Exportació completada amb èxit</value>
+  </data>
+  <data name="ErrorExportacion" xml:space="preserve">
+    <value>Error al exportar</value>
+  </data>
+  <data name="ErrorAbrirArchivo" xml:space="preserve">
+    <value>No s'ha pogut obrir l'Excel automáticamente</value>
+  </data>
+  <data name="AbrirArchivo" xml:space="preserve">
+    <value>Vols obrir ara mateix el fitxer d'Excel generat?</value>
+  </data>
+  <data name="ToolTipImportarBanco" xml:space="preserve">
+    <value>Importar Extracte Bancari</value>
+  </data>
+  <data name="SeleccionaExtracto" xml:space="preserve">
+    <value>Selecciona l'extracte d'Excel del teu banc</value>
+  </data>
+  <data name="ProcederaAnalizarArchivo" xml:space="preserve">
+    <value>L'Arxiu serà analitzat</value>
+  </data>
+  <data name="ImportacionBancaria" xml:space="preserve">
+    <value>Importació bancària</value>
+  </data>
+  <data name="ErrorAbrirExcelBanco" xml:space="preserve">
+    <value>Error d'obertura del fitxer bancari</value>
+  </data>
+  <data name="ErrorDesmenuzarCuenta" xml:space="preserve">
+    <value>Error al cercar o desglossar Notes del Compte</value>
+  </data>
+  <data name="NoSeEncuentraManualPdf" xml:space="preserve">
+    <value>El fitxer PDF del Manual no es trobava a la carpeta de l'aplicació</value>
+  </data>
+  <data name="ErrorAbrirManual" xml:space="preserve">
+    <value>Error d'obrir el Manual PDF</value>
+  </data>
+  <data name="ToolTipManualBancarioPdf" xml:space="preserve">
+    <value>Descarrega el manual d'ajuda</value>
+  </data>
+  <data name="NoTieneCoordenadasProcesarExcel" xml:space="preserve">
+    <value>Aquest compte NO té coordenades ni el format correcte (1,1,1,1,1).
+Si necessites ajuda, toca el botó PDF adjacent.</value>
+  </data>
+</root>

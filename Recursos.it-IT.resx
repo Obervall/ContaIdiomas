@@ -121,7 +121,7 @@
     <value>Esercizio</value>
   </data>
   <data name="TitolApp" xml:space="preserve">
-    <value>I miei conti con</value>
+    <value>I miei conti con </value>
   </data>
   <data name="Versio" xml:space="preserve">
     <value>Versione</value>
@@ -263,7 +263,7 @@ Non vengono rimossi dal database</value>
     <value>Esecuzione dell'errore</value>
   </data>
   <data name="EFECTIVO" xml:space="preserve">
-    <value>CAFANA MONETARIA</value>
+    <value>CASSA CONTANTI</value>
   </data>
   <data name="BBVA" xml:space="preserve">
     <value>BBVA</value>
@@ -287,7 +287,7 @@ Non vengono rimossi dal database</value>
     <value>Il registro è stato cancellato con successo</value>
   </data>
   <data name="RegistroNoBorradoVerificar" xml:space="preserve">
-    <value>Il fascicolo non è stato cancellato. Verifica</value>
+    <value>Il registro non poteva essere cancellato. Verifica</value>
   </data>
   <data name="ErrorEliminarRegistro" xml:space="preserve">
     <value>Non è riuscito a eliminare il registro</value>
@@ -347,10 +347,10 @@ Non vengono rimossi dal database</value>
     <value>TASSA 2</value>
   </data>
   <data name="IMPUESTO_3" xml:space="preserve">
-    <value>TAX 3</value>
+    <value>TASSA 3</value>
   </data>
   <data name="IMPUESTO_4" xml:space="preserve">
-    <value>TAX 4</value>
+    <value>TASSA 4</value>
   </data>
   <data name="IMPUESTO_5" xml:space="preserve">
     <value>TASSA 5</value>
@@ -417,5 +417,605 @@ Non vengono rimossi dal database</value>
   </data>
   <data name="Desc_COMUNIDAD" xml:space="preserve">
     <value>Parcheggio comunitario</value>
+  </data>
+  <data name="Desc_DECESOS" xml:space="preserve">
+    <value>Morti</value>
+  </data>
+  <data name="Desc_ESTETICA" xml:space="preserve">
+    <value>Estetica e parrucchiere</value>
+  </data>
+  <data name="Desc_FARMACIA" xml:space="preserve">
+    <value>Farmacia</value>
+  </data>
+  <data name="Desc_GAS_NATURAL" xml:space="preserve">
+    <value>Gas Naturale</value>
+  </data>
+  <data name="Desc_GASOLINA" xml:space="preserve">
+    <value>Benzina o gas-olio</value>
+  </data>
+  <data name="Desc_GASTOS_BANCARIOS" xml:space="preserve">
+    <value>Commissioni bancarie</value>
+  </data>
+  <data name="Desc_HACIENDA" xml:space="preserve">
+    <value>Finanza pubblica</value>
+  </data>
+  <data name="Desc_IMPUESTO_1" xml:space="preserve">
+    <value>Tassa sulla spazzatura</value>
+  </data>
+  <data name="Desc_IMPUESTO_2" xml:space="preserve">
+    <value>Ibi Tassa</value>
+  </data>
+  <data name="Desc_IMPUESTO_3" xml:space="preserve">
+    <value>Tassa sui veicoli</value>
+  </data>
+  <data name="Desc_IMPUESTO_4" xml:space="preserve">
+    <value>Tassa sulle motociclette</value>
+  </data>
+  <data name="Desc_IMPUESTO_5" xml:space="preserve">
+    <value>Tassa sulla CO2</value>
+  </data>
+  <data name="Desc_INTERESES" xml:space="preserve">
+    <value>Interessi bancari</value>
+  </data>
+  <data name="Desc_JARDIN" xml:space="preserve">
+    <value>Piante</value>
+  </data>
+  <data name="Desc_LUZ" xml:space="preserve">
+    <value>Compagnia Leggera</value>
+  </data>
+  <data name="Desc_OCIO" xml:space="preserve">
+    <value>Divertimento e intrattenimento</value>
+  </data>
+  <data name="Desc_PENSION" xml:space="preserve">
+    <value>Pensione o stipendio</value>
+  </data>
+  <data name="Desc_REGULARIZACION_1" xml:space="preserve">
+    <value>Regolarizzazione del reddito</value>
+  </data>
+  <data name="Desc_REGULARIZACION_2" xml:space="preserve">
+    <value>Regolarizzazione delle spese</value>
+  </data>
+  <data name="Desc_ROPA" xml:space="preserve">
+    <value>Abbigliamento e scarpe</value>
+  </data>
+  <data name="Desc_SEGURO_CASA" xml:space="preserve">
+    <value>Assicurazione sulla casa</value>
+  </data>
+  <data name="Desc_SEGURO_COCHE" xml:space="preserve">
+    <value>Assicurazione auto</value>
+  </data>
+  <data name="Desc_SEGURO_MOTO" xml:space="preserve">
+    <value>Assicurazione per motociclette</value>
+  </data>
+  <data name="Desc_TELEFONO" xml:space="preserve">
+    <value>Telefono</value>
+  </data>
+  <data name="Desc_TRASPASO" xml:space="preserve">
+    <value>Trasferimento tra conti</value>
+  </data>
+  <data name="Desc_VARIOS" xml:space="preserve">
+    <value>Diverse ingiustificate</value>
+  </data>
+  <data name="Desc_VEHICULOS" xml:space="preserve">
+    <value>Auto e moto</value>
+  </data>
+  <data name="NoHayDatosHistoricos" xml:space="preserve">
+    <value>Non esistono dati storici degli anni precedenti per generare i saldi iniziali</value>
+  </data>
+  <data name="Aviso" xml:space="preserve">
+    <value>Avviso</value>
+  </data>
+  <data name="TituloReporteConceptos" xml:space="preserve">
+    <value>Elenco dei concetti contabili</value>
+  </data>
+  <data name="Desc_BBVA" xml:space="preserve">
+    <value>BBVA</value>
+  </data>
+  <data name="Desc_OPENBANK" xml:space="preserve">
+    <value>OPENBANK</value>
+  </data>
+  <data name="SaldosGeneradosExito" xml:space="preserve">
+    <value>Saldi iniziali correttamente generati e inseriti</value>
+  </data>
+  <data name="Exito" xml:space="preserve">
+    <value>Successo</value>
+  </data>
+  <data name="ErrorLeerHistoricos" xml:space="preserve">
+    <value>Errore nella lettura della storia storica</value>
+  </data>
+  <data name="ErrorInsertarSaldos" xml:space="preserve">
+    <value>Errore nell'inserimento dei saldi iniziali</value>
+  </data>
+  <data name="Pagina" xml:space="preserve">
+    <value>Pagina</value>
+  </data>
+  <data name="CerrarApp" xml:space="preserve">
+    <value>Il programma sarà chiuso a partire dall'anno fiscale in corso</value>
+  </data>
+  <data name="Cuenta" xml:space="preserve">
+    <value>Conto</value>
+  </data>
+  <data name="Concepto" xml:space="preserve">
+    <value>Concetto</value>
+  </data>
+  <data name="Fecha" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="Importe" xml:space="preserve">
+    <value>Importo</value>
+  </data>
+  <data name="IrAHoy" xml:space="preserve">
+    <value>Vai a Oggi</value>
+  </data>
+  <data name="BtnCuenta" xml:space="preserve">
+    <value>Aggiungi, modifica, elimina o consulta conti bancari</value>
+  </data>
+  <data name="BtnConcepto" xml:space="preserve">
+    <value>Aggiungi, Modifica, Elimina o Interroga i Concetti</value>
+  </data>
+  <data name="Desde" xml:space="preserve">
+    <value>Da</value>
+  </data>
+  <data name="Hasta" xml:space="preserve">
+    <value>Fino a</value>
+  </data>
+  <data name="TotalIngresos" xml:space="preserve">
+    <value>Ricavi totali</value>
+  </data>
+  <data name="TotalGastos" xml:space="preserve">
+    <value>Spese totali</value>
+  </data>
+  <data name="TOTAL" xml:space="preserve">
+    <value>TOTALE</value>
+  </data>
+  <data name="FECHA_UPPER" xml:space="preserve">
+    <value>DATA</value>
+  </data>
+  <data name="Gastos" xml:space="preserve">
+    <value>Spese</value>
+  </data>
+  <data name="Ingresos" xml:space="preserve">
+    <value>Reddito</value>
+  </data>
+  <data name="Moneda" xml:space="preserve">
+    <value>Valuta</value>
+  </data>
+  <data name="Conceptos" xml:space="preserve">
+    <value>Concetti</value>
+  </data>
+  <data name="ErrorLimpiarTemporal" xml:space="preserve">
+    <value>Errore nella pulizia della tabella temporanea</value>
+  </data>
+  <data name="Cuentas" xml:space="preserve">
+    <value>Resoconti</value>
+  </data>
+  <data name="ErrorGrabarTemporal" xml:space="preserve">
+    <value>Salvataggio degli errori in Temporaneo</value>
+  </data>
+  <data name="PreguntaHorizontal" xml:space="preserve">
+    <value>Vuoi stampare il grafico in orientamento orizzontale?</value>
+  </data>
+  <data name="TituloPregunta" xml:space="preserve">
+    <value>Orientamento della pagina</value>
+  </data>
+  <data name="Realidad" xml:space="preserve">
+    <value>Realtà</value>
+  </data>
+  <data name="Presupuestado" xml:space="preserve">
+    <value>Budget previsto</value>
+  </data>
+  <data name="ToolTipGraficos2D" xml:space="preserve">
+    <value>Grafica 2D Show</value>
+  </data>
+  <data name="ToolTipGraficos3D" xml:space="preserve">
+    <value>Grafica 3D di mostra</value>
+  </data>
+  <data name="Fechas" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Meses" xml:space="preserve">
+    <value>Mesi</value>
+  </data>
+  <data name="ErrorEjecutarSaldo" xml:space="preserve">
+    <value>Saldo corrente dell'errore:</value>
+  </data>
+  <data name="ToolTipF6" xml:space="preserve">
+    <value>Aggiornamento della griglia delle note e rimozione dei filtri</value>
+  </data>
+  <data name="AvisoConceptoProtegido" xml:space="preserve">
+    <value>I concetti di sistema predefiniti sono protetti da modifiche, se non devono essere usati possono essere cancellati</value>
+  </data>
+  <data name="NoConectoPor" xml:space="preserve">
+    <value>Non collegato da</value>
+  </data>
+  <data name="SoloAdmitePunto" xml:space="preserve">
+    <value>Supporta solo i file . Punto come separatore decimale</value>
+  </data>
+  <data name="SeparadorDecimal" xml:space="preserve">
+    <value>Separatore Decimale</value>
+  </data>
+  <data name="Informacion" xml:space="preserve">
+    <value>Informazioni</value>
+  </data>
+  <data name="ActualizarVersion" xml:space="preserve">
+    <value>Vuoi passare alla versione</value>
+  </data>
+  <data name="GuardarCopiaSeguridad" xml:space="preserve">
+    <value>Vuoi salvare un backup del database?</value>
+  </data>
+  <data name="BackupSatisfactorioBuscarActualizacio" xml:space="preserve">
+    <value>Backup effettuato con successo.
+Ora, l'aggiornamento verrà scaricato</value>
+  </data>
+  <data name="Backup" xml:space="preserve">
+    <value>Backup</value>
+  </data>
+  <data name="ErrorBackup" xml:space="preserve">
+    <value>Errore durante il backup del database,
+verifica che non ci sia un'altra copia con lo stesso nome oppure
+Il file non è aperto</value>
+  </data>
+  <data name="AhoraDescargaActualizacion" xml:space="preserve">
+    <value>Ora, l'aggiornamento verrà scaricato</value>
+  </data>
+  <data name="ActualizarSoftware" xml:space="preserve">
+    <value>Software di aggiornamento</value>
+  </data>
+  <data name="DescargadaActualizacion" xml:space="preserve">
+    <value>L'aggiornamento è stato scaricato</value>
+  </data>
+  <data name="ProcederaInstalar" xml:space="preserve">
+    <value>verrà installato. Tocca OK per continuare</value>
+  </data>
+  <data name="ErrorDescargarActualizacion" xml:space="preserve">
+    <value>Errore di download aggiornamento</value>
+  </data>
+  <data name="ErrorDescargarActualizacion2" xml:space="preserve">
+    <value>Controlla che la tua connessione internet o il file non siano aperti</value>
+  </data>
+  <data name="NoConectadoRed" xml:space="preserve">
+    <value>Non sei connesso a una rete per controllare una nuova versione</value>
+  </data>
+  <data name="Vacio" xml:space="preserve">
+    <value>Senza programmazione..</value>
+  </data>
+  <data name="BotonSi" xml:space="preserve">
+    <value>Sì</value>
+  </data>
+  <data name="BotonNo" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="BotonAceptar" xml:space="preserve">
+    <value>Accetta</value>
+  </data>
+  <data name="EL_CORTE_INGLES" xml:space="preserve">
+    <value>EL CORTE INGLÉS</value>
+  </data>
+  <data name="Desc_EL_CORTE_INGLES" xml:space="preserve">
+    <value>El Corte Inglés</value>
+  </data>
+  <data name="Existentes" xml:space="preserve">
+    <value>Esistenti</value>
+  </data>
+  <data name="Atencion" xml:space="preserve">
+    <value>Attenzione</value>
+  </data>
+  <data name="ConceptoYRegistrosEliminados" xml:space="preserve">
+    <value>Il concetto e tutti i suoi record collegati sono stati eliminati con successo</value>
+  </data>
+  <data name="ErrorConceptoYRegistrosEliminados" xml:space="preserve">
+    <value>Errore durante la cancellazione a cascata</value>
+  </data>
+  <data name="ErrorRecuperarID" xml:space="preserve">
+    <value>Errore nel recuperare l'identificatore numerico dal registro</value>
+  </data>
+  <data name="NoEncuentraRegistro" xml:space="preserve">
+    <value>Record non trovato per aggiornare</value>
+  </data>
+  <data name="Desc_EFECTIVO" xml:space="preserve">
+    <value>Contanti</value>
+  </data>
+  <data name="CUENTA_CORRIENTE" xml:space="preserve">
+    <value>CONTO CORRENTE</value>
+  </data>
+  <data name="CUENTA_VIVIENDA" xml:space="preserve">
+    <value>CONTO ABITATIVO</value>
+  </data>
+  <data name="Desc_CUENTA_CORRIENTE" xml:space="preserve">
+    <value>Conto corrente bancario</value>
+  </data>
+  <data name="Desc_CUENTA_VIVIENDA" xml:space="preserve">
+    <value>Conto di Residenza Principale</value>
+  </data>
+  <data name="Desc_FONDO_DE_INVERSION" xml:space="preserve">
+    <value>Investment Fund Bank</value>
+  </data>
+  <data name="FONDO_DE_INVERSION" xml:space="preserve">
+    <value>FONDO DI INVESTIMENTO</value>
+  </data>
+  <data name="Desc_PLAN_DE_PENSIONES" xml:space="preserve">
+    <value>Piano pensionistico</value>
+  </data>
+  <data name="Desc_TARJETA_DE_CREDITO" xml:space="preserve">
+    <value>Carta di credito</value>
+  </data>
+  <data name="TARJETA_DE_CREDITO" xml:space="preserve">
+    <value>CARTA DI CREDITO</value>
+  </data>
+  <data name="PLAN_PENSIONES" xml:space="preserve">
+    <value>CONTO PIANO PENSIONISTICO</value>
+  </data>
+  <data name="Desc_PLAN_PENSIONES" xml:space="preserve">
+    <value>Piano pensionistico</value>
+  </data>
+  <data name="CAJA_EFECTIVO" xml:space="preserve">
+    <value>CONTO CASSA CONTANTI</value>
+  </data>
+  <data name="Desc_CAJA_EFECTIVO" xml:space="preserve">
+    <value>Contanti a casa</value>
+  </data>
+  <data name="ErrorFiltrar" xml:space="preserve">
+    <value>Filtraggio degli errori a schermo</value>
+  </data>
+  <data name="SeleccionaRegistro" xml:space="preserve">
+    <value>Seleziona un record da modificare o eliminare</value>
+  </data>
+  <data name="ErrorDuplicados" xml:space="preserve">
+    <value>Controllo errori per duplicati</value>
+  </data>
+  <data name="ErrorGrabarRegistro" xml:space="preserve">
+    <value>Registro di salvataggio errori</value>
+  </data>
+  <data name="SaldoInicial" xml:space="preserve">
+    <value>Bilancio di apertura</value>
+  </data>
+  <data name="ErrorCargarCONyCUE" xml:space="preserve">
+    <value>Concetti o account di caricamento errore in introduzione</value>
+  </data>
+  <data name="ErrorSincronizarCON" xml:space="preserve">
+    <value>Concetto di sincronizzazione degli errori</value>
+  </data>
+  <data name="ErrorRefrescarCON" xml:space="preserve">
+    <value>Errore durante l'aggiornamento della combinazione di concetti</value>
+  </data>
+  <data name="ErrorLlenarCmbDescripcion" xml:space="preserve">
+    <value>Errore che compila la Descrizione della Combo</value>
+  </data>
+  <data name="ErrorActualizarApunte" xml:space="preserve">
+    <value>Errore che aggiorna la voce</value>
+  </data>
+  <data name="AvisoNoHayRegistrosEjercicio" xml:space="preserve">
+    <value>Nota: Non sono pubblicate voci per l'account selezionato per questo esercizio</value>
+  </data>
+  <data name="ErrorCrearRuta" xml:space="preserve">
+    <value>Creazione di Errore di Percorso</value>
+  </data>
+  <data name="Origen" xml:space="preserve">
+    <value>Origine</value>
+  </data>
+  <data name="Destino" xml:space="preserve">
+    <value>Destinazione</value>
+  </data>
+  <data name="ErrorLlenarConceptos" xml:space="preserve">
+    <value>Completamento degli errori nei concetti</value>
+  </data>
+  <data name="ErrorLlenarCuentas" xml:space="preserve">
+    <value>Errore nella compilazione dei conti</value>
+  </data>
+  <data name="MsgConfirmarBorradoSingular" xml:space="preserve">
+    <value>Sei completamente sicuro di voler eliminare FISICAMENTE la voce selezionata dal database?</value>
+  </data>
+  <data name="MsgConfirmarBorradoPlural" xml:space="preserve">
+    <value>Sei completamente sicuro di voler ELIMINARE FISICAMENTE le {0} note selezionate dal database?</value>
+  </data>
+  <data name="ConfirmarBorrado" xml:space="preserve">
+    <value>Conferma cancellazione multipla</value>
+  </data>
+  <data name="ErrorBorrarFilaID" xml:space="preserve">
+    <value>Errore nella cancellazione della riga con ID {0}:</value>
+  </data>
+  <data name="MsgLoteEliminadoExito" xml:space="preserve">
+    <value>Operazione completata. I registri fisici sono stati cancellati dal {0} Database</value>
+  </data>
+  <data name="TituloBorradoFinalizado" xml:space="preserve">
+    <value>Cancellazione completata</value>
+  </data>
+  <data name="ErrorLeerEjercicio" xml:space="preserve">
+    <value>Errore nella lettura dell'esercizio</value>
+  </data>
+  <data name="Desc_SALDO" xml:space="preserve">
+    <value>Bilancio di apertura</value>
+  </data>
+  <data name="ErrorCargarDescripciones" xml:space="preserve">
+    <value>Caricamento errore delle descrizioni storiche</value>
+  </data>
+  <data name="ErrorIniciaDesplegables" xml:space="preserve">
+    <value>Errore nell'inizializzazione dei menu a discesa delle edizioni periodiche</value>
+  </data>
+  <data name="ToolTipEliminarPresupuesto" xml:space="preserve">
+    <value>Elimina i budget mensili dall'articolo selezionato</value>
+  </data>
+  <data name="NoDescripcionSaldo" xml:space="preserve">
+    <value>Non puoi creare una descrizione con il nome</value>
+  </data>
+  <data name="ErrorBorradoSaldoInicial" xml:space="preserve">
+    <value>Errore nell'esecuzione della cancellazione iniziale con ID</value>
+  </data>
+  <data name="ErrorGenerarSaldoIniciales" xml:space="preserve">
+    <value>Generazione di errori dei saldi iniziali</value>
+  </data>
+  <data name="ErrorInsertarReal" xml:space="preserve">
+    <value>Errore Inserire Realtà</value>
+  </data>
+  <data name="ErrorInsertarCero" xml:space="preserve">
+    <value>Inserire errore zero</value>
+  </data>
+  <data name="ErrorUpdate1" xml:space="preserve">
+    <value>Errore di combustione 1 (Interno)</value>
+  </data>
+  <data name="ErrorUpdate2" xml:space="preserve">
+    <value>Errore di combustione 2 (Interno)</value>
+  </data>
+  <data name="ErrorGeneral" xml:space="preserve">
+    <value>Errore generale</value>
+  </data>
+  <data name="ErrorLocalizarTraspaso" xml:space="preserve">
+    <value>Errore nel localizzare il concetto TRANSFER</value>
+  </data>
+  <data name="ErrorCargarCON" xml:space="preserve">
+    <value>Non ha caricato i concetti</value>
+  </data>
+  <data name="ErrorCargarCUE" xml:space="preserve">
+    <value>Non sono riusciti a caricare gli account</value>
+  </data>
+  <data name="EstructuraActualizada" xml:space="preserve">
+    <value>La struttura del database è stata aggiornata in modo completo alla nuova versione</value>
+  </data>
+  <data name="ActualizacionCompletada" xml:space="preserve">
+    <value>Aggiornamento completato</value>
+  </data>
+  <data name="ErrorMigracion" xml:space="preserve">
+    <value>Guasto critico durante la migrazione completa</value>
+  </data>
+  <data name="ErrorMigracionInterrumpida" xml:space="preserve">
+    <value>Migrazione interrotta</value>
+  </data>
+  <data name="SI" xml:space="preserve">
+    <value>Sì</value>
+  </data>
+  <data name="NO" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="ErrorLeerCON" xml:space="preserve">
+    <value>Concetti di lettura degli errori</value>
+  </data>
+  <data name="ErrorApuntePeriodico" xml:space="preserve">
+    <value>Errore nell'esecuzione dell'auto-inserimento</value>
+  </data>
+  <data name="ErrorEscanearPeriodicos" xml:space="preserve">
+    <value>Scadenze periodiche di scansione degli errori</value>
+  </data>
+  <data name="AvisoTipoCuentaProtegido" xml:space="preserve">
+    <value>I tipi di account predefiniti del sistema sono protetti da modifiche; se non deve essere utilizzato, possono essere eliminati</value>
+  </data>
+  <data name="ErrorIniciarConceptos" xml:space="preserve">
+    <value>Non è stato avviato le partite di budget</value>
+  </data>
+  <data name="ErrorIniciarComponentes" xml:space="preserve">
+    <value>Mancata inizializzazione dei componenti indipendenti</value>
+  </data>
+  <data name="MsgSeleccionarFilasEliminar" xml:space="preserve">
+    <value>Per favore, seleziona prima le righe che vuoi eliminare usando le celle a sinistra</value>
+  </data>
+  <data name="ErrorRellenarListBox" xml:space="preserve">
+    <value>Errore che popola la Concept ListBox</value>
+  </data>
+  <data name="ErrorImportesMensuales" xml:space="preserve">
+    <value>Errore di lettura degli importi mensili</value>
+  </data>
+  <data name="ErrorVaciarApuntes" xml:space="preserve">
+    <value>Note sullo svuotamento degli errori</value>
+  </data>
+  <data name="ErrorVaciarPeriodicos" xml:space="preserve">
+    <value>Errore nello svuotamento dei giornali</value>
+  </data>
+  <data name="ErrorVaciarPresupuesto" xml:space="preserve">
+    <value>Svuotamento di Errori delle Citazioni</value>
+  </data>
+  <data name="ErrorLeerAcumulado" xml:space="preserve">
+    <value>Lettura dell'errore cumulativa</value>
+  </data>
+  <data name="ErrorConsolidarConceptos" xml:space="preserve">
+    <value>Errore nel consolidamento dei concetti nativi</value>
+  </data>
+  <data name="ErrorConsolidarCuentas" xml:space="preserve">
+    <value>Errore di consolidamento nativo degli account</value>
+  </data>
+  <data name="ErrormutacionBDclonada" xml:space="preserve">
+    <value>Fallimento della mutazione del DB clonato</value>
+  </data>
+  <data name="ErrorCrearCopiaSeguridad" xml:space="preserve">
+    <value>Errore che genera il backup</value>
+  </data>
+  <data name="ErrorRefrescarCUE" xml:space="preserve">
+    <value>Errore nell'aggiornare la combinazione di account</value>
+  </data>
+  <data name="NumeroPagos" xml:space="preserve">
+    <value>Importo dei pagamenti</value>
+  </data>
+  <data name="NumeroCobros" xml:space="preserve">
+    <value>Quantità delle Collezioni</value>
+  </data>
+  <data name="1erPago" xml:space="preserve">
+    <value>Primo Pagamento</value>
+  </data>
+  <data name="1erCobro" xml:space="preserve">
+    <value>Prima carica</value>
+  </data>
+  <data name="TipoGrafico" xml:space="preserve">
+    <value>Consiglio pratico:
+Per una visione ottimale e nitida
+e dettagliati dei tuoi grafici, ti consigliamo
+Restringi l'intervallo usando filtri per data,
+Racconti o selezionando concetti specifici
+nella lista (Pink Funnel).
+Meno dati offrono un'analisi molto più chiara!</value>
+  </data>
+  <data name="SeleccioneIdiomaAyuda" xml:space="preserve">
+    <value>Seleziona la lingua preferita per il manuale di aiuto</value>
+  </data>
+  <data name="ErrorArchivoAyudaNoEncontrado" xml:space="preserve">
+    <value>Non sono riuscito a trovare il file del manuale di aiuto selezionato nella cartella Documenti locale</value>
+  </data>
+  <data name="Ayuda" xml:space="preserve">
+    <value>Aiuto</value>
+  </data>
+  <data name="Validación" xml:space="preserve">
+    <value>Validazione</value>
+  </data>
+  <data name="NoEditarFueraEjercicio" xml:space="preserve">
+    <value>Non puoi modificare una voce al di fuori dell'anno fiscale corrente</value>
+  </data>
+  <data name="Error_Permisos_Antivirus" xml:space="preserve">
+    <value>Il tuo antivirus o la protezione di Windows sta bloccando l'accesso a My Documents.
+Per favore, aggiungi questo programma alla lista delle esclusioni
+oppure consente un accesso controllato alle cartelle per poter utilizzare GestioneSpese Casa 3.0 Premium.</value>
+  </data>
+  <data name="ControlSeguridadWindows" xml:space="preserve">
+    <value>Controllo della Sicurezza di Windows</value>
+  </data>
+  <data name="MsgPeriodoPruebaExpirado" xml:space="preserve">
+    <value>Il tuo periodo di prova di 30 giorni è terminato. Per favore,
+acquista la versione completa dal Microsoft Store.</value>
+  </data>
+  <data name="PeriodoPrueba" xml:space="preserve">
+    <value>Periodo di prova scaduto</value>
+  </data>
+  <data name="VersionEvaluacion" xml:space="preserve">
+    <value>Versione di valutazione. Rimangono</value>
+  </data>
+  <data name="dias" xml:space="preserve">
+    <value>Giorni</value>
+  </data>
+  <data name="ErrorArchivoPrivacidadNoEncontrado" xml:space="preserve">
+    <value>Non sono riuscito a trovare il file dell'Informativa sulla Privacy nella cartella Documenti locale</value>
+  </data>
+  <data name="EnCurso" xml:space="preserve">
+    <value>In corso...</value>
+  </data>
+  <data name="ArchivoNoContieneRegistros" xml:space="preserve">
+    <value>Il file non contiene registrazioni valide da elaborare</value>
+  </data>
+  <data name="ErrorProcesarMatrizBancaria" xml:space="preserve">
+    <value>Matrice della Banca di Elaborazione degli Errori</value>
+  </data>
+  <data name="AppDisplayName" xml:space="preserve">
+    <value>GestioneSpese Casa 3.0 Premium</value>
+  </data>
+  <data name="SeCrearaEjercicio" xml:space="preserve">
+    <value>Sarà creato un esercizio</value>
+  </data>
+  <data name="CreadoCorrectamente" xml:space="preserve">
+    <value>Creato correttamente</value>
   </data>
 </root>

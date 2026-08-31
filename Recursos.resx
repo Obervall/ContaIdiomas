@@ -1013,9 +1013,9 @@ adquiera la versión completa en la Microsoft Store.</value>
     <value>ContaHogar 3.0 Premium</value>
   </data>
   <data name="SeCrearaEjercicio" xml:space="preserve">
-    <value></value>
+    <value>se creará ejercicio</value>
   </data>
   <data name="CreadoCorrectamente" xml:space="preserve">
-    <value></value>
+    <value>creado correctamente</value>
   </data>
 </root>

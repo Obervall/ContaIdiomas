@@ -91,14 +91,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ContaHogar3.0.exe" size="5015040">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ContaHogar3.0.exe" size="5011968">
       <assemblyIdentity name="ContaHogar3.0" version="0.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>DcEzhQZIeK7akUY5tTPu+aeL3PnJXlePyBov9o3YkFE=</dsig:DigestValue>
+        <dsig:DigestValue>C4phtSyNASeob1qaZcRl3gQK4tiosKPXRe778WX1G2c=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -110,7 +110,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>uojn6K6Omv0E/iSk79F7JRSKheibwbsspe1XR9XUplc=</dsig:DigestValue>
+        <dsig:DigestValue>52W5+AGmh1FvmgskM882Aukx9rjhInU4V+iyZQ3+uF4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -804,13 +804,13 @@
       <dsig:DigestValue>eqgAxbCJEVi714LHoLCrcDZwzvTE99JNNeQSYqY7jN0=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="ContaHogar.mdb" size="495616" writeableType="applicationData">
+  <file name="ContaHogar.mdb" size="499712" writeableType="applicationData">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>B1aMF12QBw6c4uYvLhEzVG6lXmhlCIn0aZbPH72nr34=</dsig:DigestValue>
+      <dsig:DigestValue>8Ye6du06WULOj3hW8NsqqOSZjiEwlMg5NT85VvTv3Ao=</dsig:DigestValue>
     </hash>
   </file>
   <file name="ContaHogar3.0.exe.config" size="7321">

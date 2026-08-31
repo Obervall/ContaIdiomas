@@ -645,10 +645,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AcercaDe.ca-ES.resx">
+      <DependentUpon>AcercaDe.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AcercaDe.ca.resx">
       <DependentUpon>AcercaDe.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AcercaDe.de-DE.resx">
+      <DependentUpon>AcercaDe.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AcercaDe.de.resx">
+      <DependentUpon>AcercaDe.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AcercaDe.en-US.resx">
       <DependentUpon>AcercaDe.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AcercaDe.en.resx">
@@ -657,10 +666,19 @@
     <EmbeddedResource Include="AcercaDe.es.resx">
       <DependentUpon>AcercaDe.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AcercaDe.fr-FR.resx">
+      <DependentUpon>AcercaDe.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AcercaDe.fr.resx">
       <DependentUpon>AcercaDe.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AcercaDe.it-IT.resx">
+      <DependentUpon>AcercaDe.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AcercaDe.it.resx">
+      <DependentUpon>AcercaDe.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AcercaDe.pt-PT.resx">
       <DependentUpon>AcercaDe.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AcercaDe.pt.resx">
@@ -669,10 +687,37 @@
     <EmbeddedResource Include="AcercaDe.resx">
       <DependentUpon>AcercaDe.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AprendizajeBancario.ca-ES.resx">
+      <DependentUpon>AprendizajeBancario.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AprendizajeBancario.de-DE.resx">
+      <DependentUpon>AprendizajeBancario.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AprendizajeBancario.en-US.resx">
+      <DependentUpon>AprendizajeBancario.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AprendizajeBancario.fr-FR.resx">
+      <DependentUpon>AprendizajeBancario.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AprendizajeBancario.it-IT.resx">
+      <DependentUpon>AprendizajeBancario.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AprendizajeBancario.pt-PT.resx">
+      <DependentUpon>AprendizajeBancario.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApuntesContables.ca-ES.resx">
+      <DependentUpon>ApuntesContables.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ApuntesContables.ca.resx">
       <DependentUpon>ApuntesContables.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ApuntesContables.de-DE.resx">
+      <DependentUpon>ApuntesContables.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ApuntesContables.de.resx">
+      <DependentUpon>ApuntesContables.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApuntesContables.en-US.resx">
       <DependentUpon>ApuntesContables.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ApuntesContables.en.resx">
@@ -681,19 +726,37 @@
     <EmbeddedResource Include="ApuntesContables.es.resx">
       <DependentUpon>ApuntesContables.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ApuntesContables.fr-FR.resx">
+      <DependentUpon>ApuntesContables.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ApuntesContables.fr.resx">
+      <DependentUpon>ApuntesContables.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApuntesContables.it-IT.resx">
       <DependentUpon>ApuntesContables.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ApuntesContables.it.resx">
       <DependentUpon>ApuntesContables.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ApuntesContables.pt-PT.resx">
+      <DependentUpon>ApuntesContables.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ApuntesContables.pt.resx">
       <DependentUpon>ApuntesContables.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApuntesPeriodicos.ca-ES.resx">
+      <DependentUpon>ApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ApuntesPeriodicos.ca.resx">
       <DependentUpon>ApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ApuntesPeriodicos.de-DE.resx">
+      <DependentUpon>ApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ApuntesPeriodicos.de.resx">
+      <DependentUpon>ApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApuntesPeriodicos.en-US.resx">
       <DependentUpon>ApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ApuntesPeriodicos.en.resx">
@@ -702,10 +765,19 @@
     <EmbeddedResource Include="ApuntesPeriodicos.es.resx">
       <DependentUpon>ApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ApuntesPeriodicos.fr-FR.resx">
+      <DependentUpon>ApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ApuntesPeriodicos.fr.resx">
       <DependentUpon>ApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ApuntesPeriodicos.it-IT.resx">
+      <DependentUpon>ApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ApuntesPeriodicos.it.resx">
+      <DependentUpon>ApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ApuntesPeriodicos.pt-PT.resx">
       <DependentUpon>ApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ApuntesPeriodicos.pt.resx">
@@ -717,10 +789,19 @@
     <EmbeddedResource Include="ApuntesContables.resx">
       <DependentUpon>ApuntesContables.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AyudaApuntes.ca-ES.resx">
+      <DependentUpon>AyudaApuntes.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AyudaApuntes.ca.resx">
       <DependentUpon>AyudaApuntes.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AyudaApuntes.de-DE.resx">
+      <DependentUpon>AyudaApuntes.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AyudaApuntes.de.resx">
+      <DependentUpon>AyudaApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AyudaApuntes.en-US.resx">
       <DependentUpon>AyudaApuntes.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AyudaApuntes.en.resx">
@@ -729,10 +810,19 @@
     <EmbeddedResource Include="AyudaApuntes.es.resx">
       <DependentUpon>AyudaApuntes.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AyudaApuntes.fr-FR.resx">
+      <DependentUpon>AyudaApuntes.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AyudaApuntes.fr.resx">
       <DependentUpon>AyudaApuntes.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AyudaApuntes.it-IT.resx">
+      <DependentUpon>AyudaApuntes.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AyudaApuntes.it.resx">
+      <DependentUpon>AyudaApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AyudaApuntes.pt-PT.resx">
       <DependentUpon>AyudaApuntes.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AyudaApuntes.pt.resx">
@@ -741,10 +831,19 @@
     <EmbeddedResource Include="AyudaApuntes.resx">
       <DependentUpon>AyudaApuntes.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Buscar.ca-ES.resx">
+      <DependentUpon>Buscar.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Buscar.ca.resx">
       <DependentUpon>Buscar.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Buscar.de-DE.resx">
+      <DependentUpon>Buscar.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Buscar.de.resx">
+      <DependentUpon>Buscar.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Buscar.en-US.resx">
       <DependentUpon>Buscar.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Buscar.en.resx">
@@ -753,10 +852,19 @@
     <EmbeddedResource Include="Buscar.es.resx">
       <DependentUpon>Buscar.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Buscar.fr-FR.resx">
+      <DependentUpon>Buscar.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Buscar.fr.resx">
       <DependentUpon>Buscar.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Buscar.it-IT.resx">
+      <DependentUpon>Buscar.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Buscar.it.resx">
+      <DependentUpon>Buscar.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Buscar.pt-PT.resx">
       <DependentUpon>Buscar.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Buscar.pt.resx">
@@ -765,10 +873,19 @@
     <EmbeddedResource Include="Buscar.resx">
       <DependentUpon>Buscar.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ConceptosContables.ca-ES.resx">
+      <DependentUpon>ConceptosContables.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ConceptosContables.ca.resx">
       <DependentUpon>ConceptosContables.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ConceptosContables.de-DE.resx">
+      <DependentUpon>ConceptosContables.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ConceptosContables.de.resx">
+      <DependentUpon>ConceptosContables.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConceptosContables.en-US.resx">
       <DependentUpon>ConceptosContables.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ConceptosContables.en.resx">
@@ -777,19 +894,37 @@
     <EmbeddedResource Include="ConceptosContables.es.resx">
       <DependentUpon>ConceptosContables.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ConceptosContables.fr-FR.resx">
+      <DependentUpon>ConceptosContables.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ConceptosContables.fr.resx">
+      <DependentUpon>ConceptosContables.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConceptosContables.it-IT.resx">
       <DependentUpon>ConceptosContables.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ConceptosContables.it.resx">
       <DependentUpon>ConceptosContables.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ConceptosContables.pt-PT.resx">
+      <DependentUpon>ConceptosContables.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ConceptosContables.pt.resx">
       <DependentUpon>ConceptosContables.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CuentasBancarias.ca-ES.resx">
+      <DependentUpon>CuentasBancarias.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CuentasBancarias.ca.resx">
       <DependentUpon>CuentasBancarias.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CuentasBancarias.de-DE.resx">
+      <DependentUpon>CuentasBancarias.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CuentasBancarias.de.resx">
+      <DependentUpon>CuentasBancarias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CuentasBancarias.en-US.resx">
       <DependentUpon>CuentasBancarias.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CuentasBancarias.en.resx">
@@ -798,19 +933,37 @@
     <EmbeddedResource Include="CuentasBancarias.es.resx">
       <DependentUpon>CuentasBancarias.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CuentasBancarias.fr-FR.resx">
+      <DependentUpon>CuentasBancarias.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CuentasBancarias.fr.resx">
+      <DependentUpon>CuentasBancarias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CuentasBancarias.it-IT.resx">
       <DependentUpon>CuentasBancarias.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CuentasBancarias.it.resx">
       <DependentUpon>CuentasBancarias.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CuentasBancarias.pt-PT.resx">
+      <DependentUpon>CuentasBancarias.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CuentasBancarias.pt.resx">
       <DependentUpon>CuentasBancarias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarApuntes.ca-ES.resx">
+      <DependentUpon>EditarApuntes.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditarApuntes.ca.resx">
       <DependentUpon>EditarApuntes.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EditarApuntes.de-DE.resx">
+      <DependentUpon>EditarApuntes.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditarApuntes.de.resx">
+      <DependentUpon>EditarApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarApuntes.en-US.resx">
       <DependentUpon>EditarApuntes.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditarApuntes.en.resx">
@@ -819,19 +972,37 @@
     <EmbeddedResource Include="EditarApuntes.es.resx">
       <DependentUpon>EditarApuntes.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EditarApuntes.fr-FR.resx">
+      <DependentUpon>EditarApuntes.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditarApuntes.fr.resx">
+      <DependentUpon>EditarApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarApuntes.it-IT.resx">
       <DependentUpon>EditarApuntes.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditarApuntes.it.resx">
       <DependentUpon>EditarApuntes.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EditarApuntes.pt-PT.resx">
+      <DependentUpon>EditarApuntes.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditarApuntes.pt.resx">
       <DependentUpon>EditarApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarApuntesPeriodicos.ca-ES.resx">
+      <DependentUpon>EditarApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditarApuntesPeriodicos.ca.resx">
       <DependentUpon>EditarApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EditarApuntesPeriodicos.de-DE.resx">
+      <DependentUpon>EditarApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditarApuntesPeriodicos.de.resx">
+      <DependentUpon>EditarApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarApuntesPeriodicos.en-US.resx">
       <DependentUpon>EditarApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditarApuntesPeriodicos.en.resx">
@@ -840,10 +1011,19 @@
     <EmbeddedResource Include="EditarApuntesPeriodicos.es.resx">
       <DependentUpon>EditarApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EditarApuntesPeriodicos.fr-FR.resx">
+      <DependentUpon>EditarApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditarApuntesPeriodicos.fr.resx">
       <DependentUpon>EditarApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EditarApuntesPeriodicos.it-IT.resx">
+      <DependentUpon>EditarApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditarApuntesPeriodicos.it.resx">
+      <DependentUpon>EditarApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarApuntesPeriodicos.pt-PT.resx">
       <DependentUpon>EditarApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditarApuntesPeriodicos.pt.resx">
@@ -852,10 +1032,19 @@
     <EmbeddedResource Include="EditarApuntesPeriodicos.resx">
       <DependentUpon>EditarApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EditarConceptoContable.ca-ES.resx">
+      <DependentUpon>EditarConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditarConceptoContable.ca.resx">
       <DependentUpon>EditarConceptoContable.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EditarConceptoContable.de-DE.resx">
+      <DependentUpon>EditarConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditarConceptoContable.de.resx">
+      <DependentUpon>EditarConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarConceptoContable.en-US.resx">
       <DependentUpon>EditarConceptoContable.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditarConceptoContable.en.resx">
@@ -864,19 +1053,37 @@
     <EmbeddedResource Include="EditarConceptoContable.es.resx">
       <DependentUpon>EditarConceptoContable.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EditarConceptoContable.fr-FR.resx">
+      <DependentUpon>EditarConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditarConceptoContable.fr.resx">
+      <DependentUpon>EditarConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarConceptoContable.it-IT.resx">
       <DependentUpon>EditarConceptoContable.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditarConceptoContable.it.resx">
       <DependentUpon>EditarConceptoContable.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EditarConceptoContable.pt-PT.resx">
+      <DependentUpon>EditarConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditarConceptoContable.pt.resx">
       <DependentUpon>EditarConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarCuentaBancaria.ca-ES.resx">
+      <DependentUpon>EditarCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditarCuentaBancaria.ca.resx">
       <DependentUpon>EditarCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EditarCuentaBancaria.de-DE.resx">
+      <DependentUpon>EditarCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditarCuentaBancaria.de.resx">
+      <DependentUpon>EditarCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarCuentaBancaria.en-US.resx">
       <DependentUpon>EditarCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditarCuentaBancaria.en.resx">
@@ -885,19 +1092,37 @@
     <EmbeddedResource Include="EditarCuentaBancaria.es.resx">
       <DependentUpon>EditarCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EditarCuentaBancaria.fr-FR.resx">
+      <DependentUpon>EditarCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditarCuentaBancaria.fr.resx">
+      <DependentUpon>EditarCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarCuentaBancaria.it-IT.resx">
       <DependentUpon>EditarCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditarCuentaBancaria.it.resx">
       <DependentUpon>EditarCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EditarCuentaBancaria.pt-PT.resx">
+      <DependentUpon>EditarCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditarCuentaBancaria.pt.resx">
       <DependentUpon>EditarCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarTipoCuentaBancaria.ca-ES.resx">
+      <DependentUpon>EditarTipoCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditarTipoCuentaBancaria.ca.resx">
       <DependentUpon>EditarTipoCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EditarTipoCuentaBancaria.de-DE.resx">
+      <DependentUpon>EditarTipoCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditarTipoCuentaBancaria.de.resx">
+      <DependentUpon>EditarTipoCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarTipoCuentaBancaria.en-US.resx">
       <DependentUpon>EditarTipoCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditarTipoCuentaBancaria.en.resx">
@@ -906,10 +1131,19 @@
     <EmbeddedResource Include="EditarTipoCuentaBancaria.es.resx">
       <DependentUpon>EditarTipoCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EditarTipoCuentaBancaria.fr-FR.resx">
+      <DependentUpon>EditarTipoCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditarTipoCuentaBancaria.fr.resx">
       <DependentUpon>EditarTipoCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EditarTipoCuentaBancaria.it-IT.resx">
+      <DependentUpon>EditarTipoCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditarTipoCuentaBancaria.it.resx">
+      <DependentUpon>EditarTipoCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarTipoCuentaBancaria.pt-PT.resx">
       <DependentUpon>EditarTipoCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditarTipoCuentaBancaria.pt.resx">
@@ -921,10 +1155,19 @@
     <EmbeddedResource Include="EditarApuntes.resx">
       <DependentUpon>EditarApuntes.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FiltroF5.ca-ES.resx">
+      <DependentUpon>FiltroF5.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FiltroF5.ca.resx">
       <DependentUpon>FiltroF5.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FiltroF5.de-DE.resx">
+      <DependentUpon>FiltroF5.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FiltroF5.de.resx">
+      <DependentUpon>FiltroF5.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FiltroF5.en-US.resx">
       <DependentUpon>FiltroF5.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FiltroF5.en.resx">
@@ -933,10 +1176,19 @@
     <EmbeddedResource Include="FiltroF5.es.resx">
       <DependentUpon>FiltroF5.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FiltroF5.fr-FR.resx">
+      <DependentUpon>FiltroF5.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FiltroF5.fr.resx">
       <DependentUpon>FiltroF5.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FiltroF5.it-IT.resx">
+      <DependentUpon>FiltroF5.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FiltroF5.it.resx">
+      <DependentUpon>FiltroF5.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FiltroF5.pt-PT.resx">
       <DependentUpon>FiltroF5.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FiltroF5.pt.resx">
@@ -945,10 +1197,19 @@
     <EmbeddedResource Include="FiltroF5.resx">
       <DependentUpon>FiltroF5.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GraficosConceptos.ca-ES.resx">
+      <DependentUpon>GraficosConceptos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GraficosConceptos.ca.resx">
       <DependentUpon>GraficosConceptos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GraficosConceptos.de-DE.resx">
+      <DependentUpon>GraficosConceptos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GraficosConceptos.de.resx">
+      <DependentUpon>GraficosConceptos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosConceptos.en-US.resx">
       <DependentUpon>GraficosConceptos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosConceptos.en.resx">
@@ -957,19 +1218,37 @@
     <EmbeddedResource Include="GraficosConceptos.es.resx">
       <DependentUpon>GraficosConceptos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GraficosConceptos.fr-FR.resx">
+      <DependentUpon>GraficosConceptos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GraficosConceptos.fr.resx">
+      <DependentUpon>GraficosConceptos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosConceptos.it-IT.resx">
       <DependentUpon>GraficosConceptos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosConceptos.it.resx">
       <DependentUpon>GraficosConceptos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GraficosConceptos.pt-PT.resx">
+      <DependentUpon>GraficosConceptos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GraficosConceptos.pt.resx">
       <DependentUpon>GraficosConceptos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosCuentas.ca-ES.resx">
+      <DependentUpon>GraficosCuentas.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosCuentas.ca.resx">
       <DependentUpon>GraficosCuentas.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GraficosCuentas.de-DE.resx">
+      <DependentUpon>GraficosCuentas.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GraficosCuentas.de.resx">
+      <DependentUpon>GraficosCuentas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosCuentas.en-US.resx">
       <DependentUpon>GraficosCuentas.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosCuentas.en.resx">
@@ -978,19 +1257,37 @@
     <EmbeddedResource Include="GraficosCuentas.es.resx">
       <DependentUpon>GraficosCuentas.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GraficosCuentas.fr-FR.resx">
+      <DependentUpon>GraficosCuentas.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GraficosCuentas.fr.resx">
+      <DependentUpon>GraficosCuentas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosCuentas.it-IT.resx">
       <DependentUpon>GraficosCuentas.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosCuentas.it.resx">
       <DependentUpon>GraficosCuentas.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GraficosCuentas.pt-PT.resx">
+      <DependentUpon>GraficosCuentas.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GraficosCuentas.pt.resx">
       <DependentUpon>GraficosCuentas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosFechas.ca-ES.resx">
+      <DependentUpon>GraficosFechas.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosFechas.ca.resx">
       <DependentUpon>GraficosFechas.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GraficosFechas.de-DE.resx">
+      <DependentUpon>GraficosFechas.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GraficosFechas.de.resx">
+      <DependentUpon>GraficosFechas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosFechas.en-US.resx">
       <DependentUpon>GraficosFechas.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosFechas.en.resx">
@@ -999,19 +1296,37 @@
     <EmbeddedResource Include="GraficosFechas.es.resx">
       <DependentUpon>GraficosFechas.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GraficosFechas.fr-FR.resx">
+      <DependentUpon>GraficosFechas.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GraficosFechas.fr.resx">
+      <DependentUpon>GraficosFechas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosFechas.it-IT.resx">
       <DependentUpon>GraficosFechas.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosFechas.it.resx">
       <DependentUpon>GraficosFechas.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GraficosFechas.pt-PT.resx">
+      <DependentUpon>GraficosFechas.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GraficosFechas.pt.resx">
       <DependentUpon>GraficosFechas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosMeses.ca-ES.resx">
+      <DependentUpon>GraficosMeses.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosMeses.ca.resx">
       <DependentUpon>GraficosMeses.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GraficosMeses.de-DE.resx">
+      <DependentUpon>GraficosMeses.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GraficosMeses.de.resx">
+      <DependentUpon>GraficosMeses.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosMeses.en-US.resx">
       <DependentUpon>GraficosMeses.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosMeses.en.resx">
@@ -1020,19 +1335,37 @@
     <EmbeddedResource Include="GraficosMeses.es.resx">
       <DependentUpon>GraficosMeses.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GraficosMeses.fr-FR.resx">
+      <DependentUpon>GraficosMeses.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GraficosMeses.fr.resx">
+      <DependentUpon>GraficosMeses.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosMeses.it-IT.resx">
       <DependentUpon>GraficosMeses.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosMeses.it.resx">
       <DependentUpon>GraficosMeses.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GraficosMeses.pt-PT.resx">
+      <DependentUpon>GraficosMeses.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GraficosMeses.pt.resx">
       <DependentUpon>GraficosMeses.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosPresupuestos.ca-ES.resx">
+      <DependentUpon>GraficosPresupuestos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosPresupuestos.ca.resx">
       <DependentUpon>GraficosPresupuestos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GraficosPresupuestos.de-DE.resx">
+      <DependentUpon>GraficosPresupuestos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GraficosPresupuestos.de.resx">
+      <DependentUpon>GraficosPresupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosPresupuestos.en-US.resx">
       <DependentUpon>GraficosPresupuestos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosPresupuestos.en.resx">
@@ -1041,10 +1374,19 @@
     <EmbeddedResource Include="GraficosPresupuestos.es.resx">
       <DependentUpon>GraficosPresupuestos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GraficosPresupuestos.fr-FR.resx">
+      <DependentUpon>GraficosPresupuestos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GraficosPresupuestos.fr.resx">
       <DependentUpon>GraficosPresupuestos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GraficosPresupuestos.it-IT.resx">
+      <DependentUpon>GraficosPresupuestos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GraficosPresupuestos.it.resx">
+      <DependentUpon>GraficosPresupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosPresupuestos.pt-PT.resx">
       <DependentUpon>GraficosPresupuestos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosPresupuestos.pt.resx">
@@ -1053,10 +1395,19 @@
     <EmbeddedResource Include="GraficosPresupuestos.resx">
       <DependentUpon>GraficosPresupuestos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GraficosSoloConceptos.ca-ES.resx">
+      <DependentUpon>GraficosSoloConceptos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GraficosSoloConceptos.ca.resx">
       <DependentUpon>GraficosSoloConceptos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GraficosSoloConceptos.de-DE.resx">
+      <DependentUpon>GraficosSoloConceptos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GraficosSoloConceptos.de.resx">
+      <DependentUpon>GraficosSoloConceptos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosSoloConceptos.en-US.resx">
       <DependentUpon>GraficosSoloConceptos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosSoloConceptos.en.resx">
@@ -1065,10 +1416,19 @@
     <EmbeddedResource Include="GraficosSoloConceptos.es.resx">
       <DependentUpon>GraficosSoloConceptos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GraficosSoloConceptos.fr-FR.resx">
+      <DependentUpon>GraficosSoloConceptos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GraficosSoloConceptos.fr.resx">
       <DependentUpon>GraficosSoloConceptos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GraficosSoloConceptos.it-IT.resx">
+      <DependentUpon>GraficosSoloConceptos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GraficosSoloConceptos.it.resx">
+      <DependentUpon>GraficosSoloConceptos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraficosSoloConceptos.pt-PT.resx">
       <DependentUpon>GraficosSoloConceptos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraficosSoloConceptos.pt.resx">
@@ -1116,10 +1476,19 @@
     <EmbeddedResource Include="AprendizajeBancario.resx">
       <DependentUpon>AprendizajeBancario.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="IntroApuntes.ca-ES.resx">
+      <DependentUpon>IntroApuntes.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="IntroApuntes.ca.resx">
       <DependentUpon>IntroApuntes.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="IntroApuntes.de-DE.resx">
+      <DependentUpon>IntroApuntes.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="IntroApuntes.de.resx">
+      <DependentUpon>IntroApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroApuntes.en-US.resx">
       <DependentUpon>IntroApuntes.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="IntroApuntes.en.resx">
@@ -1128,19 +1497,37 @@
     <EmbeddedResource Include="IntroApuntes.es.resx">
       <DependentUpon>IntroApuntes.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="IntroApuntes.fr-FR.resx">
+      <DependentUpon>IntroApuntes.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="IntroApuntes.fr.resx">
+      <DependentUpon>IntroApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroApuntes.it-IT.resx">
       <DependentUpon>IntroApuntes.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="IntroApuntes.it.resx">
       <DependentUpon>IntroApuntes.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="IntroApuntes.pt-PT.resx">
+      <DependentUpon>IntroApuntes.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="IntroApuntes.pt.resx">
       <DependentUpon>IntroApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroApuntesPeriodicos.ca-ES.resx">
+      <DependentUpon>IntroApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="IntroApuntesPeriodicos.ca.resx">
       <DependentUpon>IntroApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="IntroApuntesPeriodicos.de-DE.resx">
+      <DependentUpon>IntroApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="IntroApuntesPeriodicos.de.resx">
+      <DependentUpon>IntroApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroApuntesPeriodicos.en-US.resx">
       <DependentUpon>IntroApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="IntroApuntesPeriodicos.en.resx">
@@ -1149,10 +1536,19 @@
     <EmbeddedResource Include="IntroApuntesPeriodicos.es.resx">
       <DependentUpon>IntroApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="IntroApuntesPeriodicos.fr-FR.resx">
+      <DependentUpon>IntroApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="IntroApuntesPeriodicos.fr.resx">
       <DependentUpon>IntroApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="IntroApuntesPeriodicos.it-IT.resx">
+      <DependentUpon>IntroApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="IntroApuntesPeriodicos.it.resx">
+      <DependentUpon>IntroApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroApuntesPeriodicos.pt-PT.resx">
       <DependentUpon>IntroApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="IntroApuntesPeriodicos.pt.resx">
@@ -1161,10 +1557,19 @@
     <EmbeddedResource Include="IntroApuntesPeriodicos.resx">
       <DependentUpon>IntroApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="IntroPresupuestos.ca-ES.resx">
+      <DependentUpon>IntroPresupuestos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="IntroPresupuestos.ca.resx">
       <DependentUpon>IntroPresupuestos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="IntroPresupuestos.de-DE.resx">
+      <DependentUpon>IntroPresupuestos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="IntroPresupuestos.de.resx">
+      <DependentUpon>IntroPresupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroPresupuestos.en-US.resx">
       <DependentUpon>IntroPresupuestos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="IntroPresupuestos.en.resx">
@@ -1173,19 +1578,37 @@
     <EmbeddedResource Include="IntroPresupuestos.es.resx">
       <DependentUpon>IntroPresupuestos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="IntroPresupuestos.fr-FR.resx">
+      <DependentUpon>IntroPresupuestos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="IntroPresupuestos.fr.resx">
+      <DependentUpon>IntroPresupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntroPresupuestos.it-IT.resx">
       <DependentUpon>IntroPresupuestos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="IntroPresupuestos.it.resx">
       <DependentUpon>IntroPresupuestos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="IntroPresupuestos.pt-PT.resx">
+      <DependentUpon>IntroPresupuestos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="IntroPresupuestos.pt.resx">
       <DependentUpon>IntroPresupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevaCuentaBancaria.ca-ES.resx">
+      <DependentUpon>NuevaCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NuevaCuentaBancaria.ca.resx">
       <DependentUpon>NuevaCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="NuevaCuentaBancaria.de-DE.resx">
+      <DependentUpon>NuevaCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="NuevaCuentaBancaria.de.resx">
+      <DependentUpon>NuevaCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevaCuentaBancaria.en-US.resx">
       <DependentUpon>NuevaCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NuevaCuentaBancaria.en.resx">
@@ -1194,19 +1617,37 @@
     <EmbeddedResource Include="NuevaCuentaBancaria.es.resx">
       <DependentUpon>NuevaCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="NuevaCuentaBancaria.fr-FR.resx">
+      <DependentUpon>NuevaCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="NuevaCuentaBancaria.fr.resx">
+      <DependentUpon>NuevaCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevaCuentaBancaria.it-IT.resx">
       <DependentUpon>NuevaCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NuevaCuentaBancaria.it.resx">
       <DependentUpon>NuevaCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="NuevaCuentaBancaria.pt-PT.resx">
+      <DependentUpon>NuevaCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="NuevaCuentaBancaria.pt.resx">
       <DependentUpon>NuevaCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevoConceptoContable.ca-ES.resx">
+      <DependentUpon>NuevoConceptoContable.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NuevoConceptoContable.ca.resx">
       <DependentUpon>NuevoConceptoContable.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="NuevoConceptoContable.de-DE.resx">
+      <DependentUpon>NuevoConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="NuevoConceptoContable.de.resx">
+      <DependentUpon>NuevoConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevoConceptoContable.en-US.resx">
       <DependentUpon>NuevoConceptoContable.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NuevoConceptoContable.en.resx">
@@ -1215,19 +1656,37 @@
     <EmbeddedResource Include="NuevoConceptoContable.es.resx">
       <DependentUpon>NuevoConceptoContable.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="NuevoConceptoContable.fr-FR.resx">
+      <DependentUpon>NuevoConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="NuevoConceptoContable.fr.resx">
+      <DependentUpon>NuevoConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevoConceptoContable.it-IT.resx">
       <DependentUpon>NuevoConceptoContable.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NuevoConceptoContable.it.resx">
       <DependentUpon>NuevoConceptoContable.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="NuevoConceptoContable.pt-PT.resx">
+      <DependentUpon>NuevoConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="NuevoConceptoContable.pt.resx">
       <DependentUpon>NuevoConceptoContable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevoTipoCuentaBancaria.ca-ES.resx">
+      <DependentUpon>NuevoTipoCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NuevoTipoCuentaBancaria.ca.resx">
       <DependentUpon>NuevoTipoCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="NuevoTipoCuentaBancaria.de-DE.resx">
+      <DependentUpon>NuevoTipoCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="NuevoTipoCuentaBancaria.de.resx">
+      <DependentUpon>NuevoTipoCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevoTipoCuentaBancaria.en-US.resx">
       <DependentUpon>NuevoTipoCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NuevoTipoCuentaBancaria.en.resx">
@@ -1236,10 +1695,19 @@
     <EmbeddedResource Include="NuevoTipoCuentaBancaria.es.resx">
       <DependentUpon>NuevoTipoCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="NuevoTipoCuentaBancaria.fr-FR.resx">
+      <DependentUpon>NuevoTipoCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="NuevoTipoCuentaBancaria.fr.resx">
       <DependentUpon>NuevoTipoCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="NuevoTipoCuentaBancaria.it-IT.resx">
+      <DependentUpon>NuevoTipoCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="NuevoTipoCuentaBancaria.it.resx">
+      <DependentUpon>NuevoTipoCuentaBancaria.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevoTipoCuentaBancaria.pt-PT.resx">
       <DependentUpon>NuevoTipoCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NuevoTipoCuentaBancaria.pt.resx">
@@ -1248,10 +1716,19 @@
     <EmbeddedResource Include="NuevoTipoCuentaBancaria.resx">
       <DependentUpon>NuevoTipoCuentaBancaria.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Preferencias.ca-ES.resx">
+      <DependentUpon>Preferencias.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Preferencias.ca.resx">
       <DependentUpon>Preferencias.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Preferencias.de-DE.resx">
+      <DependentUpon>Preferencias.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Preferencias.de.resx">
+      <DependentUpon>Preferencias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Preferencias.en-US.resx">
       <DependentUpon>Preferencias.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Preferencias.en.resx">
@@ -1260,19 +1737,37 @@
     <EmbeddedResource Include="Preferencias.es.resx">
       <DependentUpon>Preferencias.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Preferencias.fr-FR.resx">
+      <DependentUpon>Preferencias.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Preferencias.fr.resx">
+      <DependentUpon>Preferencias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Preferencias.it-IT.resx">
       <DependentUpon>Preferencias.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Preferencias.it.resx">
       <DependentUpon>Preferencias.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Preferencias.pt-PT.resx">
+      <DependentUpon>Preferencias.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Preferencias.pt.resx">
       <DependentUpon>Preferencias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presupuestos.ca-ES.resx">
+      <DependentUpon>Presupuestos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Presupuestos.ca.resx">
       <DependentUpon>Presupuestos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Presupuestos.de-DE.resx">
+      <DependentUpon>Presupuestos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Presupuestos.de.resx">
+      <DependentUpon>Presupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presupuestos.en-US.resx">
       <DependentUpon>Presupuestos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Presupuestos.en.resx">
@@ -1281,19 +1776,37 @@
     <EmbeddedResource Include="Presupuestos.es.resx">
       <DependentUpon>Presupuestos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Presupuestos.fr-FR.resx">
+      <DependentUpon>Presupuestos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Presupuestos.fr.resx">
+      <DependentUpon>Presupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presupuestos.it-IT.resx">
       <DependentUpon>Presupuestos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Presupuestos.it.resx">
       <DependentUpon>Presupuestos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Presupuestos.pt-PT.resx">
+      <DependentUpon>Presupuestos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Presupuestos.pt.resx">
       <DependentUpon>Presupuestos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Principal.ca-ES.resx">
+      <DependentUpon>Principal.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Principal.ca.resx">
       <DependentUpon>Principal.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Principal.de-DE.resx">
+      <DependentUpon>Principal.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Principal.de.resx">
+      <DependentUpon>Principal.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Principal.en-US.resx">
       <DependentUpon>Principal.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Principal.en.resx">
@@ -1302,15 +1815,29 @@
     <EmbeddedResource Include="Principal.es.resx">
       <DependentUpon>Principal.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Principal.fr-FR.resx">
+      <DependentUpon>Principal.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Principal.fr.resx">
+      <DependentUpon>Principal.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Principal.it-IT.resx">
       <DependentUpon>Principal.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Principal.it.resx">
       <DependentUpon>Principal.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Principal.pt-PT.resx">
+      <DependentUpon>Principal.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Principal.pt.resx">
       <DependentUpon>Principal.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Recursos.ca-ES.resx" />
+    <EmbeddedResource Include="Recursos.de-DE.resx" />
+    <EmbeddedResource Include="Recursos.en-US.resx" />
+    <EmbeddedResource Include="Recursos.fr-FR.resx" />
+    <EmbeddedResource Include="Recursos.it-IT.resx" />
     <EmbeddedResource Include="Recursos.it.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Recursos.it.Designer.vb</LastGenOutput>
@@ -1335,6 +1862,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Recursos.fr.Designer.vb</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Recursos.pt-PT.resx" />
     <EmbeddedResource Include="Recursos.pt.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Recursos.pt.Designer.vb</LastGenOutput>
@@ -1343,10 +1871,19 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Recursos.Designer.vb</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionDatosGastos.ca-ES.resx">
+      <DependentUpon>SeleccionDatosGastos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SeleccionDatosGastos.ca.resx">
       <DependentUpon>SeleccionDatosGastos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionDatosGastos.de-DE.resx">
+      <DependentUpon>SeleccionDatosGastos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SeleccionDatosGastos.de.resx">
+      <DependentUpon>SeleccionDatosGastos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionDatosGastos.en-US.resx">
       <DependentUpon>SeleccionDatosGastos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SeleccionDatosGastos.en.resx">
@@ -1355,10 +1892,19 @@
     <EmbeddedResource Include="SeleccionDatosGastos.es.resx">
       <DependentUpon>SeleccionDatosGastos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionDatosGastos.fr-FR.resx">
+      <DependentUpon>SeleccionDatosGastos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SeleccionDatosGastos.fr.resx">
       <DependentUpon>SeleccionDatosGastos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionDatosGastos.it-IT.resx">
+      <DependentUpon>SeleccionDatosGastos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SeleccionDatosGastos.it.resx">
+      <DependentUpon>SeleccionDatosGastos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionDatosGastos.pt-PT.resx">
       <DependentUpon>SeleccionDatosGastos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SeleccionDatosGastos.pt.resx">
@@ -1367,10 +1913,19 @@
     <EmbeddedResource Include="SeleccionDatosGastos.resx">
       <DependentUpon>SeleccionDatosGastos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionDatosIngresos.ca-ES.resx">
+      <DependentUpon>SeleccionDatosIngresos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SeleccionDatosIngresos.ca.resx">
       <DependentUpon>SeleccionDatosIngresos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionDatosIngresos.de-DE.resx">
+      <DependentUpon>SeleccionDatosIngresos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SeleccionDatosIngresos.de.resx">
+      <DependentUpon>SeleccionDatosIngresos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionDatosIngresos.en-US.resx">
       <DependentUpon>SeleccionDatosIngresos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SeleccionDatosIngresos.en.resx">
@@ -1379,10 +1934,19 @@
     <EmbeddedResource Include="SeleccionDatosIngresos.es.resx">
       <DependentUpon>SeleccionDatosIngresos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionDatosIngresos.fr-FR.resx">
+      <DependentUpon>SeleccionDatosIngresos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SeleccionDatosIngresos.fr.resx">
       <DependentUpon>SeleccionDatosIngresos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionDatosIngresos.it-IT.resx">
+      <DependentUpon>SeleccionDatosIngresos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SeleccionDatosIngresos.it.resx">
+      <DependentUpon>SeleccionDatosIngresos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionDatosIngresos.pt-PT.resx">
       <DependentUpon>SeleccionDatosIngresos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SeleccionDatosIngresos.pt.resx">
@@ -1391,10 +1955,19 @@
     <EmbeddedResource Include="SeleccionDatosIngresos.resx">
       <DependentUpon>SeleccionDatosIngresos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionEjercicio.ca-ES.resx">
+      <DependentUpon>SeleccionEjercicio.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SeleccionEjercicio.ca.resx">
       <DependentUpon>SeleccionEjercicio.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionEjercicio.de-DE.resx">
+      <DependentUpon>SeleccionEjercicio.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SeleccionEjercicio.de.resx">
+      <DependentUpon>SeleccionEjercicio.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionEjercicio.en-US.resx">
       <DependentUpon>SeleccionEjercicio.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SeleccionEjercicio.en.resx">
@@ -1403,19 +1976,37 @@
     <EmbeddedResource Include="SeleccionEjercicio.es.resx">
       <DependentUpon>SeleccionEjercicio.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionEjercicio.fr-FR.resx">
+      <DependentUpon>SeleccionEjercicio.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SeleccionEjercicio.fr.resx">
+      <DependentUpon>SeleccionEjercicio.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionEjercicio.it-IT.resx">
       <DependentUpon>SeleccionEjercicio.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SeleccionEjercicio.it.resx">
       <DependentUpon>SeleccionEjercicio.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionEjercicio.pt-PT.resx">
+      <DependentUpon>SeleccionEjercicio.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SeleccionEjercicio.pt.resx">
       <DependentUpon>SeleccionEjercicio.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionFechas.ca-ES.resx">
+      <DependentUpon>SeleccionFechas.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SeleccionFechas.ca.resx">
       <DependentUpon>SeleccionFechas.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionFechas.de-DE.resx">
+      <DependentUpon>SeleccionFechas.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SeleccionFechas.de.resx">
+      <DependentUpon>SeleccionFechas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionFechas.en-US.resx">
       <DependentUpon>SeleccionFechas.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SeleccionFechas.en.resx">
@@ -1424,10 +2015,19 @@
     <EmbeddedResource Include="SeleccionFechas.es.resx">
       <DependentUpon>SeleccionFechas.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionFechas.fr-FR.resx">
+      <DependentUpon>SeleccionFechas.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SeleccionFechas.fr.resx">
       <DependentUpon>SeleccionFechas.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionFechas.it-IT.resx">
+      <DependentUpon>SeleccionFechas.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SeleccionFechas.it.resx">
+      <DependentUpon>SeleccionFechas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionFechas.pt-PT.resx">
       <DependentUpon>SeleccionFechas.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SeleccionFechas.pt.resx">
@@ -1436,10 +2036,19 @@
     <EmbeddedResource Include="SeleccionFechas.resx">
       <DependentUpon>SeleccionFechas.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TipoCuentasBancarias.ca-ES.resx">
+      <DependentUpon>TipoCuentasBancarias.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TipoCuentasBancarias.ca.resx">
       <DependentUpon>TipoCuentasBancarias.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TipoCuentasBancarias.de-DE.resx">
+      <DependentUpon>TipoCuentasBancarias.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TipoCuentasBancarias.de.resx">
+      <DependentUpon>TipoCuentasBancarias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoCuentasBancarias.en-US.resx">
       <DependentUpon>TipoCuentasBancarias.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TipoCuentasBancarias.en.resx">
@@ -1448,10 +2057,19 @@
     <EmbeddedResource Include="TipoCuentasBancarias.es.resx">
       <DependentUpon>TipoCuentasBancarias.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TipoCuentasBancarias.fr-FR.resx">
+      <DependentUpon>TipoCuentasBancarias.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TipoCuentasBancarias.fr.resx">
       <DependentUpon>TipoCuentasBancarias.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TipoCuentasBancarias.it-IT.resx">
+      <DependentUpon>TipoCuentasBancarias.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TipoCuentasBancarias.it.resx">
+      <DependentUpon>TipoCuentasBancarias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoCuentasBancarias.pt-PT.resx">
       <DependentUpon>TipoCuentasBancarias.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TipoCuentasBancarias.pt.resx">
@@ -1487,10 +2105,19 @@
     <EmbeddedResource Include="IntroPresupuestos.resx">
       <DependentUpon>IntroPresupuestos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TipoGrafico.ca-ES.resx">
+      <DependentUpon>TipoGrafico.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TipoGrafico.ca.resx">
       <DependentUpon>TipoGrafico.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TipoGrafico.de-DE.resx">
+      <DependentUpon>TipoGrafico.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TipoGrafico.de.resx">
+      <DependentUpon>TipoGrafico.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoGrafico.en-US.resx">
       <DependentUpon>TipoGrafico.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TipoGrafico.en.resx">
@@ -1499,19 +2126,37 @@
     <EmbeddedResource Include="TipoGrafico.es.resx">
       <DependentUpon>TipoGrafico.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TipoGrafico.fr-FR.resx">
+      <DependentUpon>TipoGrafico.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TipoGrafico.fr.resx">
+      <DependentUpon>TipoGrafico.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoGrafico.it-IT.resx">
       <DependentUpon>TipoGrafico.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TipoGrafico.it.resx">
       <DependentUpon>TipoGrafico.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TipoGrafico.pt-PT.resx">
+      <DependentUpon>TipoGrafico.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TipoGrafico.pt.resx">
       <DependentUpon>TipoGrafico.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoGraficoPeriodico.ca-ES.resx">
+      <DependentUpon>TipoGraficoPeriodico.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TipoGraficoPeriodico.ca.resx">
       <DependentUpon>TipoGraficoPeriodico.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TipoGraficoPeriodico.de-DE.resx">
+      <DependentUpon>TipoGraficoPeriodico.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TipoGraficoPeriodico.de.resx">
+      <DependentUpon>TipoGraficoPeriodico.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoGraficoPeriodico.en-US.resx">
       <DependentUpon>TipoGraficoPeriodico.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TipoGraficoPeriodico.en.resx">
@@ -1520,10 +2165,19 @@
     <EmbeddedResource Include="TipoGraficoPeriodico.es.resx">
       <DependentUpon>TipoGraficoPeriodico.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TipoGraficoPeriodico.fr-FR.resx">
+      <DependentUpon>TipoGraficoPeriodico.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TipoGraficoPeriodico.fr.resx">
       <DependentUpon>TipoGraficoPeriodico.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TipoGraficoPeriodico.it-IT.resx">
+      <DependentUpon>TipoGraficoPeriodico.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TipoGraficoPeriodico.it.resx">
+      <DependentUpon>TipoGraficoPeriodico.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoGraficoPeriodico.pt-PT.resx">
       <DependentUpon>TipoGraficoPeriodico.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TipoGraficoPeriodico.pt.resx">
@@ -1535,10 +2189,19 @@
     <EmbeddedResource Include="TipoGrafico.resx">
       <DependentUpon>TipoGrafico.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TipoInformeApuntes.ca-ES.resx">
+      <DependentUpon>TipoInformeApuntes.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TipoInformeApuntes.ca.resx">
       <DependentUpon>TipoInformeApuntes.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TipoInformeApuntes.de-DE.resx">
+      <DependentUpon>TipoInformeApuntes.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TipoInformeApuntes.de.resx">
+      <DependentUpon>TipoInformeApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoInformeApuntes.en-US.resx">
       <DependentUpon>TipoInformeApuntes.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TipoInformeApuntes.en.resx">
@@ -1547,19 +2210,37 @@
     <EmbeddedResource Include="TipoInformeApuntes.es.resx">
       <DependentUpon>TipoInformeApuntes.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TipoInformeApuntes.fr-FR.resx">
+      <DependentUpon>TipoInformeApuntes.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TipoInformeApuntes.fr.resx">
+      <DependentUpon>TipoInformeApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoInformeApuntes.it-IT.resx">
       <DependentUpon>TipoInformeApuntes.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TipoInformeApuntes.it.resx">
       <DependentUpon>TipoInformeApuntes.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TipoInformeApuntes.pt-PT.resx">
+      <DependentUpon>TipoInformeApuntes.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TipoInformeApuntes.pt.resx">
       <DependentUpon>TipoInformeApuntes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoInformeApuntesPeriodicos.ca-ES.resx">
+      <DependentUpon>TipoInformeApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TipoInformeApuntesPeriodicos.ca.resx">
       <DependentUpon>TipoInformeApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TipoInformeApuntesPeriodicos.de-DE.resx">
+      <DependentUpon>TipoInformeApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TipoInformeApuntesPeriodicos.de.resx">
+      <DependentUpon>TipoInformeApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoInformeApuntesPeriodicos.en-US.resx">
       <DependentUpon>TipoInformeApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TipoInformeApuntesPeriodicos.en.resx">
@@ -1568,10 +2249,19 @@
     <EmbeddedResource Include="TipoInformeApuntesPeriodicos.es.resx">
       <DependentUpon>TipoInformeApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TipoInformeApuntesPeriodicos.fr-FR.resx">
+      <DependentUpon>TipoInformeApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TipoInformeApuntesPeriodicos.fr.resx">
       <DependentUpon>TipoInformeApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TipoInformeApuntesPeriodicos.it-IT.resx">
+      <DependentUpon>TipoInformeApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TipoInformeApuntesPeriodicos.it.resx">
+      <DependentUpon>TipoInformeApuntesPeriodicos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoInformeApuntesPeriodicos.pt-PT.resx">
       <DependentUpon>TipoInformeApuntesPeriodicos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TipoInformeApuntesPeriodicos.pt.resx">
@@ -1583,10 +2273,19 @@
     <EmbeddedResource Include="TipoInformeApuntes.resx">
       <DependentUpon>TipoInformeApuntes.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TraspasoCuentas.ca-ES.resx">
+      <DependentUpon>TraspasoCuentas.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TraspasoCuentas.ca.resx">
       <DependentUpon>TraspasoCuentas.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TraspasoCuentas.de-DE.resx">
+      <DependentUpon>TraspasoCuentas.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TraspasoCuentas.de.resx">
+      <DependentUpon>TraspasoCuentas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TraspasoCuentas.en-US.resx">
       <DependentUpon>TraspasoCuentas.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TraspasoCuentas.en.resx">
@@ -1595,10 +2294,19 @@
     <EmbeddedResource Include="TraspasoCuentas.es.resx">
       <DependentUpon>TraspasoCuentas.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TraspasoCuentas.fr-FR.resx">
+      <DependentUpon>TraspasoCuentas.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TraspasoCuentas.fr.resx">
       <DependentUpon>TraspasoCuentas.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TraspasoCuentas.it-IT.resx">
+      <DependentUpon>TraspasoCuentas.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TraspasoCuentas.it.resx">
+      <DependentUpon>TraspasoCuentas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TraspasoCuentas.pt-PT.resx">
       <DependentUpon>TraspasoCuentas.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TraspasoCuentas.pt.resx">

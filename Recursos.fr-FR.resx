@@ -118,22 +118,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Ejercicio" xml:space="preserve">
-    <value>Exercice</value>
+    <value>Exercice fiscal</value>
   </data>
   <data name="TitolApp" xml:space="preserve">
-    <value>Mes comptes avec</value>
+    <value>Mes comptes chez </value>
   </data>
   <data name="Versio" xml:space="preserve">
     <value>Version</value>
   </data>
   <data name="ToolTipAplicarFiltro" xml:space="preserve">
-    <value>Appliquez le filtre aux journaux</value>
+    <value>Appliquer le filtre aux enregistrements</value>
   </data>
   <data name="ToolTipQuitarFiltro" xml:space="preserve">
-    <value>Retirez le filtre des journaux</value>
+    <value>Supprimer le filtre des enregistrements</value>
   </data>
   <data name="ToolTipAñadir" xml:space="preserve">
-    <value>Ajouter l’inscription</value>
+    <value>Ajouter une inscription</value>
   </data>
   <data name="ToolTipEditar" xml:space="preserve">
     <value>Modifier le registre</value>
@@ -142,53 +142,53 @@
     <value>Supprimer le registre</value>
   </data>
   <data name="ToolTipBuscar" xml:space="preserve">
-    <value>Recherche d’inscription</value>
+    <value>Rechercher dans le registre</value>
   </data>
   <data name="ToolTipImprimir" xml:space="preserve">
-    <value>Imprimé</value>
+    <value>Imprimer</value>
   </data>
   <data name="ToolTipSeguirBuscando" xml:space="preserve">
-    <value>Cliquez pour continuer la recherche ou F3</value>
+    <value>Appuyez pour continuer la recherche ou F3</value>
   </data>
   <data name="ToolTipGraficos" xml:space="preserve">
-    <value>Graphismes de l’émission</value>
+    <value>Afficher les graphiques</value>
   </data>
   <data name="ToolTipCalculadora" xml:space="preserve">
-    <value>Activez la calculatrice</value>
+    <value>Activer la calculatrice</value>
   </data>
   <data name="ToolTipSalir" xml:space="preserve">
-    <value>Fenêtre de sortie/fermeture</value>
+    <value>Quitter/Fermer la fenêtre</value>
   </data>
   <data name="ToolTipPrimero" xml:space="preserve">
-    <value>Aller à la première inscription</value>
+    <value>Aller au premier enregistrement</value>
   </data>
   <data name="ToolTipAnterior" xml:space="preserve">
-    <value>Aller à l’Enregistrement Précédent</value>
+    <value>Aller à l'enregistrement précédent</value>
   </data>
   <data name="ToolTipSiguiente" xml:space="preserve">
-    <value>Aller à la prochaine inscription</value>
+    <value>Aller à l'enregistrement suivant</value>
   </data>
   <data name="ToolTipUltimo" xml:space="preserve">
-    <value>Aller à la dernière inscription</value>
+    <value>Aller au dernier enregistrement</value>
   </data>
   <data name="ToolTipEliminaSeleccion" xml:space="preserve">
-    <value>Suppression des lignes sélectionnées de la grille
+    <value>Supprimer les lignes sélectionnées de la grille
 Ils ne sont pas supprimés de la base de données</value>
   </data>
   <data name="MsgErrorFecha" xml:space="preserve">
     <value>Format de date invalide</value>
   </data>
   <data name="MsgDatos1" xml:space="preserve">
-    <value>Il n’y a pas de correspondance avec les données saisies</value>
+    <value>Il n'y a aucune correspondance avec les données saisies</value>
   </data>
   <data name="MsgDatos2" xml:space="preserve">
-    <value>Il n’existe plus d’enregistrements correspondant aux données saisies</value>
+    <value>Il n'y a plus d'enregistrements correspondant aux données saisies</value>
   </data>
   <data name="MsgFila1" xml:space="preserve">
     <value>Première ligne sélectionnée</value>
   </data>
   <data name="MsgFila2" xml:space="preserve">
-    <value>Dernière rangée sélectionnée</value>
+    <value>Dernière ligne sélectionnée</value>
   </data>
   <data name="NoExistenRegistros" xml:space="preserve">
     <value>Il n’existe aucun enregistrement de la</value>
@@ -227,10 +227,10 @@ Ils ne sont pas supprimés de la base de données</value>
     <value>Notes</value>
   </data>
   <data name="Tipo_Gasto" xml:space="preserve">
-    <value>DÉPENSES</value>
+    <value>DÉPENSE</value>
   </data>
   <data name="Tipo_Ingreso" xml:space="preserve">
-    <value>REVENUS</value>
+    <value>REVENU</value>
   </data>
   <data name="Tipo_Especial" xml:space="preserve">
     <value>SPÉCIAL</value>
@@ -257,10 +257,10 @@ Ils ne sont pas supprimés de la base de données</value>
     <value>Numéro</value>
   </data>
   <data name="Saldo" xml:space="preserve">
-    <value>Équilibre</value>
+    <value>Solde</value>
   </data>
   <data name="ErrorAlEjecutar" xml:space="preserve">
-    <value>Exécution par erreur</value>
+    <value>Erreur d’exécution</value>
   </data>
   <data name="EFECTIVO" xml:space="preserve">
     <value>CAISSE À CAISSES</value>
@@ -287,7 +287,7 @@ Ils ne sont pas supprimés de la base de données</value>
     <value>Le dossier a été effacé avec succès</value>
   </data>
   <data name="RegistroNoBorradoVerificar" xml:space="preserve">
-    <value>Le dossier n’a pas pu être effacé. Vérifier</value>
+    <value>Le dossier ne pouvait pas être supprimé. Vérifier</value>
   </data>
   <data name="ErrorEliminarRegistro" xml:space="preserve">
     <value>Échec à supprimer le registre</value>
@@ -548,7 +548,7 @@ Ils ne sont pas supprimés de la base de données</value>
     <value>Aller à aujourd’hui</value>
   </data>
   <data name="BtnCuenta" xml:space="preserve">
-    <value>Ajouter, modifier, supprimer ou consulter les comptes bancaires</value>
+    <value>Ajouter, modifier, supprimer ou consulter des comptes bancaires</value>
   </data>
   <data name="BtnConcepto" xml:space="preserve">
     <value>Ajouter, modifier, supprimer ou interroger des concepts</value>
@@ -560,7 +560,7 @@ Ils ne sont pas supprimés de la base de données</value>
     <value>Jusqu’à</value>
   </data>
   <data name="TotalIngresos" xml:space="preserve">
-    <value>Chiffre d’affaires total</value>
+    <value>Total des revenus</value>
   </data>
   <data name="TotalGastos" xml:space="preserve">
     <value>Dépenses totales</value>
@@ -605,7 +605,7 @@ Ils ne sont pas supprimés de la base de données</value>
     <value>Budgété</value>
   </data>
   <data name="ToolTipGraficos2D" xml:space="preserve">
-    <value>Graphismes 2D Show</value>
+    <value>Afficher les graphiques 2D</value>
   </data>
   <data name="ToolTipGraficos3D" xml:space="preserve">
     <value>Afficher des graphismes 3D</value>
@@ -617,19 +617,19 @@ Ils ne sont pas supprimés de la base de données</value>
     <value>Mois</value>
   </data>
   <data name="ErrorEjecutarSaldo" xml:space="preserve">
-    <value>Équilibre des erreurs :</value>
+    <value>Erreur de calcul du solde:</value>
   </data>
   <data name="ToolTipF6" xml:space="preserve">
     <value>Rafraîchissement de la grille des notes et suppression des filtres</value>
   </data>
   <data name="AvisoConceptoProtegido" xml:space="preserve">
-    <value>Les concepts système par défaut sont protégés contre les modifications, s’ils ne sont pas utilisés ils peuvent être supprimés.</value>
+    <value>Les concepts système par défaut sont protégés contre les modifications, s’ils ne sont pas utilisés ils peuvent être supprimés</value>
   </data>
   <data name="NoConectoPor" xml:space="preserve">
     <value>Non connecté par</value>
   </data>
   <data name="SoloAdmitePunto" xml:space="preserve">
-    <value>Il ne supporte que le point . En tant que séparateur décimal</value>
+    <value>Il ne supporte que le fichier . Point comme séparateur décimal</value>
   </data>
   <data name="SeparadorDecimal" xml:space="preserve">
     <value>Séparateur décimal</value>
@@ -644,14 +644,14 @@ Ils ne sont pas supprimés de la base de données</value>
     <value>Voulez-vous sauvegarder une sauvegarde de base de données ?</value>
   </data>
   <data name="BackupSatisfactorioBuscarActualizacio" xml:space="preserve">
-    <value>Sauvegarde réalisée avec succès. 
+    <value>Sauvegarde réalisée avec succès.
 Maintenant, la mise à jour sera téléchargée</value>
   </data>
   <data name="Backup" xml:space="preserve">
-    <value>Remplaçant</value>
+    <value>Sauvegarde</value>
   </data>
   <data name="ErrorBackup" xml:space="preserve">
-    <value>Erreur lors de la sauvegarde de la base de données, 
+    <value>Erreur lors de la sauvegarde de la base de données,
 vérifiez qu’il n’y a pas d’autre copie portant le même nom ou
 le fichier n’est pas ouvert</value>
   </data>
@@ -677,7 +677,7 @@ le fichier n’est pas ouvert</value>
     <value>Vous n’êtes pas connecté à un réseau pour vérifier une nouvelle version</value>
   </data>
   <data name="Vacio" xml:space="preserve">
-    <value>Sans programmation...</value>
+    <value>Sans programmation..</value>
   </data>
   <data name="BotonSi" xml:space="preserve">
     <value>Oui</value>
@@ -689,7 +689,7 @@ le fichier n’est pas ouvert</value>
     <value>Accepter</value>
   </data>
   <data name="EL_CORTE_INGLES" xml:space="preserve">
-    <value>EL CORTE INGLÉS</value>
+    <value>EL CORTE INGLES</value>
   </data>
   <data name="Desc_EL_CORTE_INGLES" xml:space="preserve">
     <value>El Corte Inglés</value>
@@ -740,16 +740,16 @@ le fichier n’est pas ouvert</value>
     <value>Carte de crédit</value>
   </data>
   <data name="TARJETA_DE_CREDITO" xml:space="preserve">
-    <value>CARTE DE CRÉDIT</value>
+    <value>CARTE DE CRÈDIT</value>
   </data>
   <data name="PLAN_PENSIONES" xml:space="preserve">
-    <value>COMPTE DE RÉGIME DE RETRAITE</value>
+    <value>COMPTE PLAN DE RETRAITE</value>
   </data>
   <data name="Desc_PLAN_PENSIONES" xml:space="preserve">
     <value>Régime de retraite</value>
   </data>
   <data name="CAJA_EFECTIVO" xml:space="preserve">
-    <value>COMPTE DE TRÉSORERIE</value>
+    <value>COMPTE CAISSE À CAISSES</value>
   </data>
   <data name="Desc_CAJA_EFECTIVO" xml:space="preserve">
     <value>Espèces à domicile</value>
@@ -815,7 +815,7 @@ le fichier n’est pas ouvert</value>
     <value>Erreur de suppression de ligne avec ID {0} :</value>
   </data>
   <data name="MsgLoteEliminadoExito" xml:space="preserve">
-    <value>Opération terminée. {0} enregistrements physiques ont été supprimés de la base de données</value>
+    <value>Opération terminée. Les enregistrements physiques ont été supprimés de {0} base de données</value>
   </data>
   <data name="TituloBorradoFinalizado" xml:space="preserve">
     <value>Suppression terminée</value>
@@ -953,12 +953,12 @@ le fichier n’est pas ouvert</value>
     <value>1ère Charge</value>
   </data>
   <data name="TipoGrafico" xml:space="preserve">
-    <value>Conseil pratique : 
+    <value>Conseil pratique :
 Pour un visionnage optimal et net
 et détaillés de vos graphiques, nous vous recommandons
-Réduisez la plage à l’aide de filtres à date, 
+Réduisez la plage à l’aide de filtres à date,
 Des comptes rends compte ou en sélectionnant des concepts spécifiques
-sur la liste (Pink Funnel). 
+sur la liste (Pink Funnel).
 Moins de données offrent une analyse bien plus claire !</value>
   </data>
   <data name="SeleccioneIdiomaAyuda" xml:space="preserve">
@@ -977,15 +977,15 @@ Moins de données offrent une analyse bien plus claire !</value>
     <value>Vous ne pouvez pas modifier une entrée en dehors de l’exercice fiscal en cours</value>
   </data>
   <data name="Error_Permisos_Antivirus" xml:space="preserve">
-    <value>Votre antivirus ou la protection de Windows bloque l’accès à Mes Documents. 
+    <value>Votre antivirus ou la protection de Windows bloque l’accès à Mes Documents.
 Veuillez ajouter ce programme à la liste des exclusions
-ou permet un accès contrôlé aux dossiers pour pouvoir utiliser ContaHogar 3.0 Premium.</value>
+ou permet un accès contrôlé aux dossiers pour pouvoir utiliser FinancesFamille 3.0 Premium.</value>
   </data>
   <data name="ControlSeguridadWindows" xml:space="preserve">
     <value>Contrôle de sécurité Windows</value>
   </data>
   <data name="MsgPeriodoPruebaExpirado" xml:space="preserve">
-    <value>Votre période d’essai de 30 jours est terminée. S’il vous plaît 
+    <value>Votre période d’essai de 30 jours est terminée. S’il vous plaît,
 achetez la version complète sur le Microsoft Store.</value>
   </data>
   <data name="PeriodoPrueba" xml:space="preserve">
@@ -1010,9 +1010,15 @@ achetez la version complète sur le Microsoft Store.</value>
     <value>Matrice de la banque de traitement des erreurs</value>
   </data>
   <data name="AppDisplayName" xml:space="preserve">
-    <value>ContaHogar 3.0 Premium</value>
+    <value>FinancesFamille 3.0 Premium</value>
   </data>
   <data name="MsgReinicioIdioma" xml:space="preserve">
     <value>L’application redémarrera pour appliquer la nouvelle langue</value>
+  </data>
+  <data name="SeCrearaEjercicio" xml:space="preserve">
+    <value>lexercice sera créé</value>
+  </data>
+  <data name="CreadoCorrectamente" xml:space="preserve">
+    <value>Créé correctement</value>
   </data>
 </root>

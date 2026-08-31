@@ -416,7 +416,7 @@ Friend Class Recursos
     End Property
     
     '''<summary>
-    '''  Busca una cadena traducida similar a .
+    '''  Busca una cadena traducida similar a creado correctamente.
     '''</summary>
     Friend Shared ReadOnly Property CreadoCorrectamente() As String
         Get
@@ -2221,7 +2221,7 @@ Friend Class Recursos
     End Property
     
     '''<summary>
-    '''  Busca una cadena traducida similar a .
+    '''  Busca una cadena traducida similar a se creará ejercicio.
     '''</summary>
     Friend Shared ReadOnly Property SeCrearaEjercicio() As String
         Get

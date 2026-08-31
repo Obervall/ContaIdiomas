@@ -118,19 +118,19 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Ejercicio" xml:space="preserve">
-    <value>Exercise</value>
+    <value>Fiscal Year</value>
   </data>
   <data name="TitolApp" xml:space="preserve">
-    <value>My Accounts with</value>
+    <value>My Accounts with </value>
   </data>
   <data name="Versio" xml:space="preserve">
     <value>Version</value>
   </data>
   <data name="ToolTipAplicarFiltro" xml:space="preserve">
-    <value>Apply the filter to the Logs</value>
+    <value>Apply the filter to the Records</value>
   </data>
   <data name="ToolTipQuitarFiltro" xml:space="preserve">
-    <value>Remove the filter from the Logs</value>
+    <value>Remove the filter from the Records</value>
   </data>
   <data name="ToolTipAñadir" xml:space="preserve">
     <value>Add Registration</value>
@@ -142,16 +142,16 @@
     <value>Delete Registry</value>
   </data>
   <data name="ToolTipBuscar" xml:space="preserve">
-    <value>Search Registration</value>
+    <value>Search Registry</value>
   </data>
   <data name="ToolTipImprimir" xml:space="preserve">
     <value>Print</value>
   </data>
   <data name="ToolTipSeguirBuscando" xml:space="preserve">
-    <value>Click to Continue Searching or F3</value>
+    <value>Press to Continue Searching or F3</value>
   </data>
   <data name="ToolTipGraficos" xml:space="preserve">
-    <value>Show Graphics</value>
+    <value>Show Charts</value>
   </data>
   <data name="ToolTipCalculadora" xml:space="preserve">
     <value>Activate the Calculator</value>
@@ -160,35 +160,35 @@
     <value>Exit/Close Window</value>
   </data>
   <data name="ToolTipPrimero" xml:space="preserve">
-    <value>Go to First Registration</value>
+    <value>Go to First Record</value>
   </data>
   <data name="ToolTipAnterior" xml:space="preserve">
-    <value>Go to Previous Registration</value>
+    <value>Go to Previous Record</value>
   </data>
   <data name="ToolTipSiguiente" xml:space="preserve">
-    <value>Go to Next Registration</value>
+    <value>Go to Next Record</value>
   </data>
   <data name="ToolTipUltimo" xml:space="preserve">
-    <value>Go to Last Registration</value>
+    <value>Go to Last Record</value>
   </data>
   <data name="ToolTipEliminaSeleccion" xml:space="preserve">
-    <value>Deleting Selected Rows from the Grid
-They Are Not Removed from the Database</value>
+    <value>Delete Selected Rows from the Grid
+They are not removed from the database</value>
   </data>
   <data name="MsgErrorFecha" xml:space="preserve">
-    <value>Invalid Date Format</value>
+    <value>Invalid date format</value>
   </data>
   <data name="MsgDatos1" xml:space="preserve">
     <value>There is no match with the data entered</value>
   </data>
   <data name="MsgDatos2" xml:space="preserve">
-    <value>There are no more Records that Match the Data Entered</value>
+    <value>There are no more Records that Match the data entered</value>
   </data>
   <data name="MsgFila1" xml:space="preserve">
     <value>First Row Selected</value>
   </data>
   <data name="MsgFila2" xml:space="preserve">
-    <value>Last Selected Row</value>
+    <value>Last Row Selected</value>
   </data>
   <data name="NoExistenRegistros" xml:space="preserve">
     <value>There are no records of the</value>
@@ -227,7 +227,7 @@ They Are Not Removed from the Database</value>
     <value>Notes</value>
   </data>
   <data name="Tipo_Gasto" xml:space="preserve">
-    <value>EXPENDITURE</value>
+    <value>EXPENSE</value>
   </data>
   <data name="Tipo_Ingreso" xml:space="preserve">
     <value>INCOME</value>
@@ -287,7 +287,7 @@ They Are Not Removed from the Database</value>
     <value>The record has been successfully erased</value>
   </data>
   <data name="RegistroNoBorradoVerificar" xml:space="preserve">
-    <value>The record could not be cleared. Verify</value>
+    <value>The record could not be deleted. Verify</value>
   </data>
   <data name="ErrorEliminarRegistro" xml:space="preserve">
     <value>Failed to delete the registry</value>
@@ -368,7 +368,7 @@ They Are Not Removed from the Database</value>
     <value>LEISURE</value>
   </data>
   <data name="PENSION" xml:space="preserve">
-    <value>PENSION</value>
+    <value>SALARY</value>
   </data>
   <data name="REGULARIZACION_1" xml:space="preserve">
     <value>REGULARIZATION 1</value>
@@ -620,10 +620,10 @@ They Are Not Removed from the Database</value>
     <value>Error Running Balance:</value>
   </data>
   <data name="ToolTipF6" xml:space="preserve">
-    <value>Refreshing the Notes Grid and Removing Filters</value>
+    <value>Refreshing the Transactions Grid and Removing Filters</value>
   </data>
   <data name="AvisoConceptoProtegido" xml:space="preserve">
-    <value>The default system concepts are protected against modifications, if they are not going to be used they can be deleted.</value>
+    <value>The default system concepts are protected against modifications, if they are not going to be used they can be deleted</value>
   </data>
   <data name="NoConectoPor" xml:space="preserve">
     <value>Not connected by</value>
@@ -644,14 +644,14 @@ They Are Not Removed from the Database</value>
     <value>Do you want to save a Database Backup?</value>
   </data>
   <data name="BackupSatisfactorioBuscarActualizacio" xml:space="preserve">
-    <value>Backup made successfully. 
+    <value>Backup made successfully.
 Now, the update will be downloaded</value>
   </data>
   <data name="Backup" xml:space="preserve">
     <value>Backup</value>
   </data>
   <data name="ErrorBackup" xml:space="preserve">
-    <value>Error while backing up the database, 
+    <value>Error while backing up the database,
 check that there is no other Copy with the same name or
 the file is not open</value>
   </data>
@@ -665,7 +665,7 @@ the file is not open</value>
     <value>The update has been downloaded</value>
   </data>
   <data name="ProcederaInstalar" xml:space="preserve">
-    <value>It will be installed. Tap OK to continue</value>
+    <value>it will be installed. Tap OK to continue</value>
   </data>
   <data name="ErrorDescargarActualizacion" xml:space="preserve">
     <value>Error downloading update</value>
@@ -689,7 +689,7 @@ the file is not open</value>
     <value>Accept</value>
   </data>
   <data name="EL_CORTE_INGLES" xml:space="preserve">
-    <value>EL CORTE INGLÉS</value>
+    <value>EL CORTE INGLES</value>
   </data>
   <data name="Desc_EL_CORTE_INGLES" xml:space="preserve">
     <value>El Corte Inglés</value>
@@ -722,7 +722,7 @@ the file is not open</value>
     <value>HOUSING ACCOUNT</value>
   </data>
   <data name="Desc_CUENTA_CORRIENTE" xml:space="preserve">
-    <value>Bank Checking Account</value>
+    <value>Bank Current Account</value>
   </data>
   <data name="Desc_CUENTA_VIVIENDA" xml:space="preserve">
     <value>Primary Residence Account</value>
@@ -731,7 +731,7 @@ the file is not open</value>
     <value>Investment Fund Bank</value>
   </data>
   <data name="FONDO_DE_INVERSION" xml:space="preserve">
-    <value>INVESTMENT FUND</value>
+    <value>INVESTIMENT FUND</value>
   </data>
   <data name="Desc_PLAN_DE_PENSIONES" xml:space="preserve">
     <value>Pension Plan</value>
@@ -743,13 +743,13 @@ the file is not open</value>
     <value>CREDIT CARD</value>
   </data>
   <data name="PLAN_PENSIONES" xml:space="preserve">
-    <value>PENSION PLAN ACCOUNT</value>
+    <value>ACCOUNT PENSION PLAN</value>
   </data>
   <data name="Desc_PLAN_PENSIONES" xml:space="preserve">
     <value>Pension Plan</value>
   </data>
   <data name="CAJA_EFECTIVO" xml:space="preserve">
-    <value>CASH ACCOUNT</value>
+    <value>ACCOUNT CASH BOX</value>
   </data>
   <data name="Desc_CAJA_EFECTIVO" xml:space="preserve">
     <value>Cash at home</value>
@@ -815,7 +815,7 @@ the file is not open</value>
     <value>Error deleting row with ID {0}:</value>
   </data>
   <data name="MsgLoteEliminadoExito" xml:space="preserve">
-    <value>Operation completed. {0} physical records have been deleted from the Database</value>
+    <value>Operation completed. Physical records have been deleted from {0} Database</value>
   </data>
   <data name="TituloBorradoFinalizado" xml:space="preserve">
     <value>Deletion Completed</value>
@@ -953,19 +953,19 @@ the file is not open</value>
     <value>1st Charge</value>
   </data>
   <data name="TipoGrafico" xml:space="preserve">
-    <value>Practical Tip: 
+    <value>Practical Tip:
 For optimal, crisp viewing
 and detailed of your graphs, we recommend
-narrow down the range using date filters, 
+narrow down the range using date filters,
 accounts or by selecting specific concepts
-on the list (Pink Funnel). 
+on the list (Pink Funnel).
 Less data offers a much clearer analysis!</value>
   </data>
   <data name="SeleccioneIdiomaAyuda" xml:space="preserve">
-    <value>Select your preferred language for the help manual</value>
+    <value>Please select your preferred language for the help manual</value>
   </data>
   <data name="ErrorArchivoAyudaNoEncontrado" xml:space="preserve">
-    <value>Could not find the selected help manual file in your local Documents folder</value>
+    <value>The selected help manual file could not be found in your local Documents folder</value>
   </data>
   <data name="Ayuda" xml:space="preserve">
     <value>Help</value>
@@ -977,15 +977,15 @@ Less data offers a much clearer analysis!</value>
     <value>You cannot edit an entry outside of the current fiscal year</value>
   </data>
   <data name="Error_Permisos_Antivirus" xml:space="preserve">
-    <value>Your antivirus or Windows protection is blocking access to My Documents. 
+    <value>Your antivirus or Windows protection is blocking access to My Documents.
 Please add this program to the exclusion list
-or allows controlled access to folders to be able to use ContaHogar 3.0 Premium.</value>
+or allows controlled access to folders to be able to use HomeBudget 3.0 Premium.</value>
   </data>
   <data name="ControlSeguridadWindows" xml:space="preserve">
     <value>Windows Security Control</value>
   </data>
   <data name="MsgPeriodoPruebaExpirado" xml:space="preserve">
-    <value>Your 30-day trial period has ended. Please 
+    <value>Your 30-day trial period has ended. Please,
 purchase the full version from the Microsoft Store.</value>
   </data>
   <data name="PeriodoPrueba" xml:space="preserve">
@@ -1010,9 +1010,15 @@ purchase the full version from the Microsoft Store.</value>
     <value>Error Processing Bank Matrix</value>
   </data>
   <data name="AppDisplayName" xml:space="preserve">
-    <value>ContaHogar 3.0 Premium</value>
+    <value>HomeBudget 3.0 Premium</value>
   </data>
   <data name="MsgReinicioIdioma" xml:space="preserve">
     <value>The app will restart to apply the new language</value>
+  </data>
+  <data name="SeCrearaEjercicio" xml:space="preserve">
+    <value>exercise will be created</value>
+  </data>
+  <data name="CreadoCorrectamente" xml:space="preserve">
+    <value>Created correctly</value>
   </data>
 </root>

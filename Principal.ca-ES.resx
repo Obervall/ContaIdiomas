@@ -1,0 +1,683 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="BarraDeMenu.Text" xml:space="preserve">
+    <value>BarraDeMenu</value>
+  </data>
+  <data name="ArchivoToolStripMenuItem.Text" xml:space="preserve">
+    <value>Inici</value>
+  </data>
+  <data name="SalirMenu.Text" xml:space="preserve">
+    <value>Sortir</value>
+  </data>
+  <data name="SalirMenu.ToolTipText" xml:space="preserve">
+    <value>Sortir Aplicació</value>
+  </data>
+  <data name="PreferenciasToolStripMenuItem.Text" xml:space="preserve">
+    <value>Preferències</value>
+  </data>
+  <data name="PreferenciasToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Preferències</value>
+  </data>
+  <data name="CambiarEjercicioActivoToolStripMenuItem.Text" xml:space="preserve">
+    <value>Canviar Exercici Actiu</value>
+  </data>
+  <data name="CambiarEjercicioActivoToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Canviar Exercici Actiu</value>
+  </data>
+  <data name="VerToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Veure</value>
+  </data>
+  <data name="BarraDeHerramientasMenu.Text" xml:space="preserve">
+    <value>Barra d'Eines</value>
+  </data>
+  <data name="BarraDeHerramientasMenu.ToolTipText" xml:space="preserve">
+    <value>Ocultar/Veure Barra d'Eines</value>
+  </data>
+  <data name="BarraDeEstadoMenu.Text" xml:space="preserve">
+    <value>Barra d'Estat</value>
+  </data>
+  <data name="BarraDeEstadoMenu.ToolTipText" xml:space="preserve">
+    <value>Ocultar/Veure Barra d'Estat</value>
+  </data>
+  <data name="BarraYMenuConColores.Text" xml:space="preserve">
+    <value>Barra i Menú amb Colors</value>
+  </data>
+  <data name="BarraYMenuConColores.ToolTipText" xml:space="preserve">
+    <value>Ocultar/Veure Colors en Barra i Menu</value>
+  </data>
+  <data name="LogoBuhoVisibleToolStripMenuItem.Text" xml:space="preserve">
+    <value>Logo Buho Visible</value>
+  </data>
+  <data name="MantenimientosToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Manteniments</value>
+  </data>
+  <data name="ConceptosContablesToolStripMenuItem.Text" xml:space="preserve">
+    <value>Conceptes Comptables</value>
+  </data>
+  <data name="ConceptosContablesToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Afegeix, Edita, Esborra o Consulta Conceptes Comptables</value>
+  </data>
+  <data name="CuentasToolStripMenuItem.Text" xml:space="preserve">
+    <value>Comptes Bancaris</value>
+  </data>
+  <data name="CuentasToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Afegeix, Edita, Esborra o Consulta Comptes Bancaris</value>
+  </data>
+  <data name="TiposDeCuentasToolStripMenuItem.Text" xml:space="preserve">
+    <value>Tipus de Comptes</value>
+  </data>
+  <data name="ApuntesToolStripMenuItem.Text" xml:space="preserve">
+    <value>Apunts</value>
+  </data>
+  <data name="VerApuntesToolStripMenuItem.Text" xml:space="preserve">
+    <value>Veure Apunts</value>
+  </data>
+  <data name="VerApuntesToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Afegeix, Edita, Esborra o Consulta Apunts</value>
+  </data>
+  <data name="ApuntesPeriodicosToolStripMenuItem.Text" xml:space="preserve">
+    <value>Apunts Periòdics</value>
+  </data>
+  <data name="ApuntesPeriodicosToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Afegeix, Edita, Esborra o Consulta Apunts Periòdics</value>
+  </data>
+  <data name="PresupuestosToolStripMenuItem.Text" xml:space="preserve">
+    <value>Pressupostos</value>
+  </data>
+  <data name="IntroducirDaToolStripMenuItem.Text" xml:space="preserve">
+    <value>Introduir Dades Pressupostos</value>
+  </data>
+  <data name="IntroducirDaToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Introduir Imports per a Pressupostos</value>
+  </data>
+  <data name="VerDesviaciónPresupuestosToolStripMenuItem.Text" xml:space="preserve">
+    <value>Veure Desviació Pressupostos</value>
+  </data>
+  <data name="VerDesviaciónPresupuestosToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Mostrar Gràfic i Desviació Pressupostos</value>
+  </data>
+  <data name="InformesToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Informes</value>
+  </data>
+  <data name="ListadosDeApuntesToolStripMenuItem.Text" xml:space="preserve">
+    <value>Llistats d'Apunts</value>
+  </data>
+  <data name="OrdenadoPorFechasToolStripMenuItem.Text" xml:space="preserve">
+    <value>Ordenat per Dates</value>
+  </data>
+  <data name="OrdenadoPorConceptosToolStripMenuItem.Text" xml:space="preserve">
+    <value>Ordenat per Conceptes</value>
+  </data>
+  <data name="OrdenadoporImportesToolStripMenuItem.Text" xml:space="preserve">
+    <value>Ordenat per Imports</value>
+  </data>
+  <data name="SoloIngresosOrdenadoPorFechasToolStripMenuItem.Text" xml:space="preserve">
+    <value>Només Ingressos Ordenat per Dates</value>
+  </data>
+  <data name="SoloIngresosOrdenadoPorConceptosToolStripMenuItem.Text" xml:space="preserve">
+    <value>Només Ingressos Ordenat per Conceptes</value>
+  </data>
+  <data name="SoloIngresosOrdenadoPorImportesToolStripMenuItem.Text" xml:space="preserve">
+    <value>Només Ingressos Ordenat per Imports</value>
+  </data>
+  <data name="SoloGastosOrdenadoPorFechasToolStripMenuItem.Text" xml:space="preserve">
+    <value>Només Despeses Ordenat per Dates</value>
+  </data>
+  <data name="SoloGastosOrdenadoPorConceptosToolStripMenuItem.Text" xml:space="preserve">
+    <value>Només Despeses Ordenat per Conceptes</value>
+  </data>
+  <data name="SoloGastosOrdenadoPorImportesToolStripMenuItem.Text" xml:space="preserve">
+    <value>Només Despeses Ordenat per Imports</value>
+  </data>
+  <data name="ListadosDeApuntesPeriodicosToolStripMenuItem.Text" xml:space="preserve">
+    <value>Llistats d'Apunts Periòdics</value>
+  </data>
+  <data name="OrdenadoPorFechasToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Ordenat per Dates</value>
+  </data>
+  <data name="OrdenadoPorConceptosToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Ordenat per Conceptes</value>
+  </data>
+  <data name="OrdenadoPorImportesToolStripMenuItem2.Text" xml:space="preserve">
+    <value>Ordenat per Imports</value>
+  </data>
+  <data name="SoloIngresosOrdenadoPorFechasToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Només Ingressos Ordenat per Dates</value>
+  </data>
+  <data name="SoloIngresosOrdenadoPorConceptosToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Només Ingressos Ordenat per Conceptes</value>
+  </data>
+  <data name="SoloIngresosOrdenadoPorImportesToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Només Ingressos Ordenat per Imports</value>
+  </data>
+  <data name="SoloGastosOrdenadoPorFechasToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Només Despeses Ordenat per Dates</value>
+  </data>
+  <data name="SoloGastosOrdenadoPorConceptosToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Només Despeses Ordenat per Conceptes</value>
+  </data>
+  <data name="SoloGastosOrdenadoPorImportesToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Només Despeses Ordenat per Imports</value>
+  </data>
+  <data name="GráficosDeIngresosPorConceptoToolStripMenuItem.Text" xml:space="preserve">
+    <value>Gràfics d'Ingressos per Concepte</value>
+  </data>
+  <data name="GráficosDeGastosPorConceptoToolStripMenuItem.Text" xml:space="preserve">
+    <value>Gràfics de Despeses per Concepte</value>
+  </data>
+  <data name="HerramientasToolStripMenuItem.Text" xml:space="preserve">
+    <value>Eines</value>
+  </data>
+  <data name="HacerCopiaDeSeguridadToolStripMenuItem.Text" xml:space="preserve">
+    <value>Fer Còpia de Seguretat</value>
+  </data>
+  <data name="HacerCopiaDeSeguridadToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Crear Còpia de Seguretat</value>
+  </data>
+  <data name="RestaurarCopiaDeSeguridadToolStripMenuItem.Text" xml:space="preserve">
+    <value>Restaurar Còpia de Seguretat</value>
+  </data>
+  <data name="RestaurarCopiaDeSeguridadToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Restaurar Còpia de Seguretat</value>
+  </data>
+  <data name="ReiniciarBaseDeDatosToolStripMenuItem.Text" xml:space="preserve">
+    <value>Reiniciar Base de Dades</value>
+  </data>
+  <data name="ReiniciarBaseDeDatosToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Reiniciar Base de Dades</value>
+  </data>
+  <data name="CompactarBaseDeDatosToolStripMenuItem.Text" xml:space="preserve">
+    <value>Compactar Base de Dades</value>
+  </data>
+  <data name="CompactarBaseDeDatosToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Compactar Base de Dades</value>
+  </data>
+  <data name="CalculadoraToolStripMenuItem.Text" xml:space="preserve">
+    <value>Calculadora</value>
+  </data>
+  <data name="CalculadoraToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Obrir Calculadora</value>
+  </data>
+  <data name="AyudaToolStripMenuItem.Text" xml:space="preserve">
+    <value>Ajuda</value>
+  </data>
+  <data name="ArchivoDeAyudaToolStripMenuItem.Text" xml:space="preserve">
+    <value>Arxiu d'Ajut</value>
+  </data>
+  <data name="ArchivoDeAyudaToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Contingut de l'Arxiu d'Ajut</value>
+  </data>
+  <data name="HistorialDeVersionesToolStripMenuItem.Text" xml:space="preserve">
+    <value>Historial de Versions</value>
+  </data>
+  <data name="AcercaDeToolStripMenuItem.Text" xml:space="preserve">
+    <value>Sobre...</value>
+  </data>
+  <data name="AcercaDeToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Sobre l'Aplicació</value>
+  </data>
+  <data name="ImportaAntiguoContahogarToolStripMenuItem.Text" xml:space="preserve">
+    <value>Importa Base Dades Antic Contahogar</value>
+  </data>
+  <data name="VactualVDisponible.Text" xml:space="preserve">
+    <value>Versió actual: Versió disponible</value>
+  </data>
+  <data name="BarraDeEstado.Text" xml:space="preserve">
+    <value>BarraDeEstat</value>
+  </data>
+  <data name="TsLabelFormulario.Text" xml:space="preserve">
+    <value>En Espera...</value>
+  </data>
+  <data name="TsLabelDia.Text" xml:space="preserve">
+    <value>TsLabelDia</value>
+  </data>
+  <data name="TsLabelHora.Text" xml:space="preserve">
+    <value>TsLabelHora</value>
+  </data>
+  <data name="BarraDeHerramientas.Text" xml:space="preserve">
+    <value>Barra d'Eines</value>
+  </data>
+  <data name="BtnSalir.Text" xml:space="preserve">
+    <value>Sortir Aplicació</value>
+  </data>
+  <data name="BtnPreferencias.Text" xml:space="preserve">
+    <value>Preferències</value>
+  </data>
+  <data name="BtnCambiarEjercicioActivo.Text" xml:space="preserve">
+    <value>Canviar Exercici Actiu</value>
+  </data>
+  <data name="BtnConceptos.Text" xml:space="preserve">
+    <value>Afegeix, Edita, Esborra o Consulta Conceptes Comptables</value>
+  </data>
+  <data name="BtnCuentasBancarias.Text" xml:space="preserve">
+    <value>Afegeix, Edita, Esborra o Consulta Comptes Bancaris</value>
+  </data>
+  <data name="BtnTipoCuentas.Text" xml:space="preserve">
+    <value>Afegeix, Edita, Esborra o Consulta Tipus Comptes Bancaris</value>
+  </data>
+  <data name="BtnApuntesContables.Text" xml:space="preserve">
+    <value>Afegeix, Edita, Esborra o Consulta Apunts</value>
+  </data>
+  <data name="BtnApuntesPeriodicos.Text" xml:space="preserve">
+    <value>Afegeix, Edita, Esborra o Consulta Apunts Periòdics</value>
+  </data>
+  <data name="BtnPresupuestos.Text" xml:space="preserve">
+    <value>Introduir Imports per a Pressupostos</value>
+  </data>
+  <data name="BtnDesviacionPresupuestos.Text" xml:space="preserve">
+    <value>Mostrar Gràfic i Desviació Pressupostos</value>
+  </data>
+  <data name="BtnCopiaSeguridad.Text" xml:space="preserve">
+    <value>Crear Còpia de Seguretat</value>
+  </data>
+  <data name="BtnRestaurarCopia.Text" xml:space="preserve">
+    <value>Restaurar Còpia de Seguretat</value>
+  </data>
+  <data name="BtnCompactarBaseDatos.Text" xml:space="preserve">
+    <value>Compactar Base de Dades</value>
+  </data>
+  <data name="BtnIniciarBaseDatos.Text" xml:space="preserve">
+    <value>Reiniciar Base de Dades</value>
+  </data>
+  <data name="BtnCalculadora.Text" xml:space="preserve">
+    <value>Obrir Calculadora</value>
+  </data>
+  <data name="BtnAyuda.Text" xml:space="preserve">
+    <value>Contingut de l'Arxiu d'Ajut</value>
+  </data>
+  <data name="BtnHistorialVersiones.Text" xml:space="preserve">
+    <value>Historial de Versions</value>
+  </data>
+  <data name="BtnAcercade.Text" xml:space="preserve">
+    <value>Sobre l'Aplicació</value>
+  </data>
+  <data name="BtnImportarContaHogar.Text" xml:space="preserve">
+    <value>Importar Base Dades Antic Contahogar 2.0</value>
+  </data>
+  <data name="LblNotificacion.Text" xml:space="preserve">
+    <value>"Software en Mode Demo. Si us plau, activi l'aplicació per treure aquesta advertència."</value>
+  </data>
+  <data name="ButtonActualizar.Text" xml:space="preserve">
+    <value>Button Actualizar Excel</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>ContaHogar 3.0</value>
+  </data>
+  <data name="IntroducirApuntesToolStripMenuItem.Text" xml:space="preserve">
+    <value>Introduir Apunts</value>
+  </data>
+  <data name="IntroducirApuntesToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Introduir diversos Apunts Comptables seguits</value>
+  </data>
+  <data name="IntroducirTraspasosToolStripMenuItem.Text" xml:space="preserve">
+    <value>Introduir Traspassos</value>
+  </data>
+  <data name="IntroducirTraspasosToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Introduir Traspassos entre Comptes</value>
+  </data>
+  <data name="AportaciónBizumToolStripMenuItem.Text" xml:space="preserve">
+    <value>Donació/Aportació</value>
+  </data>
+  <data name="BtnIntroducirApuntes.Text" xml:space="preserve">
+    <value>Introduir diversos Apunts Comptables seguits</value>
+  </data>
+  <data name="BtnTraspasoCuentas.Text" xml:space="preserve">
+    <value>Introduir Traspassos entre Comptes</value>
+  </data>
+  <data name="LblDonacion.Text" xml:space="preserve">
+    <value>Aquesta aplicació és gratuïta, però per poder arribar a tots vosaltres, tinc unes despeses de Certificació de Codi, agraeixo una donació. Feu Clic al Botó, Gràcies</value>
+  </data>
+  <data name="LblAvisoActivacion" xml:space="preserve">
+    <value>"Software en mode demo. Per favor, activi el programari per treure aquesta advertència."</value>
+  </data>
+  <data name="TraspasoCuentas" xml:space="preserve">
+    <value>Traspàs entre Comptes</value>
+  </data>
+  <data name="MsgEspera" xml:space="preserve">
+    <value>En Espera ...</value>
+  </data>
+  <data name="PreguntaBackup" xml:space="preserve">
+    <value>Estàs segur de RESTAURAR la Base de Dades?</value>
+  </data>
+  <data name="RestaurarBD" xml:space="preserve">
+    <value>Restaurar Base de Dades</value>
+  </data>
+  <data name="RestaurarOk" xml:space="preserve">
+    <value>Restauració realitzada satisfactòriament</value>
+  </data>
+  <data name="Restaurar" xml:space="preserve">
+    <value>RESTAURAR</value>
+  </data>
+  <data name="CompactacionOk" xml:space="preserve">
+    <value>Compactació realitzada satisfactòriament</value>
+  </data>
+  <data name="Compactar" xml:space="preserve">
+    <value>COMPACTAR</value>
+  </data>
+  <data name="CompactarError" xml:space="preserve">
+    <value>Error en compactar la base de dades</value>
+  </data>
+  <data name="MsgVaciarBD" xml:space="preserve">
+    <value>Estàs segur de BUIDAR i INICIAR la Base de Dades d'APUNTS - APUNTS PERIÒDICS i PRESSUPOSTOS de l'Exercici</value>
+  </data>
+  <data name="MsgVaciarBD2" xml:space="preserve">
+    <value>Aconsello fer una Còpia de Seguretat</value>
+  </data>
+  <data name="MsgVaciarBD4" xml:space="preserve">
+    <value>S'iniciarà el Buidatge de la Base de Dades</value>
+  </data>
+  <data name="MsgVaciarBD3" xml:space="preserve">
+    <value>Buidar Base de Dades</value>
+  </data>
+  <data name="MsgNoVaciarBD" xml:space="preserve">
+    <value>No s'Eliminen els CONCEPTES ni els COMPTES COMPTABLES</value>
+  </data>
+  <data name="ApuntesContablesVaciado" xml:space="preserve">
+    <value>Apunts Comptables, Buidatge!</value>
+  </data>
+  <data name="ApuntesPeriodicosVaciado" xml:space="preserve">
+    <value>Apunts Periòdics, Buidatge!</value>
+  </data>
+  <data name="PresupuestosVaciado" xml:space="preserve">
+    <value>Pressupostos, Buidatge!</value>
+  </data>
+  <data name="ListadoApuntesOrdenadoFechas" xml:space="preserve">
+    <value>Llistat Apunts Ordenat per Dates</value>
+  </data>
+  <data name="ListadoApuntesOrdenadoConceptos" xml:space="preserve">
+    <value>Llistat Apunts Ordenat per Conceptes</value>
+  </data>
+  <data name="ListadoApuntesOrdenadoImportes" xml:space="preserve">
+    <value>Llistat Apunts Ordenat per Imports</value>
+  </data>
+  <data name="ListadoApuntesSoloIngresosFechas" xml:space="preserve">
+    <value>Llistat Apunts Només Ingressos Ordenat per Dates</value>
+  </data>
+  <data name="ListadoApuntesSoloIngresosConceptos" xml:space="preserve">
+    <value>Llistat Apunts Només Ingressos Ordenat per Conceptes</value>
+  </data>
+  <data name="ListadoApuntesSoloIngresosImportes" xml:space="preserve">
+    <value>Llistat Apunts Només Ingressos Ordenat per Imports</value>
+  </data>
+  <data name="ListadoApuntesSoloGastosFechas" xml:space="preserve">
+    <value>Llistat Apunts Només Despeses Ordenat per Dates</value>
+  </data>
+  <data name="ListadoApuntesSoloGastosConceptos" xml:space="preserve">
+    <value>Llistat Apunts Només Despeses Ordenat per Conceptes</value>
+  </data>
+  <data name="ListadoApuntesSoloGastosImportes" xml:space="preserve">
+    <value>Llistat Apunts Només Despeses Ordenat per Imports</value>
+  </data>
+  <data name="ListadoPeriodicosFechas" xml:space="preserve">
+    <value>Llistat Apunts Periòdics Ordenat per Dates</value>
+  </data>
+  <data name="ListadoPeriodicosConceptos" xml:space="preserve">
+    <value>Llistat Apunts Periòdics Ordenat per Conceptes</value>
+  </data>
+  <data name="ListadoPeriodicosImportes" xml:space="preserve">
+    <value>Llistat Apunts Periòdics Ordenat per Imports</value>
+  </data>
+  <data name="ListadoPeriodicosSoloIngresosFechas" xml:space="preserve">
+    <value>Llistat Apunts Periòdics Només Ingressos Ordenat per Dates</value>
+  </data>
+  <data name="ListadoPeriodicosSoloIngresosConceptos" xml:space="preserve">
+    <value>Llistat Apunts Periòdics Només Ingressos Ordenat per Conceptes</value>
+  </data>
+  <data name="ListadoPeriodicosSoloIngresosImportes" xml:space="preserve">
+    <value>Llistat Apunts Periòdics Només Ingressos Ordenat per Imports</value>
+  </data>
+  <data name="ListadoPeriodicosSoloGastosFechas" xml:space="preserve">
+    <value>Llistat Apunts Periòdics Només Despeses Ordenat per Dates</value>
+  </data>
+  <data name="ListadoPeriodicosSoloGastosConceptos" xml:space="preserve">
+    <value>Llistat Apunts Periòdics Només Despeses Ordenat per Conceptes</value>
+  </data>
+  <data name="ListadoPeriodicosSoloGastosImportes" xml:space="preserve">
+    <value>Llistat Apunts Periòdics Només Despeses Ordenat per Imports</value>
+  </data>
+  <data name="ImportandoApuntes" xml:space="preserve">
+    <value>Important de Contahogar els APUNTS, Esperi uns segons</value>
+  </data>
+  <data name="RealizarCopiaSeguridad" xml:space="preserve">
+    <value>Desitja realitzar una còpia de seguretat
+de la base de dades abans d'importar els apunts?</value>
+  </data>
+  <data name="RecomiendaCopiaSeguridad" xml:space="preserve">
+    <value>Desitja continuar sense realitzar una còpia de seguretat? 
+Es recomana realitzar-la per evitar pèrdues de dades. Aquesta acció no es pot desfer</value>
+  </data>
+  <data name="Advertencia" xml:space="preserve">
+    <value>Advertència</value>
+  </data>
+  <data name="TransferenciaApuntes" xml:space="preserve">
+    <value>Transferència completada APUNTS</value>
+  </data>
+  <data name="RegistrosCopiados" xml:space="preserve">
+    <value>registres copiats</value>
+  </data>
+  <data name="ErrorTransferenciaApuntes" xml:space="preserve">
+    <value>Error durant la transferència APUNTS</value>
+  </data>
+  <data name="ImportandoApuntesPeriodicos" xml:space="preserve">
+    <value>Important de Contahogar els APUNTS PERIÒDICS, Esperi uns segons</value>
+  </data>
+  <data name="TransferenciaApuntesPeriodicos" xml:space="preserve">
+    <value>Transferència completada APUNTS PERIÒDICS</value>
+  </data>
+  <data name="ErrorTransferenciaApuntesPeriodicos" xml:space="preserve">
+    <value>Error durant la transferència APUNTS PERIÒDICS</value>
+  </data>
+  <data name="ImportandoEjercicios" xml:space="preserve">
+    <value>Important de Contahogar els EXERCICIS, Esperi uns segons...</value>
+  </data>
+  <data name="TransferenciaEjercicios" xml:space="preserve">
+    <value>Transferència completada EXERCICIS</value>
+  </data>
+  <data name="RegistrosOmitidos" xml:space="preserve">
+    <value>registres omesos</value>
+  </data>
+  <data name="ErrorTransferenciaEjercicios" xml:space="preserve">
+    <value>Error durant la transferència EXERCICIS</value>
+  </data>
+  <data name="ImportandoConceptos" xml:space="preserve">
+    <value>Important de Contahogar, els CONCEPTES, Esperi uns segons...</value>
+  </data>
+  <data name="TransferenciaConceptos" xml:space="preserve">
+    <value>Transferència completada CONCEPTES</value>
+  </data>
+  <data name="ErrorTransferenciaConceptos" xml:space="preserve">
+    <value>Error durant la transferència CONCEPTES</value>
+  </data>
+  <data name="ImportandoCuentas" xml:space="preserve">
+    <value>Important de Contahogar, els COMPTES, Esperi uns segons...</value>
+  </data>
+  <data name="TransferenciaCuentas" xml:space="preserve">
+    <value>Transferència completada COMPTES</value>
+  </data>
+  <data name="ErrorTransferenciaCuentas" xml:space="preserve">
+    <value>Error durant la transferència COMPTES</value>
+  </data>
+  <data name="ImportandoPresupuestos" xml:space="preserve">
+    <value>Important de Contahogar, els PRESSUPOSTOS, Esperi uns segons...</value>
+  </data>
+  <data name="TransferenciaPresupuestos" xml:space="preserve">
+    <value>Transferència completada PRESSUPOSTOS</value>
+  </data>
+  <data name="ErrorTransferenciaPresupuestos" xml:space="preserve">
+    <value>Error durant la transferència PRESSUPOSTOS</value>
+  </data>
+  <data name="BackupOk" xml:space="preserve">
+    <value>Còpia de Seguretat realitzada satisfactòriament</value>
+  </data>
+  <data name="ImportarContahogar" xml:space="preserve">
+    <value>IMPORTAR CONTAHOGAR</value>
+  </data>
+  <data name="ExisteCHDB2" xml:space="preserve">
+    <value>Ja existeix l'arxiu CHDB2.mdb en C:\ContaHogar3.0.
+Es procedirà a realitzar la importació</value>
+  </data>
+  <data name="YaExisteRuta" xml:space="preserve">
+    <value>Ja existeix la Ruta C:\ContaHogar3.0
+Copiar l'arxiu CHDB2.mdb de l'antic Contahogar a la carpeta C:\ContaHogar3.0
+per poder realitzar el procés d'importació</value>
+  </data>
+  <data name="RutaCreada" xml:space="preserve">
+    <value>Ruta C:\ContaHogar3.0, Creada.
+Copiar l'arxiu CHDB2.mdb de l'antic Contahogar a la carpeta C:\ContaHogar3.0
+per poder realitzar el procés d'importació</value>
+  </data>
+  <data name="MsgExisteClonMigracion" xml:space="preserve">
+    <value>La base de dades seleccionada ja compta amb l'estructura relacional de la Nova Era. Procés cancel·lat per seguretat</value>
+  </data>
+  <data name="ImportaciónRelacionalCompletada" xml:space="preserve">
+    <value>¡Importació Relacional Completada amb èxit absolut! Els mestres de conceptes, comptes i el teu diari històric d'apunts han estat integrats a la Nova Era</value>
+  </data>
+  <data name="ActualizacionCompletada" xml:space="preserve">
+    <value>Actualització Completada</value>
+  </data>
+  <data name="MsgImportarAyuda" xml:space="preserve">
+    <value>Instruccions: Copiar l'arxiu del teu antic Contahogar CHDB2.mdb, que ha d'estar en C:\Program Files (x86)\ContaHogar\ a la carpeta
+C:\ContaHogar3.0, que s'ha creat, si no ho estava, en acceptar aquesta importació</value>
+  </data>
+  <data name="DeseaContinuar" xml:space="preserve">
+    <value>Desitges Continuar?</value>
+  </data>
+  <data name="NoExisteCHDB2" xml:space="preserve">
+    <value>NO existeix l'arxiu CHDB2.mdb en C:\ContaHogar3.0</value>
+  </data>
+  <data name="MsgImportarCopiaPreventiva" xml:space="preserve">
+    <value>Còpia de seguretat preventiva generada amb èxit en</value>
+  </data>
+  <data name="MsgImportar1" xml:space="preserve">
+    <value>Aquesta funció s'ha dissenyat per Afegir els Apunts de l'antiga Base de Dades de ContaHogar a la nova de ContaHogar 3.0,
+ es realitzarà una còpia de seguretat i buscarà l' arxiu CHBD2.mdb a l' equip, si no es troba a la seva carpeta habitual, selecciona la seva ubicació correcta. Desitges Continuar?</value>
+  </data>
+  <data name="ErrorCriticoPuenteRescate" xml:space="preserve">
+    <value>Error crític en inicialitzar el magatzem de dades amb pont de rescat</value>
+  </data>
+  <data name="ErrorCriticoRestauracion" xml:space="preserve">
+    <value>Error crític durant la restauració de la base de dades</value>
+  </data>
+  <data name="PeriodoVencido" xml:space="preserve">
+    <value>El període de prova de 30 dies ha expirat.
+Compra la llicència Premium a
+Microsoft Store, per continuar.</value>
+  </data>
+</root>
