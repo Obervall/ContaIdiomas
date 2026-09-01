@@ -1018,4 +1018,7 @@ ou permite acesso controlado a pastas para poder usar o FinançasDomésticas 3.0
   <data name="CreadoCorrectamente" xml:space="preserve">
     <value>Criado corretamente</value>
   </data>
+  <data name="MsgReinicioIdioma" xml:space="preserve">
+    <value>O aplicativo vai reiniciar para aplicar o novo idioma</value>
+  </data>
 </root>

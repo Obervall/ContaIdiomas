@@ -1906,6 +1906,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a La aplicación se reiniciará para aplicar el nuevo idioma.
+    '''</summary>
+    Friend Shared ReadOnly Property MsgReinicioIdioma() As String
+        Get
+            Return ResourceManager.GetString("MsgReinicioIdioma", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Por favor, seleccione primero las filas que desea eliminar utilizando las celdas de la izquierda.
     '''</summary>
     Friend Shared ReadOnly Property MsgSeleccionarFilasEliminar() As String

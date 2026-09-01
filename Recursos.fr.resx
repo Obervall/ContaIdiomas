@@ -1018,4 +1018,7 @@ ou permet un accès contrôlé aux dossiers pour pouvoir utiliser FinancesFamill
   <data name="CreadoCorrectamente" xml:space="preserve">
     <value>Créé correctement</value>
   </data>
+  <data name="MsgReinicioIdioma" xml:space="preserve">
+    <value>L’application redémarrera pour appliquer la nouvelle langue</value>
+  </data>
 </root>

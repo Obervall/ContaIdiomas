@@ -2897,61 +2897,6 @@ Module Funciones
         End Try
     End Sub
 
-    Public Sub LlenarComboConceptosIntroApuntes(ByVal combo As ComboBox)
-        combo.DataSource = Nothing
-        combo.Items.Clear()
-
-        ' FILTRADO QUIRÚRGICO: Excluimos 'ESPECIAL' e INCLUIMOS TipoCON en el SELECT
-        Dim sql As String = "SELECT IdConceptoCON, CodigoCON, DescripcionCON, TipoCON FROM conceptos " &
-                            "WHERE TipoCON <> 'ESPECIAL' " &
-                            "ORDER BY TipoCON ASC, IdConceptoCON ASC"
-
-        Dim dtConceptos As New DataTable()
-
-        Using cmd As New OleDbCommand(sql, conexion1)
-            Dim dr As OleDbDataReader = Nothing
-            Try
-                dr = cmd.ExecuteReader()
-                dtConceptos.Load(dr)
-            Catch ex As Exception
-                MsgBox(resManager.GetString("ErrorLlenarConceptos") & ": " & ex.Message, MsgBoxStyle.Critical)
-            Finally
-                If dr IsNot Nothing AndAlso Not dr.IsClosed Then dr.Close()
-            End Try
-        End Using
-
-        ' Creamos la columna virtual para el texto del combo
-        dtConceptos.Columns.Add("TextoCombo", GetType(String))
-
-        For Each fila As DataRow In dtConceptos.Rows
-            Dim codigoOriginal As String = fila("CodigoCON").ToString().Trim()
-            Dim textoFinal As String = codigoOriginal ' 🌟 SALVAVIDAS ORIGINAL: Mantiene siempre el CodigoCON corto
-
-            ' Si existe traducción en el .resx para el código corto, la aplicamos
-            If resManager IsNot Nothing Then
-                Dim claveRecurso As String = codigoOriginal.Replace(" ", "_")
-                Dim traduccion As String = resManager.GetString(claveRecurso)
-
-                If Not String.IsNullOrEmpty(traduccion) Then
-                    textoFinal = traduccion
-                End If
-            End If
-
-            ' Caso especial para el Traspaso del sistema
-            If codigoOriginal.ToUpper() = "TRASPASO" AndAlso resManager IsNot Nothing Then
-                Dim tradTraspaso As String = resManager.GetString("TRASPASO")
-                If Not String.IsNullOrEmpty(tradTraspaso) Then textoFinal = tradTraspaso
-            End If
-
-            fila("TextoCombo") = textoFinal
-        Next
-
-        ' VINCULAMOS AL COMBOBOX CON ID NUMÉRICOS
-        combo.ValueMember = "IdConceptoCON"       ' ID numérico oculto para guardar en la BD
-        combo.DisplayMember = "TextoCombo"        ' Muestra el CodigoCON corto (o traducido)
-        combo.DataSource = dtConceptos
-    End Sub
-
     Public Function ReemplazarPrimerInterrogante(ByVal textoOriginal As String, ByVal valorReemplazo As String) As String
         Dim posicion As Integer = textoOriginal.IndexOf("?")
         If posicion >= 0 Then
@@ -3137,6 +3082,61 @@ Module Funciones
             Return MsgBoxResult.No
         End If
     End Function
+
+    Public Sub LlenarComboConceptosIntroApuntes(ByVal combo As ComboBox)
+        combo.DataSource = Nothing
+        combo.Items.Clear()
+
+        ' FILTRADO QUIRÚRGICO: Excluimos 'ESPECIAL' e INCLUIMOS TipoCON en el SELECT
+        Dim sql As String = "SELECT IdConceptoCON, CodigoCON, DescripcionCON, TipoCON FROM conceptos " &
+                            "WHERE TipoCON <> 'ESPECIAL' " &
+                            "ORDER BY TipoCON ASC, IdConceptoCON ASC"
+
+        Dim dtConceptos As New DataTable()
+
+        Using cmd As New OleDbCommand(sql, conexion1)
+            Dim dr As OleDbDataReader = Nothing
+            Try
+                dr = cmd.ExecuteReader()
+                dtConceptos.Load(dr)
+            Catch ex As Exception
+                MsgBox(resManager.GetString("ErrorLlenarConceptos") & ": " & ex.Message, MsgBoxStyle.Critical)
+            Finally
+                If dr IsNot Nothing AndAlso Not dr.IsClosed Then dr.Close()
+            End Try
+        End Using
+
+        ' Creamos la columna virtual para el texto del combo
+        dtConceptos.Columns.Add("TextoCombo", GetType(String))
+
+        For Each fila As DataRow In dtConceptos.Rows
+            Dim codigoOriginal As String = fila("CodigoCON").ToString().Trim()
+            Dim textoFinal As String = codigoOriginal ' 🌟 SALVAVIDAS ORIGINAL: Mantiene siempre el CodigoCON corto
+
+            ' Si existe traducción en el .resx para el código corto, la aplicamos
+            If resManager IsNot Nothing Then
+                Dim claveRecurso As String = codigoOriginal.Replace(" ", "_")
+                Dim traduccion As String = resManager.GetString(claveRecurso)
+
+                If Not String.IsNullOrEmpty(traduccion) Then
+                    textoFinal = traduccion
+                End If
+            End If
+
+            ' Caso especial para el Traspaso del sistema
+            If codigoOriginal.ToUpper() = "TRASPASO" AndAlso resManager IsNot Nothing Then
+                Dim tradTraspaso As String = resManager.GetString("TRASPASO")
+                If Not String.IsNullOrEmpty(tradTraspaso) Then textoFinal = tradTraspaso
+            End If
+
+            fila("TextoCombo") = textoFinal
+        Next
+
+        ' VINCULAMOS AL COMBOBOX CON ID NUMÉRICOS
+        combo.ValueMember = "IdConceptoCON"       ' ID numérico oculto para guardar en la BD
+        combo.DisplayMember = "TextoCombo"        ' Muestra el CodigoCON corto (o traducido)
+        combo.DataSource = dtConceptos
+    End Sub
 
     ''' <summary>
     ''' Llama, traduce y ordena de la A a la Z un combo de conceptos de forma relacional pura (Con IDs)

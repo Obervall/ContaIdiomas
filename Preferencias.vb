@@ -1,7 +1,6 @@
 ﻿Imports System.Collections.Generic
-Imports System.ComponentModel
-Imports System.Windows.Forms
 Imports System.Drawing
+Imports System.Windows.Forms
 
 Public Class Preferencias
     Private estaCargado As Boolean = False

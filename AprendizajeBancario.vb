@@ -520,7 +520,7 @@ Public Class AprendizajeBancario
         Try
             ' 2. Llamamos a nuestra rutina exclusiva que limpia, filtra especiales, 
             ' traduce e inyecta el DataTable con IDs numéricos en un milisegundo
-            LlenarComboConceptosIntroApuntes(Me.CmbConcepto)
+            LlenarComboConceptosSueltosBD(Me.CmbConcepto) ' Llamada adicional para asegurar la sincronización con la base de datos
 
             ' 3. Apagamos el escudo protector para permitir la interacción del usuario
             cargandoFormulario = False
@@ -967,47 +967,47 @@ Public Class AprendizajeBancario
                     If String.IsNullOrEmpty(tradTipo) Then tradTipo = tipoOriginal
                     TxtTipoConcepto.Text = tradTipo
 
-
-                    ' --- TRADUCIR LAS DESCRIPCIONES (Desc_NOMBRE) ---
-                    Dim llaveDesc As String = "Desc_" & codigoOriginal.Replace(" ", "_")
+                    ' =========================================================================
+                    ' 🎯 SINCRONIZACIÓN ASÍNCRONA DIRECTA (Inmune a problemas de refresco)
+                    ' =========================================================================
+                    ' 1. Construimos la clave uniendo el código que ya viene limpio (Ej: "Desc_ESTETICA")
+                    Dim llaveDesc As String = "Desc_" & codigoOriginal.ToUpper().Trim()
                     Dim tradDesc As String = resManager.GetString(llaveDesc)
 
                     ' Si no tiene traducción en el ResX, dejamos la descripción original de la BD
                     If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
 
-                    ' La descripción 1 se pinta perfecta (como se ve en tu foto)
+                    ' La descripción 1 se pinta perfecta al instante
                     TxtDescripcion.Text = tradDesc
 
-                    ' =========================================================================
-                    ' 🎯 LA ESTOCADA ASÍNCRONA MAESTRA: Le damos la tregua del MsgBox a la CPU
-                    ' =========================================================================
+                    ' 2. LA TREGUA ASÍNCRONA: Le damos al formulario el mismo tiempo de respiro 
+                    ' que le daba tu MsgBox, pero de forma invisible y elegante para el usuario.
                     Dim copiaTradDesc As String = tradDesc
 
                     BeginInvoke(Sub()
                                     Try
-                                        ' Activamos el escudo protector de la vieja escuela
+                                        ' Encendemos tu escudo protector de eventos
                                         traduciendoComoMaestro = True
 
-                                        ' Liberamos el control vaciando cualquier residuo gráfico
+                                        ' Vaciamos y rellenamos el combo con el texto traducido final
                                         CmbDescripcion.DataSource = Nothing
                                         CmbDescripcion.Items.Clear()
-
-                                        ' Inyectamos directamente tu traducción en los Items y en el texto
                                         CmbDescripcion.Items.Add(copiaTradDesc)
                                         CmbDescripcion.SelectedIndex = 0
-                                        CmbDescripcion.Text = copiaTradDesc
 
-                                        ' Forzamos el repintado físico en la tarjeta gráfica
+                                        ' Tu imbatible igualdad de la vieja escuela
+                                        CmbDescripcion.Text = TxtDescripcion.Text
+
+                                        ' Forzamos el repintado gráfico en la pantalla
                                         CmbDescripcion.Refresh()
 
-                                        ' Apagamos el escudo una vez que Windows ha asentado la pantalla
+                                        ' Apagamos el escudo de forma segura
                                         traduciendoComoMaestro = False
                                     Catch
                                         ' Cortafuegos silencioso
                                     End Try
                                 End Sub)
                 End If
-
             Catch ex As Exception
                 MsgBox(resManager.GetString("ErrorSincronizarCON") & ": " & ex.Message, MsgBoxStyle.Critical, resManager.GetString("Error"))
             End Try

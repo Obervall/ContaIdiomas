@@ -1018,4 +1018,7 @@ oppure consente un accesso controllato alle cartelle per poter utilizzare Gestio
   <data name="CreadoCorrectamente" xml:space="preserve">
     <value>Creato correttamente</value>
   </data>
+  <data name="MsgReinicioIdioma" xml:space="preserve">
+    <value>L'app si riavvierà per applicare la nuova lingua</value>
+  </data>
 </root>

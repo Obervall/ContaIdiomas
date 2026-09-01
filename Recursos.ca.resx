@@ -1018,4 +1018,7 @@ o permet l'accés controlat a carpetes per poder usar GestióDomèstica 3.0 Prem
   <data name="CreadoCorrectamente" xml:space="preserve">
     <value>creat correctament</value>
   </data>
+  <data name="MsgReinicioIdioma" xml:space="preserve">
+    <value>L'aplicació es reiniciarà per aplicar el nou idioma</value>
+  </data>
 </root>

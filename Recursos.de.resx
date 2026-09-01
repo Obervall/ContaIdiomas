@@ -1018,4 +1018,7 @@ oder ermöglicht kontrollierten Zugriff auf Ordner, um Haushaltsbuch 3.0 Premium
   <data name="CreadoCorrectamente" xml:space="preserve">
     <value>Korrekt erstellt</value>
   </data>
+  <data name="MsgReinicioIdioma" xml:space="preserve">
+    <value>Die App startet neu, um die neue Sprache anzuwenden</value>
+  </data>
 </root>

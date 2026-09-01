@@ -1018,4 +1018,7 @@ or allows controlled access to folders to be able to use HomeBudget 3.0 Premium.
   <data name="CreadoCorrectamente" xml:space="preserve">
     <value>Created correctly</value>
   </data>
+  <data name="MsgReinicioIdioma" xml:space="preserve">
+    <value>The app will restart to apply the new language</value>
+  </data>
 </root>

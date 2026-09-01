@@ -1018,4 +1018,7 @@ adquiera la versión completa en la Microsoft Store.</value>
   <data name="CreadoCorrectamente" xml:space="preserve">
     <value>creado correctamente</value>
   </data>
+  <data name="MsgReinicioIdioma" xml:space="preserve">
+    <value>La aplicación se reiniciará para aplicar el nuevo idioma</value>
+  </data>
 </root>
