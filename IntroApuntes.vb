@@ -5,8 +5,6 @@ Imports System.Diagnostics
 Imports System.Drawing
 Imports System.Linq
 Imports System.Windows.Forms
-Imports Org.BouncyCastle.Asn1.Esf
-Imports Org.BouncyCastle.Asn1.Ess
 Imports ToolTip = System.Windows.Forms.ToolTip
 
 Public Class IntroApuntes
@@ -180,7 +178,6 @@ Public Class IntroApuntes
         End Try
 
     End Sub
-
 
     Private Sub TxtBuscarLetras_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtBuscarLetras.KeyDown
         ' Si el usuario pulsa FLECHA ABAJO desde el cuadro de búsqueda, saltamos al combo de forma inteligente
