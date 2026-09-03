@@ -139,14 +139,22 @@ Module Funciones
         ' 🌟 4. TRADUCCIÓ DINÀMICA DEL TÍTOL (Blindado Multiidioma)
         ' =========================================================================
         If f.Name = "Principal" Then
-            ' Capturamos el idioma activo de la sesión de la RAM
-            Dim culturaActivaEnVivo As System.Globalization.CultureInfo = Threading.Thread.CurrentThread.CurrentUICulture
+			' Capturamos el idioma activo de la sesión de la RAM
+			Dim culturaActivaEnVivo As System.Globalization.CultureInfo = Threading.Thread.CurrentThread.CurrentUICulture
+
+            'No quiero que salgan los días de prueba nunca, así que si vAviso2 es False, no mostramos nada
+            vAviso2 = False
 
             ' Leemos del resManager general con su salvavidas de texto plano por defecto (Usando tu nueva Key)
             Dim txtTitol As String = If(resManager?.GetString("AppDisplayName", culturaActivaEnVivo), "ContaHogar 3.0 Premium")
             Dim txtVersio As String = If(resManager?.GetString("Versio", culturaActivaEnVivo), "Versión")
             Dim txtExercici As String = If(resManager?.GetString("Ejercicio", culturaActivaEnVivo), "Ejercicio")
-            Dim txtAvisoDiasRestantes As String = If(vAviso2, resManager.GetString("VersionEvaluacion") & ":  " & vAvisoDiasRestantes & " " & resManager.GetString("dias"), "")
+			Dim txtAvisoDiasRestantes As String = If(vAviso2, resManager.GetString("VersionEvaluacion") & ":  " & vAvisoDiasRestantes & " " & resManager.GetString("dias"), "")
+            'MsgBox("Idioma activo: " & culturaActivaEnVivo.Name & vbCrLf &
+            '       "Título traducido: " & txtTitol & vbCrLf &
+            '       "Versión traducida: " & txtVersio & vbCrLf &
+            '       "Ejercicio traducido: " & txtExercici & vbCrLf &
+            '       "Aviso traducido: " & txtAvisoDiasRestantes, MsgBoxStyle.Information, "Depuración de traducción")
 
             ' Forzamos el ensamblado del rótulo de cabecera de forma dócil e indestructible
             f.Text = String.Format("{0}  -  {1}: {2}  -  {3}: {4}       {5}",

@@ -178,12 +178,11 @@ Public Class Principal
             ' 2. 🛡️ EL ESCUDO: El candado de los 30 días SOLO muerde si el usuario es de la Store
             If esInstalacionStore AndAlso My.Settings.LicenciaActivada = False Then
 
-                ' ¿Es la primera vez en la vida que abre el programa? Sembramos la fecha de inicio
-                If My.Settings.FechaPrimerArranque = #1/1/0001# Then
-                    My.Settings.FechaPrimerArranque = Date.Now
-                    My.Settings.Save()
-                End If
-
+				' ¿Es la primera vez en la vida que abre el programa? Sembramos la fecha de inicio
+				If My.Settings.FechaPrimerArranque = #1/1/0001# Then
+					My.Settings.FechaPrimerArranque = Date.Now
+					My.Settings.Save()
+				End If
                 ' Calculamos matemáticamente cuántos días reales han transcurrido en el disco duro
                 Dim diasEvaluacion As Integer = CInt(DateDiff(DateInterval.Day, My.Settings.FechaPrimerArranque, Date.Now))
 
@@ -1718,8 +1717,20 @@ Public Class Principal
     Private Sub BarraYMenuConColores_Click(sender As Object, e As EventArgs) Handles BarraYMenuConColores.Click
         If BarraYMenuConColores.Checked Then
             My.Settings.MenuColores = True
+            Try
+                Dim key As Microsoft.Win32.RegistryKey = Microsoft.Win32.Registry.CurrentUser.CreateSubKey("Software\ContaHogar")
+                key.SetValue("MenuSinColores", "NO")
+                key.Close()
+            Catch
+            End Try
         Else
             My.Settings.MenuColores = False
+            Try
+                Dim key As Microsoft.Win32.RegistryKey = Microsoft.Win32.Registry.CurrentUser.CreateSubKey("Software\ContaHogar")
+                key.SetValue("MenuSinColores", "SI")
+                key.Close()
+            Catch
+            End Try
         End If
         CambiarColorBarraMenu()
         My.Settings.Save()
@@ -2172,11 +2183,11 @@ Public Class Principal
         Try
             ' Ejecutamos un comando rápido de PowerShell que consulta la API de la Store directamente al OS
             Dim psCommand As String = "$ctx = [Windows.Services.Store.StoreContext]::GetDefault(); " &
-                                  "$lic = $ctx.GetAppLicenseAsync().GetResults(); " &
-                                  "if($lic.IsTrial){ " &
-                                  "  $days = ($lic.ExpirationDate - [DateTimeOffset]::UtcNow).TotalDays; " &
-                                  "  [Math]::Ceiling($days) " &
-                                  "}else{ 999 }"
+                              "$lic = $ctx.GetAppLicenseAsync().GetResults(); " &
+                              "if($lic.IsTrial){ " &
+                              "  $days = ($lic.ExpirationDate - [DateTimeOffset]::UtcNow).TotalDays; " &
+                              "  [Math]::Ceiling($days) " &
+                              "}else{ 999 }"
 
             Dim startInfo As New ProcessStartInfo() With {
             .FileName = "powershell.exe",
@@ -2200,14 +2211,36 @@ Public Class Principal
                 End If
             End Using
 
-            ' LÍNEA TEMPORAL PARA PRUEBAS: Simulamos que a un usuario real le quedan 5 días
-            'diasRestantes = 5
-
         Catch ex As Exception
             diasRestantes = -1 ' Si falla el script, activa el plan B local
         End Try
 
-        ' Lógica de control (Plan B local si da -1)
+        ' =========================================================================
+        ' 💎 LICENCIA COMPLETA DETECTADA (999) -> EL ESCUDO DEL REGISTRO
+        ' =========================================================================
+        If diasRestantes = 999 Then
+            Try
+                ' Guardamos el candado en el Registro de Windows para blindar futuras actualizaciones
+                Dim key As Microsoft.Win32.RegistryKey = Microsoft.Win32.Registry.CurrentUser.CreateSubKey("Software\ContaHogar")
+                key.SetValue("LicenciaPremium", "SI")
+                key.Close()
+
+                ' Seteamos tus variables locales de éxito
+                My.Settings.LicenciaActivada = True
+                My.Settings.Save()
+            Catch
+                ' Cortafuegos por si acaso
+            End Try
+
+            vAviso2 = False ' Apagamos el aviso de prueba de inmediato
+            Exit Sub        ' Salimos airosos, el usuario ya ha comprado la app
+        End If
+
+        ' LÍNEA TEMPORAL PARA PRUEBAS: Simulamos que a un usuario real le quedan 5 días
+        'diasRestantes = 5
+
+
+        ' Lógica de control (Plan B local si da -1 o si es trial real)
         If diasRestantes = -1 Then
             If My.Settings.vPantalla = Date.MinValue Then
                 My.Settings.vPantalla = Date.Today
@@ -2216,7 +2249,6 @@ Public Class Principal
             Dim diasPasados As Integer = (Date.Today - My.Settings.vPantalla).Days
             diasRestantes = 30 - diasPasados
         End If
-
         ' Verificación de expiración
         If diasRestantes <= 0 Then
             MsgBox(resManager.GetString("MsgPeriodoPruebaExpirado"), MsgBoxStyle.Critical, resManager.GetString("PeriodoPrueba"))

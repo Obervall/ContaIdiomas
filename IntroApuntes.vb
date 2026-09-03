@@ -19,6 +19,8 @@ Public Class IntroApuntes
     Dim textoAutocompletadoEnAzul As String = ""
     Public vAceptarSalir As String = "NO"
     Dim traduciendoComoMaestro As Boolean = False
+    Private IsLimpiandoCombo As Boolean = False
+
 
 
     Private Sub IntroApuntes_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -263,26 +265,74 @@ Public Class IntroApuntes
     End Sub
 
     Private Sub TxtBuscarLetras_TextChanged(sender As Object, e As EventArgs) Handles TxtBuscarLetras.TextChanged
-        ' Sincronizamos la variable global con lo que el usuario escribe o borra arriba
+        ' 1. Sembramos el texto actual en tu variable global
         vLetras = TxtBuscarLetras.Text
 
-        ' Evitamos ejecutar la base de datos si el cuadro superior se limpia de forma automática
-        If String.IsNullOrEmpty(vLetras) Then
-            ' Desenchufamos el combo temporalmente para que no salte su SelectedIndexChanged al vaciarlo
+        ' =========================================================================
+        ' 🎯 OPCIÓN B: EL INTERCEPTOR DE BORRADO TOTAL (VIEJA ESCUELA)
+        ' =========================================================================
+        If vLetras.Trim().Length = 0 Then
+            ' 🔒 Encendemos el candado para que el combo no sufra micro-rebotes visuales
+            IsLimpiandoCombo = True
+
+            ' Apagamos el radar del evento del combo antes de vaciarlo
             RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
 
-            CmbDescripcion.SelectedIndex = -1
-            CmbDescripcion.Text = ""
-            If CmbDescripcion.Items.Count > 0 Then CmbDescripcion.Items.Clear()
+            Try
+                ' Rompemos el DataSource y vaciamos los ítems de forma 100% legal para .NET
+                CmbDescripcion.DataSource = Nothing
+                If CmbDescripcion.Items.Count > 0 Then CmbDescripcion.Items.Clear()
 
-            ' Volvemos a enchufar el cable del combo dócilmente
+                CmbDescripcion.SelectedIndex = -1
+                CmbDescripcion.Text = ""
+
+                ' Si la persiana se quedó colgada abierta, la cerramos de golpe
+                If CmbDescripcion.DroppedDown Then CmbDescripcion.DroppedDown = False
+
+                ' 🔄 TU DETALLE MAESTRO: Restauramos la lista completa original en silencio
+                LlenarDescripcion()
+
+            Catch ex As Exception
+                ' Silenciador de renderizado en instalaciones limpias
+            End Try
+
+            ' Volvemos a conectar el radar ahora que el combo está lleno y estable
             AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+            IsLimpiandoCombo = False
+
+            ' Salimos volando para que no intente ejecutar la búsqueda SQL vacía
             Exit Sub
         End If
 
-        ' Forzamos a evaluar el bloque de consulta SQL de descripción siempre
+        ' =========================================================================
+        ' 🔍 CAMINO DE BÚSQUEDA NORMAL (Si tiene letras, ejecuta tu función)
+        ' =========================================================================
         BuscarLetras("descripcion")
     End Sub
+
+
+
+    'Private Sub TxtBuscarLetras_TextChanged(sender As Object, e As EventArgs) Handles TxtBuscarLetras.TextChanged
+    '    ' Sincronizamos la variable global con lo que el usuario escribe o borra arriba
+    '    vLetras = TxtBuscarLetras.Text
+
+    '    ' Evitamos ejecutar la base de datos si el cuadro superior se limpia de forma automática
+    '    If String.IsNullOrEmpty(vLetras) Then
+    '        ' Desenchufamos el combo temporalmente para que no salte su SelectedIndexChanged al vaciarlo
+    '        RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+
+    '        CmbDescripcion.SelectedIndex = -1
+    '        CmbDescripcion.Text = ""
+    '        If CmbDescripcion.Items.Count > 0 Then CmbDescripcion.Items.Clear()
+
+    '        ' Volvemos a enchufar el cable del combo dócilmente
+    '        AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+    '        Exit Sub
+    '    End If
+
+    '    ' Forzamos a evaluar el bloque de consulta SQL de descripción siempre
+    '    BuscarLetras("descripcion")
+    'End Sub
     Private Function GuardarApunteEnBaseDatos() As Boolean
         If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
 
@@ -444,6 +494,9 @@ Public Class IntroApuntes
         ' OPTIMIZACIÓN CRÍTICA: Eliminamos la consulta SQL redundante a la base de datos.
         ' Cuando el usuario hace clic en un elemento de la lista, el combo ya adquiere ese texto de forma nativa.
         ' No necesitas abrir drMdb1, ni hacer un SELECT, ni volver a setear el .Text.
+
+        ' 🛡️ Si el candado está activo o no hay selección, salimos volando
+        If IsLimpiandoCombo OrElse CmbDescripcion.SelectedIndex = -1 Then Exit Sub
 
         If vIntro = "NO" Then
             ' Guardamos el valor seleccionado en tu variable global por si la usas en otro sitio
