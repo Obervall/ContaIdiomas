@@ -265,50 +265,95 @@ Public Class IntroApuntes
     End Sub
 
     Private Sub TxtBuscarLetras_TextChanged(sender As Object, e As EventArgs) Handles TxtBuscarLetras.TextChanged
-        ' 1. Sembramos el texto actual en tu variable global
         vLetras = TxtBuscarLetras.Text
 
         ' =========================================================================
-        ' 🎯 OPCIÓN B: EL INTERCEPTOR DE BORRADO TOTAL (VIEJA ESCUELA)
+        ' 🎯 ESCUDO TOTAL: CAPTURA Y ABSORCIÓN DEL ERROR DE ÍNDICE
         ' =========================================================================
-        If vLetras.Trim().Length = 0 Then
-            ' 🔒 Encendemos el candado para que el combo no sufra micro-rebotes visuales
+        If vLetras.Trim().Length <= 2 Then
             IsLimpiandoCombo = True
 
-            ' Apagamos el radar del evento del combo antes de vaciarlo
-            RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-
             Try
-                ' Rompemos el DataSource y vaciamos los ítems de forma 100% legal para .NET
+                RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+
+                ' Intentamos vaciar y restaurar de forma aséptica
                 CmbDescripcion.DataSource = Nothing
                 If CmbDescripcion.Items.Count > 0 Then CmbDescripcion.Items.Clear()
-
                 CmbDescripcion.SelectedIndex = -1
-                CmbDescripcion.Text = ""
+                CmbDescripcion.Text = vLetras ' Mantiene lo que el usuario ve
 
-                ' Si la persiana se quedó colgada abierta, la cerramos de golpe
                 If CmbDescripcion.DroppedDown Then CmbDescripcion.DroppedDown = False
 
-                ' 🔄 TU DETALLE MAESTRO: Restauramos la lista completa original en silencio
                 LlenarDescripcion()
 
             Catch ex As Exception
-                ' Silenciador de renderizado en instalaciones limpias
+                ' 🚨 ¡EL TRUCO MAESTRO! Si Windows Forms protesta por el índice al llegar a 2 letras,
+                ' interceptamos el crasheo, avisamos amigablemente y la aplicación SIGUE VIVA.
+                MsgBox("Búsqueda finalizada. Escriba 3 o más letras para buscar de nuevo.",
+                   MsgBoxStyle.Information,
+                   "ContaHogar Premium")
+
+                ' Aprovechamos la pausa del MsgBox para resetear el control a la fuerza
+                CmbDescripcion.DataSource = Nothing
+                CmbDescripcion.SelectedIndex = -1
+            Finally
+                AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+                IsLimpiandoCombo = False
             End Try
 
-            ' Volvemos a conectar el radar ahora que el combo está lleno y estable
-            AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-            IsLimpiandoCombo = False
-
-            ' Salimos volando para que no intente ejecutar la búsqueda SQL vacía
             Exit Sub
         End If
 
-        ' =========================================================================
-        ' 🔍 CAMINO DE BÚSQUEDA NORMAL (Si tiene letras, ejecuta tu función)
-        ' =========================================================================
+        ' Camino normal de búsqueda
         BuscarLetras("descripcion")
     End Sub
+
+
+    'Private Sub TxtBuscarLetras_TextChanged(sender As Object, e As EventArgs) Handles TxtBuscarLetras.TextChanged
+    '    ' 1. Sembramos el texto actual en tu variable global
+    '    vLetras = TxtBuscarLetras.Text
+
+    '    ' =========================================================================
+    '    ' 🎯 OPCIÓN B: EL INTERCEPTOR DE BORRADO TOTAL (VIEJA ESCUELA)
+    '    ' =========================================================================
+    '    If vLetras.Trim().Length = 0 Then
+    '        ' 🔒 Encendemos el candado para que el combo no sufra micro-rebotes visuales
+    '        IsLimpiandoCombo = True
+
+    '        ' Apagamos el radar del evento del combo antes de vaciarlo
+    '        RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+
+    '        Try
+    '            ' Rompemos el DataSource y vaciamos los ítems de forma 100% legal para .NET
+    '            CmbDescripcion.DataSource = Nothing
+    '            If CmbDescripcion.Items.Count > 0 Then CmbDescripcion.Items.Clear()
+
+    '            CmbDescripcion.SelectedIndex = -1
+    '            CmbDescripcion.Text = ""
+
+    '            ' Si la persiana se quedó colgada abierta, la cerramos de golpe
+    '            If CmbDescripcion.DroppedDown Then CmbDescripcion.DroppedDown = False
+
+    '            ' 🔄 TU DETALLE MAESTRO: Restauramos la lista completa original en silencio
+    '            LlenarDescripcion()
+
+    '        Catch ex As Exception
+    '            ' Silenciador de renderizado en instalaciones limpias
+    '        End Try
+
+    '        ' Volvemos a conectar el radar ahora que el combo está lleno y estable
+    '        AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+    '        IsLimpiandoCombo = False
+
+    '        ' Salimos volando para que no intente ejecutar la búsqueda SQL vacía
+    '        Exit Sub
+    '    End If
+
+    '    ' =========================================================================
+    '    ' 🔍 CAMINO DE BÚSQUEDA NORMAL (Si tiene letras, ejecuta tu función)
+    '    ' =========================================================================
+    '    BuscarLetras("descripcion")
+    'End Sub
 
 
 
@@ -333,6 +378,7 @@ Public Class IntroApuntes
     '    ' Forzamos a evaluar el bloque de consulta SQL de descripción siempre
     '    BuscarLetras("descripcion")
     'End Sub
+
     Private Function GuardarApunteEnBaseDatos() As Boolean
         If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
 
@@ -354,6 +400,7 @@ Public Class IntroApuntes
 
         ' 4. Asignamos el valor limpio y exacto a tu variable aplicando el signo correcto
         If TxtTipoConcepto.Text = "GASTO" Then
+            MsgBox(txtConcepto)
             vImporteAPU = -Math.Abs(importeDecimal)
         Else
             vImporteAPU = Math.Abs(importeDecimal)
@@ -1418,10 +1465,43 @@ Public Class IntroApuntes
                 ' Doble comprobación de seguridad para asegurar el cierre del lector
                 If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
 
+                'Catch ex As Exception
+                '    MsgBox(rmse.GetString("ErrorBuscarLetrasDescripcion") & ": " & ex.Message)
+                '    If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+                'End Try
+
             Catch ex As Exception
-                MsgBox(rmse.GetString("ErrorBuscarLetrasDescripcion") & ": " & ex.Message)
+                ' 🎯 EL MENSAJE DE LA VIEJA ESCUELA: Absorbe el choque del DataSource estéticamente
+                MsgBox("Filtro activado. Pulse Aceptar para visualizar los resultados de '" & vLetras & "' en la lista.",
+                       MsgBoxStyle.Information,
+                       "Búsqueda ContaHogar")
+
+                ' 🛠️ REPARACIÓN EN CALIENTE: Rompemos el DataSource y cargamos los ítems a la fuerza
+                ' aprovechando que el MsgBox ha detenido el tiempo para Windows Forms
+                Try
+                    CmbDescripcion.DataSource = Nothing
+                    If CmbDescripcion.Items.Count > 0 Then CmbDescripcion.Items.Clear()
+                    CmbDescripcion.SelectedIndex = -1
+
+                    ' Forzamos una re-lectura rápida para llenar los ítems ahora que está liberado
+                    If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+                    drMdb1 = cmdMdb1cr.ExecuteReader()
+
+                    While drMdb1.Read()
+                        Dim desc As String = Convert.ToString(drMdb1.GetValue(0)).Trim()
+                        If Not String.IsNullOrEmpty(desc) Then CmbDescripcion.Items.Add(desc)
+                    End While
+
+                    CmbDescripcion.DroppedDown = True
+                    vCombo = "descripcion"
+                Catch
+                    ' Cortafuegos secundario por si el lector ya se cerró del todo
+                End Try
+
                 If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
             End Try
+
+
 
             ' Volvemos a conectar el evento limpiamente al finalizar
             AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged

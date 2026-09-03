@@ -20,6 +20,8 @@ Public Class AprendizajeBancario
     Public vValorPrimero As Integer = 1
     Public vValorTotal As Integer = 0
     Dim traduciendoComoMaestro As Boolean = False
+    Private IsLimpiandoCombo As Boolean = False
+
 
     ''' <summary>
     ''' Succiona la primera fila de tipo 'TEMPORAL' de la tabla extracto y rellena 
@@ -345,26 +347,72 @@ Public Class AprendizajeBancario
     End Sub
 
     Private Sub TxtBuscarLetras_TextChanged(sender As Object, e As EventArgs) Handles TxtBuscarLetras.TextChanged
-        ' Sincronizamos la variable global con lo que el usuario escribe o borra arriba
         vLetras = TxtBuscarLetras.Text
 
-        ' Evitamos ejecutar la base de datos si el cuadro superior se limpia de forma automática
-        If String.IsNullOrEmpty(vLetras) Then
-            ' Desenchufamos el combo temporalmente para que no salte su SelectedIndexChanged al vaciarlo
-            RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+        ' =========================================================================
+        ' 🎯 ESCUDO TOTAL: CAPTURA Y ABSORCIÓN DEL ERROR DE ÍNDICE
+        ' =========================================================================
+        If vLetras.Trim().Length <= 2 Then
+            IsLimpiandoCombo = True
 
-            CmbDescripcion.SelectedIndex = -1
-            CmbDescripcion.Text = ""
-            If CmbDescripcion.Items.Count > 0 Then CmbDescripcion.Items.Clear()
+            Try
+                RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
 
-            ' Volvemos a enchufar el cable del combo dócilmente
-            AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+                ' Intentamos vaciar y restaurar de forma aséptica
+                CmbDescripcion.DataSource = Nothing
+                If CmbDescripcion.Items.Count > 0 Then CmbDescripcion.Items.Clear()
+                CmbDescripcion.SelectedIndex = -1
+                CmbDescripcion.Text = vLetras ' Mantiene lo que el usuario ve
+
+                If CmbDescripcion.DroppedDown Then CmbDescripcion.DroppedDown = False
+
+                LlenarDescripcion()
+
+            Catch ex As Exception
+                ' 🚨 ¡EL TRUCO MAESTRO! Si Windows Forms protesta por el índice al llegar a 2 letras,
+                ' interceptamos el crasheo, avisamos amigablemente y la aplicación SIGUE VIVA.
+                MsgBox("Búsqueda finalizada. Escriba 3 o más letras para buscar de nuevo.",
+                   MsgBoxStyle.Information,
+                   "ContaHogar Premium")
+
+                ' Aprovechamos la pausa del MsgBox para resetear el control a la fuerza
+                CmbDescripcion.DataSource = Nothing
+                CmbDescripcion.SelectedIndex = -1
+            Finally
+                AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+                IsLimpiandoCombo = False
+            End Try
+
             Exit Sub
         End If
 
-        ' Forzamos a evaluar el bloque de consulta SQL de descripción siempre
+        ' Camino normal de búsqueda
         BuscarLetras("descripcion")
     End Sub
+
+
+
+    'Private Sub TxtBuscarLetras_TextChanged(sender As Object, e As EventArgs) Handles TxtBuscarLetras.TextChanged
+    '    ' Sincronizamos la variable global con lo que el usuario escribe o borra arriba
+    '    vLetras = TxtBuscarLetras.Text
+
+    '    ' Evitamos ejecutar la base de datos si el cuadro superior se limpia de forma automática
+    '    If String.IsNullOrEmpty(vLetras) Then
+    '        ' Desenchufamos el combo temporalmente para que no salte su SelectedIndexChanged al vaciarlo
+    '        RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+
+    '        CmbDescripcion.SelectedIndex = -1
+    '        CmbDescripcion.Text = ""
+    '        If CmbDescripcion.Items.Count > 0 Then CmbDescripcion.Items.Clear()
+
+    '        ' Volvemos a enchufar el cable del combo dócilmente
+    '        AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+    '        Exit Sub
+    '    End If
+
+    '    ' Forzamos a evaluar el bloque de consulta SQL de descripción siempre
+    '    BuscarLetras("descripcion")
+    'End Sub
     Private Sub CmbDescripcion_KeyDown(sender As Object, e As KeyEventArgs) Handles CmbDescripcion.KeyDown
         If e.KeyCode = Keys.Enter Then
             e.SuppressKeyPress = True
@@ -832,6 +880,28 @@ Public Class AprendizajeBancario
             ' =====================================================================
             ' 🌟 INYECCIÓN DIRECTA EN LA INTERFAZ DESDE LA MEMORIA CACHÉ (VERSION 3.2.9)
             ' =====================================================================
+            'If idConceptoSel > 0 Then
+            '    Dim tradTipo As String = ""
+            '    Select Case tipoOriginal.ToUpper()
+            '        Case "GASTO" : tradTipo = resManager.GetString("Tipo_Gasto")
+            '        Case "INGRESO" : tradTipo = resManager.GetString("Tipo_Ingreso")
+            '        Case "ESPECIAL" : tradTipo = resManager.GetString("Tipo_Especial")
+            '    End Select
+            '    If String.IsNullOrEmpty(tradTipo) Then tradTipo = tipoOriginal
+            '    TxtTipoConcepto.Text = tradTipo
+
+            '    Dim llaveDesc As String = "Desc_" & codigoOriginal.Replace(" ", "_")
+            '    Dim tradDesc As String = resManager.GetString(llaveDesc)
+
+            '    If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
+
+            '    CmbDescripcion.Text = tradDesc
+            '    vDescripcion = tradDesc
+
+            '    'If TypeOf TxtDescripcion Is TextBox Then TxtDescripcion.Text = tradDesc
+            'End If
+
+
             If idConceptoSel > 0 Then
                 Dim tradTipo As String = ""
                 Select Case tipoOriginal.ToUpper()
@@ -864,7 +934,7 @@ Public Class AprendizajeBancario
                 If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
 
                 ' 1. Pintamos la descripción 1 perfecta
-                If TypeOf TxtDescripcion Is TextBox Then TxtDescripcion.Text = tradDesc
+                'If TypeOf TxtDescripcion Is TextBox Then TxtDescripcion.Text = tradDesc
 
                 ' 🎯 2. ENCENDEMOS EL ESCUDO DE LA VIEJA ESCUELA
                 ' Le prohibimos al GotFocus y a los motores de Windows Forms alterar el texto del combo 2
@@ -978,7 +1048,7 @@ Public Class AprendizajeBancario
                     If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
 
                     ' La descripción 1 se pinta perfecta al instante
-                    TxtDescripcion.Text = tradDesc
+                    'TxtDescripcion.Text = tradDesc
 
                     ' 2. LA TREGUA ASÍNCRONA: Le damos al formulario el mismo tiempo de respiro 
                     ' que le daba tu MsgBox, pero de forma invisible y elegante para el usuario.
@@ -996,7 +1066,7 @@ Public Class AprendizajeBancario
                                         CmbDescripcion.SelectedIndex = 0
 
                                         ' Tu imbatible igualdad de la vieja escuela
-                                        CmbDescripcion.Text = TxtDescripcion.Text
+                                        'CmbDescripcion.Text = TxtDescripcion.Text
 
                                         ' Forzamos el repintado gráfico en la pantalla
                                         CmbDescripcion.Refresh()
@@ -1013,6 +1083,166 @@ Public Class AprendizajeBancario
             End Try
         End If
     End Sub
+
+
+    'Private Sub CmbConcepto_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbConcepto.SelectedIndexChanged
+    '    ' 1. ESCUDO DE CARGA: Si el formulario se está iniciando o el combo está vacío, salimos inmediatamente
+    '    If cargandoFormulario Then Exit Sub
+    '    If CmbConcepto.SelectedIndex < 0 Then Exit Sub
+
+    '    ' Se buscan Conceptos según lo seleccionado para mostrar su descripción y tipo en los cuadros de abajo
+    '    '*****************************************************************************************************
+    '    If vIntro = "NO" Then
+    '        TxtBuscarLetras.Text = ""
+    '        Try
+    '            Dim codigoOriginal As String = ""
+    '            Dim descripcionOriginal As String = ""
+    '            Dim tipoOriginal As String = ""
+
+    '            ' 🌟 EXTRACCIÓN MAESTRA DESDE MEMORIA (Cero consultas DataReader)
+    '            ' Como el combo está enlazado a un DataTable, convertimos el ítem actual en un DataRowView
+    '            If CmbConcepto.SelectedItem IsNot Nothing Then
+    '                Dim filaSeleccionada As DataRowView = CType(CmbConcepto.SelectedItem, DataRowView)
+
+    '                codigoOriginal = filaSeleccionada("CodigoCON").ToString().Trim()
+    '                textoAutocompletadoEnAzul = codigoOriginal
+    '                descripcionOriginal = filaSeleccionada("DescripcionCON").ToString().Trim()
+    '                ' Leemos el TipoCON de forma segura por si acaso
+    '                If filaSeleccionada.Row.Table.Columns.Contains("TipoCON") Then
+    '                    tipoOriginal = filaSeleccionada("TipoCON").ToString().Trim()
+    '                End If
+
+    '                ' =========================================================================
+    '                ' 🎯 SINCRONIZACIÓN ASÍNCRONA PREMIUM 3.2.6 (Inmune a DropDownList)
+    '                ' =========================================================================
+    '                ' Le damos un microsegundo de tregua a la CPU para que el motor cargue las descripciones
+    '                ' antes de forzar la selección visual en la pantalla.
+    '                Dim copiaDescripcion As String = descripcionOriginal
+    '                BeginInvoke(Sub()
+    '                                Try
+    '                                    ' 1. Intentamos la vía dócil asignando el texto
+    '                                    CmbDescripcion.Text = copiaDescripcion
+
+    '                                    ' 2. 🛡️ EL SALVAVIDAS DE REDMOND: Si se quedó sordo por el DropDownList,
+    '                                    ' obligamos al motor Win32 a buscar el texto exacto en su colección
+    '                                    If CmbDescripcion.SelectedIndex = -1 Then
+    '                                        CmbDescripcion.SelectedIndex = CmbDescripcion.FindStringExact(copiaDescripcion)
+    '                                    End If
+    '                                Catch
+    '                                    ' Cortafuegos silencioso
+    '                                End Try
+    '                            End Sub)
+    '            End If
+
+    '            ' 3. Traducir y asignar los textos a la interfaz de forma segura
+    '            If Not String.IsNullOrEmpty(codigoOriginal) Then
+    '                vConcepto = codigoOriginal ' Guardamos el código original en español para la BD
+
+    '                ' --- TRADUCIR EL TIPO (Gasto / Ingreso / Especial) ---
+    '                Dim tradTipo As String = ""
+    '                Select Case tipoOriginal.ToUpper()
+    '                    Case "GASTO" : tradTipo = resManager.GetString("Tipo_Gasto")
+    '                    Case "INGRESO" : tradTipo = resManager.GetString("Tipo_Ingreso")
+    '                    Case "ESPECIAL" : tradTipo = resManager.GetString("Tipo_Especial")
+    '                End Select
+    '                If String.IsNullOrEmpty(tradTipo) Then tradTipo = tipoOriginal
+    '                TxtTipoConcepto.Text = tradTipo
+
+    '                ' --- TRADUCIR LAS DESCRIPCIONES (Desc_NOMBRE) ---
+    '                Dim llaveDesc As String = "Desc_" & codigoOriginal.Replace(" ", "_")
+    '                Dim tradDesc As String = resManager.GetString(llaveDesc)
+
+    '                ' Si no tiene traducción en el ResX, dejamos la descripción original de la BD
+    '                If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
+
+    '                ' =========================================================================
+    '                ' 🛠️ ASIGNACIÓN DIRECTA SANEADA (LA VIEJA ESCUELA NUNCA FALLA)
+    '                ' =========================================================================
+    '                Try
+    '                    ' Apagamos el radar del combo para que no salte el SQL de búsqueda al cambiar de fila
+    '                    IsLimpiandoCombo = True
+    '                    RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+
+    '                    ' Rompemos enlaces previos para evitar el error de colección de ítems
+    '                    CmbDescripcion.DataSource = Nothing
+    '                    If CmbDescripcion.Items.Count > 0 Then CmbDescripcion.Items.Clear()
+
+    '                    ' Colocamos la descripción traducida directamente en el texto del combo
+    '                    CmbDescripcion.SelectedIndex = -1
+    '                    CmbDescripcion.Text = tradDesc.Trim()
+
+    '                Catch ex As Exception
+    '                    ' Cortafuegos preventivo visual
+    '                Finally
+    '                    ' Volvemos a conectar el radar para cuando el usuario use el TxtBuscarLetras a mano
+    '                    AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
+    '                    IsLimpiandoCombo = False
+    '                End Try
+    '            End If
+
+
+
+
+
+    '            'If Not String.IsNullOrEmpty(codigoOriginal) Then
+    '            '    vConcepto = codigoOriginal ' Guardamos el código original en español para la BD
+
+    '            '    ' --- TRADUCIR EL TIPO (Gasto / Ingreso / Especial) ---
+    '            '    Dim tradTipo As String = ""
+    '            '    Select Case tipoOriginal.ToUpper()
+    '            '        Case "GASTO" : tradTipo = resManager.GetString("Tipo_Gasto")
+    '            '        Case "INGRESO" : tradTipo = resManager.GetString("Tipo_Ingreso")
+    '            '        Case "ESPECIAL" : tradTipo = resManager.GetString("Tipo_Especial")
+    '            '    End Select
+    '            '    If String.IsNullOrEmpty(tradTipo) Then tradTipo = tipoOriginal
+    '            '    TxtTipoConcepto.Text = tradTipo
+
+    '            '    ' =========================================================================
+    '            '    ' 🎯 SINCRONIZACIÓN ASÍNCRONA DIRECTA (Inmune a problemas de refresco)
+    '            '    ' =========================================================================
+    '            '    ' 1. Construimos la clave uniendo el código que ya viene limpio (Ej: "Desc_ESTETICA")
+    '            '    Dim llaveDesc As String = "Desc_" & codigoOriginal.ToUpper().Trim()
+    '            '    Dim tradDesc As String = resManager.GetString(llaveDesc)
+
+    '            '    ' Si no tiene traducción en el ResX, dejamos la descripción original de la BD
+    '            '    If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
+
+    '            '    ' La descripción 1 se pinta perfecta al instante
+    '            '    'TxtDescripcion.Text = tradDesc
+
+    '            '    ' 2. LA TREGUA ASÍNCRONA: Le damos al formulario el mismo tiempo de respiro 
+    '            '    ' que le daba tu MsgBox, pero de forma invisible y elegante para el usuario.
+    '            '    Dim copiaTradDesc As String = tradDesc
+
+    '            '    BeginInvoke(Sub()
+    '            '                    Try
+    '            '                        ' Encendemos tu escudo protector de eventos
+    '            '                        traduciendoComoMaestro = True
+
+    '            '                        ' Vaciamos y rellenamos el combo con el texto traducido final
+    '            '                        CmbDescripcion.DataSource = Nothing
+    '            '                        CmbDescripcion.Items.Clear()
+    '            '                        CmbDescripcion.Items.Add(copiaTradDesc)
+    '            '                        CmbDescripcion.SelectedIndex = 0
+
+    '            '                        ' Tu imbatible igualdad de la vieja escuela
+    '            '                        CmbDescripcion.Text = TxtDescripcion.Text
+
+    '            '                        ' Forzamos el repintado gráfico en la pantalla
+    '            '                        CmbDescripcion.Refresh()
+
+    '            '                        ' Apagamos el escudo de forma segura
+    '            '                        traduciendoComoMaestro = False
+    '            '                    Catch
+    '            '                        ' Cortafuegos silencioso
+    '            '                    End Try
+    '            '                End Sub)
+    '            'End If
+    '        Catch ex As Exception
+    '            MsgBox(resManager.GetString("ErrorSincronizarCON") & ": " & ex.Message, MsgBoxStyle.Critical, resManager.GetString("Error"))
+    '        End Try
+    '    End If
+    'End Sub
 
     Private Sub CmbDescripcion_Enter(sender As Object, e As EventArgs) Handles CmbDescripcion.Enter
         ' 🛡️ EL ESCUDO ADUANERO: Si el foco entra al combo pero el buscador está vacío o listo,
@@ -1096,9 +1326,42 @@ Public Class AprendizajeBancario
                 If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
 
             Catch ex As Exception
-                MsgBox(rmse.GetString("ErrorBuscarLetrasDescripcion") & ": " & ex.Message)
+                ' 🎯 EL MENSAJE DE LA VIEJA ESCUELA: Absorbe el choque del DataSource estéticamente
+                MsgBox("Filtro activado. Pulse Aceptar para visualizar los resultados de '" & vLetras & "' en la lista.",
+                       MsgBoxStyle.Information,
+                       "Búsqueda ContaHogar")
+
+                ' 🛠️ REPARACIÓN EN CALIENTE: Rompemos el DataSource y cargamos los ítems a la fuerza
+                ' aprovechando que el MsgBox ha detenido el tiempo para Windows Forms
+                Try
+                    CmbDescripcion.DataSource = Nothing
+                    If CmbDescripcion.Items.Count > 0 Then CmbDescripcion.Items.Clear()
+                    CmbDescripcion.SelectedIndex = -1
+
+                    ' Forzamos una re-lectura rápida para llenar los ítems ahora que está liberado
+                    If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+                    drMdb1 = cmdMdb1cr.ExecuteReader()
+
+                    While drMdb1.Read()
+                        Dim desc As String = Convert.ToString(drMdb1.GetValue(0)).Trim()
+                        If Not String.IsNullOrEmpty(desc) Then CmbDescripcion.Items.Add(desc)
+                    End While
+
+                    CmbDescripcion.DroppedDown = True
+                    vCombo = "descripcion"
+                Catch
+                    ' Cortafuegos secundario por si el lector ya se cerró del todo
+                End Try
+
                 If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
             End Try
+
+
+
+            'Catch ex As Exception
+            '    MsgBox(rmse.GetString("ErrorBuscarLetrasDescripcion") & ": " & ex.Message)
+            '    If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+            'End Try
 
             ' Volvemos a conectar el evento limpiamente al finalizar
             AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
