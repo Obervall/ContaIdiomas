@@ -356,9 +356,6 @@
   <data name="BtnDescripcion" xml:space="preserve">
     <value>Llena Descripciones, de Apuntes guardados</value>
   </data>
-  <data name="TxtABuscar" xml:space="preserve">
-    <value>Texto a Buscar</value>
-  </data>
   <data name="ErrorBuscarLetrasDescripcion" xml:space="preserve">
     <value>Error al Buscar Letras en Descripción</value>
   </data>
@@ -409,5 +406,8 @@ Error</value>
   </data>
   <data name="ErrorGuardarApunte" xml:space="preserve">
     <value>Error al Guardar el Apunte real</value>
+  </data>
+  <data name="TxtABuscar" xml:space="preserve">
+    <value>Texto a Buscar, mínimo 3 letras</value>
   </data>
 </root>

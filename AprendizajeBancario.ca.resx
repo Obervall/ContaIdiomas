@@ -163,9 +163,6 @@ Error</value>
   <data name="BtnDescripcion" xml:space="preserve">
     <value>Emplena Descripcions, d'Apunts guardats</value>
   </data>
-  <data name="TxtABuscar" xml:space="preserve">
-    <value>Text a Buscar</value>
-  </data>
   <data name="ErrorBuscarLetrasDescripcion" xml:space="preserve">
     <value>Error en Buscar Lletres en Descripció</value>
   </data>
@@ -230,5 +227,8 @@ Error</value>
   </data>
   <data name="ErrorGuardarApunte" xml:space="preserve">
     <value>Error en desar l'entrada real</value>
+  </data>
+  <data name="TxtABuscar" xml:space="preserve">
+    <value>Text a Buscar, mínim 3 lletres</value>
   </data>
 </root>

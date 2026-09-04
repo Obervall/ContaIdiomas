@@ -279,6 +279,8 @@ Public Class IntroApuntes
         If vLetras.Trim().Length <= 2 Then
             IsLimpiandoCombo = True
 
+            MessageBoxTimeout(Me.Handle, "Continue...", "ContaHogar", 0, 0, 250)
+
             Try
                 RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
 
@@ -714,7 +716,7 @@ Public Class IntroApuntes
             ' 3. Inyectamos los valores en el orden exacto de los signos de interrogación '?'
             cmdMdb1cr.Parameters.Add("@fec", OleDb.OleDbType.Date).Value = DateTimePicker1.Value.Date
             cmdMdb1cr.Parameters.Add("@con", OleDb.OleDbType.Integer).Value = idConceptoAsiento ' 🌟 Inyecta el ID del Concepto
-            cmdMdb1cr.Parameters.Add("@des", OleDb.OleDbType.VarWChar).Value = CmbDescripcion.Text.Trim()
+            cmdMdb1cr.Parameters.Add("@des", OleDb.OleDbType.VarWChar).Value = descripcionDefinitiva
             cmdMdb1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = importeNumerico
             cmdMdb1cr.Parameters.Add("@Not", OleDb.OleDbType.VarWChar).Value = TxtNota.Text.Trim()
             cmdMdb1cr.Parameters.Add("@cue", OleDb.OleDbType.Integer).Value = Convert.ToInt32(CmbCuenta.SelectedValue)

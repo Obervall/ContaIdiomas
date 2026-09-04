@@ -156,9 +156,6 @@
   <data name="BtnDescripcion" xml:space="preserve">
     <value>Fülle Beschreibungen aus, aus gespeicherten Notizen</value>
   </data>
-  <data name="TxtABuscar" xml:space="preserve">
-    <value>Text zur Suche</value>
-  </data>
   <data name="ErrorBuscarLetrasDescripcion" xml:space="preserve">
     <value>Fehler bei der Suche nach Buchstaben in der Beschreibung</value>
   </data>
@@ -230,5 +227,8 @@ Fehler</value>
   </data>
   <data name="ErrorGuardarApunte" xml:space="preserve">
     <value>Fehler beim Speichern des tatsächlichen Eintrags</value>
+  </data>
+  <data name="TxtABuscar" xml:space="preserve">
+    <value>Suchtext, mindestens 3 Buchstaben</value>
   </data>
 </root>

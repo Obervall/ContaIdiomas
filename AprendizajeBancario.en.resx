@@ -163,9 +163,6 @@ Error</value>
   <data name="BtnDescripcion" xml:space="preserve">
     <value>Fill Descriptions, from Saved Transactions</value>
   </data>
-  <data name="TxtABuscar" xml:space="preserve">
-    <value>Text to Search</value>
-  </data>
   <data name="ErrorBuscarLetrasDescripcion" xml:space="preserve">
     <value>Error When Searching for Letters in Description</value>
   </data>
@@ -230,5 +227,8 @@ Error</value>
   </data>
   <data name="ErrorGuardarApunte" xml:space="preserve">
     <value>Error Saving the Actual Entry</value>
+  </data>
+  <data name="TxtABuscar" xml:space="preserve">
+    <value>Search text, minimum 3 letters</value>
   </data>
 </root>

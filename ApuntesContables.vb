@@ -295,6 +295,11 @@ Public Class ApuntesContables
             LlenarGrid(vtipoSql, vtipoGrid, "1")
             TraducirGridApuntesBD(Me.DgvApuntes)
 
+            ' 🎯 OBLIGAMOS AL GRID A MOSTRAR LA FECHA EN FORMATO EUROPEO SIEMPRE
+            If DgvApuntes.Columns.Count > 0 Then
+                DgvApuntes.Columns(0).DefaultCellStyle.Format = "dd/MM/yyyy"
+            End If
+
             If DgvApuntes.RowCount - 1 >= 0 Then
                 vFila = DgvApuntes.RowCount - 1
                 DgvApuntes.Rows(vFila).Selected = True

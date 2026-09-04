@@ -184,9 +184,6 @@ Erreur</value>
   <data name="BtnDescripcion" xml:space="preserve">
     <value>Descriptions de remplissage, issues des notes sauvegardées</value>
   </data>
-  <data name="TxtABuscar" xml:space="preserve">
-    <value>Texte à recherche</value>
-  </data>
   <data name="ErrorBuscarLetrasDescripcion" xml:space="preserve">
     <value>Erreur lors de la recherche de lettres dans la description</value>
   </data>
@@ -215,5 +212,8 @@ Erreur</value>
   </data>
   <data name="ConceptoSeleccionado" xml:space="preserve">
     <value>Concept sélectionné</value>
+  </data>
+  <data name="TxtABuscar" xml:space="preserve">
+    <value>Recherche de texte, minimum 3 lettres</value>
   </data>
 </root>

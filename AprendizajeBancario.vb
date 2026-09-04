@@ -363,6 +363,8 @@ Public Class AprendizajeBancario
         If vLetras.Trim().Length <= 2 Then
             IsLimpiandoCombo = True
 
+            MessageBoxTimeout(Me.Handle, "Continue...", "ContaHogar", 0, 0, 250)
+
             Try
                 RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
 

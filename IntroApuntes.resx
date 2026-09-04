@@ -1077,7 +1077,7 @@ Error</value>
     <value>Llena Descripciones, de Apuntes guardados</value>
   </data>
   <data name="TxtABuscar" xml:space="preserve">
-    <value>Texto a Buscar</value>
+    <value>Texto a Buscar, mínimo 3 letras</value>
   </data>
   <data name="ErrorBuscarLetrasDescripcion" xml:space="preserve">
     <value>Error al Buscar Letras en Descripción</value>

@@ -204,9 +204,6 @@ Errore</value>
   <data name="SelecCuenta" xml:space="preserve">
     <value>Seleziona il Conto a cui si riferisce la Voce</value>
   </data>
-  <data name="TxtABuscar" xml:space="preserve">
-    <value>Testo per ricerca</value>
-  </data>
   <data name="SelecDescripcion" xml:space="preserve">
     <value>Seleziona Descrizione o Tipo da Ricercare (almeno 3)</value>
   </data>
@@ -215,5 +212,8 @@ Errore</value>
   </data>
   <data name="Label9.Text" xml:space="preserve">
     <value>Inserisci la descrizione 2</value>
+  </data>
+  <data name="TxtABuscar" xml:space="preserve">
+    <value>Cerca testo, minimo 3 lettere</value>
   </data>
 </root>
