@@ -1021,4 +1021,13 @@ achetez la version complète sur le Microsoft Store.</value>
   <data name="CreadoCorrectamente" xml:space="preserve">
     <value>Créé correctement</value>
   </data>
+  <data name="BusquedaFinalizada" xml:space="preserve">
+    <value>Recherche terminée. Tapez 3 lettres ou plus pour rechercher à nouveau</value>
+  </data>
+  <data name="GenerarSaldosIniciales" xml:space="preserve">
+    <value>Les soldes initiaux pour l’année seront générés</value>
+  </data>
+  <data name="EstoPuedeTardarUnosSegundos" xml:space="preserve">
+    <value>Cela peut prendre quelques secondes, selon la quantité de données historiques de l’entreprise. Veuillez patienter.</value>
+  </data>
 </root>

@@ -58,7 +58,7 @@ Public Class SeleccionEjercicio
 
     Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click
         ' Ejecutamos la función y guardamos el resultado
-        MsgBox("Se van a generar los saldos iniciales del ejercicio " & vAñoEjercicio.ToString & ". Esto puede tardar unos segundos, dependiendo de la cantidad de datos históricos que tenga la empresa. Por favor, espere...")
+        MsgBox(resManager.GetString("GenerarSaldosIniciales") & ": " & vAñoEjercicio.ToString & ". " & resManager.GetString("EstoPuedeTardarUnosSegundos"))
         Dim procesoExitoso As Boolean = IniciarSaldosIniciales(vAñoEjercicio)
 
         If Not procesoExitoso Then

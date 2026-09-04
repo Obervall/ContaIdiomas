@@ -1021,4 +1021,13 @@ ou permite acesso controlado a pastas para poder usar o FinançasDomésticas 3.0
   <data name="MsgReinicioIdioma" xml:space="preserve">
     <value>O aplicativo vai reiniciar para aplicar o novo idioma</value>
   </data>
+  <data name="BusquedaFinalizada" xml:space="preserve">
+    <value>Busca concluída. Digite 3 ou mais letras para buscar novamente</value>
+  </data>
+  <data name="GenerarSaldosIniciales" xml:space="preserve">
+    <value>Os saldos iniciais do ano serão gerados</value>
+  </data>
+  <data name="EstoPuedeTardarUnosSegundos" xml:space="preserve">
+    <value>Isso pode levar alguns segundos, dependendo de quanto dados históricos a empresa possui. Por favor, aguarde.</value>
+  </data>
 </root>

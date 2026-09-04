@@ -1021,4 +1021,13 @@ o permet l'accés controlat a carpetes per poder usar GestióDomèstica 3.0 Prem
   <data name="MsgReinicioIdioma" xml:space="preserve">
     <value>L'aplicació es reiniciarà per aplicar el nou idioma</value>
   </data>
+  <data name="BusquedaFinalizada" xml:space="preserve">
+    <value>Cerca completada. Escriu 3 o més lletres per tornar a buscar</value>
+  </data>
+  <data name="GenerarSaldosIniciales" xml:space="preserve">
+    <value>Es generaran els saldos inicials de l'any</value>
+  </data>
+  <data name="EstoPuedeTardarUnosSegundos" xml:space="preserve">
+    <value>Això pot trigar uns segons, depenent de la quantitat de dades històriques que tingui l'empresa. Si us plau, espereu.</value>
+  </data>
 </root>

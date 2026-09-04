@@ -1021,4 +1021,13 @@ adquiera la versión completa en la Microsoft Store.</value>
   <data name="MsgReinicioIdioma" xml:space="preserve">
     <value>La aplicación se reiniciará para aplicar el nuevo idioma</value>
   </data>
+  <data name="BusquedaFinalizada" xml:space="preserve">
+    <value>Búsqueda finalizada. Escriba 3 o más letras para buscar de nuevo</value>
+  </data>
+  <data name="GenerarSaldosIniciales" xml:space="preserve">
+    <value>Se van a generar los saldos iniciales del ejercicio</value>
+  </data>
+  <data name="EstoPuedeTardarUnosSegundos" xml:space="preserve">
+    <value>Esto puede tardar unos segundos, dependiendo de la cantidad de datos históricos que tenga la empresa. Por favor, espere.</value>
+  </data>
 </root>

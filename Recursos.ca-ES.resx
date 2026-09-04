@@ -1021,4 +1021,13 @@ adquireixi la versió completa a la Microsoft Store.</value>
   <data name="CreadoCorrectamente" xml:space="preserve">
     <value>creat correctament</value>
   </data>
+  <data name="BusquedaFinalizada" xml:space="preserve">
+    <value>Cerca completada. Escriu 3 o més lletres per tornar a buscar</value>
+  </data>
+  <data name="GenerarSaldosIniciales" xml:space="preserve">
+    <value>Es generaran els saldos inicials de l'any</value>
+  </data>
+  <data name="EstoPuedeTardarUnosSegundos" xml:space="preserve">
+    <value>Això pot trigar uns segons, depenent de la quantitat de dades històriques que tingui l'empresa. Si us plau, espereu.</value>
+  </data>
 </root>

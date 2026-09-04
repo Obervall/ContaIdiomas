@@ -299,6 +299,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Búsqueda finalizada. Escriba 3 o más letras para buscar de nuevo.
+    '''</summary>
+    Friend Shared ReadOnly Property BusquedaFinalizada() As String
+        Get
+            Return ResourceManager.GetString("BusquedaFinalizada", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a CUENTA CAJA EFECTIVO.
     '''</summary>
     Friend Shared ReadOnly Property CAJA_EFECTIVO() As String
@@ -1536,6 +1545,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Esto puede tardar unos segundos, dependiendo de la cantidad de datos históricos que tenga la empresa. Por favor, espere..
+    '''</summary>
+    Friend Shared ReadOnly Property EstoPuedeTardarUnosSegundos() As String
+        Get
+            Return ResourceManager.GetString("EstoPuedeTardarUnosSegundos", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a La estructura de la base de datos se ha actualizado de manera integral a la nueva versión.
     '''</summary>
     Friend Shared ReadOnly Property EstructuraActualizada() As String
@@ -1667,6 +1685,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property GASTOS_BANCARIOS() As String
         Get
             Return ResourceManager.GetString("GASTOS_BANCARIOS", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Se van a generar los saldos iniciales del ejercicio.
+    '''</summary>
+    Friend Shared ReadOnly Property GenerarSaldosIniciales() As String
+        Get
+            Return ResourceManager.GetString("GenerarSaldosIniciales", resourceCulture)
         End Get
     End Property
     

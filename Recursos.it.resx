@@ -1021,4 +1021,13 @@ oppure consente un accesso controllato alle cartelle per poter utilizzare Gestio
   <data name="MsgReinicioIdioma" xml:space="preserve">
     <value>L'app si riavvierà per applicare la nuova lingua</value>
   </data>
+  <data name="BusquedaFinalizada" xml:space="preserve">
+    <value>Ricerca completata. Digita 3 o più lettere per cercare di nuovo</value>
+  </data>
+  <data name="GenerarSaldosIniciales" xml:space="preserve">
+    <value>I saldi iniziali per l'anno saranno generati</value>
+  </data>
+  <data name="EstoPuedeTardarUnosSegundos" xml:space="preserve">
+    <value>Questo potrebbe richiedere qualche secondo, a seconda di quanti dati storici possiede l'azienda. Attenda.</value>
+  </data>
 </root>

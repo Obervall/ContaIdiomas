@@ -19,11 +19,29 @@ Public Class Principal
 
     ' 1. Constructor: Es el mejor sitio para fijar el idioma antes de que se vea nada
     Public Sub New()
-        ' Configura el idioma inicial (ej. Español)
+        ' =========================================================================
+        ' 💎 RESCATE ULTRA-TEMPRANO DEL IDIOMA DESDE EL REGISTRO
+        ' =========================================================================
+        Try
+            Dim key As Microsoft.Win32.RegistryKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("Software\ContaHogar")
+            If key IsNot Nothing Then
+                Dim regIdioma As String = key.GetValue("IdiomaGuardado")?.ToString()
+                ' Si hay un idioma salvado en el registro, restauramos el setting local al vuelo
+                If Not String.IsNullOrEmpty(regIdioma) Then
+                    My.Settings.CulturaUsuario = regIdioma
+                End If
+                key.Close()
+            End If
+        Catch
+            ' Cortafuegos por si acaso
+        End Try
+
+        ' Configura el idioma inicial de forma segura con el dato rescatado
         Dim cultura As String = My.Settings.CulturaUsuario
         System.Threading.Thread.CurrentThread.CurrentUICulture = New System.Globalization.CultureInfo(cultura)
         System.Threading.Thread.CurrentThread.CurrentCulture = New System.Globalization.CultureInfo(cultura)
-        ' Esta llamada es vital
+
+        ' Esta llamada es vital (dibuja la pantalla en el idioma correcto)
         InitializeComponent()
     End Sub
 
@@ -110,8 +128,58 @@ Public Class Principal
 
     Private Sub Principal_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        Me.StartPosition = FormStartPosition.Manual
+        ' =========================================================================
+        ' 💎 PASO 2: RECUPERACIÓN INDESTRUCTIBLE DESDE EL REGISTRO (AL ARRANCAR)
+        ' =========================================================================
+        Try
+            Dim key As Microsoft.Win32.RegistryKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("Software\ContaHogar")
 
+            If key IsNot Nothing Then
+                ' 1. COMPROBACIÓN DE LICENCIA COMPREDA (Nuestra primera batalla)
+                Dim esPremium As String = key.GetValue("LicenciaPremium")?.ToString()
+                If esPremium = "SI" Then
+                    My.Settings.LicenciaActivada = True ' Restauramos el setting local al vuelo
+                End If
+
+                ' 2. RECUPERAR IDIOMA GUARDADO
+                ' Ya se hace en el constructor
+
+                ' 3. 🎨 RECUPERAR PREFERENCIA DEL MENÚ CON COLORES
+                Dim menuSinColor As String = key.GetValue("MenuSinColores")?.ToString()
+                If menuSinColor = "SI" Then
+                    My.Settings.MenuColores = False
+                    BarraYMenuConColores.Checked = False
+                ElseIf menuSinColor = "NO" Then
+                    My.Settings.MenuColores = True
+                    BarraYMenuConColores.Checked = True
+                End If
+                ' Forzamos a que el menú adopte el color recuperado de inmediato
+                CambiarColorBarraMenu()
+
+                ' 4. RECUPERAR POSICIÓN Y MEDIDAS DE LA VENTANA
+                Dim rLeft As String = key.GetValue("Ventana_Left")?.ToString()
+                Dim rTop As String = key.GetValue("Ventana_Top")?.ToString()
+                Dim rWidth As String = key.GetValue("Ventana_Width")?.ToString()
+                Dim rHeight As String = key.GetValue("Ventana_Height")?.ToString()
+
+                ' Si existen coordenadas previas en el registro, recolocamos la ventana
+                If Not String.IsNullOrEmpty(rLeft) AndAlso Not String.IsNullOrEmpty(rTop) Then
+                    ' Cambiamos la propiedad a manual para poder gobernar los píxeles
+                    Me.StartPosition = FormStartPosition.Manual
+
+                    Me.Left = Convert.ToInt32(rLeft)
+                    Me.Top = Convert.ToInt32(rTop)
+                    Me.Width = Convert.ToInt32(rWidth)
+                    Me.Height = Convert.ToInt32(rHeight)
+                End If
+
+                key.Close()
+            End If
+        Catch ex As Exception
+            ' Cortafuegos silencioso para arrancar pase lo que pase
+        End Try
+
+        Me.StartPosition = FormStartPosition.Manual
 
         'My.Settings.vPantalla = Date.MinValue  ' Para limpiar la fecha de prueba y reiniciar el periodo de evaluación
 
@@ -1717,20 +1785,8 @@ Public Class Principal
     Private Sub BarraYMenuConColores_Click(sender As Object, e As EventArgs) Handles BarraYMenuConColores.Click
         If BarraYMenuConColores.Checked Then
             My.Settings.MenuColores = True
-            Try
-                Dim key As Microsoft.Win32.RegistryKey = Microsoft.Win32.Registry.CurrentUser.CreateSubKey("Software\ContaHogar")
-                key.SetValue("MenuSinColores", "NO")
-                key.Close()
-            Catch
-            End Try
         Else
             My.Settings.MenuColores = False
-            Try
-                Dim key As Microsoft.Win32.RegistryKey = Microsoft.Win32.Registry.CurrentUser.CreateSubKey("Software\ContaHogar")
-                key.SetValue("MenuSinColores", "SI")
-                key.Close()
-            Catch
-            End Try
         End If
         CambiarColorBarraMenu()
         My.Settings.Save()
@@ -1973,6 +2029,37 @@ Public Class Principal
     End Sub
 
     Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+
+        Try
+            Dim key As Microsoft.Win32.RegistryKey = Microsoft.Win32.Registry.CurrentUser.CreateSubKey("Software\ContaHogar")
+
+            ' 1. POSICIÓN Y MEDIDAS (Solo si la ventana se cierra en estado normal)
+            If Me.WindowState = FormWindowState.Normal Then
+                key.SetValue("Ventana_Left", Me.Left.ToString())
+                key.SetValue("Ventana_Top", Me.Top.ToString())
+                key.SetValue("Ventana_Width", Me.Width.ToString())
+                key.SetValue("Ventana_Height", Me.Height.ToString())
+            End If
+
+            ' 2. IDIOMA ACTUAL
+            key.SetValue("IdiomaGuardado", My.Settings.CulturaUsuario)
+
+            ' 3. 🎨 PREFERENCIA DEL MENÚ CON COLORES (Centralizado aquí)
+            ' Miramos cómo terminó el Check del menú y guardamos el "SI" o el "NO"
+            If BarraYMenuConColores.Checked Then
+                key.SetValue("MenuSinColores", "NO")
+            Else
+                key.SetValue("MenuSinColores", "SI")
+            End If
+
+            ' 4. [AQUÍ PUEDES AÑADIR MÁS COMPROBACIONES EN EL FUTURO]
+            ' Ejemplo: key.SetValue("UltimoUsuario", My.Settings.Usuario)
+
+            key.Close()
+        Catch
+            ' Cortafuegos para asegurar que el programa se cierre pase lo que pase
+        End Try
+
         Try
             ' Guardamos las medidas actuales de la ventana principal
             My.Settings.PantallaAncho = Me.Width
