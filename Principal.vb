@@ -28,8 +28,9 @@ Public Class Principal
                 Dim regIdioma As String = key.GetValue("IdiomaGuardado")?.ToString()
                 ' Si hay un idioma salvado en el registro, restauramos el setting local al vuelo
                 If Not String.IsNullOrEmpty(regIdioma) Then
-                    My.Settings.CulturaUsuario = regIdioma
-                End If
+					My.Settings.CulturaUsuario = regIdioma
+					My.Settings.Save()
+				End If
                 key.Close()
             End If
         Catch
