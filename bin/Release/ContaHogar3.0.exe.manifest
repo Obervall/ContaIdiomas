@@ -110,7 +110,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>N7AXNPzUSdtRog2NeUKyVbftqkh/Y3IE/L0MiQjmD7I=</dsig:DigestValue>
+        <dsig:DigestValue>/cXcjxbBTn31HASIDp/bQsbP9271ivI68tbGKWZq6tk=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -810,7 +810,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>8Ye6du06WULOj3hW8NsqqOSZjiEwlMg5NT85VvTv3Ao=</dsig:DigestValue>
+      <dsig:DigestValue>76LDDGXzHQJZlP+s67sz0fzuNeCRWOKBoJJHTqML1mE=</dsig:DigestValue>
     </hash>
   </file>
   <file name="ContaHogar3.0.exe.config" size="7321">
