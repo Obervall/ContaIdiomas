@@ -11,11 +11,14 @@ Imports ContaHogar.My
 
 Public Class Principal
 
-    Public x, y, CantPantallas, vPantallas, vCodigo, vContador, vCalculoVersion1, vCalculoVersion2, vCalculoVersion3 As Integer
-    Public tipoDsn, tipoSql, vtipoSql, vWidth, vHeigth, vPosicion, respuesta, vNumeroVersion As String
-    Public vConcepto, vDescripcion, vNotas, vCuenta, vImporte, vDescripcionAPU As String
-    Public vImporteAPU, vNotasAPU, vCuentaAPU, vCompactada, appDataPath, carpetaDB As String
+    Public CantPantallas, vPantallas, vCodigo, vContador, vCalculoVersion1, vCalculoVersion2, vCalculoVersion3 As Integer
+    Public tipoDsn, tipoSql, vtipoSql, respuesta As String
+    Public carpetaDB As String
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
+    Public x As Integer = 315
+    Public y As Integer = 30
+    Public vWidth As Integer = 891
+    Public vHeigth As Integer = 629
 
     ' 1. Constructor: Es el mejor sitio para fijar el idioma antes de que se vea nada
     Public Sub New()
@@ -158,21 +161,28 @@ Public Class Principal
                 CambiarColorBarraMenu()
 
                 ' 4. RECUPERAR POSICIÓN Y MEDIDAS DE LA VENTANA
+
                 Dim rLeft As String = key.GetValue("Ventana_Left")?.ToString()
                 Dim rTop As String = key.GetValue("Ventana_Top")?.ToString()
                 Dim rWidth As String = key.GetValue("Ventana_Width")?.ToString()
                 Dim rHeight As String = key.GetValue("Ventana_Height")?.ToString()
 
-				' Si existen coordenadas previas en el registro, recolocamos la ventana
-				If Not String.IsNullOrEmpty(rLeft) AndAlso Not String.IsNullOrEmpty(rTop) Then
-					' Cambiamos la propiedad a manual para poder gobernar los píxeles
-					Me.StartPosition = FormStartPosition.Manual
+                ' Si existen coordenadas previas en el registro, recolocamos la ventana
+                If Not String.IsNullOrEmpty(rLeft) AndAlso Not String.IsNullOrEmpty(rTop) Then
+                    ' Cambiamos la propiedad a manual para poder gobernar los píxeles
+                    Me.StartPosition = FormStartPosition.Manual
 
-					Me.Left = Convert.ToInt32(rLeft)
-					Me.Top = Convert.ToInt32(rTop)
-					Me.Width = Convert.ToInt32(rWidth)
-					Me.Height = Convert.ToInt32(rHeight)
-				End If
+                    x = Convert.ToInt32(rLeft)
+                    y = Convert.ToInt32(rTop)
+                    vWidth = Convert.ToInt32(rWidth)
+					vHeigth = Convert.ToInt32(rHeight)
+
+                    My.Settings.PantallaAncho = vWidth
+                    My.Settings.PantallaAlto = vHeigth
+                    My.Settings.Posicion = $"{{X={x}, Y={y}}}"
+                    My.Settings.Save()
+
+                End If
 
                 ' Recuperar el Path de la exportación de Excel
                 If My.Settings.PathExportar Is Nothing OrElse String.IsNullOrEmpty(My.Settings.PathExportar) Then
@@ -437,24 +447,18 @@ Public Class Principal
         Dim vPantallas As Integer = Screen.AllScreens.Length
         Dim CantPantallas As Integer = My.Settings.Pantallas
 
-        ' Creamos variables numéricas nativas para evitar romper cadenas de texto
-        Dim x As Integer = 150
-        Dim y As Integer = 100
-        Dim vWidth As Integer = 1139
-        Dim vHeigth As Integer = 629
-
         ' 2. Si pasamos de varios monitores a solo uno, aplicamos las medidas a salvo
         If vPantallas = 1 AndAlso CantPantallas >= 2 Then
-            x = 150
-            y = 100 ' Le asignamos 100 directamente para evitar el techo 0
-            vWidth = 1139
+            x = 315
+            y = 30 ' Le asignamos 30 directamente para evitar el techo 0
+            vWidth = 891
             vHeigth = 629
-        Else
+		Else
             ' 🛡️ ESCUDO EXTRACCIÓN SEGURO: En lugar de usar Mid/InStr, leemos las variables directas que guardamos en Closing
             ' Si por lo que sea My.Settings guarda un valor corrupto, usamos un Try/Catch silencioso
             Try
                 ' Como en FormClosing guardas Me.Width y Me.Height en propiedades numéricas separadas, las usamos directamente!
-                vWidth = If(My.Settings.PantallaAncho > 0, My.Settings.PantallaAncho, 1139)
+                vWidth = If(My.Settings.PantallaAncho > 0, My.Settings.PantallaAncho, 891)
                 vHeigth = If(My.Settings.PantallaAlto > 0, My.Settings.PantallaAlto, 629)
 
                 ' Para recuperar X e Y sin romper el texto, usamos el objeto Point nativo si es posible,
@@ -467,12 +471,12 @@ Public Class Principal
                 y = CInt(Val(partes(1).Split("="c)(1)))
             Catch
                 ' Si el parseo de la cadena falla por culpa del idioma, forzamos valores seguros por defecto
-                x = 150
-                y = 100
+                x = 315
+                y = 30
             End Try
 
             ' PARACHOQUES: Tu regla de que no se quede atrapado en el techo absoluto
-            If y <= 0 Then y = 100
+            If y <= 0 Then y = 30
         End If
 
         ' 3. Aplicamos la ubicación inicial calculada
