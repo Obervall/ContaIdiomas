@@ -221,7 +221,7 @@ Public Class Principal
             My.Settings.Save() ' Guarda el cambio para que no lo haga más en esta versión
         End If
 
-        My.Settings.Version = "3.3.1"
+        My.Settings.Version = "3.3.2"
         My.Settings.Save()
 
         ' =========================================================================

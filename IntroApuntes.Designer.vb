@@ -1,27 +1,27 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class IntroApuntes
-    Inherits System.Windows.Forms.Form
+	Inherits System.Windows.Forms.Form
 
-    'Form reemplaza a Dispose para limpiar la lista de componentes.
-    <System.Diagnostics.DebuggerNonUserCode()>
-    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
-        Try
-            If disposing AndAlso components IsNot Nothing Then
-                components.Dispose()
-            End If
-        Finally
-            MyBase.Dispose(disposing)
-        End Try
-    End Sub
+	'Form reemplaza a Dispose para limpiar la lista de componentes.
+	<System.Diagnostics.DebuggerNonUserCode()>
+	Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+		Try
+			If disposing AndAlso components IsNot Nothing Then
+				components.Dispose()
+			End If
+		Finally
+			MyBase.Dispose(disposing)
+		End Try
+	End Sub
 
-    'Requerido por el Diseñador de Windows Forms
-    Private components As System.ComponentModel.IContainer
+	'Requerido por el Diseñador de Windows Forms
+	Private components As System.ComponentModel.IContainer
 
-    'NOTA: el Diseñador de Windows Forms necesita el siguiente procedimiento
-    'Se puede modificar usando el Diseñador de Windows Forms.  
-    'No lo modifique con el editor de código.
-    <System.Diagnostics.DebuggerStepThrough()>
-    Private Sub InitializeComponent()
+	'NOTA: el Diseñador de Windows Forms necesita el siguiente procedimiento
+	'Se puede modificar usando el Diseñador de Windows Forms.  
+	'No lo modifique con el editor de código.
+	<System.Diagnostics.DebuggerStepThrough()>
+	Private Sub InitializeComponent()
 		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(IntroApuntes))
 		Me.GroupBox1 = New System.Windows.Forms.GroupBox()
 		Me.Label9 = New System.Windows.Forms.Label()
@@ -263,32 +263,32 @@ Partial Class IntroApuntes
 	End Sub
 
 	Friend WithEvents GroupBox1 As Windows.Forms.GroupBox
-    Friend WithEvents Label7 As Windows.Forms.Label
-    Friend WithEvents Label6 As Windows.Forms.Label
-    Friend WithEvents Label5 As Windows.Forms.Label
-    Friend WithEvents Label4 As Windows.Forms.Label
-    Friend WithEvents Label3 As Windows.Forms.Label
-    Friend WithEvents Label2 As Windows.Forms.Label
-    Friend WithEvents Label1 As Windows.Forms.Label
-    Friend WithEvents BtnCancelar As Windows.Forms.Button
-    Friend WithEvents BtnAceptarSalir As Windows.Forms.Button
-    Friend WithEvents BtnAceptarOtro As Windows.Forms.Button
-    Friend WithEvents DateTimePicker1 As Windows.Forms.DateTimePicker
-    Friend WithEvents BtnCuenta As Windows.Forms.Button
-    Friend WithEvents BtnCalculadora As Windows.Forms.Button
-    Friend WithEvents BtnConcepto As Windows.Forms.Button
-    Friend WithEvents BtnHoy As Windows.Forms.Button
-    Friend WithEvents TxtTipoConcepto As Windows.Forms.TextBox
-    Friend WithEvents TxtImporte As Windows.Forms.TextBox
-    Friend WithEvents TxtNota As Windows.Forms.TextBox
-    Friend WithEvents CmbCuenta As Windows.Forms.ComboBox
-    Friend WithEvents CmbConcepto As Windows.Forms.ComboBox
-    Friend WithEvents CmbDescripcion As Windows.Forms.ComboBox
-    Friend WithEvents BtnDescripcion As Windows.Forms.Button
-    Friend WithEvents LblBuscarLetras As Windows.Forms.Label
-    Friend WithEvents Label8 As Windows.Forms.Label
-    Friend WithEvents TxtDescripcion As Windows.Forms.TextBox
-    Friend WithEvents TxtBuscarLetras As Windows.Forms.TextBox
-    Friend WithEvents BtnAyuda As Windows.Forms.Button
+	Friend WithEvents Label7 As Windows.Forms.Label
+	Friend WithEvents Label6 As Windows.Forms.Label
+	Friend WithEvents Label5 As Windows.Forms.Label
+	Friend WithEvents Label4 As Windows.Forms.Label
+	Friend WithEvents Label3 As Windows.Forms.Label
+	Friend WithEvents Label2 As Windows.Forms.Label
+	Friend WithEvents Label1 As Windows.Forms.Label
+	Friend WithEvents BtnCancelar As Windows.Forms.Button
+	Friend WithEvents BtnAceptarSalir As Windows.Forms.Button
+	Friend WithEvents BtnAceptarOtro As Windows.Forms.Button
+	Friend WithEvents DateTimePicker1 As Windows.Forms.DateTimePicker
+	Friend WithEvents BtnCuenta As Windows.Forms.Button
+	Friend WithEvents BtnCalculadora As Windows.Forms.Button
+	Friend WithEvents BtnConcepto As Windows.Forms.Button
+	Friend WithEvents BtnHoy As Windows.Forms.Button
+	Friend WithEvents TxtTipoConcepto As Windows.Forms.TextBox
+	Friend WithEvents TxtImporte As Windows.Forms.TextBox
+	Friend WithEvents TxtNota As Windows.Forms.TextBox
+	Friend WithEvents CmbCuenta As Windows.Forms.ComboBox
+	Friend WithEvents CmbConcepto As Windows.Forms.ComboBox
+	Friend WithEvents CmbDescripcion As Windows.Forms.ComboBox
+	Friend WithEvents BtnDescripcion As Windows.Forms.Button
+	Friend WithEvents LblBuscarLetras As Windows.Forms.Label
+	Friend WithEvents Label8 As Windows.Forms.Label
+	Friend WithEvents TxtDescripcion As Windows.Forms.TextBox
+	Friend WithEvents TxtBuscarLetras As Windows.Forms.TextBox
+	Friend WithEvents BtnAyuda As Windows.Forms.Button
 	Friend WithEvents Label9 As Windows.Forms.Label
 End Class
