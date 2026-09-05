@@ -162,18 +162,24 @@ Public Class Principal
                 Dim rWidth As String = key.GetValue("Ventana_Width")?.ToString()
                 Dim rHeight As String = key.GetValue("Ventana_Height")?.ToString()
 
-                ' Si existen coordenadas previas en el registro, recolocamos la ventana
-                If Not String.IsNullOrEmpty(rLeft) AndAlso Not String.IsNullOrEmpty(rTop) Then
-                    ' Cambiamos la propiedad a manual para poder gobernar los píxeles
-                    Me.StartPosition = FormStartPosition.Manual
+				' Si existen coordenadas previas en el registro, recolocamos la ventana
+				If Not String.IsNullOrEmpty(rLeft) AndAlso Not String.IsNullOrEmpty(rTop) Then
+					' Cambiamos la propiedad a manual para poder gobernar los píxeles
+					Me.StartPosition = FormStartPosition.Manual
 
-                    Me.Left = Convert.ToInt32(rLeft)
-                    Me.Top = Convert.ToInt32(rTop)
-                    Me.Width = Convert.ToInt32(rWidth)
-                    Me.Height = Convert.ToInt32(rHeight)
+					Me.Left = Convert.ToInt32(rLeft)
+					Me.Top = Convert.ToInt32(rTop)
+					Me.Width = Convert.ToInt32(rWidth)
+					Me.Height = Convert.ToInt32(rHeight)
+				End If
+
+                ' Recuperar el Path de la exportación de Excel
+                If My.Settings.PathExportar Is Nothing OrElse String.IsNullOrEmpty(My.Settings.PathExportar) Then
+                    Dim rutaDocumentos As String = key.GetValue("PathExportar")?.ToString()
+                    My.Settings.PathExportar = rutaDocumentos
                 End If
-
-                key.Close()
+                My.Settings.Save()
+				key.Close()
             End If
         Catch ex As Exception
             ' Cortafuegos silencioso para arrancar pase lo que pase
@@ -690,7 +696,7 @@ Public Class Principal
                 If String.IsNullOrEmpty(descTraducidaMsg) Then descTraducidaMsg = vDescripcion
 
                 ' 4. Recuperamos el literal de éxito ("Creado correctamente")
-                Dim txtExito As String = rmse.GetString("CreadoCorrectamente")
+                Dim txtExito As String = resManager.GetString("CreadoCorrectamente")
                 If String.IsNullOrEmpty(txtExito) Then txtExito = "XCreated correctly"
 
                 Dim importeFormateado As String = ConvertirDecimalSeguro(vImporte).ToString("N2")
@@ -2044,13 +2050,17 @@ Public Class Principal
             ' 2. IDIOMA ACTUAL
             key.SetValue("IdiomaGuardado", My.Settings.CulturaUsuario)
 
-            ' 3. 🎨 PREFERENCIA DEL MENÚ CON COLORES (Centralizado aquí)
-            ' Miramos cómo terminó el Check del menú y guardamos el "SI" o el "NO"
-            If BarraYMenuConColores.Checked Then
-                key.SetValue("MenuSinColores", "NO")
-            Else
-                key.SetValue("MenuSinColores", "SI")
-            End If
+			' 3. 🎨 PREFERENCIA DEL MENÚ CON COLORES (Centralizado aquí)
+			' Miramos cómo terminó el Check del menú y guardamos el "SI" o el "NO"
+			If BarraYMenuConColores.Checked Then
+				key.SetValue("MenuSinColores", "NO")
+			Else
+				key.SetValue("MenuSinColores", "SI")
+			End If
+
+            ' Ruta de la exportación a Excel (si el usuario la ha cambiado en Preferencias)
+            key.SetValue("RutaExportacionExcel", My.Settings.PathExportar)
+
 
             ' 4. [AQUÍ PUEDES AÑADIR MÁS COMPROBACIONES EN EL FUTURO]
             ' Ejemplo: key.SetValue("UltimoUsuario", My.Settings.Usuario)
