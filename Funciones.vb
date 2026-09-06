@@ -3065,20 +3065,54 @@ Module Funciones
         btnSi.DialogResult = DialogResult.Yes
         btnNo.DialogResult = DialogResult.No
 
-        ' --- Estética rápida y limpia impecable ---
-        frm.Size = New Size(400, 160)
+
+        ' --- Estética rápida, limpia e inteligente (Auto-ajustable) ---
         frm.FormBorderStyle = FormBorderStyle.FixedDialog
         frm.MaximizeBox = False
         frm.MinimizeBox = False
         frm.StartPosition = FormStartPosition.CenterScreen
 
-        lbl.SetBounds(20, 20, 350, 40)
-        btnSi.SetBounds(180, 80, 90, 30)
-        btnNo.SetBounds(280, 80, 90, 30)
+        ' Configuración base del Label
+        lbl.AutoSize = False
+        lbl.TextAlign = ContentAlignment.TopLeft
+
+        ' 🎯 CALCULAR EL TAMAÑO REAL DEL TEXTO CON SUS SALTOS DE LÍNEA
+        ' Definimos un ancho máximo para el texto (por ejemplo, 380 píxeles)
+        Dim anchoMaximoTexto As Integer = 380
+        Dim tamañoTexto As Size = TextRenderer.MeasureText(mensaje, lbl.Font, New Size(anchoMaximoTexto, Integer.MaxValue), TextFormatFlags.WordBreak)
+
+        ' Ajustamos el Label al tamaño exacto medido (añadiendo un pequeño margen)
+        lbl.SetBounds(20, 20, anchoMaximoTexto, tamañoTexto.Height + 10)
+
+        ' 🚀 El formulario calcula su altura total dinámicamente en base al texto
+        ' Posición del Label (20) + Altura del texto + Espacio para botones (40) + Altura de botones (30) + Margen inferior (40)
+        Dim alturaFormulario As Integer = 20 + lbl.Height + 40 + 30 + 40
+        frm.Size = New Size(440, alturaFormulario)
+
+        ' Posicionamos los botones siempre en la parte inferior, sin importar lo largo que sea el texto
+        Dim yBotones As Integer = lbl.Bottom + 20
+        btnSi.SetBounds(210, yBotones, 90, 30)
+        btnNo.SetBounds(310, yBotones, 90, 30)
 
         frm.Controls.AddRange(New Control() {lbl, btnSi, btnNo})
         frm.AcceptButton = btnSi
         frm.CancelButton = btnNo
+
+
+        '' --- Estética rápida y limpia impecable ---
+        'frm.Size = New Size(400, 160)
+        'frm.FormBorderStyle = FormBorderStyle.FixedDialog
+        'frm.MaximizeBox = False
+        'frm.MinimizeBox = False
+        'frm.StartPosition = FormStartPosition.CenterScreen
+
+        'lbl.SetBounds(20, 20, 350, 40)
+        'btnSi.SetBounds(180, 80, 90, 30)
+        'btnNo.SetBounds(280, 80, 90, 30)
+
+        'frm.Controls.AddRange(New Control() {lbl, btnSi, btnNo})
+        'frm.AcceptButton = btnSi
+        'frm.CancelButton = btnNo
 
         ' Mostramos la ventana de manera modal y capturamos la respuesta del usuario
         Dim resultado As DialogResult = frm.ShowDialog()
@@ -3624,9 +3658,9 @@ Module Funciones
                 Dim msg As String = "¡Hay una nueva actualización disponible para tu " & resManager.GetString("AppDisplayName") & "!" & vbCrLf & vbCrLf &
                                    "• Tu versión actual: " & My.Settings.Version & vbCrLf &
                                    "• Nueva versión: " & vNewVersion & vbCrLf & vbCrLf &
-                                   "¿Deseas descargar e instalar el nuevo parche .msi ahora mismo de forma automática?"
+                                   "¿Deseas descargar e instalar la nueva versión ahora mismo de forma automática?"
 
-                If MsgBox(msg, MsgBoxStyle.YesNo + MsgBoxStyle.Information, "Actualizador " & resManager.GetString("AppDisplayName")) = MsgBoxResult.Yes Then
+                If ConfirmarAccionTraducida(msg, resManager.GetString("AppDisplayName")) = MsgBoxResult.Yes Then
 
                     ' Aseguramos que la carpeta local exista en el disco duro para que no rompa el hilo
                     If Not Directory.Exists("C:\ContaHogar3.0") Then
