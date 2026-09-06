@@ -11,7 +11,7 @@ Public Class IntroApuntes
 
     Private cargandoFormulario As Boolean = True
     Public vConcepto, vtipoSql, vtipoGrid As String
-    Public vDescripcionAPU, vNotasAPU, vCuentaAPU, strText, vIntro, vLetras, vCombo, vDescripcion As String
+    Public vDescripcionAPU, vNotasAPU, vCuentaAPU, strText, vIntro, vLetras, vCombo, vDescripcion, vExisteDescripcion As String
     Public vImporteAPU As Double
     Public i, primero, nuevo As Integer
     Private TL(13) As ToolTip
@@ -203,12 +203,14 @@ Public Class IntroApuntes
         If Asc(e.KeyChar) = 13 Then
             e.Handled = True ' Evita el molesto pitido de Windows
 
+            vExisteDescripcion = "SI"
             ' 🛠️ CORRECCIÓN DE ANIDACIÓN: Cambiado a un IF limpio y directo para corregir el teclado
             If vCombo = "descripcion_vacia" Then
                 ' Bloque de alta de descripción nueva
                 Dim respuesta As MsgBoxResult = ConfirmarAccionTraducida(rmse.GetString("NoExistenDescripciones") & ": -" & TxtBuscarLetras.Text.ToUpper() & "-" & vbCrLf & "¿" & rmse.GetString("AñadirDescripcion") & "?", rmse.GetString("$this.Text"))
 
                 If respuesta = vbYes Then
+                    vExisteDescripcion = "NO"
                     vIntro = "SI"
                     vDescripcion = TxtBuscarLetras.Text
 
@@ -637,7 +639,6 @@ Public Class IntroApuntes
         ' 1. Limpias los textos normales
         TxtImporte.Text = "0"
         TxtNota.Text = ""
-        'TxtDescripcion.Text = ""
 
         ' 3. ¡La clave! Forzamos al formulario a procesar los cambios visuales antes de seguir
         Application.DoEvents()
@@ -711,7 +712,12 @@ Public Class IntroApuntes
                 "VALUES (?, ?, ?, ?, ?, ?, ?)"
 
             cmdMdb1cr.CommandText = vAñadir
-            cmdMdb1cr.Parameters.Clear() ' Limpieza estricta de memoria RAM
+			cmdMdb1cr.Parameters.Clear() ' Limpieza estricta de memoria RAM
+
+            If vExisteDescripcion = "NO" Then
+                ' Si la descripción no existía, la añadimos a la tabla de descripciones para futuras referencias
+                descripcionDefinitiva = vDescripcion
+            End If
 
             ' 3. Inyectamos los valores en el orden exacto de los signos de interrogación '?'
             cmdMdb1cr.Parameters.Add("@fec", OleDb.OleDbType.Date).Value = DateTimePicker1.Value.Date
