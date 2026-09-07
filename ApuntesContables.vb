@@ -9,7 +9,7 @@ Imports System.Windows.Forms
 Public Class ApuntesContables
 
     Private cargandoFormulario As Boolean = True
-    Public vConcepto, vTxtNombre, filaActual, vPosicion As String
+    Public vLetras, vConcepto, vTxtNombre, filaActual, vPosicion As String
     Public vTxtDescripcion, BtnFechasClick, vTipoConcepto, vCodigo, carpetaPdf As String
     Public vRow, vRowSeguir, vCampo, vContador, vCantidadFilas, PrintLine, Contador, filaSelec As Integer
     Public fechaformatomin, fechaformatomax As Date

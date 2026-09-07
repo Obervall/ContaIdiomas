@@ -93,7 +93,10 @@ Public Class IntroApuntes
         TL(13) = New ToolTip
         TL(13).SetToolTip(Me.BtnAyuda, rmse.GetString("BtnAyuda"))
 
-        CmbConcepto.DropDownStyle = ComboBoxStyle.DropDown
+        ' Combo Conceptos: solo selección, sin escritura libre
+        CmbConcepto.DropDownStyle = ComboBoxStyle.DropDownList
+        CmbConcepto.AutoCompleteMode = AutoCompleteMode.None
+        CmbConcepto.AutoCompleteSource = AutoCompleteSource.None
 
         ' Llenar el Combo Descripción
         '****************************
@@ -281,7 +284,7 @@ Public Class IntroApuntes
         If vLetras.Trim().Length <= 2 Then
             IsLimpiandoCombo = True
 
-            MessageBoxTimeout(Me.Handle, "Continue...", "ContaHogar", 0, 0, 250)
+            MessageBoxTimeout(Me.Handle, "Continue...", "ContaHogar", 0, 0, 100)
 
             Try
                 RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
@@ -712,7 +715,7 @@ Public Class IntroApuntes
                 "VALUES (?, ?, ?, ?, ?, ?, ?)"
 
             cmdMdb1cr.CommandText = vAñadir
-			cmdMdb1cr.Parameters.Clear() ' Limpieza estricta de memoria RAM
+            cmdMdb1cr.Parameters.Clear() ' Limpieza estricta de memoria RAM
 
             If vExisteDescripcion = "NO" Then
                 ' Si la descripción no existía, la añadimos a la tabla de descripciones para futuras referencias
@@ -1413,7 +1416,7 @@ Public Class IntroApuntes
                 TxtBuscarLetras.Enabled = False
 
                 ' 2. Lanzamos el mensaje flash de medio segundo
-                MessageBoxTimeout(Me.Handle, "Filtro activado...", "ContaHogar", 0, 0, 500)
+                MessageBoxTimeout(Me.Handle, "Filtro activado...", "ContaHogar", 0, 0, 100)
 
                 ' 3. 🔓 DESBLOQUEO: Devolvemos el control al usuario una vez que el tiempo ha pasado y el combo se estabilizó
                 TxtBuscarLetras.Enabled = True
