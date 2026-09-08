@@ -12,7 +12,6 @@ Imports System.Reflection
 Imports System.Resources
 Imports System.Threading
 Imports System.Windows.Forms
-Imports Microsoft.VisualStudio.TextManager.Interop
 
 Module Funciones
 

@@ -323,8 +323,7 @@ Public Class ApuntesPeriodicos
 
                 ' Lanzamos la sentencia DELETE individual dirigida al corazón de apuper
                 Using cmdDelete As New OleDb.OleDbCommand("DELETE FROM apuper WHERE CodigoAPP = ?", conexion1)
-                    cmdDelete.Parameters.Clear()
-                    cmdDelete.Parameters.Add("@id", OleDb.OleDbType.Integer).Value = idRegistroFisico
+                    cmdDelete.Parameters.Add("?", OleDb.OleDbType.Integer).Value = idRegistroFisico
 
                     Try
                         cmdDelete.ExecuteNonQuery()

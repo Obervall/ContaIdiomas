@@ -1363,8 +1363,7 @@ Public Class ApuntesContables
 
                 ' Lanzamos la sentencia DELETE individual para cada ID del lote de forma ultra rápida
                 Using cmdDelete As New OleDb.OleDbCommand("DELETE FROM apuntes WHERE CodigoAPU = ?", conexion1)
-                    cmdDelete.Parameters.Clear()
-                    cmdDelete.Parameters.Add("@id", OleDb.OleDbType.Integer).Value = idRegistroFisico
+                    cmdDelete.Parameters.Add("?", OleDb.OleDbType.Integer).Value = idRegistroFisico
 
                     Try
                         cmdDelete.ExecuteNonQuery()

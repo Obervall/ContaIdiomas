@@ -101,11 +101,16 @@ Public Class EditarCuentaBancaria
 
         Dim vIdTipoCUE As Integer = 0
         If Not String.IsNullOrEmpty(vTxtTipo) Then
-            ' Creamos un comando rápido para leer solo el ID de ese tipo de cuenta
-            ' Usamos .Replace(" ", "") por si acaso el texto viene sin espacios
-            Dim cmdBuscarId As New OleDb.OleDbCommand("SELECT IdTipoCUE FROM tipocuentas WHERE CodigoTIP = ? OR Replace(CodigoTIP, ' ', '') = ?", conexion1)
+
+            ' 1. Normalizamos la cadena directamente en VB.NET (quitamos todos los espacios)
+            Dim vTxtTipoLimpio As String = vTxtTipo.Replace(" ", "")
+
+            ' 2. Simplificamos la consulta SQL eliminando la función 'Replace' que hace fallar a Access
+            Dim cmdBuscarId As New OleDb.OleDbCommand("SELECT IdTipoCUE FROM tipocuentas WHERE CodigoTIP = ? OR CodigoTIP = ?", conexion1)
+
+            ' 3. Pasamos los parámetros en el orden estricto en que aparecen en el SQL
             cmdBuscarId.Parameters.AddWithValue("?", vTxtTipo)
-            cmdBuscarId.Parameters.AddWithValue("?", vTxtTipo.Replace(" ", ""))
+            cmdBuscarId.Parameters.AddWithValue("?", vTxtTipoLimpio)
 
             Try
                 Dim resultado As Object = cmdBuscarId.ExecuteScalar() ' ExecuteScalar es ideal porque solo lee un número
