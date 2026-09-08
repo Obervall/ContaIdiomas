@@ -3746,11 +3746,13 @@ Module Funciones
                 Dim conceptoBanco As String = Convert.ToString(hojaExcel.Cells(fila, colConcepto).Value).ToString().Trim()
 				Dim importeBanco As Decimal = Convert.ToDecimal(hojaExcel.Cells(fila, colImporte).Value)
 
-                filaActual += 1
+                filaactual += 1
 
-                If colSaldo > 0 And filaactual = 1 Then
+                If colSaldo > 0 And filaactual = 1 OrElse colSaldo < 0 And filaactual = 1 Then
                     vSaldoFinal = Convert.ToDecimal(hojaExcel.Cells(fila, colSaldo).Value)
-                End If
+                ElseIf colSaldo = 0 And filaactual = 1 Then
+                    vSaldoFinal = 0
+				End If
                 ' =========================================================================
 
                 ' Cortafuegos antidesbordamiento a los 70 caracteres que tiene tu base de datos

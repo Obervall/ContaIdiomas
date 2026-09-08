@@ -121,9 +121,13 @@ Public Class AprendizajeBancario
         Me.KeyPreview = True
 
         Label7.Text = vMoneda
-        Label9.Text = vMoneda
-        TxtSaldoFinal.Text = vSaldoFinal.ToString("N2")
+		Label9.Text = vMoneda
 
+        If vSaldoFinal = 0 Then
+            TxtSaldoFinal.Text = "0,00"
+        Else
+            TxtSaldoFinal.Text = vSaldoFinal.ToString("N2")
+        End If
 
         vIntro = "NO"
         ' 1. Convertimos el año base de forma segura a número entero
@@ -183,7 +187,10 @@ Public Class AprendizajeBancario
         ' Añade una línea por cada GroupBox donde tengas estos botones:
         AddHandler Me.GroupBox1.MouseMove, AddressOf VerificarFiltrosDesactivados
 
+        ' Combo Conceptos: solo selección, sin escritura libre
         CmbConcepto.DropDownStyle = ComboBoxStyle.DropDownList
+        CmbConcepto.AutoCompleteMode = AutoCompleteMode.None
+        CmbConcepto.AutoCompleteSource = AutoCompleteSource.None
 
         ' Llenar el Combo Descripción
         '****************************
