@@ -89,7 +89,7 @@ Public Class IntroApuntes
         ' Combo Conceptos: solo selección, sin escritura libre
         CmbConcepto.DropDownStyle = ComboBoxStyle.DropDownList
         CmbConcepto.AutoCompleteMode = AutoCompleteMode.None
-        CmbConcepto.AutoCompleteSource = AutoCompleteSource.None
+		CmbConcepto.AutoCompleteSource = AutoCompleteSource.None
 
         ' Llenar el Combo Descripción
         '****************************

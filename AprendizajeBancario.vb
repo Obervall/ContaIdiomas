@@ -948,8 +948,8 @@ Public Class AprendizajeBancario
                 Dim tradDesc As String = resManager.GetString(llaveDesc)
                 If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
 
-                ' Pintamos descripción 1
-                TxtDescripcion.Text = tradDesc
+                '' Pintamos descripción 1
+                'TxtDescripcion.Text = tradDesc
 
                 ' Ahora cargamos las descripciones del concepto (o todas, según tu SQL)
                 LlenarDescripcion()
