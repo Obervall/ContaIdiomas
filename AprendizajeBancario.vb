@@ -8,10 +8,7 @@ Imports ToolTip = System.Windows.Forms.ToolTip
 Public Class AprendizajeBancario
 
     Private cargandoFormulario As Boolean = True
-    Public vConcepto, vtipoSql, vtipoGrid As String
-    Public vDescripcionAPU, vNotasAPU, vCuentaAPU, strText, vIntro, vLetras, vCombo, vDescripcion As String
-    Public vImporteAPU As Double
-    Public i, primero, nuevo As Integer
+    Public vIntro, vLetras, vCombo, vDescripcion As String
     Private TL(11) As ToolTip
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
     Dim textoAutocompletadoEnAzul As String = ""
@@ -21,20 +18,8 @@ Public Class AprendizajeBancario
     Public vValorTotal As Integer = 0
     Dim traduciendoComoMaestro As Boolean = False
     Private IsLimpiandoCombo As Boolean = False
-    Private Declare Function MessageBoxTimeout Lib "user32.dll" Alias "MessageBoxTimeoutA" (
-    ByVal hwnd As IntPtr,
-    ByVal lpText As String,
-    ByVal lpCaption As String,
-    ByVal uType As UInt32,
-    ByVal wLanguageId As UInt16,
-    ByVal dwMilliseconds As UInt32) As Integer
+    Private buscandoDescripcion As Boolean = False
 
-
-
-    ''' <summary>
-    ''' Succiona la primera fila de tipo 'TEMPORAL' de la tabla extracto y rellena 
-    ''' automáticamente las casillas de la interfaz para que el usuario decida si importar o saltar.
-    ''' </summary>
     Public Sub CargarPrimerConceptoBancario()
         Try
             ' 1. INTERROGATORIO AL BÚNKER: Buscamos por CodigoAPU en tu conexion1 las filas 'TEMPORAL'
@@ -104,7 +89,9 @@ Public Class AprendizajeBancario
         End Try
     End Sub
 
-    Private Sub AprendizajeBancario_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+	Private Sub AprendizajeBancario_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        GroupBox1.Text = rmse.GetString("$this.Text") & ": " & frmApuntesContables.CmbCuenta.Text
 
         ' 🔒 DECAPITAMOS EL CAMINO DEL TABULADOR EN LAS CASILLAS DE SOLO LECTURA
         ' El cursor jamás se detendrá aquí dentro al pulsar el Tabulador
@@ -117,11 +104,10 @@ Public Class AprendizajeBancario
         CmbConcepto.TabStop = True
         CmbConcepto.Focus()
 
-
         Me.KeyPreview = True
 
         Label7.Text = vMoneda
-		Label9.Text = vMoneda
+        Label9.Text = vMoneda
 
         If vSaldoFinal = 0 Then
             TxtSaldoFinal.Text = "0,00"
@@ -234,10 +220,6 @@ Public Class AprendizajeBancario
             If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
         End Try
 
-
-        ' --- ÚLTIMAS LÍNEAS DE TU INTROAPUNTES_LOAD ---
-        'TxtImporte.Text = "0"
-
         ' 🌟 LA CORRECCIÓN CLAVE: Apagamos el escudo protector AQUÍ, 
         ' justo antes de forzar la selección para que el evento deje pasar los datos
         cargandoFormulario = False
@@ -313,8 +295,8 @@ Public Class AprendizajeBancario
 
                     ' Forzamos los textos en frío sin disparar bucles fantasma en segundo plano
                     CmbDescripcion.Text = vDescripcion
-                    TxtBuscarLetras.Text = ""
                     TxtBuscarLetras.Enabled = False
+                    TxtBuscarLetras.Text = ""
                     vLetras = ""
 
                     ' 🔌 VOLVEMOS A CONECTAR LOS DOS CABLES (Mesa de operaciones libre de corriente)
@@ -362,47 +344,24 @@ Public Class AprendizajeBancario
     End Sub
 
     Private Sub TxtBuscarLetras_TextChanged(sender As Object, e As EventArgs) Handles TxtBuscarLetras.TextChanged
-        vLetras = TxtBuscarLetras.Text
+        vLetras = TxtBuscarLetras.Text.Trim()
 
-        ' =========================================================================
-        ' 🎯 ESCUDO TOTAL: CAPTURA Y ABSORCIÓN DEL ERROR DE ÍNDICE
-        ' =========================================================================
-        If vLetras.Trim().Length <= 2 Then
-            IsLimpiandoCombo = True
-
-            MessageBoxTimeout(Me.Handle, "Continue...", "ContaHogar", 0, 0, 250)
-
-            Try
-                RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-
-                ' Intentamos vaciar y restaurar de forma aséptica
-                CmbDescripcion.DataSource = Nothing
-                If CmbDescripcion.Items.Count > 0 Then CmbDescripcion.Items.Clear()
-                CmbDescripcion.SelectedIndex = -1
-                CmbDescripcion.Text = vLetras ' Mantiene lo que el usuario ve
-
-                If CmbDescripcion.DroppedDown Then CmbDescripcion.DroppedDown = False
-
+        ' Si hay menos de 3 letras → no buscar
+        If vLetras.Length < 3 Then
+            If vLetras.Length = 0 Then
+                ' Restaurar lista completa del concepto
                 LlenarDescripcion()
-
-            Catch ex As Exception
-                ' 🚨 ¡EL TRUCO MAESTRO! Si Windows Forms protesta por el índice al llegar a 2 letras,
-                ' interceptamos el crasheo, avisamos amigablemente y la aplicación SIGUE VIVA.
-                MsgBox(resManager.GetString("BusquedaFinalizada"), MsgBoxStyle.Information, resManager.GetString("AppDisplayName"))
-
-                ' Aprovechamos la pausa del MsgBox para resetear el control a la fuerza
-                CmbDescripcion.DataSource = Nothing
-                CmbDescripcion.SelectedIndex = -1
-            Finally
-                AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-                IsLimpiandoCombo = False
-            End Try
-
-            Exit Sub
+            End If
+            Return
         End If
 
-        ' Camino normal de búsqueda
+        ' Activamos bandera para bloquear CmbConcepto_SelectedIndexChanged
+        buscandoDescripcion = True
+
         BuscarLetras("descripcion")
+
+        ' Desactivamos bandera
+        buscandoDescripcion = False
     End Sub
 
     Private Sub CmbDescripcion_KeyDown(sender As Object, e As KeyEventArgs) Handles CmbDescripcion.KeyDown
@@ -487,6 +446,13 @@ Public Class AprendizajeBancario
     End Sub
 
     Private Sub CmbDescripcion_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbDescripcion.SelectedIndexChanged
+        ' OPTIMIZACIÓN CRÍTICA: Eliminamos la consulta SQL redundante a la base de datos.
+        ' Cuando el usuario hace clic en un elemento de la lista, el combo ya adquiere ese texto de forma nativa.
+        ' No necesitas abrir drMdb1, ni hacer un SELECT, ni volver a setear el .Text.
+
+        ' 🛡️ Si el candado está activo o no hay selección, salimos volando
+        If IsLimpiandoCombo OrElse CmbDescripcion.SelectedIndex = -1 Then Exit Sub
+
         If vIntro = "NO" Then
             ' Guardamos el valor seleccionado en tu variable global por si la usas en otro sitio
             vDescripcion = CmbDescripcion.Text.Trim()
@@ -934,111 +900,70 @@ Public Class AprendizajeBancario
         ' (Nos aseguramos comprobando si la lista ya está abierta o abriéndola suavemente)
         If CmbConcepto.Items.Count <> 0 AndAlso Not CmbConcepto.DroppedDown Then
             CmbConcepto.DroppedDown = True
-            'CmbConcepto.SelectedIndex = 0
         End If
     End Sub
 
     Private Sub CmbConcepto_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbConcepto.SelectedIndexChanged
-        ' 1. ESCUDO DE CARGA: Si el formulario se está iniciando o el combo está vacío, salimos inmediatamente
+        ' Si estamos buscando descripciones → NO tocar el combo
+        If buscandoDescripcion Then Exit Sub
+
         If cargandoFormulario Then Exit Sub
         If CmbConcepto.SelectedIndex < 0 Then Exit Sub
 
-        ' Se buscan Conceptos según lo seleccionado para mostrar su descripción y tipo en los cuadros de abajo
-        '*****************************************************************************************************
         If vIntro = "NO" Then
             TxtBuscarLetras.Text = ""
+
             Try
                 Dim codigoOriginal As String = ""
                 Dim descripcionOriginal As String = ""
                 Dim tipoOriginal As String = ""
 
-                ' 🌟 EXTRACCIÓN MAESTRA DESDE MEMORIA (Cero consultas DataReader)
-                ' Como el combo está enlazado a un DataTable, convertimos el ítem actual en un DataRowView
+                ' Extraemos datos del concepto seleccionado
                 If CmbConcepto.SelectedItem IsNot Nothing Then
                     Dim filaSeleccionada As DataRowView = CType(CmbConcepto.SelectedItem, DataRowView)
 
                     codigoOriginal = filaSeleccionada("CodigoCON").ToString().Trim()
-                    textoAutocompletadoEnAzul = codigoOriginal
                     descripcionOriginal = filaSeleccionada("DescripcionCON").ToString().Trim()
-                    ' Leemos el TipoCON de forma segura por si acaso
+
                     If filaSeleccionada.Row.Table.Columns.Contains("TipoCON") Then
                         tipoOriginal = filaSeleccionada("TipoCON").ToString().Trim()
                     End If
-
-                    ' =========================================================================
-                    ' 🎯 SINCRONIZACIÓN ASÍNCRONA PREMIUM 3.2.6 (Inmune a DropDownList)
-                    ' =========================================================================
-                    ' Le damos un microsegundo de tregua a la CPU para que el motor cargue las descripciones
-                    ' antes de forzar la selección visual en la pantalla.
-                    Dim copiaDescripcion As String = descripcionOriginal
-                    BeginInvoke(Sub()
-                                    Try
-                                        ' 1. Intentamos la vía dócil asignando el texto
-                                        CmbDescripcion.Text = copiaDescripcion
-
-                                        ' 2. 🛡️ EL SALVAVIDAS DE REDMOND: Si se quedó sordo por el DropDownList,
-                                        ' obligamos al motor Win32 a buscar el texto exacto en su colección
-                                        If CmbDescripcion.SelectedIndex = -1 Then
-                                            CmbDescripcion.SelectedIndex = CmbDescripcion.FindStringExact(copiaDescripcion)
-                                        End If
-                                    Catch
-                                        ' Cortafuegos silencioso
-                                    End Try
-                                End Sub)
                 End If
 
-                ' 3. Traducir y asignar los textos a la interfaz de forma segura
-                If Not String.IsNullOrEmpty(codigoOriginal) Then
-                    vConcepto = codigoOriginal ' Guardamos el código original en español para la BD
+                ' Guardamos código para la BD
+                vConcepto = codigoOriginal
 
-                    ' --- TRADUCIR EL TIPO (Gasto / Ingreso / Especial) ---
-                    Dim tradTipo As String = ""
-                    Select Case tipoOriginal.ToUpper()
-                        Case "GASTO" : tradTipo = resManager.GetString("Tipo_Gasto")
-                        Case "INGRESO" : tradTipo = resManager.GetString("Tipo_Ingreso")
-                        Case "ESPECIAL" : tradTipo = resManager.GetString("Tipo_Especial")
-                    End Select
-                    If String.IsNullOrEmpty(tradTipo) Then tradTipo = tipoOriginal
-                    TxtTipoConcepto.Text = tradTipo
+                ' --- TRADUCIR TIPO ---
+                Dim tradTipo As String = ""
+                Select Case tipoOriginal.ToUpper()
+                    Case "GASTO" : tradTipo = resManager.GetString("Tipo_Gasto")
+                    Case "INGRESO" : tradTipo = resManager.GetString("Tipo_Ingreso")
+                    Case "ESPECIAL" : tradTipo = resManager.GetString("Tipo_Especial")
+                End Select
+                If String.IsNullOrEmpty(tradTipo) Then tradTipo = tipoOriginal
+                TxtTipoConcepto.Text = tradTipo
 
-                    ' =========================================================================
-                    ' 🎯 SINCRONIZACIÓN ASÍNCRONA DIRECTA (Inmune a problemas de refresco)
-                    ' =========================================================================
-                    ' 1. Construimos la clave uniendo el código que ya viene limpio (Ej: "Desc_ESTETICA")
-                    Dim llaveDesc As String = "Desc_" & codigoOriginal.ToUpper().Trim()
-                    Dim tradDesc As String = resManager.GetString(llaveDesc)
+                ' --- TRADUCIR DESCRIPCIÓN ---
+                Dim llaveDesc As String = "Desc_" & codigoOriginal.ToUpper().Trim()
+                Dim tradDesc As String = resManager.GetString(llaveDesc)
+                If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
 
-                    ' Si no tiene traducción en el ResX, dejamos la descripción original de la BD
-                    If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
+                ' Pintamos descripción 1
+                TxtDescripcion.Text = tradDesc
 
-                    ' 2. LA TREGUA ASÍNCRONA: Le damos al formulario el mismo tiempo de respiro 
-                    ' que le daba tu MsgBox, pero de forma invisible y elegante para el usuario.
-                    Dim copiaTradDesc As String = tradDesc
+                ' Ahora cargamos las descripciones del concepto (o todas, según tu SQL)
+                LlenarDescripcion()
 
-                    BeginInvoke(Sub()
-                                    Try
-                                        ' Encendemos tu escudo protector de eventos
-                                        traduciendoComoMaestro = True
-
-                                        ' Vaciamos y rellenamos el combo con el texto traducido final
-                                        CmbDescripcion.DataSource = Nothing
-                                        CmbDescripcion.Items.Clear()
-                                        CmbDescripcion.Items.Add(copiaTradDesc)
-                                        CmbDescripcion.SelectedIndex = 0
-
-                                        ' Tu imbatible igualdad de la vieja escuela
-                                        'CmbDescripcion.Text = TxtDescripcion.Text
-
-                                        ' Forzamos el repintado gráfico en la pantalla
-                                        CmbDescripcion.Refresh()
-
-                                        ' Apagamos el escudo de forma segura
-                                        traduciendoComoMaestro = False
-                                    Catch
-                                        ' Cortafuegos silencioso
-                                    End Try
-                                End Sub)
+                ' Intentamos seleccionar la descripción traducida en el combo
+                Dim idx As Integer = CmbDescripcion.FindStringExact(tradDesc)
+                If idx >= 0 Then
+                    CmbDescripcion.SelectedIndex = idx
+                Else
+                    ' Si no existe tal cual, dejamos el combo con el texto traducido
+                    CmbDescripcion.SelectedIndex = -1
+                    CmbDescripcion.Text = tradDesc
                 End If
+
             Catch ex As Exception
                 MsgBox(resManager.GetString("ErrorSincronizarCON") & ": " & ex.Message, MsgBoxStyle.Critical, resManager.GetString("Error"))
             End Try
@@ -1055,127 +980,63 @@ Public Class AprendizajeBancario
     End Sub
 
     Public Function BuscarLetras(combo As String) As String
-        ' Cerramos cualquier lector abierto preventivamente
         If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then
             drMdb1.Close()
         End If
 
-        ' =====================================================================
-        ' MODO: DESCRIPCIÓN
-        ' =====================================================================
         If combo = "descripcion" Then
-            ' 1. Desconectamos el evento por seguridad
-            RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
 
-            ' 🚀 CONTROL DE TEXTO CORTO REPARADO: INMUNE AL BLOQUEO DE ÍNDICES Y DATASOURCE
-            If vLetras.Length <= 2 Then
-                ' 1. Rompemos el candado de datos y vaciamos primero para liberar la RAM
-                CmbDescripcion.DataSource = Nothing
-                If CmbDescripcion.Items.Count > 0 Then CmbDescripcion.Items.Clear()
+            Dim texto As String = If(vLetras, "").Trim()
 
-                ' 2. Saneamos los índices de selección de forma segura antes de tocar la persiana
-                CmbDescripcion.SelectedIndex = -1
-
-                ' 3. 🎯 LA CLAVE MAESTRA: Cerramos la persiana gráfica envuelta en un cortafuegos para evitar el rebote de Windows
-                Try
-                    CmbDescripcion.DroppedDown = False
-                Catch
-                    ' Absorbe cualquier micro-rebote de foco del teclado de Windows
-                End Try
-
-                vCombo = "descripcion"
-
-                ' Volvemos a conectar el evento preventivamente antes de salir volando
-                AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-                Return "" ' Salimos inmediatamente para no ejecutar la consulta SQL vacía
+            If texto.Length < 3 Then
+                Return ""
             End If
 
-            Dim letrasLimpias As String = vLetras.Replace("'", "''")
-            cmdMdb1cr.CommandText = "SELECT DISTINCT DescripcionAPU FROM apuntes WHERE UCase(DescripcionAPU) LIKE '%" & letrasLimpias.ToUpper() & "%' AND DescripcionAPU <> 'Saldo Inicial'"
+            Dim letrasLimpias As String = texto.Replace("'", "''").ToUpper()
+
+            cmdMdb1cr.CommandText =
+            "SELECT DISTINCT DescripcionAPU " &
+            "FROM apuntes " &
+            "WHERE UCase(DescripcionAPU) LIKE '%" & letrasLimpias & "%' " &
+            "AND DescripcionAPU <> 'Saldo Inicial'"
+
+            Dim dt As New DataTable()
 
             Try
-                drMdb1 = cmdMdb1cr.ExecuteReader()
-                If drMdb1.HasRows Then
-                    ' Si hay registros, limpiamos y llenamos las sugerencias
-                    CmbDescripcion.SelectedIndex = -1
-                    If CmbDescripcion.Items.Count > 0 Then CmbDescripcion.Items.Clear()
+                Using dr As OleDbDataReader = cmdMdb1cr.ExecuteReader()
+                    dt.Load(dr)
+                End Using
 
-                    While drMdb1.Read()
-                        Dim desc As String = Convert.ToString(drMdb1.GetValue(0)).Trim()
-                        If Not String.IsNullOrEmpty(desc) Then CmbDescripcion.Items.Add(desc)
-                    End While
+                CmbDescripcion.DataSource = dt
+                CmbDescripcion.DisplayMember = "DescripcionAPU"
+                CmbDescripcion.ValueMember = "DescripcionAPU"
+                CmbDescripcion.SelectedIndex = -1
 
-                    ' Desplegamos la persiana gráfica con los resultados
+                If dt.Rows.Count > 0 Then
                     CmbDescripcion.DroppedDown = True
                     vCombo = "descripcion"
                 Else
-                    ' =====================================================================
-                    ' 🛠️ CONTROL DE BÚSQUEDA VACÍA SANEADO
-                    ' =====================================================================
-                    drMdb1.Close()
-
-                    ' Cerramos la persiana y vaciamos la lista vieja para que no muestre datos erróneos
                     CmbDescripcion.DroppedDown = False
-                    CmbDescripcion.SelectedIndex = -1
-                    If CmbDescripcion.Items.Count > 0 Then CmbDescripcion.Items.Clear()
-
-                    ' Guardamos el estado especial de que esta descripción es NUEVA
                     vCombo = "descripcion_vacia"
                 End If
 
-                ' Doble comprobación de seguridad para asegurar el cierre del lector
-                If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-
             Catch ex As Exception
-                ' 🎯 EL MENSAJE DE LA VIEJA ESCUELA: Absorbe el choque del DataSource estéticamente
-
-                ' 1. 🔒 BLOQUEO INMEDIATO: Desactivamos el cuadro de texto para que deje de escuchar el teclado
-                TxtBuscarLetras.Enabled = False
-
-                ' 2. Lanzamos el mensaje flash de medio segundo
-                MessageBoxTimeout(Me.Handle, "Filtro activado...", "ContaHogar", 0, 0, 500)
-
-                ' 3. 🔓 DESBLOQUEO: Devolvemos el control al usuario una vez que el tiempo ha pasado y el combo se estabilizó
-                TxtBuscarLetras.Enabled = True
-                TxtBuscarLetras.Focus()
-                TxtBuscarLetras.SelectionStart = TxtBuscarLetras.Text.Length
-
-                Try
-                    CmbDescripcion.DataSource = Nothing
-                    If CmbDescripcion.Items.Count > 0 Then CmbDescripcion.Items.Clear()
-                    CmbDescripcion.SelectedIndex = -1
-
-                    ' Forzamos una re-lectura rápida para llenar los ítems ahora que está liberado
-                    If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-                    drMdb1 = cmdMdb1cr.ExecuteReader()
-
-                    While drMdb1.Read()
-                        Dim desc As String = Convert.ToString(drMdb1.GetValue(0)).Trim()
-                        If Not String.IsNullOrEmpty(desc) Then CmbDescripcion.Items.Add(desc)
-                    End While
-
-                    CmbDescripcion.DroppedDown = True
-                    vCombo = "descripcion"
-                Catch
-                    ' Cortafuegos secundario por si el lector ya se cerró del todo
-                End Try
-
-                If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
+                CmbDescripcion.DataSource = Nothing
+                CmbDescripcion.Items.Clear()
+                CmbDescripcion.SelectedIndex = -1
+                CmbDescripcion.DroppedDown = False
             End Try
 
-
-
-            'Catch ex As Exception
-            '    MsgBox(rmse.GetString("ErrorBuscarLetrasDescripcion") & ": " & ex.Message)
-            '    If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then drMdb1.Close()
-            'End Try
-
-            ' Volvemos a conectar el evento limpiamente al finalizar
-            AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
         End If
 
         Return ""
     End Function
+
+    Private Sub CmbDescripcion_TextChanged(sender As Object, e As EventArgs) Handles CmbDescripcion.TextChanged
+        If Not buscandoDescripcion Then
+            vDescripcion = CmbDescripcion.Text.Trim()
+        End If
+    End Sub
 
     Private Sub VerificarFiltrosDesactivados(sender As Object, e As MouseEventArgs) Handles Me.MouseMove
         ' 🚀 REPARADO MODO ESCÁNER: Conectado al MouseMove del formulario para sortear el bloqueo del .Enabled = False
