@@ -123,9 +123,6 @@
   <data name="BtnAyuda.Text" xml:space="preserve">
     <value>Ajuda (?)</value>
   </data>
-  <data name="Label8.Text" xml:space="preserve">
-    <value>Descripció 2:</value>
-  </data>
   <data name="LblBuscarLetras.Text" xml:space="preserve">
     <value>Cercar Descripció:</value>
   </data>
@@ -180,9 +177,6 @@ Error</value>
   </data>
   <data name="ImporteAsiento" xml:space="preserve">
     <value>Import de l'Apunt</value>
-  </data>
-  <data name="BtnDescripcion" xml:space="preserve">
-    <value>Emplena Descripcions, d'Apunts guardats</value>
   </data>
   <data name="TxtABuscar" xml:space="preserve">
     <value>Text a Buscar, mínim 3 lletres</value>

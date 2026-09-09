@@ -1167,6 +1167,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a La Descripción no puede estar Vacía.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorDescripcionVacia() As String
+        Get
+            Return ResourceManager.GetString("ErrorDescripcionVacia", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Error al verificar duplicados.
     '''</summary>
     Friend Shared ReadOnly Property ErrorDuplicados() As String

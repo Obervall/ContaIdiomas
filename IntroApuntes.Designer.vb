@@ -25,14 +25,11 @@ Partial Class IntroApuntes
 		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(IntroApuntes))
 		Me.GroupBox1 = New System.Windows.Forms.GroupBox()
 		Me.DgvDescripcion = New System.Windows.Forms.DataGridView()
-		Me.Label9 = New System.Windows.Forms.Label()
+		Me.LblAyudaBuscar = New System.Windows.Forms.Label()
 		Me.BtnAyuda = New System.Windows.Forms.Button()
 		Me.TxtBuscarLetras = New System.Windows.Forms.TextBox()
-		Me.Label8 = New System.Windows.Forms.Label()
 		Me.TxtDescripcion = New System.Windows.Forms.TextBox()
 		Me.LblBuscarLetras = New System.Windows.Forms.Label()
-		Me.BtnDescripcion = New System.Windows.Forms.Button()
-		Me.CmbDescripcion = New System.Windows.Forms.ComboBox()
 		Me.BtnCuenta = New System.Windows.Forms.Button()
 		Me.BtnCalculadora = New System.Windows.Forms.Button()
 		Me.BtnConcepto = New System.Windows.Forms.Button()
@@ -60,14 +57,11 @@ Partial Class IntroApuntes
 		'GroupBox1
 		'
 		Me.GroupBox1.Controls.Add(Me.DgvDescripcion)
-		Me.GroupBox1.Controls.Add(Me.Label9)
+		Me.GroupBox1.Controls.Add(Me.LblAyudaBuscar)
 		Me.GroupBox1.Controls.Add(Me.BtnAyuda)
 		Me.GroupBox1.Controls.Add(Me.TxtBuscarLetras)
-		Me.GroupBox1.Controls.Add(Me.Label8)
 		Me.GroupBox1.Controls.Add(Me.TxtDescripcion)
 		Me.GroupBox1.Controls.Add(Me.LblBuscarLetras)
-		Me.GroupBox1.Controls.Add(Me.BtnDescripcion)
-		Me.GroupBox1.Controls.Add(Me.CmbDescripcion)
 		Me.GroupBox1.Controls.Add(Me.BtnCuenta)
 		Me.GroupBox1.Controls.Add(Me.BtnCalculadora)
 		Me.GroupBox1.Controls.Add(Me.BtnConcepto)
@@ -101,10 +95,11 @@ Partial Class IntroApuntes
 		Me.DgvDescripcion.RowTemplate.Height = 24
 		Me.DgvDescripcion.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
 		'
-		'Label9
+		'LblAyudaBuscar
 		'
-		resources.ApplyResources(Me.Label9, "Label9")
-		Me.Label9.Name = "Label9"
+		resources.ApplyResources(Me.LblAyudaBuscar, "LblAyudaBuscar")
+		Me.LblAyudaBuscar.ForeColor = System.Drawing.SystemColors.ControlDarkDark
+		Me.LblAyudaBuscar.Name = "LblAyudaBuscar"
 		'
 		'BtnAyuda
 		'
@@ -118,11 +113,6 @@ Partial Class IntroApuntes
 		resources.ApplyResources(Me.TxtBuscarLetras, "TxtBuscarLetras")
 		Me.TxtBuscarLetras.Name = "TxtBuscarLetras"
 		'
-		'Label8
-		'
-		resources.ApplyResources(Me.Label8, "Label8")
-		Me.Label8.Name = "Label8"
-		'
 		'TxtDescripcion
 		'
 		resources.ApplyResources(Me.TxtDescripcion, "TxtDescripcion")
@@ -132,18 +122,6 @@ Partial Class IntroApuntes
 		'
 		resources.ApplyResources(Me.LblBuscarLetras, "LblBuscarLetras")
 		Me.LblBuscarLetras.Name = "LblBuscarLetras"
-		'
-		'BtnDescripcion
-		'
-		resources.ApplyResources(Me.BtnDescripcion, "BtnDescripcion")
-		Me.BtnDescripcion.Name = "BtnDescripcion"
-		Me.BtnDescripcion.UseVisualStyleBackColor = True
-		'
-		'CmbDescripcion
-		'
-		Me.CmbDescripcion.FormattingEnabled = True
-		resources.ApplyResources(Me.CmbDescripcion, "CmbDescripcion")
-		Me.CmbDescripcion.Name = "CmbDescripcion"
 		'
 		'BtnCuenta
 		'
@@ -299,13 +277,10 @@ Partial Class IntroApuntes
 	Friend WithEvents TxtNota As Windows.Forms.TextBox
 	Friend WithEvents CmbCuenta As Windows.Forms.ComboBox
 	Friend WithEvents CmbConcepto As Windows.Forms.ComboBox
-	Friend WithEvents CmbDescripcion As Windows.Forms.ComboBox
-	Friend WithEvents BtnDescripcion As Windows.Forms.Button
 	Friend WithEvents LblBuscarLetras As Windows.Forms.Label
-	Friend WithEvents Label8 As Windows.Forms.Label
 	Friend WithEvents TxtDescripcion As Windows.Forms.TextBox
 	Friend WithEvents TxtBuscarLetras As Windows.Forms.TextBox
 	Friend WithEvents BtnAyuda As Windows.Forms.Button
-	Friend WithEvents Label9 As Windows.Forms.Label
+	Friend WithEvents LblAyudaBuscar As Windows.Forms.Label
 	Friend WithEvents DgvDescripcion As Windows.Forms.DataGridView
 End Class

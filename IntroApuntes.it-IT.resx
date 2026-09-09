@@ -123,9 +123,6 @@
   <data name="BtnAyuda.Text" xml:space="preserve">
     <value>Aiuto (?)</value>
   </data>
-  <data name="Label8.Text" xml:space="preserve">
-    <value>Descrizione 2:</value>
-  </data>
   <data name="LblBuscarLetras.Text" xml:space="preserve">
     <value>Descrizione della ricerca:</value>
   </data>
@@ -180,9 +177,6 @@ Errore</value>
   </data>
   <data name="ImporteAsiento" xml:space="preserve">
     <value>Quantità dell'iscrizione</value>
-  </data>
-  <data name="BtnDescripcion" xml:space="preserve">
-    <value>Descrizioni di riempimento, da Note salvate</value>
   </data>
   <data name="ErrorBuscarLetrasDescripcion" xml:space="preserve">
     <value>Errore nella ricerca di lettere nella descrizione</value>

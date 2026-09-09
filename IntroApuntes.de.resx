@@ -150,9 +150,6 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Einführung von Notizen</value>
   </data>
-  <data name="Label8.Text" xml:space="preserve">
-    <value>Beschreibung 2:</value>
-  </data>
   <data name="LblBuscarLetras.Text" xml:space="preserve">
     <value>Suchbeschreibung:</value>
   </data>
@@ -167,9 +164,6 @@
   </data>
   <data name="ImporteAsiento" xml:space="preserve">
     <value>Höhe des Eintrags</value>
-  </data>
-  <data name="BtnDescripcion" xml:space="preserve">
-    <value>Fülle Beschreibungen aus, aus gespeicherten Notizen</value>
   </data>
   <data name="ErrorBuscarLetrasDescripcion" xml:space="preserve">
     <value>Fehler bei der Suche nach Buchstaben in der Beschreibung</value>

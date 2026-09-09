@@ -302,9 +302,6 @@
   <data name="Label3.Text" xml:space="preserve">
     <value>Descripción 1:</value>
   </data>
-  <data name="Label8.Text" xml:space="preserve">
-    <value>Descripción 2:</value>
-  </data>
   <data name="BtnAyuda.Text" xml:space="preserve">
     <value>Ayuda (?)</value>
   </data>
@@ -352,9 +349,6 @@
   </data>
   <data name="ImporteAsiento" xml:space="preserve">
     <value>Importe del Apunte</value>
-  </data>
-  <data name="BtnDescripcion" xml:space="preserve">
-    <value>Llena Descripciones, de Apuntes guardados</value>
   </data>
   <data name="TxtABuscar" xml:space="preserve">
     <value>Texto a Buscar, mínimo 3 letras</value>

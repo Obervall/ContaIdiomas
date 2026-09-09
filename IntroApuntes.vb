@@ -68,21 +68,19 @@ Public Class IntroApuntes
         TL(5) = New ToolTip
         TL(5).SetToolTip(Me.CmbCuenta, rmse.GetString("SelecCuenta"))
         TL(6) = New ToolTip
-        TL(6).SetToolTip(Me.CmbDescripcion, rmse.GetString("SelecDescripcion"))
+        TL(6).SetToolTip(Me.TxtImporte, rmse.GetString("ImporteAsiento"))
         TL(7) = New ToolTip
-        TL(7).SetToolTip(Me.TxtImporte, rmse.GetString("ImporteAsiento"))
+        TL(7).SetToolTip(Me.BtnCalculadora, resManager.GetString("ToolTipCalculadora"))
         TL(8) = New ToolTip
-        TL(8).SetToolTip(Me.BtnCalculadora, resManager.GetString("ToolTipCalculadora"))
+        TL(8).SetToolTip(Me.BtnConcepto, resManager.GetString("BtnConcepto"))
         TL(9) = New ToolTip
         TL(9).SetToolTip(Me.BtnConcepto, resManager.GetString("BtnConcepto"))
         TL(10) = New ToolTip
         TL(10).SetToolTip(Me.BtnCuenta, resManager.GetString("BtnCuenta"))
         TL(11) = New ToolTip
-        TL(11).SetToolTip(Me.BtnDescripcion, rmse.GetString("BtnDescripcion"))
+        TL(11).SetToolTip(Me.TxtBuscarLetras, rmse.GetString("TxtABuscar"))
         TL(12) = New ToolTip
-        TL(12).SetToolTip(Me.TxtBuscarLetras, rmse.GetString("TxtABuscar"))
-        TL(13) = New ToolTip
-        TL(13).SetToolTip(Me.BtnAyuda, rmse.GetString("BtnAyuda"))
+        TL(12).SetToolTip(Me.BtnAyuda, rmse.GetString("BtnAyuda"))
 
         ' Combo Conceptos: solo selección, sin escritura libre
         CmbConcepto.DropDownStyle = ComboBoxStyle.DropDownList
@@ -261,6 +259,12 @@ Public Class IntroApuntes
 
     Private Sub TxtBuscarLetras_TextChanged(sender As Object, e As EventArgs) Handles TxtBuscarLetras.TextChanged
         vLetras = TxtBuscarLetras.Text.Trim()
+
+        ' 🌟 PROTECCIÓN: Si es la descripción por defecto, no hace falta buscar nada
+        If vLetras = TxtDescripcion.Text Then
+            DgvDescripcion.Visible = False
+            Return
+        End If
 
         ' Si hay menos de 3 letras → ocultamos y vaciamos el DataGridView
         If vLetras.Length < 3 Then
@@ -555,6 +559,26 @@ Public Class IntroApuntes
     End Sub
 
     Public Sub GrabarYRefrescarGrid()
+        ' =====================================================================
+        ' 🛑 VALIDACIÓN: PREVENIR DESCRIPCIÓN VACÍA
+        ' =====================================================================
+        ' Evaluamos tanto la variable global como el cuadro de texto por seguridad
+        If String.IsNullOrWhiteSpace(vDescripcion) OrElse String.IsNullOrWhiteSpace(TxtBuscarLetras.Text) Then
+
+            ' Mostramos un mensaje de advertencia usando tus archivos de recursos de idioma
+            ' (Asegúrate de registrar la clave "ErrorDescripcionVacia" en tu .resx)
+            MessageBox.Show(resManager.GetString("ErrorDescripcionVacia"),
+                    resManager.GetString("Error"),
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning)
+
+            ' Devolvemos el foco al buscador para que el usuario escriba algo válido
+            TxtBuscarLetras.Focus()
+
+            ' Frenamos el método AQUÍ. Nada de lo de abajo (el INSERT) se ejecutará.
+            Return
+        End If
+
         If TxtImporte.Text <> "0" Then
             ' 1. Convertimos el texto de la caja a un número Decimal limpio y seguro
             Dim importeNumerico As Decimal = ConvertirDecimalSeguro(TxtImporte.Text)
@@ -876,7 +900,7 @@ Public Class IntroApuntes
         e.KeyChar = Char.ToUpper(e.KeyChar)
     End Sub
 
-    Private Sub BtnDescripcion_Click(sender As Object, e As EventArgs) Handles BtnDescripcion.Click
+    Private Sub BtnDescripcion_Click(sender As Object, e As EventArgs)
         ' Llenar el Combo Descripción
         '****************************
         'LlenarDescripcion()
@@ -885,7 +909,6 @@ Public Class IntroApuntes
     Private Sub DateTimePicker1_LostFocus(sender As Object, e As EventArgs) Handles DateTimePicker1.LostFocus
         BtnCalculadora.TabIndex = 0
         BtnConcepto.TabIndex = 0
-        BtnDescripcion.TabIndex = 0
         BtnHoy.TabIndex = 0
         BtnCuenta.TabIndex = 0
     End Sub
@@ -1049,7 +1072,7 @@ Public Class IntroApuntes
                 traduciendoComoMaestro = True
 
                 ' 3. Tu imbatible igualdad directa de la vieja escuela (Ahora con el texto alemán real)
-                CmbDescripcion.Text = tradDesc
+                TxtBuscarLetras.Text = tradDesc
                 vDescripcion = tradDesc
             End If
             ' =====================================================================
@@ -1057,9 +1080,6 @@ Public Class IntroApuntes
             ' Limpiamos el chivato para la próxima búsqueda, cerramos la lista y saltamos
             textoAutocompletadoEnAzul = ""
             If CmbConcepto.DroppedDown Then CmbConcepto.DroppedDown = False
-
-            ' Mandamos el foco (Disparará el GotFocus, pero chocará con nuestro escudo y no romperá nada)
-            CmbDescripcion.Select()
 
             ' Fijamos el texto del concepto
             CmbConcepto.Text = textoBuscar
@@ -1126,21 +1146,19 @@ Public Class IntroApuntes
                 Dim tradDesc As String = resManager.GetString(llaveDesc)
                 If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
 
-                ' Pintamos descripción 1
-                TxtDescripcion.Text = tradDesc
+				' Pintamos descripción 1
+				TxtDescripcion.Text = tradDesc
+				TxtBuscarLetras.Text = tradDesc
 
-                ' Ahora cargamos las descripciones del concepto (o todas, según tu SQL)
-                'LlenarDescripcion()
-
-                ' Intentamos seleccionar la descripción traducida en el combo
-                Dim idx As Integer = CmbDescripcion.FindStringExact(tradDesc)
-                If idx >= 0 Then
-                    CmbDescripcion.SelectedIndex = idx
-                Else
-                    ' Si no existe tal cual, dejamos el combo con el texto traducido
-                    CmbDescripcion.SelectedIndex = -1
-                    CmbDescripcion.Text = tradDesc
-                End If
+                '' Intentamos seleccionar la descripción traducida en el combo
+                'Dim idx As Integer = CmbDescripcion.FindStringExact(tradDesc)
+                'If idx >= 0 Then
+                '    CmbDescripcion.SelectedIndex = idx
+                'Else
+                '    ' Si no existe tal cual, dejamos el combo con el texto traducido
+                '    CmbDescripcion.SelectedIndex = -1
+                '    CmbDescripcion.Text = tradDesc
+                'End If
 
             Catch ex As Exception
                 MsgBox(resManager.GetString("ErrorSincronizarCON") & ": " & ex.Message, MsgBoxStyle.Critical, resManager.GetString("Error"))
