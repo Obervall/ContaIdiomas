@@ -12,7 +12,6 @@ Public Class AprendizajeBancario
     Private TL(11) As ToolTip
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
     Dim textoAutocompletadoEnAzul As String = ""
-    ' Variable global del formulario para memorizar qué fila exacta estamos procesando en la Pasarela
     Private vIdExtractoActual As Integer = 0
     Public vValorPrimero As Integer = 1
     Public vValorTotal As Integer = 0
@@ -285,6 +284,7 @@ Public Class AprendizajeBancario
             If vCombo = "descripcion_vacia" Then
                 ' Bloque de alta de descripción nueva
                 Dim respuesta As MsgBoxResult = ConfirmarAccionTraducida(rmse.GetString("NoExistenDescripciones") & ": -" & TxtBuscarLetras.Text.ToUpper() & "-" & vbCrLf & "¿" & rmse.GetString("AñadirDescripcion") & "?", rmse.GetString("$this.Text"))
+
                 If respuesta = vbYes Then
                     vIntro = "SI"
                     vDescripcion = TxtBuscarLetras.Text
@@ -375,7 +375,6 @@ Public Class AprendizajeBancario
             RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
             TxtBuscarLetras.Text = ""
             AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-            'TxtBuscarLetras.Enabled = False
 
             ' 3. Aseguramos el texto en el combo y en tu variable global
             CmbDescripcion.Text = textoSeleccionado
@@ -482,19 +481,12 @@ Public Class AprendizajeBancario
         End If
 
         ' Preparamos el entorno para la descripción
-        ' 🛠️ AJUSTE: Solo ponemos vIntro en "NO" si no estábamos ya editando una descripción nueva ("SI")
-        'If vIntro <> "SI" Then vIntro = "NO"
         vIntro = "NO"
         vCombo = "descripcion"
 
         ' 🛠️ CORRECCIÓN ABSOLUTA: Cambiamos Lower por Normal para liberar las Mayúsculas/Minúsculas
         TxtBuscarLetras.CharacterCasing = CharacterCasing.Normal
 
-        ' =====================================================================
-        ' 🛠️ CONTROL INTELIGENTE DE BORRADO (MANTENIDO)
-        ' =====================================================================
-        ' SI EL COMBO YA TIENE TEXTO (porque el concepto le ha metido la descripción por defecto),
-        ' NO lo borramos. Solo seleccionamos el texto para que el usuario pueda escribir encima si quiere.
         If String.IsNullOrEmpty(CmbDescripcion.Text) Then
             RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
             CmbDescripcion.SelectedIndex = -1
@@ -506,11 +498,11 @@ Public Class AprendizajeBancario
             CmbDescripcion.SelectionLength = 0
         End If
 
-        ' 🛠️ MEJORA DE NAVEGACIÓN: Si estamos en modo de alta nueva, controlamos el cursor parpadeante
-        If vIntro = "SI" Then
-            CmbDescripcion.SelectionStart = CmbDescripcion.Text.Length
-            CmbDescripcion.SelectionLength = 0
-        End If
+        '' 🛠️ MEJORA DE NAVEGACIÓN: Si estamos en modo de alta nueva, controlamos el cursor parpadeante
+        'If vIntro = "SI" Then
+        '    CmbDescripcion.SelectionStart = CmbDescripcion.Text.Length
+        '    CmbDescripcion.SelectionLength = 0
+        'End If
     End Sub
 
     Private Sub BtnConcepto_Click(sender As Object, e As EventArgs) Handles BtnConcepto.Click
@@ -866,6 +858,9 @@ Public Class AprendizajeBancario
                 ' Si no tiene traducción en el ResX, dejamos la descripción original de la BD
                 If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
 
+                ' 1. Pintamos la descripción 1 perfecta
+                If TypeOf TxtDescripcion Is TextBox Then TxtDescripcion.Text = tradDesc
+
                 ' 🎯 2. ENCENDEMOS EL ESCUDO DE LA VIEJA ESCUELA
                 ' Le prohibimos al GotFocus y a los motores de Windows Forms alterar el texto del combo 2
                 traduciendoComoMaestro = True
@@ -947,9 +942,6 @@ Public Class AprendizajeBancario
                 Dim llaveDesc As String = "Desc_" & codigoOriginal.ToUpper().Trim()
                 Dim tradDesc As String = resManager.GetString(llaveDesc)
                 If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
-
-                '' Pintamos descripción 1
-                'TxtDescripcion.Text = tradDesc
 
                 ' Ahora cargamos las descripciones del concepto (o todas, según tu SQL)
                 LlenarDescripcion()

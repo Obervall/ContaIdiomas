@@ -24,6 +24,7 @@ Partial Class IntroApuntes
 	Private Sub InitializeComponent()
 		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(IntroApuntes))
 		Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+		Me.DgvDescripcion = New System.Windows.Forms.DataGridView()
 		Me.Label9 = New System.Windows.Forms.Label()
 		Me.BtnAyuda = New System.Windows.Forms.Button()
 		Me.TxtBuscarLetras = New System.Windows.Forms.TextBox()
@@ -53,10 +54,12 @@ Partial Class IntroApuntes
 		Me.BtnAceptarSalir = New System.Windows.Forms.Button()
 		Me.BtnAceptarOtro = New System.Windows.Forms.Button()
 		Me.GroupBox1.SuspendLayout()
+		CType(Me.DgvDescripcion, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.SuspendLayout()
 		'
 		'GroupBox1
 		'
+		Me.GroupBox1.Controls.Add(Me.DgvDescripcion)
 		Me.GroupBox1.Controls.Add(Me.Label9)
 		Me.GroupBox1.Controls.Add(Me.BtnAyuda)
 		Me.GroupBox1.Controls.Add(Me.TxtBuscarLetras)
@@ -85,6 +88,18 @@ Partial Class IntroApuntes
 		resources.ApplyResources(Me.GroupBox1, "GroupBox1")
 		Me.GroupBox1.Name = "GroupBox1"
 		Me.GroupBox1.TabStop = False
+		'
+		'DgvDescripcion
+		'
+		Me.DgvDescripcion.AllowUserToAddRows = False
+		Me.DgvDescripcion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+		resources.ApplyResources(Me.DgvDescripcion, "DgvDescripcion")
+		Me.DgvDescripcion.MultiSelect = False
+		Me.DgvDescripcion.Name = "DgvDescripcion"
+		Me.DgvDescripcion.ReadOnly = True
+		Me.DgvDescripcion.RowHeadersVisible = False
+		Me.DgvDescripcion.RowTemplate.Height = 24
+		Me.DgvDescripcion.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
 		'
 		'Label9
 		'
@@ -258,6 +273,7 @@ Partial Class IntroApuntes
 		Me.Name = "IntroApuntes"
 		Me.GroupBox1.ResumeLayout(False)
 		Me.GroupBox1.PerformLayout()
+		CType(Me.DgvDescripcion, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.ResumeLayout(False)
 
 	End Sub
@@ -291,4 +307,5 @@ Partial Class IntroApuntes
 	Friend WithEvents TxtBuscarLetras As Windows.Forms.TextBox
 	Friend WithEvents BtnAyuda As Windows.Forms.Button
 	Friend WithEvents Label9 As Windows.Forms.Label
+	Friend WithEvents DgvDescripcion As Windows.Forms.DataGridView
 End Class
