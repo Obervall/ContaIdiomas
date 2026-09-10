@@ -1030,4 +1030,7 @@ adquireixi la versió completa a la Microsoft Store.</value>
   <data name="EstoPuedeTardarUnosSegundos" xml:space="preserve">
     <value>Això pot trigar uns segons, depenent de la quantitat de dades històriques que tingui l'empresa. Si us plau, espereu.</value>
   </data>
+  <data name="ErrorDescripcionVacia" xml:space="preserve">
+    <value>La descripció no pot ser buida</value>
+  </data>
 </root>

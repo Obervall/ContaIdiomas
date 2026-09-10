@@ -1030,4 +1030,7 @@ or allows controlled access to folders to be able to use HomeBudget 3.0 Premium.
   <data name="EstoPuedeTardarUnosSegundos" xml:space="preserve">
     <value>This may take a few seconds, depending on how much historical data the company has. Please wait.</value>
   </data>
+  <data name="ErrorDescripcionVacia" xml:space="preserve">
+    <value>Description cannot be Empty</value>
+  </data>
 </root>

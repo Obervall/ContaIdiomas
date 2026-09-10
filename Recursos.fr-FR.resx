@@ -1030,4 +1030,7 @@ achetez la version complète sur le Microsoft Store.</value>
   <data name="EstoPuedeTardarUnosSegundos" xml:space="preserve">
     <value>Cela peut prendre quelques secondes, selon la quantité de données historiques de l’entreprise. Veuillez patienter.</value>
   </data>
+  <data name="ErrorDescripcionVacia" xml:space="preserve">
+    <value>La description ne peut pas être vide</value>
+  </data>
 </root>

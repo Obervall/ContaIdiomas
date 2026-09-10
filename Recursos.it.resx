@@ -1030,4 +1030,7 @@ oppure consente un accesso controllato alle cartelle per poter utilizzare Gestio
   <data name="EstoPuedeTardarUnosSegundos" xml:space="preserve">
     <value>Questo potrebbe richiedere qualche secondo, a seconda di quanti dati storici possiede l'azienda. Attenda.</value>
   </data>
+  <data name="ErrorDescripcionVacia" xml:space="preserve">
+    <value>La descrizione non può essere vuota</value>
+  </data>
 </root>

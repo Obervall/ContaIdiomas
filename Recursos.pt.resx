@@ -1030,4 +1030,7 @@ ou permite acesso controlado a pastas para poder usar o FinançasDomésticas 3.0
   <data name="EstoPuedeTardarUnosSegundos" xml:space="preserve">
     <value>Isso pode levar alguns segundos, dependendo de quanto dados históricos a empresa possui. Por favor, aguarde.</value>
   </data>
+  <data name="ErrorDescripcionVacia" xml:space="preserve">
+    <value>Descrição não pode ser Vazia</value>
+  </data>
 </root>

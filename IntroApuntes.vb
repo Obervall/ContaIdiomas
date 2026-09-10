@@ -10,13 +10,11 @@ Imports ToolTip = System.Windows.Forms.ToolTip
 Public Class IntroApuntes
 
     Private cargandoFormulario As Boolean = True
-    Public vCuentaAPU, vIntro, vLetras, vCombo, vDescripcion As String
+    Public vCuentaAPU, vIntro, vLetras, vDescripcion As String
     Public vImporteAPU As Double
     Private TL(13) As ToolTip
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
-    Dim textoAutocompletadoEnAzul As String = ""
     Public vAceptarSalir As String = "NO"
-    Dim traduciendoComoMaestro As Boolean = False
     Private IsLimpiandoCombo As Boolean = False
     Private buscandoDescripcion As Boolean = False
 
@@ -447,9 +445,9 @@ Public Class IntroApuntes
     '    End If
     'End Sub
 
-    Private Sub TxtImporte_GotFocus(sender As Object, e As EventArgs) Handles TxtImporte.GotFocus
-        vCombo = ""
-    End Sub
+    'Private Sub TxtImporte_GotFocus(sender As Object, e As EventArgs) Handles TxtImporte.GotFocus
+    '    vCombo = ""
+    'End Sub
 
     Private Sub BtnConcepto_Click(sender As Object, e As EventArgs) Handles BtnConcepto.Click
         ' 1. Abrimos la pantalla de mantenimiento de conceptos del formulario principal
@@ -530,12 +528,12 @@ Public Class IntroApuntes
         vAceptarSalir = "NO"
         GrabarYRefrescarGrid()
 
-        ' =====================================================================
-        ' 🛠️ REINICIO ASISTIDO DE PASOS PARA INTRODUCIR OTRO APUNTE
-        ' =====================================================================
-        ' 1. Apagamos el TextChanged superior para evitar llamadas falsas a la BD al limpiar
-        RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-        TxtBuscarLetras.Text = ""
+		' =====================================================================
+		' 🛠️ REINICIO ASISTIDO DE PASOS PARA INTRODUCIR OTRO APUNTE
+		' =====================================================================
+		' 1. Apagamos el TextChanged superior para evitar llamadas falsas a la BD al limpiar
+		RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+        LlenarDescripcionConcepto()
         AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
 
         ' 🌟 NUEVO: Limpiamos y ocultamos el DataGridView para el nuevo apunte
@@ -563,10 +561,10 @@ Public Class IntroApuntes
         ' 🛑 VALIDACIÓN: PREVENIR DESCRIPCIÓN VACÍA
         ' =====================================================================
         ' Evaluamos tanto la variable global como el cuadro de texto por seguridad
-        If String.IsNullOrWhiteSpace(vDescripcion) OrElse String.IsNullOrWhiteSpace(TxtBuscarLetras.Text) Then
+
+        If String.IsNullOrWhiteSpace(vDescripcion) AndAlso String.IsNullOrWhiteSpace(TxtBuscarLetras.Text) Then
 
             ' Mostramos un mensaje de advertencia usando tus archivos de recursos de idioma
-            ' (Asegúrate de registrar la clave "ErrorDescripcionVacia" en tu .resx)
             MessageBox.Show(resManager.GetString("ErrorDescripcionVacia"),
                     resManager.GetString("Error"),
                     MessageBoxButtons.OK,
@@ -577,6 +575,11 @@ Public Class IntroApuntes
 
             ' Frenamos el método AQUÍ. Nada de lo de abajo (el INSERT) se ejecutará.
             Return
+        End If
+
+        'Si la variable está vacía pero el TextBox tiene texto, rescatamos el texto del cuadro
+        If String.IsNullOrWhiteSpace(vDescripcion) Then
+            vDescripcion = TxtBuscarLetras.Text.Trim()
         End If
 
         If TxtImporte.Text <> "0" Then
@@ -607,7 +610,7 @@ Public Class IntroApuntes
             ' --- RECUPERAR NOMBRE DE CUENTA EN ESPAÑOL SEGURO ---
             vCuentaAPU = ""
             If CmbCuenta.SelectedIndex >= 0 Then
-                cmdMdb1cr.CommandText = "SELECT NombreCUE FROM cuentas ORDER BY NombreCUE ASC"
+                cmdMdb1cr.CommandText = "Select NombreCUE FROM cuentas ORDER BY NombreCUE ASC"
                 Try
                     Dim drCuentaGuardar As OleDbDataReader = cmdMdb1cr.ExecuteReader()
                     Dim contCUE As Integer = 0
@@ -900,11 +903,11 @@ Public Class IntroApuntes
         e.KeyChar = Char.ToUpper(e.KeyChar)
     End Sub
 
-    Private Sub BtnDescripcion_Click(sender As Object, e As EventArgs)
-        ' Llenar el Combo Descripción
-        '****************************
-        'LlenarDescripcion()
-    End Sub
+    'Private Sub BtnDescripcion_Click(sender As Object, e As EventArgs)
+    '    ' Llenar el Combo Descripción
+    '    '****************************
+    '    'LlenarDescripcion()
+    'End Sub
 
     Private Sub DateTimePicker1_LostFocus(sender As Object, e As EventArgs) Handles DateTimePicker1.LostFocus
         BtnCalculadora.TabIndex = 0
@@ -963,19 +966,75 @@ Public Class IntroApuntes
         CmbConcepto.DroppedDown = True
     End Sub
 
-    Private Sub CmbConcepto_TextChanged(sender As Object, e As EventArgs) Handles CmbConcepto.TextChanged
-        textoAutocompletadoEnAzul = CmbConcepto.Text.Trim()
+    'Private Sub CmbConcepto_TextChanged(sender As Object, e As EventArgs) Handles CmbConcepto.TextChanged
+    '    textoAutocompletadoEnAzul = CmbConcepto.Text.Trim()
+    'End Sub
+
+    Private Sub TxtBuscarLetras_Leave(sender As Object, e As EventArgs) Handles TxtBuscarLetras.Leave
+        Dim textoActual As String = TxtBuscarLetras.Text.Trim()
+        Dim textoOriginal As String = TxtDescripcion.Text.Trim()
+
+        ' Si el DataGridView está invisible (lo que significa que el usuario no confirmó ninguna selección) 
+        ' y además el texto actual no coincide con el original que cargó el concepto...
+        If DgvDescripcion.Visible = False AndAlso textoActual.ToUpper() <> textoOriginal.ToUpper() Then
+
+            ' 1. Apagamos momentáneamente el evento TextChanged para que no intente buscar mientras restauramos
+            RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+
+            ' 2. Reestablecemos el texto original del concepto en el cuadro
+            TxtBuscarLetras.Text = textoOriginal
+            vDescripcion = textoOriginal ' Sincronizamos la variable global
+            vIntro = "NO" ' Aseguramos que no se marque como descripción nueva
+
+            ' 3. Volvemos a encender el evento de búsqueda
+            AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+        End If
     End Sub
 
     Private Sub CmbConcepto_KeyDown(sender As Object, e As KeyEventArgs) Handles CmbConcepto.KeyDown
         If e.KeyCode = Keys.Enter Then
-            ' 🎯 CORTAFUEGOS TOTAL: Bloqueamos el rebote elástico nativo de Windows hacia el "ICO..."
+            ' Anulamos el comportamiento por defecto del Intro en el ComboBox
             e.SuppressKeyPress = True
             e.Handled = True
 
-            ' 🚀 LA ESTOCADA ASÍNCRONA SIMÉTRICA: 
-            ' Le damos un milisegundo de tregua a la interfaz para que asimile el cierre de la tecla
-            ' y clame el cursor dentro del buscador de forma indestructible use la tecla que use.
+            Dim idConceptoSel As Integer = 0
+            Dim textoBuscar As String = CmbConcepto.Text.Trim()
+
+            If Not String.IsNullOrEmpty(textoBuscar) Then
+                Try
+                    Dim dt As DataTable = CType(CmbConcepto.DataSource, DataTable)
+                    If dt IsNot Nothing Then
+                        ' Buscamos la fila que coincide con el texto escrito
+                        Dim filas() As DataRow = dt.Select("TextoCombo = '" & textoBuscar.Replace("'", "''") & "'")
+
+                        If filas.Length = 0 Then
+                            filas = dt.Select("TextoCombo LIKE '" & textoBuscar.Replace("'", "''") & "%'")
+                        End If
+
+                        ' Si encontramos el concepto, forzamos la selección en el combo
+                        If filas.Length > 0 Then
+                            idConceptoSel = Convert.ToInt32(filas(0)("IdConceptoCON"))
+                            CmbConcepto.SelectedIndex = dt.Rows.IndexOf(filas(0))
+                        End If
+                    End If
+                Catch ex As Exception
+                    ' Cortafuegos silencioso
+                End Try
+            End If
+
+            ' Si encontramos un concepto válido, disparamos nuestra rutina unificada
+            If idConceptoSel > 0 Then
+                CmbConcepto.SelectedValue = idConceptoSel
+                LlenarDescripcionConcepto() ' 🌟 Rellena textos, traduce y sincroniza variables de golpe
+            End If
+
+            ' Si el combo estaba desplegado, lo cerramos
+            If CmbConcepto.DroppedDown Then CmbConcepto.DroppedDown = False
+            CmbConcepto.Text = textoBuscar
+
+            ' 🚀 LLEVAMOS EL CURSOR AL BUSCADOR DIRECTAMENTE Y SIN RUIDO
+            ' El BeginInvoke sigue siendo una buena práctica aquí para asegurar que el foco viaje 
+            ' limpiamente al TxtBuscarLetras tras procesar el Intro
             BeginInvoke(Sub()
                             Try
                                 TxtBuscarLetras.Focus()
@@ -984,116 +1043,138 @@ Public Class IntroApuntes
                                 ' Cortafuegos silencioso
                             End Try
                         End Sub)
-
-            Dim idConceptoSel As Integer = 0
-            Dim codigoOriginal As String = ""
-            Dim descripcionOriginal As String = ""
-            Dim tipoOriginal As String = ""
-
-            ' 🌟 TU JUGADA MAESTRA: Si la variable guardó el texto en azul, buscamos esa palabra exacta
-            Dim textoBuscar As String = textoAutocompletadoEnAzul
-            If String.IsNullOrEmpty(textoBuscar) Then textoBuscar = CmbConcepto.Text.Trim()
-            If Not String.IsNullOrEmpty(textoBuscar) Then
-                Try
-                    'MsgBox(rmse.GetString("ConceptoSeleccionado") & ": " & textoBuscar)
-
-                    Dim dt As DataTable = CType(CmbConcepto.DataSource, DataTable)
-                    If dt IsNot Nothing Then
-                        ' Buscamos en la caché de la RAM la fila que coincide exactamente con el chivato
-                        Dim filas() As DataRow = dt.Select("TextoCombo = '" & textoBuscar.Replace("'", "''") & "'")
-
-                        If filas.Length = 0 Then
-                            filas = dt.Select("TextoCombo LIKE '" & textoBuscar.Replace("'", "''") & "%'")
-                        End If
-
-                        If filas.Length > 0 Then
-                            idConceptoSel = Convert.ToInt32(filas(0)("IdConceptoCON"))
-                            codigoOriginal = filas(0)("CodigoCON").ToString().Trim()
-                            descripcionOriginal = filas(0)("DescripcionCON").ToString().Trim()
-                            If dt.Columns.Contains("TipoCON") Then tipoOriginal = filas(0)("TipoCON").ToString().Trim()
-
-                            ' Forzamos al combo a quedarse rígido en la posición física correcta de la fila
-                            CmbConcepto.SelectedIndex = dt.Rows.IndexOf(filas(0))
-                        End If
-                    End If
-                Catch ex As Exception
-                    ' Silencioso
-                End Try
-            End If
-
-            ' Sincronizamos las variables globales con el ID numérico real hallado
-            vConcepto = idConceptoSel.ToString()
-
-            ' Apagamos el buscador de arriba para que al vaciarlo no active consultas
-            RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-            TxtBuscarLetras.Text = ""
-            AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-
-            TxtBuscarLetras.Enabled = True
-            vCombo = "descripcion"
-            If idConceptoSel > 0 Then CmbConcepto.SelectedValue = idConceptoSel
-
-            If idConceptoSel > 0 Then
-                Dim tradTipo As String = ""
-                Select Case tipoOriginal.ToUpper()
-                    Case "GASTO" : tradTipo = resManager.GetString("Tipo_Gasto")
-                    Case "INGRESO" : tradTipo = resManager.GetString("Tipo_Ingreso")
-                    Case "ESPECIAL" : tradTipo = resManager.GetString("Tipo_Especial")
-                End Select
-                If String.IsNullOrEmpty(tradTipo) Then tradTipo = tipoOriginal
-                TxtTipoConcepto.Text = tradTipo
-
-                ' 🛡️ RADAR LIMPIADOR: Homogeneizamos el texto para evitar que las tildes rompan la búsqueda
-                Dim codigoLimpio As String = codigoOriginal.ToUpper().Trim()
-                codigoLimpio = codigoLimpio.Replace("É", "E").Replace("È", "E")
-                codigoLimpio = codigoLimpio.Replace("Á", "A").Replace("À", "A")
-                codigoLimpio = codigoLimpio.Replace("Í", "I").Replace("Ó", "O").Replace("Ú", "U")
-                codigoLimpio = codigoLimpio.Replace(" ", "_")
-
-                ' Construimos la llave limpia (Ej: "Desc_ESTETICA")
-                Dim llaveDesc As String = "Desc_" & codigoLimpio
-                Dim tradDesc As String = resManager.GetString(llaveDesc)
-
-                ' Salvavidas específico: Si por la estructura de la frase se sigue resistiendo,
-                ' forzamos el mapeo de tu clave maestra del ResXManager para la captura visual
-                If codigoLimpio.Contains("ESTETICA") Then
-                    Dim tradRescate As String = resManager.GetString("Desc_ESTETICA")
-                    If Not String.IsNullOrEmpty(tradRescate) Then tradDesc = tradRescate
-                End If
-
-                ' Si no tiene traducción en el ResX, dejamos la descripción original de la BD
-                If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
-
-                ' 1. Pintamos la descripción 1 perfecta
-                If TypeOf TxtDescripcion Is TextBox Then TxtDescripcion.Text = tradDesc
-
-                ' 🎯 2. ENCENDEMOS EL ESCUDO DE LA VIEJA ESCUELA
-                ' Le prohibimos al GotFocus y a los motores de Windows Forms alterar el texto del combo 2
-                traduciendoComoMaestro = True
-
-                ' 3. Tu imbatible igualdad directa de la vieja escuela (Ahora con el texto alemán real)
-                TxtBuscarLetras.Text = tradDesc
-                vDescripcion = tradDesc
-            End If
-            ' =====================================================================
-
-            ' Limpiamos el chivato para la próxima búsqueda, cerramos la lista y saltamos
-            textoAutocompletadoEnAzul = ""
-            If CmbConcepto.DroppedDown Then CmbConcepto.DroppedDown = False
-
-            ' Fijamos el texto del concepto
-            CmbConcepto.Text = textoBuscar
-
-            ' 🎯 4. APAGAMOS EL ESCUDO
-            ' Una vez que toda la interfaz se ha asentado y dibujado en el monitor, liberamos el control
-            traduciendoComoMaestro = False
         End If
     End Sub
 
 
+
+    'Private Sub CmbConcepto_KeyDown(sender As Object, e As KeyEventArgs) Handles CmbConcepto.KeyDown
+    '    If e.KeyCode = Keys.Enter Then
+    '        ' 🎯 CORTAFUEGOS TOTAL: Bloqueamos el rebote elástico nativo de Windows hacia el "ICO..."
+    '        e.SuppressKeyPress = True
+    '        e.Handled = True
+
+    '        ' 🚀 LA ESTOCADA ASÍNCRONA SIMÉTRICA: 
+    '        ' Le damos un milisegundo de tregua a la interfaz para que asimile el cierre de la tecla
+    '        ' y clame el cursor dentro del buscador de forma indestructible use la tecla que use.
+    '        BeginInvoke(Sub()
+    '                        Try
+    '                            TxtBuscarLetras.Focus()
+    '                            TxtBuscarLetras.SelectionStart = TxtBuscarLetras.Text.Length
+    '                        Catch
+    '                            ' Cortafuegos silencioso
+    '                        End Try
+    '                    End Sub)
+
+    '        Dim idConceptoSel As Integer = 0
+    '        Dim codigoOriginal As String = ""
+    '        Dim descripcionOriginal As String = ""
+    '        Dim tipoOriginal As String = ""
+
+    '        ' 🌟 TU JUGADA MAESTRA: Si la variable guardó el texto en azul, buscamos esa palabra exacta
+    '        Dim textoBuscar As String = textoAutocompletadoEnAzul
+    '        If String.IsNullOrEmpty(textoBuscar) Then textoBuscar = CmbConcepto.Text.Trim()
+    '        If Not String.IsNullOrEmpty(textoBuscar) Then
+    '            Try
+    '                'MsgBox(rmse.GetString("ConceptoSeleccionado") & ": " & textoBuscar)
+
+    '                Dim dt As DataTable = CType(CmbConcepto.DataSource, DataTable)
+    '                If dt IsNot Nothing Then
+    '                    ' Buscamos en la caché de la RAM la fila que coincide exactamente con el chivato
+    '                    Dim filas() As DataRow = dt.Select("TextoCombo = '" & textoBuscar.Replace("'", "''") & "'")
+
+    '                    If filas.Length = 0 Then
+    '                        filas = dt.Select("TextoCombo LIKE '" & textoBuscar.Replace("'", "''") & "%'")
+    '                    End If
+
+    '                    If filas.Length > 0 Then
+    '                        idConceptoSel = Convert.ToInt32(filas(0)("IdConceptoCON"))
+    '                        codigoOriginal = filas(0)("CodigoCON").ToString().Trim()
+    '                        descripcionOriginal = filas(0)("DescripcionCON").ToString().Trim()
+    '                        If dt.Columns.Contains("TipoCON") Then tipoOriginal = filas(0)("TipoCON").ToString().Trim()
+
+    '                        ' Forzamos al combo a quedarse rígido en la posición física correcta de la fila
+    '                        CmbConcepto.SelectedIndex = dt.Rows.IndexOf(filas(0))
+    '                    End If
+    '                End If
+    '            Catch ex As Exception
+    '                ' Silencioso
+    '            End Try
+    '        End If
+
+    '        ' Sincronizamos las variables globales con el ID numérico real hallado
+    '        vConcepto = idConceptoSel.ToString()
+
+    '        ' Apagamos el buscador de arriba para que al vaciarlo no active consultas
+    '        RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+    '        'TxtBuscarLetras.Text = ""
+    '        AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+
+    '        TxtBuscarLetras.Enabled = True
+    '        vCombo = "descripcion"
+    '        If idConceptoSel > 0 Then CmbConcepto.SelectedValue = idConceptoSel
+
+    '        If idConceptoSel > 0 Then
+    '            LlenarDescripcionConcepto()
+    '        End If
+    '        ' =====================================================================
+
+    '        ' Limpiamos el chivato para la próxima búsqueda, cerramos la lista y saltamos
+    '        textoAutocompletadoEnAzul = ""
+    '        If CmbConcepto.DroppedDown Then CmbConcepto.DroppedDown = False
+
+    '        ' Fijamos el texto del concepto
+    '        CmbConcepto.Text = textoBuscar
+
+    '        ' 🎯 4. APAGAMOS EL ESCUDO
+    '        ' Una vez que toda la interfaz se ha asentado y dibujado en el monitor, liberamos el control
+    '        traduciendoComoMaestro = False
+    '    End If
+    'End Sub
+
+    ''Dim tradTipo As String = ""
+    ''Select Case tipoOriginal.ToUpper()
+    ''    Case "GASTO" : tradTipo = resManager.GetString("Tipo_Gasto")
+    ''    Case "INGRESO" : tradTipo = resManager.GetString("Tipo_Ingreso")
+    ''    Case "ESPECIAL" : tradTipo = resManager.GetString("Tipo_Especial")
+    ''End Select
+    ''If String.IsNullOrEmpty(tradTipo) Then tradTipo = tipoOriginal
+    ''TxtTipoConcepto.Text = tradTipo
+
+    ''' 🛡️ RADAR LIMPIADOR: Homogeneizamos el texto para evitar que las tildes rompan la búsqueda
+    ''Dim codigoLimpio As String = codigoOriginal.ToUpper().Trim()
+    ''codigoLimpio = codigoLimpio.Replace("É", "E").Replace("È", "E")
+    ''codigoLimpio = codigoLimpio.Replace("Á", "A").Replace("À", "A")
+    ''codigoLimpio = codigoLimpio.Replace("Í", "I").Replace("Ó", "O").Replace("Ú", "U")
+    ''codigoLimpio = codigoLimpio.Replace(" ", "_")
+
+    ''' Construimos la llave limpia (Ej: "Desc_ESTETICA")
+    ''Dim llaveDesc As String = "Desc_" & codigoLimpio
+    ''Dim tradDesc As String = resManager.GetString(llaveDesc)
+
+    ''' Salvavidas específico: Si por la estructura de la frase se sigue resistiendo,
+    ''' forzamos el mapeo de tu clave maestra del ResXManager para la captura visual
+    ''If codigoLimpio.Contains("ESTETICA") Then
+    ''    Dim tradRescate As String = resManager.GetString("Desc_ESTETICA")
+    ''    If Not String.IsNullOrEmpty(tradRescate) Then tradDesc = tradRescate
+    ''End If
+
+    ''' Si no tiene traducción en el ResX, dejamos la descripción original de la BD
+    ''If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
+
+    ''' 1. Pintamos la descripción 1 perfecta
+    ''If TypeOf TxtDescripcion Is TextBox Then TxtDescripcion.Text = tradDesc
+
+    ''' 🎯 2. ENCENDEMOS EL ESCUDO DE LA VIEJA ESCUELA
+    ''' Le prohibimos al GotFocus y a los motores de Windows Forms alterar el texto del combo 2
+    ''traduciendoComoMaestro = True
+
+    ''' 3. Tu imbatible igualdad directa de la vieja escuela (Ahora con el texto alemán real)
+    ''TxtBuscarLetras.Text = tradDesc
+    ''vDescripcion = tradDesc
+
+
     Private Sub CmbConcepto_MouseClick(sender As Object, e As MouseEventArgs) Handles CmbConcepto.MouseClick
-        'TxtBuscarLetras.Enabled = False
-        vIntro = "NO"
         ' Solo forzamos el despliegue automático si el usuario NO ha pulsado la flecha nativa
         ' (Nos aseguramos comprobando si la lista ya está abierta o abriéndola suavemente)
         If CmbConcepto.Items.Count <> 0 AndAlso Not CmbConcepto.DroppedDown Then
@@ -1109,61 +1190,53 @@ Public Class IntroApuntes
         If CmbConcepto.SelectedIndex < 0 Then Exit Sub
 
         If vIntro = "NO" Then
-            TxtBuscarLetras.Text = ""
+			TxtBuscarLetras.Text = ""
 
-            Try
-                Dim codigoOriginal As String = ""
-                Dim descripcionOriginal As String = ""
-                Dim tipoOriginal As String = ""
+			LlenarDescripcionConcepto()
 
-                ' Extraemos datos del concepto seleccionado
-                If CmbConcepto.SelectedItem IsNot Nothing Then
-                    Dim filaSeleccionada As DataRowView = CType(CmbConcepto.SelectedItem, DataRowView)
+			'Try
+			'    Dim codigoOriginal As String = ""
+			'    Dim descripcionOriginal As String = ""
+			'    Dim tipoOriginal As String = ""
 
-                    codigoOriginal = filaSeleccionada("CodigoCON").ToString().Trim()
-                    descripcionOriginal = filaSeleccionada("DescripcionCON").ToString().Trim()
+			'    ' Extraemos datos del concepto seleccionado
+			'    If CmbConcepto.SelectedItem IsNot Nothing Then
+			'        Dim filaSeleccionada As DataRowView = CType(CmbConcepto.SelectedItem, DataRowView)
 
-                    If filaSeleccionada.Row.Table.Columns.Contains("TipoCON") Then
-                        tipoOriginal = filaSeleccionada("TipoCON").ToString().Trim()
-                    End If
-                End If
+			'        codigoOriginal = filaSeleccionada("CodigoCON").ToString().Trim()
+			'        descripcionOriginal = filaSeleccionada("DescripcionCON").ToString().Trim()
 
-                ' Guardamos código para la BD
-                vConcepto = codigoOriginal
+			'        If filaSeleccionada.Row.Table.Columns.Contains("TipoCON") Then
+			'            tipoOriginal = filaSeleccionada("TipoCON").ToString().Trim()
+			'        End If
+			'    End If
 
-                ' --- TRADUCIR TIPO ---
-                Dim tradTipo As String = ""
-                Select Case tipoOriginal.ToUpper()
-                    Case "GASTO" : tradTipo = resManager.GetString("Tipo_Gasto")
-                    Case "INGRESO" : tradTipo = resManager.GetString("Tipo_Ingreso")
-                    Case "ESPECIAL" : tradTipo = resManager.GetString("Tipo_Especial")
-                End Select
-                If String.IsNullOrEmpty(tradTipo) Then tradTipo = tipoOriginal
-                TxtTipoConcepto.Text = tradTipo
+			'    ' Guardamos código para la BD
+			'    vConcepto = codigoOriginal
 
-                ' --- TRADUCIR DESCRIPCIÓN ---
-                Dim llaveDesc As String = "Desc_" & codigoOriginal.ToUpper().Trim()
-                Dim tradDesc As String = resManager.GetString(llaveDesc)
-                If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
+			'    ' --- TRADUCIR TIPO ---
+			'    Dim tradTipo As String = ""
+			'    Select Case tipoOriginal.ToUpper()
+			'        Case "GASTO" : tradTipo = resManager.GetString("Tipo_Gasto")
+			'        Case "INGRESO" : tradTipo = resManager.GetString("Tipo_Ingreso")
+			'        Case "ESPECIAL" : tradTipo = resManager.GetString("Tipo_Especial")
+			'    End Select
+			'    If String.IsNullOrEmpty(tradTipo) Then tradTipo = tipoOriginal
+			'    TxtTipoConcepto.Text = tradTipo
 
-				' Pintamos descripción 1
-				TxtDescripcion.Text = tradDesc
-				TxtBuscarLetras.Text = tradDesc
+			'    ' --- TRADUCIR DESCRIPCIÓN ---
+			'    Dim llaveDesc As String = "Desc_" & codigoOriginal.ToUpper().Trim()
+			'    Dim tradDesc As String = resManager.GetString(llaveDesc)
+			'    If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
 
-                '' Intentamos seleccionar la descripción traducida en el combo
-                'Dim idx As Integer = CmbDescripcion.FindStringExact(tradDesc)
-                'If idx >= 0 Then
-                '    CmbDescripcion.SelectedIndex = idx
-                'Else
-                '    ' Si no existe tal cual, dejamos el combo con el texto traducido
-                '    CmbDescripcion.SelectedIndex = -1
-                '    CmbDescripcion.Text = tradDesc
-                'End If
+			'    ' Pintamos descripción 1
+			'    TxtDescripcion.Text = tradDesc
+			'    TxtBuscarLetras.Text = tradDesc
 
-            Catch ex As Exception
-                MsgBox(resManager.GetString("ErrorSincronizarCON") & ": " & ex.Message, MsgBoxStyle.Critical, resManager.GetString("Error"))
-            End Try
-        End If
+			'Catch ex As Exception
+			'    MsgBox(resManager.GetString("ErrorSincronizarCON") & ": " & ex.Message, MsgBoxStyle.Critical, resManager.GetString("Error"))
+			'End Try
+		End If
     End Sub
 
     'Private Sub CmbDescripcion_Enter(sender As Object, e As EventArgs) Handles CmbDescripcion.Enter
@@ -1213,17 +1286,14 @@ Public Class IntroApuntes
                         DgvDescripcion.Columns("DescripcionAPU").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
                     End If
                     DgvDescripcion.Visible = True
-                    vCombo = "descripcion"
                 Else
                     ' Si la búsqueda da 0 filas (como "impoo"), lo ocultamos
                     DgvDescripcion.Visible = False
-                    vCombo = "descripcion_vacia"
                 End If
 
             Catch ex As Exception
                 DgvDescripcion.DataSource = Nothing
                 DgvDescripcion.Visible = False
-                vCombo = "descripcion_vacia"
             End Try
         End If
         Return ""
@@ -1250,23 +1320,59 @@ Public Class IntroApuntes
     End Sub
 
     Private Sub TxtBuscarLetras_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtBuscarLetras.KeyDown
-        ' CASO 1: Si el usuario pulsa INTRO estando el cuadro vacío o con pocas letras
+        ' 1. Si el usuario presiona INTRO en el buscador
         If e.KeyCode = Keys.Enter Then
-            ' Evitamos el pitido por defecto de Windows al pulsar Intro en un TextBox
-            e.SuppressKeyPress = True
+            e.SuppressKeyPress = True ' Evitamos el pitido de Windows
 
-            ' Forzamos la búsqueda vacía para traer TODOS los registros
-            ' (Hacemos que vLetras valga vacío para que tu consulta SQL traiga todo)
-            vLetras = TxtBuscarLetras.Text.Trim()
+            Dim textoBuscado As String = TxtBuscarLetras.Text.Trim()
 
-            ' Mostramos la tabla, ejecutamos tu método y le pasamos el foco al DGV
-            DgvDescripcion.Visible = True
-            BuscarLetras("descripcion")
-            DgvDescripcion.Focus()
-            Return
+            ' CASO A: El campo está completamente vacío -> Mostramos toda la lista
+            If String.IsNullOrWhiteSpace(textoBuscado) Then
+                vLetras = ""
+                DgvDescripcion.Visible = True
+                BuscarLetras("descripcion")
+                DgvDescripcion.Focus()
+                Return
+            End If
+
+            ' 🌟 ¡LA CORRECCIÓN CLAVE AQUÍ!
+            ' Si la tabla está oculta, pero el texto coincide exactamente con la descripción oficial 
+            ' del concepto (la que guardamos en TxtDescripcion.Text), el usuario está aceptando la opción por defecto.
+            If DgvDescripcion.Visible = False AndAlso textoBuscado.ToUpper() = TxtDescripcion.Text.Trim().ToUpper() Then
+                vDescripcion = textoBuscado ' Aseguramos la variable global
+                vIntro = "NO" ' No es una descripción nueva
+                TxtImporte.Focus() ' Saltamos directo al importe
+                Return
+            End If
+
+            ' CASO B: Hay texto, está oculto y NO coincide -> ¡AQUÍ SÍ ES UNA DESCRIPCIÓN TOTALMENTE NUEVA!
+            If DgvDescripcion.Visible = False OrElse DgvDescripcion.Rows.Count = 0 Then
+
+                Dim respuesta As MsgBoxResult = ConfirmarAccionTraducida(
+                rmse.GetString("NoExistenDescripciones") & ": -" & textoBuscado.ToUpper() & "-" & vbCrLf & "¿" & rmse.GetString("AñadirDescripcion") & "?",
+                rmse.GetString("$this.Text")
+            )
+
+                If respuesta = MsgBoxResult.Yes Then
+                    vIntro = "SI"
+                    vDescripcion = textoBuscado
+                    DgvDescripcion.Visible = False
+                    TxtImporte.Focus()
+                Else
+                    TxtBuscarLetras.SelectAll()
+                    TxtBuscarLetras.Focus()
+                End If
+
+                Return
+            End If
+
+            ' CASO C: Si el DataGridView SÍ tiene datos en pantalla, mandamos el foco a la tabla
+            If DgvDescripcion.Visible AndAlso DgvDescripcion.Rows.Count > 0 Then
+                DgvDescripcion.Focus()
+            End If
         End If
 
-        ' CASO 2: Si pulsa FLECHA ABAJO para navegar por los resultados existentes
+        ' 2. Si el usuario presiona FLECHA ABAJO
         If e.KeyCode = Keys.Down AndAlso DgvDescripcion.Visible Then
             DgvDescripcion.Focus()
             e.Handled = True
@@ -1285,6 +1391,52 @@ Public Class IntroApuntes
 
         ' 4. ¡AUTOMÁTICO! Enviamos el foco directamente al campo del importe
         TxtImporte.Focus()
+    End Sub
+
+    Private Sub LlenarDescripcionConcepto()
+        Try
+            Dim codigoOriginal As String = ""
+            Dim descripcionOriginal As String = ""
+            Dim tipoOriginal As String = ""
+
+            ' Extraemos datos del concepto seleccionado
+            If CmbConcepto.SelectedItem IsNot Nothing Then
+                Dim filaSeleccionada As DataRowView = CType(CmbConcepto.SelectedItem, DataRowView)
+
+                codigoOriginal = filaSeleccionada("CodigoCON").ToString().Trim()
+                descripcionOriginal = filaSeleccionada("DescripcionCON").ToString().Trim()
+
+                If filaSeleccionada.Row.Table.Columns.Contains("TipoCON") Then
+                    tipoOriginal = filaSeleccionada("TipoCON").ToString().Trim()
+                End If
+            End If
+
+            ' Guardamos código para la BD
+            vConcepto = codigoOriginal
+
+            ' --- TRADUCIR TIPO ---
+            Dim tradTipo As String = ""
+            Select Case tipoOriginal.ToUpper()
+                Case "GASTO" : tradTipo = resManager.GetString("Tipo_Gasto")
+                Case "INGRESO" : tradTipo = resManager.GetString("Tipo_Ingreso")
+                Case "ESPECIAL" : tradTipo = resManager.GetString("Tipo_Especial")
+            End Select
+            If String.IsNullOrEmpty(tradTipo) Then tradTipo = tipoOriginal
+            TxtTipoConcepto.Text = tradTipo
+
+            ' --- TRADUCIR DESCRIPCIÓN ---
+            Dim llaveDesc As String = "Desc_" & codigoOriginal.ToUpper().Trim()
+            Dim tradDesc As String = resManager.GetString(llaveDesc)
+            If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
+
+            ' Pintamos la interfaz de forma limpia
+            TxtDescripcion.Text = tradDesc
+            TxtBuscarLetras.Text = tradDesc
+            vDescripcion = tradDesc ' 🌟 Sincronizamos de inmediato la variable global
+
+        Catch ex As Exception
+            MsgBox(resManager.GetString("ErrorSincronizarCON") & ": " & ex.Message, MsgBoxStyle.Critical, resManager.GetString("Error"))
+        End Try
     End Sub
 
 
