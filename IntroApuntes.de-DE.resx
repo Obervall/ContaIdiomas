@@ -210,4 +210,7 @@ Fehler</value>
   <data name="TxtABuscar" xml:space="preserve">
     <value>Suchtext, mindestens 3 Buchstaben</value>
   </data>
+  <data name="LblAyudaBuscar.Text" xml:space="preserve">
+    <value>Geben Sie 3 Buchstaben ein, um den Text zu filtern oder zu löschen, und drücken Sie Enter, um alle zu sehen.</value>
+  </data>
 </root>

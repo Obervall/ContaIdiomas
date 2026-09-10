@@ -210,4 +210,7 @@ Erreur</value>
   <data name="TxtABuscar" xml:space="preserve">
     <value>Recherche de texte, minimum 3 lettres</value>
   </data>
+  <data name="LblAyudaBuscar.Text" xml:space="preserve">
+    <value>Tapez 3 lettres pour filtrer ou supprimez le texte et appuyez sur Entrée pour tout voir.</value>
+  </data>
 </root>

@@ -389,4 +389,7 @@ Error</value>
   <data name="Label9.Text" xml:space="preserve">
     <value>Llenar Descripción 2</value>
   </data>
+  <data name="LblAyudaBuscar.Text" xml:space="preserve">
+    <value>Escribe 3 letras para filtrar o Suprime el texto y pulsa Intro para ver todas.</value>
+  </data>
 </root>

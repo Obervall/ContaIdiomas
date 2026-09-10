@@ -24,15 +24,14 @@ Partial Class AprendizajeBancario
 	Private Sub InitializeComponent()
 		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AprendizajeBancario))
 		Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+		Me.DgvDescripcion = New System.Windows.Forms.DataGridView()
+		Me.LblAyudaBuscar = New System.Windows.Forms.Label()
 		Me.Label10 = New System.Windows.Forms.Label()
 		Me.Label9 = New System.Windows.Forms.Label()
 		Me.TxtSaldoFinal = New System.Windows.Forms.TextBox()
 		Me.TxtBuscarLetras = New System.Windows.Forms.TextBox()
-		Me.Label8 = New System.Windows.Forms.Label()
 		Me.TxtDescripcion = New System.Windows.Forms.TextBox()
 		Me.LblBuscarLetras = New System.Windows.Forms.Label()
-		Me.BtnDescripcion = New System.Windows.Forms.Button()
-		Me.CmbDescripcion = New System.Windows.Forms.ComboBox()
 		Me.BtnConcepto = New System.Windows.Forms.Button()
 		Me.TxtTipoConcepto = New System.Windows.Forms.TextBox()
 		Me.TxtImporte = New System.Windows.Forms.TextBox()
@@ -51,19 +50,19 @@ Partial Class AprendizajeBancario
 		Me.BtnSaltarApuntes = New System.Windows.Forms.Button()
 		Me.BtnAceptarOtro = New System.Windows.Forms.Button()
 		Me.GroupBox1.SuspendLayout()
+		CType(Me.DgvDescripcion, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.SuspendLayout()
 		'
 		'GroupBox1
 		'
+		Me.GroupBox1.Controls.Add(Me.DgvDescripcion)
+		Me.GroupBox1.Controls.Add(Me.LblAyudaBuscar)
 		Me.GroupBox1.Controls.Add(Me.Label10)
 		Me.GroupBox1.Controls.Add(Me.Label9)
 		Me.GroupBox1.Controls.Add(Me.TxtSaldoFinal)
 		Me.GroupBox1.Controls.Add(Me.TxtBuscarLetras)
-		Me.GroupBox1.Controls.Add(Me.Label8)
 		Me.GroupBox1.Controls.Add(Me.TxtDescripcion)
 		Me.GroupBox1.Controls.Add(Me.LblBuscarLetras)
-		Me.GroupBox1.Controls.Add(Me.BtnDescripcion)
-		Me.GroupBox1.Controls.Add(Me.CmbDescripcion)
 		Me.GroupBox1.Controls.Add(Me.BtnConcepto)
 		Me.GroupBox1.Controls.Add(Me.TxtTipoConcepto)
 		Me.GroupBox1.Controls.Add(Me.TxtImporte)
@@ -81,6 +80,24 @@ Partial Class AprendizajeBancario
 		resources.ApplyResources(Me.GroupBox1, "GroupBox1")
 		Me.GroupBox1.Name = "GroupBox1"
 		Me.GroupBox1.TabStop = False
+		'
+		'DgvDescripcion
+		'
+		Me.DgvDescripcion.AllowUserToAddRows = False
+		Me.DgvDescripcion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+		resources.ApplyResources(Me.DgvDescripcion, "DgvDescripcion")
+		Me.DgvDescripcion.MultiSelect = False
+		Me.DgvDescripcion.Name = "DgvDescripcion"
+		Me.DgvDescripcion.ReadOnly = True
+		Me.DgvDescripcion.RowHeadersVisible = False
+		Me.DgvDescripcion.RowTemplate.Height = 24
+		Me.DgvDescripcion.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+		'
+		'LblAyudaBuscar
+		'
+		resources.ApplyResources(Me.LblAyudaBuscar, "LblAyudaBuscar")
+		Me.LblAyudaBuscar.ForeColor = System.Drawing.SystemColors.ControlDarkDark
+		Me.LblAyudaBuscar.Name = "LblAyudaBuscar"
 		'
 		'Label10
 		'
@@ -102,11 +119,6 @@ Partial Class AprendizajeBancario
 		resources.ApplyResources(Me.TxtBuscarLetras, "TxtBuscarLetras")
 		Me.TxtBuscarLetras.Name = "TxtBuscarLetras"
 		'
-		'Label8
-		'
-		resources.ApplyResources(Me.Label8, "Label8")
-		Me.Label8.Name = "Label8"
-		'
 		'TxtDescripcion
 		'
 		resources.ApplyResources(Me.TxtDescripcion, "TxtDescripcion")
@@ -116,18 +128,6 @@ Partial Class AprendizajeBancario
 		'
 		resources.ApplyResources(Me.LblBuscarLetras, "LblBuscarLetras")
 		Me.LblBuscarLetras.Name = "LblBuscarLetras"
-		'
-		'BtnDescripcion
-		'
-		resources.ApplyResources(Me.BtnDescripcion, "BtnDescripcion")
-		Me.BtnDescripcion.Name = "BtnDescripcion"
-		Me.BtnDescripcion.UseVisualStyleBackColor = True
-		'
-		'CmbDescripcion
-		'
-		Me.CmbDescripcion.FormattingEnabled = True
-		resources.ApplyResources(Me.CmbDescripcion, "CmbDescripcion")
-		Me.CmbDescripcion.Name = "CmbDescripcion"
 		'
 		'BtnConcepto
 		'
@@ -239,6 +239,7 @@ Partial Class AprendizajeBancario
 		Me.Name = "AprendizajeBancario"
 		Me.GroupBox1.ResumeLayout(False)
 		Me.GroupBox1.PerformLayout()
+		CType(Me.DgvDescripcion, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.ResumeLayout(False)
 
 	End Sub
@@ -261,13 +262,12 @@ Partial Class AprendizajeBancario
 	Friend WithEvents TxtNota As Windows.Forms.TextBox
 	Friend WithEvents CmbCuenta As Windows.Forms.ComboBox
 	Friend WithEvents CmbConcepto As Windows.Forms.ComboBox
-	Friend WithEvents CmbDescripcion As Windows.Forms.ComboBox
-	Friend WithEvents BtnDescripcion As Windows.Forms.Button
 	Friend WithEvents LblBuscarLetras As Windows.Forms.Label
-	Friend WithEvents Label8 As Windows.Forms.Label
 	Friend WithEvents TxtDescripcion As Windows.Forms.TextBox
 	Friend WithEvents TxtBuscarLetras As Windows.Forms.TextBox
 	Friend WithEvents Label9 As Windows.Forms.Label
 	Friend WithEvents TxtSaldoFinal As Windows.Forms.TextBox
 	Friend WithEvents Label10 As Windows.Forms.Label
+	Friend WithEvents LblAyudaBuscar As Windows.Forms.Label
+	Friend WithEvents DgvDescripcion As Windows.Forms.DataGridView
 End Class

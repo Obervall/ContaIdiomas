@@ -163,7 +163,7 @@
     <value>103</value>
   </data>
   <data name="LblAyudaBuscar.Text" xml:space="preserve">
-    <value>Escribe 3 letras para filtrar o pulsa Intro para ver todas.</value>
+    <value>Escribe 3 letras para filtrar o Suprime el texto y pulsa Intro para ver todas.</value>
   </data>
   <data name="LblAyudaBuscar.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleRight</value>
