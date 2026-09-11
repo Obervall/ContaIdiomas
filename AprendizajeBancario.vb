@@ -1,7 +1,6 @@
 ﻿Imports System.Collections.Generic
 Imports System.Data
 Imports System.Data.OleDb
-Imports System.Drawing
 Imports System.Windows.Forms
 Imports ToolTip = System.Windows.Forms.ToolTip
 
@@ -16,9 +15,14 @@ Public Class AprendizajeBancario
     Public vValorTotal As Integer = 0
     Private IsLimpiandoCombo As Boolean = False
     Private buscandoDescripcion As Boolean = False
+    ' Esta bandera controlará cuándo permitimos que el TextChanged abra la tabla
+    Private cargandoDatosBanco As Boolean = False
+
 
     Public Sub CargarPrimerConceptoBancario()
         Try
+            ' 🌟 ACTIVAMOS EL INTERRUPTOR: Avisamos que el programa está rellenando casillas de forma automática
+            cargandoDatosBanco = True
             ' 1. INTERROGATORIO AL BÚNKER: Buscamos por CodigoAPU en tu conexion1 las filas 'TEMPORAL'
             Using cmdTop As New OleDb.OleDbCommand()
                 cmdTop.Connection = conexion1 ' 🔌 Tu conexión real homologada
@@ -54,15 +58,29 @@ Public Class AprendizajeBancario
                         TxtImporte.Text = Convert.ToDecimal(dr("ImporteAPU")).ToString("N2", culturaVisual)
                         ' =========================================================================
 
-                        ' Clavamos el combo de la Cuenta indexando el ID que capturó el radar
+                        ' 1. Clavamos el combo de la Cuenta indexando el ID que capturó el radar
                         Dim idCuentaBanco As Integer = Convert.ToInt32(dr("CuentaAPU"))
                         CmbCuenta.SelectedValue = idCuentaBanco
 
-                        ' 🎯 ACCIÓN PREMIUM DE FOCO: Ponemos por defecto el combo de Conceptos en el ID 1 (Varios)
-                        ' y clavamos el cursor parpadeando allí dentro para que el usuario solo tenga que teclear
+                        ' 1. Seleccionamos el concepto por defecto
                         CmbConcepto.SelectedValue = 1
+
+                        ' 2. Ejecutamos la rutina unificada (que rellena TxtBuscarLetras y guarda el texto en vDescripcion)
+                        LlenarDescripcionConcepto()
+
+                        ' 3. Nos aseguramos de que el DataGridView esté cerrado e invisible
+                        DgvDescripcion.DataSource = Nothing
+                        DgvDescripcion.Visible = False
+
+                        ' 4. Ponemos el foco final en el concepto (o donde desees arrancar)
                         CmbConcepto.Focus()
 
+                        ' 5. Volvemos a encender el evento. Ahora está listo para cuando el usuario teclee a mano
+                        AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+                        ' =========================================================================
+
+                        ' Clavamos el cursor parpadeando allí dentro para que el usuario solo tenga que teclear
+                        CmbConcepto.Focus()
                     Else
                         ' 🎉 ¡EL TRIUNFO TOTAL DEL ASISTENTE ARTESANAL! Si ya no quedan más filas temporales, cerramos el taller
                         MsgBox(rmse.GetString("ExtractoCompletado"), MsgBoxStyle.Information, resManager.GetString("AppDisplayName"))
@@ -83,6 +101,9 @@ Public Class AprendizajeBancario
 
         Catch ex As Exception
             MsgBox(rmse.GetString("ErrorEnExtracto") & ": " & ex.Message, MsgBoxStyle.Critical)
+        Finally
+            ' 🌟 APAGAMOS EL INTERRUPTOR: La pantalla ya está dibujada y lista para el usuario
+            cargandoDatosBanco = False
         End Try
     End Sub
 
@@ -127,21 +148,6 @@ Public Class AprendizajeBancario
         Dim fechaInicio As New Date(anio, 1, 1)
         Dim fechaFin As New Date(anio, 12, 31)
 
-        '' 4. Aplicamos los rangos al control
-        'DateTimePicker1.MinDate = fechaInicio
-        'DateTimePicker1.MaxDate = fechaFin
-
-        '' 5. Aplicamos la lógica de asignación del valor según el año
-        '' Comparamos de forma segura convirtiendo vAñoActual a número o texto de forma explícita
-        'If anio.ToString() <> vAñoActual.ToString() Then
-        '    ' Si el año no es el actual, se inicializa en el último día de ese año contable
-        '    DateTimePicker1.Value = fechaFin
-        'Else
-        '    ' Si coincide con el año en curso, se inicializa con la fecha de hoy
-        '    ' Nota: Asegúrate de que vfechaHoy contenga un objeto Date válido o usa Date.Today
-        '    DateTimePicker1.Value = Convert.ToDateTime(vfechaHoy)
-        'End If
-
         TL(0) = New ToolTip
         TL(0).SetToolTip(Me.BtnAceptarOtro, rmse.GetString("BtnAceptarOtro.Text"))
         TL(1) = New ToolTip
@@ -162,9 +168,6 @@ Public Class AprendizajeBancario
         TL(8).SetToolTip(Me.BtnSaltarApuntes, rmse.GetString("BtnSaltarApuntes.Text"))
         TL(9) = New ToolTip
         TL(9).SetToolTip(Me.TxtDescripcion, My.Settings.RutaBD)
-
-        '' Añade una línea por cada GroupBox donde tengas estos botones:
-        'AddHandler Me.GroupBox1.MouseMove, AddressOf VerificarFiltrosDesactivados
 
         ' Combo Conceptos: solo selección, sin escritura libre
         CmbConcepto.DropDownStyle = ComboBoxStyle.DropDownList
@@ -257,8 +260,11 @@ Public Class AprendizajeBancario
     Private Sub TxtBuscarLetras_TextChanged(sender As Object, e As EventArgs) Handles TxtBuscarLetras.TextChanged
         vLetras = TxtBuscarLetras.Text.Trim()
 
-        ' 🌟 PROTECCIÓN: Si es la descripción por defecto, no hace falta buscar nada
-        If vLetras = TxtDescripcion.Text Then
+        ' 🌟 CORTAFUEGOS A LA ANTIGUA USANZA:
+        ' Si el texto coincide exactamente con la descripción oficial del concepto (vDescripcion)
+        ' o si es el primerísimo arranque de la pantalla, no permitimos que la tabla se abra sola.
+        If Not String.IsNullOrEmpty(vDescripcion) AndAlso vLetras.ToUpper() = vDescripcion.Trim().ToUpper() Then
+            DgvDescripcion.DataSource = Nothing
             DgvDescripcion.Visible = False
             Return
         End If
@@ -266,16 +272,15 @@ Public Class AprendizajeBancario
         ' Si hay menos de 3 letras → ocultamos y vaciamos el DataGridView
         If vLetras.Length < 3 Then
             DgvDescripcion.DataSource = Nothing
-            DgvDescripcion.Visible = False ' <-- Esto lo "cierra" en pantalla
+            DgvDescripcion.Visible = False
             Return
         End If
 
-        ' Si hay 3 o más letras: mostramos la tabla y lanzamos la búsqueda
+        ' La tabla SOLO se abrirá si el usuario interactúa físicamente escribiendo en el teclado
         DgvDescripcion.Visible = True
-
-        ' Usa los paréntesis exactamente como los tengas definidos en tu método (ej: BuscarLetras("descripcion") o BuscarLetras())
         BuscarLetras("descripcion")
     End Sub
+
 
     Private Sub BtnConcepto_Click(sender As Object, e As EventArgs) Handles BtnConcepto.Click
         ' 1. Abrimos la pantalla de mantenimiento de conceptos del formulario principal
@@ -334,8 +339,29 @@ Public Class AprendizajeBancario
         vIntro = "NO"
 
         ' Limpias los textos normales
-        TxtImporte.Text = "0"
         TxtNota.Text = ""
+
+        Try
+            ' 🌟 ACTIVAMOS EL INTERRUPTOR: Avisamos que el programa está rellenando casillas de forma automática
+            cargandoDatosBanco = True
+
+            ' 🪓 Limpiamos el cromo de la pasarela temporal extracto para avanzar
+            Using cmdDel As New OleDb.OleDbCommand("DELETE * FROM extracto WHERE CodigoAPU = " & vIdExtractoActual, conexion1)
+                cmdDel.ExecuteNonQuery()
+            End Using
+
+            ' Succionamos la siguiente línea del banco dócilmente
+            ' 🛗 EL ASCENSOR: Sumamos un cromo más al marcador visual antes de succionar la siguiente fila
+            vValorPrimero += 1
+
+            CargarPrimerConceptoBancario()
+
+        Catch ex As Exception
+            MsgBox(rmse.GetString("ErrorSaltarApunte") & ": " & ex.Message, MsgBoxStyle.Critical)
+        Finally
+            ' 🌟 APAGAMOS EL INTERRUPTOR: La pantalla ya está dibujada y lista para el usuario
+            cargandoDatosBanco = False
+        End Try
 
         ' 3. ¡La clave segura! Forzamos al formulario a repintarse limpiamente sin DoEvents
         Me.Refresh()
@@ -608,26 +634,20 @@ Public Class AprendizajeBancario
         CmbConcepto.DroppedDown = True
     End Sub
 
+
     Private Sub TxtBuscarLetras_Leave(sender As Object, e As EventArgs) Handles TxtBuscarLetras.Leave
         Dim textoActual As String = TxtBuscarLetras.Text.Trim()
-        Dim textoOriginal As String = TxtDescripcion.Text.Trim()
 
-        ' Si el DataGridView está invisible (lo que significa que el usuario no confirmó ninguna selección) 
-        ' y además el texto actual no coincide con el original que cargó el concepto...
-        If DgvDescripcion.Visible = False AndAlso textoActual.ToUpper() <> textoOriginal.ToUpper() Then
-
-            ' 1. Apagamos momentáneamente el evento TextChanged para que no intente buscar mientras restauramos
+        ' Comparamos contra vDescripcion (el texto oficial del concepto)
+        If DgvDescripcion.Visible = False AndAlso textoActual.ToUpper() <> vDescripcion.ToUpper() Then
             RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-
-            ' 2. Reestablecemos el texto original del concepto en el cuadro
-            TxtBuscarLetras.Text = textoOriginal
-            vDescripcion = textoOriginal ' Sincronizamos la variable global
-            vIntro = "NO" ' Aseguramos que no se marque como descripción nueva
-
-            ' 3. Volvemos a encender el evento de búsqueda
+            TxtBuscarLetras.Text = vDescripcion
+            TxtDescripcion.Text = vDescripcion ' Sincronizamos el chivato
+            vIntro = "NO"
             AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
         End If
     End Sub
+
 
     Private Sub CmbConcepto_KeyDown(sender As Object, e As KeyEventArgs) Handles CmbConcepto.KeyDown
         If e.KeyCode = Keys.Enter Then
@@ -737,7 +757,12 @@ Public Class AprendizajeBancario
                         DgvDescripcion.Columns("DescripcionAPU").HeaderText = resManager.GetString("Descripcion")
                         DgvDescripcion.Columns("DescripcionAPU").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
                     End If
-                    DgvDescripcion.Visible = True
+
+                    If vValorPrimero = 1 Then
+                        DgvDescripcion.Visible = False
+                    Else
+                        DgvDescripcion.Visible = True
+                    End If
                 Else
                     ' Si la búsqueda da 0 filas (como "impoo"), lo ocultamos
                     DgvDescripcion.Visible = False
@@ -780,20 +805,22 @@ Public Class AprendizajeBancario
 
             ' CASO A: El campo está completamente vacío -> Mostramos toda la lista
             If String.IsNullOrWhiteSpace(textoBuscado) Then
-                vLetras = ""
+				vLetras = ""
                 DgvDescripcion.Visible = True
                 BuscarLetras("descripcion")
                 DgvDescripcion.Focus()
                 Return
             End If
 
-            ' 🌟 ¡LA CORRECCIÓN CLAVE AQUÍ!
-            ' Si la tabla está oculta, pero el texto coincide exactamente con la descripción oficial 
-            ' del concepto (la que guardamos en TxtDescripcion.Text), el usuario está aceptando la opción por defecto.
-            If DgvDescripcion.Visible = False AndAlso textoBuscado.ToUpper() = TxtDescripcion.Text.Trim().ToUpper() Then
-                vDescripcion = textoBuscado ' Aseguramos la variable global
+            ' 🌟 ¡LA CORRECCIÓN CLAVE ADAPTADA AL BANCO!
+            ' Si la tabla está oculta, pero el texto del cuadro coincide exactamente con la descripción 
+            ' oficial del concepto que tenemos guardada en memoria (vDescripcion), el usuario acepta la de por defecto.
+            If DgvDescripcion.Visible = False AndAlso textoBuscado.ToUpper() = vDescripcion.Trim().ToUpper() Then
+                ' Forzamos a TxtDescripcion a asimilar este texto para blindar también el evento Leave
+                TxtDescripcion.Text = textoBuscado
+
                 vIntro = "NO" ' No es una descripción nueva
-                TxtNota.Focus() ' Saltamos directo al nota
+                TxtNota.Focus() ' Saltamos directo a la nota (como tienes configurado aquí)
                 Return
             End If
 
@@ -809,7 +836,7 @@ Public Class AprendizajeBancario
                     vIntro = "SI"
                     vDescripcion = textoBuscado
                     ' Actualizamos el almacén de texto original con el nuevo texto autorizado
-                    TxtDescripcion.Text = textoBuscado
+                    'TxtDescripcion.Text = textoBuscado
                     DgvDescripcion.Visible = False
                     TxtNota.Focus()
                 Else
@@ -884,7 +911,6 @@ Public Class AprendizajeBancario
             If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
 
             ' Pintamos la interfaz de forma limpia
-            TxtDescripcion.Text = tradDesc
             TxtBuscarLetras.Text = tradDesc
             vDescripcion = tradDesc ' 🌟 Sincronizamos de inmediato la variable global
 
@@ -897,6 +923,9 @@ Public Class AprendizajeBancario
         If vIdExtractoActual = 0 Then Exit Sub
 
         Try
+            ' 🌟 ACTIVAMOS EL INTERRUPTOR: Avisamos que el programa está rellenando casillas de forma automática
+            cargandoDatosBanco = True
+
             ' 🪓 Limpiamos el cromo de la pasarela temporal extracto para avanzar
             Using cmdDel As New OleDb.OleDbCommand("DELETE * FROM extracto WHERE CodigoAPU = " & vIdExtractoActual, conexion1)
                 cmdDel.ExecuteNonQuery()
@@ -910,470 +939,10 @@ Public Class AprendizajeBancario
 
         Catch ex As Exception
             MsgBox(rmse.GetString("ErrorSaltarApunte") & ": " & ex.Message, MsgBoxStyle.Critical)
+        Finally
+            ' 🌟 APAGAMOS EL INTERRUPTOR: La pantalla ya está dibujada y lista para el usuario
+            cargandoDatosBanco = False
         End Try
     End Sub
-
-
-    'Private Sub VerificarFiltrosDesactivados(sender As Object, e As MouseEventArgs) Handles Me.MouseMove
-    '    ' 🚀 REPARADO MODO ESCÁNER: Conectado al MouseMove del formulario para sortear el bloqueo del .Enabled = False
-
-    '    ' Diccionario con tus controles deshabilitados y sus ToolTips correspondientes
-    '    Dim controlesBloqueados As New Dictionary(Of Control, ToolTip) From {
-    '        {Me.TxtDescripcion, TL(10)}
-    '    }
-
-    '    ' Capturamos la posición del ratón exacta respecto al Formulario Principal (Me)
-    '    Dim posRatonRelativaAlForm As Point = Me.PointToClient(Cursor.Position)
-
-    '    For Each par In controlesBloqueados
-    '        Dim control As Control = par.Key
-    '        Dim tool As ToolTip = par.Value
-
-    '        If Not control.Enabled Then
-    '            ' 🎯 LA JUGADA MAESTRA: Traducimos las coordenadas al contenedor donde vive el control gris
-    '            Dim posRatonRelativaAlPadre As Point = control.Parent.PointToClient(Cursor.Position)
-
-    '            ' Si las coordenadas del ratón caen dentro del rectángulo físico del control gris
-    '            If control.Bounds.Contains(posRatonRelativaAlPadre) Then
-
-    '                ' Cargamos dinámicamente su texto correspondiente desde tu recurso (My.Settings o textos fijos)
-    '                Dim textoCartelito As String = ""
-    '                If control Is Me.TxtDescripcion Then
-    '                    textoCartelito = TxtDescripcion.Text
-    '                End If
-
-    '                ' Hacemos brotar el globo flotante reluciente desplazado 15 píxeles para que no lo tape el cursor
-    '                tool.Show(textoCartelito, Me, posRatonRelativaAlForm.X + 15, posRatonRelativaAlForm.Y + 15)
-    '                Exit Sub
-    '            End If
-    '        End If
-    '    Next
-
-    '    ' Si el ratón se sale del perímetro de los cuadros grises, apagamos los carteles de inmediato
-    '    TL(10).Hide(Me)
-    'End Sub
-
-
-
-
-
-
-
-    'Private Sub TxtBuscarLetras_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtBuscarLetras.KeyPress
-    '    ' Detectamos si se pulsa ENTER (Ascii 13)
-    '    If Asc(e.KeyChar) = 13 Then
-    '        e.Handled = True ' Evita el molesto pitido de Windows
-
-    '        ' 🛠️ CORRECCIÓN DE ANIDACIÓN: Cambiado a un IF limpio y directo para corregir el teclado
-    '        If vCombo = "descripcion_vacia" Then
-    '            ' Bloque de alta de descripción nueva
-    '            Dim respuesta As MsgBoxResult = ConfirmarAccionTraducida(rmse.GetString("NoExistenDescripciones") & ": -" & TxtBuscarLetras.Text.ToUpper() & "-" & vbCrLf & "¿" & rmse.GetString("AñadirDescripcion") & "?", rmse.GetString("$this.Text"))
-
-    '            If respuesta = vbYes Then
-    '                vIntro = "SI"
-    '                vDescripcion = TxtBuscarLetras.Text
-
-    '                ' 🛡️ EL ESCUDO DE HANDLERS TOTAL: Desenchufamos los DOS cables a la vez para limpiar la RAM
-    '                RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-    '                RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-
-    '                ' Forzamos los textos en frío sin disparar bucles fantasma en segundo plano
-    '                CmbDescripcion.Text = vDescripcion
-    '                TxtBuscarLetras.Enabled = False
-    '                TxtBuscarLetras.Text = ""
-    '                vLetras = ""
-
-    '                ' 🔌 VOLVEMOS A CONECTAR LOS DOS CABLES (Mesa de operaciones libre de corriente)
-    '                AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-    '                AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-
-    '                ' 🎯 LA ESTOCADA DEL FOCO: Forzamos a Windows a procesar los gráficos y clavamos el cursor
-    '                Application.DoEvents()
-    '                CmbDescripcion.Enabled = True
-    '                CmbDescripcion.Focus()
-    '                CmbDescripcion.SelectionStart = CmbDescripcion.Text.Length
-    '                CmbDescripcion.SelectionLength = 0
-
-    '                ' 🔓 VOLVEMOS A DESPERTAR EL TEXTBOX ARRIBA (Pero el cursor ya se ha quedado anclado abajo)
-    '                Application.DoEvents()
-    '                TxtBuscarLetras.Enabled = True
-    '            Else
-    '                RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-    '                If TxtBuscarLetras.Text.Length > 0 Then
-    '                    TxtBuscarLetras.Text = TxtBuscarLetras.Text.Substring(0, TxtBuscarLetras.Text.Length - 1)
-    '                End If
-    '                AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-
-    '                TxtBuscarLetras.Focus()
-    '                TxtBuscarLetras.SelectionStart = TxtBuscarLetras.Text.Length
-    '                vLetras = TxtBuscarLetras.Text
-    '                vCombo = "descripcion"
-    '                BuscarLetras(vCombo)
-    '            End If
-    '        Else
-    '            ' 🛠️ CORRECCIÓN: Si vCombo es "descripcion" normal (sí hay registros en el desplegable)
-    '            ' Eliminamos el MsgBox molesto para que al pulsar Enter baje directamente al combo,
-    '            ' despliegue las opciones y seleccione el primer elemento para moverte con las flechas.
-    '            If CmbDescripcion.Items.Count > 0 Then
-    '                CmbDescripcion.Focus()
-    '                CmbDescripcion.DroppedDown = True
-    '                CmbDescripcion.SelectedIndex = 0
-    '            End If
-    '        End If
-    '    Else
-    '        ' Si es cualquier otra letra (Mayúscula, minúscula, espacio, etc.), 
-    '        ' indicamos de forma limpia que estamos en proceso de escritura ordinaria
-    '        vIntro = "NO"
-    '    End If
-    'End Sub
-
-
-    'Private Sub CmbDescripcion_KeyDown(sender As Object, e As KeyEventArgs)
-    '    If e.KeyCode = Keys.Enter Then
-    '        e.SuppressKeyPress = True
-
-    '        ' 1. Guardamos la descripción seleccionada con las flechas
-    '        Dim textoSeleccionado As String = CmbDescripcion.Text
-
-    '        ' 2. Apagamos el buscador de arriba de forma controlada
-    '        RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-    '        TxtBuscarLetras.Text = ""
-    '        AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-
-    '        ' 3. Aseguramos el texto en el combo y en tu variable global
-    '        CmbDescripcion.Text = textoSeleccionado
-    '        vDescripcion = textoSeleccionado
-
-    '        ' 4. Cerramos el desplegable y mandamos el cursor al Importe
-    '        If CmbDescripcion.DroppedDown Then CmbDescripcion.DroppedDown = False
-
-    '        TxtNota.Select()
-    '    End If
-    'End Sub
-
-    'Private Sub CmbDescripcion_KeyPress(sender As Object, e As KeyPressEventArgs)
-    '    ' Si es un Intro, salimos inmediatamente
-    '    If Asc(e.KeyChar) = 13 Then
-    '        e.Handled = True
-    '        Exit Sub
-    '    End If
-
-    '    ' 🛠️ BLINDAJE ABSOLUTO MANTENIDO: Si vIntro es "SI", el usuario edita libremente
-    '    If vIntro = "SI" Then
-    '        ' Sincronizamos la variable de forma segura reteniendo mayúsculas/minúsculas nativas
-    '        BeginInvoke(Sub() vDescripcion = CmbDescripcion.Text)
-    '        Exit Sub
-    '    End If
-
-    '    ' 🛠️ NUEVA MEJORA EN CALIENTE: Si el usuario borra todo el texto a mano, 
-    '    ' liberamos el combo para poder escribir una descripción nueva desde cero.
-    '    If String.IsNullOrEmpty(CmbDescripcion.Text) Then
-    '        vIntro = "SI"
-    '        vDescripcion = ""
-    '        Exit Sub
-    '    End If
-
-    '    Dim letra As Char = e.KeyChar
-
-    '    ' Flujo por defecto si sólo está buscando palabras existentes
-    '    If Char.IsLetterOrDigit(letra) OrElse letra = " "c Then
-    '        vCombo = "descripcion"
-
-    '        TxtBuscarLetras.Enabled = True
-    '        TxtBuscarLetras.Text += letra.ToString()
-
-    '        TxtBuscarLetras.Focus()
-    '        TxtBuscarLetras.SelectionStart = TxtBuscarLetras.Text.Length
-    '        TxtBuscarLetras.SelectionLength = 0
-
-    '        vLetras = TxtBuscarLetras.Text
-
-    '        RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-
-    '        ' =========================================================================
-    '        ' 🎯 EL ESCUDO DE ACERTIJO: Vaciamos la lista de forma dócil sin provocar al motor Win32
-    '        ' =========================================================================
-    '        Try
-    '            CmbDescripcion.DroppedDown = False
-    '            CmbDescripcion.DataSource = Nothing ' Desvinculamos la caché relacional
-    '            CmbDescripcion.SelectedIndex = -1
-    '        Catch ex As Exception
-    '            ' Cortafuegos silencioso
-    '        End Try
-    '        ' =========================================================================
-
-    '        AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-    '        CmbDescripcion.Text = ""
-    '        e.Handled = True
-    '    End If
-    'End Sub
-
-    'Private Sub CmbDescripcion_SelectedIndexChanged(sender As Object, e As EventArgs)
-    '    ' OPTIMIZACIÓN CRÍTICA: Eliminamos la consulta SQL redundante a la base de datos.
-    '    ' Cuando el usuario hace clic en un elemento de la lista, el combo ya adquiere ese texto de forma nativa.
-    '    ' No necesitas abrir drMdb1, ni hacer un SELECT, ni volver a setear el .Text.
-
-    '    ' 🛡️ Si el candado está activo o no hay selección, salimos volando
-    '    If IsLimpiandoCombo OrElse CmbDescripcion.SelectedIndex = -1 Then Exit Sub
-
-    '    If vIntro = "NO" Then
-    '        ' Guardamos el valor seleccionado en tu variable global por si la usas en otro sitio
-    '        vDescripcion = CmbDescripcion.Text.Trim()
-    '    End If
-    'End Sub
-
-    'Private Sub CmbDescripcion_GotFocus(sender As Object, e As EventArgs)
-
-    '    ' 🎯 EL ESCUDO INTERNACIONAL: Si estamos traduciendo el formulario, 
-    '    ' salimos en paz sin dejar que WinForms altere el texto alemán.
-    '    If traduciendoComoMaestro Then Exit Sub
-
-    '    ' 🛡️ CORTAFUEGOS DE ALTA NUEVA (Tu escudo definitivo contra el robo del cursor)
-    '    ' Si venimos de pulsar "SÍ" para añadir una descripción, saltamos la inicialización
-    '    ' para evitar que los refrescos automáticos de Windows le devuelvan el foco al TextBox superior.
-    '    If vIntro = "SI" Then
-    '        vCombo = "descripcion"
-    '        CmbDescripcion.SelectionStart = CmbDescripcion.Text.Length
-    '        CmbDescripcion.SelectionLength = 0
-    '        Exit Sub ' 🪓 Cortamos el hilo aquí y dejamos el cursor parpadeando inmóvil en el combo!
-    '    End If
-
-    '    ' Si venimos del combo de conceptos, nos aseguramos de dejar guardado su valor real
-    '    If vCombo = "concepto" Then
-    '        CmbConcepto.DroppedDown = False
-    '        CmbConcepto.Text = vConcepto
-    '    End If
-
-    '    ' Preparamos el entorno para la descripción
-    '    vIntro = "NO"
-    '    vCombo = "descripcion"
-
-    '    ' 🛠️ CORRECCIÓN ABSOLUTA: Cambiamos Lower por Normal para liberar las Mayúsculas/Minúsculas
-    '    TxtBuscarLetras.CharacterCasing = CharacterCasing.Normal
-
-    '    If String.IsNullOrEmpty(CmbDescripcion.Text) Then
-    '        RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-    '        CmbDescripcion.SelectedIndex = -1
-    '        CmbDescripcion.Text = ""
-    '        AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-    '    Else
-    '        ' Si ya tiene texto, colocamos el cursor al final de la palabra de forma limpia
-    '        CmbDescripcion.SelectionStart = CmbDescripcion.Text.Length
-    '        CmbDescripcion.SelectionLength = 0
-    '    End If
-
-    '    '' 🛠️ MEJORA DE NAVEGACIÓN: Si estamos en modo de alta nueva, controlamos el cursor parpadeante
-    '    'If vIntro = "SI" Then
-    '    '    CmbDescripcion.SelectionStart = CmbDescripcion.Text.Length
-    '    '    CmbDescripcion.SelectionLength = 0
-    '    'End If
-    'End Sub
-
-
-    ''Private Sub BtnAceptarOtro_Click(sender As Object, e As EventArgs) Handles BtnAceptarOtro.Click
-    ''    ' Cortafuegos preventivo
-    ''    If vIdExtractoActual = 0 Then Exit Sub
-
-    ''    Try
-    ''        ' =========================================================================
-    ''        ' 🎯 RETENCIÓN DE MEMORIA PREMIUM (Tu invento de IntroApuntes)
-    ''        ' =========================================================================
-    ''        ' Capturamos el ID del concepto seleccionado por el usuario ANTES de mutar la RAM
-    ''        Dim idConceptoAMemorizar As Integer = Convert.ToInt32(CmbConcepto.SelectedValue)
-    ''        ' =========================================================================
-
-    ''        ' 1. PESCA DE VARIABLES PURAS DESDE TU INTERFAZ ELÁSTICA
-    ''        Dim fechaSQL As String = "#" & DateTimePicker1.Value.ToString("yyyy/MM/dd") & "#"
-    ''        Dim importeSQL As String = Convert.ToDecimal(TxtImporte.Text).ToString(System.Globalization.CultureInfo.InvariantCulture)
-    ''        Dim idConcepto As Integer = Convert.ToInt32(CmbConcepto.SelectedValue)
-    ''        Dim idCuenta As Integer = Convert.ToInt32(CmbCuenta.SelectedValue)
-
-    ''        ' Guardamos en tus apuntes oficiales el texto pulido que tú hayas retocado o elegido en la Descripció 2
-    ''        Dim descripcionUsuario As String = CmbDescripcion.Text.Replace("'", "''").Trim()
-    ''        Dim notaSQL As String = TxtNota.Text.Replace("'", "''").Trim()
-
-    ''        ' 2. 📁 INYECCIÓN DIRECTA EN TU TABLA REAL DE APUNTES
-    ''        Using cmdIns As New OleDb.OleDbCommand()
-    ''            cmdIns.Connection = conexion1
-    ''            cmdIns.CommandText = "INSERT INTO apuntes (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, CuentaAPU, NotasAPU) " &
-    ''                                 "VALUES (" & fechaSQL & ", " & idConcepto & ", '" & descripcionUsuario & "', " & importeSQL & ", " & vAñoEjercicio & ", " & idCuenta & ", '" & notaSQL & "')"
-    ''            cmdIns.ExecuteNonQuery()
-    ''        End Using
-
-    ''        ' 3. 🪓 ELIMINACIÓN DE LA PASARELA: Borramos este cromo de la tabla temporal extracto
-    ''        Using cmdDel As New OleDb.OleDbCommand("DELETE * FROM extracto WHERE CodigoAPU = " & vIdExtractoActual, conexion1)
-    ''            cmdDel.ExecuteNonQuery()
-    ''        End Using
-
-    ''        ' 4. 🚀 SIGUIENTE FILA: Succionamos el próximo apunte del banco en millonésimas de segundo
-    ''        ' 🛗 EL ASCENSOR: Sumamos un cromo más al marcador visual antes de succionar la siguiente fila
-    ''        vValorPrimero += 1
-
-    ''        CargarPrimerConceptoBancario()
-
-    ''        ' =========================================================================
-    ''        ' 🪓 EL TIRO DE GRACIA: Obligamos al Combo a recuperar el valor memorizado
-    ''        ' =========================================================================
-    ''        ' En lugar de resetearse al ID 1 (Varios), el combo se clava en tu última decisión
-    ''        If vIdExtractoActual > 0 Then
-    ''            CmbConcepto.SelectedValue = idConceptoAMemorizar
-    ''            CmbConcepto.Focus() ' Clavamos el cursor allí de nuevo para el Tabulador
-    ''        End If
-
-    ''    Catch ex As Exception
-    ''        MsgBox(rmse.GetString("ErrorGuardarApunte") & ": " & ex.Message, MsgBoxStyle.Critical)
-    ''    End Try
-
-    ''    ' 🌟 SANEAMIENTO PREVENTIVO DE PARÁMETROS PARA EL REFRESCO
-    ''    cmdMdb1cr.Parameters.Clear()
-
-    ''    ' Consulta SQL Maestra de 11 celdas relacionales (Tu diseño perfecto)
-    ''    vtipoSql = "SELECT apuntes.FechaAPU As [FechaAPU], " &
-    ''                       "conceptos.DescripcionCON As [ConceptoAPU], " &
-    ''                       "apuntes.DescripcionAPU As [DescripcionAPU], " &
-    ''                       "apuntes.ImporteAPU As [ImporteAPU], " &
-    ''                       "apuntes.ImporteAPU As [SaldoAPU], " &
-    ''                       "apuntes.NotasAPU As [NotasAPU], " &
-    ''                       "cuentas.NombreCUE As [CuentaAPU], " &
-    ''                       "apuntes.CodigoAPU As [CodigoAPU], " &
-    ''                       "conceptos.CodigoCON As [CodigoCON], " &
-    ''                       "apuntes.ConceptoAPU As [IdConceptoCON], " &
-    ''                       "apuntes.CuentaAPU As [IdCuentaCUE] " &
-    ''                       "FROM (apuntes " &
-    ''                       "INNER JOIN conceptos ON apuntes.ConceptoAPU = conceptos.IdConceptoCON) " &
-    ''                       "INNER JOIN cuentas ON apuntes.CuentaAPU = cuentas.IdCuentaCUE"
-
-    ''    vtipoSql += " WHERE apuntes.EjercicioAPU = " & vAñoEjercicio.ToString
-
-    ''    ' 🌟 CORRECCIÓN 1: Filtro por ID numérico de Cuenta (Sin comillas simples)
-    ''    If frmApuntesContables.BtnFiltroCuenta.Enabled = False Then
-    ''        Dim idCuentaPrincipal As Integer = Convert.ToInt32(frmApuntesContables.CmbCuenta.SelectedValue)
-    ''        vtipoSql += $" And apuntes.CuentaAPU = {idCuentaPrincipal} "
-    ''    End If
-
-    ''    ' 🌟 CORRECCIÓN 2: Filtro por ID numérico de Concepto (Sin comillas simples)
-    ''    If frmApuntesContables.BtnFiltroConcepto.Enabled = False Then
-    ''        Dim idConceptoPrincipal As Integer = Convert.ToInt32(frmApuntesContables.CmbConcepto.SelectedValue)
-    ''        vtipoSql += $" And apuntes.ConceptoAPU = {idConceptoPrincipal} "
-    ''    End If
-
-    ''    ' 🌟 CORRECCIÓN 3: Sincronización estricta de parámetros de fechas
-    ''    If frmApuntesContables.BtnFiltroFecha.Enabled = False Then
-    ''        vDate1 = frmApuntesContables.DateTimePicker1.Value.Date
-    ''        vDate2 = frmApuntesContables.DateTimePicker2.Value.Date
-
-    ''        vtipoSql += " And apuntes.FechaAPU >= ?"
-    ''        vtipoSql += " And apuntes.FechaAPU <= ?"
-
-    ''        ' Inyectamos los valores en el comando global en el orden de los signos '?'
-    ''        cmdMdb1cr.Parameters.AddWithValue("?", vDate1)
-    ''        cmdMdb1cr.Parameters.AddWithValue("?", vDate2)
-    ''    End If
-
-    ''    vtipoSql += " ORDER BY apuntes.FechaAPU ASC, apuntes.ImporteAPU ASC"
-    ''    vtipoGrid = "APUNTES_CONTABLES"
-    ''    LlenarGrid(vtipoSql, vtipoGrid, "1")
-    ''    TraducirGridApuntesBD(frmApuntesContables.DgvApuntes)
-
-    ''    vFilaActual = frmApuntesContables.DgvApuntes.CurrentRow.Index
-    ''    If vFilaActual = frmApuntesContables.DgvApuntes.RowCount - 1 Then
-    ''        MsgBox(resManager.GetString("MsgFila2"))
-    ''    Else
-    ''        vFila = frmApuntesContables.DgvApuntes.RowCount - 1
-    ''        frmApuntesContables.DgvApuntes.Rows(vFila).Selected = True
-    ''        frmApuntesContables.DgvApuntes.CurrentCell = frmApuntesContables.DgvApuntes.Rows(vFila).Cells(0)
-    ''    End If
-
-
-    ''    ' =====================================================================
-    ''    ' 🛠️ REINICIO ASISTIDO DE PASOS PARA INTRODUCIR OTRO APUNTE
-    ''    ' =====================================================================
-    ''    ' 1. Apagamos el TextChanged superior para evitar llamadas falsas a la BD al limpiar
-    ''    RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-    ''    TxtBuscarLetras.Text = ""
-    ''    AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
-
-    ''    ' 2. Reestablecemos el estado inicial del buscador de descripciones
-    ''    TxtBuscarLetras.Enabled = True
-    ''    vLetras = ""
-    ''    vIntro = "NO"
-
-    ''    ' 1. Limpias los textos normales
-    ''    TxtNota.Text = ""
-
-    ''    ' 3. ¡La clave! Forzamos al formulario a procesar los cambios visuales antes de seguir
-    ''    Application.DoEvents()
-
-    ''    ' 4. Regresamos el cursor a la Fecha para arrancar de nuevo el flujo de introducción
-    ''    DateTimePicker1.Focus()
-    ''End Sub
-
-    'Private Sub BtnDescripcion_Click(sender As Object, e As EventArgs)
-    '    ' Llenar el Combo Descripción
-    '    '****************************
-    '    LlenarDescripcion()
-    'End Sub
-
-    'Private Sub CmbDescripcion_Click(sender As Object, e As EventArgs)
-    '    CmbDescripcion.DroppedDown = True
-    'End Sub
-
-    'Public Sub LlenarDescripcion()
-    '    ' 1. SANEAMIENTO PREVENTIVO: Apagamos los eventos un instante para evitar disparos en falso
-    '    RemoveHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-    '    CmbDescripcion.DataSource = Nothing
-    '    CmbDescripcion.Items.Clear()
-
-    '    ' 2. LA SQL PERFECTA (Tu excelente consulta DISTINCT que delega el trabajo en Access)
-    '    cmdMdb1cr.CommandText = "SELECT DISTINCT DescripcionAPU FROM apuntes WHERE DescripcionAPU <> 'Saldo Inicial' ORDER BY DescripcionAPU ASC"
-    '    cmdMdb1cr.Parameters.Clear()
-
-    '    Dim dtDescripciones As New DataTable()
-
-    '    Try
-    '        ' 🌟 EL ATAJO DE .NET: Cargamos los datos directos en el DataTable (Abre, lee y CIERRA el flujo al vuelo)
-    '        Using dr As OleDbDataReader = cmdMdb1cr.ExecuteReader()
-    '            dtDescripciones.Load(dr)
-    '        End Using
-
-    '        ' 3. VINCULACIÓN DIRECTA EN UN MILISEGUNDO
-    '        CmbDescripcion.ValueMember = "DescripcionAPU"
-    '        CmbDescripcion.DisplayMember = "DescripcionAPU"
-    '        CmbDescripcion.DataSource = dtDescripciones ' Al asignarlo de golpe, .NET dibuja el combo una sola vez
-
-    '        CmbDescripcion.SelectedIndex = -1 ' Lo dejamos inicialmente vacío y limpio
-
-    '    Catch ex As Exception
-    '        MsgBox(rmse.GetString("ErrorLlenarDesplegable") & " " & ex.Message, vbExclamation, rmse.GetString("$this.Text"))
-    '    Finally
-    '        ' Restauramos el escuchador de eventos de forma totalmente segura
-    '        AddHandler CmbDescripcion.SelectedIndexChanged, AddressOf CmbDescripcion_SelectedIndexChanged
-    '    End Try
-    'End Sub
-
-
-    'Private Sub CmbConcepto_TextChanged(sender As Object, e As EventArgs) Handles CmbConcepto.TextChanged
-    '    textoAutocompletadoEnAzul = CmbConcepto.Text.Trim()
-    'End Sub
-
-
-
-
-    'Private Sub CmbDescripcion_Enter(sender As Object, e As EventArgs)
-    '    ' 🛡️ EL ESCUDO ADUANERO: Si el foco entra al combo pero el buscador está vacío o listo,
-    '    ' desviamos el cursor obligatoriamente a la caja de texto para unificar el criterio
-    '    If TxtBuscarLetras.Focused = False Then
-    '        TxtBuscarLetras.Focus()
-    '        TxtBuscarLetras.SelectionStart = TxtBuscarLetras.Text.Length
-    '    End If
-    'End Sub
-
-
-    'Private Sub CmbDescripcion_TextChanged(sender As Object, e As EventArgs)
-    '    If Not buscandoDescripcion Then
-    '        vDescripcion = CmbDescripcion.Text.Trim()
-    '    End If
-    'End Sub
-
 
 End Class
