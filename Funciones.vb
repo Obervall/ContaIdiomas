@@ -3808,7 +3808,7 @@ Module Funciones
                     ' 2. Calculamos el punto exacto: el mismo "Top" del padre y a la derecha de su ancho
                     ' (Me representa al formulario contenedor de Apuntes Contables que vemos de fondo)
                     Dim ejeX As Integer = frmApuntesContables.Left + frmApuntesContables.Width - frmIA.Width ' no Restamos 20 píxeles por si el borde de Windows
-                    Dim ejeY As Integer = frmApuntesContables.Top + 40             ' Sumamos 40 píxeles para alinear con tu barra superior
+                    Dim ejeY As Integer = frmApuntesContables.Top  ' + 40 Sumamos 40 píxeles para bajar del padre
 
                     ' 3. Clavamos la bandera en el monitor real
                     frmIA.Location = New Point(ejeX, ejeY)

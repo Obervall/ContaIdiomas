@@ -1286,7 +1286,22 @@ Public Class ApuntesContables
         ' Nota: Si tienes el método ActualizarTextosFormulario accesible, puedes llamarlo aquí:
         ActualizarTextosFormulario(frmIntroApuntes)
         ' 3. ¡EL TRUCO!: Decimos que se centre respecto a su contenedor "padre"
-        frmIntroApuntes.StartPosition = FormStartPosition.CenterParent
+        'frmIntroApuntes.StartPosition = FormStartPosition.CenterParent
+        ' =========================================================================
+        ' 🎯 LA COORDINACIÓN GEOGRÁFICA DE TU MONITOR (VERSIÓN 3.3.6.0)
+        ' =========================================================================
+        ' 1. Forzamos al formulario a leer nuestras coordenadas manuales por software
+        frmIntroApuntes.StartPosition = FormStartPosition.Manual
+
+        ' 2. Calculamos el punto exacto: el mismo "Top" del padre y a la derecha de su ancho
+        ' (Me representa al formulario contenedor de Apuntes Contables que vemos de fondo)
+        Dim ejeX As Integer = frmApuntesContables.Left + (frmApuntesContables.Width / 2) - (frmIntroApuntes.Width / 2)
+        Dim ejeY As Integer = frmApuntesContables.Top
+
+        ' 3. Clavamos la bandera en el monitor real
+        frmIntroApuntes.Location = New Point(ejeX, ejeY)
+        frmIntroApuntes.Scale(New SizeF(0.8F, 0.8F))
+
         ' ¡LA PROTECCIÓN CRÍTICA!: Procesamos todos los mensajes visuales pendientes en Windows
         Application.DoEvents()
         ' 4. Abrimos el formulario modal pasando "Me" (este segundo formulario) como dueño

@@ -758,13 +758,21 @@ Public Class AprendizajeBancario
                         DgvDescripcion.Columns("DescripcionAPU").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
                     End If
 
-                    If vValorPrimero = 1 Then
+                    ' 🛡️ REPARACIÓN DE EMERGENCIA: Si la variable global se quedó vacía por el rebote de carga,
+                    ' la sincronizamos a la antigua usanza con el texto que el concepto acaba de pintar en pantalla.
+                    If String.IsNullOrWhiteSpace(vDescripcion) Then
+                        vDescripcion = TxtBuscarLetras.Text.Trim()
+                    End If
+
+                    ' 🌟 TU REGLA DE VISIBILIDAD DEFINITIVA (AHORA 100% SEGURA)
+                    ' Al estar vDescripcion bien rellena, la comparación será perfecta tanto en el apunte 1 como en el 40.
+                    If TxtBuscarLetras.Text.Trim().ToUpper() = vDescripcion.Trim().ToUpper() Then
                         DgvDescripcion.Visible = False
                     Else
                         DgvDescripcion.Visible = True
                     End If
                 Else
-                    ' Si la búsqueda da 0 filas (como "impoo"), lo ocultamos
+                    ' Si la búsqueda da 0 filas, lo ocultamos
                     DgvDescripcion.Visible = False
                 End If
 
@@ -835,8 +843,6 @@ Public Class AprendizajeBancario
                 If respuesta = MsgBoxResult.Yes Then
                     vIntro = "SI"
                     vDescripcion = textoBuscado
-                    ' Actualizamos el almacén de texto original con el nuevo texto autorizado
-                    'TxtDescripcion.Text = textoBuscado
                     DgvDescripcion.Visible = False
                     TxtNota.Focus()
                 Else
@@ -863,7 +869,6 @@ Public Class AprendizajeBancario
     Private Sub ProcesarSeleccionDescripcion(rowIndex As Integer)
         ' 1. Extraemos el valor de la columna de la fila seleccionada
         vDescripcion = DgvDescripcion.Rows(rowIndex).Cells("DescripcionAPU").Value.ToString()
-
         ' 2. Pasamos el texto seleccionado de vuelta a tu TextBox para que se vea la elección
         TxtBuscarLetras.Text = vDescripcion
 
@@ -891,7 +896,6 @@ Public Class AprendizajeBancario
                     tipoOriginal = filaSeleccionada("TipoCON").ToString().Trim()
                 End If
             End If
-
             ' Guardamos código para la BD
             vConcepto = codigoOriginal
 
@@ -909,7 +913,6 @@ Public Class AprendizajeBancario
             Dim llaveDesc As String = "Desc_" & codigoOriginal.ToUpper().Trim()
             Dim tradDesc As String = resManager.GetString(llaveDesc)
             If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
-
             ' Pintamos la interfaz de forma limpia
             TxtBuscarLetras.Text = tradDesc
             vDescripcion = tradDesc ' 🌟 Sincronizamos de inmediato la variable global

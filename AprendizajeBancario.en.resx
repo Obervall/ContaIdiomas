@@ -231,4 +231,7 @@ Error</value>
   <data name="TxtABuscar" xml:space="preserve">
     <value>Search text, minimum 3 letters</value>
   </data>
+  <data name="LblAyudaBuscar.Text" xml:space="preserve">
+    <value>Type 3 letters to filter or Delete and press Enter to see all</value>
+  </data>
 </root>

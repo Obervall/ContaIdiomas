@@ -19,6 +19,7 @@ Public Class IntroApuntes
     Private buscandoDescripcion As Boolean = False
 
     Private Sub IntroApuntes_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
         Me.KeyPreview = True
 
         Label7.Text = vMoneda
