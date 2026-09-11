@@ -117,48 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Label1.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="MiCuadroTextoAyuda.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="Label1.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="MiCuadroTextoAyuda.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 10.2pt</value>
   </data>
-  <data name="Label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 8</value>
+  <data name="MiCuadroTextoAyuda.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
   </data>
-  <data name="Label1.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>320, 0</value>
+  <data name="MiCuadroTextoAyuda.ScrollBars" type="System.Windows.Forms.RichTextBoxScrollBars, System.Windows.Forms">
+    <value>Vertical</value>
   </data>
-  <data name="Label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>319, 560</value>
+  <data name="MiCuadroTextoAyuda.Size" type="System.Drawing.Size, System.Drawing">
+    <value>558, 529</value>
   </data>
-  <data name="Label1.TabIndex" type="System.Int32, mscorlib">
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="MiCuadroTextoAyuda.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="Label1.Text" xml:space="preserve">
-    <value>Paso 1: 
-Seleccionar un Concepto, verás en  las Descripciones 1 y 2, la que hay por defecto.
-
-Paso 2:
-Si la Descripción 2 del Concepto, no es la deseada, escribe en "Buscar Descripción:" escribe mínimo tres letras y se abrirá la Descripción 2:, con las palabras que contienen las letras del "Buscar Descripción:".
-Para pasar al desplegable, pulsar Intro y con las Flechas moverse por el desplegable y terminar pulsando Intro para saltar al Importe.
-
-Nota:
-Puedes retroceder para modificar lo escrito.
-En el caso de que quieras guardar una nueva descripción que no existe, sigue escribiendo y como no encontrará ningúna coincidencia, te preguntará si quieres añadir ese Texto, una vez pasa el Texto a Descripción 2:, puedes completarlo.</value>
+  <data name="MiCuadroTextoAyuda.Text" xml:space="preserve">
+    <value />
   </data>
-  <data name="&gt;&gt;Label1.Name" xml:space="preserve">
-    <value>Label1</value>
+  <data name="&gt;&gt;MiCuadroTextoAyuda.Name" xml:space="preserve">
+    <value>MiCuadroTextoAyuda</value>
   </data>
-  <data name="&gt;&gt;Label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;MiCuadroTextoAyuda.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Label1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;MiCuadroTextoAyuda.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;Label1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;MiCuadroTextoAyuda.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -167,15 +159,11 @@ En el caso de que quieras guardar una nueva descripción que no existe, sigue es
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>8, 16</value>
   </data>
-  <data name="$this.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="$this.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
-    <value>GrowAndShrink</value>
-  </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>349, 584</value>
+    <value>582, 553</value>
+  </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>250, 480</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>Manual</value>
@@ -188,5 +176,25 @@ En el caso de que quieras guardar una nueva descripción que no existe, sigue es
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TextoManualCompleto" xml:space="preserve">
+    <value>Paso 1: Seleccionar un Concepto
+• a) Si el concepto ya está filtrado en los apuntes contables, aparecerá seleccionado por defecto.
+• b) Desplegar la lista con la flecha y seleccionar el deseado con el ratón.
+• c) Hacer clic en el campo y escribir la primera letra: cada pulsación se desplazará por los conceptos que empiezan por esa letra. Pulsar Enter cuando esté seleccionado el deseado.
+Paso 2: Introducir una Descripción
+• a) Dejar la descripción por defecto del concepto seleccionado y pulsar Enter para pasar directamente al Importe.
+• b) Añadir texto a la descripción genérica: si el texto existe en el historial, se abrirá el buscador con las coincidencias. Pulsar Flecha Abajo para navegar por la lista, seleccionar la deseada y pulsar Enter.
+• c) Seleccionar todo el texto, pulsar Suprimir y escribir un mínimo de 3 letras para que se abra el buscador. Navegar con la Flecha Abajo, seleccionar la opción deseada y pulsar Enter.
+• d) Para una descripción nueva, escribir el texto deseado y pulsar Enter. El sistema solicitará confirmación para añadirla; confirmar pulsando Sí.
+Paso 3: Insertar el Importe
+• Introducir el importe y pulsar Enter.
+Paso 4: Seleccionar la Cuenta Bancaria
+• a) Si la cuenta bancaria ya está filtrada en los apuntes contables, aparecerá seleccionada por defecto.
+• b) Desplegar la lista con la flecha y seleccionar la deseada con el ratón.
+• c) Hacer clic en el campo y escribir la primera letra: cada pulsación se desplazará por las cuentas que empiezan por esa letra. Pulsar Enter cuando esté seleccionada la deseada.
+Paso 5: Finalizar el Apunte
+• a) Escribir una Nota, si es necesario.
+• b) Pulsar Aceptar y Otro para seguir introduciendo apuntes, o Aceptar y Salir para terminar.</value>
   </data>
 </root>

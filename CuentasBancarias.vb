@@ -64,7 +64,7 @@ Public Class CuentasBancarias
         CargarCuentasBancarias()
         ' Ocultamos el Id de la cuenta que viaja seguro en la posición 4
         If DgvCuentas.Columns.Count > 5 Then
-            DgvCuentas.Columns(5).Visible = False
+            'DgvCuentas.Columns(5).Visible = False
         End If
 
         ' Lanzamos tu rutina de traducción de siempre sobre los textos (CodigoTIP)

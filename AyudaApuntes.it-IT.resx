@@ -117,19 +117,27 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Label1.Text" xml:space="preserve">
-    <value>Passo 1: 
-Seleziona un concetto, vedrai nelle Descrizioni 1 e 2, quello che è di default.
-
-Passo 2:
-Se la Descrizione 2 del Concetto non è quella desiderata, digita "Descrizione di ricerca:" digita almeno tre lettere e Descrizione 2: si aprirà, con le parole che contengono le lettere "Descrizione di ricerca:".
-Per andare al menu a discesa, premi Invio e con le frecce spostati attraverso il menu a discesa e concludi premendo Invio per saltare alla Somma.
-
-Nota:
-Puoi tornare indietro per modificare ciò che hai scritto.
-Nel caso volessi salvare una nuova descrizione che non esiste, continua a digitare e, dato che non troverà corrispondenza, ti chiederà se vuoi aggiungere quel testo; una volta passato il testo alla Descrizione 2:, puoi completarlo.</value>
-  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Guida Introduttiva Rapida</value>
+  </data>
+  <data name="TextoManualCompleto" xml:space="preserve">
+    <value>Passo 1: Selezionare una Voce (Concetto)
+• a) Se la voce è già filtrata nelle scritture contabili, apparirà selezionata per impostazione predefinita.
+• b) Espandere l'elenco con la freccia e selezionare quella desiderata con il mouse.
+• c) Fare clic sul campo e digitare la prima lettera: ogni pressione scorrerà le voci che iniziano con quella lettera. Premere Invio quando viene selezionata quella desiderata.
+Passo 2: Inserire una Descrizione
+• a) Lasciare la descrizione predefinita della voce selezionata e premere Invio per passare direttamente all'Importo.
+• b) Aggiungere testo alla descrizione generica: se il testo esiste nella cronologia, si aprirà il motore di ricerca con le corrispondenze. Premere Freccia Giù per scorrere l'elenco, selezionare quella desiderata e premere Invio.
+• c) Selezionare tutto il testo, premere Canc e digitare almeno 3 lettere per aprire il motore di ricerca. Navigare con la Freccia Giù, selezionare l'opzione desiderata e premere Invio.
+• d) Per una nuova descrizione, digitare il testo desiderato e premere Invio. Il sistema richiederà una conferma per aggiungerla; confermare premendo Sì.
+Passo 3: Inserire l'Importo
+• Inserire l'importo e premere Invio.
+Passo 4: Selezionare il Conto Bancario
+• a) Se il conto bancario è già filtrato nelle scritture contabili, apparirà selezionato per impostazione predefinita.
+• b) Espandere l'elenco con la freccia e selezionare quello desiderato con il mouse.
+• c) Fare clic sul campo e digitare la prima lettera: ogni pressione scorrerà i conti che iniziano con quella lettera. Premere Invio quando viene selezionato quello desiderato.
+Passo 5: Finalizzare la Scrittura
+• a) Inserire una Nota, se necessario.
+• b) Premere Accetta e Nuovo per continuare a inserire scritture, oppure Accetta e Esci per terminare.</value>
   </data>
 </root>

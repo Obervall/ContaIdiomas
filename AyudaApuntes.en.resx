@@ -120,16 +120,24 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Quick Introduction Guide</value>
   </data>
-  <data name="Label1.Text" xml:space="preserve">
-    <value>Step 1: 
-Select a Concept, you will see in Descriptions 1 and 2, the one that is by default.
-
-Step 2:
-If Description 2 of the Concept is not the desired one, type in "Search Description:" type at least three letters and Description 2: will open, with the words that contain the letters of "Search Description:".
-To go to the drop-down, press Enter and with the Arrows move through the drop-down and finish by pressing Enter to jump to the Amount.
-
-Note:
-You can go back to modify what you wrote.
-In case you want to save a new description that does not exist, keep typing and as it will not find any match, it will ask you if you want to add that Text, once you pass the Text to Description 2:, you can complete it.</value>
+  <data name="TextoManualCompleto" xml:space="preserve">
+    <value>Step 1: Select a Concept
+• a) If the concept is already filtered in the accounting entries, it will appear selected by default.
+• b) Expand the list using the arrow and select the desired one with the mouse.
+• c) Click on the field and type the first letter: each press will cycle through the concepts starting with that letter. Press Enter when the desired one is selected.
+Step 2: Enter a Description
+• a) Leave the default description of the selected concept and press Enter to jump directly to the Amount.
+• b) Add text to the generic description: if the text exists in the history, the search box will open with matches. Press the Down Arrow to navigate the list, select the desired one, and press Enter.
+• c) Select all text, press Delete, and type at least 3 letters to open the search box. Navigate with the Down Arrow, select the desired option, and press Enter.
+• d) For a new description, type the desired text and press Enter. The system will ask for confirmation to add it; confirm by pressing Yes.
+Step 3: Enter the Amount
+• Enter the amount and press Enter.
+Step 4: Select the Bank Account
+• a) If the bank account is already filtered in the accounting entries, it will appear selected by default.
+• b) Expand the list using the arrow and select the desired one with the mouse.
+• c) Click on the field and type the first letter: each press will cycle through the accounts starting with that letter. Press Enter when the desired one is selected.
+Step 5: Finalize the Entry
+• a) Enter a Note, if necessary.
+• b) Press Accept and Next to keep entering transactions, or Accept and Exit to finish.</value>
   </data>
 </root>

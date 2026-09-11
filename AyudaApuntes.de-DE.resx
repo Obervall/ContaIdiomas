@@ -117,19 +117,27 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Label1.Text" xml:space="preserve">
-    <value>Schritt 1: 
-Wähle ein Konzept aus, das du in Beschreibungen 1 und 2 siehst, also das Standardkonzept.
-
-Schritt 2:
-Wenn Beschreibung 2 des Konzepts nicht die gewünschte ist, geben Sie "Search Description:" ein, geben Sie mindestens drei Buchstaben ein und Description 2: wird geöffnet, mit den Wörtern, die die Buchstaben von "Search Description:" enthalten.
-Um zum Dropdown-Menü zu gelangen, drücken Sie Enter und gehen Sie mit den Pfeilen durch das Dropdown-Menü und beenden Sie die Eingabe, um zum Betrag zu springen.
-
-Hinweis:
-Du kannst zurückgehen und das, was du geschrieben hast, ändern.
-Falls du eine neue Beschreibung speichern möchtest, die nicht existiert, tippe weiter und da sie keine Übereinstimmung findet, wird sie dich gefragt, ob du den Text hinzufügen möchtest; sobald du den Text zu Beschreibung 2:, kannst du ihn ausfüllen.</value>
-  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Schneller Einführungsleitfaden</value>
+  </data>
+  <data name="TextoManualCompleto" xml:space="preserve">
+    <value>Schritt 1: Konzept auswählen
+• a) Wenn das Konzept bereits in den Buchungen gefiltert ist, wird es standardmäßig ausgewählt.
+• b) Klappen Sie die Liste mit dem Pfeil auf und wählen Sie das gewünschte Konzept mit der Maus aus.
+• c) Klicken Sie auf das Feld und geben Sie den ersten Buchstaben ein: Jeder Tastendruck springt zum nächsten Konzept, das mit diesem Buchstaben beginnt. Drücken Sie Enter, wenn das gewünschte Konzept ausgewählt ist.
+Schritt 2: Beschreibung eingeben
+• a) Übernehmen Sie die Standardbeschreibung des ausgewählten Konzepts und drücken Sie Enter, um direkt zum Betrag zu springen.
+• b) Text zur allgemeinen Beschreibung hinzufügen: Wenn der Text im Verlauf existiert, öffnet sich das Suchfeld mit den Treffern. Drücken Sie die Pfeiltaste Nach Unten, um durch die Liste zu navigieren, wählen Sie den gewünschten Eintrag aus und drücken Sie Enter.
+• c) Markieren Sie den gesamten Text, drücken Sie Entf und geben Sie mindestens 3 Buchstaben ein, um das Suchfeld zu öffnen. Navigieren Sie mit der Pfeiltaste Nach Unten, wählen Sie die gewünschte Option aus und drücken Sie Enter.
+• d) Für eine neue Beschreibung geben Sie den gewünschten Text ein und drücken Sie Enter. Das System bittet um Bestätigung zum Hinzufügen; bestätigen Sie mit Ja.
+Schritt 3: Betrag eingeben
+• Geben Sie den Betrag ein und drücken Sie Enter.
+Schritt 4: Bankkonto auswählen
+• a) Wenn das Bankkonto bereits in den Buchungen gefiltert ist, wird es standardmäßig ausgewählt.
+• b) Klappen Sie die Liste mit dem Pfeil auf und wählen Sie das gewünschte Konto mit der Maus aus.
+• c) Klicken Sie auf das Feld und geben Sie den ersten Buchstaben ein: Jeder Tastendruck springt zum nächsten Konto, das mit diesem Buchstaben beginnt. Drücken Sie Enter, wenn das gewünschte Konto ausgewählt ist.
+Schritt 5: Buchung abschließen
+• a) Geben Sie bei Bedarf eine Notiz ein.
+• b) Drücken Sie Übernehmen und Weiter, um weitere Buchungen einzugeben, oder Übernehmen und Schließen, um den Vorgang zu beenden.</value>
   </data>
 </root>

@@ -117,19 +117,27 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Label1.Text" xml:space="preserve">
-    <value>Passo 1: 
-Selecione um conceito, você verá nas Descrições 1 e 2, aquele que é padrão.
-
-Passo 2:
-Se a Descrição 2 do Conceito não for a desejada, digite "Descrição de Pesquisa:" digite pelo menos três letras e Descrição 2: abrirá, com as palavras que contêm as letras de "Descrição de Pesquisa:".
-Para ir até o menu suspenso, pressione Enter e, com as Setas, avance pelo menu suspenso e termine pressionando Enter para pular até o Quanto.
-
-Nota:
-Você pode voltar para modificar o que escreveu.
-Caso você queira salvar uma nova descrição que não existe, continue digitando e, como não encontrará nenhuma correspondência, ele perguntará se você quer adicionar esse texto; depois de passar o texto para a Descrição 2:, você pode completá-lo.</value>
-  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Guia Rápido de Introdução</value>
+  </data>
+  <data name="TextoManualCompleto" xml:space="preserve">
+    <value>Passo 1: Selecionar um Conceito
+• a) Se o conceito já estiver filtrado nos lançamentos contabilísticos, aparecerá selecionado por predefinição.
+• b) Desdobrar a lista com a seta e selecionar o desejado com o rato.
+• c) Clicar no campo e digitar a primeira letra: cada pressão irá navegar pelos conceitos que começam com essa letra. Premir Enter quando o desejado estiver selecionado.
+Passo 2: Inserir uma Descrição
+• a) Deixar a descrição por predefinição do conceito selecionado e premir Enter para passar diretamente para o Valor.
+• b) Adicionar texto à descrição genérica: se o texto existir no histórico, o campo de pesquisa abrirá com as correspondências. Premir a Seta Para Baixo para navegar na lista, selecionar a desejada e premir Enter.
+• c) Selecionar todo o texto, premir Delete e digitar no mínimo 3 letras para abrir o campo de pesquisa. Navegar com a Seta Para Baixo, selecionar a opção desejada e premir Enter.
+• d) Para uma descrição nova, digitar o texto desejado e premir Enter. O sistema solicitará confirmação para adicioná-la; confirmar premindo Sim.
+Passo 3: Inserir o Valor
+• Introduzir o valor e premir Enter.
+Passo 4: Selecionar a Conta Bancária
+• a) Se a conta bancária já estiver filtrada nos lançamentos contabilísticos, aparecerá selecionada por predefinição.
+• b) Desdobrar a lista com a seta e selecionar a desejada com o rato.
+• c) Clicar no campo e digitar a primeira letra: cada pressão irá navegar pelas contas que começam com essa letra. Premir Enter quando a desejada estiver selecionada.
+Passo 5: Finalizar o Lançamento
+• a) Digitar uma Nota, se necessário.
+• b) Premir Aceitar e Outro para continuar a inserir lançamentos, ou Aceitar e Sair para terminar.</value>
   </data>
 </root>

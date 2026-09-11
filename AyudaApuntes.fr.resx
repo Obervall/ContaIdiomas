@@ -120,16 +120,24 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Guide d’introduction rapide</value>
   </data>
-  <data name="Label1.Text" xml:space="preserve">
-    <value>Étape 1 : 
-Sélectionnez un concept, vous verrez dans les descriptions 1 et 2, celui qui est par défaut.
-
-Étape 2 :
-Si la Description 2 du concept n’est pas celle souhaitée, tapez « Description de recherche : » tapez au moins trois lettres et Description 2 : s’ouvrira, avec les mots contenant les lettres « Description de recherche : ».
-Pour accéder au menu déroulant, appuyez sur Entrée et avec les flèches, avancez dans le menu déroulant et terminez en appuyant sur Entrée pour sauter au montant.
-
-Note :
-Vous pouvez revenir modifier ce que vous avez écrit.
-Si vous souhaitez sauvegarder une nouvelle description qui n’existe pas, continuez à taper et comme elle ne trouvera aucune correspondance, il vous demandera si vous souhaitez ajouter ce texte, une fois que vous aurez passé le texte à la Description 2 :, vous pourrez le compléter.</value>
+  <data name="TextoManualCompleto" xml:space="preserve">
+    <value>Étape 1 : Sélectionner un Concept
+• a) Si le concept est déjà filtré dans les écritures comptables, il apparaîtra sélectionné par défaut.
+• b) Dérouler la liste avec la flèche et sélectionner le concept souhaité avec la souris.
+• c) Cliquer sur le champ et saisir la première lettre : chaque pression fera défiler les concepts commençant par cette lettre. Appuyer sur Entrée lorsque le concept souhaité est sélectionné.
+Étape 2 : Saisir une Description
+• a) Laisser la description par défaut du concept sélectionné et appuyer sur Entrée pour passer directement au Montant.
+• b) Ajouter du texte à la description générique : si le texte existe dans l'historique, le moteur de recherche s'ouvrira avec les correspondances. Appuyer sur la Flèche Bas pour naviguer dans la liste, sélectionner celle souhaitée et appuyer sur Entrée.
+• c) Sélectionner tout le texte, appuyer sur Supprimer et saisir au moins 3 lettres pour ouvrir le moteur de recherche. Naviguer avec la Flèche Bas, sélectionner l'option souhaitée et appuyer sur Entrée.
+• d) Pour une nouvelle description, saisir le texte souhaité et appuyer sur Entrée. Le système demandera une confirmation pour l'ajouter ; confirmer en appuyant sur Oui.
+Étape 3 : Saisir le Montant
+• Saisir le montant et appuyer sur Entrée.
+Étape 4 : Sélectionner le Compte Bancaire
+• a) Si le compte bancaire est déjà filtré dans les écritures comptables, il apparaîtra sélectionné par défaut.
+• b) Dérouler la liste avec la flèche et sélectionner le compte souhaité avec la souris.
+• c) Cliquer sur le champ et saisir la première lettre : chaque pression fera défiler les comptes commençant par cette lettre. Appuyer sur Entrée lorsque le compte souhaité est sélectionné.
+Étape 5 : Finaliser l'Écriture
+• a) Saisir une Note, si nécessaire.
+• b) Appuyer sur Accepter et Nouveau pour continuer à saisir des écritures, ou sur Accepter et Quitter pour terminer.</value>
   </data>
 </root>

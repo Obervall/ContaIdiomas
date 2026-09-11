@@ -23,25 +23,25 @@ Partial Class AyudaApuntes
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AyudaApuntes))
-        Me.Label1 = New System.Windows.Forms.Label()
+        Me.MiCuadroTextoAyuda = New System.Windows.Forms.RichTextBox()
         Me.SuspendLayout()
         '
-        'Label1
+        'MiCuadroTextoAyuda
         '
-        resources.ApplyResources(Me.Label1, "Label1")
-        Me.Label1.Name = "Label1"
+        resources.ApplyResources(Me.MiCuadroTextoAyuda, "MiCuadroTextoAyuda")
+        Me.MiCuadroTextoAyuda.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.MiCuadroTextoAyuda.Name = "MiCuadroTextoAyuda"
+        Me.MiCuadroTextoAyuda.ReadOnly = True
         '
         'AyudaApuntes
         '
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.Controls.Add(Me.Label1)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
+        Me.Controls.Add(Me.MiCuadroTextoAyuda)
         Me.Name = "AyudaApuntes"
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
 
-    Friend WithEvents Label1 As Windows.Forms.Label
+    Friend WithEvents MiCuadroTextoAyuda As Windows.Forms.RichTextBox
 End Class
