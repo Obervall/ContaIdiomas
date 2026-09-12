@@ -17,6 +17,9 @@ Public Class IntroApuntes
     Public vAceptarSalir As String = "NO"
     Private IsLimpiandoCombo As Boolean = False
     Private buscandoDescripcion As Boolean = False
+    ' Variable global para congelar el ID real del concepto sin sufrir rebotes visuales
+    Private vIdConceptoReal As Integer = 1
+
 
     Private Sub IntroApuntes_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -377,7 +380,14 @@ Public Class IntroApuntes
                 vCuentaAPU = CmbCuenta.Text.ToString()
             End If
 
-            Dim idConceptoAsiento As Integer = Convert.ToInt32(CmbConcepto.SelectedValue)
+            'Dim idConceptoAsiento As Integer = Convert.ToInt32(CmbConcepto.SelectedValue)
+            Dim idConceptoAsiento As Integer = vIdConceptoReal
+
+            ' 🔍 CHIVATO DE GRABACIÓN
+            MsgBox("Id que se va a guardar en la BD: " & idConceptoAsiento & vbCrLf &
+       "Texto actual en el combo: " & CmbConcepto.Text & vbCrLf &
+       "vDescripcion: " & vDescripcion, MsgBoxStyle.Information, "Debug Grabar")
+
             Dim idCuentaAsiento As Integer = Convert.ToInt32(CmbCuenta.SelectedValue)
 
             ' 2. Construimos la SQL relacional con parámetros puros para evitar errores de comas o tipos
@@ -763,9 +773,8 @@ Public Class IntroApuntes
         If CmbConcepto.SelectedIndex < 0 Then Exit Sub
 
         If vIntro = "NO" Then
-            TxtBuscarLetras.Text = ""
+            'TxtBuscarLetras.Text = ""
             LlenarDescripcionConcepto()
-
         End If
     End Sub
 
@@ -919,6 +928,8 @@ Public Class IntroApuntes
             ' Extraemos datos del concepto seleccionado
             If CmbConcepto.SelectedItem IsNot Nothing Then
                 Dim filaSeleccionada As DataRowView = CType(CmbConcepto.SelectedItem, DataRowView)
+
+                vIdConceptoReal = Convert.ToInt32(filaSeleccionada("IdConceptoCON"))
 
                 codigoOriginal = filaSeleccionada("CodigoCON").ToString().Trim()
                 descripcionOriginal = filaSeleccionada("DescripcionCON").ToString().Trim()
