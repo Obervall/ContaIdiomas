@@ -1033,4 +1033,28 @@ Kaufen Sie die Vollversion im Microsoft Store.</value>
   <data name="ErrorDescripcionVacia" xml:space="preserve">
     <value>Beschreibung kann nicht leer sein</value>
   </data>
+  <data name="InstruccionesRepararCuentas" xml:space="preserve">
+    <value>"REPARATURANWEISUNGEN: 
+Beachten Sie die Spalte 'Id', die jetzt auf dem Bildschirm angezeigt wird. 
+Lösche das Konto mit der doppelten (wiederholten) ID. 
+Erstelle dein Konto bei Bedarf neu
+Stelle sicher, dass in den übrigen Konten der 'Kontotyp' angegeben ist
+ist für jeden von ihnen die korrekte, indem man das Konto bearbeitet. 
+Sobald sie korrigiert ist, erscheint diese Nachricht nicht wieder."</value>
+  </data>
+  <data name="AvisoEstructuraCuentas" xml:space="preserve">
+    <value>"In den internen Einstellungen Ihrer Bankkonten wurde eine Diskrepanz festgestellt. Um zu verhindern, dass Ihre Buchungen dupliziert oder falsch gespeichert werden, überprüfen Sie bitte Ihre Konten auf dem nächsten Bildschirm, löschen Sie sie oder erstellen Sie Ihre Konten neu."</value>
+  </data>
+  <data name="Mantenimiento" xml:space="preserve">
+    <value>Instandhaltung</value>
+  </data>
+  <data name="EstructuraCuentasCorregida" xml:space="preserve">
+    <value>Korrigierte Kontostruktur</value>
+  </data>
+  <data name="NoHayDatosDisponibles" xml:space="preserve">
+    <value>Mit dem ausgewählten Filter sind keine Daten verfügbar, die gedruckt werden können.</value>
+  </data>
+  <data name="SeleccioneTipoCuenta" xml:space="preserve">
+    <value>Bitte wählen Sie einen gültigen Kontotyp aus.</value>
+  </data>
 </root>

@@ -62,13 +62,6 @@ Public Class CuentasBancarias
         CmbTipoCuenta.SelectedIndex = 0
 
         CargarCuentasBancarias()
-        ' Ocultamos el Id de la cuenta que viaja seguro en la posición 4
-        If DgvCuentas.Columns.Count > 5 Then
-            'DgvCuentas.Columns(5).Visible = False
-        End If
-
-        ' Lanzamos tu rutina de traducción de siempre sobre los textos (CodigoTIP)
-        TraducirColumnasGridCuentas(DgvCuentas)
 
         ' Llenar el Combo Campos
         '***********************
@@ -81,6 +74,23 @@ Public Class CuentasBancarias
                 frmBuscar.CmbCampos.Items.Add(col.HeaderText)
             End If
         Next
+
+        ' 🌟 JUGADA MAESTRA: Si venimos desde el radar de error de la pantalla principal
+        If vModoRepararDuplicados = "SI" Then
+            ' Hacemos visible la columna 5 (recuerda que en .NET el índice empieza en 0, por lo que la quinta columna es la número 4)
+            If DgvCuentas.Columns.Count >= 5 Then
+                DgvCuentas.Columns(5).Visible = True
+                DgvCuentas.Columns(5).HeaderText = "Id" ' Cambia el encabezado para que entiendan qué es
+            End If
+        Else
+            ' Ocultamos el Id de la cuenta que viaja seguro en la posición 4
+            If DgvCuentas.Columns.Count >= 5 Then
+                DgvCuentas.Columns(5).Visible = False
+            End If
+        End If
+
+        ' Lanzamos tu rutina de traducción de siempre sobre los textos (CodigoTIP)
+        TraducirColumnasGridCuentas(DgvCuentas)
     End Sub
 
     Private Sub DgvCuentas_CellFormatting(sender As Object, e As DataGridViewCellFormattingEventArgs) Handles DgvCuentas.CellFormatting
@@ -349,12 +359,20 @@ Public Class CuentasBancarias
             .Columns(4).FillWeight = 150
             .Columns(4).Visible = True
 
-            ' Rastreamos el ID por su nombre biológico en la RAM y le echamos el cerrojo visual
-            For Each col As DataGridViewColumn In .Columns
-                If col.DataPropertyName.ToUpper() = "IDCUENTACUE" OrElse col.Name.ToUpper() = "IDCUENTACUE" Then
-                    col.Visible = False
+            ' 🌟 JUGADA MAESTRA: Si venimos desde el radar de error de la pantalla principal
+            If vModoRepararDuplicados = "SI" Then
+                ' Hacemos visible la columna 5 (recuerda que en .NET el índice empieza en 0, por lo que la quinta columna es la número 4)
+                If .Columns.Count >= 5 Then
+                    .Columns(5).Visible = True
+                    .Columns(5).HeaderText = "Id" ' Cambia el encabezado para que entiendan qué es
                 End If
-            Next
+            Else
+                ' Ocultamos el Id de la cuenta que viaja seguro en la posición 4
+                If .Columns.Count >= 5 Then
+                    .Columns(5).Visible = False
+                End If
+            End If
+
         End With
 
         ' Recalculamos los contadores analíticos inferiores de la pantalla de fondo
@@ -390,12 +408,6 @@ Public Class CuentasBancarias
         ' Lanzamos tu rutina de traducción de siempre sobre los textos (CodigoTIP)
         TraducirColumnasGridCuentas(DgvCuentas)
 
-        ' 🔒 EL CANDADO DE ORO: Buscamos el ID por su nombre biológico en la RAM y lo ocultamos
-        For Each col As DataGridViewColumn In DgvCuentas.Columns
-            If col.DataPropertyName.ToUpper() = "IDCUENTACUE" OrElse col.Name.ToUpper() = "IDCUENTACUE" Then
-                col.Visible = False
-            End If
-        Next
     End Sub
 
     Private Sub BtnEliminarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEliminarRegistro.Click
@@ -424,12 +436,6 @@ Public Class CuentasBancarias
         ' Lanzamos tu rutina de traducción sobre las cabeceras visuales
         TraducirColumnasGridCuentas(DgvCuentas)
 
-        ' 🔒 EL CANDADO DE ORO: Buscamos el ID por su nombre biológico en la RAM y lo ocultamos
-        For Each col As DataGridViewColumn In DgvCuentas.Columns
-            If col.DataPropertyName.ToUpper() = "IDCUENTACUE" OrElse col.Name.ToUpper() = "IDCUENTACUE" Then
-                col.Visible = False
-            End If
-        Next
     End Sub
 
     Private Sub BtnEliminaSeleccion_Click(sender As Object, e As EventArgs) Handles BtnEliminaSeleccion.Click
@@ -482,9 +488,18 @@ Public Class CuentasBancarias
             '************************************************************************
             CargarCuentasBancarias()
 
-            ' Ocultamos el Id de la cuenta que viaja seguro en la posición 4
-            If DgvCuentas.Columns.Count > 5 Then
-                DgvCuentas.Columns(5).Visible = False
+            ' 🌟 JUGADA MAESTRA: Si venimos desde el radar de error de la pantalla principal
+            If vModoRepararDuplicados = "SI" Then
+                ' Hacemos visible la columna 5 (recuerda que en .NET el índice empieza en 0, por lo que la quinta columna es la número 4)
+                If DgvCuentas.Columns.Count >= 5 Then
+                    DgvCuentas.Columns(5).Visible = True
+                    DgvCuentas.Columns(5).HeaderText = "Id" ' Cambia el encabezado para que entiendan qué es
+                End If
+            Else
+                ' Ocultamos el Id de la cuenta que viaja seguro en la posición 4
+                If DgvCuentas.Columns.Count >= 5 Then
+                    DgvCuentas.Columns(5).Visible = False
+                End If
             End If
 
             ' Lanzamos tu rutina de traducción de siempre sobre los textos (CodigoTIP)
@@ -504,9 +519,18 @@ Public Class CuentasBancarias
         '************************************************************************
         CargarCuentasBancarias()
 
-        ' Ocultamos el Id de la cuenta que viaja seguro en la posición 4
-        If DgvCuentas.Columns.Count > 5 Then
-            DgvCuentas.Columns(5).Visible = False
+        ' 🌟 JUGADA MAESTRA: Si venimos desde el radar de error de la pantalla principal
+        If vModoRepararDuplicados = "SI" Then
+            ' Hacemos visible la columna 5 (recuerda que en .NET el índice empieza en 0, por lo que la quinta columna es la número 4)
+            If DgvCuentas.Columns.Count >= 5 Then
+                DgvCuentas.Columns(5).Visible = True
+                DgvCuentas.Columns(5).HeaderText = "Id" ' Cambia el encabezado para que entiendan qué es
+            End If
+        Else
+            ' Ocultamos el Id de la cuenta que viaja seguro en la posición 4
+            If DgvCuentas.Columns.Count >= 5 Then
+                DgvCuentas.Columns(5).Visible = False
+            End If
         End If
 
         ' Lanzamos tu rutina de traducción de siempre sobre los textos (CodigoTIP)
@@ -524,11 +548,49 @@ Public Class CuentasBancarias
         End If
         BtnFiltroTipoCuenta.Enabled = True
         BtnSinFiltroTipoCuenta.Enabled = False
+        Try
+            ' 1. Pasamos el radar una última vez antes de irnos para verificar si el usuario cumplió las instrucciones
+            cmdMdb1cr.CommandText =
+                "SELECT COUNT(*) FROM (" &
+                "  SELECT IdCuentaCUE FROM cuentas " &
+                "  GROUP BY IdCuentaCUE " &
+                "  HAVING COUNT(*) > 1" &
+                ")"
+
+            Dim idsDuplicadosEncontrados As Integer = Convert.ToInt32(cmdMdb1cr.ExecuteScalar())
+
+            ' 2. Si ya NO quedan duplicados (es igual a 0), limpiamos la bandera de emergencia por seguridad
+            If idsDuplicadosEncontrados = 0 Then
+                vModoRepararDuplicados = "NO"
+            End If
+
+        Catch ex As Exception
+            ' Cortafuegos silencioso
+        End Try
     End Sub
 
     Private Sub BtnSalir_Click(sender As Object, e As EventArgs) Handles BtnSalir.Click
         BtnFiltroTipoCuenta.Enabled = True
         BtnSinFiltroTipoCuenta.Enabled = False
+        Try
+            ' 1. Pasamos el radar una última vez antes de irnos para verificar si el usuario cumplió las instrucciones
+            cmdMdb1cr.CommandText =
+            "SELECT COUNT(*) FROM (" &
+            "  SELECT IdCuentaCUE FROM cuentas " &
+            "  GROUP BY IdCuentaCUE " &
+            "  HAVING COUNT(*) > 1" &
+            ")"
+
+            Dim idsDuplicadosEncontrados As Integer = Convert.ToInt32(cmdMdb1cr.ExecuteScalar())
+
+            ' 2. Si ya NO quedan duplicados (es igual a 0), limpiamos la bandera de emergencia por seguridad
+            If idsDuplicadosEncontrados = 0 Then
+                vModoRepararDuplicados = "NO"
+            End If
+
+        Catch ex As Exception
+            ' Cortafuegos silencioso
+        End Try
         Me.Close()
     End Sub
 
@@ -772,6 +834,17 @@ Public Class CuentasBancarias
         frmImprimirForm.LblNumeroPagina.Text = (CInt(frmImprimirForm.LblNumeroPagina.Text) + 1).ToString()
         e.Graphics.DrawString(resManager.GetString("Pagina"), FuenteDetalles, Brushes.Black, frmImprimirForm.Label2.Left, e.MarginBounds.Bottom)
         e.Graphics.DrawString(frmImprimirForm.LblNumeroPagina.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.LblNumeroPagina.Left, e.MarginBounds.Bottom)
+    End Sub
+
+    Private Sub CuentasBancarias_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
+        ' 🌟 ¡LA CLAVE AQUÍ! Este evento se dispara cuando la ventana ya se ve en el monitor
+        If vModoRepararDuplicados = "SI" Then
+            ' Lanzamos el mensaje con las instrucciones exactas de reparación sobre la ventana ya abierta
+            MessageBox.Show(resManager.GetString("InstruccionesRepararCuentas"),
+                        resManager.GetString("Atencion"),
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information)
+        End If
     End Sub
 
 End Class

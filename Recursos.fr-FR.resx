@@ -1033,4 +1033,28 @@ achetez la version complète sur le Microsoft Store.</value>
   <data name="ErrorDescripcionVacia" xml:space="preserve">
     <value>La description ne peut pas être vide</value>
   </data>
+  <data name="InstruccionesRepararCuentas" xml:space="preserve">
+    <value>« INSTRUCTIONS DE RÉPARATION : 
+Remarquez la colonne « Id » qui s’affiche désormais à l’écran. 
+Supprimez le compte qui possède l’ID dupliqué (répété). 
+Recréez votre compte, si nécessaire
+assurez-vous que dans le reste des comptes, le « Type de compte » 
+est la bonne pour chacun d’eux, en modifiant le Compte. 
+Une fois corrigé, ce message ne réapparaîtra plus. »</value>
+  </data>
+  <data name="AvisoEstructuraCuentas" xml:space="preserve">
+    <value>« Un décalage a été détecté dans les paramètres internes de vos comptes bancaires. Pour éviter que vos écritures comptables ne soient dupliquées ou mal sauvegardées, veuillez revoir, supprimer ou recréer vos comptes à l’écran suivant. »</value>
+  </data>
+  <data name="Mantenimiento" xml:space="preserve">
+    <value>Entretien</value>
+  </data>
+  <data name="EstructuraCuentasCorregida" xml:space="preserve">
+    <value>Structure de compte corrigée</value>
+  </data>
+  <data name="NoHayDatosDisponibles" xml:space="preserve">
+    <value>Aucune donnée n’est disponible à imprimer avec le filtre sélectionné.</value>
+  </data>
+  <data name="SeleccioneTipoCuenta" xml:space="preserve">
+    <value>Veuillez sélectionner un type de compte valide.</value>
+  </data>
 </root>

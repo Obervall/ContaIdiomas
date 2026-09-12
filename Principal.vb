@@ -7,7 +7,6 @@ Imports System.IO
 Imports System.Linq
 Imports System.Windows.Forms
 Imports ClosedXML.Excel
-Imports ContaHogar.My
 
 Public Class Principal
 
@@ -19,6 +18,7 @@ Public Class Principal
     Public y As Integer = 30
     Public vWidth As Integer = 891
     Public vHeigth As Integer = 629
+    Public idsDuplicadosEncontrados As Integer
 
     ' 1. Constructor: Es el mejor sitio para fijar el idioma antes de que se vea nada
     Public Sub New()
@@ -31,9 +31,9 @@ Public Class Principal
                 Dim regIdioma As String = key.GetValue("IdiomaGuardado")?.ToString()
                 ' Si hay un idioma salvado en el registro, restauramos el setting local al vuelo
                 If Not String.IsNullOrEmpty(regIdioma) Then
-					My.Settings.CulturaUsuario = regIdioma
-					My.Settings.Save()
-				End If
+                    My.Settings.CulturaUsuario = regIdioma
+                    My.Settings.Save()
+                End If
                 key.Close()
             End If
         Catch
@@ -175,7 +175,7 @@ Public Class Principal
                     x = Convert.ToInt32(rLeft)
                     y = Convert.ToInt32(rTop)
                     vWidth = Convert.ToInt32(rWidth)
-					vHeigth = Convert.ToInt32(rHeight)
+                    vHeigth = Convert.ToInt32(rHeight)
 
                     My.Settings.PantallaAncho = vWidth
                     My.Settings.PantallaAlto = vHeigth
@@ -190,7 +190,7 @@ Public Class Principal
                     My.Settings.PathExportar = rutaDocumentos
                 End If
                 My.Settings.Save()
-				key.Close()
+                key.Close()
             End If
         Catch ex As Exception
             ' Cortafuegos silencioso para arrancar pase lo que pase
@@ -263,11 +263,11 @@ Public Class Principal
             ' 2. 🛡️ EL ESCUDO: El candado de los 30 días SOLO muerde si el usuario es de la Store
             If esInstalacionStore AndAlso My.Settings.LicenciaActivada = False Then
 
-				' ¿Es la primera vez en la vida que abre el programa? Sembramos la fecha de inicio
-				If My.Settings.FechaPrimerArranque = #1/1/0001# Then
-					My.Settings.FechaPrimerArranque = Date.Now
-					My.Settings.Save()
-				End If
+                ' ¿Es la primera vez en la vida que abre el programa? Sembramos la fecha de inicio
+                If My.Settings.FechaPrimerArranque = #1/1/0001# Then
+                    My.Settings.FechaPrimerArranque = Date.Now
+                    My.Settings.Save()
+                End If
                 ' Calculamos matemáticamente cuántos días reales han transcurrido en el disco duro
                 Dim diasEvaluacion As Integer = CInt(DateDiff(DateInterval.Day, My.Settings.FechaPrimerArranque, Date.Now))
 
@@ -453,7 +453,7 @@ Public Class Principal
             y = 30 ' Le asignamos 30 directamente para evitar el techo 0
             vWidth = 891
             vHeigth = 629
-		Else
+        Else
             ' 🛡️ ESCUDO EXTRACCIÓN SEGURO: En lugar de usar Mid/InStr, leemos las variables directas que guardamos en Closing
             ' Si por lo que sea My.Settings guarda un valor corrupto, usamos un Try/Catch silencioso
             Try
@@ -727,6 +727,9 @@ Public Class Principal
         ActualizarTextosFormulario(Me)
         ' En lugar de Me.Size, oblígalo redefiniendo los límites nativos:
         Me.SetBounds(x, y, vWidth, vHeigth)
+
+        ' Verificar duplicados de Id en cuentas
+        VerificarDuplicadosEnCuentas()
     End Sub
 
     Private Sub IP_Timer(ByVal sender As Object, ByVal e As EventArgs)
@@ -2055,13 +2058,13 @@ Public Class Principal
             ' 2. IDIOMA ACTUAL
             key.SetValue("IdiomaGuardado", My.Settings.CulturaUsuario)
 
-			' 3. 🎨 PREFERENCIA DEL MENÚ CON COLORES (Centralizado aquí)
-			' Miramos cómo terminó el Check del menú y guardamos el "SI" o el "NO"
-			If BarraYMenuConColores.Checked Then
-				key.SetValue("MenuSinColores", "NO")
-			Else
-				key.SetValue("MenuSinColores", "SI")
-			End If
+            ' 3. 🎨 PREFERENCIA DEL MENÚ CON COLORES (Centralizado aquí)
+            ' Miramos cómo terminó el Check del menú y guardamos el "SI" o el "NO"
+            If BarraYMenuConColores.Checked Then
+                key.SetValue("MenuSinColores", "NO")
+            Else
+                key.SetValue("MenuSinColores", "SI")
+            End If
 
             ' Ruta de la exportación a Excel (si el usuario la ha cambiado en Preferencias)
             key.SetValue("RutaExportacionExcel", My.Settings.PathExportar)
@@ -2365,6 +2368,39 @@ Public Class Principal
         ElseIf diasRestantes >= 1 And diasRestantes <= 30 Then
             vAviso2 = True
             vAvisoDiasRestantes = diasRestantes
+        End If
+    End Sub
+
+    Private Sub VerificarDuplicadosEnCuentas()
+        Try
+            ' 🔌 Buscamos si algún IdCuentaCUE está repetido en la base de datos
+            cmdMdb1cr.CommandText =
+            "SELECT COUNT(*) FROM (" &
+            "  SELECT IdCuentaCUE FROM cuentas " &
+            "  GROUP BY IdCuentaCUE " &
+            "  HAVING COUNT(*) > 1" &
+            ")"
+
+            idsDuplicadosEncontrados = Convert.ToInt32(cmdMdb1cr.ExecuteScalar())
+
+        Catch ex As Exception
+            ' Cortafuegos silencioso para garantizar que la app siempre arranque
+        End Try
+    End Sub
+
+    Private Sub Principal_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
+        ' Si la consulta devuelve más de 0, es que hay registros corruptos por la actualización vieja
+        If idsDuplicadosEncontrados > 0 Then
+            ' Avisamos del desajuste inicial de la estructura
+            MessageBox.Show(resManager.GetString("AvisoEstructuraCuentas"),
+                            resManager.GetString("Mantenimiento"),
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning)
+
+            vModoRepararDuplicados = "SI"
+
+            ' Abrimos de forma Modal
+            CuentasToolStripMenuItem.PerformClick()
         End If
     End Sub
 

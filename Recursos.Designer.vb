@@ -199,6 +199,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a &quot;Se ha detectado un desajuste en la configuración interna de tus cuentas bancarias. Para evitar que tus apuntes contables se dupliquen o guarden de forma incorrecta, por favor revisa, elimina o vuelve a crear tus cuentas en la siguiente pantalla.&quot;.
+    '''</summary>
+    Friend Shared ReadOnly Property AvisoEstructuraCuentas() As String
+        Get
+            Return ResourceManager.GetString("AvisoEstructuraCuentas", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Aviso: No existen apuntes registrados para la cuenta seleccionada en este ejercicio.
     '''</summary>
     Friend Shared ReadOnly Property AvisoNoHayRegistrosEjercicio() As String
@@ -1572,6 +1581,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Estructura Cuentas Corregida.
+    '''</summary>
+    Friend Shared ReadOnly Property EstructuraCuentasCorregida() As String
+        Get
+            Return ResourceManager.GetString("EstructuraCuentasCorregida", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a ya existe en.
     '''</summary>
     Friend Shared ReadOnly Property Existe() As String
@@ -1806,6 +1824,21 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a &quot;INSTRUCCIONES DE REPARACIÓN:
+    '''Observa la columna &apos;Id&apos; que ahora se muestra en pantalla.
+    '''Elimina la Cuenta que tenga el Id duplicado (repetido).
+    '''Vuelve a crear tu cuenta, si es necesario
+    '''asegúrate de que en el resto de Cuentas, el &apos;Tipo de Cuenta&apos;
+    '''sea el correcto para cada una de ellas, editando la Cuenta.
+    '''Una vez corregido, este mensaje no volverá a aparecer.&quot;.
+    '''</summary>
+    Friend Shared ReadOnly Property InstruccionesRepararCuentas() As String
+        Get
+            Return ResourceManager.GetString("InstruccionesRepararCuentas", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a INTERESES.
     '''</summary>
     Friend Shared ReadOnly Property INTERESES() As String
@@ -1838,6 +1871,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property LUZ() As String
         Get
             Return ResourceManager.GetString("LUZ", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Mantenimiento.
+    '''</summary>
+    Friend Shared ReadOnly Property Mantenimiento() As String
+        Get
+            Return ResourceManager.GetString("Mantenimiento", resourceCulture)
         End Get
     End Property
     
@@ -2028,6 +2070,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property NoHayDatos() As String
         Get
             Return ResourceManager.GetString("NoHayDatos", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a No hay datos disponibles para imprimir con el filtro seleccionado..
+    '''</summary>
+    Friend Shared ReadOnly Property NoHayDatosDisponibles() As String
+        Get
+            Return ResourceManager.GetString("NoHayDatosDisponibles", resourceCulture)
         End Get
     End Property
     
@@ -2316,6 +2367,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property SeleccioneIdiomaAyuda() As String
         Get
             Return ResourceManager.GetString("SeleccioneIdiomaAyuda", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Por favor, seleccione un Tipo de Cuenta válido..
+    '''</summary>
+    Friend Shared ReadOnly Property SeleccioneTipoCuenta() As String
+        Get
+            Return ResourceManager.GetString("SeleccioneTipoCuenta", resourceCulture)
         End Get
     End Property
     

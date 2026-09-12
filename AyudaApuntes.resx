@@ -139,7 +139,7 @@
     <value>0</value>
   </data>
   <data name="MiCuadroTextoAyuda.Text" xml:space="preserve">
-    <value />
+    <value>Cuadro de Texto</value>
   </data>
   <data name="&gt;&gt;MiCuadroTextoAyuda.Name" xml:space="preserve">
     <value>MiCuadroTextoAyuda</value>

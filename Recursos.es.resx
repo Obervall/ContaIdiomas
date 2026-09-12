@@ -1033,4 +1033,28 @@ adquiera la versión completa en la Microsoft Store.</value>
   <data name="ErrorDescripcionVacia" xml:space="preserve">
     <value>ErrorDescripcionVacia</value>
   </data>
+  <data name="InstruccionesRepararCuentas" xml:space="preserve">
+    <value>"INSTRUCCIONES DE REPARACIÓN:
+Observa la columna 'Id' que ahora se muestra en pantalla.
+Elimina la Cuenta que tenga el Id duplicado (repetido).
+Vuelve a crear tu cuenta, si es necesario
+asegúrate de que en el resto de Cuentas, el 'Tipo de Cuenta'
+sea el correcto para cada una de ellas, editando la Cuenta.
+Una vez corregido, este mensaje no volverá a aparecer."</value>
+  </data>
+  <data name="Mantenimiento" xml:space="preserve">
+    <value>Mantenimiento</value>
+  </data>
+  <data name="AvisoEstructuraCuentas" xml:space="preserve">
+    <value>"Se ha detectado un desajuste en la configuración interna de tus cuentas bancarias. Para evitar que tus apuntes contables se dupliquen o guarden de forma incorrecta, por favor revisa, elimina o vuelve a crear tus cuentas en la siguiente pantalla."</value>
+  </data>
+  <data name="EstructuraCuentasCorregida" xml:space="preserve">
+    <value>Estructura Cuentas Corregida</value>
+  </data>
+  <data name="NoHayDatosDisponibles" xml:space="preserve">
+    <value>No hay datos disponibles para imprimir con el filtro seleccionado.</value>
+  </data>
+  <data name="SeleccioneTipoCuenta" xml:space="preserve">
+    <value>Por favor, seleccione un Tipo de Cuenta válido.</value>
+  </data>
 </root>

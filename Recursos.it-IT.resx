@@ -1033,4 +1033,28 @@ acquista la versione completa dal Microsoft Store.</value>
   <data name="ErrorDescripcionVacia" xml:space="preserve">
     <value>La descrizione non può essere vuota</value>
   </data>
+  <data name="InstruccionesRepararCuentas" xml:space="preserve">
+    <value>"ISTRUZIONI DI RIPARAZIONE: 
+Nota la colonna 'Id' che ora è visualizzata sullo schermo. 
+Elimina l'Account che ha l'ID duplicato (ripetuto). 
+Ricrea il tuo account, se necessario
+assicurati che negli altri Account si veda il 'Tipo di Conto' 
+è quella corretta per ciascuno di essi, modificando l'Account . 
+Una volta corretto, questo messaggio non apparirà più."</value>
+  </data>
+  <data name="AvisoEstructuraCuentas" xml:space="preserve">
+    <value>"È stato rilevato un disallineamento nelle impostazioni interne dei vostri conti bancari. Per evitare che le vostre voci contabili vengano duplicate o salvate in modo errato, vi preghiamo di rivedere, cancellare o ricreare i vostri conti nella schermata successiva."</value>
+  </data>
+  <data name="Mantenimiento" xml:space="preserve">
+    <value>Manutenzione</value>
+  </data>
+  <data name="EstructuraCuentasCorregida" xml:space="preserve">
+    <value>Struttura del conto corretta</value>
+  </data>
+  <data name="NoHayDatosDisponibles" xml:space="preserve">
+    <value>Non sono disponibili dati per la stampa con il filtro selezionato.</value>
+  </data>
+  <data name="SeleccioneTipoCuenta" xml:space="preserve">
+    <value>Si prega di selezionare un Tipo di Account valido.</value>
+  </data>
 </root>

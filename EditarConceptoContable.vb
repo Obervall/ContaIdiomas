@@ -107,7 +107,7 @@ Public Class EditarConceptoContable
             ' Recuperamos el Id numérico de la fila seleccionada
             idConceptoModificar = Convert.ToInt32(frmConceptosContables.DgvConceptos.Rows(filaActual).Cells(4).Value)
         Catch ex As Exception
-            MessageBox.Show("Error al recuperar el identificador del registro.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show(resManager.GetString("ErrorRecuperarID"), resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End Try
 

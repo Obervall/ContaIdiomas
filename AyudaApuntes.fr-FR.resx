@@ -140,4 +140,7 @@
 • a) Saisir une Note, si nécessaire.
 • b) Appuyer sur Accepter et Nouveau pour continuer à saisir des écritures, ou sur Accepter et Quitter pour terminer.</value>
   </data>
+  <data name="MiCuadroTextoAyuda.Text" xml:space="preserve">
+    <value>Boîte de texte</value>
+  </data>
 </root>

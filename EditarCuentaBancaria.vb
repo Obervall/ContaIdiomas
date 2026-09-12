@@ -144,13 +144,58 @@ Public Class EditarCuentaBancaria
 
             If filasAfectadas > 0 Then
                 CargarCuentasBancarias()
+
+                ' =====================================================================
+                ' 🔍 RADAR POST-GUARDADO: AUDITORÍA EN TIEMPO REAL
+                ' =====================================================================
+                Try
+                    ' Pasamos la consulta matemática para ver si siguen quedando IDs duplicados
+                    cmdMdb1cr.CommandText =
+                "SELECT COUNT(*) FROM (" &
+                "  SELECT IdCuentaCUE FROM cuentas " &
+                "  GROUP BY IdCuentaCUE " &
+                "  HAVING COUNT(*) > 1" &
+                ")"
+
+                    Dim idsDuplicadosEncontrados As Integer = Convert.ToInt32(cmdMdb1cr.ExecuteScalar())
+
+                    If idsDuplicadosEncontrados = 0 Then
+						' 🎉 ¡ÉXITO! Ya no hay duplicados: apagamos el modo emergencia de la sesión
+
+						' Ocultamos la columna 5 (índice 4) automáticamente para dejar la tabla limpia
+						If frmCuentasBancarias.DgvCuentas.Columns.Count >= 5 Then
+							frmCuentasBancarias.DgvCuentas.Columns(5).Visible = False
+						End If
+
+						If vModoRepararDuplicados = "SI" Then
+                            ' ⚠️ Si veníamos de un modo de reparación, avisamos al usuario que ya no hay duplicados
+                            MessageBox.Show(resManager.GetString("EstructuraCuentasCorregida"),
+                                resManager.GetString("AppDisplayName"),
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information)
+                        End If
+
+                        vModoRepararDuplicados = "NO"
+                    Else
+                        ' ⚠️ Si el usuario guardó pero SIGUE habiendo duplicados, nos aseguramos 
+                        ' de mantener la variable en "SI" y la columna 5 bien abierta para que siga revisando
+                        vModoRepararDuplicados = "SI"
+                        If frmCuentasBancarias.DgvCuentas.Columns.Count >= 5 Then
+                            frmCuentasBancarias.DgvCuentas.Columns(5).Visible = True
+                        End If
+                    End If
+
+                Catch ex As Exception
+                    ' Cortafuegos silencioso
+                End Try
+
                 Me.Close() ' Guardado con éxito, cierra la ventana modal
             Else
                 MessageBox.Show(resManager.GetString("NoEncuentraRegistro"), resManager.GetString("Atencion"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         Catch ex As Exception
             MessageBox.Show(resManager.GetString("ErrorModificarRegistro") & vbNewLine & ex.Message,
-                "Error",
+                resManager.GetString("Error"),
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error)
         End Try
@@ -160,62 +205,101 @@ Public Class EditarCuentaBancaria
         ' 1. Aseguramos preventivamente que haya una fila seleccionada en el Grid
         If frmCuentasBancarias.DgvCuentas.CurrentRow Is Nothing Then Exit Sub
 
-        ' Capturamos el ID de la cuenta que viaja seguro en la celda 5 (Oculta)
+        ' Capturamos el ID de la cuenta que viaja seguro en la celda 5
         Dim vIdCuenta As Integer = Convert.ToInt32(frmCuentasBancarias.DgvCuentas.CurrentRow.Cells(5).Value)
         vTxtNombre = TxtNombre.Text
 
-        ' Preguntamos confirmación al usuario (Tu excelente aviso de fábrica)
-        Dim respuesta As MsgBoxResult = ConfirmarAccionTraducida(rmse.GetString("EliminarCuenta") & " " & vTxtNombre & " " & rmse.GetString("EliminarCuenta2"), rmse.GetString("LblEliminando"))
+        Try
+            ' =====================================================================
+            ' 🛡️ ESCUDO QUIRÚRGICO CONTRA ID DUPLICADO
+            ' =====================================================================
+            ' Pasamos el radar para comprobar si este ID en concreto está duplicado en la base de datos
+            cmdMdb1cr.CommandText = "SELECT COUNT(*) FROM cuentas WHERE IdCuentaCUE = " & vIdCuenta
+            Dim copiasExistentes As Integer = Convert.ToInt32(cmdMdb1cr.ExecuteScalar())
 
-        If respuesta = vbYes Then
+            Dim esDuplicado As Boolean = (copiasExistentes > 1)
+
+            If esDuplicado Then
+                ' Buscamos el nombre de la OTRA cuenta que comparte el mismo ID para alertar al usuario
+                ' (Usamos parámetros para blindar la consulta de caracteres raros)
+                cmdMdb1cr.CommandText = "SELECT NombreCUE FROM cuentas WHERE IdCuentaCUE = ? AND NombreCUE <> ?"
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.Parameters.Add("@id", OleDbType.Integer).Value = vIdCuenta
+                cmdMdb1cr.Parameters.Add("@nom", OleDbType.VarWChar).Value = vTxtNombre.Trim()
+                Dim otroNombre As String = Convert.ToString(cmdMdb1cr.ExecuteScalar())
+
+                ' Lanzamos la advertencia explícita de duplicados
+                Dim mensajePregunta As String =
+                "¡Atención! El ID (" & vIdCuenta & ") está duplicado entre estas dos cuentas:" & vbCrLf &
+                "1. - " & vTxtNombre.ToUpper() & " -" & vbCrLf &
+                "2. - " & otroNombre.ToUpper() & " -" & vbCrLf & vbCrLf &
+                "¿Está seguro de que desea eliminar ÚNICAMENTE la cuenta seleccionada: - " & vTxtNombre.ToUpper() & " - y conservar la otra con sus apuntes?"
+
+                Dim respuestaDuplicado As MsgBoxResult = MsgBox(mensajePregunta, MsgBoxStyle.YesNo + MsgBoxStyle.Information, rmse.GetString("LblEliminando"))
+
+                ' Si el usuario se arrepiente, abortamos la operación de forma segura
+                If respuestaDuplicado = vbNo Then Exit Sub
+            Else
+                ' CASO NORMAL: Si el ID no está duplicado, hacemos tu pregunta de confirmación estándar de fábrica
+                Dim respuestaNormal As MsgBoxResult = ConfirmarAccionTraducida(rmse.GetString("EliminarCuenta") & " " & vTxtNombre & " " & rmse.GetString("EliminarCuenta2"), rmse.GetString("LblEliminando"))
+                If respuestaNormal = vbNo Then Exit Sub
+            End If
+
+            ' =====================================================================
+            ' 💾 PROCESO DE BORRADO SEGURO
+            ' =====================================================================
             Dim filasAfectadas As Integer = 0
 
-            ' --- 1. ELIMINAR REGISTROS EN APUNTES (Clave foránea - Se borra primero por integridad) ---
-            ' Filtramos por el ID numérico que guarda la tabla apuntes
-            vtipoSql = "DELETE FROM apuntes WHERE apuntes.CuentaAPU = ?"
-            cmdMdb1cr.CommandText = vtipoSql
-            cmdMdb1cr.Parameters.Clear()
+            ' --- 1. ELIMINAR REGISTROS EN APUNTES (Solo si NO está duplicado) ---
+            ' 💡 Si está duplicado, NO borramos de la tabla apuntes porque destruiríamos los apuntes de la cuenta hermana.
+            If Not esDuplicado Then
+                vtipoSql = "DELETE FROM apuntes WHERE apuntes.CuentaAPU = ?"
+                cmdMdb1cr.CommandText = vtipoSql
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.Parameters.Add("@idCuenta", OleDbType.Integer).Value = vIdCuenta
 
-            ' 🎯 CORRECCIÓN CLAVE: Pasamos el ID numérico de la cuenta que quieres borrar
-            ' (Asegúrate de cambiar "vIdCuentaActiva" por tu variable real del ID de la cuenta)
-            cmdMdb1cr.Parameters.Add("@idCuenta", OleDbType.Integer).Value = Convert.ToInt32(vIdCuenta)
-
-            Try
-                filasAfectadas = cmdMdb1cr.ExecuteNonQuery()
-            Catch ex As Exception
-                ' 🛡️ ESCUDO ANTI-NULLREFERENCE: Si el traductor externo falla, usamos un texto de salvavidas
-                Dim msgError As String = "Error al eliminar los apuntes de la cuenta."
                 Try
-                    msgError = frmApuntesContables.rmse.GetString("EliminarApuntesError")
-                Catch
+                    filasAfectadas = cmdMdb1cr.ExecuteNonQuery()
+                Catch ex As Exception
+                    Dim msgError As String = "Error al eliminar los apuntes de la cuenta."
+                    Try : msgError = frmApuntesContables.rmse.GetString("EliminarApuntesError") : Catch : End Try
+                    MsgBox(msgError & vbNewLine & ex.Message, MsgBoxStyle.Critical)
                 End Try
-                MsgBox(msgError & vbNewLine & ex.Message, MsgBoxStyle.Critical)
-            End Try
+            End If
 
-            ' --- 2. ELIMINAR REGISTROS EN APUNTES PERIÓDICOS ---
-            ' Filtramos por el ID numérico que guarda la tabla apuper
-            vtipoSql = "DELETE FROM apuper WHERE apuper.CuentaAPP = ?"
-            cmdMdb1cr.CommandText = vtipoSql
-            cmdMdb1cr.Parameters.Clear()
-            ' 🚀 CORRECCIÓN CLAVE: Le damos un nombre alfanumérico al parámetro en la RAM
-            cmdMdb1cr.Parameters.Add("@idApuper", OleDbType.Integer).Value = vIdCuenta
+            ' --- 2. ELIMINAR REGISTROS EN APUNTES PERIÓDICOS (Solo si NO está duplicado) ---
+            If Not esDuplicado Then
+                vtipoSql = "DELETE FROM apuper WHERE apuper.CuentaAPP = ?"
+                cmdMdb1cr.CommandText = vtipoSql
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.Parameters.Add("@idApuper", OleDbType.Integer).Value = vIdCuenta
 
-            Try
-                filasAfectadas = cmdMdb1cr.ExecuteNonQuery()
-                If filasAfectadas > 0 Then
-                    MsgBox(frmApuntesPeriodicos.rmse.GetString("EliminarApuntesPeriodicos"))
-                End If
-            Catch ex As Exception
-                MsgBox(frmApuntesPeriodicos.rmse.GetString("EliminarApuntesPeriodicosError") & vbNewLine & ex.Message)
-            End Try
+                Try
+                    filasAfectadas = cmdMdb1cr.ExecuteNonQuery()
+                    If filasAfectadas > 0 Then
+                        MsgBox(frmApuntesPeriodicos.rmse.GetString("EliminarApuntesPeriodicos"))
+                    End If
+                Catch ex As Exception
+                    MsgBox(frmApuntesPeriodicos.rmse.GetString("EliminarApuntesPeriodicosError") & vbNewLine & ex.Message)
+                End Try
+            End If
 
-            ' --- 3. ELIMINAR REGISTRO MAESTRO EN CUENTAS (Se borra al final) ---
-            ' Borramos por ID para evitar problemas si el usuario cambió el texto
-            vtipoSql = "DELETE FROM cuentas WHERE cuentas.IdCuentaCUE = ?"
-            cmdMdb1cr.CommandText = vtipoSql
-            cmdMdb1cr.Parameters.Clear()
-            ' 🚀 CORRECCIÓN CLAVE: Le damos un nombre alfanumérico al parámetro en la RAM
-            cmdMdb1cr.Parameters.Add("@idCuenta", OleDbType.Integer).Value = vIdCuenta
+            ' --- 3. ELIMINAR REGISTRO MAESTRO EN CUENTAS (Quirúrgico si hay duplicado) ---
+            If esDuplicado Then
+                ' 🌟 CLAVE MAESTRA: Si el ID está repetido, borramos filtrando estrictamente por ID Y NOMBRE a la vez.
+                ' De esta forma la cuenta hermana sobrevive ilesa en la tabla.
+                vtipoSql = "DELETE FROM cuentas WHERE cuentas.IdCuentaCUE = ? AND cuentas.NombreCUE = ?"
+                cmdMdb1cr.CommandText = vtipoSql
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.Parameters.Add("@idCuenta", OleDbType.Integer).Value = vIdCuenta
+                cmdMdb1cr.Parameters.Add("@nombreCuenta", OleDbType.VarWChar).Value = vTxtNombre.Trim()
+            Else
+                ' Si es una cuenta normal sin duplicar, borramos de forma estándar por su ID
+                vtipoSql = "DELETE FROM cuentas WHERE cuentas.IdCuentaCUE = ?"
+                cmdMdb1cr.CommandText = vtipoSql
+                cmdMdb1cr.Parameters.Clear()
+                cmdMdb1cr.Parameters.Add("@idCuenta", OleDbType.Integer).Value = vIdCuenta
+            End If
 
             Try
                 cmdMdb1cr.ExecuteNonQuery()
@@ -225,10 +309,55 @@ Public Class EditarCuentaBancaria
                 Exit Sub
             End Try
 
+            ' Refrescamos la pantalla con tus funciones
             CargarCuentasBancarias()
-            ' Cerramos la ventana de edición/borrado
-            Me.Close()
-        End If
+
+            ' =====================================================================
+            ' 🔍 RADAR POST-GUARDADO: AUDITORÍA EN TIEMPO REAL
+            ' =====================================================================
+            Try
+                ' Pasamos la consulta matemática para ver si siguen quedando IDs duplicados
+                cmdMdb1cr.CommandText =
+                "SELECT COUNT(*) FROM (" &
+                "  SELECT IdCuentaCUE FROM cuentas " &
+                "  GROUP BY IdCuentaCUE " &
+                "  HAVING COUNT(*) > 1" &
+                ")"
+
+                Dim idsDuplicadosEncontrados As Integer = Convert.ToInt32(cmdMdb1cr.ExecuteScalar())
+
+                If idsDuplicadosEncontrados = 0 Then
+                    ' 🎉 ¡ÉXITO! Ya no hay duplicados: apagamos el modo emergencia de la sesión
+
+                    ' Ocultamos la columna 5 (índice 4) automáticamente para dejar la tabla limpia
+                    If frmCuentasBancarias.DgvCuentas.Columns.Count >= 5 Then
+                        frmCuentasBancarias.DgvCuentas.Columns(5).Visible = False
+                    End If
+
+                    If vModoRepararDuplicados = "SI" Then
+                        ' ⚠️ Si veníamos de un modo de reparación, avisamos al usuario que ya no hay duplicados
+                        MessageBox.Show(resManager.GetString("EstructuraCuentasCorregida"),
+                                resManager.GetString("AppDisplayName"),
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information)
+                    End If
+
+                    vModoRepararDuplicados = "NO"
+                Else
+                    ' ⚠️ Si el usuario guardó pero SIGUE habiendo duplicados, nos aseguramos 
+                    ' de mantener la variable en "SI" y la columna 5 bien abierta para que siga revisando
+                    vModoRepararDuplicados = "SI"
+                    If frmCuentasBancarias.DgvCuentas.Columns.Count >= 5 Then
+                        frmCuentasBancarias.DgvCuentas.Columns(5).Visible = True
+                    End If
+                End If
+
+            Catch ex As Exception
+                ' Cortafuegos silencioso
+            End Try
+        Catch ex As Exception
+            MsgBox(resManager.GetString("ErrorGeneral") & ": " & ex.Message, MsgBoxStyle.Critical)
+        End Try
     End Sub
 
     Private Sub BtnCancelar_Click(sender As Object, e As EventArgs) Handles BtnCancelar.Click

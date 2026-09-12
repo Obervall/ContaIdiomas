@@ -18,7 +18,6 @@ Public Class AprendizajeBancario
     ' Esta bandera controlará cuándo permitimos que el TextChanged abra la tabla
     Private cargandoDatosBanco As Boolean = False
 
-
     Public Sub CargarPrimerConceptoBancario()
         Try
             ' 🌟 ACTIVAMOS EL INTERRUPTOR: Avisamos que el programa está rellenando casillas de forma automática

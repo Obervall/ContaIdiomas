@@ -1033,4 +1033,28 @@ or allows controlled access to folders to be able to use HomeBudget 3.0 Premium.
   <data name="ErrorDescripcionVacia" xml:space="preserve">
     <value>Description cannot be Empty</value>
   </data>
+  <data name="InstruccionesRepararCuentas" xml:space="preserve">
+    <value>"REPAIR INSTRUCTIONS: 
+Notice the 'Id' column that is now displayed on the screen. 
+Delete the Account that has the duplicate (repeated) Id. 
+Recreate your account, if necessary
+make sure that in the rest of the Accounts, the 'Account Type' 
+is the correct one for each of them, by editing the Account. 
+Once corrected, this message will not appear again."</value>
+  </data>
+  <data name="AvisoEstructuraCuentas" xml:space="preserve">
+    <value>"A mismatch has been detected in the internal configuration of your bank accounts. To prevent your accounting entries from being duplicated or incorrectly saved, please review, delete, or recreate your accounts in the following screen."</value>
+  </data>
+  <data name="Mantenimiento" xml:space="preserve">
+    <value>Maintenance</value>
+  </data>
+  <data name="EstructuraCuentasCorregida" xml:space="preserve">
+    <value>Corrected Account Structure</value>
+  </data>
+  <data name="NoHayDatosDisponibles" xml:space="preserve">
+    <value>No data is available to print with the selected filter.</value>
+  </data>
+  <data name="SeleccioneTipoCuenta" xml:space="preserve">
+    <value>Please select a valid Account Type.</value>
+  </data>
 </root>

@@ -88,7 +88,7 @@ Public Class NuevaCuentaBancaria
 
         ' Validamos que haya seleccionado un Tipo de Cuenta en el ComboBox
         If CmbTipoCuenta.SelectedIndex = -1 Then
-            MessageBox.Show("Por favor, seleccione un Tipo de Cuenta válido.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            MessageBox.Show(resManager.GetString("SeleccioneTipoCuenta"), resManager.GetString("Atencion"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
             CmbTipoCuenta.Select()
             Exit Sub
         End If
@@ -168,6 +168,50 @@ Public Class NuevaCuentaBancaria
             DgvCuentasBancarias()
 
             CargarCuentasBancarias()
+
+            ' =====================================================================
+            ' 🔍 RADAR POST-GUARDADO: AUDITORÍA EN TIEMPO REAL
+            ' =====================================================================
+            Try
+                ' Pasamos la consulta matemática para ver si siguen quedando IDs duplicados
+                cmdMdb1cr.CommandText =
+                "SELECT COUNT(*) FROM (" &
+                "  SELECT IdCuentaCUE FROM cuentas " &
+                "  GROUP BY IdCuentaCUE " &
+                "  HAVING COUNT(*) > 1" &
+                ")"
+
+                Dim idsDuplicadosEncontrados As Integer = Convert.ToInt32(cmdMdb1cr.ExecuteScalar())
+
+                If idsDuplicadosEncontrados = 0 Then
+                    ' 🎉 ¡ÉXITO! Ya no hay duplicados: apagamos el modo emergencia de la sesión
+
+                    ' Ocultamos la columna 5 (índice 4) automáticamente para dejar la tabla limpia
+                    If frmCuentasBancarias.DgvCuentas.Columns.Count >= 5 Then
+                        frmCuentasBancarias.DgvCuentas.Columns(5).Visible = False
+                    End If
+
+                    If vModoRepararDuplicados = "SI" Then
+                        ' ⚠️ Si veníamos de un modo de reparación, avisamos al usuario que ya no hay duplicados
+                        MessageBox.Show(resManager.GetString("EstructuraCuentasCorregida"),
+                                resManager.GetString("AppDisplayName"),
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information)
+                    End If
+
+                    vModoRepararDuplicados = "NO"
+                Else
+                    ' ⚠️ Si el usuario guardó pero SIGUE habiendo duplicados, nos aseguramos 
+                    ' de mantener la variable en "SI" y la columna 5 bien abierta para que siga revisando
+                    vModoRepararDuplicados = "SI"
+                    If frmCuentasBancarias.DgvCuentas.Columns.Count >= 5 Then
+                        frmCuentasBancarias.DgvCuentas.Columns(5).Visible = True
+                    End If
+                End If
+
+            Catch ex As Exception
+                ' Cortafuegos silencioso
+            End Try
 
             ' Cerramos la ventana modal de alta
             Me.Close()

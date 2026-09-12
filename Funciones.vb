@@ -93,6 +93,10 @@ Module Funciones
     Public vAviso2 As Boolean = False
     Public vAvisoDiasRestantes As Integer
     Public vSaldoFinal As Decimal
+    ' Variable pública para activar el modo de reparación de emergencia desde la ventana principal
+    Public vModoRepararDuplicados As String = "NO"
+
+
 
 
     Public Structure ElementoCombo
@@ -3357,8 +3361,20 @@ Module Funciones
             .Columns(4).FillWeight = 150
             .Columns(4).Visible = True
 
-            ' 🔒 EL CORTAFUEGOS INDESTRUCTIBLE: El ID siempre viaja en la celda 5 y se oculta de la vista
-            .Columns(5).Visible = False
+            ' 🌟 JUGADA MAESTRA: Si venimos desde el radar de error de la pantalla principal
+            If vModoRepararDuplicados = "SI" Then
+                ' Hacemos visible la columna 5 (recuerda que en .NET el índice empieza en 0, por lo que la quinta columna es la número 4)
+                If .Columns.Count >= 5 Then
+                    .Columns(5).Visible = True
+                    .Columns(5).HeaderText = "Id" ' Cambia el encabezado para que entiendan qué es
+                End If
+            Else
+                ' Ocultamos el Id de la cuenta que viaja seguro en la posición 4
+                If .Columns.Count >= 5 Then
+                    .Columns(5).Visible = False
+                End If
+            End If
+
         End With
 
         ' Actualizamos los totales de la pantalla llamando a tu contador analítico

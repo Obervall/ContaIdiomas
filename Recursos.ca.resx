@@ -1033,4 +1033,28 @@ o permet l'accés controlat a carpetes per poder usar GestióDomèstica 3.0 Prem
   <data name="ErrorDescripcionVacia" xml:space="preserve">
     <value>La descripció no pot ser buida</value>
   </data>
+  <data name="InstruccionesRepararCuentas" xml:space="preserve">
+    <value>"INSTRUCCIONS DE REPARACIÓ: 
+Fixeu-vos en la columna 'Id' que ara es mostra a la pantalla. 
+Elimina el compte que tingui l'ID duplicat (repetit). 
+Recrea el teu compte, si cal
+assegura't que en la resta de comptes aparegui el 'Tipus de Compte' és
+el correcte per a cadascun d'ells, editant el Compte. 
+Un cop corregit, aquest missatge no tornarà a aparèixer."</value>
+  </data>
+  <data name="AvisoEstructuraCuentas" xml:space="preserve">
+    <value>"S'ha detectat un desajust en la configuració interna dels seus comptes bancaris. Per evitar que els seus apunts comptables es dupliquin o es guardin de forma incorrecta, si us plau revisi, elimini o torni a crear els seus comptes a la següent pantalla."</value>
+  </data>
+  <data name="Mantenimiento" xml:space="preserve">
+    <value>Manteniment</value>
+  </data>
+  <data name="EstructuraCuentasCorregida" xml:space="preserve">
+    <value>Estructura de comptes corregida</value>
+  </data>
+  <data name="NoHayDatosDisponibles" xml:space="preserve">
+    <value>No hi ha dades disponibles per imprimir amb el filtre seleccionat.</value>
+  </data>
+  <data name="SeleccioneTipoCuenta" xml:space="preserve">
+    <value>Si us plau, seleccioneu un tipus de compte vàlid.</value>
+  </data>
 </root>

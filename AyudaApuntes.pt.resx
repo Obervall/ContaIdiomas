@@ -140,4 +140,7 @@ Passo 5: Finalizar o Lançamento
 • a) Digitar uma Nota, se necessário.
 • b) Premir Aceitar e Outro para continuar a inserir lançamentos, ou Aceitar e Sair para terminar.</value>
   </data>
+  <data name="MiCuadroTextoAyuda.Text" xml:space="preserve">
+    <value>Caixa de Texto</value>
+  </data>
 </root>

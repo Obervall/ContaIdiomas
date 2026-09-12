@@ -620,7 +620,7 @@ Public Class ConceptosContables
 
             ' Comprobación de seguridad: si el Grid se quedó vacío, salimos avisando
             If frmImprimirForm.DgvApuntes.Rows.Count = 0 Then
-                MessageBox.Show("No hay datos disponibles para imprimir con el filtro seleccionado.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show(resManager.GetString("NoHayDatosDisponibles"), resManager.GetString("Atencion"), MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
 

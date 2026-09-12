@@ -1033,4 +1033,28 @@ ou permite acesso controlado a pastas para poder usar o FinançasDomésticas 3.0
   <data name="ErrorDescripcionVacia" xml:space="preserve">
     <value>Descrição não pode ser Vazia</value>
   </data>
+  <data name="InstruccionesRepararCuentas" xml:space="preserve">
+    <value>"INSTRUÇÕES DE REPARO: 
+Repare na coluna 'Id' que agora está exibida na tela. 
+Exclua a conta que tem o ID duplicado (repetido). 
+Recrie sua conta, se necessário
+certifique-se de que, no restante das contas, o 'Tipo de Conta'
+é a correta para cada um deles, editando a Conta. 
+Uma vez corrigida, esta mensagem não aparecerá novamente."</value>
+  </data>
+  <data name="AvisoEstructuraCuentas" xml:space="preserve">
+    <value>"Foi detectada uma incompatibilidade nas configurações internas de suas contas bancárias. Para evitar que suas entradas contábeis sejam duplicadas ou salvas incorretamente, por favor, revise, exclua ou recrie suas contas na próxima tela."</value>
+  </data>
+  <data name="Mantenimiento" xml:space="preserve">
+    <value>Manutenção</value>
+  </data>
+  <data name="EstructuraCuentasCorregida" xml:space="preserve">
+    <value>Estrutura de Conta Corrigida</value>
+  </data>
+  <data name="NoHayDatosDisponibles" xml:space="preserve">
+    <value>Nenhum dado está disponível para impressão com o filtro selecionado.</value>
+  </data>
+  <data name="SeleccioneTipoCuenta" xml:space="preserve">
+    <value>Por favor, selecione um Tipo de Conta válido.</value>
+  </data>
 </root>

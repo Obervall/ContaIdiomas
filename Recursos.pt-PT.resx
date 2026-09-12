@@ -1033,4 +1033,28 @@ compre a versão completa na Microsoft Store.</value>
   <data name="ErrorDescripcionVacia" xml:space="preserve">
     <value>A descrição não pode ser Vazia</value>
   </data>
+  <data name="InstruccionesRepararCuentas" xml:space="preserve">
+    <value>"INSTRUÇÕES DE REPARAÇÃO: 
+Repara na coluna 'Id' que agora aparece no ecrã. 
+Apaga a conta que tem o ID duplicado (repetido). 
+Recrie a sua conta, se necessário
+certifica-te de que nas restantes Contas, o 'Tipo de Conta'
+é o correto para cada um deles, editando a Conta. 
+Uma vez corrigida, esta mensagem não voltará a aparecer."</value>
+  </data>
+  <data name="AvisoEstructuraCuentas" xml:space="preserve">
+    <value>"Foi detetada uma incompatibilidade nas definições internas das vossas contas bancárias. Para evitar que os vossos registos contabilísticos sejam duplicados ou guardados incorretamente, por favor revejam, apaguem ou recriem as vossas contas no ecrã seguinte."</value>
+  </data>
+  <data name="Mantenimiento" xml:space="preserve">
+    <value>Manutenção</value>
+  </data>
+  <data name="EstructuraCuentasCorregida" xml:space="preserve">
+    <value>Estrutura da Conta Corrigida</value>
+  </data>
+  <data name="NoHayDatosDisponibles" xml:space="preserve">
+    <value>Não há dados disponíveis para impressão com o filtro selecionado.</value>
+  </data>
+  <data name="SeleccioneTipoCuenta" xml:space="preserve">
+    <value>Por favor, selecione um Tipo de Conta válido.</value>
+  </data>
 </root>
