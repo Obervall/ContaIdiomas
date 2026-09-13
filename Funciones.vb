@@ -1568,67 +1568,10 @@ Module Funciones
         ' =========================================================================
         If dgv Is Nothing OrElse dgv.Rows.Count = 0 Then Exit Sub
 
-        ' 🔍 CHIVATO DE LECTURA (Pégalo al inicio de TraducirGridApuntesBD)
-        If dgv.Rows.Count > 0 Then
-            ' Leemos la última fila cargada
-            Dim ultimaFila As Integer = dgv.Rows.Count - 1
-            Dim idConceptoEnGrid As String = dgv.Rows(ultimaFila).Cells(9).Value.ToString() ' Celda 9: IdConceptoCON
-            Dim codigoConEnGrid As String = dgv.Rows(ultimaFila).Cells(8).Value.ToString() ' Celda 8: CodigoCON
-            Dim textoVisibleEnGrid As String = dgv.Rows(ultimaFila).Cells(1).Value.ToString() ' Celda 1: ConceptoAPU (Texto)
-
-            MsgBox("Datos leídos de la BD para el Grid:" & vbCrLf &
-           "ID del Concepto (Celda 9): " & idConceptoEnGrid & vbCrLf &
-           "Código para resManager (Celda 8): " & codigoConEnGrid & vbCrLf &
-           "Texto que pinta en la tabla (Celda 1): " & textoVisibleEnGrid,
-           MsgBoxStyle.Information, "Debug Cargar Grid")
-        End If
-
-
-
-
         Dim recursos As System.Resources.ResourceSet = resManager.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
 
         For Each fila As DataGridViewRow In dgv.Rows
             If fila.IsNewRow Then Continue For
-
-            '' ---------------------------------------------------------------------
-            '' 🎯 COMPUERTA A: RESCATE DE CONCEPTO POR ID NUMÉRICO ELÁSTICO
-            '' ---------------------------------------------------------------------
-            'If fila.Cells.Count > 9 AndAlso fila.Cells(9).Value IsNot Nothing AndAlso Not IsDBNull(fila.Cells(9).Value) Then
-            '    Dim idConceptoReal As Integer = Convert.ToInt32(fila.Cells(9).Value)
-            '    Dim codigoCortoMaestro As String = ""
-
-            '    Using con As New OleDb.OleDbConnection(conexion1.ConnectionString)
-            '        Using cmd As New OleDbCommand("SELECT CodigoCON FROM conceptos WHERE IdConceptoCON = ?", con)
-            '            cmd.Parameters.Add("@id", OleDbType.Integer).Value = idConceptoReal
-            '            Try
-            '                con.Open()
-            '                Dim r = cmd.ExecuteScalar()
-            '                If r IsNot Nothing Then codigoCortoMaestro = r.ToString().Trim().ToUpper()
-            '            Catch
-            '            End Try
-            '        End Using
-            '    End Using
-
-            '    If Not String.IsNullOrEmpty(codigoCortoMaestro) Then
-            '        Dim traduccionFinal As String = ""
-            '        Dim codigoConGuion As String = codigoCortoMaestro.Replace(" ", "_")
-
-            '        If recursos IsNot Nothing Then
-            '            Dim tradDirecta As String = recursos.GetString(codigoCortoMaestro)
-            '            Dim tradGuion As String = recursos.GetString(codigoConGuion)
-            '            Dim tradDesc As String = recursos.GetString("Desc_" & codigoCortoMaestro)
-            '            Dim tradDescGuion As String = recursos.GetString("Desc_" & codigoConGuion)
-
-            '            If Not String.IsNullOrEmpty(tradDirecta) Then traduccionFinal = tradDirecta Else
-            '            If Not String.IsNullOrEmpty(tradGuion) Then traduccionFinal = tradGuion Else
-            '            If Not String.IsNullOrEmpty(tradDesc) Then traduccionFinal = tradDesc Else
-            '            If Not String.IsNullOrEmpty(tradDescGuion) Then traduccionFinal = tradDescGuion
-            '        End If
-
-            '        If Not String.IsNullOrEmpty(traduccionFinal) Then fila.Cells(1).Value = traduccionFinal.ToUpper() Else fila.Cells(1).Value = codigoCortoMaestro
-            '    End If
-            'End If
 
             ' ---------------------------------------------------------------------
             ' 🎯 COMPUERTA A SANEADA: TRADUCCIÓN RIGIDA DESDE LA CELDA 8 (CodigoCON)
@@ -1650,15 +1593,15 @@ Module Funciones
 
                         ' 🌟 ORDEN DE PRIORIDAD CORRECTO Y SEGURO (Sin bloques Else rotos):
                         ' Primero buscamos si existe la descripción contable larga (Desc_ALIMENTACION = "Alimentación")
-                        If Not String.IsNullOrEmpty(tradDesc) Then
-                            traduccionFinal = tradDesc
-                        ElseIf Not String.IsNullOrEmpty(tradDescGuion) Then
-                            traduccionFinal = tradDescGuion
-                            ' Si no existen las descripciones largas, recurrimos a las palabras sueltas como salvavidas
-                        ElseIf Not String.IsNullOrEmpty(tradDirecta) Then
+                        If Not String.IsNullOrEmpty(tradDirecta) Then
                             traduccionFinal = tradDirecta
                         ElseIf Not String.IsNullOrEmpty(tradGuion) Then
                             traduccionFinal = tradGuion
+                            ' Si no existen las descripciones largas, recurrimos a las palabras sueltas como salvavidas
+                        ElseIf Not String.IsNullOrEmpty(tradDesc) Then
+                            traduccionFinal = tradDesc
+                        ElseIf Not String.IsNullOrEmpty(tradDescGuion) Then
+                            traduccionFinal = tradDescGuion
                         End If
                     End If
 
@@ -1842,7 +1785,7 @@ Module Funciones
                     End Try
                 Else
                     cmdMdb1cr.CommandType = CommandType.Text
-                    cmdMdb1cr.CommandText = "SELECT * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
+                    cmdMdb1cr.CommandText = "Select * FROM tempapu WHERE tempapu.ConceptoAPU = '" & vNombreConcepto & "' "
                     Try
                         drMdb1 = cmdMdb1cr.ExecuteReader()
                         If drMdb1.HasRows Then

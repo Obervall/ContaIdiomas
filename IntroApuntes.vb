@@ -17,7 +17,6 @@ Public Class IntroApuntes
     Public vAceptarSalir As String = "NO"
     Private IsLimpiandoCombo As Boolean = False
     Private buscandoDescripcion As Boolean = False
-    ' Variable global para congelar el ID real del concepto sin sufrir rebotes visuales
     Private vIdConceptoReal As Integer = 1
 
 
@@ -194,8 +193,6 @@ Public Class IntroApuntes
 
         ' Si hay 3 o más letras: mostramos la tabla y lanzamos la búsqueda
         DgvDescripcion.Visible = True
-
-        ' Usa los paréntesis exactamente como los tengas definidos en tu método (ej: BuscarLetras("descripcion") o BuscarLetras())
         BuscarLetras("descripcion")
     End Sub
 
@@ -278,11 +275,11 @@ Public Class IntroApuntes
         vAceptarSalir = "NO"
         GrabarYRefrescarGrid()
 
-		' =====================================================================
-		' 🛠️ REINICIO ASISTIDO DE PASOS PARA INTRODUCIR OTRO APUNTE
-		' =====================================================================
-		' 1. Apagamos el TextChanged superior para evitar llamadas falsas a la BD al limpiar
-		RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+        ' =====================================================================
+        ' 🛠️ REINICIO ASISTIDO DE PASOS PARA INTRODUCIR OTRO APUNTE
+        ' =====================================================================
+        ' 1. Apagamos el TextChanged superior para evitar llamadas falsas a la BD al limpiar
+        RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
         LlenarDescripcionConcepto()
         AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
 
@@ -383,10 +380,10 @@ Public Class IntroApuntes
             'Dim idConceptoAsiento As Integer = Convert.ToInt32(CmbConcepto.SelectedValue)
             Dim idConceptoAsiento As Integer = vIdConceptoReal
 
-            ' 🔍 CHIVATO DE GRABACIÓN
-            MsgBox("Id que se va a guardar en la BD: " & idConceptoAsiento & vbCrLf &
-       "Texto actual en el combo: " & CmbConcepto.Text & vbCrLf &
-       "vDescripcion: " & vDescripcion, MsgBoxStyle.Information, "Debug Grabar")
+            '     ' 🔍 CHIVATO DE GRABACIÓN
+            '     MsgBox("Id que se va a guardar en la BD: " & idConceptoAsiento & vbCrLf &
+            '"Texto actual en el combo: " & CmbConcepto.Text & vbCrLf &
+            '"vDescripcion: " & vDescripcion, MsgBoxStyle.Information, "Debug Grabar")
 
             Dim idCuentaAsiento As Integer = Convert.ToInt32(CmbCuenta.SelectedValue)
 
@@ -879,7 +876,7 @@ Public Class IntroApuntes
 
                 If respuesta = MsgBoxResult.Yes Then
                     vIntro = "SI"
-					vDescripcion = textoBuscado
+                    vDescripcion = textoBuscado
                     ' Actualizamos el almacén de texto original con el nuevo texto autorizado
                     TxtDescripcion.Text = textoBuscado
                     DgvDescripcion.Visible = False
@@ -930,8 +927,7 @@ Public Class IntroApuntes
                 Dim filaSeleccionada As DataRowView = CType(CmbConcepto.SelectedItem, DataRowView)
 
                 vIdConceptoReal = Convert.ToInt32(filaSeleccionada("IdConceptoCON"))
-
-                codigoOriginal = filaSeleccionada("CodigoCON").ToString().Trim()
+                codigoOriginal = filaSeleccionada("CodigoCON").ToString().Trim().ToUpper()
                 descripcionOriginal = filaSeleccionada("DescripcionCON").ToString().Trim()
 
                 If filaSeleccionada.Row.Table.Columns.Contains("TipoCON") Then
@@ -939,8 +935,41 @@ Public Class IntroApuntes
                 End If
             End If
 
-            ' Guardamos código para la BD
-            vConcepto = codigoOriginal
+            ' =========================================================================
+            ' 🎯 MOTOR DE REVERSIÓN DE IDIOMA EN CALIENTE (INMUNE A CONCEPTOS MULTIIDIOMA)
+            ' =========================================================================
+            ' Si el código que leemos del combo viene modificado por el idioma actual (ej: "HOME INSURANCE"),
+            ' interrogamos al ResourceSet activo para revertirlo a su clave maestra original (ej: "SEGURO_VIVIENDA").
+            Dim codigoRevertido As String = codigoOriginal
+            Dim resSet As System.Resources.ResourceSet = resManager.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
+
+            If resSet IsNot Nothing AndAlso Not String.IsNullOrEmpty(codigoOriginal) Then
+                ' Limpiamos los espacios del código leído por si viene separado (ej: "HOME INSURANCE" -> "HOME_INSURANCE")
+                Dim codigoLimpioCelda As String = codigoOriginal.Replace(" ", "_").Trim().ToUpper()
+
+                For Each dict As System.Collections.DictionaryEntry In resSet
+                    Dim llaveKey As String = dict.Key.ToString()
+
+                    ' Saltamos las descripciones largas para no mezclar términos
+                    If llaveKey.StartsWith("Desc_", StringComparison.OrdinalIgnoreCase) Then Continue For
+
+                    Dim valorTraducido As String = dict.Value?.ToString().Trim().Replace(" ", "_").ToUpper()
+
+                    ' Si el valor que muestra la pantalla coincide con la traducción del recurso
+                    If valorTraducido = codigoLimpioCelda Then
+                        ' Hemos cazado la clave original interna de tu archivo .resx
+                        codigoRevertido = llaveKey.ToUpper().Trim()
+                        Exit For
+                    End If
+                Next
+            End If
+
+            ' Reemplazamos los espacios por guiones de forma comercial segura
+            Dim llaveFinalBusqueda As String = codigoRevertido.Replace(" ", "_").Trim().ToUpper()
+            ' =========================================================================
+
+            ' Guardamos código para la BD usando la clave limpia original
+            vConcepto = codigoRevertido.Replace("_", " ")
 
             ' --- TRADUCIR TIPO ---
             Dim tradTipo As String = ""
@@ -953,14 +982,15 @@ Public Class IntroApuntes
             TxtTipoConcepto.Text = tradTipo
 
             ' --- TRADUCIR DESCRIPCIÓN ---
-            Dim llaveDesc As String = "Desc_" & codigoOriginal.ToUpper().Trim()
+            ' 🌟 ¡EL CAMBIO CLAVE AQUÍ! Buscamos en el resManager usando la llave original revertida
+            Dim llaveDesc As String = "Desc_" & llaveFinalBusqueda
             Dim tradDesc As String = resManager.GetString(llaveDesc)
             If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
 
             ' Pintamos la interfaz de forma limpia
             TxtDescripcion.Text = tradDesc
             TxtBuscarLetras.Text = tradDesc
-            vDescripcion = tradDesc ' 🌟 Sincronizamos de inmediato la variable global
+            vDescripcion = tradDesc
 
         Catch ex As Exception
             MsgBox(resManager.GetString("ErrorSincronizarCON") & ": " & ex.Message, MsgBoxStyle.Critical, resManager.GetString("Error"))

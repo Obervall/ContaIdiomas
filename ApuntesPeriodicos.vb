@@ -240,8 +240,16 @@ Public Class ApuntesPeriodicos
             If CmbConcepto.SelectedItem IsNot Nothing Then
                 Dim filaSeleccionada As DataRowView = CType(CmbConcepto.SelectedItem, DataRowView)
 
+                ' --- TRADUCIR LAS DESCRIPCIONES (Desc_NOMBRE) ---
+                Dim llaveDesc As String = "Desc_" & filaSeleccionada("CodigoCON").ToString().Trim().Replace(" ", "_")
+                Dim tradDesc As String = resManager.GetString(llaveDesc)
+
+                ' Si no tiene traducción en el ResX, dejamos la descripción original de la BD
+                If String.IsNullOrEmpty(tradDesc) Then tradDesc = filaSeleccionada("DescripcionCON").ToString().Trim()
+
+                TxtConcepto.Text = tradDesc
                 ' Rellenamos el cuadro de texto del concepto de forma limpia
-                TxtConcepto.Text = filaSeleccionada("CodigoCON").ToString().Trim()
+                'TxtConcepto.Text = filaSeleccionada("CodigoCON").ToString().Trim()
             End If
 
             ' Si el botón de filtro de concepto está activo, refrescamos la rejilla

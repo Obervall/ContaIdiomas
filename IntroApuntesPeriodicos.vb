@@ -83,11 +83,17 @@ Public Class IntroApuntesPeriodicos
         TL(12) = New ToolTip
         TL(12).SetToolTip(Me.CmbPeriocidad, rmse.GetString("SelecPeriodo"))
 
+        ' Combo Conceptos: solo selección, sin escritura libre
+        CmbConcepto.DropDownStyle = ComboBoxStyle.DropDownList
+        CmbConcepto.AutoCompleteMode = AutoCompleteMode.None
+        CmbConcepto.AutoCompleteSource = AutoCompleteSource.None
+
         ' =========================================================================
         ' 🌟 CARGA DE COMBOS DE LA NUEVA ERA COMPACTADA POR FUNCIONES (MSIX)
         ' =========================================================================
 
         ' 1. Llenar el Combo Concepto de forma aislada
+
         LlenarComboConceptosPeriodicos(Me.CmbConcepto)
 
         ' =========================================================================
@@ -186,21 +192,7 @@ Public Class IntroApuntesPeriodicos
                 ' Si no tiene traducción en el ResX, dejamos la descripción original de la BD
                 If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
 
-                ' =========================================================================
-                ' 🎯 LA ACOPLACIÓN SINCRONIZADA E INMUNE A MAYÚSCULAS
-                ' =========================================================================
-                Dim textoBuscarMayusculas As String = tradDesc.Trim().ToUpper()
-                Dim indiceEncontrado As Integer = CmbDescripcion.FindStringExact(textoBuscarMayusculas)
-
-                If indiceEncontrado >= 0 Then
-                    ' Si la frase existe en tu DISTINCT, forzamos su selección física en la lista
-                    CmbDescripcion.SelectedIndex = indiceEncontrado
-                Else
-                    ' Si es una frase nueva, la inyectamos por texto directo de forma limpia
-                    CmbDescripcion.SelectedIndex = -1
-                    CmbDescripcion.Text = textoBuscarMayusculas
-                End If
-
+                CmbDescripcion.Text = tradDesc.Trim()
             End If
 
         Catch ex As Exception

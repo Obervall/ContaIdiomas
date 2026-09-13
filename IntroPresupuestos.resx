@@ -407,57 +407,6 @@
   <data name="&gt;&gt;BtnAceptar.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="&gt;&gt;RdbMensual.Name" xml:space="preserve">
-    <value>RdbMensual</value>
-  </data>
-  <data name="&gt;&gt;RdbMensual.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;RdbMensual.Parent" xml:space="preserve">
-    <value>GBoxDistribucion</value>
-  </data>
-  <data name="&gt;&gt;RdbMensual.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;RdbAnual.Name" xml:space="preserve">
-    <value>RdbAnual</value>
-  </data>
-  <data name="&gt;&gt;RdbAnual.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;RdbAnual.Parent" xml:space="preserve">
-    <value>GBoxDistribucion</value>
-  </data>
-  <data name="&gt;&gt;RdbAnual.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="GBoxDistribucion.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 10.2pt, style=Bold</value>
-  </data>
-  <data name="GBoxDistribucion.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 138</value>
-  </data>
-  <data name="GBoxDistribucion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>559, 99</value>
-  </data>
-  <data name="GBoxDistribucion.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="GBoxDistribucion.Text" xml:space="preserve">
-    <value>Distribución Presupuestaria: </value>
-  </data>
-  <data name="&gt;&gt;GBoxDistribucion.Name" xml:space="preserve">
-    <value>GBoxDistribucion</value>
-  </data>
-  <data name="&gt;&gt;GBoxDistribucion.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GBoxDistribucion.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;GBoxDistribucion.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="RdbMensual.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -512,68 +461,32 @@
   <data name="&gt;&gt;RdbAnual.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;Label16.Name" xml:space="preserve">
-    <value>Label16</value>
-  </data>
-  <data name="&gt;&gt;Label16.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label16.Parent" xml:space="preserve">
-    <value>GBoxAnual</value>
-  </data>
-  <data name="&gt;&gt;Label16.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;Label15.Name" xml:space="preserve">
-    <value>Label15</value>
-  </data>
-  <data name="&gt;&gt;Label15.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label15.Parent" xml:space="preserve">
-    <value>GBoxAnual</value>
-  </data>
-  <data name="&gt;&gt;Label15.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;TxtAnual.Name" xml:space="preserve">
-    <value>TxtAnual</value>
-  </data>
-  <data name="&gt;&gt;TxtAnual.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TxtAnual.Parent" xml:space="preserve">
-    <value>GBoxAnual</value>
-  </data>
-  <data name="&gt;&gt;TxtAnual.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="GBoxAnual.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="GBoxDistribucion.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 10.2pt, style=Bold</value>
   </data>
-  <data name="GBoxAnual.Location" type="System.Drawing.Point, System.Drawing">
-    <value>25, 243</value>
+  <data name="GBoxDistribucion.Location" type="System.Drawing.Point, System.Drawing">
+    <value>23, 138</value>
   </data>
-  <data name="GBoxAnual.Size" type="System.Drawing.Size, System.Drawing">
-    <value>559, 70</value>
+  <data name="GBoxDistribucion.Size" type="System.Drawing.Size, System.Drawing">
+    <value>559, 99</value>
   </data>
-  <data name="GBoxAnual.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
+  <data name="GBoxDistribucion.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
   </data>
-  <data name="GBoxAnual.Text" xml:space="preserve">
-    <value>Distribución Anual:</value>
+  <data name="GBoxDistribucion.Text" xml:space="preserve">
+    <value>Distribución Presupuestaria: </value>
   </data>
-  <data name="&gt;&gt;GBoxAnual.Name" xml:space="preserve">
-    <value>GBoxAnual</value>
+  <data name="&gt;&gt;GBoxDistribucion.Name" xml:space="preserve">
+    <value>GBoxDistribucion</value>
   </data>
-  <data name="&gt;&gt;GBoxAnual.Type" xml:space="preserve">
+  <data name="&gt;&gt;GBoxDistribucion.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;GBoxAnual.Parent" xml:space="preserve">
+  <data name="&gt;&gt;GBoxDistribucion.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;GBoxAnual.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="&gt;&gt;GBoxDistribucion.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="Label16.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -656,6 +569,33 @@
   </data>
   <data name="&gt;&gt;TxtAnual.ZOrder" xml:space="preserve">
     <value>2</value>
+  </data>
+  <data name="GBoxAnual.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 10.2pt, style=Bold</value>
+  </data>
+  <data name="GBoxAnual.Location" type="System.Drawing.Point, System.Drawing">
+    <value>25, 243</value>
+  </data>
+  <data name="GBoxAnual.Size" type="System.Drawing.Size, System.Drawing">
+    <value>559, 70</value>
+  </data>
+  <data name="GBoxAnual.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="GBoxAnual.Text" xml:space="preserve">
+    <value>Distribución Anual:</value>
+  </data>
+  <data name="&gt;&gt;GBoxAnual.Name" xml:space="preserve">
+    <value>GBoxAnual</value>
+  </data>
+  <data name="&gt;&gt;GBoxAnual.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GBoxAnual.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;GBoxAnual.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="Label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1341,177 +1281,6 @@
   <data name="&gt;&gt;TxtDiciembre.ZOrder" xml:space="preserve">
     <value>13</value>
   </data>
-  <data name="&gt;&gt;Label28.Name" xml:space="preserve">
-    <value>Label28</value>
-  </data>
-  <data name="&gt;&gt;Label28.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label28.Parent" xml:space="preserve">
-    <value>GBoxMensual</value>
-  </data>
-  <data name="&gt;&gt;Label28.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;Label27.Name" xml:space="preserve">
-    <value>Label27</value>
-  </data>
-  <data name="&gt;&gt;Label27.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label27.Parent" xml:space="preserve">
-    <value>GBoxMensual</value>
-  </data>
-  <data name="&gt;&gt;Label27.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;Label26.Name" xml:space="preserve">
-    <value>Label26</value>
-  </data>
-  <data name="&gt;&gt;Label26.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label26.Parent" xml:space="preserve">
-    <value>GBoxMensual</value>
-  </data>
-  <data name="&gt;&gt;Label26.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;Label25.Name" xml:space="preserve">
-    <value>Label25</value>
-  </data>
-  <data name="&gt;&gt;Label25.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label25.Parent" xml:space="preserve">
-    <value>GBoxMensual</value>
-  </data>
-  <data name="&gt;&gt;Label25.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;Label24.Name" xml:space="preserve">
-    <value>Label24</value>
-  </data>
-  <data name="&gt;&gt;Label24.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label24.Parent" xml:space="preserve">
-    <value>GBoxMensual</value>
-  </data>
-  <data name="&gt;&gt;Label24.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;Label23.Name" xml:space="preserve">
-    <value>Label23</value>
-  </data>
-  <data name="&gt;&gt;Label23.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label23.Parent" xml:space="preserve">
-    <value>GBoxMensual</value>
-  </data>
-  <data name="&gt;&gt;Label23.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;Label22.Name" xml:space="preserve">
-    <value>Label22</value>
-  </data>
-  <data name="&gt;&gt;Label22.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label22.Parent" xml:space="preserve">
-    <value>GBoxMensual</value>
-  </data>
-  <data name="&gt;&gt;Label22.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;Label21.Name" xml:space="preserve">
-    <value>Label21</value>
-  </data>
-  <data name="&gt;&gt;Label21.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label21.Parent" xml:space="preserve">
-    <value>GBoxMensual</value>
-  </data>
-  <data name="&gt;&gt;Label21.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;Label20.Name" xml:space="preserve">
-    <value>Label20</value>
-  </data>
-  <data name="&gt;&gt;Label20.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label20.Parent" xml:space="preserve">
-    <value>GBoxMensual</value>
-  </data>
-  <data name="&gt;&gt;Label20.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;Label19.Name" xml:space="preserve">
-    <value>Label19</value>
-  </data>
-  <data name="&gt;&gt;Label19.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label19.Parent" xml:space="preserve">
-    <value>GBoxMensual</value>
-  </data>
-  <data name="&gt;&gt;Label19.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="&gt;&gt;Label18.Name" xml:space="preserve">
-    <value>Label18</value>
-  </data>
-  <data name="&gt;&gt;Label18.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label18.Parent" xml:space="preserve">
-    <value>GBoxMensual</value>
-  </data>
-  <data name="&gt;&gt;Label18.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="&gt;&gt;Label17.Name" xml:space="preserve">
-    <value>Label17</value>
-  </data>
-  <data name="&gt;&gt;Label17.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label17.Parent" xml:space="preserve">
-    <value>GBoxMensual</value>
-  </data>
-  <data name="&gt;&gt;Label17.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
-  <data name="GBoxMensual.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 10.2pt, style=Bold</value>
-  </data>
-  <data name="GBoxMensual.Location" type="System.Drawing.Point, System.Drawing">
-    <value>25, 319</value>
-  </data>
-  <data name="GBoxMensual.Size" type="System.Drawing.Size, System.Drawing">
-    <value>559, 287</value>
-  </data>
-  <data name="GBoxMensual.TabIndex" type="System.Int32, mscorlib">
-    <value>35</value>
-  </data>
-  <data name="GBoxMensual.Text" xml:space="preserve">
-    <value>Distribución Mensual:</value>
-  </data>
-  <data name="&gt;&gt;GBoxMensual.Name" xml:space="preserve">
-    <value>GBoxMensual</value>
-  </data>
-  <data name="&gt;&gt;GBoxMensual.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GBoxMensual.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;GBoxMensual.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="Label28.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -1836,6 +1605,33 @@
   <data name="&gt;&gt;Label17.ZOrder" xml:space="preserve">
     <value>11</value>
   </data>
+  <data name="GBoxMensual.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 10.2pt, style=Bold</value>
+  </data>
+  <data name="GBoxMensual.Location" type="System.Drawing.Point, System.Drawing">
+    <value>25, 319</value>
+  </data>
+  <data name="GBoxMensual.Size" type="System.Drawing.Size, System.Drawing">
+    <value>559, 287</value>
+  </data>
+  <data name="GBoxMensual.TabIndex" type="System.Int32, mscorlib">
+    <value>35</value>
+  </data>
+  <data name="GBoxMensual.Text" xml:space="preserve">
+    <value>Distribución Mensual:</value>
+  </data>
+  <data name="&gt;&gt;GBoxMensual.Name" xml:space="preserve">
+    <value>GBoxMensual</value>
+  </data>
+  <data name="&gt;&gt;GBoxMensual.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GBoxMensual.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;GBoxMensual.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -1887,30 +1683,5 @@
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="AñadeEditaBorraCC" xml:space="preserve">
-    <value>Añade, Edita, Borra o Consulta Conceptos Contables</value>
-  </data>
-  <data name="RadioAnual" xml:space="preserve">
-    <value>Con esta selección introducir una cantidad 
-en la casilla Total Anual y se repartirá a partes iguales entre todos los meses</value>
-  </data>
-  <data name="RadioMensual" xml:space="preserve">
-    <value>Con esta selección introducir una cantidad en la casillas de cada mes</value>
-  </data>
-  <data name="SeleccionarConcepto" xml:space="preserve">
-    <value>Seleccionar el Concepto Contable para definir el Presupuesto</value>
-  </data>
-  <data name="TotalAnual" xml:space="preserve">
-    <value>Introducir el Total Anual Presupuestado, que se repartirá mensualmente</value>
-  </data>
-  <data name="SelecionarCC" xml:space="preserve">
-    <value>Por favor, seleccione un concepto contable</value>
-  </data>
-  <data name="TxtMensual" xml:space="preserve">
-    <value>Introducir la cantidad Presupuestada para este mes</value>
-  </data>
-  <data name="PresupuestoGuardado" xml:space="preserve">
-    <value>Presupuesto guardado correctamente</value>
   </data>
 </root>

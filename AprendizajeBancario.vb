@@ -15,8 +15,9 @@ Public Class AprendizajeBancario
     Public vValorTotal As Integer = 0
     Private IsLimpiandoCombo As Boolean = False
     Private buscandoDescripcion As Boolean = False
-    ' Esta bandera controlará cuándo permitimos que el TextChanged abra la tabla
     Private cargandoDatosBanco As Boolean = False
+    Private vIdConceptoReal As Integer = 1
+
 
     Public Sub CargarPrimerConceptoBancario()
         Try
@@ -259,11 +260,8 @@ Public Class AprendizajeBancario
     Private Sub TxtBuscarLetras_TextChanged(sender As Object, e As EventArgs) Handles TxtBuscarLetras.TextChanged
         vLetras = TxtBuscarLetras.Text.Trim()
 
-        ' 🌟 CORTAFUEGOS A LA ANTIGUA USANZA:
-        ' Si el texto coincide exactamente con la descripción oficial del concepto (vDescripcion)
-        ' o si es el primerísimo arranque de la pantalla, no permitimos que la tabla se abra sola.
-        If Not String.IsNullOrEmpty(vDescripcion) AndAlso vLetras.ToUpper() = vDescripcion.Trim().ToUpper() Then
-            DgvDescripcion.DataSource = Nothing
+        ' 🌟 PROTECCIÓN: Si es la descripción por defecto, no hace falta buscar nada
+        If vLetras = vDescripcion Then
             DgvDescripcion.Visible = False
             Return
         End If
@@ -633,7 +631,6 @@ Public Class AprendizajeBancario
         CmbConcepto.DroppedDown = True
     End Sub
 
-
     Private Sub TxtBuscarLetras_Leave(sender As Object, e As EventArgs) Handles TxtBuscarLetras.Leave
         Dim textoActual As String = TxtBuscarLetras.Text.Trim()
 
@@ -641,12 +638,10 @@ Public Class AprendizajeBancario
         If DgvDescripcion.Visible = False AndAlso textoActual.ToUpper() <> vDescripcion.ToUpper() Then
             RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
             TxtBuscarLetras.Text = vDescripcion
-            TxtDescripcion.Text = vDescripcion ' Sincronizamos el chivato
             vIntro = "NO"
             AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
         End If
     End Sub
-
 
     Private Sub CmbConcepto_KeyDown(sender As Object, e As KeyEventArgs) Handles CmbConcepto.KeyDown
         If e.KeyCode = Keys.Enter Then
@@ -721,7 +716,6 @@ Public Class AprendizajeBancario
         If vIntro = "NO" Then
             TxtBuscarLetras.Text = ""
             LlenarDescripcionConcepto()
-
         End If
     End Sub
 
@@ -763,11 +757,19 @@ Public Class AprendizajeBancario
                         vDescripcion = TxtBuscarLetras.Text.Trim()
                     End If
 
-                    ' 🌟 TU REGLA DE VISIBILIDAD DEFINITIVA (AHORA 100% SEGURA)
-                    ' Al estar vDescripcion bien rellena, la comparación será perfecta tanto en el apunte 1 como en el 40.
-                    If TxtBuscarLetras.Text.Trim().ToUpper() = vDescripcion.Trim().ToUpper() Then
+                    ' =====================================================================
+                    ' 🌟 TU REGLA DE VISIBILIDAD PERFECCIONADA CONTRA IDIOMAS Y ESPACIOS
+                    ' =====================================================================
+                    ' Convertimos ambos textos quitando espacios y guiones de forma pura (Ej: "HOMEINSURANCE")
+                    Dim textoCuadroLimpio As String = TxtBuscarLetras.Text.Replace(" ", "").Replace("_", "").ToUpper().Trim()
+                    Dim textoOficialLimpio As String = vDescripcion.Replace(" ", "").Replace("_", "").ToUpper().Trim()
+
+                    ' Al estar bien rellenas y homogeneizadas, la comparación será matemática
+                    If textoCuadroLimpio = textoOficialLimpio Then
+                        ' Coinciden al 100%: es la carga automática del banco. ¡Mantenemos cerrado!
                         DgvDescripcion.Visible = False
                     Else
+                        ' No coinciden: el usuario está tecleando una búsqueda a mano. ¡Abrimos!
                         DgvDescripcion.Visible = True
                     End If
                 Else
@@ -888,15 +890,50 @@ Public Class AprendizajeBancario
             If CmbConcepto.SelectedItem IsNot Nothing Then
                 Dim filaSeleccionada As DataRowView = CType(CmbConcepto.SelectedItem, DataRowView)
 
-                codigoOriginal = filaSeleccionada("CodigoCON").ToString().Trim()
+                vIdConceptoReal = Convert.ToInt32(filaSeleccionada("IdConceptoCON"))
+                codigoOriginal = filaSeleccionada("CodigoCON").ToString().Trim().ToUpper()
                 descripcionOriginal = filaSeleccionada("DescripcionCON").ToString().Trim()
 
                 If filaSeleccionada.Row.Table.Columns.Contains("TipoCON") Then
                     tipoOriginal = filaSeleccionada("TipoCON").ToString().Trim()
                 End If
             End If
-            ' Guardamos código para la BD
-            vConcepto = codigoOriginal
+
+            ' =========================================================================
+            ' 🎯 MOTOR DE REVERSIÓN DE IDIOMA EN CALIENTE (INMUNE A CONCEPTOS MULTIIDIOMA)
+            ' =========================================================================
+            ' Si el código que leemos del combo viene modificado por el idioma actual (ej: "HOME INSURANCE"),
+            ' interrogamos al ResourceSet activo para revertirlo a su clave maestra original (ej: "SEGURO_VIVIENDA").
+            Dim codigoRevertido As String = codigoOriginal
+            Dim resSet As System.Resources.ResourceSet = resManager.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
+
+            If resSet IsNot Nothing AndAlso Not String.IsNullOrEmpty(codigoOriginal) Then
+                ' Limpiamos los espacios del código leído por si viene separado (ej: "HOME INSURANCE" -> "HOME_INSURANCE")
+                Dim codigoLimpioCelda As String = codigoOriginal.Replace(" ", "_").Trim().ToUpper()
+
+                For Each dict As System.Collections.DictionaryEntry In resSet
+                    Dim llaveKey As String = dict.Key.ToString()
+
+                    ' Saltamos las descripciones largas para no mezclar términos
+                    If llaveKey.StartsWith("Desc_", StringComparison.OrdinalIgnoreCase) Then Continue For
+
+                    Dim valorTraducido As String = dict.Value?.ToString().Trim().Replace(" ", "_").ToUpper()
+
+                    ' Si el valor que muestra la pantalla coincide con la traducción del recurso
+                    If valorTraducido = codigoLimpioCelda Then
+                        ' Hemos cazado la clave original interna de tu archivo .resx
+                        codigoRevertido = llaveKey.ToUpper().Trim()
+                        Exit For
+                    End If
+                Next
+            End If
+
+            ' Reemplazamos los espacios por guiones de forma comercial segura
+            Dim llaveFinalBusqueda As String = codigoRevertido.Replace(" ", "_").Trim().ToUpper()
+            ' =========================================================================
+
+            ' Guardamos código para la BD usando la clave limpia original
+            vConcepto = codigoRevertido.Replace("_", " ")
 
             ' --- TRADUCIR TIPO ---
             Dim tradTipo As String = ""
@@ -909,13 +946,19 @@ Public Class AprendizajeBancario
             TxtTipoConcepto.Text = tradTipo
 
             ' --- TRADUCIR DESCRIPCIÓN ---
-            Dim llaveDesc As String = "Desc_" & codigoOriginal.ToUpper().Trim()
+            ' 🌟 ¡EL CAMBIO CLAVE AQUÍ! Buscamos en el resManager usando la llave original revertida
+            Dim llaveDesc As String = "Desc_" & llaveFinalBusqueda
             Dim tradDesc As String = resManager.GetString(llaveDesc)
             If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
+
             ' Pintamos la interfaz de forma limpia
             TxtBuscarLetras.Text = tradDesc
-            vDescripcion = tradDesc ' 🌟 Sincronizamos de inmediato la variable global
-
+            vDescripcion = tradDesc
+            If vDescripcion <> tradDesc Then
+                DgvDescripcion.Visible = True
+            Else
+                DgvDescripcion.Visible = False
+			End If
         Catch ex As Exception
             MsgBox(resManager.GetString("ErrorSincronizarCON") & ": " & ex.Message, MsgBoxStyle.Critical, resManager.GetString("Error"))
         End Try

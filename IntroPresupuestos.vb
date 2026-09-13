@@ -148,15 +148,6 @@ Public Class IntroPresupuestos
                 If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
                 TxtDescripcion.Text = tradDesc
 
-                ' 2. Enfocamos la caja correspondiente según la selección (Tu lógica impecable)
-                If RdbAnual.Checked = True Then
-                    TxtAnual.Select()
-                    TxtAnual.SelectAll()
-                Else
-                    TxtEnero.Select()
-                    TxtEnero.SelectAll()
-                End If
-
                 ' 3. Rellenamos las 12 cajas mensuales con lo que haya en los presupuestos
                 LlenarTextBox()
             End If
@@ -164,6 +155,21 @@ Public Class IntroPresupuestos
         Catch ex As Exception
             ' Evita cuelgues visuales si el combo parpadea en la carga
         End Try
+    End Sub
+
+    Private Sub CmbConcepto_KeyDown(sender As Object, e As KeyEventArgs) Handles CmbConcepto.KeyDown
+        ' Si el usuario presiona ENTER, significa que ya eligió y quiere avanzar
+        If e.KeyCode = Keys.Enter Then
+            e.SuppressKeyPress = True ' Evita el sonido de "beep" de Windows
+
+            If RdbAnual.Checked = True Then
+                TxtAnual.Select()
+                TxtAnual.SelectAll()
+            Else
+                TxtEnero.Select()
+                TxtEnero.SelectAll()
+            End If
+        End If
     End Sub
 
     Public Sub LlenarTextBox()
@@ -238,15 +244,26 @@ Public Class IntroPresupuestos
                         RemoveHandler RdbAnual.CheckedChanged, AddressOf RdbAnual_CheckedChanged
                         RemoveHandler RdbMensual.CheckedChanged, AddressOf RdbAnual_CheckedChanged
 
-                        ' Si todos los meses son iguales y el presupuesto no está vacío, es Anual. Si no, Mensual.
-                        If todosIguales AndAlso sumaAnual > 0 Then
-                            RdbAnual.Checked = True
-                            GBoxAnual.Enabled = True
-                            GBoxMensual.Enabled = False
-                        Else
-                            RdbMensual.Checked = True
+                        ' 🌟 NUEVA LÓGICA INTELIGENTE:
+                        ' Si el usuario ya tiene seleccionado Mensual, respetamos su decisión (no lo cambiamos a Anual si está vacío)
+                        If RdbMensual.Checked AndAlso sumaAnual = 0 Then
+                            ' Se queda tal cual en Mensual, solo aseguramos los GroupBox
                             GBoxAnual.Enabled = False
                             GBoxMensual.Enabled = True
+                        Else
+                            ' Si no estaba forzado en mensual, seguimos tu lógica normal basada en los datos de la BD
+                            If todosIguales AndAlso sumaAnual > 0 Then
+                                RdbAnual.Checked = True
+                                GBoxAnual.Enabled = True
+                                GBoxMensual.Enabled = False
+                            Else
+                                RdbMensual.Checked = True
+                                GBoxAnual.Enabled = False
+                                GBoxMensual.Enabled = True
+                                TxtEnero.Select()
+                                TxtEnero.SelectAll()
+
+                            End If
                         End If
 
                         ' Volvemos a activar los escuchadores de los RadioButtons
