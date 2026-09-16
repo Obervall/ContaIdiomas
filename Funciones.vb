@@ -95,8 +95,7 @@ Module Funciones
     Public vSaldoFinal As Decimal
     ' Variable pública para activar el modo de reparación de emergencia desde la ventana principal
     Public vModoRepararDuplicados As String = "NO"
-
-
+    Public mensajeReinicio As String
 
 
     Public Structure ElementoCombo
@@ -153,10 +152,10 @@ Module Funciones
             Dim txtVersio As String = If(resManager?.GetString("Versio", culturaActivaEnVivo), "Versión")
             Dim txtExercici As String = If(resManager?.GetString("Ejercicio", culturaActivaEnVivo), "Ejercicio")
 			Dim txtAvisoDiasRestantes As String = If(vAviso2, resManager.GetString("VersionEvaluacion") & ":  " & vAvisoDiasRestantes & " " & resManager.GetString("dias"), "")
-            'MsgBox("Idioma activo: " & culturaActivaEnVivo.Name & vbCrLf &
+            'MsgBox("En Funcion Idioma activo: " & culturaActivaEnVivo.Name & vbCrLf &
             '       "Título traducido: " & txtTitol & vbCrLf &
             '       "Versión traducida: " & txtVersio & vbCrLf &
-            '       "Ejercicio traducido: " & txtExercici & vbCrLf &
+            '       "Ejercicio traducido: " & txtExercici & " " & vAñoEjercicio & vbCrLf &
             '       "Aviso traducido: " & txtAvisoDiasRestantes, MsgBoxStyle.Information, "Depuración de traducción")
 
             ' Forzamos el ensamblado del rótulo de cabecera de forma dócil e indestructible
@@ -3441,9 +3440,9 @@ Module Funciones
         frm.Controls.AddRange(New Control() {lbl, btnES, btnEN, btnCAT, btnCancelar})
         frm.CancelButton = btnCancelar ' Si pulsan la tecla ESC del teclado, también saldrá en paz
 
-        ' =========================================================================
-        ' 🚀 CONFIGURACIÓN DE ACCIONES DINÁMICAS INMUNES AL ANTIVIRUS (VERSIÓN 3.2.8.0)
-        ' =========================================================================
+        ' ===========================================================
+        ' 🚀 CONFIGURACIÓN DE ACCIONES DINÁMICAS INMUNES AL ANTIVIRUS
+        ' ===========================================================
         ' 1. Sabor de Boca Español: Al pulsar, arrastra el PDF al búnker seguro de AppData
         AddHandler btnES.Click, Sub(s, ev)
                                     EjecutarPDFIdiomasSeguro("Ayuda_ContaHogar_ES.pdf")
@@ -3538,9 +3537,9 @@ Module Funciones
         frm.Controls.AddRange(New Control() {lbl, btnES, btnEN, btnCAT, btnCancelar})
         frm.CancelButton = btnCancelar ' Si pulsan la tecla ESC del teclado, también saldrá en paz
 
-        ' =========================================================================
-        ' 🚀 CONFIGURACIÓN DE ACCIONES DINÁMICAS INMUNES AL ANTIVIRUS (VERSIÓN 3.2.8.0)
-        ' =========================================================================
+        ' ===========================================================
+        ' 🚀 CONFIGURACIÓN DE ACCIONES DINÁMICAS INMUNES AL ANTIVIRUS
+        ' ===========================================================
         ' 1. Sabor de Boca Español: Al pulsar, arrastra el PDF al búnker seguro de AppData
         AddHandler btnES.Click, Sub(s, ev)
                                     EjecutarPDFIdiomasSeguro("Manual_Importacion_Bancaria.pdf")
@@ -3717,9 +3716,9 @@ Module Funciones
         Dim hojaExcel As Object = Nothing
 
         Try
-            ' =========================================================================
-            ' 🌍 EL ESCUDO CULTURAL DE HILO UNIVERSAL (VERSIÓN 3.2.8.0 Premium)
-            ' =========================================================================
+            ' =======================================
+            ' 🌍 EL ESCUDO CULTURAL DE HILO UNIVERSAL
+            ' =======================================
             ' Forzamos al hilo actual de la CPU a operar bajo la cultura española fija.
             ' Esto obliga al motor COM de Excel a soltar los datos sin importar si el Windows
             ' del cliente está configurado en Berlín, Londres o Barcelona. ¡Inmunidad Total!
@@ -3757,9 +3756,9 @@ Module Funciones
 
                 celdasVaciasSeguidas = 0
 
-                ' =========================================================================
-                ' 🎯 4. PESCA DE VARIABLES PURAS (VERSIÓN 3.2.8.0 Saneada y Directa)
-                ' =========================================================================
+                ' ==============================
+                ' 🎯 4. PESCA DE VARIABLES PURAS
+                ' ==============================
                 ' Volvemos a tus asignaciones clásicas, directas y dóciles de toda la vida
                 Dim fechaBanco As DateTime = Convert.ToDateTime(hojaExcel.Cells(fila, colFecha).Value).Date
                 Dim conceptoBanco As String = Convert.ToString(hojaExcel.Cells(fila, colConcepto).Value).ToString().Trim()
@@ -3819,9 +3818,9 @@ Module Funciones
                     ' Pasamos el rodillo de succión para alimentar los TextBox (tu línea clásica)
                     frmIA.CargarPrimerConceptoBancario()
 
-                    ' =========================================================================
-                    ' 🎯 LA COORDINACIÓN GEOGRÁFICA DE TU MONITOR (VERSIÓN 3.2.8.0)
-                    ' =========================================================================
+                    ' ===========================================
+                    ' 🎯 LA COORDINACIÓN GEOGRÁFICA DE TU MONITOR
+                    ' ===========================================
                     ' 1. Forzamos al formulario a leer nuestras coordenadas manuales por software
                     frmIA.StartPosition = FormStartPosition.Manual
 

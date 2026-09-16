@@ -1057,4 +1057,13 @@ Una vez corregido, este mensaje no volverá a aparecer."</value>
   <data name="SeleccioneTipoCuenta" xml:space="preserve">
     <value>Por favor, seleccione un Tipo de Cuenta válido.</value>
   </data>
+  <data name="ReinicioAppRestore" xml:space="preserve">
+    <value>Restaurar Base de Datos</value>
+  </data>
+  <data name="MensajeReinicio" xml:space="preserve">
+    <value>La aplicación se reiniciará para aplicar los cambios</value>
+  </data>
+  <data name="ReinicioAppVaciar" xml:space="preserve">
+    <value>Vaciar Base de Datos</value>
+  </data>
 </root>

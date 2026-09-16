@@ -2236,9 +2236,9 @@ Public Class ApuntesContables
 
     Private Sub BtnImportarBanco_Click(sender As Object, e As EventArgs) Handles BtnImportarBanco.Click
 
-        ' =========================================================================
-        ' 🚀 EXTRACCIÓN SEGURO POR SQL INDESTRUCTIBLE (VERSIÓN 3.2.8.0)
-        ' =========================================================================
+        ' ===========================================
+        ' 🚀 EXTRACCIÓN SEGURO POR SQL INDESTRUCTIBLE
+        ' ===========================================
         If Not String.IsNullOrEmpty(CmbCuenta.Text) Then
             Try
                 ' 1. Pesca del texto que el usuario ve real en su monitor (ej: "BBVA")
@@ -2263,9 +2263,9 @@ Public Class ApuntesContables
                     End Using
                 End Using
 
-                ' =========================================================================
-                ' 🎯 3. EL ESCUDO ADUANERO ELÁSTICO (VERSIÓN 3.2.9.1 - Inmune a Textos Libres)
-                ' =========================================================================
+                ' ==================================
+                ' 🎯 3. EL ESCUDO ADUANERO ELÁSTICO
+                ' ==================================
                 Dim aduanaOK As Boolean = False
 
                 If idBanco > 0 AndAlso textoNotas.Contains("(") AndAlso textoNotas.Contains(")") Then
@@ -2322,9 +2322,9 @@ Public Class ApuntesContables
                 ofd.Filter = rmse.GetString("ArchivosDeExcel") & " (*.xlsx;*.xls)|*.xlsx;*.xls|" & rmse.GetString("TodosLosArchivos") & " (*.*)|*.*"
                 ofd.Title = rmse.GetString("SeleccionaExtracto")
 
-                ' =========================================================================
-                ' 🎯 DIRECTO A DESCARGAS (VERSIÓN 3.2.8.0 Premium)
-                ' =========================================================================
+                ' ======================
+                ' 🎯 DIRECTO A DESCARGAS
+                ' ======================
                 ' 1. Calculamos la ruta biológica de la carpeta de descargas de este PC
                 Dim rutaDescargasWindows As String = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads")
 

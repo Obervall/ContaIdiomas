@@ -40,13 +40,6 @@ Public Class SeleccionEjercicio
     Private Sub CmbEjercicio_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbEjercicio.SelectedIndexChanged
         vAñoEjercicio = CmbEjercicio.Text
         Text = Label1.Text & " - " & vAñoEjercicio.ToString
-        ' 2. Aplicar a todos los formularios abiertos, o sea a Principal
-        For Each f As Form In Application.OpenForms
-            '' 3. Refrescar el formulario Principal
-            If TypeOf f Is Principal Then
-                ActualizarTextosFormulario(f)
-            End If
-        Next
     End Sub
 
     Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
@@ -54,6 +47,7 @@ Public Class SeleccionEjercicio
         If e.CloseReason = 3 Then
             e.Cancel = False ' NO Se cancela la solicitud de cerrar
         End If
+        ActualizarTextoPrincipal()
     End Sub
 
     Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click
@@ -66,15 +60,12 @@ Public Class SeleccionEjercicio
             ' Mostramos el aviso en el idioma del usuario y CERRAMOS la ventana
             Dim msgSinDatos As String = resManager.GetString("NoHayDatosHistoricos")
             If String.IsNullOrEmpty(msgSinDatos) Then msgSinDatos = resManager.GetString("NoHayDatosHistoricos")
-
-            MessageBox.Show(msgSinDatos, resManager.GetString("Aviso"), MessageBoxButtons.OK, MessageBoxIcon.Information)
             Me.Close()
             Exit Sub
         Else
             ' Si devolvió True, mostramos el mensaje de éxito en su idioma
             Dim msgExito As String = resManager.GetString("SaldosGeneradosExito")
             If String.IsNullOrEmpty(msgExito) Then msgExito = resManager.GetString("SaldosGeneradosExito")
-
             MessageBox.Show(msgExito, resManager.GetString("Exito"), MessageBoxButtons.OK, MessageBoxIcon.Information)
             Me.Close()
         End If
@@ -152,17 +143,44 @@ Public Class SeleccionEjercicio
             End Try
         End If
         Text = rmse.GetString("Label1.Text") & " - " & vAñoEjercicio.ToString
-        ' 2. Aplicar a todos los formularios abiertos, o sea a Principal
-        For Each f As Form In Application.OpenForms
-            '' 3. Refrescar el formulario Principal
-            If TypeOf f Is Principal Then
-                ActualizarTextosFormulario(f)
-            End If
-        Next
+        ActualizarTextoPrincipal()
         Me.Close()
     End Sub
 
-    Private Sub BtnCancelar_Click(sender As Object, e As EventArgs) Handles BtnCancelar.Click
-        Me.Close()
+	Private Sub BtnCancelar_Click(sender As Object, e As EventArgs) Handles BtnCancelar.Click
+		Me.Close()
+	End Sub
+
+    Private Sub ActualizarTextoPrincipal()
+        For Each f As Form In Application.OpenForms
+            '' 3. Refrescar el formulario Principal
+            If TypeOf f Is Principal Then
+                ' Capturamos el idioma activo de la sesión de la RAM
+                Dim culturaActivaEnVivo As System.Globalization.CultureInfo = Threading.Thread.CurrentThread.CurrentUICulture
+
+                'No quiero que salgan los días de prueba nunca, así que si vAviso2 es False, no mostramos nada
+                vAviso2 = False
+
+                ' Leemos del resManager general con su salvavidas de texto plano por defecto (Usando tu nueva Key)
+                Dim txtTitol As String = If(resManager?.GetString("AppDisplayName", culturaActivaEnVivo), "ContaHogar 3.0 Premium")
+                Dim txtVersio As String = If(resManager?.GetString("Versio", culturaActivaEnVivo), "Versión")
+                Dim txtExercici As String = If(resManager?.GetString("Ejercicio", culturaActivaEnVivo), "Ejercicio")
+                Dim txtAvisoDiasRestantes As String = If(vAviso2, resManager.GetString("VersionEvaluacion") & ":  " & vAvisoDiasRestantes & " " & resManager.GetString("dias"), "")
+                'MsgBox("En Funcion Idioma activo: " & culturaActivaEnVivo.Name & vbCrLf &
+                '       "Título traducido: " & txtTitol & vbCrLf &
+                '       "Versión traducida: " & txtVersio & vbCrLf &
+                '       "Ejercicio traducido: " & txtExercici & " " & vAñoEjercicio & vbCrLf &
+                '       "Aviso traducido: " & txtAvisoDiasRestantes, MsgBoxStyle.Information, "Depuración de traducción")
+
+                ' Forzamos el ensamblado del rótulo de cabecera de forma dócil e indestructible
+                f.Text = String.Format("{0}  -  {1}: {2}  -  {3}: {4}       {5}",
+                                        txtTitol.Trim(),
+                                        txtVersio.Trim(),
+                                        My.Settings.Version,
+                                        txtExercici.Trim(),
+                                        vAñoEjercicio.ToString(),
+                                        txtAvisoDiasRestantes.Trim())
+            End If
+        Next
     End Sub
 End Class

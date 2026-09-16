@@ -1884,6 +1884,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a La aplicación se reiniciará para aplicar los cambios.
+    '''</summary>
+    Friend Shared ReadOnly Property MensajeReinicio() As String
+        Get
+            Return ResourceManager.GetString("MensajeReinicio", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Meses.
     '''</summary>
     Friend Shared ReadOnly Property Meses() As String
@@ -2277,6 +2286,24 @@ Friend Class Recursos
     Friend Shared ReadOnly Property REGULARIZACION_2() As String
         Get
             Return ResourceManager.GetString("REGULARIZACION_2", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Restaurar Base de Datos.
+    '''</summary>
+    Friend Shared ReadOnly Property ReinicioAppRestore() As String
+        Get
+            Return ResourceManager.GetString("ReinicioAppRestore", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Vaciar Base de Datos.
+    '''</summary>
+    Friend Shared ReadOnly Property ReinicioAppVaciar() As String
+        Get
+            Return ResourceManager.GetString("ReinicioAppVaciar", resourceCulture)
         End Get
     End Property
     

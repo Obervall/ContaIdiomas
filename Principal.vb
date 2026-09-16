@@ -234,9 +234,9 @@ Public Class Principal
         My.Settings.Version = "3.3.8"
         My.Settings.Save()
 
-        ' =========================================================================
-        ' 🔒 EL CORTAFUEGOS COMERCIAL INTELIGENTE POR RUTA (VERSIÓN 3.2.9.0)
-        ' =========================================================================
+        ' ================================================
+        ' 🔒 EL CORTAFUEGOS COMERCIAL INTELIGENTE POR RUTA
+        ' ================================================
 
         ' 🎪 VARIABLES TRAMPA DE TESTEO (Bórralas o coméntalas tras la prueba)
         'Dim esInstalacionStore As Boolean = True ' Forzamos a la CPU a creer que viene de la Store
@@ -285,9 +285,9 @@ Public Class Principal
                     Application.Exit()
                     Return
                 Else
-                    ' =========================================================================
-                    ' 🚀 EL CHIVATO VISUAL DE LA REVOLUCIÓN 3.2.8.0
-                    ' =========================================================================
+                    ' ======================================
+                    ' 🚀 EL CHIVATO VISUAL DE LA REVOLUCIÓN
+                    ' ======================================
                     ' Si el usuario de la Store está dentro del mes de gracia (días <= 30),
                     ' invocamos tu función interna para que le pinte arriba en la barra de título (Me.Text)
                     ' los días restantes en catalán, castellano o inglés de forma 100% elegante.
@@ -1920,9 +1920,13 @@ Public Class Principal
                 MsgBox(ex.Message, MsgBoxStyle.Critical)
             End Try
 
-            ' Cierre controlado impecable de fábrica
-            MsgBox(resManager.GetString("CerrarApp"), MsgBoxStyle.Information)
-            Me.Close()
+            ' 1. Avisamos al usuario con un MsgBox elegante en su idioma
+            Dim tituloReinicio As String = resManager.GetString("ReinicioAppVaciar")
+            MsgBox(resManager.GetString("MensajeReinicio"), MsgBoxStyle.Information, tituloReinicio)
+
+            ' 2. 🚀 EL TRUCO MAESTRO: Lanzamos una nueva instancia limpia del programa 
+            ' y cerramos la actual inmediatamente. Evita corrupciones visuales al 100%.
+            Application.Restart()
         End If
     End Sub
 
@@ -2022,9 +2026,13 @@ Public Class Principal
                     FileCopy(restore.FileName, RestoreFile)
                     MessageBox.Show(rmse.GetString("RestaurarOk"), rmse.GetString("Restaurar"), MessageBoxButtons.OK, MessageBoxIcon.Information)
 
-                    ' Avisamos de forma dócil y cerramos para asentar los hilos de la base de datos
-                    MsgBox(resManager.GetString("CerrarApp"), vbInformation)
-                    Me.Close()
+                    ' 1. Avisamos al usuario con un MsgBox elegante en su idioma
+                    Dim tituloReinicio As String = resManager.GetString("ReinicioAppRestore")
+                    MsgBox(resManager.GetString("MensajeReinicio"), MsgBoxStyle.Information, tituloReinicio)
+
+                    ' 2. 🚀 EL TRUCO MAESTRO: Lanzamos una nueva instancia limpia del programa 
+                    ' y cerramos la actual inmediatamente. Evita corrupciones visuales al 100%.
+                    Application.Restart()
 
                 Catch ex As Exception
                     MsgBox(rmse.GetString("ErrorCriticoRestauracion") & ": " & ex.Message, MsgBoxStyle.Critical)

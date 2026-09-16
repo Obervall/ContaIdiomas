@@ -31,7 +31,6 @@ Public Class NuevoConceptoContable
         CmbTipoConcepto.SelectedIndex = 0
         CmbTipoConcepto.Select()
 
-
         Try
             ' 1. Configuramos las columnas de la tabla en memoria si no existen
             If dtConceptosMemoria.Columns.Count = 0 Then
@@ -197,29 +196,6 @@ Public Class NuevoConceptoContable
             End If
 
             ' =========================================================================
-            ' ¡BLOQUEO DE DUPLICADOS MULTIIDIOMA REAL CON DATAVIEW! (Tu lógica original intacta)
-            ' =========================================================================
-
-            '' Obtener de forma segura la traducción de "SALDO" del idioma actual (para los 6 idiomas)
-            'Dim saldoTraducido As String
-            'Try
-            '    saldoTraducido = resManager.GetString("Saldo").Trim().ToUpper()
-            'Catch ex As Exception
-            '    saldoTraducido = "SALDO" ' Respaldo por si no se encuentra la clave en el recurso
-            'End Try
-
-            '' 2. Validación de bloqueo: No permite "SALDO" en español ni su traducción internacional
-            'If nombreLimpio = "SALDO" OrElse (saldoTraducido <> "" AndAlso nombreLimpio = saldoTraducido) Then
-            '    MessageBox.Show(rmse.GetString("NoNombreSaldo"),
-            '    rmse.GetString("$this.Text"),
-            '    MessageBoxButtons.OK,
-            '    MessageBoxIcon.Information)
-            '    TxtNombre.Select()
-            '    TxtNombre.SelectAll()
-            '    Exit Sub ' Detiene el guardado inmediatamente
-            'End If
-
-            ' =========================================================================
             ' ¡BLOQUEO DE DUPLICADOS MULTIIDIOMA REAL CON DATAVIEW!
             ' =========================================================================
             ' Buscamos si lo que el usuario ha escrito ya existe en la columna traducida en memoria
@@ -239,11 +215,6 @@ Public Class NuevoConceptoContable
                 ' Si falla la validación en memoria por seguridad, dejamos que continúe
             End Try
             ' =========================================================================
-
-            '' Si pasa todas las validaciones, preparamos el resto de variables
-            '' ¡Truco de consistencia!: Guardamos el código en la base de datos normalizado (espacios por guiones)
-            '' para que cuando se genere el .resx la clave sea limpia ("LUZ_Y_AGUA" en vez de "LUZ Y AGUA")
-            'Dim codigoEstableBD As String = nombreLimpio.Replace(" ", "_")
 
             ' Si pasa todas las validaciones, preparamos el resto de variables
             ' Guardamos el concepto en mayúsculas manteniendo los espacios reales del usuario
