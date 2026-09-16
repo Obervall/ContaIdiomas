@@ -240,10 +240,14 @@ Public Class NuevoConceptoContable
             End Try
             ' =========================================================================
 
+            '' Si pasa todas las validaciones, preparamos el resto de variables
+            '' ¡Truco de consistencia!: Guardamos el código en la base de datos normalizado (espacios por guiones)
+            '' para que cuando se genere el .resx la clave sea limpia ("LUZ_Y_AGUA" en vez de "LUZ Y AGUA")
+            'Dim codigoEstableBD As String = nombreLimpio.Replace(" ", "_")
+
             ' Si pasa todas las validaciones, preparamos el resto de variables
-            ' ¡Truco de consistencia!: Guardamos el código en la base de datos normalizado (espacios por guiones)
-            ' para que cuando se genere el .resx la clave sea limpia ("LUZ_Y_AGUA" en vez de "LUZ Y AGUA")
-            Dim codigoEstableBD As String = nombreLimpio.Replace(" ", "_")
+            ' Guardamos el concepto en mayúsculas manteniendo los espacios reales del usuario
+            Dim codigoEstableBD As String = nombreLimpio
 
             vTxtNombre = TxtNombre.Text.Trim()
             vTxtDescripcion = ApostrofePorAcentoAgudo(TxtDescripcion.Text)
