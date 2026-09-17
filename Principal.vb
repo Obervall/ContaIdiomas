@@ -1338,6 +1338,18 @@ Public Class Principal
         Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
     End Sub
 
+    'Private Sub MnuEvolucionCuentas_Click(sender As Object, e As EventArgs) Handles MnuEvolucionCuentas.Click
+    '    TsLabelFormulario.Text = rmse.GetString("MenuEvolucionCuentas.Text")
+    '    ' Comprobamos si existe un identificador asociado.
+    '    If ((FrmFiltroEvolutivo Is Nothing) OrElse (Not FrmFiltroEvolutivo.IsHandleCreated)) Then
+    '        FrmFiltroEvolutivo = New FiltroEvolutivo
+    '    End If
+    '    ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
+    '    ActualizarTextosFormulario(frmFiltroEvolutivo)
+    '    frmFiltroEvolutivo.TipoInforme = "CUENTAS" ' Le decimos a la ventana qué va a filtrar
+    '    frmFiltroEvolutivo.ShowDialog()
+    'End Sub
+
     Private Sub BtnCompactarBaseDatos_Click(sender As Object, e As EventArgs) Handles BtnCompactarBaseDatos.Click
         CompactarBaseDeDatosToolStripMenuItem.PerformClick()
     End Sub

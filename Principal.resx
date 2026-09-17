@@ -449,7 +449,7 @@
 </value>
   </data>
   <data name="ListadosDeApuntesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>321, 26</value>
+    <value>463, 26</value>
   </data>
   <data name="ListadosDeApuntesToolStripMenuItem.Text" xml:space="preserve">
     <value>Listados de Apuntes</value>
@@ -524,13 +524,13 @@
 </value>
   </data>
   <data name="ListadosDeApuntesPeriodicosToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>321, 26</value>
+    <value>463, 26</value>
   </data>
   <data name="ListadosDeApuntesPeriodicosToolStripMenuItem.Text" xml:space="preserve">
     <value>Listados de Apuntes Periodicos</value>
   </data>
-  <data name="ToolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>318, 6</value>
+  <data name="ToolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>460, 6</value>
   </data>
   <data name="GráficosDeIngresosPorConceptoToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -541,7 +541,7 @@
 </value>
   </data>
   <data name="GráficosDeIngresosPorConceptoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>321, 26</value>
+    <value>463, 26</value>
   </data>
   <data name="GráficosDeIngresosPorConceptoToolStripMenuItem.Text" xml:space="preserve">
     <value>Gráficos de Ingresos por Concepto</value>
@@ -558,10 +558,45 @@
 </value>
   </data>
   <data name="GráficosDeGastosPorConceptoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>321, 26</value>
+    <value>463, 26</value>
   </data>
   <data name="GráficosDeGastosPorConceptoToolStripMenuItem.Text" xml:space="preserve">
     <value>Gráficos de Gastos por Concepto</value>
+  </data>
+  <data name="ToolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>460, 6</value>
+  </data>
+  <data name="MnuEvolucionCuentas.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
+        cwAAEnMBjCK5BwAAAK5JREFUWEftlFEKwCAMQz26R/NmG+KqxQ2XdhFkGHj0xyVRmSEsrGMirzpmyBTe
+        SuTppfmYwpuKUUoJRodXF0v4IjvnCA3PksVsYN3ukoGrhMwYy316pvZxlRDENMQIo0v85yRYmEtMAlL/
+        S1OEFqiLr88+8PlFLEb9XY7Q4dXFEr7IzjlCw7NkMRtYt7tk4Coh8+llQ6f2cZUQxLR/70foEv85CRbm
+        EhPZ2tqqOgG2rbd4Y0+K9wAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="MnuEvolucionCuentas.Size" type="System.Drawing.Size, System.Drawing">
+    <value>463, 26</value>
+  </data>
+  <data name="MnuEvolucionCuentas.Text" xml:space="preserve">
+    <value>Evolución de Saldos por Cuenta a una Fecha</value>
+  </data>
+  <data name="MnuEvolucionConceptos.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
+        cwAAEnMBjCK5BwAAATNJREFUWEftk1uygyAQRLN0l+bOSI2kmaaZQe/VmHzkVE0ZFOjDI4/HF1Je9TFK
+        KT+JjZ8E+DoJrltogZAAmcSyLJdJtjAE7kgMwS+ZP9OFMCyxrmt7h/fcprl24UES2WOhmQTAbxFJj6ZY
+        /1rzcAMCKoGxCLGnlUGhKuMCy4HVGySwjeV/xx4i0Qsc3QFDVtSKVx2B+UWkF8CZHsH6ojCpEYlMjqYX
+        gIROGkErqZNL/0gE0DgI8NM/+i6NxfANV1QEfTgjk2C2C2fkx1S3OJKouCBleYBU903BMWXoqo1Z+Ixu
+        kh6/LzE+9pLwWdjs2yXhFb8Dcdi4I/8NN9p9yNAw5Uy40U0Ui+Q7cjZ8G6/B2s64IJwZg7Xt+PuLwpkx
+        OGq/KZyJg28KZzKRW8IZF/lA+HmeuAJCqCjmI+UAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="MnuEvolucionConceptos.Size" type="System.Drawing.Size, System.Drawing">
+    <value>463, 26</value>
+  </data>
+  <data name="MnuEvolucionConceptos.Text" xml:space="preserve">
+    <value>Evolución de Gastos/Ingresos por Concepto a una Fecha</value>
   </data>
   <data name="InformesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>81, 27</value>
@@ -8102,10 +8137,10 @@
   <data name="&gt;&gt;SoloGastosOrdenadoPorImportesToolStripMenuItem1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;ToolStripSeparator2.Name" xml:space="preserve">
-    <value>ToolStripSeparator2</value>
+  <data name="&gt;&gt;ToolStripSeparator4.Name" xml:space="preserve">
+    <value>ToolStripSeparator4</value>
   </data>
-  <data name="&gt;&gt;ToolStripSeparator2.Type" xml:space="preserve">
+  <data name="&gt;&gt;ToolStripSeparator4.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;GráficosDeIngresosPorConceptoToolStripMenuItem.Name" xml:space="preserve">
@@ -8118,6 +8153,24 @@
     <value>GráficosDeGastosPorConceptoToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;GráficosDeGastosPorConceptoToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripSeparator2.Name" xml:space="preserve">
+    <value>ToolStripSeparator2</value>
+  </data>
+  <data name="&gt;&gt;ToolStripSeparator2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MnuEvolucionCuentas.Name" xml:space="preserve">
+    <value>MnuEvolucionCuentas</value>
+  </data>
+  <data name="&gt;&gt;MnuEvolucionCuentas.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MnuEvolucionConceptos.Name" xml:space="preserve">
+    <value>MnuEvolucionConceptos</value>
+  </data>
+  <data name="&gt;&gt;MnuEvolucionConceptos.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;HerramientasToolStripMenuItem.Name" xml:space="preserve">

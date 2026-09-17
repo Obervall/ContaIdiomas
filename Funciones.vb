@@ -55,9 +55,10 @@ Module Funciones
     Public frmGraficosPresupuestos As New GraficosPresupuestos
     Public frmSeleccionarDatosIngresos As New SeleccionDatosIngresos
     Public frmSeleccionarDatosGastos As New SeleccionDatosGastos
-    Public frmGraficosSoloConceptos As New GraficosSoloConceptos
+	Public frmGraficosSoloConceptos As New GraficosSoloConceptos
+	Public frmFiltroEvolutivo As New FiltroEvolutivo
 
-    Public backup As New SaveFileDialog
+	Public backup As New SaveFileDialog
     Public restore As New OpenFileDialog
 
     Public conexion1 As New OleDbConnection()

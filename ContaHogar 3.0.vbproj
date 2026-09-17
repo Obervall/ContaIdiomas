@@ -203,6 +203,12 @@
     <Compile Include="EditarApuntes.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="FiltroEvolutivo.Designer.vb">
+      <DependentUpon>FiltroEvolutivo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FiltroEvolutivo.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FiltroF5.Designer.vb">
       <DependentUpon>FiltroF5.vb</DependentUpon>
     </Compile>
@@ -271,6 +277,31 @@
     <Compile Include="NuevoTipoCuentaBancaria.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Recursos.ca-ES.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Recursos.ca-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Recursos.de-DE.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Recursos.de-DE.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Recursos.en-US.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Recursos.en-US.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Recursos.fr-FR.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Recursos.fr-FR.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Recursos.it-IT.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Recursos.it-IT.resx</DependentUpon>
+    </Compile>
     <Compile Include="Recursos.it.Designer.vb">
       <DependentUpon>Recursos.it.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -305,6 +336,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Recursos.fr.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Recursos.pt-PT.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Recursos.pt-PT.resx</DependentUpon>
     </Compile>
     <Compile Include="Recursos.pt.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -1155,6 +1191,9 @@
     <EmbeddedResource Include="EditarApuntes.resx">
       <DependentUpon>EditarApuntes.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FiltroEvolutivo.resx">
+      <DependentUpon>FiltroEvolutivo.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FiltroF5.ca-ES.resx">
       <DependentUpon>FiltroF5.vb</DependentUpon>
     </EmbeddedResource>
@@ -1833,11 +1872,26 @@
     <EmbeddedResource Include="Principal.pt.resx">
       <DependentUpon>Principal.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Recursos.ca-ES.resx" />
-    <EmbeddedResource Include="Recursos.de-DE.resx" />
-    <EmbeddedResource Include="Recursos.en-US.resx" />
-    <EmbeddedResource Include="Recursos.fr-FR.resx" />
-    <EmbeddedResource Include="Recursos.it-IT.resx" />
+    <EmbeddedResource Include="Recursos.ca-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Recursos.ca-ES.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Recursos.de-DE.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Recursos.de-DE.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Recursos.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Recursos.en-US.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Recursos.fr-FR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Recursos.fr-FR.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Recursos.it-IT.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Recursos.it-IT.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Recursos.it.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Recursos.it.Designer.vb</LastGenOutput>
@@ -1862,7 +1916,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Recursos.fr.Designer.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Recursos.pt-PT.resx" />
+    <EmbeddedResource Include="Recursos.pt-PT.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Recursos.pt-PT.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Recursos.pt.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Recursos.pt.Designer.vb</LastGenOutput>

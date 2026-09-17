@@ -70,9 +70,12 @@ Partial Class Principal
 		Me.SoloGastosOrdenadoPorFechasToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.SoloGastosOrdenadoPorConceptosToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
 		Me.SoloGastosOrdenadoPorImportesToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
-		Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+		Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
 		Me.GráficosDeIngresosPorConceptoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.GráficosDeGastosPorConceptoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+		Me.MnuEvolucionCuentas = New System.Windows.Forms.ToolStripMenuItem()
+		Me.MnuEvolucionConceptos = New System.Windows.Forms.ToolStripMenuItem()
 		Me.HerramientasToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.HacerCopiaDeSeguridadToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.RestaurarCopiaDeSeguridadToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -277,7 +280,7 @@ Partial Class Principal
 		'
 		'InformesToolStripMenuItem
 		'
-		Me.InformesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ListadosDeApuntesToolStripMenuItem, Me.ListadosDeApuntesPeriodicosToolStripMenuItem, Me.ToolStripSeparator2, Me.GráficosDeIngresosPorConceptoToolStripMenuItem, Me.GráficosDeGastosPorConceptoToolStripMenuItem})
+		Me.InformesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ListadosDeApuntesToolStripMenuItem, Me.ListadosDeApuntesPeriodicosToolStripMenuItem, Me.ToolStripSeparator4, Me.GráficosDeIngresosPorConceptoToolStripMenuItem, Me.GráficosDeGastosPorConceptoToolStripMenuItem, Me.ToolStripSeparator2, Me.MnuEvolucionCuentas, Me.MnuEvolucionConceptos})
 		Me.InformesToolStripMenuItem.Name = "InformesToolStripMenuItem"
 		resources.ApplyResources(Me.InformesToolStripMenuItem, "InformesToolStripMenuItem")
 		'
@@ -403,10 +406,10 @@ Partial Class Principal
 		Me.SoloGastosOrdenadoPorImportesToolStripMenuItem1.Name = "SoloGastosOrdenadoPorImportesToolStripMenuItem1"
 		resources.ApplyResources(Me.SoloGastosOrdenadoPorImportesToolStripMenuItem1, "SoloGastosOrdenadoPorImportesToolStripMenuItem1")
 		'
-		'ToolStripSeparator2
+		'ToolStripSeparator4
 		'
-		Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-		resources.ApplyResources(Me.ToolStripSeparator2, "ToolStripSeparator2")
+		Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+		resources.ApplyResources(Me.ToolStripSeparator4, "ToolStripSeparator4")
 		'
 		'GráficosDeIngresosPorConceptoToolStripMenuItem
 		'
@@ -417,6 +420,21 @@ Partial Class Principal
 		'
 		resources.ApplyResources(Me.GráficosDeGastosPorConceptoToolStripMenuItem, "GráficosDeGastosPorConceptoToolStripMenuItem")
 		Me.GráficosDeGastosPorConceptoToolStripMenuItem.Name = "GráficosDeGastosPorConceptoToolStripMenuItem"
+		'
+		'ToolStripSeparator2
+		'
+		Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+		resources.ApplyResources(Me.ToolStripSeparator2, "ToolStripSeparator2")
+		'
+		'MnuEvolucionCuentas
+		'
+		resources.ApplyResources(Me.MnuEvolucionCuentas, "MnuEvolucionCuentas")
+		Me.MnuEvolucionCuentas.Name = "MnuEvolucionCuentas"
+		'
+		'MnuEvolucionConceptos
+		'
+		resources.ApplyResources(Me.MnuEvolucionConceptos, "MnuEvolucionConceptos")
+		Me.MnuEvolucionConceptos.Name = "MnuEvolucionConceptos"
 		'
 		'HerramientasToolStripMenuItem
 		'
@@ -903,4 +921,7 @@ Partial Class Principal
     Friend WithEvents ButtonActualizar As Windows.Forms.Button
     Friend WithEvents PictureBox1 As Windows.Forms.PictureBox
     Friend WithEvents LogoBuhoVisibleToolStripMenuItem As Windows.Forms.ToolStripMenuItem
+	Friend WithEvents MnuEvolucionCuentas As Windows.Forms.ToolStripMenuItem
+	Friend WithEvents MnuEvolucionConceptos As Windows.Forms.ToolStripMenuItem
+	Friend WithEvents ToolStripSeparator4 As Windows.Forms.ToolStripSeparator
 End Class
