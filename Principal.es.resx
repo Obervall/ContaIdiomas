@@ -7813,4 +7813,10 @@ C:\ContaHogar3.0, que se ha creado, si no lo estaba, al aceptar esta importació
 Adquiere la licencia Premium en
 Microsoft Store, para continuar.</value>
   </data>
+  <data name="MnuEvolucionCuentas.Text" xml:space="preserve">
+    <value>Evolución de Saldos por Cuenta a una Fecha</value>
+  </data>
+  <data name="MnuEvolucionConceptos.Text" xml:space="preserve">
+    <value>Evolución de Gastos/Ingresos por Concepto a una Fecha</value>
+  </data>
 </root>

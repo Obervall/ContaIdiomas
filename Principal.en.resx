@@ -8003,4 +8003,10 @@ C:\HomeAccount3.0, which was created, if it wasn't, when you accepted this impor
 Purchase the Premium license at
 Microsoft Store, to continue.</value>
   </data>
+  <data name="MnuEvolucionCuentas.Text" xml:space="preserve">
+    <value>Evolution of Account Balances to a Date</value>
+  </data>
+  <data name="MnuEvolucionConceptos.Text" xml:space="preserve">
+    <value>Evolution of Expenses/Income by Concept to a Date</value>
+  </data>
 </root>

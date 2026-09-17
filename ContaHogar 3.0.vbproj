@@ -1191,6 +1191,45 @@
     <EmbeddedResource Include="EditarApuntes.resx">
       <DependentUpon>EditarApuntes.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FiltroEvolutivo.ca-ES.resx">
+      <DependentUpon>FiltroEvolutivo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FiltroEvolutivo.ca.resx">
+      <DependentUpon>FiltroEvolutivo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FiltroEvolutivo.de-DE.resx">
+      <DependentUpon>FiltroEvolutivo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FiltroEvolutivo.de.resx">
+      <DependentUpon>FiltroEvolutivo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FiltroEvolutivo.en-US.resx">
+      <DependentUpon>FiltroEvolutivo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FiltroEvolutivo.en.resx">
+      <DependentUpon>FiltroEvolutivo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FiltroEvolutivo.es.resx">
+      <DependentUpon>FiltroEvolutivo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FiltroEvolutivo.fr-FR.resx">
+      <DependentUpon>FiltroEvolutivo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FiltroEvolutivo.fr.resx">
+      <DependentUpon>FiltroEvolutivo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FiltroEvolutivo.it-IT.resx">
+      <DependentUpon>FiltroEvolutivo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FiltroEvolutivo.it.resx">
+      <DependentUpon>FiltroEvolutivo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FiltroEvolutivo.pt-PT.resx">
+      <DependentUpon>FiltroEvolutivo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FiltroEvolutivo.pt.resx">
+      <DependentUpon>FiltroEvolutivo.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FiltroEvolutivo.resx">
       <DependentUpon>FiltroEvolutivo.vb</DependentUpon>
     </EmbeddedResource>

@@ -22,64 +22,114 @@ Partial Class FiltroEvolutivo
 	'No lo modifique con el editor de código.
 	<System.Diagnostics.DebuggerStepThrough()> _
 	Private Sub InitializeComponent()
+		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FiltroEvolutivo))
 		Me.NudDia = New System.Windows.Forms.NumericUpDown()
 		Me.NudMes = New System.Windows.Forms.NumericUpDown()
-		Me.CmbElemento = New System.Windows.Forms.ComboBox()
+		Me.CmbCuenta = New System.Windows.Forms.ComboBox()
 		Me.BtnAceptar = New System.Windows.Forms.Button()
+		Me.CmbConcepto = New System.Windows.Forms.ComboBox()
+		Me.PrintDialog1 = New System.Windows.Forms.PrintDialog()
+		Me.PrintDocument1 = New System.Drawing.Printing.PrintDocument()
+		Me.PrintPreviewDialog1 = New System.Windows.Forms.PrintPreviewDialog()
+		Me.Label1 = New System.Windows.Forms.Label()
+		Me.Label2 = New System.Windows.Forms.Label()
+		Me.Label3 = New System.Windows.Forms.Label()
+		Me.Label4 = New System.Windows.Forms.Label()
 		CType(Me.NudDia, System.ComponentModel.ISupportInitialize).BeginInit()
 		CType(Me.NudMes, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.SuspendLayout()
 		'
 		'NudDia
 		'
-		Me.NudDia.Location = New System.Drawing.Point(65, 49)
+		resources.ApplyResources(Me.NudDia, "NudDia")
 		Me.NudDia.Name = "NudDia"
-		Me.NudDia.Size = New System.Drawing.Size(185, 22)
-		Me.NudDia.TabIndex = 0
 		'
 		'NudMes
 		'
-		Me.NudMes.Location = New System.Drawing.Point(60, 110)
+		resources.ApplyResources(Me.NudMes, "NudMes")
 		Me.NudMes.Name = "NudMes"
-		Me.NudMes.Size = New System.Drawing.Size(189, 22)
-		Me.NudMes.TabIndex = 1
 		'
-		'CmbElemento
+		'CmbCuenta
 		'
-		Me.CmbElemento.FormattingEnabled = True
-		Me.CmbElemento.Location = New System.Drawing.Point(58, 169)
-		Me.CmbElemento.Name = "CmbElemento"
-		Me.CmbElemento.Size = New System.Drawing.Size(234, 24)
-		Me.CmbElemento.TabIndex = 2
+		Me.CmbCuenta.FormattingEnabled = True
+		resources.ApplyResources(Me.CmbCuenta, "CmbCuenta")
+		Me.CmbCuenta.Name = "CmbCuenta"
 		'
 		'BtnAceptar
 		'
-		Me.BtnAceptar.Location = New System.Drawing.Point(122, 259)
+		resources.ApplyResources(Me.BtnAceptar, "BtnAceptar")
 		Me.BtnAceptar.Name = "BtnAceptar"
-		Me.BtnAceptar.Size = New System.Drawing.Size(216, 44)
-		Me.BtnAceptar.TabIndex = 3
-		Me.BtnAceptar.Text = "Button1"
 		Me.BtnAceptar.UseVisualStyleBackColor = True
+		'
+		'CmbConcepto
+		'
+		Me.CmbConcepto.FormattingEnabled = True
+		resources.ApplyResources(Me.CmbConcepto, "CmbConcepto")
+		Me.CmbConcepto.Name = "CmbConcepto"
+		'
+		'PrintDialog1
+		'
+		Me.PrintDialog1.UseEXDialog = True
+		'
+		'PrintDocument1
+		'
+		'
+		'PrintPreviewDialog1
+		'
+		resources.ApplyResources(Me.PrintPreviewDialog1, "PrintPreviewDialog1")
+		Me.PrintPreviewDialog1.Name = "PrintPreviewDialog1"
+		'
+		'Label1
+		'
+		resources.ApplyResources(Me.Label1, "Label1")
+		Me.Label1.Name = "Label1"
+		'
+		'Label2
+		'
+		resources.ApplyResources(Me.Label2, "Label2")
+		Me.Label2.Name = "Label2"
+		'
+		'Label3
+		'
+		resources.ApplyResources(Me.Label3, "Label3")
+		Me.Label3.Name = "Label3"
+		'
+		'Label4
+		'
+		resources.ApplyResources(Me.Label4, "Label4")
+		Me.Label4.Name = "Label4"
 		'
 		'FiltroEvolutivo
 		'
-		Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
+		resources.ApplyResources(Me, "$this")
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-		Me.ClientSize = New System.Drawing.Size(800, 450)
+		Me.Controls.Add(Me.Label4)
+		Me.Controls.Add(Me.Label3)
+		Me.Controls.Add(Me.Label2)
+		Me.Controls.Add(Me.Label1)
+		Me.Controls.Add(Me.CmbConcepto)
 		Me.Controls.Add(Me.BtnAceptar)
-		Me.Controls.Add(Me.CmbElemento)
+		Me.Controls.Add(Me.CmbCuenta)
 		Me.Controls.Add(Me.NudMes)
 		Me.Controls.Add(Me.NudDia)
 		Me.Name = "FiltroEvolutivo"
-		Me.Text = "Filtro Evolutivo"
 		CType(Me.NudDia, System.ComponentModel.ISupportInitialize).EndInit()
 		CType(Me.NudMes, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.ResumeLayout(False)
+		Me.PerformLayout()
 
 	End Sub
 
 	Friend WithEvents NudDia As Windows.Forms.NumericUpDown
 	Friend WithEvents NudMes As Windows.Forms.NumericUpDown
-	Friend WithEvents CmbElemento As Windows.Forms.ComboBox
+	Friend WithEvents CmbCuenta As Windows.Forms.ComboBox
 	Friend WithEvents BtnAceptar As Windows.Forms.Button
+	Friend WithEvents CmbConcepto As Windows.Forms.ComboBox
+	Friend WithEvents PrintDialog1 As Windows.Forms.PrintDialog
+	Friend WithEvents PrintDocument1 As Drawing.Printing.PrintDocument
+	Friend WithEvents PrintPreviewDialog1 As Windows.Forms.PrintPreviewDialog
+	Friend WithEvents Label1 As Windows.Forms.Label
+	Friend WithEvents Label2 As Windows.Forms.Label
+	Friend WithEvents Label3 As Windows.Forms.Label
+	Friend WithEvents Label4 As Windows.Forms.Label
 End Class

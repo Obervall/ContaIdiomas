@@ -681,4 +681,10 @@ C:\HomeAccount3.0, que foi criada, caso não fosse, quando você aceitou essa im
 Compre a licença Premium em
 Microsoft Store, para continuar.</value>
   </data>
+  <data name="MnuEvolucionCuentas.Text" xml:space="preserve">
+    <value>Evolução dos Saldos de Contas até uma Data</value>
+  </data>
+  <data name="MnuEvolucionConceptos.Text" xml:space="preserve">
+    <value>Evolução das Despesas/Receitas por Conceito até a Data</value>
+  </data>
 </root>

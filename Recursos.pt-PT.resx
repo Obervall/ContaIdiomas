@@ -1066,4 +1066,10 @@ Uma vez corrigida, esta mensagem não voltará a aparecer."</value>
   <data name="ReinicioAppVaciar" xml:space="preserve">
     <value>Base de Dados Vazia</value>
   </data>
+  <data name="TextLabel4Cuenta" xml:space="preserve">
+    <value>Selecione uma Conta</value>
+  </data>
+  <data name="TextLabel4Concepto" xml:space="preserve">
+    <value>Selecione um Conceito</value>
+  </data>
 </root>

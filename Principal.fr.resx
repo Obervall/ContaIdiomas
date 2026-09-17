@@ -8018,4 +8018,10 @@ C :\HomeAccount3.0, qui a été créé, si ce n’était pas le cas, lorsque vo
 Achetez la licence Premium à
 Microsoft Store, à suivre.</value>
   </data>
+  <data name="MnuEvolucionCuentas.Text" xml:space="preserve">
+    <value>Évolution des soldes de comptes à une date donnée</value>
+  </data>
+  <data name="MnuEvolucionConceptos.Text" xml:space="preserve">
+    <value>Évolution des dépenses/revenus par concept jusqu’à une date donnée</value>
+  </data>
 </root>

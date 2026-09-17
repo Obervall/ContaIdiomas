@@ -1066,4 +1066,10 @@ Sobald sie korrigiert ist, erscheint diese Nachricht nicht wieder."</value>
   <data name="ReinicioAppVaciar" xml:space="preserve">
     <value>Leere Datenbank</value>
   </data>
+  <data name="TextLabel4Cuenta" xml:space="preserve">
+    <value>Wählen Sie ein Konto aus</value>
+  </data>
+  <data name="TextLabel4Concepto" xml:space="preserve">
+    <value>Wählen Sie ein Konzept aus</value>
+  </data>
 </root>

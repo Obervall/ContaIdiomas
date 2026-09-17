@@ -8020,4 +8020,10 @@ C:\HomeAccount3.0, das erstellt wurde, falls nicht, als du diesen Import akzepti
 Die Premium-Lizenz erwerben unter
 Microsoft Store, um fortzufahren.</value>
   </data>
+  <data name="MnuEvolucionCuentas.Text" xml:space="preserve">
+    <value>Entwicklung der Kontosalden bis zu einem bestimmten Zeitpunkt</value>
+  </data>
+  <data name="MnuEvolucionConceptos.Text" xml:space="preserve">
+    <value>Entwicklung von Ausgaben/Einnahmen nach Konzept bis zu einem bestimmten Datum</value>
+  </data>
 </root>

@@ -2461,6 +2461,24 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Seleccionar un Concepto.
+    '''</summary>
+    Friend Shared ReadOnly Property TextLabel4Concepto() As String
+        Get
+            Return ResourceManager.GetString("TextLabel4Concepto", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Seleccionar una Cuenta.
+    '''</summary>
+    Friend Shared ReadOnly Property TextLabel4Cuenta() As String
+        Get
+            Return ResourceManager.GetString("TextLabel4Cuenta", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Tipo.
     '''</summary>
     Friend Shared ReadOnly Property Tipo() As String
