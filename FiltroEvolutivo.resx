@@ -184,10 +184,10 @@
   </data>
   <data name="BtnAceptar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAABrSURBVFhH7c/BDsAgCANQ//+nZziYLI0ynEgP8BIvYmht
-        rST14EWkCqfIHU4rUOH0AhTU3+cNF+4FdhbuvDV7L9UWW9/9Yln+NT+mldBmrlZBs7trsASeEBgaGj5g
-        eHgBQS8gqOEDvUBx0QG1ilqmKVH22wAAAABJRU5ErkJggg==
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
+        cwAAEnMBjCK5BwAAAGtJREFUWEftz8EOwCAIA1D//6dnOJgsjTKcSA/wEi9iaG2tJPXgRaQKp8gdTitQ
+        4fQCFNTf5w0X7gV2Fu68NXsv1RZb3/1iWf41P6aV0GauVkGzu2uwBJ4QGBoaPmB4eAFBLyCo4QO9QHHR
+        AbWKWqYpUfbbAAAAAElFTkSuQmCC
 </value>
   </data>
   <data name="BtnAceptar.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
@@ -584,6 +584,9 @@
         +AP///AH///gD/+BwB/+AAA/+AAAf/AAAP/gAAP/wAAH/8AAA/+AAAP/gAAB/wAAAf8AAAH/AAAB/wAA
         Af8AAAH/AAAB/wAAA/8AAAP/gAAH/4AAB//AAA//4AAf//AAP//4AH///gH//w==
 </value>
+  </data>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterParent</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Filtro Evolutivo</value>
