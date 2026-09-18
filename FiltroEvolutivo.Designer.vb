@@ -26,7 +26,6 @@ Partial Class FiltroEvolutivo
 		Me.NudDia = New System.Windows.Forms.NumericUpDown()
 		Me.NudMes = New System.Windows.Forms.NumericUpDown()
 		Me.CmbCuenta = New System.Windows.Forms.ComboBox()
-		Me.BtnAceptar = New System.Windows.Forms.Button()
 		Me.CmbConcepto = New System.Windows.Forms.ComboBox()
 		Me.PrintDialog1 = New System.Windows.Forms.PrintDialog()
 		Me.PrintDocument1 = New System.Drawing.Printing.PrintDocument()
@@ -35,6 +34,8 @@ Partial Class FiltroEvolutivo
 		Me.Label2 = New System.Windows.Forms.Label()
 		Me.Label3 = New System.Windows.Forms.Label()
 		Me.Label4 = New System.Windows.Forms.Label()
+		Me.BtnCancelar = New System.Windows.Forms.Button()
+		Me.BtnAceptar = New System.Windows.Forms.Button()
 		CType(Me.NudDia, System.ComponentModel.ISupportInitialize).BeginInit()
 		CType(Me.NudMes, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.SuspendLayout()
@@ -54,12 +55,6 @@ Partial Class FiltroEvolutivo
 		Me.CmbCuenta.FormattingEnabled = True
 		resources.ApplyResources(Me.CmbCuenta, "CmbCuenta")
 		Me.CmbCuenta.Name = "CmbCuenta"
-		'
-		'BtnAceptar
-		'
-		resources.ApplyResources(Me.BtnAceptar, "BtnAceptar")
-		Me.BtnAceptar.Name = "BtnAceptar"
-		Me.BtnAceptar.UseVisualStyleBackColor = True
 		'
 		'CmbConcepto
 		'
@@ -99,19 +94,35 @@ Partial Class FiltroEvolutivo
 		resources.ApplyResources(Me.Label4, "Label4")
 		Me.Label4.Name = "Label4"
 		'
+		'BtnCancelar
+		'
+		resources.ApplyResources(Me.BtnCancelar, "BtnCancelar")
+		Me.BtnCancelar.Name = "BtnCancelar"
+		Me.BtnCancelar.UseVisualStyleBackColor = True
+		'
+		'BtnAceptar
+		'
+		resources.ApplyResources(Me.BtnAceptar, "BtnAceptar")
+		Me.BtnAceptar.Name = "BtnAceptar"
+		Me.BtnAceptar.UseVisualStyleBackColor = True
+		'
 		'FiltroEvolutivo
 		'
 		resources.ApplyResources(Me, "$this")
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+		Me.Controls.Add(Me.BtnCancelar)
+		Me.Controls.Add(Me.BtnAceptar)
 		Me.Controls.Add(Me.Label4)
 		Me.Controls.Add(Me.Label3)
 		Me.Controls.Add(Me.Label2)
 		Me.Controls.Add(Me.Label1)
 		Me.Controls.Add(Me.CmbConcepto)
-		Me.Controls.Add(Me.BtnAceptar)
 		Me.Controls.Add(Me.CmbCuenta)
 		Me.Controls.Add(Me.NudMes)
 		Me.Controls.Add(Me.NudDia)
+		Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+		Me.MaximizeBox = False
+		Me.MinimizeBox = False
 		Me.Name = "FiltroEvolutivo"
 		CType(Me.NudDia, System.ComponentModel.ISupportInitialize).EndInit()
 		CType(Me.NudMes, System.ComponentModel.ISupportInitialize).EndInit()
@@ -123,7 +134,6 @@ Partial Class FiltroEvolutivo
 	Friend WithEvents NudDia As Windows.Forms.NumericUpDown
 	Friend WithEvents NudMes As Windows.Forms.NumericUpDown
 	Friend WithEvents CmbCuenta As Windows.Forms.ComboBox
-	Friend WithEvents BtnAceptar As Windows.Forms.Button
 	Friend WithEvents CmbConcepto As Windows.Forms.ComboBox
 	Friend WithEvents PrintDialog1 As Windows.Forms.PrintDialog
 	Friend WithEvents PrintDocument1 As Drawing.Printing.PrintDocument
@@ -132,4 +142,6 @@ Partial Class FiltroEvolutivo
 	Friend WithEvents Label2 As Windows.Forms.Label
 	Friend WithEvents Label3 As Windows.Forms.Label
 	Friend WithEvents Label4 As Windows.Forms.Label
+	Friend WithEvents BtnCancelar As Windows.Forms.Button
+	Friend WithEvents BtnAceptar As Windows.Forms.Button
 End Class

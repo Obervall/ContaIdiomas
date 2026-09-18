@@ -126,4 +126,55 @@
   <data name="Label3.Text" xml:space="preserve">
     <value>Mois</value>
   </data>
+  <data name="BtnAceptar.Text" xml:space="preserve">
+    <value>Accepter</value>
+  </data>
+  <data name="Label4.Text" xml:space="preserve">
+    <value>Sélectionnez le compte ou le concept</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Filtre évolutif</value>
+  </data>
+  <data name="TextLabel4Cuenta" xml:space="preserve">
+    <value>Sélectionner le compte</value>
+  </data>
+  <data name="TextLabel4Concepto" xml:space="preserve">
+    <value>Concept sélectif</value>
+  </data>
+  <data name="TituloEvolucionSaldos" xml:space="preserve">
+    <value>ÉVOLUTION DES BALANCES À CE JOUR</value>
+  </data>
+  <data name="NoHayMovimientosEjercicoActual" xml:space="preserve">
+    <value>Attention : L’élément sélectionné n’a enregistré aucun mouvement au cours de l’exercice en cours</value>
+  </data>
+  <data name="DatosMostradosCero" xml:space="preserve">
+    <value>avant la date limite. Les données seront affichées à zéro, changez la date d’évaluation.</value>
+  </data>
+  <data name="EvolucionSaldosPorCuenta" xml:space="preserve">
+    <value>Évolution des soldes par compte</value>
+  </data>
+  <data name="EvolucionSaldosPorConcepto" xml:space="preserve">
+    <value>Évolution des balances par concept</value>
+  </data>
+  <data name="SeleccionarElemento" xml:space="preserve">
+    <value>Veuillez sélectionner un élément de la liste.</value>
+  </data>
+  <data name="EvolucionSaldosPorCuentaMay" xml:space="preserve">
+    <value>ÉVOLUTION DES SOLDES PAR COMPTE</value>
+  </data>
+  <data name="EvolucionSaldosPorConceptoMay" xml:space="preserve">
+    <value>ÉVOLUTION DES DÉPENSES/REVENUS PAR CONCEPT</value>
+  </data>
+  <data name="FechaCorte" xml:space="preserve">
+    <value>Date Limite</value>
+  </data>
+  <data name="Año" xml:space="preserve">
+    <value>Année</value>
+  </data>
+  <data name="Cuenta" xml:space="preserve">
+    <value>Compte</value>
+  </data>
+  <data name="Concepto" xml:space="preserve">
+    <value>Concept</value>
+  </data>
 </root>

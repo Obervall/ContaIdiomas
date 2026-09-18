@@ -126,4 +126,55 @@
   <data name="Label3.Text" xml:space="preserve">
     <value>Mes</value>
   </data>
+  <data name="BtnAceptar.Text" xml:space="preserve">
+    <value>Accepta</value>
+  </data>
+  <data name="Label4.Text" xml:space="preserve">
+    <value>Selecciona el compte o concepte</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Filtre evolutiu</value>
+  </data>
+  <data name="TextLabel4Cuenta" xml:space="preserve">
+    <value>Selecciona compte</value>
+  </data>
+  <data name="TextLabel4Concepto" xml:space="preserve">
+    <value>Concepte selecte</value>
+  </data>
+  <data name="TituloEvolucionSaldos" xml:space="preserve">
+    <value>EVOLUCIÓ DELS BALANÇOS FINS ARA</value>
+  </data>
+  <data name="NoHayMovimientosEjercicoActual" xml:space="preserve">
+    <value>Atenció: L'element seleccionat no té moviments registrats en l'exercici actual</value>
+  </data>
+  <data name="DatosMostradosCero" xml:space="preserve">
+    <value>abans de la data límit. Les dades es mostraran a zero, canvia la data per avaluar.</value>
+  </data>
+  <data name="EvolucionSaldosPorCuenta" xml:space="preserve">
+    <value>Evolució dels saldos per compte</value>
+  </data>
+  <data name="EvolucionSaldosPorConcepto" xml:space="preserve">
+    <value>Evolució dels equilibris per concepte</value>
+  </data>
+  <data name="SeleccionarElemento" xml:space="preserve">
+    <value>Si us plau, selecciona un element de la llista.</value>
+  </data>
+  <data name="EvolucionSaldosPorCuentaMay" xml:space="preserve">
+    <value>EVOLUCIÓ DELS BALANÇOS PER COMPTE</value>
+  </data>
+  <data name="EvolucionSaldosPorConceptoMay" xml:space="preserve">
+    <value>EVOLUCIÓ DE LES DESPESES/INGRESSOS PER CONCEPTE</value>
+  </data>
+  <data name="FechaCorte" xml:space="preserve">
+    <value>Data de Tall</value>
+  </data>
+  <data name="Año" xml:space="preserve">
+    <value>Any</value>
+  </data>
+  <data name="Cuenta" xml:space="preserve">
+    <value>Compte</value>
+  </data>
+  <data name="Concepto" xml:space="preserve">
+    <value>Concepte</value>
+  </data>
 </root>

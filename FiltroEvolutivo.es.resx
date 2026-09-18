@@ -126,4 +126,55 @@
   <data name="Label3.Text" xml:space="preserve">
     <value>Mes</value>
   </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Filtro Evolutivo</value>
+  </data>
+  <data name="Label4.Text" xml:space="preserve">
+    <value>Seleccionar Cuenta o Concepto</value>
+  </data>
+  <data name="BtnAceptar.Text" xml:space="preserve">
+    <value>Aceptar</value>
+  </data>
+  <data name="TextLabel4Cuenta" xml:space="preserve">
+    <value>Seleccionar Cuenta</value>
+  </data>
+  <data name="TextLabel4Concepto" xml:space="preserve">
+    <value>Seleccionar Concepto</value>
+  </data>
+  <data name="TituloEvolucionSaldos" xml:space="preserve">
+    <value>EVOLUCIÓN DE SALDOS A FECHA</value>
+  </data>
+  <data name="NoHayMovimientosEjercicoActual" xml:space="preserve">
+    <value>Atención: El elemento seleccionado no tiene movimientos registrados en el ejercicio actual</value>
+  </data>
+  <data name="DatosMostradosCero" xml:space="preserve">
+    <value>antes de la fecha de corte. Los datos se mostrarán a cero, cambiar la fecha a evaluar.</value>
+  </data>
+  <data name="EvolucionSaldosPorCuenta" xml:space="preserve">
+    <value>Evolución de Saldos por Cuenta</value>
+  </data>
+  <data name="EvolucionSaldosPorConcepto" xml:space="preserve">
+    <value>Evolución de Saldos por Concepto</value>
+  </data>
+  <data name="SeleccionarElemento" xml:space="preserve">
+    <value>Por favor, seleccione un elemento de la lista.</value>
+  </data>
+  <data name="EvolucionSaldosPorCuentaMay" xml:space="preserve">
+    <value>EVOLUCIÓN DE SALDOS POR CUENTA</value>
+  </data>
+  <data name="EvolucionSaldosPorConceptoMay" xml:space="preserve">
+    <value>EVOLUCIÓN DE GASTOS/INGRESOS POR CONCEPTO</value>
+  </data>
+  <data name="FechaCorte" xml:space="preserve">
+    <value>Fecha de Corte</value>
+  </data>
+  <data name="Año" xml:space="preserve">
+    <value>Año</value>
+  </data>
+  <data name="Cuenta" xml:space="preserve">
+    <value>Cuenta</value>
+  </data>
+  <data name="Concepto" xml:space="preserve">
+    <value>Concepto</value>
+  </data>
 </root>

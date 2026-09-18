@@ -126,4 +126,55 @@
   <data name="Label3.Text" xml:space="preserve">
     <value>Month</value>
   </data>
+  <data name="BtnAceptar.Text" xml:space="preserve">
+    <value>Accept</value>
+  </data>
+  <data name="Label4.Text" xml:space="preserve">
+    <value>Select Account or Concept</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Evolutionary Filter</value>
+  </data>
+  <data name="TextLabel4Cuenta" xml:space="preserve">
+    <value>Select Account</value>
+  </data>
+  <data name="TextLabel4Concepto" xml:space="preserve">
+    <value>Select Concept</value>
+  </data>
+  <data name="TituloEvolucionSaldos" xml:space="preserve">
+    <value>EVOLUTION OF BALANCES TO DATE</value>
+  </data>
+  <data name="NoHayMovimientosEjercicoActual" xml:space="preserve">
+    <value>Attention: The selected element has no movements recorded in the current fiscal year</value>
+  </data>
+  <data name="DatosMostradosCero" xml:space="preserve">
+    <value>before the cut-off date. The data will be displayed to zero, change the date to evaluate.</value>
+  </data>
+  <data name="EvolucionSaldosPorCuenta" xml:space="preserve">
+    <value>Evolution of Balances by Account</value>
+  </data>
+  <data name="EvolucionSaldosPorConcepto" xml:space="preserve">
+    <value>Evolution of Balances by Concept</value>
+  </data>
+  <data name="SeleccionarElemento" xml:space="preserve">
+    <value>Please select an item from the list.</value>
+  </data>
+  <data name="EvolucionSaldosPorCuentaMay" xml:space="preserve">
+    <value>EVOLUTION OF BALANCES BY ACCOUNT</value>
+  </data>
+  <data name="EvolucionSaldosPorConceptoMay" xml:space="preserve">
+    <value>EVOLUTION OF EXPENSES/INCOME BY CONCEPT</value>
+  </data>
+  <data name="FechaCorte" xml:space="preserve">
+    <value>Cutoff Date</value>
+  </data>
+  <data name="Año" xml:space="preserve">
+    <value>Year</value>
+  </data>
+  <data name="Cuenta" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="Concepto" xml:space="preserve">
+    <value>Concept</value>
+  </data>
 </root>

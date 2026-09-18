@@ -195,6 +195,7 @@ Public Class EditarConceptoContable
         Dim mensajeAlerta As String = rmse.GetString("EliminarConcepto") & " [" & vTxtNombre & "] " & rmse.GetString("EliminarConcepto2") & vbNewLine & vbNewLine &
                                   rmse.GetString("AdvertenciaBorradoCascada")
 
+        ' MsgBoxTraductorGlobal Traduce del Yes al Si
         Dim respuesta As MsgBoxResult = MsgBoxTraductorGlobal.MsgBox(mensajeAlerta, MsgBoxStyle.YesNo + MsgBoxStyle.Question, rmse.GetString("LblEliminando"))
 
         ' =========================================================================

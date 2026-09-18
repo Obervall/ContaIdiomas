@@ -23,7 +23,7 @@ Public Class FiltroEvolutivo
         Dim y As Single = 50
 
         ' Dibujar Encabezado
-        e.Graphics.DrawString("EVOLUCIÓN DE SALDOS A FECHA: " & NudDia.Value & "/" & NudMes.Value, fuenteTitulo, Brushes.Black, 50, y)
+        e.Graphics.DrawString(rmse.GetString("TituloEvolucionSaldos") & ": " & NudDia.Value & "/" & NudMes.Value, fuenteTitulo, Brushes.Black, 50, y)
         y += 50
 
         ' Dibujar las columnas de la tabla (Año | Saldo)
@@ -48,15 +48,13 @@ Public Class FiltroEvolutivo
 
 		' 1. Consulta original y estable (Filtramos para que solo muestre hasta el año del ejercicio activo)
 		If Me.TipoInforme = "CUENTAS" Then
-            Label4.Text = resManager.GetString("TextLabel4Cuenta") & ":"
             sql = "SELECT E.EjercicioEJE AS Anio, IIF(ISNULL(SUM(A.ImporteAPU)), 0, SUM(A.ImporteAPU)) AS SaldoAFecha " &
-			  "FROM ejercicios AS E " &
-			  "LEFT JOIN apuntes AS A ON (A.CuentaAPU = ? AND A.EjercicioAPU = E.EjercicioEJE AND A.FechaAPU <= DateSerial(E.EjercicioEJE, ?, ?)) " &
-			  "WHERE E.EjercicioEJE > 0 AND E.EjercicioEJE <= " & anioLimite & " " &
-			  "GROUP BY E.EjercicioEJE " &
-			  "ORDER BY E.EjercicioEJE;"
-		Else
-            Label4.Text = resManager.GetString("TextLabel4Concepto") & ":"
+              "FROM ejercicios AS E " &
+              "LEFT JOIN apuntes AS A ON (A.CuentaAPU = ? AND A.EjercicioAPU = E.EjercicioEJE AND A.FechaAPU <= DateSerial(E.EjercicioEJE, ?, ?)) " &
+              "WHERE E.EjercicioEJE > 0 AND E.EjercicioEJE <= " & anioLimite & " " &
+              "GROUP BY E.EjercicioEJE " &
+              "ORDER BY E.EjercicioEJE;"
+        Else
             sql = "SELECT E.EjercicioEJE AS Anio, IIF(ISNULL(SUM(A.ImporteAPU)), 0, SUM(A.ImporteAPU)) AS TotalAcumulado " &
               "FROM ejercicios AS E " &
               "LEFT JOIN apuntes AS A ON (A.ConceptoAPU = ? AND A.EjercicioAPU = E.EjercicioEJE AND A.FechaAPU <= DateSerial(E.EjercicioEJE, ?, ?)) " &
@@ -89,9 +87,7 @@ Public Class FiltroEvolutivo
 
             If importeLimite = 0 Then
                 ' Lanzamos tu MsgBox de aviso amistoso
-                MsgBox("Atenció: L'element seleccionat no té moviments registrats en l'exercici actual (" & anioLimite & ") abans de la data de tall. Les dades es mostraran a zero per a aquest any.",
-                   MsgBoxStyle.Information,
-                   "ContaHogar 3.0")
+                MsgBox(rmse.GetString("NoHayMovimientosEjercicoActual") & " (" & anioLimite & ") " & rmse.GetString("DatosMostradosCero"), MsgBoxStyle.Information, resManager.GetString("AppDisplayName"))
             End If
         End If
 
@@ -99,8 +95,24 @@ Public Class FiltroEvolutivo
     End Function
 
     Private Sub FiltroEvolutivo_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' 1. Encendemos tu escudo protector antes de rellenar los componentes
-        cargandoFormulario = True
+
+        ' Limitamos el control de los Días (de 1 a 31)
+        NudDia.Minimum = 1
+        NudDia.Maximum = 31
+
+        ' Limitamos el control de los Meses (de 1 a 12)
+        NudMes.Minimum = 1
+        NudMes.Maximum = 12
+
+		If Me.TipoInforme = "CUENTAS" Then
+			Label4.Text = resManager.GetString("TextLabel4Cuenta") & ":"
+		Else
+			Label4.Text = resManager.GetString("TextLabel4Concepto") & ":"
+		End If
+
+
+		' 1. Encendemos tu escudo protector antes de rellenar los componentes
+		cargandoFormulario = True
 
         ' 2. Inicializar los controles numéricos al día y mes actuales por comodidad
         NudDia.Value = Date.Now.Day
@@ -115,12 +127,12 @@ Public Class FiltroEvolutivo
         ' 3. Control de visibilidad e interfaz según lo elegido en el menú principal
         If Me.TipoInforme = "CUENTAS" Then
             CmbCuenta.Visible = True
-            CmbConcepto.Visible = False
-            Me.Text = "Evolución de Saldos por Cuenta"
-        Else
+			CmbConcepto.Visible = False
+			Me.Text = rmse.GetString("EvolucionSaldosPorCuenta")
+		Else
             CmbCuenta.Visible = False
             CmbConcepto.Visible = True
-            Me.Text = "Evolución de Saldos por Concepto"
+            Me.Text = rmse.GetString("EvolucionSaldosPorConcepto")
         End If
 
         ' 4. Apagamos el escudo tras la inyección exitosa en la memoria RAM
@@ -146,7 +158,7 @@ Public Class FiltroEvolutivo
 
         ' Validación de seguridad por si no hay nada seleccionado
         If idSeleccionado <= 0 Then
-            MsgBox("Por favor, seleccione un elemento de la lista.", MsgBoxStyle.Exclamation)
+            MsgBox(rmse.GetString("SeleccionarElemento"), MsgBoxStyle.Exclamation)
             Exit Sub
         End If
 
@@ -186,6 +198,18 @@ Public Class FiltroEvolutivo
         Me.Close()
     End Sub
 
+    Private Sub NudMes_ValueChanged(sender As Object, e As EventArgs) Handles NudMes.ValueChanged
+        ' Averiguamos cuántos días tiene el mes seleccionado en el año actual de trabajo
+        Dim diasDelMes As Integer = DateTime.DaysInMonth(vAñoEjercicio, CInt(NudMes.Value))
+
+        ' Ajustamos el máximo dinámicamente (puede ser 28, 29, 30 o 31)
+        NudDia.Maximum = diasDelMes
+    End Sub
+
+    Private Sub BtnCancelar_Click(sender As Object, e As EventArgs) Handles BtnCancelar.Click
+        Me.Close()
+    End Sub
+
     Private Sub PrintDocument1_PrintPage(sender As Object, e As PrintPageEventArgs) Handles PrintDocument1.PrintPage
         ' 1. Definimos los tipos de letras a utilizar en el reporte (Tu estructura original)
         Dim FuenteTitulo As New Font("Microsoft Sans Serif", 15)
@@ -197,11 +221,11 @@ Public Class FiltroEvolutivo
         Dim sfFar As New StringFormat With {.Alignment = StringAlignment.Far}
 
         ' Configuramos el título del informe en la plantilla
-        vTituloInforme = If(Me.TipoInforme = "CUENTAS", "EVOLUCIÓN DE SALDOS POR CUENTA", "EVOLUCIÓN DE GASTOS/INGRESOS POR CONCEPTO")
+        vTituloInforme = If(Me.TipoInforme = "CUENTAS", rmse.GetString("EvolucionSaldosPorCuentaMay"), rmse.GetString("EvolucionSaldosPorConceptoMay"))
         frmImprimirForm.LblTitulo.Text = vTituloInforme
 
         ' Definimos el rango o fecha de corte para el LblEntreFechas
-        frmImprimirForm.LblEntreFechas.Text = resManager.GetString("Fecha") & " Corte: " & NudDia.Value.ToString("00") & "/" & NudMes.Value.ToString("00")
+        frmImprimirForm.LblEntreFechas.Text = rmse.GetString("FechaCorte") & ": " & NudDia.Value.ToString("00") & "/" & NudMes.Value.ToString("00")
 
         ' 2. Imprimimos el encabezado gráfico usando tu plantilla frmImprimirForm
         e.Graphics.DrawString(frmImprimirForm.LblFecha.Text, FuenteNegrita, Brushes.Black, frmImprimirForm.LblFecha.Right, frmImprimirForm.LblFecha.Top)
@@ -216,9 +240,9 @@ Public Class FiltroEvolutivo
 
         ' 3. Pintamos los subtítulos o nombres de las columnas en el folio
         ' Reutilizamos Punto1 para el Año y Punto2 para el Nombre del Elemento. El Importe va en Punto5 alineado a la derecha.
-        e.Graphics.DrawString(resManager.GetString("Anio") & " / " & resManager.GetString("Ejercicio"), FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
+        e.Graphics.DrawString(rmse.GetString("Año") & " / " & resManager.GetString("Ejercicio"), FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto1.Left, frmImprimirForm.Punto1.Top - 30)
 
-        Dim encabezadoElemento As String = If(Me.TipoInforme = "CUENTAS", resManager.GetString("Cuenta"), resManager.GetString("Concepto"))
+        Dim encabezadoElemento As String = If(Me.TipoInforme = "CUENTAS", rmse.GetString("Cuenta"), rmse.GetString("Concepto"))
         e.Graphics.DrawString(encabezadoElemento & ":", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto2.Left, frmImprimirForm.Punto2.Top - 30)
 
         e.Graphics.DrawString(resManager.GetString("Importe") & " (" & vMoneda & "):", FuenteSubrayada, Brushes.Black, frmImprimirForm.Punto5.Left, frmImprimirForm.Punto5.Top - 30, sfFar)
@@ -247,14 +271,21 @@ Public Class FiltroEvolutivo
             Dim valorImporte As Decimal = Convert.ToDecimal(filaActual(1))
             Dim textoImporte As String = valorImporte.ToString("N2") ' Formato numérico estándar con 2 decimales
 
-            ' Traducimos dinámicamente el nombre del concepto si el reporte es de conceptos
-            If Me.TipoInforme = "CONCEPTOS" AndAlso resManager IsNot Nothing Then
+            ' 🌟 EL CORTAFUEGOS TRADUCTOR MULTIIDIOMA PARA EL ELEMENTO (Concepto o Cuenta)
+            If resManager IsNot Nothing Then
                 Dim culturaActivaEnVivo As System.Globalization.CultureInfo = Threading.Thread.CurrentThread.CurrentUICulture
-                Dim claveConceptoNeutral As String = ObtenerClaveNeutral(textoElemento, resManager)
 
-                If Not String.IsNullOrEmpty(claveConceptoNeutral) Then
-                    Dim tradConcepto As String = resManager.GetString(claveConceptoNeutral, culturaActivaEnVivo)
-                    If Not String.IsNullOrEmpty(tradConcepto) Then textoElemento = tradConcepto.Trim().ToUpper()
+                ' Escaneamos de forma inversa por RAM para cazar la Key neutral (ej: "EFECTIVO", "BANCO", "LUZ")
+                Dim claveElementoNeutral As String = ObtenerClaveNeutral(textoElemento, resManager)
+
+                If Not String.IsNullOrEmpty(claveElementoNeutral) Then
+                    ' Si encontramos la clave en el diccionario, inyectamos la traducción del idioma activo
+                    Dim tradElemento As String = resManager.GetString(claveElementoNeutral, culturaActivaEnVivo)
+                    If Not String.IsNullOrEmpty(tradElemento) Then textoElemento = tradElemento.Trim().ToUpper()
+                Else
+                    ' Plan B de respaldo: reemplazo de espacios por guiones bajos por si acaso
+                    Dim tradDirecta As String = resManager.GetString(textoElemento.Replace(" ", "_"), culturaActivaEnVivo)
+                    If Not String.IsNullOrEmpty(tradDirecta) Then textoElemento = tradDirecta.Trim().ToUpper()
                 End If
             End If
 

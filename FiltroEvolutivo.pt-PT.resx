@@ -126,4 +126,55 @@
   <data name="Label3.Text" xml:space="preserve">
     <value>Mês</value>
   </data>
+  <data name="BtnAceptar.Text" xml:space="preserve">
+    <value>Aceitar</value>
+  </data>
+  <data name="Label4.Text" xml:space="preserve">
+    <value>Selecionar Conta ou Conceito</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Filtro Evolutivo</value>
+  </data>
+  <data name="TextLabel4Cuenta" xml:space="preserve">
+    <value>Selecionar Conta</value>
+  </data>
+  <data name="TextLabel4Concepto" xml:space="preserve">
+    <value>Conceito Selecionado</value>
+  </data>
+  <data name="TituloEvolucionSaldos" xml:space="preserve">
+    <value>EVOLUÇÃO DOS BALANÇOS ATÉ À DATA</value>
+  </data>
+  <data name="NoHayMovimientosEjercicoActual" xml:space="preserve">
+    <value>Atenção: O elemento selecionado não registou quaisquer movimentos no atual ano fiscal</value>
+  </data>
+  <data name="DatosMostradosCero" xml:space="preserve">
+    <value>antes da data de corte. Os dados serão exibidos a zero, altera a data para avaliar.</value>
+  </data>
+  <data name="EvolucionSaldosPorCuenta" xml:space="preserve">
+    <value>Evolução dos Saldos por Conta</value>
+  </data>
+  <data name="EvolucionSaldosPorConcepto" xml:space="preserve">
+    <value>Evolução dos Equilíbrios por Conceito</value>
+  </data>
+  <data name="SeleccionarElemento" xml:space="preserve">
+    <value>Por favor, selecione um item da lista.</value>
+  </data>
+  <data name="EvolucionSaldosPorCuentaMay" xml:space="preserve">
+    <value>EVOLUÇÃO DOS SALDOS POR CONTA</value>
+  </data>
+  <data name="EvolucionSaldosPorConceptoMay" xml:space="preserve">
+    <value>EVOLUÇÃO DAS DESPESAS/RENDIMENTO POR CONCEITO</value>
+  </data>
+  <data name="FechaCorte" xml:space="preserve">
+    <value>Data Limite</value>
+  </data>
+  <data name="Año" xml:space="preserve">
+    <value>Ano</value>
+  </data>
+  <data name="Cuenta" xml:space="preserve">
+    <value>Conta</value>
+  </data>
+  <data name="Concepto" xml:space="preserve">
+    <value>Conceito</value>
+  </data>
 </root>
