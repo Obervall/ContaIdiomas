@@ -141,9 +141,9 @@ Public Class Principal
             If key IsNot Nothing Then
                 ' 1. COMPROBACIÓN DE LICENCIA COMPREDA (Nuestra primera batalla)
                 Dim esPremium As String = key.GetValue("LicenciaPremium")?.ToString()
-                If esPremium = "SI" Then
-                    My.Settings.LicenciaActivada = True ' Restauramos el setting local al vuelo
-                End If
+				If esPremium = "SI" Then
+					My.Settings.LicenciaActivada = True ' Restauramos el setting local al vuelo
+				End If
 
                 ' 2. RECUPERAR IDIOMA GUARDADO
                 ' Ya se hace en el constructor
@@ -184,10 +184,21 @@ Public Class Principal
 
                 End If
 
-                ' Recuperar el Path de la exportación de Excel
-                If My.Settings.PathExportar Is Nothing OrElse String.IsNullOrEmpty(My.Settings.PathExportar) Then
-                    Dim rutaDocumentos As String = key.GetValue("PathExportar")?.ToString()
+                ' =========================================================================
+                ' 4. RECUPERAR EL PATH DE LA EXPORTACIÓN DE EXCEL (¡Corregido!)
+                ' =========================================================================
+                ' Leemos SIEMPRE lo que dice el registro primero
+                Dim rutaDocumentos As String = key.GetValue("RutaExportacionExcel")?.ToString()
+
+                ' Si el registro tiene una ruta válida, la grabamos en los Settings
+                If Not String.IsNullOrEmpty(rutaDocumentos) Then
                     My.Settings.PathExportar = rutaDocumentos
+                Else
+                    ' Si el registro vino vacío por culpa de la actualización de la Tienda, 
+                    ' y tus Settings locales están vacíos, le damos una ruta por defecto segura
+                    If String.IsNullOrEmpty(My.Settings.PathExportar) Then
+                        My.Settings.PathExportar = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+                    End If
                 End If
                 My.Settings.Save()
                 key.Close()

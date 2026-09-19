@@ -177,4 +177,7 @@
   <data name="Concepto" xml:space="preserve">
     <value>Concepte</value>
   </data>
+  <data name="BtnCancelar.Text" xml:space="preserve">
+    <value>Cancel·lar</value>
+  </data>
 </root>

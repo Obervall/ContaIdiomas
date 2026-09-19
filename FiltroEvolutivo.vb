@@ -301,11 +301,29 @@ Public Class FiltroEvolutivo
             PrintLine += 1
         Loop
 
+        ' =========================================================================
+        ' 🌟 BLOQUE DE PIE DE PÁGINA RECUPERADO (¡Tu consistencia intacta!)
+        ' =========================================================================
+        ' 5. LÍNEA DE PIE DE PÁGINA (Solo se dibuja si ya se han impreso todas las filas)
+        If PrintLine >= dtDatosInforme.Rows.Count Then
+            e.Graphics.DrawString(frmImprimirForm.LineaFondo.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.LineaFondo.Left, startY)
+        End If
+
+        ' 6. CONTADOR DE PÁGINAS DINÁMICO
+        frmImprimirForm.LblNumeroPagina.Text = (CInt(frmImprimirForm.LblNumeroPagina.Text) + 1).ToString()
+
+        e.Graphics.DrawString(resManager.GetString("Pagina"), FuenteDetalles, Brushes.Black, frmImprimirForm.Label2.Left, e.MarginBounds.Bottom)
+        e.Graphics.DrawString(frmImprimirForm.LblNumeroPagina.Text, FuenteDetalles, Brushes.Black, frmImprimirForm.LblNumeroPagina.Left, e.MarginBounds.Bottom)
+        ' =========================================================================
+
         ' Si terminó de dibujar todo el reporte, reiniciamos el contador de páginas para próximas ejecuciones
         If PrintLine >= dtDatosInforme.Rows.Count Then
             e.HasMorePages = False
             PrintLine = 0
+        Else
+            e.HasMorePages = True
         End If
     End Sub
+
 
 End Class
