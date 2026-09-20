@@ -243,7 +243,10 @@ Public Class Principal
         End If
 
         My.Settings.Version = "3.3.8"
-        My.Settings.Save()
+		My.Settings.Save()
+
+        ' Dejar en False para que no muestre el mensaje de Softonic al arrancar, en True mostrará el mensaje de Softonic
+        vEsVersionDemoSoftonic = True
 
         ' ================================================
         ' 🔒 EL CORTAFUEGOS COMERCIAL INTELIGENTE POR RUTA
@@ -281,6 +284,7 @@ Public Class Principal
                 End If
                 ' Calculamos matemáticamente cuántos días reales han transcurrido en el disco duro
                 Dim diasEvaluacion As Integer = CInt(DateDiff(DateInterval.Day, My.Settings.FechaPrimerArranque, Date.Now))
+                vDiasRestantesDemoSoftonic = diasEvaluacion
 
                 ' 🪓 EL HACHAZO: Si los días superan el mes de gracia, cerramos el grifo comercial
                 If diasEvaluacion > 30 Then

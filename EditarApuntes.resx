@@ -820,6 +820,9 @@
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="ToolTipSeleccionarConcepto" xml:space="preserve">
+    <value>Seleccionar el Concepto al que se refiere el Apunte</value>
+  </data>
   <data name="LblEliminando" xml:space="preserve">
     <value>¡¡ ELIMINAR APUNTE CONTABLE !!</value>
   </data>
@@ -842,9 +845,6 @@
     <value>Introducir una descripción para el Apunte</value>
   </data>
   <data name="ToolTipIngresarImporte" xml:space="preserve">
-    <value>Importe del Apunte</value>
-  </data>
-  <data name="ToolTipSeleccionarConcepto" xml:space="preserve">
     <value>Importe del Apunte</value>
   </data>
   <data name="MsgBoxEliminarApunte" xml:space="preserve">

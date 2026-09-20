@@ -119,14 +119,14 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="NudDia.Location" type="System.Drawing.Point, System.Drawing">
-    <value>58, 75</value>
+    <value>219, 75</value>
   </data>
   <data name="NudDia.Size" type="System.Drawing.Size, System.Drawing">
     <value>73, 22</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="NudDia.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;NudDia.Name" xml:space="preserve">
     <value>NudDia</value>
@@ -141,13 +141,13 @@
     <value>9</value>
   </data>
   <data name="NudMes.Location" type="System.Drawing.Point, System.Drawing">
-    <value>219, 75</value>
+    <value>62, 75</value>
   </data>
   <data name="NudMes.Size" type="System.Drawing.Size, System.Drawing">
     <value>73, 22</value>
   </data>
   <data name="NudMes.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="&gt;&gt;NudMes.Name" xml:space="preserve">
     <value>NudMes</value>
@@ -419,7 +419,7 @@
     <value>5</value>
   </data>
   <data name="Label1.Text" xml:space="preserve">
-    <value>Introducir Día y Mes para la Evolución Anual</value>
+    <value>Introducir Mes y Día para la Evolución Anual</value>
   </data>
   <data name="&gt;&gt;Label1.Name" xml:space="preserve">
     <value>Label1</value>
@@ -441,7 +441,7 @@
     <value>NoControl</value>
   </data>
   <data name="Label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>59, 56</value>
+    <value>220, 56</value>
   </data>
   <data name="Label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>28, 16</value>
@@ -471,7 +471,7 @@
     <value>NoControl</value>
   </data>
   <data name="Label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>214, 56</value>
+    <value>57, 56</value>
   </data>
   <data name="Label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>33, 16</value>

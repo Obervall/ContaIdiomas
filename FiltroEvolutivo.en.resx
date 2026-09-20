@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Label1.Text" xml:space="preserve">
-    <value>Enter Day and Month for Annual Evolution</value>
-  </data>
   <data name="Label2.Text" xml:space="preserve">
     <value>Day</value>
   </data>
@@ -179,5 +176,8 @@
   </data>
   <data name="BtnCancelar.Text" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="Label1.Text" xml:space="preserve">
+    <value>Enter Month and Day for Annual Evolution</value>
   </data>
 </root>

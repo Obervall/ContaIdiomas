@@ -14,349 +14,122 @@ Public Class FiltroEvolutivo
     Private PrintLine, Contador As Integer
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
-    'Private Function ObtenerDatosEvolutivos(idElemento As Integer, mes As Integer, dia As Integer) As DataTable
-    '    Dim dt As New DataTable()
-    '    Dim sql As String = ""
-    '    Dim idConceptoSaldo As Integer = 1 ' Mapea aquí el ID real de tu concepto 'SALDO'
-
-    '    ' 1. TU CONSULTA ORIGINAL (La que clava los años pasados al 100%)
-    '    If Me.TipoInforme = "CUENTAS" Then
-    '        sql = "SELECT E.EjercicioEJE AS Anio, IIF(ISNULL(SUM(A.ImporteAPU)), 0, SUM(A.ImporteAPU)) AS SaldoAFecha " &
-    '          "FROM ejercicios AS E " &
-    '          "LEFT JOIN apuntes AS A ON (A.CuentaAPU = ? AND A.ConceptoAPU <> " & idConceptoSaldo & " AND A.FechaAPU < DateSerial(E.EjercicioEJE, ?, ?) + 1) " &
-    '          "WHERE E.EjercicioEJE > 0 AND E.EjercicioEJE <= " & vAñoEjercicio & " " &
-    '          "GROUP BY E.EjercicioEJE " &
-    '          "ORDER BY E.EjercicioEJE;"
-    '    Else
-    '        sql = "SELECT E.EjercicioEJE AS Anio, IIF(ISNULL(SUM(A.ImporteAPU)), 0, SUM(A.ImporteAPU)) AS TotalAcumulado " &
-    '          "FROM ejercicios AS E " &
-    '          "LEFT JOIN apuntes AS A ON (A.ConceptoAPU = ? AND A.EjercicioAPU = E.EjercicioEJE AND A.FechaAPU < DateSerial(E.EjercicioEJE, ?, ?) + 1) " &
-    '          "WHERE E.EjercicioEJE > 0 AND E.EjercicioEJE <= " & vAñoEjercicio & " " &
-    '          "GROUP BY E.EjercicioEJE " &
-    '          "ORDER BY E.EjercicioEJE;"
-    '    End If
-
-    '    ' 2. Llenamos el DataTable de forma normal
-    '    Using cmd As New OleDbCommand(sql, conexion1)
-    '        cmd.Parameters.AddWithValue("@IdElemento", idElemento)
-    '        cmd.Parameters.AddWithValue("@Mes", mes)
-    '        cmd.Parameters.AddWithValue("@Dia", dia)
-
-    '        Using adapter As New OleDbDataAdapter(cmd)
-    '            Try
-    '                If conexion1.State = ConnectionState.Closed Then conexion1.Open()
-    '                adapter.Fill(dt)
-    '            Catch ex As Exception
-    '                MsgBox("Error: " & ex.Message, MsgBoxStyle.Critical)
-    '            End Try
-    '        End Using
-    '    End Using
-
-    '    ' =========================================================================
-    '    ' 🛠️ SEPARACIÓN DE LÓGICA DESDE VB.NET (Tu toque maestro)
-    '    ' =========================================================================
-    '    ' Si es el informe de CUENTAS, vamos a corregir a mano ÚNICAMENTE la fila del año actual
-    '    If Me.TipoInforme = "CUENTAS" AndAlso dt.Rows.Count > 0 Then
-    '        Try
-    '            ' A) Buscamos el saldo real del año en curso sumando TODOS los apuntes de este año (incluido el saldo inicial)
-    '            Dim saldoRealAnioActual As Decimal = 0
-    '            Dim sqlAnioActual As String = "SELECT SUM(ImporteAPU) FROM apuntes WHERE CuentaAPU = ? AND EjercicioAPU = ? AND FechaAPU < DateSerial(?, ?, ?) + 1"
-
-    '            Using cmdActual As New OleDbCommand(sqlAnioActual, conexion1)
-    '                cmdActual.Parameters.AddWithValue("@Cuenta", idElemento)
-    '                cmdActual.Parameters.AddWithValue("@Eje1", vAñoEjercicio)
-    '                cmdActual.Parameters.AddWithValue("@Eje2", vAñoEjercicio)
-    '                cmdActual.Parameters.AddWithValue("@Mes", mes)
-    '                cmdActual.Parameters.AddWithValue("@Dia", dia)
-
-    '                Dim resultado As Object = cmdActual.ExecuteScalar()
-    '                If resultado IsNot DBNull.Value AndAlso resultado IsNot Nothing Then
-    '                    saldoRealAnioActual = Convert.ToDecimal(resultado)
-    '                End If
-    '            End Using
-
-    '            ' B) Reemplazamos el valor erróneo de la última fila por el saldo real que acabamos de calcular
-    '            ' Como está ordenado por año, la última fila siempre es el ejercicio en curso
-    '            dt.Rows(dt.Rows.Count - 1)("SaldoAFecha") = saldoRealAnioActual
-
-    '        Catch ex As Exception
-    '            ' Si falla la corrección, dejamos lo que calculó el SQL por seguridad
-    '        End Try
-    '    End If
-    '    ' =========================================================================
-
-    '    Return dt
-    'End Function
-
-    'Private Function ObtenerDatosEvolutivos(idElemento As Integer, mes As Integer, dia As Integer) As DataTable
-    '    Dim dt As New DataTable()
-    '    Dim sql As String = ""
-    '    Dim idConceptoSaldo As Integer = 1 ' Mapea aquí el ID real de tu concepto 'SALDO'
-
-    '    ' 1. VOLVEMOS AL SQL QUE CLAVABA OPENBANK (Histórico acumulado puro sin concepto SALDO)
-    '    If Me.TipoInforme = "CUENTAS" Then
-    '        sql = "SELECT E.EjercicioEJE AS Anio, IIF(ISNULL(SUM(A.ImporteAPU)), 0, SUM(A.ImporteAPU)) AS SaldoAFecha " &
-    '          "FROM ejercicios AS E " &
-    '          "LEFT JOIN apuntes AS A ON (A.CuentaAPU = ? AND A.ConceptoAPU <> " & idConceptoSaldo & " AND A.FechaAPU < DateSerial(E.EjercicioEJE, ?, ?) + 1) " &
-    '          "WHERE E.EjercicioEJE > 0 AND E.EjercicioEJE <= " & vAñoEjercicio & " " &
-    '          "GROUP BY E.EjercicioEJE " &
-    '          "ORDER BY E.EjercicioEJE;"
-    '    Else
-    '        sql = "SELECT E.EjercicioEJE AS Anio, IIF(ISNULL(SUM(A.ImporteAPU)), 0, SUM(A.ImporteAPU)) AS TotalAcumulado " &
-    '          "FROM ejercicios AS E " &
-    '          "LEFT JOIN apuntes AS A ON (A.ConceptoAPU = ? AND A.EjercicioAPU = E.EjercicioEJE AND A.FechaAPU < DateSerial(E.EjercicioEJE, ?, ?) + 1) " &
-    '          "WHERE E.EjercicioEJE > 0 AND E.EjercicioEJE <= " & vAñoEjercicio & " " &
-    '          "GROUP BY E.EjercicioEJE " &
-    '          "ORDER BY E.EjercicioEJE;"
-    '    End If
-
-    '    ' 2. Llenamos el DataTable
-    '    Using cmd As New OleDbCommand(sql, conexion1)
-    '        cmd.Parameters.AddWithValue("@IdElemento", idElemento)
-    '        cmd.Parameters.AddWithValue("@Mes", mes)
-    '        cmd.Parameters.AddWithValue("@Dia", dia)
-
-    '        Using adapter As New OleDbDataAdapter(cmd)
-    '            Try
-    '                If conexion1.State = ConnectionState.Closed Then conexion1.Open()
-    '                adapter.Fill(dt)
-    '            Catch ex As Exception
-    '                MsgBox("Error: " & ex.Message, MsgBoxStyle.Critical)
-    '            End Try
-    '        End Using
-    '    End Using
-
-    '    ' 3. REINCORPORAMOS LA CORRECCIÓN EN RAM PARA EL AÑO ACTUAL (La que dejaba Openbank perfecto)
-    '    If Me.TipoInforme = "CUENTAS" AndAlso dt.Rows.Count > 0 Then
-    '        Try
-    '            Dim saldoRealAnioActual As Decimal = 0
-    '            Dim sqlAnioActual As String = "SELECT SUM(ImporteAPU) FROM apuntes WHERE CuentaAPU = ? AND EjercicioAPU = ? AND FechaAPU < DateSerial(?, ?, ?) + 1"
-
-    '            Using cmdActual As New OleDbCommand(sqlAnioActual, conexion1)
-    '                cmdActual.Parameters.AddWithValue("@Cuenta", idElemento)
-    '                cmdActual.Parameters.AddWithValue("@Eje1", vAñoEjercicio)
-    '                cmdActual.Parameters.AddWithValue("@Eje2", vAñoEjercicio)
-    '                cmdActual.Parameters.AddWithValue("@Mes", mes)
-    '                cmdActual.Parameters.AddWithValue("@Dia", dia)
-
-    '                Dim resultado As Object = cmdActual.ExecuteScalar()
-    '                If resultado IsNot DBNull.Value AndAlso resultado IsNot Nothing Then
-    '                    saldoRealAnioActual = Convert.ToDecimal(resultado)
-    '                End If
-    '            End Using
-
-    '            dt.Rows(dt.Rows.Count - 1)("SaldoAFecha") = saldoRealAnioActual
-
-    '        Catch ex As Exception
-    '        End Try
-    '    End If
-
-    '    Return dt
-    'End Function
-
-    'Private Function ObtenerDatosEvolutivos(idElemento As Integer, mes As Integer, dia As Integer) As DataTable
-    '    Dim dt As New DataTable()
-    '    Dim sql As String = ""
-    '    Dim idConceptoSaldo As Integer = 1 ' Mapea aquí el ID real de tu concepto 'SALDO'
-
-    '    ' 1. CONSULTA BASE ACUMULADA (La que clava Openbank)
-    '    If Me.TipoInforme = "CUENTAS" Then
-    '        sql = "SELECT E.EjercicioEJE AS Anio, IIF(ISNULL(SUM(A.ImporteAPU)), 0, SUM(A.ImporteAPU)) AS SaldoAFecha " &
-    '          "FROM ejercicios AS E " &
-    '          "LEFT JOIN apuntes AS A ON (A.CuentaAPU = ? AND A.ConceptoAPU <> " & idConceptoSaldo & " AND A.FechaAPU < DateSerial(E.EjercicioEJE, ?, ?) + 1) " &
-    '          "WHERE E.EjercicioEJE > 0 AND E.EjercicioEJE <= " & vAñoEjercicio & " " &
-    '          "GROUP BY E.EjercicioEJE " &
-    '          "ORDER BY E.EjercicioEJE;"
-    '    Else
-    '        sql = "SELECT E.EjercicioEJE AS Anio, IIF(ISNULL(SUM(A.ImporteAPU)), 0, SUM(A.ImporteAPU)) AS TotalAcumulado " &
-    '          "FROM ejercicios AS E " &
-    '          "LEFT JOIN apuntes AS A ON (A.ConceptoAPU = ? AND A.EjercicioAPU = E.EjercicioEJE AND A.FechaAPU < DateSerial(E.EjercicioEJE, ?, ?) + 1) " &
-    '          "WHERE E.EjercicioEJE > 0 AND E.EjercicioEJE <= " & vAñoEjercicio & " " &
-    '          "GROUP BY E.EjercicioEJE " &
-    '          "ORDER BY E.EjercicioEJE;"
-    '    End If
-
-    '    ' 2. Ejecución y llenado en memoria
-    '    Using cmd As New OleDbCommand(sql, conexion1)
-    '        cmd.Parameters.AddWithValue("@IdElemento", idElemento)
-    '        cmd.Parameters.AddWithValue("@Mes", mes)
-    '        cmd.Parameters.AddWithValue("@Dia", dia)
-
-    '        Using adapter As New OleDbDataAdapter(cmd)
-    '            Try
-    '                If conexion1.State = ConnectionState.Closed Then conexion1.Open()
-    '                adapter.Fill(dt)
-    '            Catch ex As Exception
-    '                MsgBox("Error: " & ex.Message, MsgBoxStyle.Critical)
-    '            End Try
-    '        End Using
-    '    End Using
-
-    '    ' 3. CORRECCIÓN EN RAM DEL AÑO ACTUAL (Mantiene Openbank al céntimo)
-    '    If Me.TipoInforme = "CUENTAS" AndAlso dt.Rows.Count > 0 Then
-    '        Try
-    '            Dim saldoRealAnioActual As Decimal = 0
-    '            Dim sqlAnioActual As String = "SELECT SUM(ImporteAPU) FROM apuntes WHERE CuentaAPU = ? AND EjercicioAPU = ? AND FechaAPU < DateSerial(?, ?, ?) + 1"
-
-    '            Using cmdActual As New OleDbCommand(sqlAnioActual, conexion1)
-    '                cmdActual.Parameters.AddWithValue("@Cuenta", idElemento)
-    '                cmdActual.Parameters.AddWithValue("@Eje1", vAñoEjercicio)
-    '                cmdActual.Parameters.AddWithValue("@Eje2", vAñoEjercicio)
-    '                cmdActual.Parameters.AddWithValue("@Mes", mes)
-    '                cmdActual.Parameters.AddWithValue("@Dia", dia)
-
-    '                Dim resultado As Object = cmdActual.ExecuteScalar()
-    '                If resultado IsNot DBNull.Value AndAlso resultado IsNot Nothing Then
-    '                    saldoRealAnioActual = Convert.ToDecimal(resultado)
-    '                End If
-    '            End Using
-
-    '            dt.Rows(dt.Rows.Count - 1)("SaldoAFecha") = saldoRealAnioActual
-    '        Catch ex As Exception
-    '        End Try
-
-    '        ' =========================================================================
-    '        ' 🚀 EL FILTRO TUYO DE ANULACIÓN DE HUECOS HISTÓRICOS (Tu idea en código)
-    '        ' =========================================================================
-    '        ' Escaneamos las filas para encontrar si hay años vacíos o saltos rotos.
-    '        ' Si detectamos que un año no tiene apuntes reales en la BD para esa cuenta, 
-    '        ' eliminamos los años anteriores que ensucian el saldo acumulado.
-    '        Dim dtFiltrado As DataTable = dt.Clone()
-    '        Dim comenzarAceptarFilas As Boolean = False
-
-    '        ' Recorremos al revés: desde el año actual (2026) hacia el pasado (2011)
-    '        For i As Integer = dt.Rows.Count - 1 To 0 Step -1
-    '            Dim fila As DataRow = dt.Rows(i)
-    '            Dim anioFila As Integer = Convert.ToInt32(fila("Anio"))
-    '            Dim saldoFila As Decimal = Convert.ToDecimal(fila("SaldoAFecha"))
-
-    '            ' Hacemos un check rápido: ¿Existen apuntes reales físicos de esta cuenta en este año?
-    '            Dim tieneMovimientosReales As Boolean = False
-    '            Using cmdCheck As New OleDbCommand("SELECT COUNT(*) FROM apuntes WHERE CuentaAPU = ? AND EjercicioAPU = ?", conexion1)
-    '                cmdCheck.Parameters.AddWithValue("@Cta", idElemento)
-    '                cmdCheck.Parameters.AddWithValue("@Eje", anioFila)
-    '                tieneMovimientosReales = (Convert.ToInt32(cmdCheck.ExecuteScalar()) > 0)
-    '            End Using
-
-    '            ' Si el año actual o los años inmediatamente anteriores tienen movimientos, se activa el gancho
-    '            If tieneMovimientosReales Then
-    '                comenzarAceptarFilas = True
-    '            End If
-
-    '            ' Si el gancho está activo, guardamos la fila. Si encuentra el gran hueco (2016-2020), 
-    '            ' el gancho se apagará para los años anteriores (2011-2015), limpiando el reporte de errores viejos.
-    '            If comenzarAceptarFilas OrElse anioFila = vAñoEjercicio Then
-    '                dtFiltrado.Rows.InsertAt(dtFiltrado.NewRow(), 0)
-    '                dtFiltrado.Rows(0)("Anio") = fila("Anio")
-    '                dtFiltrado.Rows(0)("SaldoAFecha") = fila("SaldoAFecha")
-    '            Else
-    '                ' Si un año intermedio no tiene movimientos, rompemos el pasado para que empiece limpio
-    '                ' desde el nuevo bloque de ejercicios estables (ej: desde 2021 en adelante)
-    '                Exit For
-    '            End If
-    '        Next
-
-    '        dt = dtFiltrado
-    '        ' =========================================================================
-    '    End If
-
-    '    Return dt
-    'End Function
-
     Private Function ObtenerDatosEvolutivos(idElemento As Integer, mes As Integer, dia As Integer) As DataTable
-        Dim dt As New DataTable()
-        Dim sql As String = ""
-        Dim idConceptoSaldo As Integer = 1 ' Mapea aquí el ID real de tu concepto 'SALDO'
+        Dim dtFinal As New DataTable()
+        dtFinal.Columns.Add("Anio", GetType(Integer))
 
-        ' 1. CONSULTA BASE ACUMULADA (La de confianza de Openbank)
+        ' 1. Seleccionamos el nombre de la columna según el tipo de informe
         If Me.TipoInforme = "CUENTAS" Then
-            sql = "SELECT E.EjercicioEJE AS Anio, IIF(ISNULL(SUM(A.ImporteAPU)), 0, SUM(A.ImporteAPU)) AS SaldoAFecha " &
-              "FROM ejercicios AS E " &
-              "LEFT JOIN apuntes AS A ON (A.CuentaAPU = ? AND A.ConceptoAPU <> " & idConceptoSaldo & " AND A.FechaAPU < DateSerial(E.EjercicioEJE, ?, ?) + 1) " &
-              "WHERE E.EjercicioEJE > 0 AND E.EjercicioEJE <= " & vAñoEjercicio & " " &
-              "GROUP BY E.EjercicioEJE " &
-              "ORDER BY E.EjercicioEJE;"
+            dtFinal.Columns.Add("SaldoAFecha", GetType(Decimal))
         Else
-            sql = "SELECT E.EjercicioEJE AS Anio, IIF(ISNULL(SUM(A.ImporteAPU)), 0, SUM(A.ImporteAPU)) AS TotalAcumulado " &
-              "FROM ejercicios AS E " &
-              "LEFT JOIN apuntes AS A ON (A.ConceptoAPU = ? AND A.EjercicioAPU = E.EjercicioEJE AND A.FechaAPU < DateSerial(E.EjercicioEJE, ?, ?) + 1) " &
-              "WHERE E.EjercicioEJE > 0 AND E.EjercicioEJE <= " & vAñoEjercicio & " " &
-              "GROUP BY E.EjercicioEJE " &
-              "ORDER BY E.EjercicioEJE;"
+            dtFinal.Columns.Add("TotalAcumulado", GetType(Decimal))
         End If
 
-        ' 2. Ejecución y llenado en memoria
-        Using cmd As New OleDbCommand(sql, conexion1)
-            cmd.Parameters.AddWithValue("@IdElemento", idElemento)
-            cmd.Parameters.AddWithValue("@Mes", mes)
-            cmd.Parameters.AddWithValue("@Dia", dia)
-
-            Using adapter As New OleDbDataAdapter(cmd)
+        ' 2. Traemos los ejercicios reales de la BD ordenados desde el más antiguo al más reciente
+        Dim dtEjercicios As New DataTable()
+        Using cmdEje As New OleDbCommand("SELECT EjercicioEJE FROM ejercicios WHERE EjercicioEJE > 0 AND EjercicioEJE <= " & vAñoEjercicio & " ORDER BY EjercicioEJE ASC", conexion1)
+            Using adapterEje As New OleDbDataAdapter(cmdEje)
                 Try
                     If conexion1.State = ConnectionState.Closed Then conexion1.Open()
-                    adapter.Fill(dt)
+                    adapterEje.Fill(dtEjercicios)
                 Catch ex As Exception
-                    MsgBox("Error: " & ex.Message, MsgBoxStyle.Critical)
+                    MsgBox(resManager.GetString("ErrorLeerEjercicios") & ": " & ex.Message, MsgBoxStyle.Critical)
+                    Return dtFinal
                 End Try
             End Using
         End Using
 
-        ' 3. CORRECCIÓN EN RAM DEL AÑO ACTUAL
-        If Me.TipoInforme = "CUENTAS" AndAlso dt.Rows.Count > 0 Then
-            Try
-                Dim saldoRealAnioActual As Decimal = 0
-                Dim sqlAnioActual As String = "SELECT SUM(ImporteAPU) FROM apuntes WHERE CuentaAPU = ? AND EjercicioAPU = ? AND FechaAPU < DateSerial(?, ?, ?) + 1"
+        ' =========================================================================
+        ' 📊 MUNDO A: PROCESAMIENTO PARA REPORTE DE CUENTAS (Tu motor de simulación)
+        ' =========================================================================
+        If Me.TipoInforme = "CUENTAS" Then
+            Dim saldoArrastradoPasado As Decimal = 0
+            Dim esPrimerAnio As Boolean = True
 
-                Using cmdActual As New OleDbCommand(sqlAnioActual, conexion1)
-                    cmdActual.Parameters.AddWithValue("@Cuenta", idElemento)
-                    cmdActual.Parameters.AddWithValue("@Eje1", vAñoEjercicio)
-                    cmdActual.Parameters.AddWithValue("@Eje2", vAñoEjercicio)
-                    cmdActual.Parameters.AddWithValue("@Mes", mes)
-                    cmdActual.Parameters.AddWithValue("@Dia", dia)
+            For Each rowEje As DataRow In dtEjercicios.Rows
+                Dim anioEvaluar As Integer = Convert.ToInt32(rowEje("EjercicioEJE"))
+                Dim movimientosHastaFecha As Decimal = 0
+                Dim movimientosTodoElAnio As Decimal = 0
 
-                    Dim resultado As Object = cmdActual.ExecuteScalar()
-                    If resultado IsNot DBNull.Value AndAlso resultado IsNot Nothing Then
-                        saldoRealAnioActual = Convert.ToDecimal(resultado)
-                    End If
+                ' A) Movimientos reales de este año hasta la fecha de corte
+                Dim sqlCorte As String = "SELECT SUM(ImporteAPU) FROM apuntes WHERE CuentaAPU = ? AND EjercicioAPU = ? AND FechaAPU < DateSerial(?, ?, ?) + 1"
+                Using cmdCorte As New OleDbCommand(sqlCorte, conexion1)
+                    cmdCorte.Parameters.AddWithValue("@Cta", idElemento)
+                    cmdCorte.Parameters.AddWithValue("@Eje", anioEvaluar)
+                    cmdCorte.Parameters.AddWithValue("@EjeM", anioEvaluar)
+                    cmdCorte.Parameters.AddWithValue("@Mes", mes)
+                    cmdCorte.Parameters.AddWithValue("@Dia", dia)
+                    Dim res = cmdCorte.ExecuteScalar()
+                    If res IsNot DBNull.Value AndAlso res IsNot Nothing Then movimientosHastaFecha = Convert.ToDecimal(res)
                 End Using
 
-                dt.Rows(dt.Rows.Count - 1)("SaldoAFecha") = saldoRealAnioActual
-            Catch ex As Exception
-            End Try
+                ' B) Movimientos reales de todo el año completo para el arrastre
+                Dim sqlTotalAnio As String = "SELECT SUM(ImporteAPU) FROM apuntes WHERE CuentaAPU = ? AND EjercicioAPU = ?"
+                Using cmdTotal As New OleDbCommand(sqlTotalAnio, conexion1)
+                    cmdTotal.Parameters.AddWithValue("@Cta", idElemento)
+                    cmdTotal.Parameters.AddWithValue("@Eje", anioEvaluar)
+                    Dim res = cmdTotal.ExecuteScalar()
+                    If res IsNot DBNull.Value AndAlso res IsNot Nothing Then movimientosTodoElAnio = Convert.ToDecimal(res)
+                End Using
 
-            ' =========================================================================
-            ' 🚀 DETECTOR DE SALTOS CRONOLÓGICOS EN RAM (¡Tu planteamiento exacto!)
-            ' =========================================================================
-            Dim dtFiltrado As DataTable = dt.Clone()
-            Dim anioAnteriorEsperado As Integer = vAñoEjercicio
-
-            ' Recorremos de la última fila (año más reciente) hacia la primera
-            For i As Integer = dt.Rows.Count - 1 To 0 Step -1
-                Dim fila As DataRow = dt.Rows(i)
-                Dim anioFila As Integer = Convert.ToInt32(fila("Anio"))
-
-                ' Verificamos si hay continuidad matemática año a año. 
-                ' Al llegar a la fila de 2015, verá que anioAnteriorEsperado era 2020 (2021 - 1), 
-                ' detectará el salto en seco y romperá el bucle.
-                If anioFila = vAñoEjercicio OrElse anioFila = anioAnteriorEsperado Then
-                    ' Es un año consecutivo válido: lo metemos al inicio de nuestra nueva tabla
-                    dtFiltrado.Rows.InsertAt(dtFiltrado.NewRow(), 0)
-                    dtFiltrado.Rows(0)("Anio") = fila("Anio")
-                    dtFiltrado.Rows(0)("SaldoAFecha") = fila("SaldoAFecha")
-
-                    ' Actualizamos el año que esperamos encontrar en la siguiente vuelta (ej: de 2021 pasa a esperar 2020)
-                    anioAnteriorEsperado = anioFila - 1
+                ' C) Arrastre continuo cronológico
+                Dim saldoAFechaFinal As Decimal = 0
+                If esPrimerAnio Then
+                    saldoAFechaFinal = movimientosHastaFecha
+                    saldoArrastradoPasado = movimientosTodoElAnio
+                    esPrimerAnio = False
                 Else
-                    ' ¡ALERTA DE SALTO DETECTADA!: Cortamos aquí el informe para salvar la integridad contable
-                    Exit For
+                    saldoAFechaFinal = saldoArrastradoPasado + movimientosHastaFecha
+                    saldoArrastradoPasado = saldoArrastradoPasado + movimientosTodoElAnio
                 End If
+
+                dtFinal.Rows.Add(anioEvaluar, saldoAFechaFinal)
             Next
 
-            dt = dtFiltrado
+            ' D) Parche contable del ejercicio activo en curso (Con tu apunte físico ID 89)
+            If dtFinal.Rows.Count > 0 Then
+                Try
+                    Dim saldoRealAnioActual As Decimal = 0
+                    Dim sqlAnioActual As String = "SELECT SUM(ImporteAPU) FROM apuntes WHERE CuentaAPU = ? AND EjercicioAPU = ? AND FechaAPU < DateSerial(?, ?, ?) + 1"
+                    Using cmdActual As New OleDbCommand(sqlAnioActual, conexion1)
+                        cmdActual.Parameters.AddWithValue("@Cuenta", idElemento)
+                        cmdActual.Parameters.AddWithValue("@Eje1", vAñoEjercicio)
+                        cmdActual.Parameters.AddWithValue("@Eje2", vAñoEjercicio)
+                        cmdActual.Parameters.AddWithValue("@Mes", mes)
+                        cmdActual.Parameters.AddWithValue("@Dia", dia)
+                        Dim resultado As Object = cmdActual.ExecuteScalar()
+                        If resultado IsNot DBNull.Value AndAlso resultado IsNot Nothing Then saldoRealAnioActual = Convert.ToDecimal(resultado)
+                    End Using
+                    dtFinal.Rows(dtFinal.Rows.Count - 1)("SaldoAFecha") = saldoRealAnioActual
+                Catch : End Try
+            End If
+
             ' =========================================================================
+            ' 🏷️ MUNDO B: PROCESAMIENTO PARA REPORTE DE CONCEPTOS (Año natural estricto)
+            ' =========================================================================
+        Else
+            For Each rowEje As DataRow In dtEjercicios.Rows
+                Dim anioEvaluar As Integer = Convert.ToInt32(rowEje("EjercicioEJE"))
+                Dim totalConceptoAnio As Decimal = 0
+
+                ' Suma pura de lo gastado/ingresado en este concepto únicamente en este año hasta la fecha
+                Dim sqlConcepto As String = "SELECT SUM(ImporteAPU) FROM apuntes WHERE ConceptoAPU = ? AND EjercicioAPU = ? AND FechaAPU < DateSerial(?, ?, ?) + 1"
+                Using cmdConcepto As New OleDbCommand(sqlConcepto, conexion1)
+                    cmdConcepto.Parameters.AddWithValue("@Concepto", idElemento)
+                    cmdConcepto.Parameters.AddWithValue("@Eje", anioEvaluar)
+                    cmdConcepto.Parameters.AddWithValue("@EjeM", anioEvaluar)
+                    cmdConcepto.Parameters.AddWithValue("@Mes", mes)
+                    cmdConcepto.Parameters.AddWithValue("@Dia", dia)
+                    Dim res = cmdConcepto.ExecuteScalar()
+                    If res IsNot DBNull.Value AndAlso res IsNot Nothing Then totalConceptoAnio = Convert.ToDecimal(res)
+                End Using
+
+                dtFinal.Rows.Add(anioEvaluar, totalConceptoAnio)
+            Next
         End If
 
-        Return dt
+        dtDatosInforme = dtFinal
+        Return dtFinal
     End Function
 
     Private Sub FiltroEvolutivo_Load(sender As Object, e As EventArgs) Handles MyBase.Load

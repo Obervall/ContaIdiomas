@@ -97,9 +97,11 @@ Module Funciones
     ' Variable pública para activar el modo de reparación de emergencia desde la ventana principal
     Public vModoRepararDuplicados As String = "NO"
     Public mensajeReinicio As String
+	Public vEsVersionDemoSoftonic As Boolean
+	Public vDiasRestantesDemoSoftonic As Integer
 
 
-    Public Structure ElementoCombo
+	Public Structure ElementoCombo
         Public Property TextoMostrar As String  ' Lo que ve el usuario (ej: "Ausgaben")
         Public Property ValorInterno As String  ' Lo que va a la BD (ej: "GASTO")
 

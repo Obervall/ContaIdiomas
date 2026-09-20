@@ -1072,4 +1072,12 @@ Une fois corrigé, ce message ne réapparaîtra plus. »</value>
   <data name="TextLabel4Concepto" xml:space="preserve">
     <value>Sélectionner un concept</value>
   </data>
+  <data name="AlertaLimiteDemo" xml:space="preserve">
+    <value>Vous avez atteint la limite de 25 billets pour l’essai gratuit. 
+Pour profiter de notes illimitées, de rapports d’avancement historique et
+Support multilingue, prenez ContaHogar 3.0 Premium sur le Microsoft Store.</value>
+  </data>
+  <data name="ErrorLeerEjercicios" xml:space="preserve">
+    <value>Erreur lors des exercices de lecture</value>
+  </data>
 </root>

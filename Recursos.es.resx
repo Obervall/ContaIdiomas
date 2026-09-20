@@ -1072,4 +1072,12 @@ Una vez corregido, este mensaje no volverá a aparecer."</value>
   <data name="TextLabel4Cuenta" xml:space="preserve">
     <value>Seleccionar una Cuenta</value>
   </data>
+  <data name="AlertaLimiteDemo" xml:space="preserve">
+    <value>Has alcanzado el límite de 25 apuntes para la versión de prueba gratuita.
+Para disfrutar de apuntes ilimitados, informes evolutivos históricos y
+soporte multi-idioma, consigue ContaHogar 3.0 Premium en la Microsoft Store.</value>
+  </data>
+  <data name="ErrorLeerEjercicios" xml:space="preserve">
+    <value>Error al leer ejercicios</value>
+  </data>
 </root>

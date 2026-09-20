@@ -304,6 +304,89 @@ Public Class IntroApuntes
     End Sub
 
     Public Sub GrabarYRefrescarGrid()
+
+        '"Has alcanzado el límite de la versión de prueba. Consigue ContaHogar 3.0 Premium en la Microsoft Store
+        'para disfrutar de apuntes ilimitados, 6 idiomas, informes evolutivos históricos y actualizaciones automáticas."
+
+        ' =========================================================================
+        ' 🛑 CORTAFUEGOS INDESTRUCTIBLE MULTI-FILTRO (SOFTONIC / UPTODOWN)
+        ' =========================================================================
+        ' Este bloque solo actúa si estás compilando la versión Demo para las webs de descarga
+        If vEsVersionDemoSoftonic Then
+            Dim lanzarBloqueo As Boolean = False
+            Dim textoMensajeMostrar As String = ""
+
+            '' --- CANDADO A: EVALUACIÓN POR DÍAS (Tu lógica original intacta) ---
+            '' (Asegúrate de que 'vDiasRestantesDemoSoftonic' esté calculado previamente en tu Load o aquí)
+
+            'If vDiasRestantesDemoSoftonic > 30 Then
+            '    MsgBox(vDiasRestantesDemoSoftonic)
+            '    lanzarBloqueo = True
+            '    textoMensajeMostrar = frmPrincipal.rmse.GetString("PeriodoVencido")
+
+            '    ' Respaldo multiidioma por si no encuentra la clave en el recurso
+            '    If String.IsNullOrEmpty(textoMensajeMostrar) Then
+            '        textoMensajeMostrar = "El periodo de evaluación de 30 días ha vencido." & vbCrLf & vbCrLf &
+            '                          "Consigue ContaHogar 3.0 Premium en la Microsoft Store para seguir gestionando tu contabilidad."
+            '    End If
+            'End If
+
+            ' --- CANDADO B: EVALUACIÓN POR APUNTES (El límite de 25 registros) ---
+            ' Si no ha vencido por días, comprobamos si ya ha gastado los 25 apuntes de prueba
+            If Not lanzarBloqueo Then
+                Try
+                    Dim totalApuntes As Integer = 0
+                    Dim sqlCheck As String = "SELECT COUNT(*) FROM apuntes WHERE EjercicioAPU = ?"
+
+                    Using cmdCheck As New OleDbCommand(sqlCheck, conexion1)
+                        cmdCheck.Parameters.Clear()
+                        cmdCheck.Parameters.AddWithValue("@Anio", CInt(vAñoEjercicio))
+
+                        If conexion1.State = ConnectionState.Closed Then conexion1.Open()
+                        totalApuntes = Convert.ToInt32(cmdCheck.ExecuteScalar())
+                    End Using
+
+                    If totalApuntes >= 25 Then
+                        lanzarBloqueo = True
+                        textoMensajeMostrar = resManager.GetString("AlertaLimiteDemo")
+
+                        If String.IsNullOrEmpty(textoMensajeMostrar) Then
+                            textoMensajeMostrar = "Has alcanzado el límite de 25 apuntes para la versión de prueba gratuita." & vbCrLf & vbCrLf &
+                                              "Para disfrutar de apuntes ilimitados, informes evolutivos históricos y soporte multi-idioma, consigue ContaHogar 3.0 Premium en la Microsoft Store."
+                        End If
+                    End If
+                Catch
+                    ' Salvavidas por si falla la lectura del .mdb
+                End Try
+            End If
+
+            ' =========================================================================
+            ' 🚀 EJECUCIÓN DEL BLOQUEO Y REDIRECCIÓN A LA TIENDA
+            ' =========================================================================
+            If lanzarBloqueo Then
+                ' Mostramos el aviso correspondiente usando el título de tu formulario + Premium
+                MsgBox(textoMensajeMostrar, MsgBoxStyle.Critical, resManager.GetString("AppDisplayName"))
+
+                ' Lanzamos tu vínculo profundo real de la Tienda de Microsoft
+                Dim vinculoProfundo As String = "ms-windows-store://pdp/?productid=9MWDQ6FK2P72"
+                Try
+                    System.Diagnostics.Process.Start(New System.Diagnostics.ProcessStartInfo(vinculoProfundo) With {.UseShellExecute = True})
+                Catch ex As Exception
+                    ' Si el sistema del usuario no responde al protocolo, abre el navegador web clásico
+                    System.Diagnostics.Process.Start(New System.Diagnostics.ProcessStartInfo("https://microsoft.com") With {.UseShellExecute = True})
+                End Try
+
+                '' Si el bloqueo es por días vencidos, cerramos la aplicación por completo.
+                '' Si es por apuntes, salimos del método para impedir que guarde el registro en el .mdb.
+                'If vDiasRestantesDemoSoftonic > 30 Then
+                '    Application.Exit()
+                'End If
+
+                Return ' Frena en seco el GrabarYRefrescar() e impide la escritura
+            End If
+        End If
+        ' =========================================================================
+
         ' =====================================================================
         ' 🛑 VALIDACIÓN: PREVENIR DESCRIPCIÓN VACÍA
         ' =====================================================================

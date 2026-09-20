@@ -1072,4 +1072,12 @@ Sobald sie korrigiert ist, erscheint diese Nachricht nicht wieder."</value>
   <data name="TextLabel4Concepto" xml:space="preserve">
     <value>Wählen Sie ein Konzept aus</value>
   </data>
+  <data name="AlertaLimiteDemo" xml:space="preserve">
+    <value>Sie haben das Limit von 25 Notizen für die kostenlose Testversion erreicht. 
+Um unbegrenzte Notizen, historische Fortschrittsberichte und
+Mehrsprachige Unterstützung, hol dir ContaHogar 3.0 Premium im Microsoft Store.</value>
+  </data>
+  <data name="ErrorLeerEjercicios" xml:space="preserve">
+    <value>Fehler beim Lesen von Übungen</value>
+  </data>
 </root>

@@ -145,6 +145,17 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Has alcanzado el límite de 25 apuntes para la versión de prueba gratuita.
+    '''Para disfrutar de apuntes ilimitados, informes evolutivos históricos y
+    '''soporte multi-idioma, consigue ContaHogar 3.0 Premium en la Microsoft Store..
+    '''</summary>
+    Friend Shared ReadOnly Property AlertaLimiteDemo() As String
+        Get
+            Return ResourceManager.GetString("AlertaLimiteDemo", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a ALIMENTACION.
     '''</summary>
     Friend Shared ReadOnly Property ALIMENTACION() As String
@@ -1352,6 +1363,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property ErrorLeerEjercicio() As String
         Get
             Return ResourceManager.GetString("ErrorLeerEjercicio", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Error al leer ejercicios.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorLeerEjercicios() As String
+        Get
+            Return ResourceManager.GetString("ErrorLeerEjercicios", resourceCulture)
         End Get
     End Property
     
