@@ -181,7 +181,6 @@ Public Class Principal
                     My.Settings.PantallaAlto = vHeigth
                     My.Settings.Posicion = $"{{X={x}, Y={y}}}"
                     My.Settings.Save()
-
                 End If
 
                 ' =========================================================================
@@ -246,7 +245,7 @@ Public Class Principal
 		My.Settings.Save()
 
         ' Dejar en False para que no muestre el mensaje de Softonic al arrancar, en True mostrará el mensaje de Softonic
-        vEsVersionDemoSoftonic = True
+        vEsVersionDemoSoftonic = False
 
         ' ================================================
         ' 🔒 EL CORTAFUEGOS COMERCIAL INTELIGENTE POR RUTA
@@ -458,55 +457,27 @@ Public Class Principal
         My.Settings.Save()
         My.Settings.Reload()
 
-        ' 1. Detectamos los monitores actuales sin necesidad de bucles For Each
-        Dim vPantallas As Integer = Screen.AllScreens.Length
-        Dim CantPantallas As Integer = My.Settings.Pantallas
-
-        ' 2. Si pasamos de varios monitores a solo uno, aplicamos las medidas a salvo
-        If vPantallas = 1 AndAlso CantPantallas >= 2 Then
-            x = 315
-            y = 30 ' Le asignamos 30 directamente para evitar el techo 0
-            vWidth = 891
-            vHeigth = 629
-        Else
-            ' 🛡️ ESCUDO EXTRACCIÓN SEGURO: En lugar de usar Mid/InStr, leemos las variables directas que guardamos en Closing
-            ' Si por lo que sea My.Settings guarda un valor corrupto, usamos un Try/Catch silencioso
-            Try
-                ' Como en FormClosing guardas Me.Width y Me.Height en propiedades numéricas separadas, las usamos directamente!
-                vWidth = If(My.Settings.PantallaAncho > 0, My.Settings.PantallaAncho, 891)
-                vHeigth = If(My.Settings.PantallaAlto > 0, My.Settings.PantallaAlto, 629)
-
-                ' Para recuperar X e Y sin romper el texto, usamos el objeto Point nativo si es posible,
-                ' o simplemente lee de variables numéricas si las creas en Settings. 
-                ' Como usas Me.Location.ToString(), lo desmenuzamos de forma inmune a espacios o mayúsculas:
-                Dim limpio As String = My.Settings.Posicion.Replace("{", "").Replace("}", "").Replace(" ", "").ToLower()
-                ' Resultado esperado uniforme: "x=150,y=100"
-                Dim partes() As String = limpio.Split(","c)
-                x = CInt(Val(partes(0).Split("="c)(1)))
-                y = CInt(Val(partes(1).Split("="c)(1)))
-            Catch
-                ' Si el parseo de la cadena falla por culpa del idioma, forzamos valores seguros por defecto
-                x = 315
-                y = 30
-            End Try
-
-            ' PARACHOQUES: Tu regla de que no se quede atrapado en el techo absoluto
-            If y <= 0 Then y = 30
-        End If
-
-        ' 3. Aplicamos la ubicación inicial calculada
-        Me.Location = New Point(x, y)
-        Me.Size = New Size(vWidth, vHeigth)
-
-        ' 4. Reglas de Pantalla Completa o Cierre (Mantenemos tu lógica intacta)
-        ' Si la opción de pantalla completa está activa, maximizamos la ventana de forma nativa
-        If My.Settings.PantallaCompleta = True Then
-            Me.WindowState = FormWindowState.Maximized
-        End If
+        ' =========================================================================
+        ' 🎨 POSICIONAMIENTO LIMPIO Y SEGURO DE LA VENTANA (¡Simplificado!)
+        ' =========================================================================
+        ' 1. Si el usuario guardó que prefiere arrancar con el tamaño del último cierre
         If My.Settings.PantallaCierre = True Then
+            ' Como ya recuperamos X, Y, vWidth y vHeigth del registro en el Paso 2:
+            Me.StartPosition = FormStartPosition.Manual
+
+            ' Parachoques de seguridad rígido: Evitamos el techo 0 o posiciones negativas invisibles
+            If y <= 0 Then y = 30
+            If x < 0 Then x = 0
+
             Me.Location = New Point(x, y)
             Me.Size = New Size(vWidth, vHeigth)
         End If
+
+        ' 2. Regla de Pantalla Completa
+        If My.Settings.PantallaCompleta = True Then
+            Me.WindowState = FormWindowState.Maximized
+        End If
+        ' =========================================================================
 
         tipoDsn = "AccessMdb" ' Se conecta a Mdb
         Conectarse(tipoDsn)
@@ -2100,6 +2071,11 @@ Public Class Principal
                 key.SetValue("Ventana_Top", Me.Top.ToString())
                 key.SetValue("Ventana_Width", Me.Width.ToString())
                 key.SetValue("Ventana_Height", Me.Height.ToString())
+
+                ' 🌟 NUEVO: Guardamos también en tus Settings locales SOLO si está en modo normal
+                My.Settings.PantallaAncho = Me.Width
+                My.Settings.PantallaAlto = Me.Height
+                My.Settings.Posicion = Me.Location.ToString()
             End If
 
             ' 2. IDIOMA ACTUAL
@@ -2126,11 +2102,6 @@ Public Class Principal
         End Try
 
         Try
-            ' Guardamos las medidas actuales de la ventana principal
-            My.Settings.PantallaAncho = Me.Width
-            My.Settings.PantallaAlto = Me.Height
-            My.Settings.Posicion = Me.Location.ToString()
-
             ' Contamos las pantallas activas de forma directa y limpia sin bucles
             My.Settings.Pantallas = Screen.AllScreens.Length
 
