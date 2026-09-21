@@ -3642,11 +3642,15 @@ Module Funciones
     ''' Comprueba en tu nube de pCloud si existe una nueva versión del MSI clásico para los usuarios VIP.
     ''' </summary>
     Public Sub VerificarActualizacionesVIP(ByVal formularioPadre As Form)
-        ' 🚨 EL CORTAFUEGOS DE LA STORE: Si por error se ejecuta en el MSIX, salimos de inmediato
+		' 🚨 EL CORTAFUEGOS DE LA STORE: Si por error se ejecuta en el MSIX, salimos de inmediato
 #If CONFIG = "ReleaseStore" Then
             Exit Sub
 #End If
 
+		If vEsVersionDemoSoftonic = True Then
+            'MsgBox("Actualizador VIP Desactivado", MsgBoxStyle.Information, resManager.GetString("AppDisplayName"))
+            Exit Sub
+        End If
         ' =========================================================================
         ' 🚀 EL RADAR VIP COMPLETO: Buscador y Descargador Automático vía pCloud
         ' =========================================================================

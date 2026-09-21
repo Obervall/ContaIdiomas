@@ -8023,4 +8023,10 @@ Microsoft Store, per continuar.</value>
   <data name="MnuEvolucionConceptos.Text" xml:space="preserve">
     <value>Evolució de les Despeses/Ingressos per concepte fins a una data</value>
   </data>
+  <data name="MsgSoftonic" xml:space="preserve">
+    <value>Gràcies per provar el nostre software! 
+Aquesta és una versió de prova limitada a 25 apunts. 
+Si necessites fer més registres, pots fer el salt
+a la versió premium en qualsevol moment.</value>
+  </data>
 </root>

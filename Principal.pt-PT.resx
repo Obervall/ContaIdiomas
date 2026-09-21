@@ -687,4 +687,10 @@ Microsoft Store, para continuar.</value>
   <data name="MnuEvolucionConceptos.Text" xml:space="preserve">
     <value>Evolução das Despesas/Rendimentos por Conceito até à Data</value>
   </data>
+  <data name="MsgSoftonic" xml:space="preserve">
+    <value>Obrigado por experimentar o nosso software! 
+Esta é uma versão de teste limitada a 25 notas. 
+Se precisares de fazer mais registos, podes dar o salto
+à versão premium a qualquer momento.</value>
+  </data>
 </root>

@@ -8024,4 +8024,10 @@ Microsoft Store, à suivre.</value>
   <data name="MnuEvolucionConceptos.Text" xml:space="preserve">
     <value>Évolution des dépenses/revenus par concept jusqu’à une date donnée</value>
   </data>
+  <data name="MsgSoftonic" xml:space="preserve">
+    <value>Merci d’avoir essayé notre logiciel ! 
+Il s’agit d’une version d’essai limitée à 25 notes. 
+Si vous devez faire plus d’inscriptions, vous pouvez sauter le pas
+à la version premium à tout moment.</value>
+  </data>
 </root>

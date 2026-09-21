@@ -7819,4 +7819,10 @@ Microsoft Store, para continuar.</value>
   <data name="MnuEvolucionConceptos.Text" xml:space="preserve">
     <value>Evolución de Gastos/Ingresos por Concepto a una Fecha</value>
   </data>
+  <data name="MsgSoftonic" xml:space="preserve">
+    <value>¡Gracias por probar nuestro software!
+Esta es una versión trial limitada a 25 apuntes.
+Si necesita realizar más registros, puede dar el salto
+a la versión premium en cualquier momento.</value>
+  </data>
 </root>

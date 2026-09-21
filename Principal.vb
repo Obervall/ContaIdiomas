@@ -241,11 +241,12 @@ Public Class Principal
             My.Settings.Save() ' Guarda el cambio para que no lo haga más en esta versión
         End If
 
-        My.Settings.Version = "3.3.8"
-		My.Settings.Save()
+        My.Settings.Version = "3.3.9"
+        My.Settings.Save()
 
         ' Dejar en False para que no muestre el mensaje de Softonic al arrancar, en True mostrará el mensaje de Softonic
         vEsVersionDemoSoftonic = False
+
 
         ' ================================================
         ' 🔒 EL CORTAFUEGOS COMERCIAL INTELIGENTE POR RUTA
@@ -716,6 +717,17 @@ Public Class Principal
 
         ' Verificar duplicados de Id en cuentas
         VerificarDuplicadosEnCuentas()
+
+        If vEsVersionDemoSoftonic = True Then
+            LblNotificacion.Visible = True
+            LblNotificacion.Text = rmse.GetString("MsgSoftonic")
+            BtnStore.Visible = True
+        Else
+            LblNotificacion.Visible = False
+            BtnStore.Visible = False
+        End If
+
+
     End Sub
 
     Private Sub IP_Timer(ByVal sender As Object, ByVal e As EventArgs)
@@ -2122,6 +2134,17 @@ Public Class Principal
 
     Private Sub BtnHistorialVersiones_Click(sender As Object, e As EventArgs) Handles BtnHistorialVersiones.Click
         HistorialDeVersionesToolStripMenuItem.PerformClick()
+    End Sub
+
+    Private Sub BtnStore_Click(sender As Object, e As EventArgs) Handles BtnStore.Click
+        Dim vinculoProfundo As String = "ms-windows-store://pdp/?productid=9MWDQ6FK2P72"
+        Try
+            System.Diagnostics.Process.Start(New System.Diagnostics.ProcessStartInfo(vinculoProfundo) With {.UseShellExecute = True})
+        Catch ex As Exception
+            System.Diagnostics.Process.Start(New System.Diagnostics.ProcessStartInfo("https://microsoft.com") With {.UseShellExecute = True})
+        End Try
+        Application.Exit()
+        Return
     End Sub
 
     Private Sub HistorialDeVersionesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles HistorialDeVersionesToolStripMenuItem.Click

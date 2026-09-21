@@ -687,4 +687,10 @@ Microsoft Store, per continuare.</value>
   <data name="MnuEvolucionConceptos.Text" xml:space="preserve">
     <value>Evoluzione delle spese/entrate per concetto fino a una data</value>
   </data>
+  <data name="MsgSoftonic" xml:space="preserve">
+    <value>Grazie per aver provato il nostro software! 
+Questa è una versione di prova limitata a 25 biglietti. 
+Se devi fare altre iscrizioni, puoi fare il salto
+Alla versione premium in qualsiasi momento.</value>
+  </data>
 </root>

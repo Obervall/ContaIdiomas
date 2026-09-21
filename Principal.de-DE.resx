@@ -686,4 +686,10 @@ Microsoft Store, um fortzufahren.</value>
   <data name="MnuEvolucionConceptos.Text" xml:space="preserve">
     <value>Entwicklung von Ausgaben/Einnahmen nach Konzept bis zu einem bestimmten Datum</value>
   </data>
+  <data name="MsgSoftonic" xml:space="preserve">
+    <value>Danke, dass Sie unsere Software ausprobiert haben! 
+Dies ist eine Probeversion, die auf 25 Noten begrenzt ist. 
+Wenn du mehr Anmeldungen machen musst, kannst du den Schritt wagen
+jederzeit auf die Premium-Version.</value>
+  </data>
 </root>

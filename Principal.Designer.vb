@@ -139,6 +139,7 @@ Partial Class Principal
 		Me.LblNotificacion = New System.Windows.Forms.Label()
 		Me.ButtonActualizar = New System.Windows.Forms.Button()
 		Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+		Me.BtnStore = New System.Windows.Forms.Button()
 		Me.BarraDeMenu.SuspendLayout()
 		Me.BarraDeEstado.SuspendLayout()
 		Me.BarraDeHerramientas.SuspendLayout()
@@ -784,10 +785,17 @@ Partial Class Principal
 		Me.PictureBox1.Name = "PictureBox1"
 		Me.PictureBox1.TabStop = False
 		'
+		'BtnStore
+		'
+		resources.ApplyResources(Me.BtnStore, "BtnStore")
+		Me.BtnStore.Name = "BtnStore"
+		Me.BtnStore.UseVisualStyleBackColor = True
+		'
 		'Principal
 		'
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
 		resources.ApplyResources(Me, "$this")
+		Me.Controls.Add(Me.BtnStore)
 		Me.Controls.Add(Me.PictureBox1)
 		Me.Controls.Add(Me.ButtonActualizar)
 		Me.Controls.Add(Me.LblNotificacion)
@@ -924,4 +932,5 @@ Partial Class Principal
 	Friend WithEvents MnuEvolucionCuentas As Windows.Forms.ToolStripMenuItem
 	Friend WithEvents MnuEvolucionConceptos As Windows.Forms.ToolStripMenuItem
 	Friend WithEvents ToolStripSeparator4 As Windows.Forms.ToolStripSeparator
+	Friend WithEvents BtnStore As Windows.Forms.Button
 End Class

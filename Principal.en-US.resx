@@ -687,4 +687,10 @@ Microsoft Store, to continue.</value>
   <data name="MnuEvolucionConceptos.Text" xml:space="preserve">
     <value>Evolution of Expenses/Income by Concept to a Date</value>
   </data>
+  <data name="MsgSoftonic" xml:space="preserve">
+    <value>Thank you for trying our software! 
+This is a trial version limited to 25 notes. 
+If you need to make more registrations, you can take the leap
+to the premium version at any time.</value>
+  </data>
 </root>
