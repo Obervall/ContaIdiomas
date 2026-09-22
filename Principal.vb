@@ -343,15 +343,16 @@ Public Class Principal
             PictureBox1.Visible = False
         End If
 
-        '********************************================================****************************************
+        '********************************************************************************************************
         ' 🚀 ARRANQUE INTELIGENTE MODO MSIX CON PUENTE DE RESCATE (Sustitución de vRuta)
-        '****************================================================================================********
+        '********************************************************************************************************
         ' 1. Definimos la NUEVA RUTA oficial, libre de derechos, dentro de "Mis Documentos" (Recomendado para MSIX)
         Dim carpetaDocumentos As String = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
         Dim carpetaAppOficial As String = IO.Path.Combine(carpetaDocumentos, "ContaHogar3.0")
         Dim archivoBdDestino As String = IO.Path.Combine(carpetaAppOficial, "ContaHogar.mdb")
 
         ' 2. Capturamos milimétricamente tu RUTA ANTERIOR de AppData\Roaming para rescatar datos de usuarios viejos
+        ' 🌟 ESTO NO SE TOCA: Sigue rescatando a los usuarios que instalaron el antiguo .msi
         Dim appDataPathViejo As String = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
         Dim carpetaDBVieja As String = IO.Path.Combine(appDataPathViejo, "A.Oberholzer", "ContaHogar3.0")
         Dim archivoBdAppDataVieja As String = IO.Path.Combine(carpetaDBVieja, "ContaHogar.mdb")
@@ -363,26 +364,17 @@ Public Class Principal
             If Not Directory.Exists(carpetaAppOficial) Then
                 Directory.CreateDirectory(carpetaAppOficial)
             End If
-
         Catch ex As UnauthorizedAccessException
-            ' 🚨 EL CORTAFUEGOS DEL ANTIVIRUS: Si salta el bloqueo estricto de Windows o Windows Defender
             Dim msgAntivirus As String = "El antivirus o la protección de Windows está bloqueando el acceso a 'Mis Documentos'." & vbCrLf &
-                                         "Por favor, añade este programa a la lista de exclusiones o permite el acceso controlado a carpetas para poder usar " & resManager.GetString("AppDisplayName") & "."
-
-            ' Pescamos de forma segura la traducción si existe en tu ResX (Castellano / Catalán / Inglés)
+                                 "Por favor, añade este programa a la lista de exclusiones o permite el acceso controlado a carpetas para poder usar " & resManager.GetString("AppDisplayName") & "."
             If resManager IsNot Nothing Then
                 Dim tradAnti As String = resManager.GetString("Error_Permisos_Antivirus")
                 If Not String.IsNullOrEmpty(tradAnti) Then msgAntivirus = tradAnti
             End If
-
             MsgBox(msgAntivirus, MsgBoxStyle.Critical, resManager.GetString("ControlSeguridadWindows"))
-
-            ' Cerramos la aplicación de inmediato para evitar que intente operar sin permisos reales
             Application.Exit()
             Exit Sub
-
         Catch ex As Exception
-            ' Cortafuegos secundario dócil por si Mis Documentos estuviera restringido por OneDrive corporativo
             carpetaAppOficial = carpetaDocumentos
             archivoBdDestino = IO.Path.Combine(carpetaAppOficial, "ContaHogar.mdb")
         End Try
@@ -390,61 +382,48 @@ Public Class Principal
         ' =========================================================================
         ' 🎯 EL ESCUDO DE ACERO: BLINDAJE INTEGRAL CONTRA ACTUALIZACIONES
         ' =========================================================================
-        ' Lo primero que hace la CPU es comprobar si el usuario YA tiene una base de datos viva en Local
         If File.Exists(archivoBdDestino) Then
-
-            ' 🛡️ ¡EL CORTAFUEGOS INDESTRUCTIBLE! Si el archivo existe con sus apuntes, PROHIBIDO TOCAR NADA.
-            ' Forzamos la variable a False por seguridad, salvamos y pasamos de largo hacia la interfaz
+            ' 🛡️ Si el archivo existe con sus apuntes, PROHIBIDO TOCAR NADA.
             My.Settings.PrimerArranqueNuevaEra = False
             My.Settings.Save()
-
         Else
-            ' SÓLO si la ruta de destino está completamente vacía de verdad, evaluamos el Puente de Rescate
             Try
                 ' ESCENARIO B: ¿El usuario tiene un histórico real esperándole en Roaming de la era clásica?
+                ' 🌟 Tu puente sigue funcionando al 100%: si hay base de datos vieja, se copia esta primero.
                 If File.Exists(archivoBdAppDataVieja) Then
-                    ' El Puente muerde el anzuelo: pescamos sus apuntes históricos de la vieja escuela
-                    File.Copy(archivoBdAppDataVieja, archivoBdDestino, False) ' 🌟 False = Prohibido machacar si hubiera algo
-
-                    ' ESCENARIO A: Es un usuario nuevo o limpio. Sembramos la base de datos de fábrica
+                    File.Copy(archivoBdAppDataVieja, archivoBdDestino, False)
                 Else
-                    Dim archivoBdOrigenRuta As String = IO.Path.Combine(Application.StartupPath, "ContaHogar.mdb")
+                    ' ESCENARIO A: Es un usuario nuevo o limpio. Sembramos la base de datos de fábrica.
+                    ' 🚀 CAMBIO CLAVE: Usamos AppDomain para saltarnos la virtualización del MSIX de la Store.
+                    Dim archivoBdOrigenRuta As String = IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ContaHogar.mdb")
                     If File.Exists(archivoBdOrigenRuta) Then
-                        ' Sembramos la plantilla limpia de fábrica de forma dócil
-                        File.Copy(archivoBdOrigenRuta, archivoBdDestino, False) ' 🌟 False = Seguridad absoluta
+                        File.Copy(archivoBdOrigenRuta, archivoBdDestino, False)
                     End If
                 End If
 
-                ' Marcamos el chivato en la RAM y sellamos el disco duro al microsegundo
                 My.Settings.PrimerArranqueNuevaEra = False
                 My.Settings.Save()
-
             Catch ex As Exception
                 MsgBox(rmse.GetString("ErrorCriticoPuenteRescate") & ": " & ex.Message, MsgBoxStyle.Critical)
             End Try
         End If
 
-
         ' =========================================================================
         ' 🎯 5. SIEMBRA O ACTUALIZACIÓN AUTOMÁTICA DE MANUALES Y HISTORIAL (MSIX)
         ' =========================================================================
-        ' Metemos en una matriz el nombre exacto de tus 4 archivos PDF del taller
         Dim documentosPDF() As String = {"Ayuda_ContaHogar_ES.pdf", "Help_ContaHogar_EN.pdf", "Ajuda_ContaHogar_CAT.pdf", "Version.pdf"}
 
-        ' El programa pasa el rodillo por los 4 archivos en cada arranque de la RAM
         For Each nombrePDF As String In documentosPDF
-            Dim rutaOrigenFabrica As String = IO.Path.Combine(Application.StartupPath, nombrePDF)
+            ' 🚀 CAMBIO CLAVE: Cambiado de Application.StartupPath a AppDomain.CurrentDomain.BaseDirectory
+            Dim rutaOrigenFabrica As String = IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, nombrePDF)
             Dim rutaDestinoBunker As String = IO.Path.Combine(carpetaAppOficial, nombrePDF)
 
             Try
-                ' 🚀 LA CLAVE DE PRODUCCIÓN: Copiamos el PDF siempre que exista en el instalador.
-                ' Al estar en modo "Copiar siempre" en Visual Studio, si mañana actualizas un manual, 
-                ' el programa machacará el PDF viejo del usuario de forma 100% transparente.
                 If File.Exists(rutaOrigenFabrica) Then
                     File.Copy(rutaOrigenFabrica, rutaDestinoBunker, True)
                 End If
             Catch ex As Exception
-                ' Cortafuegos silencioso para que un bloqueo de archivo de un PDF no frene el arranque de la app
+                ' Cortafuegos silencioso
             End Try
         Next
 

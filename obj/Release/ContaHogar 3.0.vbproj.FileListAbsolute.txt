@@ -1,7 +1,3 @@
-C:\ComptaLlar\Hogar\bin\Release\ContaHogar.mdb
-C:\ComptaLlar\Hogar\bin\Release\x86\SqlServerSpatial170.dll
-C:\ComptaLlar\Hogar\bin\Release\x64\SqlServerSpatial170.dll
-C:\ComptaLlar\Hogar\bin\Release\arm64\SqlServerSpatial170.dll
 C:\ComptaLlar\Hogar\bin\Release\Ajuda_ContaHogar_CAT.pdf
 C:\ComptaLlar\Hogar\bin\Release\Ayuda_ContaHogar_ES.pdf
 C:\ComptaLlar\Hogar\bin\Release\Help_ContaHogar_EN.pdf
@@ -9,8 +5,12 @@ C:\ComptaLlar\Hogar\bin\Release\Manual_Importacion_Bancaria.pdf
 C:\ComptaLlar\Hogar\bin\Release\Manual_Import_Bank_Transactions.pdf
 C:\ComptaLlar\Hogar\bin\Release\Manual_Transaccions_Bancarias.pdf
 C:\ComptaLlar\Hogar\bin\Release\Version.pdf
-C:\ComptaLlar\Hogar\bin\Release\Logo ContaHogar.ico
+C:\ComptaLlar\Hogar\bin\Release\ContaHogar.mdb
 C:\ComptaLlar\Hogar\bin\Release\Politica de Privacidad.pdf
+C:\ComptaLlar\Hogar\bin\Release\x86\SqlServerSpatial170.dll
+C:\ComptaLlar\Hogar\bin\Release\x64\SqlServerSpatial170.dll
+C:\ComptaLlar\Hogar\bin\Release\arm64\SqlServerSpatial170.dll
+C:\ComptaLlar\Hogar\bin\Release\Logo ContaHogar.ico
 C:\ComptaLlar\Hogar\bin\Release\ContaHogar3.0.exe.config
 C:\ComptaLlar\Hogar\bin\Release\ContaHogar3.0.exe.manifest
 C:\ComptaLlar\Hogar\bin\Release\ContaHogar3.0.application
