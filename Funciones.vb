@@ -608,7 +608,7 @@ Module Funciones
                 .Columns(0).Width = 100
                 .Columns(0).HeaderText = resManager.GetString("Tipo") ' My.Resources.Recursos.Tipo
                 .Columns(1).Width = 200
-                .Columns(1).HeaderText = resManager.GetString("Codigo") ' My.Resources.Recursos.Codigo
+                .Columns(1).HeaderText = resManager.GetString("Concepto") ' My.Resources.Recursos.Concepto
                 .Columns(2).Width = 225
                 .Columns(2).HeaderText = resManager.GetString("Descripcion") ' My.Resources.Recursos.Descripcion
                 ' --- NUEVO: Hacemos que la columna 3 rellene el espacio restante del Grid ---
