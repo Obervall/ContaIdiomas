@@ -693,4 +693,7 @@ Questa è una versione di prova limitata a 25 biglietti.
 Se devi fare altre iscrizioni, puoi fare il salto
 Alla versione premium in qualsiasi momento.</value>
   </data>
+  <data name="BtnStore.Text" xml:space="preserve">
+    <value>Versione Premium</value>
+  </data>
 </root>

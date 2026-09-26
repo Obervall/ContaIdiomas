@@ -693,4 +693,7 @@ Il s’agit d’une version d’essai limitée à 25 notes.
 Si vous devez faire plus d’inscriptions, vous pouvez sauter le pas
 à la version premium à tout moment.</value>
   </data>
+  <data name="BtnStore.Text" xml:space="preserve">
+    <value>Premium Version</value>
+  </data>
 </root>

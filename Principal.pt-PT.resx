@@ -693,4 +693,7 @@ Esta é uma versão de teste limitada a 25 notas.
 Se precisares de fazer mais registos, podes dar o salto
 à versão premium a qualquer momento.</value>
   </data>
+  <data name="BtnStore.Text" xml:space="preserve">
+    <value>Versão Premium</value>
+  </data>
 </root>

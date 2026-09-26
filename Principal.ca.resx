@@ -8029,4 +8029,7 @@ Aquesta és una versió de prova limitada a 25 apunts.
 Si necessites fer més registres, pots fer el salt
 a la versió premium en qualsevol moment.</value>
   </data>
+  <data name="BtnStore.Text" xml:space="preserve">
+    <value>Versió Premium</value>
+  </data>
 </root>

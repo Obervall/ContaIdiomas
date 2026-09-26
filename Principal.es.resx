@@ -7825,4 +7825,7 @@ Esta es una versión trial limitada a 25 apuntes.
 Si necesita realizar más registros, puede dar el salto
 a la versión premium en cualquier momento.</value>
   </data>
+  <data name="BtnStore.Text" xml:space="preserve">
+    <value>Versión Premium</value>
+  </data>
 </root>

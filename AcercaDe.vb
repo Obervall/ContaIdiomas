@@ -17,6 +17,9 @@ Public Class AcercaDe
         Else
             LblVersion.Text = rmse.GetString("VersionInstalada") & ": " & My.Settings.Version
         End If
+
+        ' Al abrirse, el formulario lee la variable del módulo
+        BtnPayPal.Visible = MostrarBotonPayPal
     End Sub
 
     Private Sub BtnPrivacidad_Click(sender As Object, e As EventArgs) Handles BtnPrivacidad.Click
@@ -51,5 +54,9 @@ Public Class AcercaDe
             End If
             MsgBox(msgFalta & vbCrLf & ex.Message, vbExclamation, resManager.GetString("Aviso"))
         End Try
+    End Sub
+
+    Private Sub BtnPayPal_Click(sender As Object, e As EventArgs) Handles BtnPayPal.Click, BtnPayPal.Click
+        System.Diagnostics.Process.Start("https://www.paypal.com/donate/?hosted_button_id=EZCSRQ4QBPVZN")
     End Sub
 End Class

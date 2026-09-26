@@ -8015,4 +8015,7 @@ This is a trial version limited to 25 notes.
 If you need to make more registrations, you can take the leap
 to the premium version at any time.</value>
   </data>
+  <data name="BtnStore.Text" xml:space="preserve">
+    <value>Premium Version</value>
+  </data>
 </root>

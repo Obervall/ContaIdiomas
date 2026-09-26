@@ -266,8 +266,8 @@ Public Class Principal
 
             '🛡️ CONTROL PARA INSTALACIÓN TRADICIONAL (TUS CLIENTES VIP / .MSI)
             If Not esInstalacionStore Then
-                ' ¡MAESTRO! Al estar aquí dentro, Visual Studio solo ejecutará este chivato
-                ' si el programa corre fuera de la Store. ¡Cero comentarios manuales en el código!
+                'MsgBox("¡MAESTRO! Al estar aquí dentro, Visual Studio solo ejecutará este chivato si el programa corre fuera de la Store. ¡Cero comentarios manuales en el código!")
+                VisibleBtnPayPal()
                 VerificarActualizacionesVIP(Me)
                 'MsgBox("¡Bienvenido a ContaHogar 3.0 Premium!" & vbCrLf &
                 ' "Estás ejecutando la versión tradicional de instalación VIP (.msi)." & vbCrLf &

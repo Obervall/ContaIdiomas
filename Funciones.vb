@@ -98,10 +98,11 @@ Module Funciones
     Public vModoRepararDuplicados As String = "NO"
     Public mensajeReinicio As String
 	Public vEsVersionDemoSoftonic As Boolean
-	Public vDiasRestantesDemoSoftonic As Integer
+    Public vDiasRestantesDemoSoftonic As Integer
+    Public MostrarBotonPayPal As Boolean = False
 
 
-	Public Structure ElementoCombo
+    Public Structure ElementoCombo
         Public Property TextoMostrar As String  ' Lo que ve el usuario (ej: "Ausgaben")
         Public Property ValorInterno As String  ' Lo que va a la BD (ej: "GASTO")
 
@@ -3107,22 +3108,6 @@ Module Funciones
         frm.AcceptButton = btnSi
         frm.CancelButton = btnNo
 
-
-        '' --- Estética rápida y limpia impecable ---
-        'frm.Size = New Size(400, 160)
-        'frm.FormBorderStyle = FormBorderStyle.FixedDialog
-        'frm.MaximizeBox = False
-        'frm.MinimizeBox = False
-        'frm.StartPosition = FormStartPosition.CenterScreen
-
-        'lbl.SetBounds(20, 20, 350, 40)
-        'btnSi.SetBounds(180, 80, 90, 30)
-        'btnNo.SetBounds(280, 80, 90, 30)
-
-        'frm.Controls.AddRange(New Control() {lbl, btnSi, btnNo})
-        'frm.AcceptButton = btnSi
-        'frm.CancelButton = btnNo
-
         ' Mostramos la ventana de manera modal y capturamos la respuesta del usuario
         Dim resultado As DialogResult = frm.ShowDialog()
         frm.Dispose()
@@ -3638,6 +3623,17 @@ Module Funciones
         Return importeResultado
     End Function
 
+    Public Sub VisibleBtnPayPal()
+        Dim rutaEjecucion As String = AppDomain.CurrentDomain.BaseDirectory.ToLower()
+        Dim esInstalacionStore As Boolean = rutaEjecucion.Contains("windowsapps")
+        If Not esInstalacionStore Then
+            MostrarBotonPayPal = True
+        Else
+            MostrarBotonPayPal = False
+        End If
+    End Sub
+
+
     ''' <summary>
     ''' Comprueba en tu nube de pCloud si existe una nueva versión del MSI clásico para los usuarios VIP.
     ''' </summary>
@@ -3659,6 +3655,7 @@ Module Funciones
         ' para que los robots de Redmond no te metan un hachazo en la certificación.
 
         'MsgBox("Se ha detectado que estás ejecutando la versión VIP de ContaHogar 3.0. Se comprobará automáticamente si hay actualizaciones disponibles en tu nube pCloud.", MsgBoxStyle.Information, "Actualizador VIP")
+
         Try
             ' 1. Leemos el archivo de texto en tu servidor pCloud para pescar la versión
             Dim MyUrl As String = "https://filedn.eu/ljfTvwyEW2tVj4PWYI9927f/ContaHogar/Hogar2.txt"
