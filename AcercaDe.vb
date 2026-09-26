@@ -56,7 +56,8 @@ Public Class AcercaDe
         End Try
     End Sub
 
-    Private Sub BtnPayPal_Click(sender As Object, e As EventArgs) Handles BtnPayPal.Click, BtnPayPal.Click
+    Private Sub BtnPayPal_Click(sender As Object, e As EventArgs) Handles BtnPayPal.Click
         System.Diagnostics.Process.Start("https://www.paypal.com/donate/?hosted_button_id=EZCSRQ4QBPVZN")
+        ' Para modificar datos del enlace Dobate https://www.paypal.com/buttons/
     End Sub
 End Class

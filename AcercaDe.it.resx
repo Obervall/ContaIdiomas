@@ -151,4 +151,7 @@ Puoi inviare impressioni e suggerimenti a:
   <data name="BtnPrivacidad.Text" xml:space="preserve">
     <value>Informativa sulla privacy</value>
   </data>
+  <data name="BtnPayPal.Text" xml:space="preserve">
+    <value>Donazione</value>
+  </data>
 </root>

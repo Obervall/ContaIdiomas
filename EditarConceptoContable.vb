@@ -44,7 +44,7 @@ Public Class EditarConceptoContable
         ' 3. EVALUAR MODO (Editar o Eliminar) CON EXCEPCIÓN PARA "ESPECIAL"
         ' ======================================================================
         If vEditar = "SI" Then
-            TxtNombre.Enabled = False
+            'TxtNombre.Enabled = False
             ' Si es del sistema (ESPECIAL), bloqueamos su edición de raíz
             If tipoOriginalBD = "ESPECIAL" Then
                 TxtDescripcion.Enabled = False
@@ -57,7 +57,7 @@ Public Class EditarConceptoContable
                 BtnCancelar.Select()
             Else
                 ' Flujo normal para conceptos modificables del usuario
-                TxtDescripcion.Select()
+                TxtNombre.Select()
                 BtnEliminar.Enabled = False
             End If
         Else
@@ -114,11 +114,12 @@ Public Class EditarConceptoContable
         ' 3. CONFIGURAR EL UPDATE USANDO EL ID NUMÉRICO (Inmune a problemas de guiones)
         ' Si además quieres permitir que se edite el NOMBRE del concepto y se guarde con guion, usa la línea de abajo comentada.
         ' De momento, modificamos solo Descripción y Notas:
-        vtipoSql = "UPDATE conceptos SET DescripcionCON = ?, NotasCON = ? WHERE IdConceptoCON = ?"
+        vtipoSql = "UPDATE conceptos SET CodigoCON = ?, DescripcionCON = ?, NotasCON = ? WHERE IdConceptoCON = ?"
         cmdMdb1cr.CommandText = vtipoSql
 
-        ' En Access/OleDb el orden de los parámetros debe ser STABLE y EXACTO al del SQL
-        cmdMdb1cr.Parameters.Clear()
+		' En Access/OleDb el orden de los parámetros debe ser STABLE y EXACTO al del SQL
+		cmdMdb1cr.Parameters.Clear()
+        cmdMdb1cr.Parameters.AddWithValue("@CodigoCON", vTxtNombre)
         cmdMdb1cr.Parameters.AddWithValue("@DescripcionCON", vTxtDescripcion)
         cmdMdb1cr.Parameters.AddWithValue("@NotasCON", vTxtNotas)
         cmdMdb1cr.Parameters.AddWithValue("@IdConceptoCON", idConceptoModificar) ' Filtro WHERE

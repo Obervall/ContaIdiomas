@@ -151,4 +151,7 @@ Eindrücke und Anregungen können Sie senden an:
   <data name="BtnPrivacidad.Text" xml:space="preserve">
     <value>Datenschutzerklärung</value>
   </data>
+  <data name="BtnPayPal.Text" xml:space="preserve">
+    <value>Spende</value>
+  </data>
 </root>
