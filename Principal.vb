@@ -141,9 +141,9 @@ Public Class Principal
             If key IsNot Nothing Then
                 ' 1. COMPROBACIÓN DE LICENCIA COMPREDA (Nuestra primera batalla)
                 Dim esPremium As String = key.GetValue("LicenciaPremium")?.ToString()
-				If esPremium = "SI" Then
-					My.Settings.LicenciaActivada = True ' Restauramos el setting local al vuelo
-				End If
+                If esPremium = "SI" Then
+                    My.Settings.LicenciaActivada = True ' Restauramos el setting local al vuelo
+                End If
 
                 ' 2. RECUPERAR IDIOMA GUARDADO
                 ' Ya se hace en el constructor

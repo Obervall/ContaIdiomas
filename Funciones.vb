@@ -3638,12 +3638,19 @@ Module Funciones
     ''' Comprueba en tu nube de pCloud si existe una nueva versión del MSI clásico para los usuarios VIP.
     ''' </summary>
     Public Sub VerificarActualizacionesVIP(ByVal formularioPadre As Form)
-		' 🚨 EL CORTAFUEGOS DE LA STORE: Si por error se ejecuta en el MSIX, salimos de inmediato
-#If CONFIG = "ReleaseStore" Then
-            Exit Sub
+        ' 🚨 EL CORTAFUEGOS DE PRUEBAS (DEBUG): 
+        ' Si estás programando y pulsas F5, salimos de inmediato.
+#If DEBUG Then
+        Exit Sub
 #End If
+        ' 🚨 EL CORTAFUEGOS DE LA STORE (MSIX):
+        ' Detecta si el programa se está ejecutando desde la carpeta de la Store (WindowsApps)
+        Dim rutaEjecutable As String = AppDomain.CurrentDomain.BaseDirectory.ToLower()
+        If rutaEjecutable.Contains("windowsapps") Then
+            Exit Sub
+        End If
 
-		If vEsVersionDemoSoftonic = True Then
+        If vEsVersionDemoSoftonic = True Then
             'MsgBox("Actualizador VIP Desactivado", MsgBoxStyle.Information, resManager.GetString("AppDisplayName"))
             Exit Sub
         End If
@@ -3705,7 +3712,8 @@ Module Funciones
                 End If
             End If
         Catch ex As Exception
-            ' Cortafuegos silencioso: Si falla el pCloud o no hay red, abre dócil sin pitar
+            ' Evita que un error de red o de pCloud cuelgue la aplicación del usuario
+            System.Diagnostics.Debug.WriteLine("Error en Actualizador VIP: " & ex.Message)
         End Try
     End Sub
 
