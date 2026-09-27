@@ -388,9 +388,9 @@ Public Class TipoCuentaBancaria
         ' 5. CONFIRMACIÓN Y EJECUCIÓN DEL BORRADO POR ID
         ' =========================================================================
         Dim msgConfirmar As String = rmse.GetString("SeguroEliminar") & ": " & textoTraducido & "?"
-        Dim respuesta As DialogResult = MessageBox.Show(msgConfirmar, rmse.GetString("ConfirmarBorrado"), MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2)
+        Dim respuesta As MsgBoxResult = ConfirmarAccionTraducida(msgConfirmar, rmse.GetString("ConfirmarBorrado"))
 
-        If respuesta = DialogResult.Yes Then
+        If respuesta = vbYes Then
             ' Diseñamos la consulta limpia apuntando a la clave inalterable IdTipoCUE
             Dim vtipoSql As String = "DELETE FROM tipocuentas WHERE IdTipoCUE = ?"
             cmdMdb1cr.CommandText = vtipoSql

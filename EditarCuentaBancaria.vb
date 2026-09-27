@@ -235,7 +235,7 @@ Public Class EditarCuentaBancaria
                 "2. - " & otroNombre.ToUpper() & " -" & vbCrLf & vbCrLf &
                 "¿Está seguro de que desea eliminar ÚNICAMENTE la cuenta seleccionada: - " & vTxtNombre.ToUpper() & " - y conservar la otra con sus apuntes?"
 
-                Dim respuestaDuplicado As MsgBoxResult = MsgBoxTraductorGlobal.MsgBox(mensajePregunta, MsgBoxStyle.YesNo + MsgBoxStyle.Information, rmse.GetString("LblEliminando"))
+                Dim respuestaDuplicado As MsgBoxResult = ConfirmarAccionTraducida(mensajePregunta, rmse.GetString("LblEliminando"))
 
                 ' Si el usuario se arrepiente, abortamos la operación de forma segura
                 If respuestaDuplicado = vbNo Then Exit Sub
@@ -358,6 +358,7 @@ Public Class EditarCuentaBancaria
         Catch ex As Exception
             MsgBox(resManager.GetString("ErrorGeneral") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
+        Close()
     End Sub
 
     Private Sub BtnCancelar_Click(sender As Object, e As EventArgs) Handles BtnCancelar.Click
