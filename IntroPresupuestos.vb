@@ -178,9 +178,9 @@ Public Class IntroPresupuestos
                                        TxtJulio, TxtAgosto, TxtSeptiembre, TxtOctubre, TxtNoviembre, TxtDiciembre}
 
         For Each txt In cajasMeses
-            txt.Text = "0,00"
+            txt.Text = CeroFormateado
         Next
-        TxtAnual.Text = "0,00"
+        TxtAnual.Text = CeroFormateado
 
         ' Array local para almacenar y comparar los 12 meses en memoria
         Dim importesMensuales(11) As Double
@@ -414,6 +414,11 @@ Public Class IntroPresupuestos
         End If
     End Sub
 
+    ' Función auxiliar rápida para acumular los valores
+    Private Sub PointToSuma(ByRef total As Double, valor As Double)
+        total += valor
+    End Sub
+
     Private Sub CalcularSumaMensualidades()
         ' Solo actuamos si está seleccionada la opción de introducción Mensual
         If RdbMensual.Checked Then
@@ -421,7 +426,7 @@ Public Class IntroPresupuestos
 
             ' 1. Creamos un array en caliente con tus 12 cajas mensuales del formulario
             Dim cajasMeses As TextBox() = {TxtEnero, TxtFebrero, TxtMarzo, TxtAbril, TxtMayo, TxtJunio,
-                                           TxtJulio, TxtAgosto, TxtSeptiembre, TxtOctubre, TxtNoviembre, TxtDiciembre}
+                                       TxtJulio, TxtAgosto, TxtSeptiembre, TxtOctubre, TxtNoviembre, TxtDiciembre}
 
             ' 2. El bucle maestro recorre las cajas y acumula los importes de forma 100% segura
             For Each txt In cajasMeses
@@ -434,19 +439,17 @@ Public Class IntroPresupuestos
 
             ' 3. Mostramos el resultado totalizado con formato contable de dos decimales
             TxtAnual.Text = sumaAcumulada.ToString("N2")
+        Else
+            ' 🌟 CONSISTENCIA GLOBAL: Si no es mensual, inicializamos el total anual con el cero del idioma correcto
+            TxtAnual.Text = CeroFormateado
         End If
-    End Sub
-
-    ' Función auxiliar rápida para acumular los valores
-    Private Sub PointToSuma(ByRef total As Double, valor As Double)
-        total += valor
     End Sub
 
     ' Enlazamos las 12 cajas al mismo evento para ahorrar código (Tu excelente arquitectura)
     Private Sub TxtMeses_Leave(sender As Object, e As EventArgs) Handles _
-    TxtEnero.Leave, TxtFebrero.Leave, TxtMarzo.Leave, TxtAbril.Leave,
-    TxtMayo.Leave, TxtJunio.Leave, TxtJulio.Leave, TxtAgosto.Leave,
-    TxtSeptiembre.Leave, TxtOctubre.Leave, TxtNoviembre.Leave, TxtDiciembre.Leave
+TxtEnero.Leave, TxtFebrero.Leave, TxtMarzo.Leave, TxtAbril.Leave,
+TxtMayo.Leave, TxtJunio.Leave, TxtJulio.Leave, TxtAgosto.Leave,
+TxtSeptiembre.Leave, TxtOctubre.Leave, TxtNoviembre.Leave, TxtDiciembre.Leave
 
         ' 🌟 ESCUDO PROTECTOR AUTOMÁTICO: Si la pantalla está inyectando datos desde el Load, pasamos de largo
         If cargandoFormulario Then Exit Sub
@@ -454,11 +457,15 @@ Public Class IntroPresupuestos
         Dim txt As TextBox = CType(sender, TextBox)
         Dim valor As Decimal = 0
 
-        ' 🌟 CORRECCIÓN DE PRECISIÓN: Damos formato contable exacto usando Decimal
-        If Decimal.TryParse(txt.Text.Trim(), valor) Then
+        ' 🌟 PRIMERA BARRERA: Si la caja está vacía o solo tiene espacios, aplicamos el Cero Global directamente
+        If String.IsNullOrWhiteSpace(txt.Text) Then
+            txt.Text = CeroFormateado
+            ' 🌟 SEGUNDA BARRERA: Si tiene un número, le aplicamos el formato con miles según el idioma del sistema
+        ElseIf Decimal.TryParse(txt.Text.Trim(), valor) Then
             txt.Text = valor.ToString("N2")
+            ' 🌟 TERCERA BARRERA: Si metieron letras o caracteres extraños, restauramos al Cero Global
         Else
-            txt.Text = "0,00"
+            txt.Text = CeroFormateado
         End If
 
         ' Recalculamos el total anual reflejado en la pantalla de forma legal y segura

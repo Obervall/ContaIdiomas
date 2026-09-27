@@ -276,7 +276,7 @@ Public Class SeleccionFechas
             ' =========================================================================
             ' VALIDACIÓN SEGURA PARA LA CELDA 3 (REMPLAZA TU LÍNEA ANTERIOR)
             ' =========================================================================
-            Dim textoImporte As String = "0,00"
+            Dim textoImporte As String = CeroFormateado
 
             If frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(3).Value IsNot DBNull.Value AndAlso frmImprimirForm.DgvApuntes.Rows(PrintLine).Cells(3).Value IsNot Nothing Then
 

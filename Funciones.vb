@@ -100,7 +100,8 @@ Module Funciones
 	Public vEsVersionDemoSoftonic As Boolean
     Public vDiasRestantesDemoSoftonic As Integer
     Public MostrarBotonPayPal As Boolean = False
-
+    ' Esta variable guardará el "cero" con el formato correcto del sistema (0,00 o 0.00)
+    Public ReadOnly CeroFormateado As String = (0.0).ToString("N2")
 
     Public Structure ElementoCombo
         Public Property TextoMostrar As String  ' Lo que ve el usuario (ej: "Ausgaben")
@@ -1056,72 +1057,115 @@ Module Funciones
     End Sub
 
     Public Function DgvCuentasBancarias()
-        frmCuentasBancarias.TxtIngresos.Text = ""
-        frmCuentasBancarias.TxtGastos.Text = ""
-        frmCuentasBancarias.TxtSaldo.Text = ""
+        ' Usamos tu nueva variable global para limpiar los textos de forma internacional
+        frmCuentasBancarias.TxtIngresos.Text = CeroFormateado
+        frmCuentasBancarias.TxtGastos.Text = CeroFormateado
+        frmCuentasBancarias.TxtSaldo.Text = CeroFormateado
+
         Dim vNumRegistros As String = frmCuentasBancarias.DgvCuentas.Rows.Count.ToString
         frmCuentasBancarias.TxtNumRegistros.Text = vNumRegistros
+
         If frmCuentasBancarias.BtnFiltroTipoCuenta.Enabled = False Then
             frmCuentasBancarias.LblNumRegistros.Text = resManager.GetString("Filtrado")
         Else
             frmCuentasBancarias.LblNumRegistros.Text = resManager.GetString("SinFiltrar")
         End If
+
         vIngresos = 0
         vGastos = 0
         vValor = 0
+
+        ' El bucle se queda, pero SOLO para sumar los totales de la pantalla
         For Each fila As DataGridViewRow In frmCuentasBancarias.DgvCuentas.Rows
-            If fila.Cells(3).Value >= 0 Then
-                vIngresos += fila.Cells(3).Value
-                fila.Cells(3).Style.ForeColor = System.Drawing.Color.DarkBlue
-                frmCuentasBancarias.TxtIngresos.Text = Format(Math.Abs(vIngresos).ToString("N2"))
-            Else
-                vGastos += fila.Cells(3).Value
-                fila.Cells(3).Style.ForeColor = System.Drawing.Color.IndianRed
-                frmCuentasBancarias.TxtGastos.Text = Format(Math.Abs(vGastos).ToString("N2"))
+            ' Verificación de seguridad por si hay filas vacías al final
+            If fila.Cells(3).Value IsNot Nothing AndAlso Not IsDBNull(fila.Cells(3).Value) Then
+                Dim valorCelda As Decimal = Convert.ToDecimal(fila.Cells(3).Value)
+
+                If valorCelda >= 0 Then
+                    vIngresos += valorCelda
+                Else
+                    vGastos += valorCelda
+                End If
             End If
         Next
+
+        ' Asignamos los textos al final del bucle (esto hace que la pantalla cargue mucho más rápido)
+        frmCuentasBancarias.TxtIngresos.Text = vIngresos.ToString("N2")
+        frmCuentasBancarias.TxtGastos.Text = vGastos.ToString("N2") ' Se quitó Math.Abs para que se vea el signo menos (-)
+
         vSaldo = vIngresos + vGastos
-        frmCuentasBancarias.TxtSaldo.Text = Format(Math.Abs(vSaldo).ToString("N2"))
+        frmCuentasBancarias.TxtSaldo.Text = vSaldo.ToString("N2") ' Muestra el saldo real neto
+
+        ' Pintamos el TxtSaldo final según corresponda
+        If vSaldo >= 0 Then
+            frmCuentasBancarias.TxtSaldo.ForeColor = System.Drawing.Color.DarkBlue
+        Else
+            frmCuentasBancarias.TxtSaldo.ForeColor = System.Drawing.Color.IndianRed
+        End If
+
         Return vValor
     End Function
 
-    Public Function DgvApuntesContables(vFila1, vFila2)
+    Public Function DgvApuntesContables(vFila1 As Integer, vFila2 As Integer) As Double
         ' En esta función se calcula el Saldo de cada Apunte y el Saldo Total, además de los Totales de Ingresos y Gastos.
-        frmApuntesContables.TxtIngresos.Text = ""
-        frmApuntesContables.TxtGastos.Text = ""
-        frmApuntesContables.TxtSaldo.Text = ""
+        Dim valorCero As Double = 0
+        frmApuntesContables.TxtIngresos.Text = CeroFormateado
+        frmApuntesContables.TxtGastos.Text = CeroFormateado
+        frmApuntesContables.TxtSaldo.Text = CeroFormateado
+
         Dim vNumRegistros As String = frmApuntesContables.DgvApuntes.Rows.Count.ToString
         frmApuntesContables.TxtNumRegistros.Text = vNumRegistros
+
         If frmApuntesContables.BtnFiltroCuenta.Enabled = False Or frmApuntesContables.BtnFiltroConcepto.Enabled = False Or frmApuntesContables.BtnFiltroFecha.Enabled = False Then
             frmApuntesContables.LblNumRegistros.Text = resManager.GetString("Filtrado")
         Else
             frmApuntesContables.LblNumRegistros.Text = resManager.GetString("SinFiltrar")
         End If
+
         vIngresos = 0
         vGastos = 0
         vValor = 0
+
         For Each fila As DataGridViewRow In frmApuntesContables.DgvApuntes.Rows
-            vSaldo = fila.Cells(vFila1).Value + vValor
+            ' Calculamos el saldo de la fila sumando el apunte actual (positivo o negativo) al saldo acumulado anterior
+            vSaldo = Convert.ToDouble(fila.Cells(vFila1).Value) + vValor
             fila.Cells(vFila2).Value = vSaldo
-            vValor = fila.Cells(4).Value
-            If fila.Cells(vFila1).Value >= 0 Then
-                vIngresos += fila.Cells(vFila1).Value
+
+            ' Guardamos el saldo actual en vValor para que la siguiente fila lo use como saldo anterior
+            vValor = Convert.ToDouble(fila.Cells(vFila2).Value)
+
+            ' Separamos si es Ingreso (positivo) o Gasto (negativo) para los totales
+            If Convert.ToDouble(fila.Cells(vFila1).Value) >= 0 Then
+                vIngresos += Convert.ToDouble(fila.Cells(vFila1).Value)
                 fila.Cells(vFila1).Style.ForeColor = System.Drawing.Color.DarkBlue
-                frmApuntesContables.TxtIngresos.Text = Format(Math.Abs(vIngresos).ToString("N2"))
             Else
-                vGastos += fila.Cells(vFila1).Value
+                vGastos += Convert.ToDouble(fila.Cells(vFila1).Value)
                 fila.Cells(vFila1).Style.ForeColor = System.Drawing.Color.IndianRed
-                frmApuntesContables.TxtGastos.Text = Format(Math.Abs(vGastos).ToString("N2"))
             End If
-            If fila.Cells(vFila2).Value >= 0 Then
+
+            ' Pintamos el saldo de la fila en azul (positivo) o rojo (negativo)
+            If vSaldo >= 0 Then
                 fila.Cells(vFila2).Style.ForeColor = System.Drawing.Color.DarkBlue
             Else
                 fila.Cells(vFila2).Style.ForeColor = System.Drawing.Color.IndianRed
             End If
         Next
-        frmApuntesContables.TxtSaldo.Text = Format(Math.Abs(vValor).ToString("N2"))
+
+        ' Asignamos los totales finales a los cuadros de texto con formato de dos decimales
+        frmApuntesContables.TxtIngresos.Text = vIngresos.ToString("N2")
+        frmApuntesContables.TxtGastos.Text = vGastos.ToString("N2")
+        frmApuntesContables.TxtSaldo.Text = vValor.ToString("N2")
+
+        ' Cambiamos el color del TxtSaldo según el resultado final
+        If vValor >= 0 Then
+            frmApuntesContables.TxtSaldo.ForeColor = System.Drawing.Color.DarkBlue
+        Else
+            frmApuntesContables.TxtSaldo.ForeColor = System.Drawing.Color.IndianRed
+        End If
+
         Return vValor
     End Function
+
 
     Public Function DgvApuntesPeriodicos()
         ' En esta función se calcula el Saldo de cada Apunte y el Saldo Total del Periodo, además de los Totales de Ingresos y Gastos.

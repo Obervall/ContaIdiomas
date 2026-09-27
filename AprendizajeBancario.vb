@@ -127,7 +127,7 @@ Public Class AprendizajeBancario
         Label9.Text = vMoneda
 
         If vSaldoFinal = 0 Then
-            TxtSaldoFinal.Text = "0,00"
+            TxtSaldoFinal.Text = CeroFormateado
         Else
             TxtSaldoFinal.Text = vSaldoFinal.ToString("N2")
         End If

@@ -103,6 +103,13 @@ Public Class CuentasBancarias
                 ' Formateamos el texto final que verá el usuario con sus puntos de miles y comas
                 e.Value = valorNumerico.ToString("N2")
 
+                ' 🌟 SOLUCIÓN AL ORDENAR: Pintamos la celda en tiempo real según su valor matemático
+                If valorNumerico >= 0 Then
+                    e.CellStyle.ForeColor = System.Drawing.Color.DarkBlue
+                Else
+                    e.CellStyle.ForeColor = System.Drawing.Color.IndianRed
+                End If
+
                 ' Le indicamos al Grid que la visualización ya está controlada
                 e.FormattingApplied = True
             Catch
@@ -110,6 +117,7 @@ Public Class CuentasBancarias
             End Try
         End If
     End Sub
+
 
     Private Sub BtnFiltroTipoCuenta_Click(sender As Object, e As EventArgs) Handles BtnFiltroTipoCuenta.Click
         BtnFiltroTipoCuenta.Enabled = False
@@ -787,7 +795,7 @@ Public Class CuentasBancarias
             e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(2).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto3.Left, startY)
             'e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(3).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto5.Right + 40, startY, sf)
             Dim valorCelda As Object = frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(3).Value
-            Dim saldoFinalTexto As String = If(valorCelda IsNot Nothing AndAlso Not IsDBNull(valorCelda), Convert.ToDecimal(valorCelda).ToString("N2"), "0,00")
+            Dim saldoFinalTexto As String = If(valorCelda IsNot Nothing AndAlso Not IsDBNull(valorCelda), Convert.ToDecimal(valorCelda).ToString("N2"), CeroFormateado)
 
             e.Graphics.DrawString(saldoFinalTexto, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto5.Right + 40, startY, sf)
 
