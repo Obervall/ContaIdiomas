@@ -91,15 +91,25 @@ Public Class EditarCuentaBancaria
             Exit Sub
         End Try
 
-        ' EXTRAEMOS EL VALOR INTERNO ORIGINAL PARA LA BASE DE DATOS
+        ' =========================================================================
+        ' 3. OBTENER EL ID NUMÉRICO REAL DIRECTAMENTE DEL COMBOBOX (CORREGIDO)
+        ' =========================================================================
+        Dim vIdTipoCUE As Integer = 0
+
         If CmbTipoCuenta.SelectedItem IsNot Nothing Then
-            Dim itemSeleccionado As ElementoCombo = CType(CmbTipoCuenta.SelectedItem, ElementoCombo)
-            vTxtTipo = itemSeleccionado.ValorInterno
+            ' Como ElementoCombo es una Structure, usamos DirectCast para desempaquetarlo de forma segura
+            Dim itemSeleccionado = DirectCast(CmbTipoCuenta.SelectedItem, ElementoCombo)
+
+            ' 🌟 ¡AQUÍ ESTÁ LA MAGIA!: ValorInterno ya contiene el ID numérico (1, 3, 4...), no hace falta hacer ningún SELECT
+            vIdTipoCUE = Convert.ToInt32(itemSeleccionado.ValorInterno)
         Else
-            vTxtTipo = ""
+            ' Valor por defecto seguro en caso de que no haya nada seleccionado
+            vIdTipoCUE = 1
         End If
 
-        Dim vIdTipoCUE As Integer = 0
+        ' Modificar Registro
+        '*******************
+
         If Not String.IsNullOrEmpty(vTxtTipo) Then
 
             ' 1. Normalizamos la cadena directamente en VB.NET (quitamos todos los espacios)

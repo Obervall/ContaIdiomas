@@ -56,11 +56,6 @@ Public Class CuentasBancarias
         CmbTipoCuenta.DropDownStyle = ComboBoxStyle.DropDownList
         CmbTipoCuenta.SelectedIndex = 0
 
-        CargarComboTipoCuentaGlobal(Me.CmbTipoCuenta)
-
-        CmbTipoCuenta.DropDownStyle = ComboBoxStyle.DropDownList
-        CmbTipoCuenta.SelectedIndex = 0
-
         CargarCuentasBancarias()
 
         ' Llenar el Combo Campos

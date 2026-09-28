@@ -1356,7 +1356,8 @@ Module Funciones
     ''' <param name="combo">El control ComboBox que se quiere rellenar</param>
     Public Sub CargarComboTipoCuentaGlobal(ByVal combo As ComboBox)
         Dim textoTraducido As String = ""
-        cmdMdb1cr.CommandText = "SELECT tipocuentas.CodigoTIP FROM tipocuentas ORDER BY tipocuentas.CodigoTIP ASC"
+        ' 🌟 CORRECCIÓN 1: Añadimos IdTipoCUE a la consulta SQL
+        cmdMdb1cr.CommandText = "SELECT tipocuentas.CodigoTIP, tipocuentas.IdTipoCUE FROM tipocuentas ORDER BY tipocuentas.CodigoTIP ASC"
         Try
             Dim indiceSeleccionado As Integer = combo.SelectedIndex
             Dim historialSeguimiento As String = "--- HISTORIAL DE TRADUCCIONES ---" & vbNewLine
@@ -1365,27 +1366,23 @@ Module Funciones
             If drMdb1.HasRows Then
                 While drMdb1.Read()
                     Dim valorBD As String = drMdb1.GetValue(0).ToString().Trim()
+                    ' 🌟 CORRECCIÓN 2: Extraemos el ID numérico real de la segunda columna
+                    Dim idRealBD As Integer = Convert.ToInt32(drMdb1.GetValue(1))
 
                     textoTraducido = resManager.GetString(valorBD)
                     If String.IsNullOrEmpty(textoTraducido) Then
                         textoTraducido = valorBD
                     End If
 
-                    ' ===================================================================
-                    ' EL ÚNICO CAMBIO: En vez de combo.Items.Add(textoTraducido)
-                    ' Guardamos el objeto híbrido con su valor original de Access
-                    ' ===================================================================
+                    ' 🌟 CORRECCIÓN 3: Guardamos el ID numérico real en ValorInterno
                     Dim elemento As New ElementoCombo With {
                     .TextoMostrar = textoTraducido,
-                    .ValorInterno = valorBD
+                    .ValorInterno = idRealBD
                 }
                     combo.Items.Add(elemento)
-                    ' ===================================================================
 
-                    historialSeguimiento &= $"BD:  {valorBD} -> Trad: {textoTraducido}" & vbNewLine
+                    historialSeguimiento &= $"BD: {valorBD} (ID: {idRealBD}) -> Trad: {textoTraducido}" & vbNewLine
                 End While
-
-                'MsgBox(historialSeguimiento, MsgBoxStyle.Information, "Resumen de Carga")
 
                 If indiceSeleccionado >= 0 AndAlso indiceSeleccionado < combo.Items.Count Then
                     combo.SelectedIndex = indiceSeleccionado

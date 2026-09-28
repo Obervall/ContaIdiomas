@@ -116,10 +116,15 @@ Public Class NuevaCuentaBancaria
         End Try
 
         ' =========================================================================
-        ' 3. OBTENER EL ID NUMÉRICO DEL TIPO DE CUENTA SELECCIONADO
+        ' 3. OBTENER EL ID NUMÉRICO DEL TIPO DE CUENTA SELECCIONADO (CORREGIDO)
         ' =========================================================================
-        ' Como la base de datos ahora guarda números enteros en TipoCUE, le sumamos 1 a la posición del ComboBox
-        Dim idTipoCuentaMDB As Integer = CmbTipoCuenta.SelectedIndex + 1
+        Dim idTipoCuentaMDB As Integer = 1 ' Valor por defecto seguro
+
+        If CmbTipoCuenta.SelectedItem IsNot Nothing Then
+            ' Usamos DirectCast en lugar de TryCast para evitar el error de tipo por valor
+            Dim elementoSeleccionado = DirectCast(CmbTipoCuenta.SelectedItem, ElementoCombo)
+            idTipoCuentaMDB = Convert.ToInt32(elementoSeleccionado.ValorInterno)
+        End If
 
         ' =========================================================================
         ' 4. CALCULAR EL SIGUIENTE ID DISPONIBLE PARA LA CUENTA (MAX + 1)

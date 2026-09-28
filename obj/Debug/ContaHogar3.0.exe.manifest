@@ -98,7 +98,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>byfsH/G+QFzosmVaoy6IQYrwpT8hRUY+AZunQFI3XJE=</dsig:DigestValue>
+        <dsig:DigestValue>kUMGFkgh269q8gI0q0oiOHAucrXxRQc238HVafImxTU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -110,7 +110,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>N3dWPoYucBr4CWY6YFdAdrDh/wEMK2RPcM8nSEGJQ1A=</dsig:DigestValue>
+        <dsig:DigestValue>HmtLJ6uZ/Z3GT1O6msPzDo7DonEbPM7Fx4zFpvMDKco=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -894,13 +894,13 @@
       <dsig:DigestValue>JQ/WH7TxU0FmH4jmjhaVHOPTy+ouYrNsBbLDnZjc9Ks=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Version.pdf" size="4847617">
+  <file name="Version.pdf" size="4847950">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>VQSEE2Poll/oTz+WCuKL1ygWt9QedJgFA+9nLSCJdK8=</dsig:DigestValue>
+      <dsig:DigestValue>fweoDclTAGF/42/gh2q2i5FUBZsK7d0+elgsm4trFOU=</dsig:DigestValue>
     </hash>
   </file>
   <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
