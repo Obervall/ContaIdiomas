@@ -83,6 +83,7 @@ Partial Class ApuntesContables
 		Me.LblApuntes = New System.Windows.Forms.Label()
 		Me.ListBox1 = New System.Windows.Forms.ListBox()
 		Me.PrintDocument1 = New System.Drawing.Printing.PrintDocument()
+		Me.Label2 = New System.Windows.Forms.Label()
 		Me.GroupBox1.SuspendLayout()
 		Me.GroupBox2.SuspendLayout()
 		Me.GroupBox3.SuspendLayout()
@@ -494,10 +495,17 @@ Partial Class ApuntesContables
 		Me.ListBox1.Name = "ListBox1"
 		Me.ListBox1.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
 		'
+		'Label2
+		'
+		resources.ApplyResources(Me.Label2, "Label2")
+		Me.Label2.ForeColor = System.Drawing.Color.DimGray
+		Me.Label2.Name = "Label2"
+		'
 		'ApuntesContables
 		'
 		resources.ApplyResources(Me, "$this")
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
+		Me.Controls.Add(Me.Label2)
 		Me.Controls.Add(Me.BtnSalir)
 		Me.Controls.Add(Me.GroupBox3)
 		Me.Controls.Add(Me.GroupBox2)
@@ -593,4 +601,5 @@ Partial Class ApuntesContables
 	Public WithEvents BtnTraspasarRegistro As Windows.Forms.Button
 	Public WithEvents BtnImportarBanco As Windows.Forms.Button
 	Friend WithEvents BtnManualBancarioPdf As Windows.Forms.Button
+	Friend WithEvents Label2 As Windows.Forms.Label
 End Class

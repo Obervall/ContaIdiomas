@@ -287,4 +287,7 @@ Se precisar de ajuda, toque no botão PDF ao lado.</value>
   <data name="ToolTipManualBancarioPdf" xml:space="preserve">
     <value>Baixar o Manual de Ajuda</value>
   </data>
+  <data name="Label2.Text" xml:space="preserve">
+    <value>* Clique com o botão direito em uma descrição para filtrar - F6 para remover os filtros.</value>
+  </data>
 </root>

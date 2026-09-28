@@ -1913,6 +1913,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Filtrar por {0}....
+    '''</summary>
+    Friend Shared ReadOnly Property MenuFiltrarPor() As String
+        Get
+            Return ResourceManager.GetString("MenuFiltrarPor", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Meses.
     '''</summary>
     Friend Shared ReadOnly Property Meses() As String
@@ -1990,6 +1999,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property MsgFila2() As String
         Get
             Return ResourceManager.GetString("MsgFila2", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Modifica el texto para buscar coincidencias..
+    '''</summary>
+    Friend Shared ReadOnly Property MsgFiltrarDescripcion() As String
+        Get
+            Return ResourceManager.GetString("MsgFiltrarDescripcion", resourceCulture)
         End Get
     End Property
     
@@ -2573,6 +2591,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property TituloBorradoFinalizado() As String
         Get
             Return ResourceManager.GetString("TituloBorradoFinalizado", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Filtrar por Descripción.
+    '''</summary>
+    Friend Shared ReadOnly Property TituloFiltro() As String
+        Get
+            Return ResourceManager.GetString("TituloFiltro", resourceCulture)
         End Get
     End Property
     

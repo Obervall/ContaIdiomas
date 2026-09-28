@@ -1080,4 +1080,13 @@ Multi-language support, get ContaHogar 3.0 Premium in the Microsoft Store.</valu
   <data name="ErrorLeerEjercicios" xml:space="preserve">
     <value>Error when reading exercises</value>
   </data>
+  <data name="MenuFiltrarPor" xml:space="preserve">
+    <value>Filter by {0}...</value>
+  </data>
+  <data name="MsgFiltrarDescripcion" xml:space="preserve">
+    <value>Modify the text to find matches.</value>
+  </data>
+  <data name="TituloFiltro" xml:space="preserve">
+    <value>Filter by Description</value>
+  </data>
 </root>

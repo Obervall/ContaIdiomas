@@ -16,6 +16,8 @@ Public Class ApuntesContables
     Public x, y, z, filaInicio, colFecha, colConcepto, colImporte, idBanco, colSaldo As Integer
     Public TL(29) As ToolTip
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
+    Private menuFiltro As New ContextMenuStrip()
+    Private descripcionAFiltrar As String = ""
 
     ' Método recursivo para actualizar la fuente de todos los controles
     Private Sub CambiarTamañoFuente(ByVal controles As Control.ControlCollection, ByVal nuevoTamaño As Single)
@@ -32,6 +34,14 @@ Public Class ApuntesContables
 
     Private Sub ApuntesContables_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
+
+        ' Creamos la opción genérica en el menú
+        Dim itemFiltrar As New ToolStripMenuItem()
+
+        ' Enlazamos la acción del clic
+        AddHandler itemFiltrar.Click, AddressOf FiltrarPorDescripcion_Click
+        menuFiltro.Items.Add(itemFiltrar)
+
 
         ' 1. Convertimos el año de texto a un número entero de forma segura
         Dim anio As Integer
@@ -2806,5 +2816,106 @@ Public Class ApuntesContables
         End Try
     End Sub
 
+    Private Sub DgvApuntes_CellMouseDown(sender As Object, e As DataGridViewCellMouseEventArgs) Handles DgvApuntes.CellMouseDown
+        If e.Button = MouseButtons.Right AndAlso e.RowIndex >= 0 AndAlso e.ColumnIndex = 2 Then
+
+            DgvApuntes.ClearSelection()
+            DgvApuntes.Rows(e.RowIndex).Selected = True
+
+            ' Guardamos el texto completo original de la celda (2)
+            descripcionAFiltrar = DgvApuntes.Rows(e.RowIndex).Cells(2).Value.ToString().Trim()
+
+            ' 1. Dinamizamos el texto del menú según el idioma de la cabecera usando el resManager
+            Dim textoCabecera As String = DgvApuntes.Columns(2).HeaderText
+
+            ' 2. Leemos la plantilla del recurso (ej: "Filtrar por {0}...")
+            Dim plantillaMenu As String = resManager.GetString("MenuFiltrarPor")
+
+            ' 3. Reemplazamos el {0} por el nombre de tu columna traducida ("Descripción", "Descripció", etc.)
+            menuFiltro.Items(0).Text = String.Format(plantillaMenu, textoCabecera)
+
+            menuFiltro.Show(Cursor.Position)
+        End If
+    End Sub
+
+    Private Sub FiltrarPorDescripcion_Click(sender As Object, e As EventArgs)
+        ' 1. Recuperamos los textos traducidos desde tu resManager
+        Dim mensajeInput As String = resManager.GetString("MsgFiltrarDescripcion")
+        Dim tituloInput As String = resManager.GetString("TituloFiltro")
+
+        ' 2. Mostramos el InputBox utilizando las traducciones correspondientes
+        Dim textoUsuario As String = InputBox(mensajeInput, tituloInput, descripcionAFiltrar)
+
+        ' Si el usuario pulsa "Cancelar" o lo deja vacío, salimos
+        If String.IsNullOrEmpty(textoUsuario.Trim()) Then Exit Sub
+
+        Dim dt As DataTable = CType(DgvApuntes.DataSource, DataTable)
+        Dim nombreCampoInterno As String = DgvApuntes.Columns(2).DataPropertyName
+
+        ' Duplicamos comillas simples para evitar fallos con apóstrofes
+        Dim textoLimpio As String = textoUsuario.Replace("'", "''").Trim()
+
+        ' Filtramos usando LIKE con comodines a ambos lados
+        dt.DefaultView.RowFilter = $"[{nombreCampoInterno}] LIKE '*{textoLimpio}*'"
+
+        ' Recalculamos la pantalla
+        CalcularTotalesFiltrados(3, 4)
+    End Sub
+
+    Public Sub CalcularTotalesFiltrados(vFila1 As Integer, vFila2 As Integer)
+        ' vFila1 = 3 (Importe €), vFila2 = 4 (Saldo €)
+        Dim vIngresosFiltrados As Double = 0
+        Dim vGastosFiltrados As Double = 0
+        Dim vValor As Double = 0
+        Dim vSaldo As Double = 0
+        Dim vContadorFiltrados As Integer = 0 ' Variable para contar los registros visibles
+
+        For Each fila As DataGridViewRow In frmApuntesContables.DgvApuntes.Rows
+            ' 1. EL SALDO SE CALCULA SIEMPRE (Incluso en filas ocultas para mantener la línea contable correcta)
+            vSaldo = Convert.ToDouble(fila.Cells(vFila1).Value) + vValor
+            fila.Cells(vFila2).Value = vSaldo
+            vValor = Convert.ToDouble(fila.Cells(vFila2).Value)
+
+            ' Pintamos el saldo de la fila en azul (positivo) o rojo (negativo)
+            If vSaldo >= 0 Then
+                fila.Cells(vFila2).Style.ForeColor = System.Drawing.Color.DarkBlue
+            Else
+                fila.Cells(vFila2).Style.ForeColor = System.Drawing.Color.IndianRed
+            End If
+
+            ' 2. EN LAS FILAS VISIBLES: Sumamos a los totales superiores, pintamos la celda Importe y contamos
+            If fila.Visible Then
+                vContadorFiltrados += 1 ' Sumamos 1 al contador por cada fila que sí se ve
+
+                Dim vImporte As Double = Convert.ToDouble(fila.Cells(vFila1).Value)
+                If vImporte >= 0 Then
+                    vIngresosFiltrados += vImporte
+                    fila.Cells(vFila1).Style.ForeColor = System.Drawing.Color.DarkBlue
+                Else
+                    vGastosFiltrados += vImporte
+                    fila.Cells(vFila1).Style.ForeColor = System.Drawing.Color.IndianRed
+                End If
+            End If
+        Next
+
+        ' El saldo resultante visible en la cabecera superior
+        Dim vSaldoVisible As Double = vIngresosFiltrados + vGastosFiltrados
+
+        ' Asignamos los totales finales a los cuadros de texto superiores
+        frmApuntesContables.TxtIngresos.Text = vIngresosFiltrados.ToString("N2")
+        frmApuntesContables.TxtGastos.Text = vGastosFiltrados.ToString("N2")
+        frmApuntesContables.TxtSaldo.Text = vSaldoVisible.ToString("N2")
+
+        ' ACTUALIZACIÓN: Asignamos el número de registros filtrados y cambiamos la etiqueta a "Filtrado"
+        frmApuntesContables.TxtNumRegistros.Text = vContadorFiltrados.ToString()
+        frmApuntesContables.LblNumRegistros.Text = resManager.GetString("Filtrado")
+
+        ' Cambiamos el color del TxtSaldo superior según el resultado
+        If vSaldoVisible >= 0 Then
+            frmApuntesContables.TxtSaldo.ForeColor = System.Drawing.Color.DarkBlue
+        Else
+            frmApuntesContables.TxtSaldo.ForeColor = System.Drawing.Color.IndianRed
+        End If
+    End Sub
 
 End Class
