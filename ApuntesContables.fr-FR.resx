@@ -287,4 +287,7 @@ puis par Concepts divers</value>
     <value>Ce compte N’A PAS de coordonnées ni de format correct (1,1,1,1,1).
 Si vous avez besoin d’aide, appuyez sur le bouton PDF adjacent.</value>
   </data>
+  <data name="Label2.Text" xml:space="preserve">
+    <value>* Clic droit sur une description pour filtrer - F6 pour retirer les filtres.</value>
+  </data>
 </root>

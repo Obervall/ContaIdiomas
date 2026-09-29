@@ -287,4 +287,7 @@ then by Miscellaneous Concepts</value>
     <value>This Account does NOT have coordinates or the correct Format (1,1,1,1,1).
 If you need help, tap the adjacent PDF button.</value>
   </data>
+  <data name="Label2.Text" xml:space="preserve">
+    <value>* Right-click on a description to filter - F6 to remove filters.</value>
+  </data>
 </root>

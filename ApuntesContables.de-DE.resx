@@ -287,4 +287,7 @@ dann von Miscellaneous Concepts</value>
     <value>Dieses Konto hat KEINE Koordinaten oder das korrekte Format (1,1,1,1,1).
 Wenn du Hilfe brauchst, tippe auf den angrenzenden PDF-Button.</value>
   </data>
+  <data name="Label2.Text" xml:space="preserve">
+    <value>* Rechtsklick auf eine Beschreibung zum Filtern – F6 um Filter zu entfernen.</value>
+  </data>
 </root>

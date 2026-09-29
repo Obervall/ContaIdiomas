@@ -1080,4 +1080,24 @@ Suport multilingüe, aconsegueix ContaHogar 3.0 Premium a la Microsoft Store.</v
   <data name="ErrorLeerEjercicios" xml:space="preserve">
     <value>Error en els exercicis de lectura</value>
   </data>
+  <data name="MenuFiltrarPor" xml:space="preserve">
+    <value>Filtra per {0}...</value>
+  </data>
+  <data name="MsgFiltrarDescripcion" xml:space="preserve">
+    <value>Modifica el text per trobar coincidències.</value>
+  </data>
+  <data name="TituloFiltro" xml:space="preserve">
+    <value>Filtrar per descripció</value>
+  </data>
+  <data name="MsgActualizacionVersion" xml:space="preserve">
+    <value>ContaHogar 3.0 Premium s'ha actualitzat amb èxit! 
+Benvinguts a la nova versió {0}. 
+Hem aplicat millores i solucions automàtiques. 
+Vols veure què hi ha de nou ara?</value>
+  </data>
+  <data name="MsgAntivirus" xml:space="preserve">
+    <value>L'antivirus o la protecció de Windows bloquegen l'accés a 'Els meus documents'. 
+Si us plau, afegeix aquest programa a la llista d'exclusions o permet l'accés controlat
+carpetes per utilitzar.</value>
+  </data>
 </root>

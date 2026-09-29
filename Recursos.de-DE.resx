@@ -1080,4 +1080,24 @@ Mehrsprachige Unterstützung, hol dir ContaHogar 3.0 Premium im Microsoft Store.
   <data name="ErrorLeerEjercicios" xml:space="preserve">
     <value>Fehler beim Lesen von Übungen</value>
   </data>
+  <data name="MenuFiltrarPor" xml:space="preserve">
+    <value>Filter nach {0}...</value>
+  </data>
+  <data name="MsgFiltrarDescripcion" xml:space="preserve">
+    <value>Ändere den Text, um Übereinstimmungen zu finden.</value>
+  </data>
+  <data name="TituloFiltro" xml:space="preserve">
+    <value>Filtern nach Beschreibung</value>
+  </data>
+  <data name="MsgActualizacionVersion" xml:space="preserve">
+    <value>ContaHogar 3.0 Premium wurde erfolgreich aktualisiert! 
+Willkommen zur neuen Version {0}. 
+Wir haben Verbesserungen und automatische Korrekturen vorgenommen. 
+Möchten Sie sehen, was es jetzt neu gibt?</value>
+  </data>
+  <data name="MsgAntivirus" xml:space="preserve">
+    <value>Antiviren- oder Windows-Schutz blockiert den Zugriff auf 'Meine Dokumente'. 
+Bitte fügen Sie dieses Programm der Ausschlussliste hinzu oder erlauben Sie kontrollierten Zugriff
+Ordner zum Benutzen.</value>
+  </data>
 </root>

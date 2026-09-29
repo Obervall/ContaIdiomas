@@ -287,4 +287,7 @@ després per Conceptes Diversos</value>
     <value>Aquest compte NO té coordenades ni el format correcte (1,1,1,1,1).
 Si necessites ajuda, toca el botó PDF adjacent.</value>
   </data>
+  <data name="Label2.Text" xml:space="preserve">
+    <value>* Fes clic dret sobre una descripció per filtrar - F6 per eliminar filtres.</value>
+  </data>
 </root>

@@ -151,4 +151,7 @@ Podeu enviar impressions i suggeriments a:
   <data name="VersionInstalada" xml:space="preserve">
     <value>Versió Instal·lada</value>
   </data>
+  <data name="BtnPayPal.Text" xml:space="preserve">
+    <value>Donació</value>
+  </data>
 </root>
