@@ -1952,6 +1952,17 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a El antivirus o la protección de Windows está bloqueando el acceso a &apos;Mis Documentos&apos;.
+    '''Por favor, añade este programa a la lista de exclusiones o permite el acceso controlado
+    '''a carpetas para poder usar..
+    '''</summary>
+    Friend Shared ReadOnly Property MsgAntivirus() As String
+        Get
+            Return ResourceManager.GetString("MsgAntivirus", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a ¿Está completamente seguro de que desea eliminar FÍSICAMENTE de la Base de Datos los {0} apuntes seleccionados?.
     '''</summary>
     Friend Shared ReadOnly Property MsgConfirmarBorradoPlural() As String

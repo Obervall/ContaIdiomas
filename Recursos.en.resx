@@ -1095,4 +1095,9 @@ Welcome to the new version {0}.
 We've applied improvements and automatic fixes. 
 Want to see what's new now?</value>
   </data>
+  <data name="MsgAntivirus" xml:space="preserve">
+    <value>Antivirus or Windows protection is blocking access to 'My Documents'. 
+Please add this program to the exclusion list or allow controlled access
+folders to use.</value>
+  </data>
 </root>

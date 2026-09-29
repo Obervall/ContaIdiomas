@@ -366,13 +366,7 @@ Public Class Principal
                 Directory.CreateDirectory(carpetaAppOficial)
             End If
         Catch ex As UnauthorizedAccessException
-            Dim msgAntivirus As String = "El antivirus o la protección de Windows está bloqueando el acceso a 'Mis Documentos'." & vbCrLf &
-                                 "Por favor, añade este programa a la lista de exclusiones o permite el acceso controlado a carpetas para poder usar " & resManager.GetString("AppDisplayName") & "."
-            If resManager IsNot Nothing Then
-                Dim tradAnti As String = resManager.GetString("Error_Permisos_Antivirus")
-                If Not String.IsNullOrEmpty(tradAnti) Then msgAntivirus = tradAnti
-            End If
-            MsgBox(msgAntivirus, MsgBoxStyle.Critical, resManager.GetString("ControlSeguridadWindows"))
+            MsgBox(resManager.GetString("Error_Permisos_Antivirus"), MsgBoxStyle.Critical, resManager.GetString("ControlSeguridadWindows"))
             Application.Exit()
             Exit Sub
         Catch ex As Exception

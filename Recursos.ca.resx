@@ -1095,4 +1095,9 @@ Benvinguts a la nova versió {0}.
 Hem aplicat millores i solucions automàtiques. 
 Vols veure què hi ha de nou ara?</value>
   </data>
+  <data name="MsgAntivirus" xml:space="preserve">
+    <value>L'antivirus o la protecció de Windows bloquegen l'accés a 'Els meus documents'. 
+Si us plau, afegeix aquest programa a la llista d'exclusions o permet l'accés controlat
+carpetes per utilitzar.</value>
+  </data>
 </root>

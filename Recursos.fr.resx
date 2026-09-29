@@ -1095,4 +1095,9 @@ Bienvenue dans la nouvelle version {0}.
 Nous avons appliqué des améliorations et des corrections automatiques. 
 Vous voulez voir ce qui est nouveau maintenant ?</value>
   </data>
+  <data name="MsgAntivirus" xml:space="preserve">
+    <value>L’antivirus ou la protection Windows bloque l’accès à « Mes documents ». 
+Veuillez ajouter ce programme à la liste d’exclusion ou autoriser un accès contrôlé
+des dossiers à utiliser.</value>
+  </data>
 </root>
