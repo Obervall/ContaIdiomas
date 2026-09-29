@@ -19,6 +19,7 @@ Public Class Principal
     Public vWidth As Integer = 891
     Public vHeigth As Integer = 629
     Public idsDuplicadosEncontrados As Integer
+    Public seHaActualizadoLaApp As Boolean = False
 
     ' 1. Constructor: Es el mejor sitio para fijar el idioma antes de que se vea nada
     Public Sub New()
@@ -238,15 +239,15 @@ Public Class Principal
         If My.Settings.UpgradeRequired Then
             My.Settings.Upgrade()
             My.Settings.UpgradeRequired = False
-            My.Settings.Save() ' Guarda el cambio para que no lo haga más en esta versión
+            My.Settings.Save()
+            seHaActualizadoLaApp = True
         End If
 
-        My.Settings.Version = "3.4.1"
+        My.Settings.Version = "3.4.2"
         My.Settings.Save()
 
         ' Dejar en False para que no muestre el mensaje de Softonic al arrancar, en True mostrará el mensaje de Softonic
         vEsVersionDemoSoftonic = False
-
 
         ' ================================================
         ' 🔒 EL CORTAFUEGOS COMERCIAL INTELIGENTE POR RUTA
@@ -2421,6 +2422,21 @@ Public Class Principal
 
             ' Abrimos de forma Modal
             CuentasToolStripMenuItem.PerformClick()
+        End If
+
+        ' El mensaje interactivo solo salta cuando frmPrincipal ya está totalmente abierto y listo
+        If seHaActualizadoLaApp Then
+
+            ' Formateamos el texto de tu ResX Manager pasando el número de versión a {0}
+            Dim textoMensaje As String = String.Format(resManager.GetString("MsgActualizacionVersion"), My.Settings.Version)
+
+            ' Mostramos el cuadro de diálogo flotando sobre frmPrincipal ya cargado
+            Dim respuesta As MsgBoxResult = ConfirmarAccionTraducida(textoMensaje, resManager.GetString("ActualizacionCompletada"))
+
+            ' Si el usuario pulsa "Sí", el menú ya existe y responderá perfectamente al clic simulado
+            If respuesta = MsgBoxResult.Yes Then
+                HistorialDeVersionesToolStripMenuItem.PerformClick()
+            End If
         End If
     End Sub
 

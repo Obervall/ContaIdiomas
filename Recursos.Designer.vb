@@ -1940,6 +1940,18 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a ¡ContaHogar 3.0 Premium se ha actualizado correctamente!
+    '''Bienvenido a la nueva versión {0}.
+    '''Hemos aplicado mejoras y correcciones automáticas.
+    '''¿Deseas ver las novedades ahora?.
+    '''</summary>
+    Friend Shared ReadOnly Property MsgActualizacionVersion() As String
+        Get
+            Return ResourceManager.GetString("MsgActualizacionVersion", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a ¿Está completamente seguro de que desea eliminar FÍSICAMENTE de la Base de Datos los {0} apuntes seleccionados?.
     '''</summary>
     Friend Shared ReadOnly Property MsgConfirmarBorradoPlural() As String

@@ -1089,4 +1089,10 @@ Multi-language support, get ContaHogar 3.0 Premium in the Microsoft Store.</valu
   <data name="TituloFiltro" xml:space="preserve">
     <value>Filter by Description</value>
   </data>
+  <data name="MsgActualizacionVersion" xml:space="preserve">
+    <value>ContaHogar 3.0 Premium has been successfully updated! 
+Welcome to the new version {0}. 
+We've applied improvements and automatic fixes. 
+Want to see what's new now?</value>
+  </data>
 </root>

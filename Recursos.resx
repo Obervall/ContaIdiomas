@@ -1089,4 +1089,10 @@ soporte multi-idioma, consigue ContaHogar 3.0 Premium en la Microsoft Store.</va
   <data name="TituloFiltro" xml:space="preserve">
     <value>Filtrar por Descripción</value>
   </data>
+  <data name="MsgActualizacionVersion" xml:space="preserve">
+    <value>¡ContaHogar 3.0 Premium se ha actualizado correctamente!
+Bienvenido a la nueva versión {0}.
+Hemos aplicado mejoras y correcciones automáticas.
+¿Deseas ver las novedades ahora?</value>
+  </data>
 </root>
