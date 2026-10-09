@@ -12,6 +12,7 @@ Imports System.Reflection
 Imports System.Resources
 Imports System.Threading
 Imports System.Windows.Forms
+Imports Microsoft.VisualBasic.FileIO
 
 Module Funciones
 
@@ -3790,22 +3791,22 @@ Module Funciones
 
             Dim fila As Integer = filaInicio + 1 ' Arrancamos la lectura de datos
             Dim celdasVaciasSeguidas As Integer = 0
-            Dim filaactual As Integer = 0
-            '
+			Dim filaactual As Integer = 0
+
             ' 3. 🚀 EL BUCLE MAESTRO INDESTRUCTIBLE (Tu cabecera de siempre)
             While True
                 Dim valorCeldaControl As String = Convert.ToString(hojaExcel.Cells(fila, colFecha).Value).ToString().Trim()
 
-                ' Cortafuegos de fin de archivo real (Tus líneas impecables)
-                If String.IsNullOrEmpty(valorCeldaControl) Then
-                    celdasVaciasSeguidas += 1
-                    If celdasVaciasSeguidas >= 5 Then
-                        If libroExcel IsNot Nothing Then libroExcel.Close(False)
-                        Exit While
-                    End If
-                    fila += 1
-                    Continue While
-                End If
+				' Cortafuegos de fin de archivo real (Tus líneas impecables)
+				If String.IsNullOrEmpty(valorCeldaControl) Then
+					celdasVaciasSeguidas += 1
+					If celdasVaciasSeguidas >= 5 Then
+						If libroExcel IsNot Nothing Then libroExcel.Close(False)
+						Exit While
+					End If
+					fila += 1
+					Continue While
+				End If
 
                 celdasVaciasSeguidas = 0
 
@@ -3815,7 +3816,45 @@ Module Funciones
                 ' Volvemos a tus asignaciones clásicas, directas y dóciles de toda la vida
                 Dim fechaBanco As DateTime = Convert.ToDateTime(hojaExcel.Cells(fila, colFecha).Value).Date
                 Dim conceptoBanco As String = Convert.ToString(hojaExcel.Cells(fila, colConcepto).Value).ToString().Trim()
-				Dim importeBanco As Decimal = Convert.ToDecimal(hojaExcel.Cells(fila, colImporte).Value)
+                Dim importeBanco As Decimal = Convert.ToDecimal(hojaExcel.Cells(fila, colImporte).Value)
+
+                '' ==============================
+                '' 🎯 4. PESCA DE VARIABLES PURAS (BLINDADA CONTRA CAIXABANK)
+                '' ==============================
+                '' =========================================================================
+                '' 🌍 CAPTURA COMPATIBLE PARA EXPORTACIONES DESDE CSV
+                '' =========================================================================
+                '' Cambiamos .Value por .Text para leer el texto plano visual de la celda
+                'Dim celdaFechaText As String = Convert.ToString(hojaExcel.Cells(fila, colFecha).Text).ToString().Trim()
+                'Dim fechaBanco As DateTime = DateTime.Today ' Salvavidas por defecto
+
+                'MsgBox("1. Texto visual capturado de la celda: " & celdaFechaText)
+
+                'If Not String.IsNullOrEmpty(celdaFechaText) Then
+                '    ' 1. Intentamos el parseo automático normal (Se tragará "30/09/2026", "30-09-2026", etc.)
+                '    If Not Date.TryParse(celdaFechaText, fechaBanco) Then
+
+                '        ' 2. Filtro secundario por si arrastra letras o puntos de CaixaBank ("30/oct./2026")
+                '        Dim textoLimpio As String = celdaFechaText.ToLower().Replace(".", "").Replace("-", "/").Trim()
+                '        Dim formatosCaixa() As String = {"dd/MMM/yyyy", "d/MMM/yyyy", "dd/MMMM/yyyy", "d/MMMM/yyyy", "dd/MM/yyyy", "d/M/yyyy"}
+
+                '        If Not Date.TryParseExact(textoLimpio, formatosCaixa, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.None, fechaBanco) Then
+                '            fechaBanco = DateTime.Today
+                '        End If
+                '    End If
+                'End If
+
+                'MsgBox("2. Fecha Banco final convertida: " & fechaBanco.ToString("dd/MM/yyyy"))
+
+                '' Conservamos tus lecturas dóciles de siempre para Concepto e Importe (usando .Text o .Value según convenga)
+                'Dim conceptoBanco As String = Convert.ToString(hojaExcel.Cells(fila, colConcepto).Value).ToString().Trim()
+                'Dim importeBanco As Decimal = Convert.ToDecimal(hojaExcel.Cells(fila, colImporte).Value)
+
+                'MsgBox("Fila: " & fila & vbCrLf &
+                '       "Fecha: " & fechaBanco.ToString("dd/MM/yyyy") & vbCrLf &
+                '       "Concepto: " & conceptoBanco & vbCrLf &
+                '       "Importe: " & importeBanco.ToString("N2") & vbCrLf &
+                '       "Saldo: " & Convert.ToDecimal(hojaExcel.Cells(fila, colSaldo).Value).ToString("N2"), MsgBoxStyle.Information, resManager.GetString("AppDisplayName"))
 
                 filaactual += 1
 
@@ -3823,7 +3862,7 @@ Module Funciones
                     vSaldoFinal = Convert.ToDecimal(hojaExcel.Cells(fila, colSaldo).Value)
                 ElseIf colSaldo = 0 And filaactual = 1 Then
                     vSaldoFinal = 0
-				End If
+                End If
                 ' =========================================================================
 
                 ' Cortafuegos antidesbordamiento a los 70 caracteres que tiene tu base de datos
@@ -3901,6 +3940,128 @@ Module Funciones
             If appExcel IsNot Nothing Then System.Runtime.InteropServices.Marshal.ReleaseComObject(appExcel)
             hojaExcel = Nothing : libroExcel = Nothing : appExcel = Nothing
             GC.Collect() : GC.WaitForPendingFinalizers()
+        End Try
+    End Sub
+
+    'Imports Microsoft.VisualBasic.FileIO ' <-- Obligatorio poner esto arriba del todo del archivo, fuera de la clase
+
+    Public Sub ProcesarMatrizBancariaCSV(ByVal rutaCSV As String, ByVal filaInicio As Integer, ByVal colFecha As Integer, ByVal colConcepto As Integer, ByVal colImporte As Integer, ByVal idCuenta As Integer, ByVal colSaldo As Integer)
+        Try
+            ' 1. EL SERRUCHO DE LIMPIEZA TOTAL: Vaciamos la pasarela temporal antes de cargar
+            Using cmdClean As New OleDb.OleDbCommand("DELETE * FROM extracto", conexion1)
+                cmdClean.ExecuteNonQuery()
+            End Using
+
+            ' Inicialización de variables de control clásicas
+            Dim filaActual As Integer = 0
+            Dim contadorFilasGuardadas As Integer = 0
+            vSaldoFinal = 0
+
+            ' 2. DESPERTAMOS EL MOTOR NATIVO DE TEXTO (Abre el archivo en modo lectura rápida)
+            Using parser As New TextFieldParser(rutaCSV)
+                ' Configuramos el parser para que entienda que es un archivo delimitado
+                parser.TextFieldType = FieldType.Delimited
+
+                ' Auto-detectamos el separador: los bancos españoles usan punto y coma (;) o comas (,)
+                ' Si lees las primeras líneas, puedes forzarlo. Aquí añadimos ambos por seguridad:
+                parser.SetDelimiters(";")
+                parser.HasFieldsEnclosedInQuotes = True ' Ignora separadores si están dentro de comillas (ej: "CONCEPTO; CON PUNTO Y COMA")
+
+                ' 3. 🚀 EL BUCLE MAESTRO INDESTRUCTIBLE PARA CSV
+                While Not parser.EndOfData
+                    filaActual += 1
+
+                    ' Leemos la línea actual del CSV y la troceamos en un array de strings (celdas)
+                    Dim celdas() As String = parser.ReadFields()
+
+                    ' Cortafuegos: Saltamos las líneas de encabezados según indique "filaInicio"
+                    If filaActual <= filaInicio Then Continue While
+
+                    ' 4. PESCA DE VARIABLES CON BLINDAJE DE POSICIONES
+                    ' Nota: Los arrays en .NET empiezan en 0, tus columnas en 1. Restamos 1 a tus índices.
+                    Dim textoFecha As String = If(celdas.Length > (colFecha - 1), celdas(colFecha - 1).Trim(), "")
+
+                    ' Cortafuegos por si la línea viene vacía
+                    If String.IsNullOrEmpty(textoFecha) Then Continue While
+
+                    Dim fechaBanco As DateTime
+                    ' Parseo seguro e inteligente de la fecha (se traga formatos con hora o limpios)
+                    If Not Date.TryParse(textoFecha, fechaBanco) Then
+                        fechaBanco = DateTime.Today ' Salvavidas si la celda viniera rota
+                    End If
+
+                    ' Captura limpia de Concepto e Importe sin interferencias
+                    Dim conceptoBanco As String = If(celdas.Length > (colConcepto - 1), celdas(colConcepto - 1).Trim(), "")
+                    Dim textoImporte As String = If(celdas.Length > (colImporte - 1), celdas(colImporte - 1).Trim(), "0")
+
+                    ' Limpiamos las letras "eur" y espacios. Ahora leerá "-28.168,11" completo
+                    textoImporte = textoImporte.ToLower().Replace("eur", "").Replace("€", "").Trim()
+
+                    Dim importeBanco As Decimal = 0
+                    ' El Parseo regional es-ES leerá perfectamente la coma decimal y el punto de los miles
+                    If Not Decimal.TryParse(textoImporte, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, importeBanco) Then
+                        ' Salvavidas por si el formato cambiase a sistema americano
+                        Decimal.TryParse(textoImporte, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, importeBanco)
+                    End If
+
+                    ' Guardamos el saldo de la primera línea aplicando el mismo blindaje
+                    If colSaldo > 0 AndAlso contadorFilasGuardadas = 0 Then
+                        Dim textoSaldo As String = If(celdas.Length > (colSaldo - 1), celdas(colSaldo - 1).Trim(), "0")
+                        textoSaldo = textoSaldo.ToLower().Replace("eur", "").Replace("€", "").Trim()
+
+                        If Not Decimal.TryParse(textoSaldo, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, vSaldoFinal) Then
+                            Decimal.TryParse(textoSaldo, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, vSaldoFinal)
+                        End If
+                    End If
+
+                    contadorFilasGuardadas += 1
+
+                    ' Cortafuegos antidesbordamiento a los 70 caracteres de tu base de datos
+                    If conceptoBanco.Length > 70 Then conceptoBanco = conceptoBanco.Substring(0, 70).Trim()
+
+                    ' Formateos rígidos inalterables para la inyección en Access
+                    Dim fechaSQL As String = "#" & fechaBanco.ToString("yyyy/MM/dd") & "#"
+                    Dim conceptoBancoSQL As String = conceptoBanco.Replace("'", "''")
+                    Dim importeSQL As String = importeBanco.ToString(System.Globalization.CultureInfo.InvariantCulture)
+
+                    ' 5. 📁 INYECCIÓN DIRECTA EN LA PASARELA TEMPORAL
+                    Using cmdIns As New OleDb.OleDbCommand()
+                        cmdIns.Connection = conexion1
+                        cmdIns.CommandText = "INSERT INTO extracto (FechaAPU, ConceptoAPU, DescripcionAPU, ImporteAPU, EjercicioAPU, CuentaAPU, NotasAPU, EsSaldo) " &
+                                         "VALUES (" & fechaSQL & ", 1, '" & conceptoBancoSQL & "', " & importeSQL & ", " & vAñoEjercicio & ", " & idCuenta & ", 'TEMPORAL', 0)"
+                        Try
+                            cmdIns.ExecuteNonQuery()
+                        Catch
+                            ' Cortafuegos preventivo de inserción por fila
+                        End Try
+                    End Using
+                End While
+            End Using ' <-- Aquí el archivo CSV físico se CIERRA y LIBERA instantáneamente del disco duro
+
+            ' 6. 🚀 DISPARADOR DEL ASISTENTE MANUAL ARTESANAL (Tu bloque exacto de siempre)
+            Using cmdCheckNew As New OleDb.OleDbCommand("SELECT COUNT(*) FROM extracto WHERE NotasAPU = 'TEMPORAL'", conexion1)
+                Dim totalFilas As Integer = Convert.ToInt32(cmdCheckNew.ExecuteScalar())
+
+                If totalFilas > 0 Then
+                    Dim frmIA As New AprendizajeBancario()
+                    frmIA.vValorTotal = totalFilas
+                    frmIA.vValorPrimero = 1
+                    frmIA.CargarPrimerConceptoBancario()
+
+                    ' Configuración geográfica en tu monitor
+                    frmIA.StartPosition = FormStartPosition.Manual
+                    Dim ejeX As Integer = frmApuntesContables.Left + frmApuntesContables.Width - frmIA.Width
+                    Dim ejeY As Integer = frmApuntesContables.Top
+                    frmIA.Location = New Point(ejeX, ejeY)
+
+                    frmIA.Show(frmApuntesContables)
+                Else
+                    MsgBox(resManager.GetString("ArchivoNoContieneRegistros"), MsgBoxStyle.Information, resManager.GetString("AppDisplayName"))
+                End If
+            End Using
+
+        Catch ex As Exception
+            MsgBox(resManager.GetString("ErrorProcesarMatrizBancaria") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
     End Sub
 
