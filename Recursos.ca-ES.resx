@@ -1100,4 +1100,13 @@ Vols veure què hi ha de nou ara?</value>
 Si us plau, afegeix aquest programa a la llista d'exclusions o permet l'accés controlat
 carpetes per utilitzar.</value>
   </data>
+  <data name="NoPudoEncontrarManual" xml:space="preserve">
+    <value>No he trobat el manual</value>
+  </data>
+  <data name="EnSistema" xml:space="preserve">
+    <value>en el Sistema</value>
+  </data>
+  <data name="PuntosInspeccion" xml:space="preserve">
+    <value>Punts d'inspecció fallits</value>
+  </data>
 </root>

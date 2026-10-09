@@ -1100,4 +1100,13 @@ Möchten Sie sehen, was es jetzt neu gibt?</value>
 Bitte fügen Sie dieses Programm der Ausschlussliste hinzu oder erlauben Sie kontrollierten Zugriff
 Ordner zum Benutzen.</value>
   </data>
+  <data name="NoPudoEncontrarManual" xml:space="preserve">
+    <value>Ich konnte das Handbuch nicht finden</value>
+  </data>
+  <data name="EnSistema" xml:space="preserve">
+    <value>im System</value>
+  </data>
+  <data name="PuntosInspeccion" xml:space="preserve">
+    <value>Nicht bestandene Inspektionspunkte</value>
+  </data>
 </root>

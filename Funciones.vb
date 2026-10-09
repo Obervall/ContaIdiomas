@@ -3614,35 +3614,94 @@ Module Funciones
     ''' Copia el PDF de idioma seleccionado desde la carpeta bloqueada de la Store hacia la ruta 
     ''' segura de datos local (AppData) y lo abre sin despertar alarmas del antivirus.
     ''' </summary>
+    'Public Sub EjecutarPDFIdiomasSeguro(ByVal nombreArchivoPDF As String)
+    '    Try
+    '        ' 1. Ruta de origen (La carpeta de la Store bloqueada)
+    '        Dim rutaOrigenPDF As String = System.IO.Path.Combine(Application.StartupPath, nombreArchivoPDF)
+
+    '        ' 2. Ruta de destino segura (El búnker de datos local autorizado por Windows)
+    '        Dim carpetaSegura As String = Application.LocalUserAppDataPath
+    '        Dim rutaDestinoPDF As String = System.IO.Path.Combine(carpetaSegura, nombreArchivoPDF)
+
+    '        ' 3. 🛡️ EL ESCUDO: Si no existe en la zona segura, lo clonamos en frío
+    '        If System.IO.File.Exists(rutaOrigenPDF) Then
+    '            If Not System.IO.File.Exists(rutaDestinoPDF) Then
+    '                System.IO.File.Copy(rutaOrigenPDF, rutaDestinoPDF, True)
+    '            End If
+    '        End If
+
+    '        ' 4. 🚀 LANZAMIENTO INMUNE: Abrimos el manual del idioma correspondiente desde AppData
+    '        ' Salvavidas de título para tus MsgBox usando tu nueva Key global unificada
+    '        Dim txtTituloApp As String = If(resManager?.GetString("AppDisplayName"), "ContaHogar 3.0 Premium")
+
+    '        If System.IO.File.Exists(rutaDestinoPDF) Then
+    '            System.Diagnostics.Process.Start(New System.Diagnostics.ProcessStartInfo(rutaDestinoPDF) With {.UseShellExecute = True})
+    '        Else
+    '            ' 🎯 REPARADO: Ahora el título del aviso cambia dinámicamente según el idioma activo de la Store
+    '            MsgBox(resManager.GetString("ErrorArchivoAyudaNoEncontrado"), MsgBoxStyle.Information, txtTituloApp)
+    '        End If
+
+    '    Catch ex As Exception
+    '        ' 🎯 REPARADO: Añadido el título dinámico también en el Catch de errores fatales
+    '        Dim txtTituloApp As String = If(resManager?.GetString("AppDisplayName"), "ContaHogar 3.0 Premium")
+    '        MsgBox(resManager.GetString("Error") & ": " & ex.Message, MsgBoxStyle.Critical, txtTituloApp)
+    '    End Try
+    'End Sub
+
     Public Sub EjecutarPDFIdiomasSeguro(ByVal nombreArchivoPDF As String)
         Try
-            ' 1. Ruta de origen (La carpeta de la Store bloqueada)
-            Dim rutaOrigenPDF As String = System.IO.Path.Combine(Application.StartupPath, nombreArchivoPDF)
-
-            ' 2. Ruta de destino segura (El búnker de datos local autorizado por Windows)
-            Dim carpetaSegura As String = Application.LocalUserAppDataPath
+            ' 1. Ruta Destino Fija en el espacio de usuario (El búnker local seguro)
+            Dim carpetaSegura As String = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ContaHogar")
+            If Not System.IO.Directory.Exists(carpetaSegura) Then
+                System.IO.Directory.CreateDirectory(carpetaSegura)
+            End If
             Dim rutaDestinoPDF As String = System.IO.Path.Combine(carpetaSegura, nombreArchivoPDF)
 
-            ' 3. 🛡️ EL ESCUDO: Si no existe en la zona segura, lo clonamos en frío
-            If System.IO.File.Exists(rutaOrigenPDF) Then
-                If Not System.IO.File.Exists(rutaDestinoPDF) Then
-                    System.IO.File.Copy(rutaOrigenPDF, rutaDestinoPDF, True)
-                End If
+            ' 2. 🔍 DETECTIVE DE RUTAS INTELIGENTE
+            Dim rutaOrigenEncontrada As String = ""
+
+            ' Opción A: Ruta de la aplicación (Para entornos MSIX / Carpeta de instalación)
+            Dim rutaOrigenApp As String = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, nombreArchivoPDF)
+
+            ' Opción B: Subcarpeta específica detectada en tu instalación MSI (Mis Documentos\ContaHogar3.0)
+            Dim rutaOrigenDocSub As String = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ContaHogar3.0", nombreArchivoPDF)
+
+            ' Opción C: Carpeta raíz de Documentos del Usuario (Por si acaso)
+            Dim rutaOrigenDocumentos As String = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), nombreArchivoPDF)
+
+            ' Evaluamos en estricto orden de presencia física en el disco
+            If System.IO.File.Exists(rutaOrigenApp) Then
+                rutaOrigenEncontrada = rutaOrigenApp
+            ElseIf System.IO.File.Exists(rutaOrigenDocSub) Then
+                rutaOrigenEncontrada = rutaOrigenDocSub
+            ElseIf System.IO.File.Exists(rutaOrigenDocumentos) Then
+                rutaOrigenEncontrada = rutaOrigenDocumentos
             End If
 
-            ' 4. 🚀 LANZAMIENTO INMUNE: Abrimos el manual del idioma correspondiente desde AppData
-            ' Salvavidas de título para tus MsgBox usando tu nueva Key global unificada
+            ' 3. 🛡️ ACCIÓN DE EMULACIÓN DE DATOS (CLONACIÓN EN FRÍO)
+            If Not String.IsNullOrEmpty(rutaOrigenEncontrada) Then
+                ' Copiamos y machacamos el PDF en el búnker para asegurar que siempre está la última versión
+                System.IO.File.Copy(rutaOrigenEncontrada, rutaDestinoPDF, True)
+            Else
+                ' 🚨 Rastreo preciso si el instalador .msi no ha dejado el archivo en ningún sitio
+                Dim msgError As String = resManager.GetString("NoPudoEncontrarManual") & ": " & nombreArchivoPDF & " " & resManager.GetString("EnSistema") & "." & vbCrLf & vbCrLf &
+                                     resManager.GetString("PuntosInspeccion") & ":" & vbCrLf &
+                                     "- [MSIX/Raíz]: " & rutaOrigenApp & vbCrLf &
+                                     "- [MSI Docs]: " & rutaOrigenDocSub
+                MsgBox(msgError, MsgBoxStyle.Critical, resManager.GetString("Error"))
+                Exit Sub
+            End If
+
+            ' 4. 🚀 LANZAMIENTO DESDE ENTORNO PROTEGIDO DE APPDATA
             Dim txtTituloApp As String = If(resManager?.GetString("AppDisplayName"), "ContaHogar 3.0 Premium")
 
             If System.IO.File.Exists(rutaDestinoPDF) Then
                 System.Diagnostics.Process.Start(New System.Diagnostics.ProcessStartInfo(rutaDestinoPDF) With {.UseShellExecute = True})
             Else
-                ' 🎯 REPARADO: Ahora el título del aviso cambia dinámicamente según el idioma activo de la Store
                 MsgBox(resManager.GetString("ErrorArchivoAyudaNoEncontrado"), MsgBoxStyle.Information, txtTituloApp)
             End If
 
         Catch ex As Exception
-            ' 🎯 REPARADO: Añadido el título dinámico también en el Catch de errores fatales
             Dim txtTituloApp As String = If(resManager?.GetString("AppDisplayName"), "ContaHogar 3.0 Premium")
             MsgBox(resManager.GetString("Error") & ": " & ex.Message, MsgBoxStyle.Critical, txtTituloApp)
         End Try

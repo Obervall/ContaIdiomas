@@ -985,6 +985,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a en el Sistema.
+    '''</summary>
+    Friend Shared ReadOnly Property EnSistema() As String
+        Get
+            Return ResourceManager.GetString("EnSistema", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a El antivirus o la protección de Windows está bloqueando el acceso a Mis Documentos.
     '''Por favor, añade este programa a la lista de exclusiones
     '''o permite el acceso controlado a carpetas para poder usar ContaHogar 3.0 Premium..
@@ -2171,6 +2180,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a No se pudo encontrar el manual.
+    '''</summary>
+    Friend Shared ReadOnly Property NoPudoEncontrarManual() As String
+        Get
+            Return ResourceManager.GetString("NoPudoEncontrarManual", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Notas.
     '''</summary>
     Friend Shared ReadOnly Property Notas() As String
@@ -2302,6 +2320,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property ProcederaInstalar() As String
         Get
             Return ResourceManager.GetString("ProcederaInstalar", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Puntos de inspección fallidos.
+    '''</summary>
+    Friend Shared ReadOnly Property PuntosInspeccion() As String
+        Get
+            Return ResourceManager.GetString("PuntosInspeccion", resourceCulture)
         End Get
     End Property
     

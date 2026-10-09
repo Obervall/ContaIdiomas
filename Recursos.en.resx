@@ -1100,4 +1100,13 @@ Want to see what's new now?</value>
 Please add this program to the exclusion list or allow controlled access
 folders to use.</value>
   </data>
+  <data name="NoPudoEncontrarManual" xml:space="preserve">
+    <value>Couldn't find the manual</value>
+  </data>
+  <data name="EnSistema" xml:space="preserve">
+    <value>in the System</value>
+  </data>
+  <data name="PuntosInspeccion" xml:space="preserve">
+    <value>Failed inspection points</value>
+  </data>
 </root>

@@ -1100,4 +1100,13 @@ Hemos aplicado mejoras y correcciones automáticas.
 Por favor, añade este programa a la lista de exclusiones o permite el acceso controlado
 a carpetas para poder usar.</value>
   </data>
+  <data name="NoPudoEncontrarManual" xml:space="preserve">
+    <value>No se pudo encontrar el manual</value>
+  </data>
+  <data name="EnSistema" xml:space="preserve">
+    <value>en el Sistema</value>
+  </data>
+  <data name="PuntosInspeccion" xml:space="preserve">
+    <value>Puntos de inspección fallidos</value>
+  </data>
 </root>

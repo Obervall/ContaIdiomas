@@ -1100,4 +1100,13 @@ Vuoi vedere cosa c'è di nuovo adesso?</value>
 Si prega di aggiungere questo programma alla lista di esclusioni o consentire l'accesso controllato
 cartelle da usare.</value>
   </data>
+  <data name="NoPudoEncontrarManual" xml:space="preserve">
+    <value>Non sono riuscito a trovare il manuale</value>
+  </data>
+  <data name="EnSistema" xml:space="preserve">
+    <value>nel Sistema</value>
+  </data>
+  <data name="PuntosInspeccion" xml:space="preserve">
+    <value>Punti di ispezione falliti</value>
+  </data>
 </root>
