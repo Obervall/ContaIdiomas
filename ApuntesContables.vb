@@ -33,6 +33,12 @@ Public Class ApuntesContables
     End Sub
 
     Private Sub ApuntesContables_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        ' Recuperamos el alto guardado por el usuario
+        If My.Settings.FormAltura > 0 Then
+            Me.Height = My.Settings.FormAltura
+        End If
+
         Me.KeyPreview = True
 
         ' Creamos la opción genérica en el menú
@@ -2870,18 +2876,17 @@ Public Class ApuntesContables
         DgvApuntesContables(3, 4)
     End Sub
 
-    Private Sub BtnSalir_Click(sender As Object, e As EventArgs) Handles BtnSalir.Click
-        BtnFiltroCuenta.Enabled = True
-        BtnSinFiltroCuenta.Enabled = False
-        BtnFiltroConcepto.Enabled = True
-        BtnSinFiltroConcepto.Enabled = False
-        BtnFiltroFecha.Enabled = True
-        BtnSinFiltroFecha.Enabled = False
-        BtnFiltroChekedList.Enabled = True
-        Me.Close()
-    End Sub
-
     Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        ' Si el usuario cerró el formulario estando minimizado o maximizado, 
+        ' guardamos el tamaño que tenía en modo "Normal"
+        If Me.WindowState = FormWindowState.Normal Then
+            My.Settings.FormAltura = Me.Height
+        Else
+            My.Settings.FormAltura = Me.RestoreBounds.Height
+        End If
+
+        ' Guardamos los cambios físicamente en el disco
+        My.Settings.Save()
         ' Se verifica si la razón para cerrar es la 3, es decir, el botón X.
         If e.CloseReason = 3 Then
             BtnFiltroCuenta.Enabled = True
@@ -2892,6 +2897,17 @@ Public Class ApuntesContables
             BtnSinFiltroFecha.Enabled = False
             e.Cancel = False ' NO Se cancela la solicitud de cerrar
         End If
+    End Sub
+
+    Private Sub BtnSalir_Click(sender As Object, e As EventArgs) Handles BtnSalir.Click
+        BtnFiltroCuenta.Enabled = True
+        BtnSinFiltroCuenta.Enabled = False
+        BtnFiltroConcepto.Enabled = True
+        BtnSinFiltroConcepto.Enabled = False
+        BtnFiltroFecha.Enabled = True
+        BtnSinFiltroFecha.Enabled = False
+        BtnFiltroChekedList.Enabled = True
+        Me.Close()
     End Sub
 
     Private Sub CmbConcepto_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbConcepto.KeyPress
@@ -3051,5 +3067,19 @@ Public Class ApuntesContables
             frmApuntesContables.TxtSaldo.ForeColor = System.Drawing.Color.IndianRed
         End If
     End Sub
+
+    Private Sub ApuntesContales_Resize(sender As Object, e As EventArgs) Handles Me.Resize
+        ' 1. Comprobamos que haya filas cargadas
+        ' 2. PROTECCIÓN: Comprobamos que el dgv tenga suficiente altura visible (por ejemplo, más de 40 píxeles)
+        If DgvApuntes.Rows.Count > 0 AndAlso DgvApuntes.Height > 40 Then
+            ' Bloqueamos fallos internos controlando la asignación con un Try
+            Try
+                DgvApuntes.FirstDisplayedScrollingRowIndex = DgvApuntes.Rows.Count - 1
+            Catch ex As Exception
+                ' Si por cualquier milisegundo de retraso del sistema da error, lo ignora y no rompe el programa
+            End Try
+        End If
+    End Sub
+
 
 End Class

@@ -71,5 +71,8 @@
     <Setting Name="LicenciaActivada" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="FormAltura" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">742</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

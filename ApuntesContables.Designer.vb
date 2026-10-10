@@ -518,7 +518,7 @@ Partial Class ApuntesContables
 		Me.Controls.Add(Me.GroupBox6)
 		Me.Controls.Add(Me.GroupBox4)
 		Me.Controls.Add(Me.GroupBox5)
-		Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+		Me.DoubleBuffered = True
 		Me.MaximizeBox = False
 		Me.MinimizeBox = False
 		Me.Name = "ApuntesContables"
