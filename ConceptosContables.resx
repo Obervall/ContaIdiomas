@@ -705,6 +705,9 @@
   <data name="&gt;&gt;GroupBox4.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="DgvConceptos.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
   <data name="DgvConceptos.Location" type="System.Drawing.Point, System.Drawing">
     <value>14, 176</value>
   </data>
@@ -712,7 +715,7 @@
     <value>51</value>
   </data>
   <data name="DgvConceptos.Size" type="System.Drawing.Size, System.Drawing">
-    <value>803, 475</value>
+    <value>803, 395</value>
   </data>
   <data name="DgvConceptos.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -1123,7 +1126,7 @@
     <value>8, 16</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>829, 663</value>
+    <value>829, 583</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1146,6 +1149,9 @@
         mczPjyIvAImZzMiIIigA/4/Mz48iLwD/j8zPj/j/AIiIzMiIiIgA/4/4/4/4/wD/j/j/j/j/ttsAAAAA
         AACAAAAAgAAAAAAAAACAAAAAgAAAAAAAAACAAAAAgAAAAAAAAACAAAAAgAAAAAAAAACAAAAAgAAAAA==
 </value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterParent</value>
