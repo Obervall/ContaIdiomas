@@ -858,6 +858,51 @@ Public Class IntroApuntes
         End If
     End Sub
 
+    'Public Function BuscarLetras(combo As String) As String
+
+    '    If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then
+    '        drMdb1.Close()
+    '    End If
+
+    '    If combo = "descripcion" Then
+    '        Dim texto As String = If(vLetras, "").Trim()
+    '        Dim letrasLimpias As String = texto.Replace("'", "''").ToUpper()
+
+    '        cmdMdb1cr.CommandText =
+    '            "Select DISTINCT DescripcionAPU " &
+    '            "FROM apuntes " &
+    '            "WHERE UCase(DescripcionAPU) Like '%" & letrasLimpias & "%' " &
+    '            "AND DescripcionAPU <> 'Saldo Inicial'"
+
+    '        Dim dt As New DataTable()
+
+    '        Try
+    '            Using dr As OleDbDataReader = cmdMdb1cr.ExecuteReader()
+    '                dt.Load(dr)
+    '            End Using
+
+    '            DgvDescripcion.DataSource = dt
+
+    '            If dt.Rows.Count > 0 Then
+    '                ' Si hay filas, configuramos columna y nos aseguramos de que se vea
+    '                If DgvDescripcion.Columns.Contains("DescripcionAPU") Then
+    '                    DgvDescripcion.Columns("DescripcionAPU").HeaderText = resManager.GetString("Descripcion")
+    '                    DgvDescripcion.Columns("DescripcionAPU").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+    '                End If
+    '                DgvDescripcion.Visible = True
+    '            Else
+    '                ' Si la búsqueda da 0 filas (como "impoo"), lo ocultamos
+    '                DgvDescripcion.Visible = False
+    '            End If
+
+    '        Catch ex As Exception
+    '            DgvDescripcion.DataSource = Nothing
+    '            DgvDescripcion.Visible = False
+    '        End Try
+    '    End If
+    '    Return ""
+    'End Function
+
     Public Function BuscarLetras(combo As String) As String
 
         If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then
@@ -886,7 +931,19 @@ Public Class IntroApuntes
                 If dt.Rows.Count > 0 Then
                     ' Si hay filas, configuramos columna y nos aseguramos de que se vea
                     If DgvDescripcion.Columns.Contains("DescripcionAPU") Then
-                        DgvDescripcion.Columns("DescripcionAPU").HeaderText = resManager.GetString("Descripcion")
+                        ' =========================================================================
+                        ' 🎯 ROTULACIÓN DINÁMICA DE LA CABECERA (Soporte F2 Premium)
+                        ' =========================================================================
+                        ' Intentamos rescatar la traducción de "F2: Forzar texto escrito" desde tu .resx
+                        Dim textoCabeceraF2 As String = resManager.GetString("CabeceraF2Forzar")
+
+                        ' Salvavidas por si acaso la clave no estuviera escrita todavía en el archivo de recursos
+                        If String.IsNullOrEmpty(textoCabeceraF2) Then
+                            textoCabeceraF2 = "F2: Forzar texto escrito"
+                        End If
+
+                        ' Machacamos el viejo literal "Descripción" por tu aviso de teclado inteligente
+                        DgvDescripcion.Columns("DescripcionAPU").HeaderText = textoCabeceraF2
                         DgvDescripcion.Columns("DescripcionAPU").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
                     End If
                     DgvDescripcion.Visible = True
@@ -902,6 +959,7 @@ Public Class IntroApuntes
         End If
         Return ""
     End Function
+
 
     Private Sub DgvDescripcion_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles DgvDescripcion.CellDoubleClick
         ' Validamos que el usuario haya hecho clic en una fila de datos real y no en el encabezado
@@ -923,8 +981,107 @@ Public Class IntroApuntes
         End If
     End Sub
 
+    'Private Sub TxtBuscarLetras_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtBuscarLetras.KeyDown
+    '    ' 1. Si el usuario presiona INTRO en el buscador
+    '    If e.KeyCode = Keys.Enter Then
+    '        e.SuppressKeyPress = True ' Evitamos el pitido de Windows
+
+    '        Dim textoBuscado As String = TxtBuscarLetras.Text.Trim()
+
+    '        ' CASO A: El campo está completamente vacío -> Mostramos toda la lista
+    '        If String.IsNullOrWhiteSpace(textoBuscado) Then
+    '            vLetras = ""
+    '            DgvDescripcion.Visible = True
+    '            BuscarLetras("descripcion")
+    '            DgvDescripcion.Focus()
+    '            Return
+    '        End If
+
+    '        ' 🌟 ¡LA CORRECCIÓN CLAVE AQUÍ!
+    '        ' Si la tabla está oculta, pero el texto coincide exactamente con la descripción oficial 
+    '        ' del concepto (la que guardamos en TxtDescripcion.Text), el usuario está aceptando la opción por defecto.
+    '        If DgvDescripcion.Visible = False AndAlso textoBuscado.ToUpper() = TxtDescripcion.Text.Trim().ToUpper() Then
+    '            vDescripcion = textoBuscado ' Aseguramos la variable global
+    '            vIntro = "NO" ' No es una descripción nueva
+    '            TxtImporte.Focus() ' Saltamos directo al importe
+    '            Return
+    '        End If
+
+    '        ' CASO B: Hay texto, está oculto y NO coincide -> ¡AQUÍ SÍ ES UNA DESCRIPCIÓN TOTALMENTE NUEVA!
+    '        If DgvDescripcion.Visible = False OrElse DgvDescripcion.Rows.Count = 0 Then
+
+    '            Dim respuesta As MsgBoxResult = ConfirmarAccionTraducida(
+    '            rmse.GetString("NoExistenDescripciones") & ": -" & textoBuscado.ToUpper() & "-" & vbCrLf & "¿" & rmse.GetString("AñadirDescripcion") & "?",
+    '            rmse.GetString("$this.Text")
+    '        )
+
+    '            If respuesta = MsgBoxResult.Yes Then
+    '                vIntro = "SI"
+    '                vDescripcion = textoBuscado
+    '                ' Actualizamos el almacén de texto original con el nuevo texto autorizado
+    '                TxtDescripcion.Text = textoBuscado
+    '                DgvDescripcion.Visible = False
+    '                TxtImporte.Focus()
+    '            Else
+    '                TxtBuscarLetras.SelectAll()
+    '                TxtBuscarLetras.Focus()
+    '            End If
+
+    '            Return
+    '        End If
+
+    '        ' CASO C: Si el DataGridView SÍ tiene datos en pantalla, mandamos el foco a la tabla
+    '        If DgvDescripcion.Visible AndAlso DgvDescripcion.Rows.Count > 0 Then
+    '            DgvDescripcion.Focus()
+    '        End If
+    '    End If
+
+    '    ' 2. Si el usuario presiona FLECHA ABAJO
+    '    If e.KeyCode = Keys.Down AndAlso DgvDescripcion.Visible Then
+    '        DgvDescripcion.Focus()
+    '        e.Handled = True
+    '    End If
+    'End Sub
+
     Private Sub TxtBuscarLetras_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtBuscarLetras.KeyDown
-        ' 1. Si el usuario presiona INTRO en el buscador
+        ' =========================================================================
+        ' 🌟 BOTÓN DE ESCAPE RÁPIDO F2: FORZAR DESCRIPCIÓN MANUAL (Tu nueva opción Premium)
+        ' =========================================================================
+        If e.KeyCode = Keys.F2 Then
+            e.SuppressKeyPress = True ' Evitamos el molesto pitido de Windows
+            e.Handled = True
+
+            Dim textoBuscadoF2 As String = TxtBuscarLetras.Text.Trim()
+
+            ' Cortafuegos básico: si el campo está vacío, pasamos de largo
+            If String.IsNullOrWhiteSpace(textoBuscadoF2) Then Exit Sub
+
+            ' Ocultamos rígidamente la tabla de sugerencias azul para simular que "No se encontraron registros"
+            DgvDescripcion.Visible = False
+
+            ' Lanzamos de forma directa exactamente la misma ventana de confirmación del CASO B
+            Dim respuestaF2 As MsgBoxResult = ConfirmarAccionTraducida(
+                rmse.GetString("NoExistenDescripciones") & ": -" & textoBuscadoF2.ToUpper() & "-" & vbCrLf & "¿" & rmse.GetString("AñadirDescripcion") & "?",
+                rmse.GetString("$this.Text")
+            )
+
+            If respuestaF2 = MsgBoxResult.Yes Then
+                vIntro = "SI"
+                vDescripcion = textoBuscadoF2
+                ' Actualizamos el almacén de texto original con el nuevo texto autorizado
+                TxtDescripcion.Text = textoBuscadoF2
+                TxtImporte.Focus()
+            Else
+                TxtBuscarLetras.SelectAll()
+                TxtBuscarLetras.Focus()
+            End If
+
+            Return ' Cortamos la ejecución aquí con éxito absoluto
+        End If
+
+        ' =========================================================================
+        ' 1. SINTAXIS ORIGINAL DE SI EL USUARIO PRESIONA INTRO (Tu código intacto)
+        ' =========================================================================
         If e.KeyCode = Keys.Enter Then
             e.SuppressKeyPress = True ' Evitamos el pitido de Windows
 
@@ -939,9 +1096,7 @@ Public Class IntroApuntes
                 Return
             End If
 
-            ' 🌟 ¡LA CORRECCIÓN CLAVE AQUÍ!
-            ' Si la tabla está oculta, pero el texto coincide exactamente con la descripción oficial 
-            ' del concepto (la que guardamos en TxtDescripcion.Text), el usuario está aceptando la opción por defecto.
+            ' Si la tabla está oculta, pero el texto coincide exactamente con la descripción oficial
             If DgvDescripcion.Visible = False AndAlso textoBuscado.ToUpper() = TxtDescripcion.Text.Trim().ToUpper() Then
                 vDescripcion = textoBuscado ' Aseguramos la variable global
                 vIntro = "NO" ' No es una descripción nueva
@@ -949,18 +1104,16 @@ Public Class IntroApuntes
                 Return
             End If
 
-            ' CASO B: Hay texto, está oculto y NO coincide -> ¡AQUÍ SÍ ES UNA DESCRIPCIÓN TOTALMENTE NUEVA!
+            ' CASO B: Hay texto, está oculto y NO coincide -> ¡DESCRIPCIÓN TOTALMENTE NUEVA!
             If DgvDescripcion.Visible = False OrElse DgvDescripcion.Rows.Count = 0 Then
-
                 Dim respuesta As MsgBoxResult = ConfirmarAccionTraducida(
-                rmse.GetString("NoExistenDescripciones") & ": -" & textoBuscado.ToUpper() & "-" & vbCrLf & "¿" & rmse.GetString("AñadirDescripcion") & "?",
-                rmse.GetString("$this.Text")
-            )
+                    rmse.GetString("NoExistenDescripciones") & ": -" & textoBuscado.ToUpper() & "-" & vbCrLf & "¿" & rmse.GetString("AñadirDescripcion") & "?",
+                    rmse.GetString("$this.Text")
+                )
 
                 If respuesta = MsgBoxResult.Yes Then
                     vIntro = "SI"
                     vDescripcion = textoBuscado
-                    ' Actualizamos el almacén de texto original con el nuevo texto autorizado
                     TxtDescripcion.Text = textoBuscado
                     DgvDescripcion.Visible = False
                     TxtImporte.Focus()
@@ -978,12 +1131,13 @@ Public Class IntroApuntes
             End If
         End If
 
-        ' 2. Si el usuario presiona FLECHA ABAJO
+        ' 2. Si el usuario presiona FLECHA ABAJO (Tu lógica original intacta)
         If e.KeyCode = Keys.Down AndAlso DgvDescripcion.Visible Then
             DgvDescripcion.Focus()
             e.Handled = True
         End If
     End Sub
+
 
     Private Sub ProcesarSeleccionDescripcion(rowIndex As Integer)
         ' 1. Extraemos el valor de la columna de la fila seleccionada

@@ -1109,4 +1109,10 @@ a carpetas para poder usar.</value>
   <data name="PuntosInspeccion" xml:space="preserve">
     <value>Puntos de inspección fallidos</value>
   </data>
+  <data name="SumaSeleccionada" xml:space="preserve">
+    <value>Suma</value>
+  </data>
+  <data name="CabeceraF2Forzar" xml:space="preserve">
+    <value>F2: Forzar texto escrito</value>
+  </data>
 </root>

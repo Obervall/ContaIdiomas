@@ -119,14 +119,14 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="DgvDescripcion.Location" type="System.Drawing.Point, System.Drawing">
-    <value>165, 231</value>
+    <value>21, 231</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="DgvDescripcion.RowHeadersWidth" type="System.Int32, mscorlib">
     <value>51</value>
   </data>
   <data name="DgvDescripcion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>389, 138</value>
+    <value>533, 138</value>
   </data>
   <data name="DgvDescripcion.TabIndex" type="System.Int32, mscorlib">
     <value>104</value>

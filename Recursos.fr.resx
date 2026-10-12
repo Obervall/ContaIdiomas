@@ -1109,4 +1109,10 @@ des dossiers à utiliser.</value>
   <data name="PuntosInspeccion" xml:space="preserve">
     <value>Échecs des points d’inspection</value>
   </data>
+  <data name="SumaSeleccionada" xml:space="preserve">
+    <value>Somme</value>
+  </data>
+  <data name="CabeceraF2Forzar" xml:space="preserve">
+    <value>F2 : Texte tapoté de force</value>
+  </data>
 </root>

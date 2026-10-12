@@ -328,6 +328,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a F2: Forzar texto escrito.
+    '''</summary>
+    Friend Shared ReadOnly Property CabeceraF2Forzar() As String
+        Get
+            Return ResourceManager.GetString("CabeceraF2Forzar", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a CUENTA CAJA EFECTIVO.
     '''</summary>
     Friend Shared ReadOnly Property CAJA_EFECTIVO() As String
@@ -2527,6 +2536,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property SoloAdmitePunto() As String
         Get
             Return ResourceManager.GetString("SoloAdmitePunto", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Suma.
+    '''</summary>
+    Friend Shared ReadOnly Property SumaSeleccionada() As String
+        Get
+            Return ResourceManager.GetString("SumaSeleccionada", resourceCulture)
         End Get
     End Property
     

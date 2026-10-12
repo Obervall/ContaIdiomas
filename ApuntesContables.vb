@@ -18,6 +18,7 @@ Public Class ApuntesContables
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
     Private menuFiltro As New ContextMenuStrip()
     Private descripcionAFiltrar As String = ""
+    Private vUltimaSumaToolTip As Decimal = 0
 
     ' Método recursivo para actualizar la fuente de todos los controles
     Private Sub CambiarTamañoFuente(ByVal controles As Control.ControlCollection, ByVal nuevoTamaño As Single)
@@ -3078,6 +3079,52 @@ Public Class ApuntesContables
             Catch ex As Exception
                 ' Si por cualquier milisegundo de retraso del sistema da error, lo ignora y no rompe el programa
             End Try
+        End If
+    End Sub
+
+    Private Sub DgvApuntes_SelectionChanged(sender As Object, e As EventArgs) Handles DgvApuntes.SelectionChanged
+        ' =========================================================================
+        ' 🧽 RESETEO DE MEMORIA: Cortafuegos para cuando se deshace la selección
+        ' =========================================================================
+        ' Si el usuario baja de 2 filas (hace clic en una celda suelta o limpia el grid)
+        If DgvApuntes.SelectedRows.Count <= 1 Then
+            ' 1. Ocultamos rígidamente el cartel flotante de la pantalla
+            TtSumatorio.Hide(frmApuntesContables)
+
+            ' 2. ¡REPARADO! Reseteamos la variable a cero absoluto para borrar el rastro del saldo anterior
+            vUltimaSumaToolTip = 0
+
+            ' 3. Salimos del evento sin calcular nada más
+            Exit Sub
+        End If
+
+        ' =========================================================================
+        ' 📊 CÁLCULO DE LA NUEVA SUMA EN LA RAM (Sigue hacia abajo intacto)
+        ' =========================================================================
+        Dim sumaSeleccionada As Decimal = 0
+
+        For Each fila As DataGridViewRow In DgvApuntes.SelectedRows
+            If fila.IsNewRow Then Continue For
+
+            ' Blindaje por .Name técnico de tu columna de importes
+            If DgvApuntes.Columns.Contains("ImporteAPU") AndAlso fila.Cells("ImporteAPU").Value IsNot Nothing AndAlso Not IsDBNull(fila.Cells("ImporteAPU").Value) Then
+                sumaSeleccionada += Convert.ToDecimal(fila.Cells("ImporteAPU").Value)
+            End If
+        Next
+
+        ' 4. Si la suma ha cambiado, redibujamos el ToolTip en tus nuevas coordenadas del padre
+        If sumaSeleccionada <> vUltimaSumaToolTip Then
+            vUltimaSumaToolTip = sumaSeleccionada
+
+            Dim textoEtiqueta As String = resManager.GetString("SumaSeleccionada")
+            If String.IsNullOrEmpty(textoEtiqueta) Then textoEtiqueta = "Suma:"
+
+            Dim mensajeToolTip As String = $"{textoEtiqueta} {sumaSeleccionada:N2} {My.Settings.Moneda}"
+
+            ' Usamos la posición del ratón mapeada de forma idéntica hacia el formulario contenedor frmApuntesContables
+            Dim posicionRaton As Point = frmApuntesContables.PointToClient(Cursor.Position)
+
+            TtSumatorio.Show(mensajeToolTip, frmApuntesContables, posicionRaton.X + 15, posicionRaton.Y + 15)
         End If
     End Sub
 

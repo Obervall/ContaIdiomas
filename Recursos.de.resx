@@ -1109,4 +1109,10 @@ Ordner zum Benutzen.</value>
   <data name="PuntosInspeccion" xml:space="preserve">
     <value>Nicht bestandene Inspektionspunkte</value>
   </data>
+  <data name="SumaSeleccionada" xml:space="preserve">
+    <value>Summe</value>
+  </data>
+  <data name="CabeceraF2Forzar" xml:space="preserve">
+    <value>F2: Erzwungener Text</value>
+  </data>
 </root>

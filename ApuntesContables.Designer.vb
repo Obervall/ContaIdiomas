@@ -22,6 +22,7 @@ Partial Class ApuntesContables
 	'No lo modifique con el editor de código.
 	<System.Diagnostics.DebuggerStepThrough()>
 	Private Sub InitializeComponent()
+		Me.components = New System.ComponentModel.Container()
 		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ApuntesContables))
 		Me.GroupBox1 = New System.Windows.Forms.GroupBox()
 		Me.TxtNumRegistros = New System.Windows.Forms.TextBox()
@@ -84,6 +85,7 @@ Partial Class ApuntesContables
 		Me.ListBox1 = New System.Windows.Forms.ListBox()
 		Me.PrintDocument1 = New System.Drawing.Printing.PrintDocument()
 		Me.Label2 = New System.Windows.Forms.Label()
+		Me.TtSumatorio = New System.Windows.Forms.ToolTip(Me.components)
 		Me.GroupBox1.SuspendLayout()
 		Me.GroupBox2.SuspendLayout()
 		Me.GroupBox3.SuspendLayout()
@@ -602,4 +604,5 @@ Partial Class ApuntesContables
 	Public WithEvents BtnImportarBanco As Windows.Forms.Button
 	Friend WithEvents BtnManualBancarioPdf As Windows.Forms.Button
 	Friend WithEvents Label2 As Windows.Forms.Label
+	Friend WithEvents TtSumatorio As Windows.Forms.ToolTip
 End Class

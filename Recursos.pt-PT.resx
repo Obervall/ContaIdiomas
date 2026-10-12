@@ -1109,4 +1109,10 @@ pastas para usar.</value>
   <data name="PuntosInspeccion" xml:space="preserve">
     <value>Pontos de inspeção falhados</value>
   </data>
+  <data name="SumaSeleccionada" xml:space="preserve">
+    <value>Sum</value>
+  </data>
+  <data name="CabeceraF2Forzar" xml:space="preserve">
+    <value>F2: Texto Forçado a Digitar</value>
+  </data>
 </root>

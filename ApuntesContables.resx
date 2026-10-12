@@ -2003,6 +2003,9 @@
   <data name="&gt;&gt;Label2.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <metadata name="TtSumatorio.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>184, 17</value>
+  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -2055,11 +2058,22 @@
   <data name="&gt;&gt;PrintDocument1.Type" xml:space="preserve">
     <value>System.Drawing.Printing.PrintDocument, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="&gt;&gt;TtSumatorio.Name" xml:space="preserve">
+    <value>TtSumatorio</value>
+  </data>
+  <data name="&gt;&gt;TtSumatorio.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ApuntesContables</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MsgAviso1" xml:space="preserve">
+    <value>Hay Diversos Conceptos Seleccionados.
+Filtrar Primero por Cuentas y Fechas,
+después por Conceptos Diversos</value>
   </data>
   <data name="EliminarApuntes" xml:space="preserve">
     <value>Apuntes Borrados!!</value>
@@ -2113,11 +2127,6 @@ Con F6: Refresca la Parrilla Apuntes y Quita Filtros</value>
   </data>
   <data name="RutaExcelCreada" xml:space="preserve">
     <value>Ruta C:\ContaHogar3.0\Excel, Creada</value>
-  </data>
-  <data name="MsgAviso1" xml:space="preserve">
-    <value>Hay Diversos Conceptos Seleccionados.
-Filtrar Primero por Cuentas y Fechas,
-después por Conceptos Diversos</value>
   </data>
   <data name="MsgSaldos1" xml:space="preserve">
     <value>Los Saldos iniciales, NO se pueden Borrar</value>

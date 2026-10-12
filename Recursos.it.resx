@@ -1109,4 +1109,10 @@ cartelle da usare.</value>
   <data name="PuntosInspeccion" xml:space="preserve">
     <value>Punti di ispezione falliti</value>
   </data>
+  <data name="SumaSeleccionada" xml:space="preserve">
+    <value>Somma</value>
+  </data>
+  <data name="CabeceraF2Forzar" xml:space="preserve">
+    <value>F2: Testo forzato a digitare</value>
+  </data>
 </root>

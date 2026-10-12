@@ -433,8 +433,9 @@ Module Funciones
                 .Columns(2).Width = 200
                 .Columns(2).HeaderText = resManager.GetString("Descripcion") ' "Descripción"
                 .Columns(3).Width = 100
-                .Columns(3).HeaderText = resManager.GetString("Importe") & " " & vMoneda
-                .Columns(4).Width = 90
+				.Columns(3).HeaderText = resManager.GetString("Importe") & " " & vMoneda
+				.Columns(3).Name = "ImporteAPU" ' Asignamos un nombre biológico para localizarlo en la RAM
+				.Columns(4).Width = 90
                 .Columns(4).HeaderText = resManager.GetString("Saldo") & " " & vMoneda
                 .Columns(5).Width = 140
                 .Columns(5).HeaderText = resManager.GetString("Notas") ' "Notas"

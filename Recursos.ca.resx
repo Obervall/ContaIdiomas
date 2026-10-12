@@ -1109,4 +1109,10 @@ carpetes per utilitzar.</value>
   <data name="PuntosInspeccion" xml:space="preserve">
     <value>Punts d'inspecció fallits</value>
   </data>
+  <data name="SumaSeleccionada" xml:space="preserve">
+    <value>Suma</value>
+  </data>
+  <data name="CabeceraF2Forzar" xml:space="preserve">
+    <value>F2: Força el Text escrit</value>
+  </data>
 </root>
