@@ -192,12 +192,6 @@ s'estableix la data del 31 de desembre de l'any de l'exercici</value>
     <value>Error en Gravar el Registre, Verificar que la Data és Correcta i l'Import no contingui lletres...
 Error</value>
   </data>
-  <data name="NoExistenDescripciones" xml:space="preserve">
-    <value>No existeixen Descripcions amb</value>
-  </data>
-  <data name="AñadirDescripcion" xml:space="preserve">
-    <value>Afegim la descripció</value>
-  </data>
   <data name="BtnAyuda" xml:space="preserve">
     <value>Veure l'Ajuda per Introduir Apunt</value>
   </data>

@@ -159,9 +159,6 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Introduzione delle Note</value>
   </data>
-  <data name="AñadirDescripcion" xml:space="preserve">
-    <value>Aggiungiamo la descrizione</value>
-  </data>
   <data name="BtnAyuda" xml:space="preserve">
     <value>Consulta l'aiuto per inserire appunti</value>
   </data>
@@ -188,9 +185,6 @@ Errore</value>
   </data>
   <data name="NoCantidadImporte" xml:space="preserve">
     <value>Nessuna somma</value>
-  </data>
-  <data name="NoExistenDescripciones" xml:space="preserve">
-    <value>Non ci sono descrizioni con</value>
   </data>
   <data name="SelecConcepto" xml:space="preserve">
     <value>Seleziona il concetto</value>

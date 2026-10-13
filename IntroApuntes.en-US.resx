@@ -192,12 +192,6 @@ the date of December 31 of the year of the Fiscal Year is established</value>
     <value>Error Saving the Record, Verifying that the Date is Correct and the Amount Has No Letters...
 Error</value>
   </data>
-  <data name="NoExistenDescripciones" xml:space="preserve">
-    <value>There are no Descriptions with</value>
-  </data>
-  <data name="AñadirDescripcion" xml:space="preserve">
-    <value>We add the description</value>
-  </data>
   <data name="BtnAyuda" xml:space="preserve">
     <value>See the Help for Entering Transactions</value>
   </data>

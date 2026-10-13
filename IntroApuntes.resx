@@ -1036,12 +1036,6 @@ Error</value>
   <data name="NoCantidadImporte" xml:space="preserve">
     <value>No hay Cantidad en Importe</value>
   </data>
-  <data name="NoExistenDescripciones" xml:space="preserve">
-    <value>No existen Descripciones con</value>
-  </data>
-  <data name="AñadirDescripcion" xml:space="preserve">
-    <value>Añadimos la descripción</value>
-  </data>
   <data name="BtnAyuda" xml:space="preserve">
     <value>Ver la Ayuda para Introducir Apunte</value>
   </data>

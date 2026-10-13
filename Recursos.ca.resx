@@ -1118,4 +1118,10 @@ carpetes per utilitzar.</value>
   <data name="TxtABuscar" xml:space="preserve">
     <value>Text a Buscar, mínim 3 lletres</value>
   </data>
+  <data name="NoExistenDescripciones" xml:space="preserve">
+    <value>No existeixen Descripcions amb</value>
+  </data>
+  <data name="AñadirDescripcion" xml:space="preserve">
+    <value>Afegim la descripció</value>
+  </data>
 </root>

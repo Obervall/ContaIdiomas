@@ -192,12 +192,6 @@ A data de 31 de dezembro do ano do Ano Fiscal é estabelecida</value>
     <value>Erro ao salvar o registro, verificar se a data está correta e o valor não tem letras...
 Erro</value>
   </data>
-  <data name="NoExistenDescripciones" xml:space="preserve">
-    <value>Não há descrições com</value>
-  </data>
-  <data name="AñadirDescripcion" xml:space="preserve">
-    <value>Adicionamos a descrição</value>
-  </data>
   <data name="BtnAyuda" xml:space="preserve">
     <value>Veja a Ajuda para Inserir Notas</value>
   </data>

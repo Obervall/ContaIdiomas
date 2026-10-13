@@ -1118,4 +1118,10 @@ cartelle da usare.</value>
   <data name="TxtABuscar" xml:space="preserve">
     <value>Cerca testo, minimo 3 lettere</value>
   </data>
+  <data name="NoExistenDescripciones" xml:space="preserve">
+    <value>Non ci sono descrizioni con</value>
+  </data>
+  <data name="AñadirDescripcion" xml:space="preserve">
+    <value>Aggiungiamo la descrizione</value>
+  </data>
 </root>

@@ -752,6 +752,15 @@ Public Class Principal
         End If
         ' 3. Forzar la traducción y el tamaño correcto antes de medir la ventana
         ActualizarTextosFormulario(frmApuntesPeriodicos)
+        ' 4. Configurar el posicionamiento manual obligatorio
+        frmApuntesPeriodicos.StartPosition = FormStartPosition.Manual
+        ' 5. Calcular las coordenadas definitivas con tu ajuste de +10
+        Dim posX As Integer = Me.Left + (Me.Width - frmApuntesPeriodicos.Width) \ 2
+        Dim posY As Integer = Me.Top + 10
+        If posX < 0 Then posX = 0
+        ' 6. Fijar la ubicación calculada y abrir la ventana
+        frmApuntesPeriodicos.Location = New System.Drawing.Point(posX, posY)
+
         ' Llamamos al formulario de manera NO modal.
         frmApuntesPeriodicos.ShowDialog()
         'MessageBox.Show("Se ha cerrado el formulario.")

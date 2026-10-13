@@ -1118,4 +1118,10 @@ des dossiers à utiliser.</value>
   <data name="TxtABuscar" xml:space="preserve">
     <value>Recherche de texte, minimum 3 lettres</value>
   </data>
+  <data name="NoExistenDescripciones" xml:space="preserve">
+    <value>Il n’y a pas de descriptions avec</value>
+  </data>
+  <data name="AñadirDescripcion" xml:space="preserve">
+    <value>Nous ajoutons la description</value>
+  </data>
 </root>

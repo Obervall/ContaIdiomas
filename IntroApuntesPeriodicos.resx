@@ -147,10 +147,10 @@
     <value>0</value>
   </data>
   <data name="TxtBuscarLetras.Location" type="System.Drawing.Point, System.Drawing">
-    <value>273, 102</value>
+    <value>242, 102</value>
   </data>
   <data name="TxtBuscarLetras.Size" type="System.Drawing.Size, System.Drawing">
-    <value>274, 27</value>
+    <value>305, 27</value>
   </data>
   <data name="TxtBuscarLetras.TabIndex" type="System.Int32, mscorlib">
     <value>105</value>
@@ -754,7 +754,7 @@
     <value>11, 105</value>
   </data>
   <data name="Label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>256, 28</value>
+    <value>225, 28</value>
   </data>
   <data name="Label3.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>

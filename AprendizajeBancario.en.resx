@@ -183,12 +183,6 @@ Error</value>
   <data name="BtnAyuda.Text" xml:space="preserve">
     <value>Help (?)</value>
   </data>
-  <data name="NoExistenDescripciones" xml:space="preserve">
-    <value>There are no Descriptions with</value>
-  </data>
-  <data name="AñadirDescripcion" xml:space="preserve">
-    <value>We add the description</value>
-  </data>
   <data name="BtnAyuda" xml:space="preserve">
     <value>See the Help for Entering Transactions</value>
   </data>

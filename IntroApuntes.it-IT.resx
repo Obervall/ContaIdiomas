@@ -192,12 +192,6 @@ la data del 31 dicembre dell'anno dell'Anno Fiscale è stabilita</value>
     <value>Errore nel salvare il record, verificare che la data sia corretta e che l'importo non abbia lettere...
 Errore</value>
   </data>
-  <data name="NoExistenDescripciones" xml:space="preserve">
-    <value>Non ci sono descrizioni con</value>
-  </data>
-  <data name="AñadirDescripcion" xml:space="preserve">
-    <value>Aggiungiamo la descrizione</value>
-  </data>
   <data name="BtnAyuda" xml:space="preserve">
     <value>Consulta l'aiuto per inserire appunti</value>
   </data>

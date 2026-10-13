@@ -192,12 +192,6 @@ la date du 31 décembre de l’année de l’exercice fiscal est fixée</value>
     <value>Erreur de sauvegarde du dossier, vérification de la date correcte et de l’absence de lettres sur le montant...
 Erreur</value>
   </data>
-  <data name="NoExistenDescripciones" xml:space="preserve">
-    <value>Il n’y a pas de descriptions avec</value>
-  </data>
-  <data name="AñadirDescripcion" xml:space="preserve">
-    <value>Nous ajoutons la description</value>
-  </data>
   <data name="BtnAyuda" xml:space="preserve">
     <value>Voir l’aide pour saisir des notes</value>
   </data>

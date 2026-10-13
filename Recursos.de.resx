@@ -1118,4 +1118,10 @@ Ordner zum Benutzen.</value>
   <data name="TxtABuscar" xml:space="preserve">
     <value>Suchtext, mindestens 3 Buchstaben</value>
   </data>
+  <data name="NoExistenDescripciones" xml:space="preserve">
+    <value>Es gibt keine Beschreibungen mit</value>
+  </data>
+  <data name="AñadirDescripcion" xml:space="preserve">
+    <value>Wir fügen die Beschreibung hinzu</value>
+  </data>
 </root>

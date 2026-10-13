@@ -24,6 +24,9 @@ Partial Class IntroApuntesPeriodicos
     Private Sub InitializeComponent()
 		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(IntroApuntesPeriodicos))
 		Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+		Me.DgvDescripcion = New System.Windows.Forms.DataGridView()
+		Me.TxtBuscarLetras = New System.Windows.Forms.TextBox()
+		Me.LblAyudaBuscar = New System.Windows.Forms.Label()
 		Me.CmbDescripcion = New System.Windows.Forms.ComboBox()
 		Me.CmbPeriocidad = New System.Windows.Forms.ComboBox()
 		Me.TxtNumeroPagos = New System.Windows.Forms.TextBox()
@@ -48,9 +51,6 @@ Partial Class IntroApuntesPeriodicos
 		Me.LblFechaPagoCobro = New System.Windows.Forms.Label()
 		Me.BtnCancelar = New System.Windows.Forms.Button()
 		Me.BtnAceptarSalir = New System.Windows.Forms.Button()
-		Me.LblAyudaBuscar = New System.Windows.Forms.Label()
-		Me.TxtBuscarLetras = New System.Windows.Forms.TextBox()
-		Me.DgvDescripcion = New System.Windows.Forms.DataGridView()
 		Me.GroupBox1.SuspendLayout()
 		CType(Me.DgvDescripcion, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.SuspendLayout()
@@ -85,6 +85,29 @@ Partial Class IntroApuntesPeriodicos
 		resources.ApplyResources(Me.GroupBox1, "GroupBox1")
 		Me.GroupBox1.Name = "GroupBox1"
 		Me.GroupBox1.TabStop = False
+		'
+		'DgvDescripcion
+		'
+		Me.DgvDescripcion.AllowUserToAddRows = False
+		Me.DgvDescripcion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+		resources.ApplyResources(Me.DgvDescripcion, "DgvDescripcion")
+		Me.DgvDescripcion.MultiSelect = False
+		Me.DgvDescripcion.Name = "DgvDescripcion"
+		Me.DgvDescripcion.ReadOnly = True
+		Me.DgvDescripcion.RowHeadersVisible = False
+		Me.DgvDescripcion.RowTemplate.Height = 24
+		Me.DgvDescripcion.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+		'
+		'TxtBuscarLetras
+		'
+		resources.ApplyResources(Me.TxtBuscarLetras, "TxtBuscarLetras")
+		Me.TxtBuscarLetras.Name = "TxtBuscarLetras"
+		'
+		'LblAyudaBuscar
+		'
+		resources.ApplyResources(Me.LblAyudaBuscar, "LblAyudaBuscar")
+		Me.LblAyudaBuscar.ForeColor = System.Drawing.SystemColors.ControlDarkDark
+		Me.LblAyudaBuscar.Name = "LblAyudaBuscar"
 		'
 		'CmbDescripcion
 		'
@@ -224,29 +247,6 @@ Partial Class IntroApuntesPeriodicos
 		resources.ApplyResources(Me.BtnAceptarSalir, "BtnAceptarSalir")
 		Me.BtnAceptarSalir.Name = "BtnAceptarSalir"
 		Me.BtnAceptarSalir.UseVisualStyleBackColor = True
-		'
-		'LblAyudaBuscar
-		'
-		resources.ApplyResources(Me.LblAyudaBuscar, "LblAyudaBuscar")
-		Me.LblAyudaBuscar.ForeColor = System.Drawing.SystemColors.ControlDarkDark
-		Me.LblAyudaBuscar.Name = "LblAyudaBuscar"
-		'
-		'TxtBuscarLetras
-		'
-		resources.ApplyResources(Me.TxtBuscarLetras, "TxtBuscarLetras")
-		Me.TxtBuscarLetras.Name = "TxtBuscarLetras"
-		'
-		'DgvDescripcion
-		'
-		Me.DgvDescripcion.AllowUserToAddRows = False
-		Me.DgvDescripcion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-		resources.ApplyResources(Me.DgvDescripcion, "DgvDescripcion")
-		Me.DgvDescripcion.MultiSelect = False
-		Me.DgvDescripcion.Name = "DgvDescripcion"
-		Me.DgvDescripcion.ReadOnly = True
-		Me.DgvDescripcion.RowHeadersVisible = False
-		Me.DgvDescripcion.RowTemplate.Height = 24
-		Me.DgvDescripcion.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
 		'
 		'IntroApuntesPeriodicos
 		'

@@ -1118,4 +1118,10 @@ pastas para usar.</value>
   <data name="TxtABuscar" xml:space="preserve">
     <value>Pesquisar texto, mínimo 3 letras</value>
   </data>
+  <data name="NoExistenDescripciones" xml:space="preserve">
+    <value>Não há descrições com</value>
+  </data>
+  <data name="AñadirDescripcion" xml:space="preserve">
+    <value>Adicionamos a descrição</value>
+  </data>
 </root>

@@ -201,12 +201,6 @@ Errore</value>
   <data name="BtnAyuda.Text" xml:space="preserve">
     <value>Aiuto (?)</value>
   </data>
-  <data name="NoExistenDescripciones" xml:space="preserve">
-    <value>Non ci sono descrizioni con</value>
-  </data>
-  <data name="AñadirDescripcion" xml:space="preserve">
-    <value>Aggiungiamo la descrizione</value>
-  </data>
   <data name="BtnAyuda" xml:space="preserve">
     <value>Consulta l'aiuto per inserire appunti</value>
   </data>

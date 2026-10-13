@@ -180,12 +180,6 @@ Fehler</value>
   <data name="BtnAyuda.Text" xml:space="preserve">
     <value>Hilfe (?)</value>
   </data>
-  <data name="NoExistenDescripciones" xml:space="preserve">
-    <value>Es gibt keine Beschreibungen mit</value>
-  </data>
-  <data name="AñadirDescripcion" xml:space="preserve">
-    <value>Wir fügen die Beschreibung hinzu</value>
-  </data>
   <data name="BtnAyuda" xml:space="preserve">
     <value>Siehe die Hilfe zum Eintragen von Notizen</value>
   </data>

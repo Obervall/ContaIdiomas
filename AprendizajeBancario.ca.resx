@@ -183,12 +183,6 @@ Error</value>
   <data name="BtnAyuda.Text" xml:space="preserve">
     <value>Ajuda (?)</value>
   </data>
-  <data name="NoExistenDescripciones" xml:space="preserve">
-    <value>No existeixen Descripcions amb</value>
-  </data>
-  <data name="AñadirDescripcion" xml:space="preserve">
-    <value>Afegim la descripció</value>
-  </data>
   <data name="BtnAyuda" xml:space="preserve">
     <value>Veure l'Ajuda per Introduir Apunt</value>
   </data>

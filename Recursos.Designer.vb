@@ -165,6 +165,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Añadimos la descripción.
+    '''</summary>
+    Friend Shared ReadOnly Property AñadirDescripcion() As String
+        Get
+            Return ResourceManager.GetString("AñadirDescripcion", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a ContaHogar 3.0 Premium.
     '''</summary>
     Friend Shared ReadOnly Property AppDisplayName() As String
@@ -2140,6 +2149,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property NoEncuentraRegistro() As String
         Get
             Return ResourceManager.GetString("NoEncuentraRegistro", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a No existen Descripciones con.
+    '''</summary>
+    Friend Shared ReadOnly Property NoExistenDescripciones() As String
+        Get
+            Return ResourceManager.GetString("NoExistenDescripciones", resourceCulture)
         End Get
     End Property
     

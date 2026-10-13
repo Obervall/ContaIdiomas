@@ -955,7 +955,7 @@ Public Class IntroApuntes
 
             ' Lanzamos de forma directa exactamente la misma ventana de confirmación del CASO B
             Dim respuestaF2 As MsgBoxResult = ConfirmarAccionTraducida(
-                rmse.GetString("NoExistenDescripciones") & ": -" & textoBuscadoF2.ToUpper() & "-" & vbCrLf & "¿" & rmse.GetString("AñadirDescripcion") & "?",
+                resManager.GetString("NoExistenDescripciones") & ": -" & textoBuscadoF2.ToUpper() & "-" & vbCrLf & "¿" & resManager.GetString("AñadirDescripcion") & "?",
                 rmse.GetString("$this.Text")
             )
 
@@ -1001,7 +1001,7 @@ Public Class IntroApuntes
             ' CASO B: Hay texto, está oculto y NO coincide -> ¡DESCRIPCIÓN TOTALMENTE NUEVA!
             If DgvDescripcion.Visible = False OrElse DgvDescripcion.Rows.Count = 0 Then
                 Dim respuesta As MsgBoxResult = ConfirmarAccionTraducida(
-                    rmse.GetString("NoExistenDescripciones") & ": -" & textoBuscado.ToUpper() & "-" & vbCrLf & "¿" & rmse.GetString("AñadirDescripcion") & "?",
+                    resManager.GetString("NoExistenDescripciones") & ": -" & textoBuscado.ToUpper() & "-" & vbCrLf & "¿" & resManager.GetString("AñadirDescripcion") & "?",
                     rmse.GetString("$this.Text")
                 )
 

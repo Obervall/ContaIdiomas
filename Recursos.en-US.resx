@@ -1118,4 +1118,10 @@ folders to use.</value>
   <data name="TxtABuscar" xml:space="preserve">
     <value>Search text, minimum 3 letters</value>
   </data>
+  <data name="NoExistenDescripciones" xml:space="preserve">
+    <value>There are no Descriptions with</value>
+  </data>
+  <data name="AñadirDescripcion" xml:space="preserve">
+    <value>We add the description</value>
+  </data>
 </root>

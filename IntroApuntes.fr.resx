@@ -189,12 +189,6 @@ Erreur</value>
   <data name="BtnAyuda.Text" xml:space="preserve">
     <value>Aide (?)</value>
   </data>
-  <data name="NoExistenDescripciones" xml:space="preserve">
-    <value>Il n’y a pas de descriptions avec</value>
-  </data>
-  <data name="AñadirDescripcion" xml:space="preserve">
-    <value>Nous ajoutons la description</value>
-  </data>
   <data name="BtnAyuda" xml:space="preserve">
     <value>Voir l’aide pour saisir des notes</value>
   </data>

@@ -7,7 +7,7 @@ Imports ToolTip = System.Windows.Forms.ToolTip
 Public Class IntroApuntesPeriodicos
 
     Private cargandoFormulario As Boolean = True
-    Public vConcepto, vtipoSql, vtipoGrid, vLetras As String
+    Public vConcepto, vtipoSql, vtipoGrid, vLetras, vIntro, vDescripcion As String
     Public vDescripcionAPU, vNotasAPU, vCuentaAPU, vAnexo, vbOK As String
     Public vNumeroPagos, vDate3Year As Integer
     Public vImporteAPU As Double
@@ -93,29 +93,65 @@ Public Class IntroApuntesPeriodicos
         ' =========================================================================
 
         ' 1. Llenar el Combo Concepto de forma aislada
-
         LlenarComboConceptosPeriodicos(Me.CmbConcepto)
 
-        ' =========================================================================
-        ' 🚀 TRAMO 2 REPARADO: LLENAR COMBO DESCRIPCIÓN INMUNE A BLOQUEOS (MSIX)
-        ' =========================================================================
-        ' Saneamos el CommandText a mayúsculas para evitar descalces con el rodillo 2.5
-        cmdMdb1cr.CommandText = "SELECT DISTINCT DescripcionAPU FROM apuntes WHERE DescripcionAPU <> 'SALDO INICIAL' And DescripcionAPU Is Not Null ORDER BY DescripcionAPU ASC"
-        cmdMdb1cr.Parameters.Clear()
-        CmbDescripcion.Items.Clear()
+        '' =========================================================================
+        '' 🚀 TRAMO 2 REPARADO: CAPTURA DE LA PRIMERA DESCRIPCIÓN DE LA BASE DE DATOS
+        '' =========================================================================
+        '' 1. Ocultamos preventivamente la rejilla flotante azul de sugerencias
+        'DgvDescripcion.Visible = False
 
-        Try
-            Using dr As OleDbDataReader = cmdMdb1cr.ExecuteReader()
-                While dr.Read()
-                    Dim descLimpia As String = dr.GetValue(0).ToString().Trim()
-                    If Not String.IsNullOrEmpty(descLimpia) Then
-                        CmbDescripcion.Items.Add(descLimpia)
-                    End If
-                End While
-            End Using
-        Catch ex As Exception
-            MsgBox(resManager.GetString("Error") & ": " & ex.Message, MsgBoxStyle.Critical)
-        End Try
+        '' 2. Consulta ultra-rápida TOP 1: Capturamos la primera descripción real que exista
+        'cmdMdb1cr.CommandText = "SELECT TOP 1 DescripcionAPU FROM apuntes WHERE DescripcionAPU <> 'SALDO INICIAL' And DescripcionAPU Is Not Null ORDER BY DescripcionAPU ASC"
+        'cmdMdb1cr.Parameters.Clear()
+
+        'Dim primeraDescripcion As String = ""
+
+        'Try
+        '    Using dr As OleDbDataReader = cmdMdb1cr.ExecuteReader()
+        '        ' Al usar un IF en lugar de un WHILE, leemos estrictamente la primera fila y cerramos el grifo
+        '        If dr.Read() Then
+        '            primeraDescripcion = dr.GetValue(0).ToString().Trim()
+        '        End If
+        '    End Using
+        'Catch ex As Exception
+        '    MsgBox(resManager.GetString("Error") & ": " & ex.Message, MsgBoxStyle.Critical)
+        'End Try
+
+        '' 3. 🎯 SINCRONIZACIÓN ABSOLUTA DEL NUEVO TXTBUSCARLETRAS
+        '' Si la base de datos nos ha devuelto texto, lo inyectamos al céntimo en el cuadro
+        'If Not String.IsNullOrEmpty(primeraDescripcion) Then
+        '    vDescripcion = primeraDescripcion
+        '    TxtBuscarLetras.Text = primeraDescripcion
+        'Else
+        '    vDescripcion = ""
+        '    TxtBuscarLetras.Text = ""
+        'End If
+
+        '' Marcamos que de entrada no es una descripción nueva de paquete
+        'vIntro = "NO"
+
+
+        '' =========================================================================
+        '' 🚀 TRAMO 2 REPARADO: LLENAR COMBO DESCRIPCIÓN INMUNE A BLOQUEOS (MSIX)
+        '' =========================================================================
+        '' Saneamos el CommandText a mayúsculas para evitar descalces con el rodillo 2.5
+        'cmdMdb1cr.CommandText = "SELECT DISTINCT DescripcionAPU FROM apuntes WHERE DescripcionAPU <> 'SALDO INICIAL' And DescripcionAPU Is Not Null ORDER BY DescripcionAPU ASC"
+        'cmdMdb1cr.Parameters.Clear()
+        'CmbDescripcion.Items.Clear()
+
+        'Try
+        '    Using dr As OleDbDataReader = cmdMdb1cr.ExecuteReader()
+        '        While dr.Read()
+        '            Dim descLimpia As String = dr.GetValue(0).ToString().Trim()
+        '            If Not String.IsNullOrEmpty(descLimpia) Then
+        '                CmbDescripcion.Items.Add(descLimpia)
+        '            End If
+        '        End While
+        '    End Using
+        'Catch ex As Exception
+        '    MsgBox(resManager.GetString("Error") & ": " & ex.Message, MsgBoxStyle.Critical)
+        'End Try
 
         ' 3. Llenar el Combo Cuenta de forma aislada
         LlenarComboCuentasPeriodicos(Me.CmbCuenta)
@@ -211,6 +247,37 @@ Public Class IntroApuntesPeriodicos
         End If
         Return ""
     End Function
+
+    Private Sub TxtBuscarLetras_Leave(sender As Object, e As EventArgs) Handles TxtBuscarLetras.Leave
+        Dim textoActual As String = TxtBuscarLetras.Text.Trim()
+        Dim textoOriginal As String = TxtBuscarLetras.Text.Trim()
+
+        ' Si el DataGridView está invisible (lo que significa que el usuario no confirmó ninguna selección) 
+        ' y además el texto actual no coincide con el original que cargó el concepto...
+        If DgvDescripcion.Visible = False AndAlso textoActual.ToUpper() <> textoOriginal.ToUpper() Then
+
+            ' 1. Apagamos momentáneamente el evento TextChanged para que no intente buscar mientras restauramos
+            RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+
+            ' 2. Reestablecemos el texto original del concepto en el cuadro
+            TxtBuscarLetras.Text = textoOriginal
+            vDescripcion = textoOriginal ' Sincronizamos la variable global
+            vIntro = "NO" ' Aseguramos que no se marque como descripción nueva
+
+            ' 3. Volvemos a encender el evento de búsqueda
+            AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+        End If
+    End Sub
+
+
+
+
+
+
+
+
+
+
 
 
     Private Sub CmbConcepto_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbConcepto.SelectedIndexChanged
@@ -619,6 +686,101 @@ Public Class IntroApuntesPeriodicos
         Catch ex As Exception
             MsgBox(resManager.GetString("Error") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
+    End Sub
+
+    Private Sub TxtBuscarLetras_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtBuscarLetras.KeyDown
+        ' =========================================================================
+        ' 🌟 BOTÓN DE ESCAPE RÁPIDO F2: FORZAR DESCRIPCIÓN MANUAL (Tu nueva opción Premium)
+        ' =========================================================================
+        If e.KeyCode = Keys.F2 Then
+            e.SuppressKeyPress = True ' Evitamos el molesto pitido de Windows
+            e.Handled = True
+
+            Dim textoBuscadoF2 As String = TxtBuscarLetras.Text.Trim()
+
+            ' Cortafuegos básico: si el campo está vacío, pasamos de largo
+            If String.IsNullOrWhiteSpace(textoBuscadoF2) Then Exit Sub
+
+            ' Ocultamos rígidamente la tabla de sugerencias azul para simular que "No se encontraron registros"
+            DgvDescripcion.Visible = False
+
+            ' Lanzamos de forma directa exactamente la misma ventana de confirmación del CASO B
+            Dim respuestaF2 As MsgBoxResult = ConfirmarAccionTraducida(
+                resManager.GetString("NoExistenDescripciones") & ": -" & textoBuscadoF2.ToUpper() & "-" & vbCrLf & "¿" & resManager.GetString("AñadirDescripcion") & "?",
+                rmse.GetString("$this.Text")
+            )
+
+            If respuestaF2 = MsgBoxResult.Yes Then
+                vIntro = "SI"
+                vDescripcion = textoBuscadoF2
+                ' Actualizamos el almacén de texto original con el nuevo texto autorizado
+                'TxtDescripcion.Text = textoBuscadoF2
+                TxtNumeroPagos.Focus()
+            Else
+                TxtBuscarLetras.SelectAll()
+                TxtBuscarLetras.Focus()
+            End If
+
+            Return ' Cortamos la ejecución aquí con éxito absoluto
+        End If
+
+        ' =========================================================================
+        ' 1. SINTAXIS ORIGINAL DE SI EL USUARIO PRESIONA INTRO (Tu código intacto)
+        ' =========================================================================
+        If e.KeyCode = Keys.Enter Then
+            e.SuppressKeyPress = True ' Evitamos el pitido de Windows
+
+            Dim textoBuscado As String = TxtBuscarLetras.Text.Trim()
+
+            ' CASO A: El campo está completamente vacío -> Mostramos toda la lista
+            If String.IsNullOrWhiteSpace(textoBuscado) Then
+                vLetras = ""
+                DgvDescripcion.Visible = True
+                BuscarLetras("descripcion")
+                DgvDescripcion.Focus()
+                Return
+            End If
+
+            ' Si la tabla está oculta, pero el texto coincide exactamente con la descripción oficial
+            If DgvDescripcion.Visible = False AndAlso textoBuscado.ToUpper() = TxtBuscarLetras.Text.Trim().ToUpper() Then
+                vDescripcion = textoBuscado ' Aseguramos la variable global
+                vIntro = "NO" ' No es una descripción nueva
+                TxtNumeroPagos.Focus() ' Saltamos directo al número de pagos
+                Return
+            End If
+
+            ' CASO B: Hay texto, está oculto y NO coincide -> ¡DESCRIPCIÓN TOTALMENTE NUEVA!
+            If DgvDescripcion.Visible = False OrElse DgvDescripcion.Rows.Count = 0 Then
+                Dim respuesta As MsgBoxResult = ConfirmarAccionTraducida(
+                    resManager.GetString("NoExistenDescripciones") & ": -" & textoBuscado.ToUpper() & "-" & vbCrLf & "¿" & resManager.GetString("AñadirDescripcion") & "?",
+                    rmse.GetString("$this.Text")
+                )
+
+                If respuesta = MsgBoxResult.Yes Then
+                    vIntro = "SI"
+                    vDescripcion = textoBuscado
+                    'TxtDescripcion.Text = textoBuscado
+                    DgvDescripcion.Visible = False
+                    TxtNumeroPagos.Focus()
+                Else
+                    TxtBuscarLetras.SelectAll()
+                    TxtBuscarLetras.Focus()
+                End If
+
+                Return
+            End If
+
+            ' CASO C: Si el DataGridView SÍ tiene datos en pantalla, mandamos el foco a la tabla
+            If DgvDescripcion.Visible AndAlso DgvDescripcion.Rows.Count > 0 Then
+                DgvDescripcion.Focus()
+            End If
+        End If
+
+        ' 2. Si el usuario presiona FLECHA ABAJO (Tu lógica original intacta)
+        If e.KeyCode = Keys.Down AndAlso DgvDescripcion.Visible Then
+            DgvDescripcion.Focus()
+            e.Handled = True
+        End If
     End Sub
 
 End Class

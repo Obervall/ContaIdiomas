@@ -1811,13 +1811,13 @@
     <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="DgvApuper.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 239</value>
+    <value>13, 243</value>
   </data>
   <data name="DgvApuper.RowHeadersWidth" type="System.Int32, mscorlib">
     <value>51</value>
   </data>
   <data name="DgvApuper.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1186, 281</value>
+    <value>1186, 444</value>
   </data>
   <data name="DgvApuper.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -2118,7 +2118,7 @@
     <value>120, 120</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>1210, 532</value>
+    <value>1210, 695</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 10.2pt, style=Bold</value>
