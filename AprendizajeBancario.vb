@@ -163,7 +163,7 @@ Public Class AprendizajeBancario
         TL(6) = New ToolTip
         TL(6).SetToolTip(Me.BtnConcepto, resManager.GetString("BtnConcepto"))
         TL(7) = New ToolTip
-        TL(7).SetToolTip(Me.TxtBuscarLetras, rmse.GetString("TxtABuscar"))
+        TL(7).SetToolTip(Me.TxtBuscarLetras, resManager.GetString("TxtABuscar"))
         TL(8) = New ToolTip
         TL(8).SetToolTip(Me.BtnSaltarApuntes, rmse.GetString("BtnSaltarApuntes.Text"))
         TL(9) = New ToolTip
@@ -745,14 +745,25 @@ Public Class AprendizajeBancario
                 DgvDescripcion.DataSource = dt
 
                 If dt.Rows.Count > 0 Then
-                    ' Si hay filas, configuramos columna y nos aseguramos de que se vea
+                    ' Si hay filas, configuramos columna y aplicamos el estándar F2 Premium
                     If DgvDescripcion.Columns.Contains("DescripcionAPU") Then
-                        DgvDescripcion.Columns("DescripcionAPU").HeaderText = resManager.GetString("Descripcion")
+                        ' =========================================================================
+                        ' 🎯 ROTULACIÓN DINÁMICA DE LA CABECERA (Soporte F2 Premium en el Banco)
+                        ' =========================================================================
+                        ' Reutilizamos la misma clave ".resx" que creamos ayer para los apuntes manuales
+                        Dim textoCabeceraF2 As String = resManager.GetString("CabeceraF2Forzar")
+
+                        ' Salvavidas preventivo por si acaso
+                        If String.IsNullOrEmpty(textoCabeceraF2) Then
+                            textoCabeceraF2 = "F2: Forzar texto escrito"
+                        End If
+
+                        ' Machacamos el título para que el operario sepa que puede pulsar F2 con el extracto
+                        DgvDescripcion.Columns("DescripcionAPU").HeaderText = textoCabeceraF2
                         DgvDescripcion.Columns("DescripcionAPU").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
                     End If
 
-                    ' 🛡️ REPARACIÓN DE EMERGENCIA: Si la variable global se quedó vacía por el rebote de carga,
-                    ' la sincronizamos a la antigua usanza con el texto que el concepto acaba de pintar en pantalla.
+                    ' 🛡️ REPARACIÓN DE EMERGENCY: Sincronización de variable global
                     If String.IsNullOrWhiteSpace(vDescripcion) Then
                         vDescripcion = TxtBuscarLetras.Text.Trim()
                     End If
@@ -760,7 +771,6 @@ Public Class AprendizajeBancario
                     ' =====================================================================
                     ' 🌟 TU REGLA DE VISIBILIDAD PERFECCIONADA CONTRA IDIOMAS Y ESPACIOS
                     ' =====================================================================
-                    ' Convertimos ambos textos quitando espacios y guiones de forma pura (Ej: "HOMEINSURANCE")
                     Dim textoCuadroLimpio As String = TxtBuscarLetras.Text.Replace(" ", "").Replace("_", "").ToUpper().Trim()
                     Dim textoOficialLimpio As String = vDescripcion.Replace(" ", "").Replace("_", "").ToUpper().Trim()
 
@@ -776,6 +786,40 @@ Public Class AprendizajeBancario
                     ' Si la búsqueda da 0 filas, lo ocultamos
                     DgvDescripcion.Visible = False
                 End If
+
+
+                'If dt.Rows.Count > 0 Then
+                '    ' Si hay filas, configuramos columna y nos aseguramos de que se vea
+                '    If DgvDescripcion.Columns.Contains("DescripcionAPU") Then
+                '        DgvDescripcion.Columns("DescripcionAPU").HeaderText = resManager.GetString("Descripcion")
+                '        DgvDescripcion.Columns("DescripcionAPU").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                '    End If
+
+                '    ' 🛡️ REPARACIÓN DE EMERGENCIA: Si la variable global se quedó vacía por el rebote de carga,
+                '    ' la sincronizamos a la antigua usanza con el texto que el concepto acaba de pintar en pantalla.
+                '    If String.IsNullOrWhiteSpace(vDescripcion) Then
+                '        vDescripcion = TxtBuscarLetras.Text.Trim()
+                '    End If
+
+                '    ' =====================================================================
+                '    ' 🌟 TU REGLA DE VISIBILIDAD PERFECCIONADA CONTRA IDIOMAS Y ESPACIOS
+                '    ' =====================================================================
+                '    ' Convertimos ambos textos quitando espacios y guiones de forma pura (Ej: "HOMEINSURANCE")
+                '    Dim textoCuadroLimpio As String = TxtBuscarLetras.Text.Replace(" ", "").Replace("_", "").ToUpper().Trim()
+                '    Dim textoOficialLimpio As String = vDescripcion.Replace(" ", "").Replace("_", "").ToUpper().Trim()
+
+                '    ' Al estar bien rellenas y homogeneizadas, la comparación será matemática
+                '    If textoCuadroLimpio = textoOficialLimpio Then
+                '        ' Coinciden al 100%: es la carga automática del banco. ¡Mantenemos cerrado!
+                '        DgvDescripcion.Visible = False
+                '    Else
+                '        ' No coinciden: el usuario está tecleando una búsqueda a mano. ¡Abrimos!
+                '        DgvDescripcion.Visible = True
+                '    End If
+                'Else
+                '    ' Si la búsqueda da 0 filas, lo ocultamos
+                '    DgvDescripcion.Visible = False
+                'End If
 
             Catch ex As Exception
                 DgvDescripcion.DataSource = Nothing
@@ -806,6 +850,41 @@ Public Class AprendizajeBancario
     End Sub
 
     Private Sub TxtBuscarLetras_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtBuscarLetras.KeyDown
+        ' =========================================================================
+        ' 🌟 BOTÓN DE ESCAPE RÁPIDO F2: FORZAR DESCRIPCIÓN MANUAL (Tu nueva opción Premium)
+        ' =========================================================================
+        If e.KeyCode = Keys.F2 Then
+            e.SuppressKeyPress = True ' Evitamos el molesto pitido de Windows
+            e.Handled = True
+
+            Dim textoBuscadoF2 As String = TxtBuscarLetras.Text.Trim()
+
+            ' Cortafuegos básico: si el campo está vacío, pasamos de largo
+            If String.IsNullOrWhiteSpace(textoBuscadoF2) Then Exit Sub
+
+            ' Ocultamos rígidamente la tabla de sugerencias azul para simular que "No se encontraron registros"
+            DgvDescripcion.Visible = False
+
+            ' Lanzamos de forma directa exactamente la misma ventana de confirmación del CASO B
+            Dim respuestaF2 As MsgBoxResult = ConfirmarAccionTraducida(
+                rmse.GetString("NoExistenDescripciones") & ": -" & textoBuscadoF2.ToUpper() & "-" & vbCrLf & "¿" & rmse.GetString("AñadirDescripcion") & "?",
+                rmse.GetString("$this.Text")
+            )
+
+            If respuestaF2 = MsgBoxResult.Yes Then
+                vIntro = "SI"
+                vDescripcion = textoBuscadoF2
+                ' Actualizamos el almacén de texto original con el nuevo texto autorizado
+                TxtDescripcion.Text = textoBuscadoF2
+                TxtImporte.Focus()
+            Else
+                TxtBuscarLetras.SelectAll()
+                TxtBuscarLetras.Focus()
+            End If
+
+            Return ' Cortamos la ejecución aquí con éxito absoluto
+        End If
+
         ' 1. Si el usuario presiona INTRO en el buscador
         If e.KeyCode = Keys.Enter Then
             e.SuppressKeyPress = True ' Evitamos el pitido de Windows
@@ -814,7 +893,7 @@ Public Class AprendizajeBancario
 
             ' CASO A: El campo está completamente vacío -> Mostramos toda la lista
             If String.IsNullOrWhiteSpace(textoBuscado) Then
-				vLetras = ""
+                vLetras = ""
                 DgvDescripcion.Visible = True
                 BuscarLetras("descripcion")
                 DgvDescripcion.Focus()

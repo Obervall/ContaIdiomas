@@ -71,8 +71,11 @@
     <Setting Name="LicenciaActivada" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="FormAltura" Type="System.Int32" Scope="User">
+    <Setting Name="FormAlturaApuntes" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">742</Value>
+    </Setting>
+    <Setting Name="FormAlturaPeriodicos" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">579</Value>
     </Setting>
   </Settings>
 </SettingsFile>

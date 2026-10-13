@@ -331,12 +331,24 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("742")>  _
-        Public Property FormAltura() As Integer
+        Public Property FormAlturaApuntes() As Integer
             Get
-                Return CType(Me("FormAltura"),Integer)
+                Return CType(Me("FormAlturaApuntes"),Integer)
             End Get
             Set
-                Me("FormAltura") = value
+                Me("FormAlturaApuntes") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("579")>  _
+        Public Property FormAlturaPeriodicos() As Integer
+            Get
+                Return CType(Me("FormAlturaPeriodicos"),Integer)
+            End Get
+            Set
+                Me("FormAlturaPeriodicos") = value
             End Set
         End Property
     End Class

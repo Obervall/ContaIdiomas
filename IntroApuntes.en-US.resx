@@ -207,9 +207,6 @@ Error</value>
   <data name="ConceptoSeleccionado" xml:space="preserve">
     <value>Selected Concept</value>
   </data>
-  <data name="TxtABuscar" xml:space="preserve">
-    <value>Search text, minimum 3 letters</value>
-  </data>
   <data name="LblAyudaBuscar.Text" xml:space="preserve">
     <value>Type 3 letters to filter or Delete the text and press Enter to see all.</value>
   </data>

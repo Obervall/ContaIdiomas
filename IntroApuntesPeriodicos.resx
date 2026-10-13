@@ -118,13 +118,95 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="DgvDescripcion.Location" type="System.Drawing.Point, System.Drawing">
+    <value>14, 137</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="DgvDescripcion.RowHeadersWidth" type="System.Int32, mscorlib">
+    <value>51</value>
+  </data>
+  <data name="DgvDescripcion.Size" type="System.Drawing.Size, System.Drawing">
+    <value>533, 138</value>
+  </data>
+  <data name="DgvDescripcion.TabIndex" type="System.Int32, mscorlib">
+    <value>106</value>
+  </data>
+  <data name="DgvDescripcion.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;DgvDescripcion.Name" xml:space="preserve">
+    <value>DgvDescripcion</value>
+  </data>
+  <data name="&gt;&gt;DgvDescripcion.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DgvDescripcion.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;DgvDescripcion.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TxtBuscarLetras.Location" type="System.Drawing.Point, System.Drawing">
+    <value>273, 102</value>
+  </data>
+  <data name="TxtBuscarLetras.Size" type="System.Drawing.Size, System.Drawing">
+    <value>274, 27</value>
+  </data>
+  <data name="TxtBuscarLetras.TabIndex" type="System.Int32, mscorlib">
+    <value>105</value>
+  </data>
+  <data name="&gt;&gt;TxtBuscarLetras.Name" xml:space="preserve">
+    <value>TxtBuscarLetras</value>
+  </data>
+  <data name="&gt;&gt;TxtBuscarLetras.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TxtBuscarLetras.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;TxtBuscarLetras.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="LblAyudaBuscar.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 7.8pt, style=Bold</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="LblAyudaBuscar.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LblAyudaBuscar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>19, 70</value>
+  </data>
+  <data name="LblAyudaBuscar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>536, 27</value>
+  </data>
+  <data name="LblAyudaBuscar.TabIndex" type="System.Int32, mscorlib">
+    <value>104</value>
+  </data>
+  <data name="LblAyudaBuscar.Text" xml:space="preserve">
+    <value>Escribe 3 letras para filtrar o Suprime el texto y pulsa Intro para ver todas.</value>
+  </data>
+  <data name="LblAyudaBuscar.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;LblAyudaBuscar.Name" xml:space="preserve">
+    <value>LblAyudaBuscar</value>
+  </data>
+  <data name="&gt;&gt;LblAyudaBuscar.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LblAyudaBuscar.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;LblAyudaBuscar.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
   <data name="CmbDescripcion.Location" type="System.Drawing.Point, System.Drawing">
-    <value>137, 94</value>
+    <value>-11, 379</value>
   </data>
   <data name="CmbDescripcion.Size" type="System.Drawing.Size, System.Drawing">
     <value>393, 28</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="CmbDescripcion.TabIndex" type="System.Int32, mscorlib">
     <value>20</value>
   </data>
@@ -138,7 +220,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;CmbDescripcion.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>3</value>
   </data>
   <data name="CmbPeriocidad.Items" xml:space="preserve">
     <value>Diaria</value>
@@ -183,7 +265,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;CmbPeriocidad.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>4</value>
   </data>
   <data name="TxtNumeroPagos.Location" type="System.Drawing.Point, System.Drawing">
     <value>282, 173</value>
@@ -204,7 +286,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;TxtNumeroPagos.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>5</value>
   </data>
   <data name="Label9.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 225</value>
@@ -231,7 +313,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;Label9.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>6</value>
   </data>
   <data name="LblNumeroPagosCobros.Location" type="System.Drawing.Point, System.Drawing">
     <value>278, 142</value>
@@ -258,7 +340,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;LblNumeroPagosCobros.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>7</value>
   </data>
   <data name="BtnCuenta.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -290,7 +372,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;BtnCuenta.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>8</value>
   </data>
   <data name="BtnCalculadora.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -352,7 +434,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;BtnCalculadora.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>9</value>
   </data>
   <data name="BtnConcepto.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -364,7 +446,7 @@
 </value>
   </data>
   <data name="BtnConcepto.Location" type="System.Drawing.Point, System.Drawing">
-    <value>395, 45</value>
+    <value>395, 28</value>
   </data>
   <data name="BtnConcepto.Size" type="System.Drawing.Size, System.Drawing">
     <value>34, 34</value>
@@ -382,7 +464,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;BtnConcepto.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>10</value>
   </data>
   <data name="BtnHoy.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -423,13 +505,13 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;BtnHoy.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>11</value>
   </data>
   <data name="TxtTipoConcepto.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="TxtTipoConcepto.Location" type="System.Drawing.Point, System.Drawing">
-    <value>435, 52</value>
+    <value>435, 35</value>
   </data>
   <data name="TxtTipoConcepto.Size" type="System.Drawing.Size, System.Drawing">
     <value>95, 27</value>
@@ -447,7 +529,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;TxtTipoConcepto.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>12</value>
   </data>
   <data name="TxtImporte.Location" type="System.Drawing.Point, System.Drawing">
     <value>220, 265</value>
@@ -458,7 +540,6 @@
   <data name="TxtImporte.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="TxtImporte.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
     <value>Right</value>
   </data>
@@ -472,7 +553,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;TxtImporte.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>13</value>
   </data>
   <data name="TxtNota.Location" type="System.Drawing.Point, System.Drawing">
     <value>134, 347</value>
@@ -496,7 +577,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;TxtNota.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>14</value>
   </data>
   <data name="CmbCuenta.Location" type="System.Drawing.Point, System.Drawing">
     <value>220, 311</value>
@@ -517,10 +598,10 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;CmbCuenta.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>15</value>
   </data>
   <data name="CmbConcepto.Location" type="System.Drawing.Point, System.Drawing">
-    <value>137, 50</value>
+    <value>137, 33</value>
   </data>
   <data name="CmbConcepto.Size" type="System.Drawing.Size, System.Drawing">
     <value>252, 28</value>
@@ -538,7 +619,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;CmbConcepto.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>16</value>
   </data>
   <data name="DateTimePicker1.Location" type="System.Drawing.Point, System.Drawing">
     <value>15, 169</value>
@@ -559,7 +640,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;DateTimePicker1.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>17</value>
   </data>
   <data name="Label7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -586,7 +667,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;Label7.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>18</value>
   </data>
   <data name="Label6.Location" type="System.Drawing.Point, System.Drawing">
     <value>8, 350</value>
@@ -613,7 +694,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;Label6.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>19</value>
   </data>
   <data name="Label5.Location" type="System.Drawing.Point, System.Drawing">
     <value>94, 314</value>
@@ -640,7 +721,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;Label5.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>20</value>
   </data>
   <data name="Label4.Location" type="System.Drawing.Point, System.Drawing">
     <value>94, 268</value>
@@ -667,19 +748,19 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;Label4.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>21</value>
   </data>
   <data name="Label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 97</value>
+    <value>11, 105</value>
   </data>
   <data name="Label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 28</value>
+    <value>256, 28</value>
   </data>
   <data name="Label3.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
   <data name="Label3.Text" xml:space="preserve">
-    <value>Descripción:</value>
+    <value>Buscar Descripción:</value>
   </data>
   <data name="Label3.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>TopRight</value>
@@ -694,10 +775,10 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;Label3.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>22</value>
   </data>
   <data name="Label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 51</value>
+    <value>11, 34</value>
   </data>
   <data name="Label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>120, 28</value>
@@ -721,7 +802,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;Label2.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>23</value>
   </data>
   <data name="LblFechaPagoCobro.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 138</value>
@@ -748,7 +829,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;LblFechaPagoCobro.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>24</value>
   </data>
   <data name="GroupBox1.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 10.2pt, style=Bold</value>
@@ -925,23 +1006,5 @@
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ErrorGrabarApuntePeriodico" xml:space="preserve">
-    <value>Error al Grabar el Apunte Periódico</value>
-  </data>
-  <data name="IntroNumeroPagos" xml:space="preserve">
-    <value>Introducir el Número de Pagos/Cobros que se harán en este Apunte Periódico</value>
-  </data>
-  <data name="MoHayPagosCobros" xml:space="preserve">
-    <value>NO hay Número de Pagos/Cobros</value>
-  </data>
-  <data name="NoDescripcionVacia" xml:space="preserve">
-    <value>La Descripción NO puede estar vacia</value>
-  </data>
-  <data name="SelecFechaPrimer" xml:space="preserve">
-    <value>Seleccionar la Fecha del Primer Pago/Cobro</value>
-  </data>
-  <data name="SelecPeriodo" xml:space="preserve">
-    <value>Seleccionar el Periodo entre cada Pago/Cobro</value>
   </data>
 </root>

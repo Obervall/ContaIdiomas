@@ -1,5 +1,6 @@
 ﻿Imports System.Data
 Imports System.Diagnostics
+Imports System.Drawing
 Imports System.Windows.Forms
 
 Public Class ApuntesPeriodicos
@@ -11,6 +12,12 @@ Public Class ApuntesPeriodicos
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
     Private Sub ApuntesPeriodicos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        ' Recuperamos el alto guardado por el usuario
+        If My.Settings.FormAlturaPeriodicos > 0 Then
+            Me.Height = My.Settings.FormAlturaPeriodicos
+        End If
+
         cargandoFormulario = True
 
         Me.KeyPreview = True
@@ -863,6 +870,22 @@ Public Class ApuntesPeriodicos
         End If
         ' Forzar la traducción y el tamaño correcto antes de mostrar el formulario
         ActualizarTextosFormulario(frmIntroApuntesPeriodicos)
+
+        ' 1. Forzamos al formulario a leer nuestras coordenadas manuales por software
+        frmIntroApuntesPeriodicos.StartPosition = FormStartPosition.Manual
+
+        ' 2. Calculamos el punto exacto: el mismo "Top" del padre y a la derecha de su ancho
+        ' (Me representa al formulario contenedor de Apuntes Contables que vemos de fondo)
+        Dim ejeX As Integer = frmApuntesPeriodicos.Left + (frmApuntesPeriodicos.Width / 2) - (frmIntroApuntesPeriodicos.Width / 2)
+        Dim ejeY As Integer = frmApuntesPeriodicos.Top
+
+        ' 3. Clavamos la bandera en el monitor real
+        frmIntroApuntesPeriodicos.Location = New Point(ejeX, ejeY)
+        frmIntroApuntesPeriodicos.Scale(New SizeF(0.8F, 0.8F))
+
+        ' ¡LA PROTECCIÓN CRÍTICA!: Procesamos todos los mensajes visuales pendientes en Windows
+        Application.DoEvents()
+
         ' Llamamos al formulario de manera modal.
         frmIntroApuntesPeriodicos.ShowDialog()
         'MessageBox.Show("Se ha cerrado el formulario.")
@@ -890,6 +913,29 @@ Public Class ApuntesPeriodicos
             vFila = vFilaActual - 1
             DgvApuper.Rows(vFila).Selected = True
             DgvApuper.CurrentCell = DgvApuper.Rows(vFila).Cells(0)
+        End If
+    End Sub
+
+    Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        ' Si el usuario cerró el formulario estando minimizado o maximizado, 
+        ' guardamos el tamaño que tenía en modo "Normal"
+        If Me.WindowState = FormWindowState.Normal Then
+            My.Settings.FormAlturaPeriodicos = Me.Height
+        Else
+            My.Settings.FormAlturaPeriodicos = Me.RestoreBounds.Height
+        End If
+
+        ' Guardamos los cambios físicamente en el disco
+        My.Settings.Save()
+        ' Se verifica si la razón para cerrar es la 3, es decir, el botón X.
+        If e.CloseReason = 3 Then
+            BtnFiltroCuenta.Enabled = True
+            BtnSinFiltroCuenta.Enabled = False
+            BtnFiltroConcepto.Enabled = True
+            BtnSinFiltroConcepto.Enabled = False
+            BtnFiltroFecha.Enabled = True
+            BtnSinFiltroFecha.Enabled = False
+            e.Cancel = False ' NO Se cancela la solicitud de cerrar
         End If
     End Sub
 
@@ -994,13 +1040,6 @@ Public Class ApuntesPeriodicos
         Proceso.StartInfo.FileName = "calc.exe"
         Proceso.StartInfo.Arguments = ""
         Proceso.Start()
-    End Sub
-
-    Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
-        ' Se verifica si la razón para cerrar es la 3, es decir, el botón X.
-        If e.CloseReason = 3 Then
-            e.Cancel = False ' NO Se cancela la solicitud de cerrar
-        End If
     End Sub
 
     Private Sub DgvApuper_DoubleClick(sender As Object, e As EventArgs) Handles DgvApuper.DoubleClick

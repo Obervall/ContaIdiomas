@@ -428,7 +428,7 @@ Partial Class ApuntesPeriodicos
 		Me.Controls.Add(Me.GroupBox3)
 		Me.Controls.Add(Me.GroupBox2)
 		Me.Controls.Add(Me.GroupBox1)
-		Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+		Me.DoubleBuffered = True
 		Me.MaximizeBox = False
 		Me.MinimizeBox = False
 		Me.Name = "ApuntesPeriodicos"

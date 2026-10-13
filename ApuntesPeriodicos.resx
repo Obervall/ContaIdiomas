@@ -1811,13 +1811,13 @@
     <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="DgvApuper.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 254</value>
+    <value>12, 239</value>
   </data>
   <data name="DgvApuper.RowHeadersWidth" type="System.Int32, mscorlib">
     <value>51</value>
   </data>
   <data name="DgvApuper.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1175, 266</value>
+    <value>1186, 281</value>
   </data>
   <data name="DgvApuper.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -2143,6 +2143,9 @@
   <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 4, 4, 4</value>
   </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>1228, 300</value>
+  </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterParent</value>
   </data>
@@ -2154,14 +2157,5 @@
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="EliminarApuntesPeriodicos" xml:space="preserve">
-    <value>Apuntes Periódicos Eliminados!!</value>
-  </data>
-  <data name="EliminarApuntesPeriodicosError" xml:space="preserve">
-    <value>Error al eliminar asientos periódicos relacionados con la partida contable</value>
-  </data>
-  <data name="IntroApuPer" xml:space="preserve">
-    <value>Introducción de Apuntes Periódicos</value>
   </data>
 </root>

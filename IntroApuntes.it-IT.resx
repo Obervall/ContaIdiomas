@@ -207,9 +207,6 @@ Errore</value>
   <data name="ConceptoSeleccionado" xml:space="preserve">
     <value>Concetto selezionato</value>
   </data>
-  <data name="TxtABuscar" xml:space="preserve">
-    <value>Cerca testo, minimo 3 lettere</value>
-  </data>
   <data name="LblAyudaBuscar.Text" xml:space="preserve">
     <value>Digita 3 lettere per filtrare o elimina il testo e premi Invio per vedere tutto.</value>
   </data>

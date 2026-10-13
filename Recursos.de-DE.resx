@@ -1115,4 +1115,7 @@ Ordner zum Benutzen.</value>
   <data name="CabeceraF2Forzar" xml:space="preserve">
     <value>F2: Erzwungener Text</value>
   </data>
+  <data name="TxtABuscar" xml:space="preserve">
+    <value>Suchtext, mindestens 3 Buchstaben</value>
+  </data>
 </root>

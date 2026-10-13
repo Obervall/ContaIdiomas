@@ -1115,4 +1115,7 @@ a carpetas para poder usar.</value>
   <data name="CabeceraF2Forzar" xml:space="preserve">
     <value>F2: Forzar texto escrito</value>
   </data>
+  <data name="TxtABuscar" xml:space="preserve">
+    <value>Texto a Buscar, mínimo 3 letras</value>
+  </data>
 </root>

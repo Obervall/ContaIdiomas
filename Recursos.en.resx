@@ -1115,4 +1115,7 @@ folders to use.</value>
   <data name="CabeceraF2Forzar" xml:space="preserve">
     <value>F2: Force Typed Text</value>
   </data>
+  <data name="TxtABuscar" xml:space="preserve">
+    <value>Search text, minimum 3 letters</value>
+  </data>
 </root>

@@ -36,8 +36,8 @@ Public Class ApuntesContables
     Private Sub ApuntesContables_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         ' Recuperamos el alto guardado por el usuario
-        If My.Settings.FormAltura > 0 Then
-            Me.Height = My.Settings.FormAltura
+        If My.Settings.FormAlturaApuntes > 0 Then
+            Me.Height = My.Settings.FormAlturaApuntes
         End If
 
         Me.KeyPreview = True
@@ -2881,9 +2881,9 @@ Public Class ApuntesContables
         ' Si el usuario cerró el formulario estando minimizado o maximizado, 
         ' guardamos el tamaño que tenía en modo "Normal"
         If Me.WindowState = FormWindowState.Normal Then
-            My.Settings.FormAltura = Me.Height
+            My.Settings.FormAlturaApuntes = Me.Height
         Else
-            My.Settings.FormAltura = Me.RestoreBounds.Height
+            My.Settings.FormAlturaApuntes = Me.RestoreBounds.Height
         End If
 
         ' Guardamos los cambios físicamente en el disco

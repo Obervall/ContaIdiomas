@@ -91,14 +91,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ContaHogar3.0.exe" size="5085184">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ContaHogar3.0.exe" size="5080576">
       <assemblyIdentity name="ContaHogar3.0" version="0.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>DJbj+i406YNXmGt6XKoc9oRWMOh4L5LXDUsU5sJCRr8=</dsig:DigestValue>
+        <dsig:DigestValue>psKu2B6eXwkENzz1rBczIdU4wlcFxFPwlDgapWufVmY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -110,7 +110,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>jHeBtkuIsR7dUzrX7W7CsTjjbxToWiMN43G4EDBizqg=</dsig:DigestValue>
+        <dsig:DigestValue>tmRdYPv3d+a0O7s1C0fx1rq6AF5apMuRSw0DyxCp5q8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -813,13 +813,13 @@
       <dsig:DigestValue>aBL6JESGbX8TaCYFtnHbeB4JTR6QVdnzdj26eNuNVaA=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="ContaHogar3.0.exe.config" size="7423">
+  <file name="ContaHogar3.0.exe.config" size="7542">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>Qztjz9vIHbn0+X+NlDF6h63RVILhiyeRqzoiXcEj8m8=</dsig:DigestValue>
+      <dsig:DigestValue>b3Weo4t/jedZ2BxpwiadbnZ0I6RZY9fLiZn6JNteAFw=</dsig:DigestValue>
     </hash>
   </file>
   <file name="CuentaHogar.ico" size="44979">

@@ -1115,4 +1115,7 @@ des dossiers à utiliser.</value>
   <data name="CabeceraF2Forzar" xml:space="preserve">
     <value>F2 : Texte tapoté de force</value>
   </data>
+  <data name="TxtABuscar" xml:space="preserve">
+    <value>Recherche de texte, minimum 3 lettres</value>
+  </data>
 </root>

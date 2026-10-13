@@ -1115,4 +1115,7 @@ pastas para usar.</value>
   <data name="CabeceraF2Forzar" xml:space="preserve">
     <value>F2: Texto Forçado a Digitar</value>
   </data>
+  <data name="TxtABuscar" xml:space="preserve">
+    <value>Pesquisar texto, mínimo 3 letras</value>
+  </data>
 </root>

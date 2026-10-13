@@ -1115,4 +1115,7 @@ cartelle da usare.</value>
   <data name="CabeceraF2Forzar" xml:space="preserve">
     <value>F2: Testo forzato a digitare</value>
   </data>
+  <data name="TxtABuscar" xml:space="preserve">
+    <value>Cerca testo, minimo 3 lettere</value>
+  </data>
 </root>

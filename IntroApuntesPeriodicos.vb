@@ -7,7 +7,7 @@ Imports ToolTip = System.Windows.Forms.ToolTip
 Public Class IntroApuntesPeriodicos
 
     Private cargandoFormulario As Boolean = True
-    Public vConcepto, vtipoSql, vtipoGrid As String
+    Public vConcepto, vtipoSql, vtipoGrid, vLetras As String
     Public vDescripcionAPU, vNotasAPU, vCuentaAPU, vAnexo, vbOK As String
     Public vNumeroPagos, vDate3Year As Integer
     Public vImporteAPU As Double
@@ -69,7 +69,7 @@ Public Class IntroApuntesPeriodicos
         TL(5) = New ToolTip
         TL(5).SetToolTip(Me.CmbCuenta, frmIntroApuntes.rmse.GetString("SelecCuenta"))
         TL(6) = New ToolTip
-        TL(6).SetToolTip(Me.CmbDescripcion, frmEditarApuntes.rmse.GetString("ToolTipSeleccionarDescripcion"))
+        TL(6).SetToolTip(Me.TxtBuscarLetras, resManager.GetString("TxtABuscar"))
         TL(7) = New ToolTip
         TL(7).SetToolTip(Me.TxtImporte, frmEditarApuntes.rmse.GetString("ToolTipIngresarImporte"))
         TL(8) = New ToolTip
@@ -133,6 +133,85 @@ Public Class IntroApuntesPeriodicos
             CmbPeriocidad.Text = CmbPeriocidad.Items(3).ToString()
         End If
     End Sub
+
+    Private Sub TxtBuscarLetras_TextChanged(sender As Object, e As EventArgs) Handles TxtBuscarLetras.TextChanged
+        vLetras = TxtBuscarLetras.Text.Trim()
+
+        '' 🌟 PROTECCIÓN: Si es la descripción por defecto, no hace falta buscar nada
+        'If vLetras = TxtDescripcion.Text Then
+        '    DgvDescripcion.Visible = False
+        '    Return
+        'End If
+
+        ' Si hay menos de 3 letras → ocultamos y vaciamos el DataGridView
+        If vLetras.Length < 3 Then
+            DgvDescripcion.DataSource = Nothing
+            DgvDescripcion.Visible = False ' <-- Esto lo "cierra" en pantalla
+            Return
+        End If
+
+        ' Si hay 3 o más letras: mostramos la tabla y lanzamos la búsqueda
+        DgvDescripcion.Visible = True
+        BuscarLetras("descripcion")
+    End Sub
+
+    Public Function BuscarLetras(combo As String) As String
+
+        If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then
+            drMdb1.Close()
+        End If
+
+        If combo = "descripcion" Then
+            Dim texto As String = If(vLetras, "").Trim()
+            Dim letrasLimpias As String = texto.Replace("'", "''").ToUpper()
+
+            cmdMdb1cr.CommandText =
+                "Select DISTINCT DescripcionAPU " &
+                "FROM apuntes " &
+                "WHERE UCase(DescripcionAPU) Like '%" & letrasLimpias & "%' " &
+                "AND DescripcionAPU <> 'Saldo Inicial'"
+
+            Dim dt As New DataTable()
+
+            Try
+                Using dr As OleDbDataReader = cmdMdb1cr.ExecuteReader()
+                    dt.Load(dr)
+                End Using
+
+                DgvDescripcion.DataSource = dt
+
+                If dt.Rows.Count > 0 Then
+                    ' Si hay filas, configuramos columna y nos aseguramos de que se vea
+                    If DgvDescripcion.Columns.Contains("DescripcionAPU") Then
+                        ' =========================================================================
+                        ' 🎯 ROTULACIÓN DINÁMICA DE LA CABECERA (Soporte F2 Premium)
+                        ' =========================================================================
+                        ' Intentamos rescatar la traducción de "F2: Forzar texto escrito" desde tu .resx
+                        Dim textoCabeceraF2 As String = resManager.GetString("CabeceraF2Forzar")
+
+                        ' Salvavidas por si acaso la clave no estuviera escrita todavía en el archivo de recursos
+                        If String.IsNullOrEmpty(textoCabeceraF2) Then
+                            textoCabeceraF2 = "F2: Forzar texto escrito"
+                        End If
+
+                        ' Machacamos el viejo literal "Descripción" por tu aviso de teclado inteligente
+                        DgvDescripcion.Columns("DescripcionAPU").HeaderText = textoCabeceraF2
+                        DgvDescripcion.Columns("DescripcionAPU").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                    End If
+                    DgvDescripcion.Visible = True
+                Else
+                    ' Si la búsqueda da 0 filas (como "impoo"), lo ocultamos
+                    DgvDescripcion.Visible = False
+                End If
+
+            Catch ex As Exception
+                DgvDescripcion.DataSource = Nothing
+                DgvDescripcion.Visible = False
+            End Try
+        End If
+        Return ""
+    End Function
+
 
     Private Sub CmbConcepto_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbConcepto.SelectedIndexChanged
         ' =========================================================================

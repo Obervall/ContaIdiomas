@@ -178,9 +178,6 @@ Error</value>
   <data name="ImporteAsiento" xml:space="preserve">
     <value>Import de l'Apunt</value>
   </data>
-  <data name="TxtABuscar" xml:space="preserve">
-    <value>Text a Buscar, mínim 3 lletres</value>
-  </data>
   <data name="ErrorBuscarLetrasDescripcion" xml:space="preserve">
     <value>Error en Buscar Lletres en Descripció</value>
   </data>

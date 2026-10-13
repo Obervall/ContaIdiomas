@@ -2934,6 +2934,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Texto a Buscar, mínimo 3 letras.
+    '''</summary>
+    Friend Shared ReadOnly Property TxtABuscar() As String
+        Get
+            Return ResourceManager.GetString("TxtABuscar", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Sin Programar...
     '''</summary>
     Friend Shared ReadOnly Property Vacio() As String
