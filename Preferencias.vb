@@ -1,4 +1,5 @@
 ﻿Imports System.Collections.Generic
+Imports System.Data
 Imports System.Drawing
 Imports System.Windows.Forms
 
@@ -229,6 +230,85 @@ Public Class Preferencias
         ' Si el ratón se sale del perímetro de los cuadros grises, apagamos los carteles de inmediato
         TL(0).Hide(Me)
         TL(1).Hide(Me)
+    End Sub
+
+    Private Sub BtnCrearUsuario_Click(sender As Object, e As EventArgs) Handles BtnCrearUsuario.Click
+        ' 1. Pedimos el nombre del nuevo usuario o empresa de forma limpia con un InputBox nativo
+        Dim nombreNuevo As String = InputBox("Introduce el Nombre del Nuevo Usuario o Empresa (Ej: Maria, Empresa2026):", "Nuevo Usuario Premium")
+        nombreNuevo = nombreNuevo.Trim().Replace("'", "") ' Limpiamos comillas peligrosas
+
+        ' Cortafuegos por si el usuario cancela o lo deja vacío
+        If String.IsNullOrWhiteSpace(nombreNuevo) Then Exit Sub
+
+        Try
+            ' 2. Calculamos las rutas físicas en base a tu variable global 'vRuta'
+            Dim carpetaBase As String = System.IO.Path.GetDirectoryName(vRuta)
+            Dim rutaNuevaMdb As String = System.IO.Path.Combine(carpetaBase, nombreNuevo & ".mdb")
+
+            ' Comprobamos si ya existe un archivo con ese nombre para no machacarlo
+            If System.IO.File.Exists(rutaNuevaMdb) Then
+                MsgBox("Ya existe un usuario o base de datos con el nombre: " & nombreNuevo, MsgBoxStyle.Exclamation)
+                Exit Sub
+            End If
+
+            ' 3. DUPLICAMOS LA BASE DE DATOS DE FÁBRICA (Hacemos el duplicado exacto del archivo activo actual)
+            ' Usamos tu base de datos actual 'vRuta' como la plantilla perfecta
+            System.IO.File.Copy(vRuta, rutaNuevaMdb, True)
+
+            ' 4. PREGUNTAMOS SI DESEA TRASPASAR LA ESTRUCTURA DE CONTROL (Toque GesFácil Premium)
+            Dim preguntaTraspaso As String = "¿Deseas traspasar los Conceptos y las Cuentas Bancarias actuales al nuevo usuario?"
+            If MsgBox(preguntaTraspaso, MsgBoxStyle.YesNo + MsgBoxStyle.Question, "Traspaso de Datos Dinámico") = MsgBoxResult.Yes Then
+
+                ' Abrimos un comando temporal puente para inyectar datos del archivo viejo al nuevo en 1 milisegundo
+                Using cmdTraspaso As New OleDb.OleDbCommand()
+                    cmdTraspaso.Connection = conexion1 ' Conectado rígidamente a tu base de datos activa actual
+
+                    ' Aseguramos que la conexión origen esté abierta preventivamente
+                    If conexion1.State = ConnectionState.Closed Then conexion1.Open()
+
+                    ' Vaciamos primero las tablas del archivo nuevo (por si arrastrara apuntes viejos del copiado de archivos)
+                    cmdTraspaso.CommandText = $"DELETE * FROM apuntes IN '{rutaNuevaMdb}'"
+                    cmdTraspaso.ExecuteNonQuery()
+
+                    cmdTraspaso.CommandText = $"DELETE * FROM extracto IN '{rutaNuevaMdb}'"
+                    cmdTraspaso.ExecuteNonQuery()
+
+                    ' ¡EL MILAGRO DE ACCESS! Clonamos conceptos y cuentas directas hacia el nuevo archivo físico de red/disco
+                    cmdTraspaso.CommandText = $"INSERT INTO Conceptos SELECT * FROM Conceptos IN '{rutaNuevaMdb}'"
+                    cmdTraspaso.ExecuteNonQuery()
+
+                    cmdTraspaso.CommandText = $"INSERT INTO cuentas SELECT * FROM cuentas IN '{rutaNuevaMdb}'"
+                    cmdTraspaso.ExecuteNonQuery()
+                End Using
+
+                ' Opcional: Vaciamos también las tablas temporales o de presupuestos en el nuevo si fuera necesario
+                Using cmdClean As New OleDb.OleDbCommand($"DELETE * FROM presupuesto IN '{rutaNuevaMdb}'", conexion1)
+                    Try : cmdClean.ExecuteNonQuery() : Catch : End Try
+                End Using
+            Else
+                ' Si no quiere traspasar nada, vaciamos todas las tablas del nuevo archivo para dejarlo 100% de fábrica
+                Using cmdLimpiarTodo As New OleDb.OleDbCommand()
+                    cmdLimpiarTodo.Connection = conexion1
+                    Dim tablas() As String = {"apuntes", "extracto", "Conceptos", "cuentas", "presupuesto"}
+                    For Each tabla As String In tablas
+                        cmdLimpiarTodo.CommandText = $"DELETE * FROM {tabla} IN '{rutaNuevaMdb}'"
+                        Try : cmdLimpiarTodo.ExecuteNonQuery() : Catch : End Try
+                    Next
+                End Using
+            End If
+
+            ' 5. ¡ÉXITO! Actualizamos el cuadro de texto de la ubicación con la nueva ruta para que el usuario opere ya con ella
+            ' [Ajusta TxtBaseDatos al nombre técnico real de tu TextBox de la ruta "C:\"]
+            TxtBaseDatos.Text = rutaNuevaMdb
+
+            ' Sincronizamos tu variable de control para que al pulsar "Guardar/Salir" se quede fijada en el disco duro
+            vRuta = rutaNuevaMdb
+
+            MsgBox("¡Usuario '" & nombreNuevo & "' creado con éxito! Se ha seleccionado como tu base de datos activa.", MsgBoxStyle.Information)
+
+        Catch ex As Exception
+            MsgBox("Error al generar el nuevo usuario contable: " & ex.Message, MsgBoxStyle.Critical)
+        End Try
     End Sub
 
 End Class

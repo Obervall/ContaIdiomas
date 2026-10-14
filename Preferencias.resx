@@ -168,7 +168,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;GBoxPantalla.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="ChbPantallaCompleta.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -268,7 +268,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BtnSalir.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="&gt;&gt;CheckBox3.Name" xml:space="preserve">
     <value>CheckBox3</value>
@@ -331,7 +331,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;GroupBox1.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="CheckBox3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -414,21 +414,6 @@
   <data name="&gt;&gt;CheckBox1.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="TxtBaseDatos.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="TxtBaseDatos.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 26</value>
-  </data>
-  <data name="TxtBaseDatos.Size" type="System.Drawing.Size, System.Drawing">
-    <value>498, 27</value>
-  </data>
-  <data name="TxtBaseDatos.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="TxtBaseDatos.Text" xml:space="preserve">
-    <value>C:\</value>
-  </data>
   <data name="&gt;&gt;TxtBaseDatos.Name" xml:space="preserve">
     <value>TxtBaseDatos</value>
   </data>
@@ -466,7 +451,34 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;GroupBox2.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
+  </data>
+  <data name="TxtBaseDatos.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="TxtBaseDatos.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 26</value>
+  </data>
+  <data name="TxtBaseDatos.Size" type="System.Drawing.Size, System.Drawing">
+    <value>498, 27</value>
+  </data>
+  <data name="TxtBaseDatos.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="TxtBaseDatos.Text" xml:space="preserve">
+    <value>C:\</value>
+  </data>
+  <data name="&gt;&gt;TxtBaseDatos.Name" xml:space="preserve">
+    <value>TxtBaseDatos</value>
+  </data>
+  <data name="&gt;&gt;TxtBaseDatos.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TxtBaseDatos.Parent" xml:space="preserve">
+    <value>GroupBox2</value>
+  </data>
+  <data name="&gt;&gt;TxtBaseDatos.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="Label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -475,7 +487,7 @@
     <value>Microsoft Sans Serif, 10.2pt, style=Bold</value>
   </data>
   <data name="Label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>321, 416</value>
+    <value>14, 474</value>
   </data>
   <data name="Label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 20</value>
@@ -496,7 +508,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label1.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="TxtPathExportar.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -574,7 +586,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CmbElegirIdioma.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="Label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -604,7 +616,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label2.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="GroupBox3.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 10.2pt, style=Bold</value>
@@ -631,7 +643,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;GroupBox3.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="CmbMonedas.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 10.2pt</value>
@@ -655,7 +667,7 @@
     <value>Português</value>
   </data>
   <data name="CmbMonedas.Location" type="System.Drawing.Point, System.Drawing">
-    <value>325, 439</value>
+    <value>18, 497</value>
   </data>
   <data name="CmbMonedas.Size" type="System.Drawing.Size, System.Drawing">
     <value>73, 28</value>
@@ -673,6 +685,57 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CmbMonedas.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="BtnCrearUsuario.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 10.2pt, style=Bold</value>
+  </data>
+  <data name="BtnCrearUsuario.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAFLSURBVDhPxZKhb4QwHIX5E5DYysrKyiHrrm7YKlJFUOQ8
+        iqAuqAV3OHDDXc0STp6b3CQSiXxLe7vtuNtuE0v2JS9NSt/XX1I876/ZNRqPlUBbCjzkCpffb7JNCJ47
+        jdEUGE2Kly7COmYLCc0JbM73HPY2Kxgq4SRzpzDWAtv44vCT97VgV0lMTQiYyGXuJaZeuLVIuCu54uTh
+        JFmIhkZjtoJeAL0EjDyuncDmXWDLIcKFZDHFkBPASs4y1xz6nv08gaXNKFDzRcaSQq74x8HidXNdPGfI
+        AowlcUW7ypj+7hVOiCRAm3PsMoK2DKGMAq8/J7iJMALpIYVoJE7ovXZ7rF7+D1fQmsIK9EG70oTZRe0V
+        1EGBNQw8Ft9LSEPAOuYkci/d2GtTQBqJ0IQIEgJ6d0Pg5z6COjje1HEXP/NBK+bK4SpCFKffC/6NN2C6
+        JBIvMpZPAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="BtnCrearUsuario.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="BtnCrearUsuario.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BtnCrearUsuario.Location" type="System.Drawing.Point, System.Drawing">
+    <value>325, 405</value>
+  </data>
+  <data name="BtnCrearUsuario.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="BtnCrearUsuario.Size" type="System.Drawing.Size, System.Drawing">
+    <value>208, 44</value>
+  </data>
+  <data name="BtnCrearUsuario.TabIndex" type="System.Int32, mscorlib">
+    <value>117</value>
+  </data>
+  <data name="BtnCrearUsuario.Text" xml:space="preserve">
+    <value>Crear Usuario</value>
+  </data>
+  <data name="BtnCrearUsuario.TextImageRelation" type="System.Windows.Forms.TextImageRelation, System.Windows.Forms">
+    <value>TextBeforeImage</value>
+  </data>
+  <data name="&gt;&gt;BtnCrearUsuario.Name" xml:space="preserve">
+    <value>BtnCrearUsuario</value>
+  </data>
+  <data name="&gt;&gt;BtnCrearUsuario.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnCrearUsuario.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BtnCrearUsuario.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
