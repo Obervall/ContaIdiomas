@@ -11,7 +11,7 @@ Public Class IntroApuntes
 
     Private cargandoFormulario As Boolean = True
     Public vCuentaAPU, vIntro, vLetras, vDescripcion As String
-    Public vImporteAPU As Double
+    Public vImporteAPU As Decimal
     Private TL(13) As ToolTip
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
     Public vAceptarSalir As String = "NO"
@@ -238,13 +238,13 @@ Public Class IntroApuntes
             e.Handled = True
 
             ' Invocamos tu función global centralizada: Cero grasa digital en la RAM
-            Dim importeFinal As Decimal = ParsearImporteUniversal(TxtImporte.Text)
+            Dim importeFinal As Decimal = ConvertirDecimalSeguro(TxtImporte.Text)
 
             ' Guardamos de forma segura en tu variable global de doble precisión (vImporteAPU)
-            vImporteAPU = Convert.ToDouble(importeFinal)
+            vImporteAPU = importeFinal
 
             ' Formateamos la caja visual con el estándar de dos decimales de gala
-            TxtImporte.Text = importeFinal.ToString("N2")
+            TxtImporte.Text = vImporteAPU.ToString("N2")
 
             ' Mandamos el cursor directo al combo de la Cuenta de forma dócil
             CmbCuenta.Select()

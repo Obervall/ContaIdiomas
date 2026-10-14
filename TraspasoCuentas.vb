@@ -7,7 +7,7 @@ Public Class TraspasoCuentas
 
     Private cargandoFormulario As Boolean = True
     Public vConcepto, vAñadirOrigenSql, vAñadirDestinoSql As String
-    Public vImporteAPU As Double
+    Public vImporteAPU As Decimal
     Public vDescripcionAPU, vNotasAPU, vCuentaOrigenAPU, vCuentaDestinoAPU As String
     Public vfechaHoyOrigen As Date = DateTime.Today
     Private TL(11) As ToolTip
@@ -112,11 +112,11 @@ Public Class TraspasoCuentas
             e.Handled = True
 
             ' Invocamos tu función global del módulo: Cero errores en catalán o inglés
-            Dim importeFinal As Decimal = ParsearImporteUniversal(TxtImporte.Text)
+            Dim importeFinal As Decimal = ConvertirDecimalSeguro(TxtImporte.Text)
 
             ' Guardamos en tu variable global de traspasos (vImporteAPU) y formateamos con dos decimales
-            vImporteAPU = Convert.ToDouble(importeFinal)
-            TxtImporte.Text = importeFinal.ToString("N2")
+            vImporteAPU = importeFinal
+            TxtImporte.Text = vImporteAPU.ToString("N2")
 
             ' Mandamos el cursor directo al cuadro de la nota de forma dócil
             TxtNota.Select()

@@ -2251,129 +2251,6 @@ Public Class ApuntesContables
         End If
     End Sub
 
-    'Private Sub BtnImportarBanco_Click(sender As Object, e As EventArgs) Handles BtnImportarBanco.Click
-
-    '    ' ===========================================
-    '    ' 🚀 EXTRACCIÓN SEGURO POR SQL INDESTRUCTIBLE
-    '    ' ===========================================
-    '    If Not String.IsNullOrEmpty(CmbCuenta.Text) Then
-    '        Try
-    '            ' 1. Pesca del texto que el usuario ve real en su monitor (ej: "BBVA")
-    '            Dim nombreCuentaABuscar As String = CmbCuenta.Text.Replace("'", "''").Trim()
-
-    '            Dim textoNotas As String = ""
-    '            idBanco = 0
-    '            colSaldo = 0
-
-    '            ' 2. INTERROGATORIO AL BÚNKER DE ACCESS: Rescatamos las NotasCUE y el ID de un viaje
-    '            Using cmdMdb As New OleDb.OleDbCommand()
-    '                cmdMdb.Connection = conexion1 ' [Ajusta a tu variable global de conexión activa]
-
-    '                ' Buscamos la fila exacta que coincide con el texto seleccionado por el usuario
-    '                cmdMdb.CommandText = "SELECT IdCuentaCUE, NotasCUE FROM cuentas WHERE NombreCUE = '" & nombreCuentaABuscar & "'"
-
-    '                Using dr As OleDb.OleDbDataReader = cmdMdb.ExecuteReader()
-    '                    If dr.Read() Then
-    '                        textoNotas = dr("NotasCUE").ToString().Trim()
-    '                        idBanco = Convert.ToInt32(dr("IdCuentaCUE"))
-    '                    End If
-    '                End Using
-    '            End Using
-
-    '            ' ==================================
-    '            ' 🎯 3. EL ESCUDO ADUANERO ELÁSTICO
-    '            ' ==================================
-    '            Dim aduanaOK As Boolean = False
-
-    '            If idBanco > 0 AndAlso textoNotas.Contains("(") AndAlso textoNotas.Contains(")") Then
-
-    '                ' 🧠 EL RADAR REGEX: Localiza el paréntesis místico en cualquier rincón del campo NotasCUE
-    '                Dim patronRegex As String = "\(([^)]+)\)"
-    '                Dim coincidencia As System.Text.RegularExpressions.Match = System.Text.RegularExpressions.Regex.Match(textoNotas, patronRegex)
-
-    '                If coincidencia.Success Then
-    '                    ' Succionamos STRICTLY el contenido del paréntesis (ej: "5,4,3,5,8" o "5,4,3,5,")
-    '                    ' Eliminando toda la literatura personal del usuario que tenga alrededor de un plumazo
-    '                    Dim textoInterior As String = coincidencia.Groups(1).Value.Trim()
-    '                    Dim coordenadas() As String = textoInterior.Split(","c)
-
-    '                    ' Cortafuegos: Al menos necesitamos las 4 coordenadas clásicas para operar
-    '                    If coordenadas.Length >= 4 Then
-    '                        Try
-    '                            ' Convertimos los trozos cargándolos en tus variables públicas del módulo
-    '                            filaInicio = Convert.ToInt32(coordenadas(0).Trim())
-    '                            colFecha = Convert.ToInt32(coordenadas(1).Trim())
-    '                            colConcepto = Convert.ToInt32(coordenadas(2).Trim())
-    '                            colImporte = Convert.ToInt32(coordenadas(3).Trim())
-    '                            colSaldo = 0 ' Por defecto 0 (Significa que este Excel no tiene saldo final, como la VISA)
-
-    '                            ' Verificamos si el usuario ha metido la quinta coordenada (el saldo)
-    '                            If coordenadas.Length >= 5 AndAlso Not String.IsNullOrEmpty(coordenadas(4).Trim()) Then
-    '                                colSaldo = Convert.ToInt32(coordenadas(4).Trim())
-    '                            End If
-
-    '                            aduanaOK = True ' ¡Filtro superado con éxito!
-
-    '                        Catch ex As Exception
-    '                            aduanaOK = False ' Cortafuegos por si hubieran metido letras dentro del paréntesis
-    '                        End Try
-    '                    End If
-    '                End If
-    '            End If
-
-    '            ' 🪓 CONTROL FINAL DE RECHAZO O CONTINUACIÓN
-    '            If Not aduanaOK Then
-    '                MsgBox(rmse.GetString("NoTieneCoordenadasProcesarExcel"), MsgBoxStyle.Information, resManager.GetString("AppDisplayName"))
-    '                Exit Sub ' Frenazo rígido si el formato es incorrecto
-    '            End If
-    '        Catch ex As Exception
-    '            MsgBox(rmse.GetString("ErrorDesmenuzarCuenta") & ": " & ex.Message, MsgBoxStyle.Critical)
-    '            Exit Sub
-    '        End Try
-    '    End If
-
-    '    ' 🎯 EL ABREPUERTAS BANCARIO: Seleccionamos el archivo Excel del BBVA u Openbank
-    '    Try
-    '        Using ofd As New OpenFileDialog()
-    '            ' 1. Filtramos rígidamente para que el usuario solo pueda elegir matrices Excel limpias
-    '            ofd.Filter = rmse.GetString("ArchivosDeExcel") & " (*.xlsx;*.xls)|*.xlsx;*.xls|" & rmse.GetString("TodosLosArchivos") & " (*.*)|*.*"
-    '            ofd.Title = rmse.GetString("SeleccionaExtracto")
-
-    '            ' ======================
-    '            ' 🎯 DIRECTO A DESCARGAS
-    '            ' ======================
-    '            ' 1. Calculamos la ruta biológica de la carpeta de descargas de este PC
-    '            Dim rutaDescargasWindows As String = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads")
-
-    '            ' 2. Forzamos al explorador a brotar clavado allí de forma obligatoria y rígida
-    '            If System.IO.Directory.Exists(rutaDescargasWindows) Then
-    '                ofd.InitialDirectory = rutaDescargasWindows
-    '            Else
-    '                ' Salvavidas ultra-remoto por si el sistema operativo no tuviera la carpeta
-    '                ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-    '            End If
-    '            ' =========================================================================
-
-    '            ' 3. Desplegamos la persiana gráfica en el monitor del usuario
-    '            If ofd.ShowDialog() = DialogResult.OK Then
-    '                Dim rutaArchivoExcelBanco As String = ofd.FileName
-    '                ' 🚀 ADAPTACIÓN PREMIUM INTERNACIONAL UNIFICADA (Inmune a grasa digital)
-    '                ' Pescamos los textos traducidos desde el búnker de recursos .resx
-    '                Dim textoMensaje As String = rmse.GetString("ProcederaAnalizarArchivo") & ": " & vbCrLf & System.IO.Path.GetFileName(rutaArchivoExcelBanco)
-    '                Dim textoTitulo As String = rmse.GetString("ImportacionBancaria")
-
-    '                ' Invocamos tu función reina para que pinte la interfaz simétrica en pantalla
-    '                If ConfirmarAccionTraducida(textoMensaje, textoTitulo) = MsgBoxResult.Yes Then
-    '                    ' 🚀 LA ESTOCADA PERFECTA: Invocamos tu función pasándole las 4 coordenadas + tu ID de Cuenta real final
-    '                    ProcesarMatrizBancariaManual(rutaArchivoExcelBanco, filaInicio, colFecha, colConcepto, colImporte, idBanco, colSaldo)
-    '                End If
-    '            End If
-    '        End Using
-    '    Catch ex As Exception
-    '        MsgBox(rmse.GetString("ErrorAbrirExcelBanco") & ": " & ex.Message, MsgBoxStyle.Critical)
-    '    End Try
-    'End Sub
-
     Private Sub BtnImportarBanco_Click(sender As Object, e As EventArgs) Handles BtnImportarBanco.Click
         ' ===========================================
         ' 🚀 EXTRACCIÓN SEGURO POR SQL INDESTRUCTIBLE
@@ -2584,11 +2461,6 @@ Public Class ApuntesContables
             If BtnF6.Enabled Then
                 BtnF6.PerformClick()
             End If
-
-            '' Cambia 'BtnSinFiltroFecha' por el botón físico que uses en tu pantalla para resetear
-            'If BtnSinFiltroFecha.Enabled Then
-            '    BtnSinFiltroFecha.PerformClick()
-            'End If
         End If
     End Sub
 
@@ -3038,7 +2910,7 @@ Public Class ApuntesContables
             If fila.Visible Then
                 vContadorFiltrados += 1 ' Sumamos 1 al contador por cada fila que sí se ve
 
-                Dim vImporte As Double = Convert.ToDouble(fila.Cells(vFila1).Value)
+                Dim vImporte As Double = ConvertirDecimalSeguro(fila.Cells(vFila1).Value)
                 If vImporte >= 0 Then
                     vIngresosFiltrados += vImporte
                     fila.Cells(vFila1).Style.ForeColor = System.Drawing.Color.DarkBlue
@@ -3108,7 +2980,7 @@ Public Class ApuntesContables
 
             ' Blindaje por .Name técnico de tu columna de importes
             If DgvApuntes.Columns.Contains("ImporteAPU") AndAlso fila.Cells("ImporteAPU").Value IsNot Nothing AndAlso Not IsDBNull(fila.Cells("ImporteAPU").Value) Then
-                sumaSeleccionada += Convert.ToDecimal(fila.Cells("ImporteAPU").Value)
+                sumaSeleccionada += ConvertirDecimalSeguro(fila.Cells("ImporteAPU").Value)
             End If
         Next
 

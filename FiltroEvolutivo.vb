@@ -60,7 +60,7 @@ Public Class FiltroEvolutivo
                     cmdCorte.Parameters.AddWithValue("@Mes", mes)
                     cmdCorte.Parameters.AddWithValue("@Dia", dia)
                     Dim res = cmdCorte.ExecuteScalar()
-                    If res IsNot DBNull.Value AndAlso res IsNot Nothing Then movimientosHastaFecha = Convert.ToDecimal(res)
+                    If res IsNot DBNull.Value AndAlso res IsNot Nothing Then movimientosHastaFecha = ConvertirDecimalSeguro(res)
                 End Using
 
                 ' B) Movimientos reales de todo el año completo para el arrastre
@@ -69,7 +69,7 @@ Public Class FiltroEvolutivo
                     cmdTotal.Parameters.AddWithValue("@Cta", idElemento)
                     cmdTotal.Parameters.AddWithValue("@Eje", anioEvaluar)
                     Dim res = cmdTotal.ExecuteScalar()
-                    If res IsNot DBNull.Value AndAlso res IsNot Nothing Then movimientosTodoElAnio = Convert.ToDecimal(res)
+                    If res IsNot DBNull.Value AndAlso res IsNot Nothing Then movimientosTodoElAnio = ConvertirDecimalSeguro(res)
                 End Using
 
                 ' C) Arrastre continuo cronológico
@@ -98,7 +98,7 @@ Public Class FiltroEvolutivo
                         cmdActual.Parameters.AddWithValue("@Mes", mes)
                         cmdActual.Parameters.AddWithValue("@Dia", dia)
                         Dim resultado As Object = cmdActual.ExecuteScalar()
-                        If resultado IsNot DBNull.Value AndAlso resultado IsNot Nothing Then saldoRealAnioActual = Convert.ToDecimal(resultado)
+                        If resultado IsNot DBNull.Value AndAlso resultado IsNot Nothing Then saldoRealAnioActual = ConvertirDecimalSeguro(resultado)
                     End Using
                     dtFinal.Rows(dtFinal.Rows.Count - 1)("SaldoAFecha") = saldoRealAnioActual
                 Catch : End Try
@@ -121,7 +121,7 @@ Public Class FiltroEvolutivo
                     cmdConcepto.Parameters.AddWithValue("@Mes", mes)
                     cmdConcepto.Parameters.AddWithValue("@Dia", dia)
                     Dim res = cmdConcepto.ExecuteScalar()
-                    If res IsNot DBNull.Value AndAlso res IsNot Nothing Then totalConceptoAnio = Convert.ToDecimal(res)
+                    If res IsNot DBNull.Value AndAlso res IsNot Nothing Then totalConceptoAnio = ConvertirDecimalSeguro(res)
                 End Using
 
                 dtFinal.Rows.Add(anioEvaluar, totalConceptoAnio)
@@ -306,7 +306,7 @@ Public Class FiltroEvolutivo
             Dim textoElemento As String = vTxtNombreElementoReporte ' Capturado en el botón Aceptar (ej: "BBVA")
 
             ' El importe viene de la columna 1 del SQL, lo formateamos limpiamente como moneda
-            Dim valorImporte As Decimal = Convert.ToDecimal(filaActual(1))
+            Dim valorImporte As Decimal = ConvertirDecimalSeguro(filaActual(1))
             Dim textoImporte As String = valorImporte.ToString("N2") ' Formato numérico estándar con 2 decimales
 
             ' 🌟 EL CORTAFUEGOS TRADUCTOR MULTIIDIOMA PARA EL ELEMENTO (Concepto o Cuenta)

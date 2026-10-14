@@ -17,6 +17,7 @@ Public Class AprendizajeBancario
     Private buscandoDescripcion As Boolean = False
     Private cargandoDatosBanco As Boolean = False
     Private vIdConceptoReal As Integer = 1
+    Private vImporteAPU As Decimal
 
 
     Public Sub CargarPrimerConceptoBancario()
@@ -44,7 +45,7 @@ Public Class AprendizajeBancario
                         ' 🪓 EL SERRUCHO INDUSTRIAL DE DECIMALES (INMUNE AL 100% A WINDOWS ALEMÁN)
                         ' =========================================================================
                         ' 1. Convertimos el valor de la base de datos a decimal puro
-                        Dim valorDecimalPuro As Decimal = Convert.ToDecimal(dr("ImporteAPU"))
+                        Dim valorDecimalPuro As Decimal = ConvertirDecimalSeguro(dr("ImporteAPU"))
 
                         ' 2. Forzamos el formateo rígido con punto decimal de toda la vida: "466.67"
                         Dim textoPuroPunto As String = valorDecimalPuro.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)
@@ -55,7 +56,7 @@ Public Class AprendizajeBancario
                         ' Forzamos al formateador visual a usar la cultura de puntos y comas española,
                         ' de esta manera el "466,67" se pintará perfecto con su coma decimal en cualquier PC del planeta.
                         Dim culturaVisual As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("es-ES")
-                        TxtImporte.Text = Convert.ToDecimal(dr("ImporteAPU")).ToString("N2", culturaVisual)
+                        TxtImporte.Text = valorDecimalPuro.ToString("N2", culturaVisual)
                         ' =========================================================================
 
                         ' 1. Clavamos el combo de la Cuenta indexando el ID que capturó el radar

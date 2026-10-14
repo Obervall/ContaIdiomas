@@ -198,4 +198,7 @@
   <data name="SelecPeriodo" xml:space="preserve">
     <value>Seleccionar el Període entre cada Pagament/Cobrament</value>
   </data>
+  <data name="LblAyudaBuscar.Text" xml:space="preserve">
+    <value>Escriu 3 lletres per filtrar o Esborrar el text i prem Enter per veure-ho tot.</value>
+  </data>
 </root>

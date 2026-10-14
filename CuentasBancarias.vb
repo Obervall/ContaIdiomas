@@ -93,7 +93,7 @@ Public Class CuentasBancarias
         If e.ColumnIndex = 3 AndAlso e.Value IsNot Nothing AndAlso Not IsDBNull(e.Value) Then
             Try
                 ' Convertimos el valor interno a Decimal de forma segura
-                Dim valorNumerico As Decimal = Convert.ToDecimal(e.Value)
+                Dim valorNumerico As Decimal = ConvertirDecimalSeguro(e.Value)
 
                 ' Formateamos el texto final que verá el usuario con sus puntos de miles y comas
                 e.Value = valorNumerico.ToString("N2")
@@ -318,7 +318,7 @@ Public Class CuentasBancarias
                 Using drMdb1 As OleDbDataReader = cmdMdb1cr.ExecuteReader()
                     Dim vSaldoCuentas As Decimal = 0
                     While drMdb1.Read()
-                        vSaldoCuentas += Convert.ToDecimal(drMdb1.GetValue(0))
+                        vSaldoCuentas += ConvertirDecimalSeguro(drMdb1.GetValue(0))
                     End While
                     filaData("SaldoCalculado") = Math.Round(vSaldoCuentas, 2)
                 End Using
@@ -790,7 +790,7 @@ Public Class CuentasBancarias
             e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(2).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto3.Left, startY)
             'e.Graphics.DrawString(frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(3).Value.ToString, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto5.Right + 40, startY, sf)
             Dim valorCelda As Object = frmCuentasBancarias.DgvCuentas.Rows(PrintLine).Cells(3).Value
-            Dim saldoFinalTexto As String = If(valorCelda IsNot Nothing AndAlso Not IsDBNull(valorCelda), Convert.ToDecimal(valorCelda).ToString("N2"), CeroFormateado)
+            Dim saldoFinalTexto As String = If(valorCelda IsNot Nothing AndAlso Not IsDBNull(valorCelda), ConvertirDecimalSeguro(valorCelda).ToString("N2"), CeroFormateado)
 
             e.Graphics.DrawString(saldoFinalTexto, FuenteDetalles, Brushes.Black, frmImprimirForm.Punto5.Right + 40, startY, sf)
 

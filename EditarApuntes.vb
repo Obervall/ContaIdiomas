@@ -86,8 +86,8 @@ Public Class EditarApuntes
         CmbConcepto.SelectedValue = Convert.ToInt32(frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(9).Value)
         CmbCuenta.SelectedValue = Convert.ToInt32(frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(10).Value)
         CmbDescripcion.Text = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(2).Value.ToString
-        vimporteAPU = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(3).Value
-        TxtImporte.Text = Convert.ToDecimal(vimporteAPU).ToString("N2")
+        vimporteAPU = ConvertirDecimalSeguro(frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(3).Value)
+        TxtImporte.Text = vimporteAPU.ToString("N2")
         TxtNota.Text = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(5).Value.ToString
         vCodigoAPU = frmApuntesContables.DgvApuntes.Rows(filaActual).Cells(7).Value
 
@@ -157,7 +157,7 @@ Public Class EditarApuntes
         End If
 
         ' Guardamos el importe limpio y aplicamos el signo contable según el tipo
-        vimporteAPU = importeDecimal
+        vimporteAPU = ConvertirDecimalSeguro(importeDecimal)
 
         ' =========================================================================
         ' 🎯 VALIDACIÓN DEL SIGNO INMUNE A IDIOMAS (Castellano / Catalán / Inglés)
@@ -202,7 +202,7 @@ Public Class EditarApuntes
         cmdMdb1cr.Parameters.Add("@fec", OleDb.OleDbType.Date).Value = vDate3
         cmdMdb1cr.Parameters.Add("@con", OleDb.OleDbType.Integer).Value = idConceptoEditado
         cmdMdb1cr.Parameters.Add("@des", OleDb.OleDbType.VarWChar).Value = CmbDescripcion.Text.Trim()
-        cmdMdb1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = Convert.ToDecimal(vimporteAPU)
+        cmdMdb1cr.Parameters.Add("@imp", OleDb.OleDbType.Currency).Value = ConvertirDecimalSeguro(vimporteAPU)
         cmdMdb1cr.Parameters.Add("@not", OleDb.OleDbType.VarWChar).Value = TxtNota.Text.Trim()
         cmdMdb1cr.Parameters.Add("@cue", OleDb.OleDbType.Integer).Value = idCuentaEditada
         cmdMdb1cr.Parameters.Add("@eje", OleDb.OleDbType.Integer).Value = Convert.ToInt32(vAñoEjercicio)
@@ -305,10 +305,10 @@ Public Class EditarApuntes
             Dim importeFinal As Decimal = ParsearImporteUniversal(TxtImporte.Text)
 
             ' Guardamos de forma segura en tu variable global de doble precisión (vImporteAPU)
-            vimporteAPU = Convert.ToDouble(importeFinal)
+            vimporteAPU = ConvertirDecimalSeguro(importeFinal)
 
             ' Formateamos la caja visual con el estándar de dos decimales de gala
-            TxtImporte.Text = importeFinal.ToString("N2")
+            TxtImporte.Text = vimporteAPU.ToString("N2")
 
             ' Mandamos el cursor directo al combo de la Cuenta de forma dócil
             CmbCuenta.Select()

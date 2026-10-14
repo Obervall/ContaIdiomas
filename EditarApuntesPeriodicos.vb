@@ -111,8 +111,8 @@ Public Class EditarApuntesPeriodicos
         End Using
 
         ' 🚀 REPARADO 2: Control estricto del signo decimal (¡Adiós Math.Abs transgresor!)
-        vimporteAPU = frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(3).Value.ToString()
-        Dim importeDecimal As Decimal = ConvertirDecimalSeguro(vimporteAPU)
+        vimporteAPU = ConvertirDecimalSeguro(frmApuntesPeriodicos.DgvApuper.Rows(filaActual).Cells(3).Value)
+        Dim importeDecimal As Decimal = vimporteAPU
 
         ' Conservamos el signo menos si es un gasto menor que cero para que no mute a positivo
         TxtImporte.Text = importeDecimal.ToString("N2")
@@ -234,10 +234,10 @@ Public Class EditarApuntesPeriodicos
             Dim importeFinal As Decimal = ParsearImporteUniversal(TxtImporte.Text)
 
             ' Guardamos de forma segura en tu variable global de doble precisión (vImporteAPU)
-            vimporteAPU = Convert.ToDouble(importeFinal)
+            vimporteAPU = ConvertirDecimalSeguro(importeFinal)
 
             ' Formateamos la caja visual con el estándar de dos decimales de gala
-            TxtImporte.Text = importeFinal.ToString("N2")
+            TxtImporte.Text = vimporteAPU.ToString("N2")
 
             ' Mandamos el cursor directo al combo de la Cuenta de forma dócil
             CmbCuenta.Select()

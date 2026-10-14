@@ -296,7 +296,7 @@ Public Class IntroPresupuestos
         If RdbAnual.Checked Then
             Dim totalAnual As Double = 0
             Double.TryParse(TxtAnual.Text, totalAnual)
-            Dim totalDecimal As Decimal = Convert.ToDecimal(totalAnual)
+            Dim totalDecimal As Decimal = ConvertirDecimalSeguro(totalAnual)
             Dim importeRepartido As Decimal = Math.Round(totalDecimal / 12D, 2)
 
             Dim acumuladoPrimerosMeses As Decimal = 0.0D
@@ -396,7 +396,7 @@ Public Class IntroPresupuestos
             If Double.TryParse(TxtAnual.Text.Trim(), totalAnual) Then
                 ' Dividimos entre 12 y redondeamos a 2 decimales
                 ' 1. Convertimos la variable primero y luego dividimos por 12 en formato Decimal (12D)
-                Dim importeMensual As Decimal = Math.Round(Convert.ToDecimal(totalAnual) / 12D, 2)
+                Dim importeMensual As Decimal = Math.Round(ConvertirDecimalSeguro(totalAnual) / 12D, 2)
                 ' 2. Formateamos a texto para la pantalla respetando los puntos y comas del usuario
                 Dim textoFormateado As String = importeMensual.ToString("N2")
 
@@ -613,7 +613,7 @@ TxtSeptiembre.Leave, TxtOctubre.Leave, TxtNoviembre.Leave, TxtDiciembre.Leave
                 Case "TxtDiciembre" : vDiciembre = numDouble : BtnAceptar.Select()
             End Select
 
-            Dim sumaDecimal As Decimal = Convert.ToDecimal(vEnero + vFebrero + vMarzo + vAbril + vMayo + vJunio + vJulio + vAgosto + vSeptiembre + vOctubre + vNoviembre + vDiciembre)
+            Dim sumaDecimal As Decimal = ConvertirDecimalSeguro(vEnero + vFebrero + vMarzo + vAbril + vMayo + vJunio + vJulio + vAgosto + vSeptiembre + vOctubre + vNoviembre + vDiciembre)
             vAnual = Convert.ToDouble(sumaDecimal)
             TxtAnual.Text = sumaDecimal.ToString("N2")
         End If

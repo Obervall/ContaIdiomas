@@ -198,4 +198,7 @@
   <data name="SelecPeriodo" xml:space="preserve">
     <value>Selecione o período entre cada pagamento/cobrança</value>
   </data>
+  <data name="LblAyudaBuscar.Text" xml:space="preserve">
+    <value>Digite 3 letras para filtrar ou Exclua o texto e pressione Enter para ver tudo.</value>
+  </data>
 </root>

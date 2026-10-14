@@ -91,14 +91,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ContaHogar3.0.exe" size="5132288">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ContaHogar3.0.exe" size="5143040">
       <assemblyIdentity name="ContaHogar3.0" version="0.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>mPLy1eACYMHyVBCcI9DSoH8WzfwrNWC27Qd4co/bLHY=</dsig:DigestValue>
+        <dsig:DigestValue>3JIIdvIpZyO2dYmMy6rqKCu+JOExOAhwFHVbkKjKc24=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -110,7 +110,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>qAX8/jPJFJdLdt7ZIFAtXGS4XGjyxWIzq7h1yC/2oXs=</dsig:DigestValue>
+        <dsig:DigestValue>lK3pIj756epUKWdwjqPPzHgl1C0ooezjqxA0p0IBwaA=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -858,31 +858,31 @@
       <dsig:DigestValue>nPBt6GGTAkCh8NxO136Ccf0d93RqbVVspuQH1LICDyU=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Manual_Import_Bank_Transactions.pdf" size="1061477">
+  <file name="Manual_Import_Bank_Transactions.pdf" size="1000020">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>CIQ8Gs7ug+eObWqDJbcfaQLe5aHWtuhUgRdBbhR6dTw=</dsig:DigestValue>
+      <dsig:DigestValue>vBJ4uRaOT4i1Crvv5pACU0WeQ2BJ9vy+gcbvGyCnIic=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Manual_Importacion_Bancaria.pdf" size="1075165">
+  <file name="Manual_Importacion_Bancaria.pdf" size="1013767">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>X8pUgxFYq6ZHCnFSKH2uaAXJqGEIVjzw6A0IC32qqgs=</dsig:DigestValue>
+      <dsig:DigestValue>kZlmNoaUJO+RuK2cI2B54Dqjf4TG4+twPi34syoWgeE=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Manual_Transaccions_Bancarias.pdf" size="1000690">
+  <file name="Manual_Transaccions_Bancarias.pdf" size="1026057">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>Z6TwX1t17wz+KzEcwDe4lp7wuMFv0EZxiXMscefGATg=</dsig:DigestValue>
+      <dsig:DigestValue>h2xEo5FEeWiMkOtlm6fMMk+LGp/fm89PpvWqfesZt+Q=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Politica de Privacidad.pdf" size="247300">
@@ -894,13 +894,13 @@
       <dsig:DigestValue>JQ/WH7TxU0FmH4jmjhaVHOPTy+ouYrNsBbLDnZjc9Ks=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Version.pdf" size="4855919">
+  <file name="Version.pdf" size="4881375">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>gzFXRJ663W6C+ifbCdEHITJ8EXdMesTY1utDdmtwaYs=</dsig:DigestValue>
+      <dsig:DigestValue>hjzaitk5hTjjcnvQviWQTHT0a5/MOTAFUXKRFPSkMmQ=</dsig:DigestValue>
     </hash>
   </file>
   <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">

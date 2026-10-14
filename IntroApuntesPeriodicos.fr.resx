@@ -198,4 +198,7 @@
   <data name="SelecPeriodo" xml:space="preserve">
     <value>Sélectionnez la période entre chaque paiement/recouvrement</value>
   </data>
+  <data name="LblAyudaBuscar.Text" xml:space="preserve">
+    <value>Tapez 3 lettres pour filtrer ou supprimez le texte et appuyez sur Entrée pour tout voir.</value>
+  </data>
 </root>

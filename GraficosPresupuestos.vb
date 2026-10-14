@@ -171,11 +171,11 @@ Public Class GraficosPresupuestos
             ' Recorremos las filas limpias de la tabla agrupada de presupuestos
             For x = 0 To miDataTable.Rows.Count - 1
                 Dim nombreConcepto As String = miDataTable.Rows(x)("Concepto").ToString()
-                Dim valorReal As Decimal = Convert.ToDecimal(miDataTable.Rows(x)("Real"))
-                Dim valorPresupuesto As Decimal = Convert.ToDecimal(miDataTable.Rows(x)("Presupuestado"))
+            Dim valorReal As Decimal = ConvertirDecimalSeguro(miDataTable.Rows(x)("Real"))
+            Dim valorPresupuesto As Decimal = ConvertirDecimalSeguro(miDataTable.Rows(x)("Presupuestado"))
 
-                ' Serie Real (Barras Rojas)
-                With Chart1.Series("Real")
+            ' Serie Real (Barras Rojas)
+            With Chart1.Series("Real")
                     Dim i As Integer = .Points.AddXY(nombreConcepto, Math.Abs(valorReal))
                     .Points(i).Color = Color.Red
                     .ChartType = SeriesChartType.Column
@@ -216,10 +216,10 @@ Public Class GraficosPresupuestos
 
             For x = 0 To miDataTable.Rows.Count - 1
                 Dim nombreConcepto As String = miDataTable.Rows(x)("Concepto").ToString()
-                Dim valorReal As Decimal = Convert.ToDecimal(miDataTable.Rows(x)("Real"))
-                Dim valorPresupuesto As Decimal = Convert.ToDecimal(miDataTable.Rows(x)("Presupuestado"))
+            Dim valorReal As Decimal = ConvertirDecimalSeguro(miDataTable.Rows(x)("Real"))
+            Dim valorPresupuesto As Decimal = ConvertirDecimalSeguro(miDataTable.Rows(x)("Presupuestado"))
 
-                With Chart1.Series("Real")
+            With Chart1.Series("Real")
                     Dim i As Integer = .Points.AddXY(nombreConcepto, Math.Abs(valorReal))
                     .Points(i).Color = Color.Red
                     .ChartType = SeriesChartType.Area
@@ -246,10 +246,10 @@ Public Class GraficosPresupuestos
 
             For x = 0 To miDataTable.Rows.Count - 1
                 Dim nombreConcepto As String = miDataTable.Rows(x)("Concepto").ToString()
-                Dim valorReal As Decimal = Convert.ToDecimal(miDataTable.Rows(x)("Real"))
-                Dim valorPresupuesto As Decimal = Convert.ToDecimal(miDataTable.Rows(x)("Presupuestado"))
+            Dim valorReal As Decimal = ConvertirDecimalSeguro(miDataTable.Rows(x)("Real"))
+            Dim valorPresupuesto As Decimal = ConvertirDecimalSeguro(miDataTable.Rows(x)("Presupuestado"))
 
-                With Chart1.Series("Real")
+            With Chart1.Series("Real")
                     Dim i As Integer = .Points.AddXY(nombreConcepto, Math.Abs(valorReal))
                     .Points(i).Color = Color.Red
                     .ChartType = SeriesChartType.Line

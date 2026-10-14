@@ -285,7 +285,7 @@ Public Class SeleccionFechas
 
                 ' Si el valor ya es numérico, aplicamos tu formato numérico universal
                 If TypeOf valorCelda Is Decimal OrElse TypeOf valorCelda Is Double OrElse TypeOf valorCelda Is Integer Then
-                    textoImporte = Convert.ToDecimal(valorCelda).ToString("###,##0.00")
+                    textoImporte = ConvertirDecimalSeguro(valorCelda).ToString("###,##0.00")
                     ' Si viene como texto, intentamos convertirlo de forma segura
                 ElseIf Decimal.TryParse(valorCelda.ToString(), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, numeroDecimal) Then
                     textoImporte = numeroDecimal.ToString("###,##0.00")

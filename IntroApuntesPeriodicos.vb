@@ -10,7 +10,7 @@ Public Class IntroApuntesPeriodicos
     Public vConcepto, vtipoSql, vtipoGrid, vLetras, vIntro, vDescripcion As String
     Public vDescripcionAPU, vNotasAPU, vCuentaAPU, vAnexo, vbOK As String
     Public vNumeroPagos, vDate3Year As Integer
-    Public vImporteAPU As Double
+    Public vImporteAPU As Decimal
     Public i, primero, nuevo As Integer
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
 
@@ -54,7 +54,6 @@ Public Class IntroApuntesPeriodicos
             DateTimePicker1.Value = Convert.ToDateTime(vfechaHoy)
         End If
 
-
         Dim TL(12) As ToolTip
         TL(0) = New ToolTip
         TL(0).SetToolTip(Me.BtnHoy, resManager.GetString("IrAHoy"))
@@ -95,63 +94,8 @@ Public Class IntroApuntesPeriodicos
         ' 1. Llenar el Combo Concepto de forma aislada
         LlenarComboConceptosPeriodicos(Me.CmbConcepto)
 
-        '' =========================================================================
-        '' 🚀 TRAMO 2 REPARADO: CAPTURA DE LA PRIMERA DESCRIPCIÓN DE LA BASE DE DATOS
-        '' =========================================================================
-        '' 1. Ocultamos preventivamente la rejilla flotante azul de sugerencias
-        'DgvDescripcion.Visible = False
-
-        '' 2. Consulta ultra-rápida TOP 1: Capturamos la primera descripción real que exista
-        'cmdMdb1cr.CommandText = "SELECT TOP 1 DescripcionAPU FROM apuntes WHERE DescripcionAPU <> 'SALDO INICIAL' And DescripcionAPU Is Not Null ORDER BY DescripcionAPU ASC"
-        'cmdMdb1cr.Parameters.Clear()
-
-        'Dim primeraDescripcion As String = ""
-
-        'Try
-        '    Using dr As OleDbDataReader = cmdMdb1cr.ExecuteReader()
-        '        ' Al usar un IF en lugar de un WHILE, leemos estrictamente la primera fila y cerramos el grifo
-        '        If dr.Read() Then
-        '            primeraDescripcion = dr.GetValue(0).ToString().Trim()
-        '        End If
-        '    End Using
-        'Catch ex As Exception
-        '    MsgBox(resManager.GetString("Error") & ": " & ex.Message, MsgBoxStyle.Critical)
-        'End Try
-
-        '' 3. 🎯 SINCRONIZACIÓN ABSOLUTA DEL NUEVO TXTBUSCARLETRAS
-        '' Si la base de datos nos ha devuelto texto, lo inyectamos al céntimo en el cuadro
-        'If Not String.IsNullOrEmpty(primeraDescripcion) Then
-        '    vDescripcion = primeraDescripcion
-        '    TxtBuscarLetras.Text = primeraDescripcion
-        'Else
-        '    vDescripcion = ""
-        '    TxtBuscarLetras.Text = ""
-        'End If
-
-        '' Marcamos que de entrada no es una descripción nueva de paquete
-        'vIntro = "NO"
-
-
-        '' =========================================================================
-        '' 🚀 TRAMO 2 REPARADO: LLENAR COMBO DESCRIPCIÓN INMUNE A BLOQUEOS (MSIX)
-        '' =========================================================================
-        '' Saneamos el CommandText a mayúsculas para evitar descalces con el rodillo 2.5
-        'cmdMdb1cr.CommandText = "SELECT DISTINCT DescripcionAPU FROM apuntes WHERE DescripcionAPU <> 'SALDO INICIAL' And DescripcionAPU Is Not Null ORDER BY DescripcionAPU ASC"
-        'cmdMdb1cr.Parameters.Clear()
-        'CmbDescripcion.Items.Clear()
-
-        'Try
-        '    Using dr As OleDbDataReader = cmdMdb1cr.ExecuteReader()
-        '        While dr.Read()
-        '            Dim descLimpia As String = dr.GetValue(0).ToString().Trim()
-        '            If Not String.IsNullOrEmpty(descLimpia) Then
-        '                CmbDescripcion.Items.Add(descLimpia)
-        '            End If
-        '        End While
-        '    End Using
-        'Catch ex As Exception
-        '    MsgBox(resManager.GetString("Error") & ": " & ex.Message, MsgBoxStyle.Critical)
-        'End Try
+        ' Marcamos que de entrada no es una descripción nueva de paquete
+        vIntro = "NO"
 
         ' 3. Llenar el Combo Cuenta de forma aislada
         LlenarComboCuentasPeriodicos(Me.CmbCuenta)
@@ -173,26 +117,31 @@ Public Class IntroApuntesPeriodicos
     Private Sub TxtBuscarLetras_TextChanged(sender As Object, e As EventArgs) Handles TxtBuscarLetras.TextChanged
         vLetras = TxtBuscarLetras.Text.Trim()
 
-        '' 🌟 PROTECCIÓN: Si es la descripción por defecto, no hace falta buscar nada
-        'If vLetras = TxtDescripcion.Text Then
-        '    DgvDescripcion.Visible = False
-        '    Return
-        'End If
+        ' =====================================================================
+        ' 🌟 ESCUDO DE VISIBILIDAD UNIFICADO (Igual que en el Banco)
+        ' =====================================================================
+        ' Homogeneizamos los textos quitando espacios y guiones para la comparación
+        Dim textoCuadroLimpio As String = vLetras.Replace(" ", "").Replace("_", "").ToUpper()
+        Dim textoOficialLimpio As String = If(vDescripcion, "").Replace(" ", "").Replace("_", "").ToUpper()
 
-        ' Si hay menos de 3 letras → ocultamos y vaciamos el DataGridView
-        If vLetras.Length < 3 Then
-            DgvDescripcion.DataSource = Nothing
-            DgvDescripcion.Visible = False ' <-- Esto lo "cierra" en pantalla
+        ' Si lo que está escrito coincide con la descripción oficial del concepto, mantenemos oculto
+        If textoCuadroLimpio = textoOficialLimpio Then
+            DgvDescripcion.Visible = False
             Return
         End If
 
-        ' Si hay 3 o más letras: mostramos la tabla y lanzamos la búsqueda
-        DgvDescripcion.Visible = True
+        ' Si el usuario borra y hay menos de 3 letras → ocultamos y vaciamos el grid
+        If vLetras.Length < 3 Then
+            DgvDescripcion.DataSource = Nothing
+            DgvDescripcion.Visible = False
+            Return
+        End If
+
+        ' Si hay 3 o más letras y no coincide con el oficial: lanzamos la búsqueda
         BuscarLetras("descripcion")
     End Sub
 
     Public Function BuscarLetras(combo As String) As String
-
         If drMdb1 IsNot Nothing AndAlso Not drMdb1.IsClosed Then
             drMdb1.Close()
         End If
@@ -217,26 +166,18 @@ Public Class IntroApuntesPeriodicos
                 DgvDescripcion.DataSource = dt
 
                 If dt.Rows.Count > 0 Then
-                    ' Si hay filas, configuramos columna y nos aseguramos de que se vea
                     If DgvDescripcion.Columns.Contains("DescripcionAPU") Then
                         ' =========================================================================
                         ' 🎯 ROTULACIÓN DINÁMICA DE LA CABECERA (Soporte F2 Premium)
                         ' =========================================================================
-                        ' Intentamos rescatar la traducción de "F2: Forzar texto escrito" desde tu .resx
                         Dim textoCabeceraF2 As String = resManager.GetString("CabeceraF2Forzar")
+                        If String.IsNullOrEmpty(textoCabeceraF2) Then textoCabeceraF2 = "F2: Forzar texto escrito"
 
-                        ' Salvavidas por si acaso la clave no estuviera escrita todavía en el archivo de recursos
-                        If String.IsNullOrEmpty(textoCabeceraF2) Then
-                            textoCabeceraF2 = "F2: Forzar texto escrito"
-                        End If
-
-                        ' Machacamos el viejo literal "Descripción" por tu aviso de teclado inteligente
                         DgvDescripcion.Columns("DescripcionAPU").HeaderText = textoCabeceraF2
                         DgvDescripcion.Columns("DescripcionAPU").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
                     End If
                     DgvDescripcion.Visible = True
                 Else
-                    ' Si la búsqueda da 0 filas (como "impoo"), lo ocultamos
                     DgvDescripcion.Visible = False
                 End If
 
@@ -250,35 +191,21 @@ Public Class IntroApuntesPeriodicos
 
     Private Sub TxtBuscarLetras_Leave(sender As Object, e As EventArgs) Handles TxtBuscarLetras.Leave
         Dim textoActual As String = TxtBuscarLetras.Text.Trim()
-        Dim textoOriginal As String = TxtBuscarLetras.Text.Trim()
 
-        ' Si el DataGridView está invisible (lo que significa que el usuario no confirmó ninguna selección) 
-        ' y además el texto actual no coincide con el original que cargó el concepto...
-        If DgvDescripcion.Visible = False AndAlso textoActual.ToUpper() <> textoOriginal.ToUpper() Then
+        ' REPARADO: Comparamos contra la variable global real 'vDescripcion' que recuerda el texto original
+        If DgvDescripcion.Visible = False AndAlso textoActual.ToUpper() <> If(vDescripcion, "").ToUpper() Then
 
-            ' 1. Apagamos momentáneamente el evento TextChanged para que no intente buscar mientras restauramos
+            ' 1. Apagamos momentáneamente el evento TextChanged para evitar rebotes de consultas
             RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
 
-            ' 2. Reestablecemos el texto original del concepto en el cuadro
-            TxtBuscarLetras.Text = textoOriginal
-            vDescripcion = textoOriginal ' Sincronizamos la variable global
-            vIntro = "NO" ' Aseguramos que no se marque como descripción nueva
+            ' 2. Reestablecemos de forma dócil el texto oficial del concepto
+            TxtBuscarLetras.Text = vDescripcion
+            vIntro = "NO"
 
             ' 3. Volvemos a encender el evento de búsqueda
             AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
         End If
     End Sub
-
-
-
-
-
-
-
-
-
-
-
 
     Private Sub CmbConcepto_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbConcepto.SelectedIndexChanged
         ' =========================================================================
@@ -338,7 +265,20 @@ Public Class IntroApuntesPeriodicos
                 ' Si no tiene traducción en el ResX, dejamos la descripción original de la BD
                 If String.IsNullOrEmpty(tradDesc) Then tradDesc = descripcionOriginal
 
-                CmbDescripcion.Text = tradDesc.Trim()
+                ' =========================================================================
+                ' 🎯 INYECCIÓN SEGURA EN EL CUADRO CLÓNICO (Evita rebotes visuales)
+                ' =========================================================================
+                ' 1. Apagamos momentáneamente el detector de escritura para que no se abra la persiana azul
+                RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+
+                ' 2. Escribimos la descripción traducida en pantalla y la fijamos en la RAM
+                TxtBuscarLetras.Text = tradDesc.Trim()
+                vDescripcion = tradDesc.Trim()
+                vIntro = "NO" ' De entrada es la descripción oficial, no una nueva
+                DgvDescripcion.Visible = False ' Nos aseguramos de mantener el búnker cerrado
+
+                ' 3. Volvemos a encender el detector para cuando el usuario quiera teclear a mano
+                AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
             End If
 
         Catch ex As Exception
@@ -346,54 +286,84 @@ Public Class IntroApuntesPeriodicos
         End Try
     End Sub
 
-    Private Sub TxtDescripcion_KeyPress(sender As Object, e As KeyPressEventArgs)
-        If e.KeyChar = ChrW(Keys.Enter) Then
-            TxtImporte.Select()
+    Private Sub DgvDescripcion_KeyDown(sender As Object, e As KeyEventArgs) Handles DgvDescripcion.KeyDown
+        ' 🎯 Si el operario presiona INTRO sobre una fila de la tabla azul
+        If e.KeyCode = Keys.Enter Then
+            ' Evitamos que el DataGridView haga su comportamiento nativo (bajar a la siguiente fila)
+            e.SuppressKeyPress = True
+            e.Handled = True
+
+            ' Validamos que haya una fila seleccionada válida
+            If DgvDescripcion.CurrentRow IsNot Nothing AndAlso DgvDescripcion.Rows.Count > 0 Then
+
+                ' 1. Pescamos el texto de la celda oficial (Búsqueda segura por Name técnico)
+                Dim textoSeleccionado As String = DgvDescripcion.CurrentRow.Cells("DescripcionAPU").Value.ToString().Trim()
+
+                ' 2. Apagamos momentáneamente el TextChanged para inyectar el texto sin levantar consultas
+                RemoveHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+
+                ' 3. Volcamos el texto elegido en el buscador y sincronizamos las variables de control
+                TxtBuscarLetras.Text = textoSeleccionado
+                vDescripcion = textoSeleccionado
+                vIntro = "NO" ' Al elegir de la lista, confirmamos que NO es una descripción nueva de paquete
+
+                ' 4. Volvemos a encender el detector de teclado
+                AddHandler TxtBuscarLetras.TextChanged, AddressOf TxtBuscarLetras_TextChanged
+
+                ' 5. Cerramos la persiana azul rígidamente para que deje de molestar en pantalla
+                DgvDescripcion.Visible = False
+
+                ' 6. 🚀 LANZAMIENTO DEL CURSOR AL SIGUIENTE CAMPO
+                ' Como es la pantalla de Apuntes Periódicos, mandamos el foco directamente al número de pagos
+                TxtNumeroPagos.Focus()
+                TxtNumeroPagos.SelectAll()
+            End If
+        End If
+    End Sub
+
+    Private Sub CmbConcepto_KeyDown(sender As Object, e As KeyEventArgs) Handles CmbConcepto.KeyDown
+        ' Si presiona INTRO en la persiana de los conceptos, saltamos al buscador
+        If e.KeyCode = Keys.Enter Then
+            e.SuppressKeyPress = True
+            e.Handled = True
+
+            TxtBuscarLetras.Focus()
+            TxtBuscarLetras.SelectAll()
+        End If
+    End Sub
+
+    Private Sub TxtNumeroPagos_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtNumeroPagos.KeyPress
+        ' Permitimos únicamente números (0-9) y la tecla de retroceso/borrar (BackSpace)
+        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
+            e.Handled = True ' Bloqueamos rígidamente cualquier otro carácter (letras, espacios, etc.)
+        End If
+    End Sub
+
+    Private Sub TxtNumeroPagos_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtNumeroPagos.KeyDown
+        ' Si presiona INTRO tras escribir el número de pagos, saltamos al importe
+        If e.KeyCode = Keys.Enter Then
+            e.SuppressKeyPress = True
+            e.Handled = True
+
+            ' [Ajusta TxtImporte al nombre técnico real de tu campo del dinero]
+            TxtImporte.Focus()
             TxtImporte.SelectAll()
         End If
     End Sub
 
-    Private Sub TxtImporte_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtImporte.KeyPress
-        ' 1. 🛡️ EL ESCUDO UNIVERSAL ADMITE TODO: Números, borrar (Control), punto, coma o el Intro
-        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) AndAlso e.KeyChar <> "."c AndAlso e.KeyChar <> ","c AndAlso e.KeyChar <> ChrW(Keys.Enter) Then
-            e.Handled = True
-            Exit Sub
-        End If
-
-        ' 2. 🎯 AL PULSAR INTRO: Pasamos el rodillo internacional e inyectamos en la variable de apuntes
-        If e.KeyChar = ChrW(Keys.Enter) Then
+    Private Sub CmbCuenta_KeyDown(sender As Object, e As KeyEventArgs) Handles CmbCuenta.KeyDown
+        ' Si presiona INTRO en la persiana de las cuentas, saltamos al buscador
+        If e.KeyCode = Keys.Enter Then
+            e.SuppressKeyPress = True
             e.Handled = True
 
-            ' Invocamos tu función global centralizada: Cero grasa digital en la RAM
-            Dim importeFinal As Decimal = ParsearImporteUniversal(TxtImporte.Text)
-
-            ' Guardamos de forma segura en tu variable global de doble precisión (vImporteAPU)
-            vImporteAPU = Convert.ToDouble(importeFinal)
-
-            ' Formateamos la caja visual con el estándar de dos decimales de gala
-            TxtImporte.Text = importeFinal.ToString("N2")
-
-            ' Mandamos el cursor directo al combo de la Cuenta de forma dócil
-            CmbCuenta.Select()
-        End If
-    End Sub
-
-    Private Sub TxtNota_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtNota.KeyPress
-        If e.KeyChar = ChrW(Keys.Enter) Then
-            BtnAceptarSalir.Select()
-        End If
-    End Sub
-
-    Private Sub BtnHoy_Click(sender As Object, e As EventArgs) Handles BtnHoy.Click
-        If vAñoEjercicio <> vAñoActual Then
-            DateTimePicker1.Value = New Date(vAñoEjercicio, 12, 31)
-        Else
-            DateTimePicker1.Value = vfechaHoy
+            TxtNota.Focus()
+            TxtNota.SelectAll()
         End If
     End Sub
 
     Private Sub BtnAceptarSalir_Click(sender As Object, e As EventArgs) Handles BtnAceptarSalir.Click
-        If CmbDescripcion.Text.Trim() <> "" Then
+        If TxtBuscarLetras.Text.Trim() <> "" Then
             If TxtNumeroPagos.Text.Trim() <> "" Then
                 If TxtImporte.Text.Trim() <> "" And TxtImporte.Text.Trim() <> "0" Then
 
@@ -447,7 +417,7 @@ Public Class IntroApuntesPeriodicos
                         Dim anioEjercicioVencimiento As Integer = vDate3.Year
 
                         vAnexo = (i + 1).ToString()
-                        vDescripcionAPU = CmbDescripcion.Text.Trim() & "  (" & vAnexo & " de " & numPagos.ToString() & ")"
+                        vDescripcionAPU = TxtBuscarLetras.Text.Trim() & "  (" & vAnexo & " de " & numPagos.ToString() & ")"
 
                         ' 4. Diseñamos la estructura limpia para apuper usando comodines '?'
                         vAñadirSql = "INSERT INTO apuper (FechaAPP, ConceptoAPP, DescripcionAPP, ImporteAPP, EjercicioAPP, NotasAPP, CuentaAPP) " &
@@ -491,7 +461,46 @@ Public Class IntroApuntesPeriodicos
             End If
         Else
             MsgBox(rmse.GetString("NoDescripcionVacia"), vbExclamation)
-            CmbDescripcion.Select()
+            TxtBuscarLetras.Select()
+        End If
+    End Sub
+
+    Private Sub TxtImporte_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtImporte.KeyPress
+        ' 1. 🛡️ EL ESCUDO UNIVERSAL ADMITE TODO: Números, borrar (Control), punto, coma o el Intro
+        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) AndAlso e.KeyChar <> "."c AndAlso e.KeyChar <> ","c AndAlso e.KeyChar <> ChrW(Keys.Enter) Then
+            e.Handled = True
+            Exit Sub
+        End If
+
+        ' 2. 🎯 AL PULSAR INTRO: Pasamos el rodillo internacional e inyectamos en la variable de apuntes
+        If e.KeyChar = ChrW(Keys.Enter) Then
+            e.Handled = True
+
+            ' Invocamos tu función global centralizada: Cero grasa digital en la RAM
+            Dim importeFinal As Decimal = ConvertirDecimalSeguro(TxtImporte.Text)
+
+            ' Guardamos de forma segura en tu variable global de doble precisión (vImporteAPU)
+            vImporteAPU = importeFinal
+
+            ' Formateamos la caja visual con el estándar de dos decimales de gala
+            TxtImporte.Text = vImporteAPU.ToString("N2")
+
+            ' Mandamos el cursor directo al combo de la Cuenta de forma dócil
+            CmbCuenta.Select()
+        End If
+    End Sub
+
+    Private Sub TxtNota_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtNota.KeyPress
+        If e.KeyChar = ChrW(Keys.Enter) Then
+            BtnAceptarSalir.Select()
+        End If
+    End Sub
+
+    Private Sub BtnHoy_Click(sender As Object, e As EventArgs) Handles BtnHoy.Click
+        If vAñoEjercicio <> vAñoActual Then
+            DateTimePicker1.Value = New Date(vAñoEjercicio, 12, 31)
+        Else
+            DateTimePicker1.Value = vfechaHoy
         End If
     End Sub
 
@@ -610,7 +619,7 @@ Public Class IntroApuntesPeriodicos
             ' Creamos la columna virtual para el texto traducido
             dtConceptos.Columns.Add("TextoComboCON", GetType(String))
 
-            For Each fila As DataRow In dtConceptos.Rows
+			For Each fila As DataRow In dtConceptos.Rows
                 Dim codigoOriginal As String = fila("CodigoCON").ToString().Trim()
                 Dim textoFinal As String = codigoOriginal
 
@@ -621,6 +630,7 @@ Public Class IntroApuntesPeriodicos
                 End If
                 fila("TextoComboCON") = textoFinal
             Next
+
 
             ' Ordenamos alfabéticamente por la traducción en la memoria RAM
             dtConceptos.DefaultView.Sort = "TextoComboCON ASC"
@@ -714,7 +724,6 @@ Public Class IntroApuntesPeriodicos
                 vIntro = "SI"
                 vDescripcion = textoBuscadoF2
                 ' Actualizamos el almacén de texto original con el nuevo texto autorizado
-                'TxtDescripcion.Text = textoBuscadoF2
                 TxtNumeroPagos.Focus()
             Else
                 TxtBuscarLetras.SelectAll()

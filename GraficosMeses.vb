@@ -124,7 +124,7 @@ Public Class GraficosMeses
 
         For x = 0 To miDataTable.Rows.Count - 1
             Dim nombreEjeX As String = miDataTable.Rows(x)("Fecha").ToString()
-            Dim importeMes As Decimal = Convert.ToDecimal(miDataTable.Rows(x)("Importe"))
+            Dim importeMes As Decimal = ConvertirDecimalSeguro(miDataTable.Rows(x)("Importe"))
 
             If importeMes <= 0 Then
                 With Chart1.Series("Gastos")
@@ -168,7 +168,7 @@ Public Class GraficosMeses
 
         For x = 0 To miDataTable.Rows.Count - 1
             Dim nombreEjeX As String = miDataTable.Rows(x)("Fecha").ToString()
-            Dim importeMes As Decimal = Convert.ToDecimal(miDataTable.Rows(x)("Importe"))
+            Dim importeMes As Decimal = ConvertirDecimalSeguro(miDataTable.Rows(x)("Importe"))
 
             If importeMes <= 0 Then
                 With Chart1.Series("Gastos")
@@ -203,7 +203,7 @@ Public Class GraficosMeses
 
         For x = 0 To miDataTable.Rows.Count - 1
             Dim nombreEjeX As String = miDataTable.Rows(x)("Fecha").ToString()
-            Dim importeMes As Decimal = Convert.ToDecimal(miDataTable.Rows(x)("Importe"))
+            Dim importeMes As Decimal = ConvertirDecimalSeguro(miDataTable.Rows(x)("Importe"))
 
             If importeMes <= 0 Then
                 With Chart1.Series("Gastos")

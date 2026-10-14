@@ -56,10 +56,10 @@ Module Funciones
     Public frmGraficosPresupuestos As New GraficosPresupuestos
     Public frmSeleccionarDatosIngresos As New SeleccionDatosIngresos
     Public frmSeleccionarDatosGastos As New SeleccionDatosGastos
-	Public frmGraficosSoloConceptos As New GraficosSoloConceptos
-	Public frmFiltroEvolutivo As New FiltroEvolutivo
+    Public frmGraficosSoloConceptos As New GraficosSoloConceptos
+    Public frmFiltroEvolutivo As New FiltroEvolutivo
 
-	Public backup As New SaveFileDialog
+    Public backup As New SaveFileDialog
     Public restore As New OpenFileDialog
 
     Public conexion1 As New OleDbConnection()
@@ -71,7 +71,7 @@ Module Funciones
     Public vValor, vIngresos, vGastos, vSaldo, vSaldoCuentas, vSaldoMes As Double
     Public i, vFila1, vFila2, vFila, vFilaActual, filaActual, vregData1, vAñoActual, vAñoEjercicio As Integer
     Public vCerrar, vGrafico, vGraficoSolo, vNumeros, vNotas, vPathExportar, vConcepto As String
-    Public vDescripcionAPU, vImporteAPU, vNotasAPU, vConceptoAPU As String
+    Public vDescripcionAPU, vNotasAPU, vConceptoAPU As String
     Public vActivado, vAviso As Boolean
 
     Public vOrdenadoPorFechasAPU, vOrdenadoPorConceptosAPU, vOrdenadoPorImportesAPU As Integer
@@ -98,7 +98,7 @@ Module Funciones
     ' Variable pública para activar el modo de reparación de emergencia desde la ventana principal
     Public vModoRepararDuplicados As String = "NO"
     Public mensajeReinicio As String
-	Public vEsVersionDemoSoftonic As Boolean
+    Public vEsVersionDemoSoftonic As Boolean
     Public vDiasRestantesDemoSoftonic As Integer
     Public MostrarBotonPayPal As Boolean = False
     ' Esta variable guardará el "cero" con el formato correcto del sistema (0,00 o 0.00)
@@ -147,8 +147,8 @@ Module Funciones
         ' 🌟 4. TRADUCCIÓ DINÀMICA DEL TÍTOL (Blindado Multiidioma)
         ' =========================================================================
         If f.Name = "Principal" Then
-			' Capturamos el idioma activo de la sesión de la RAM
-			Dim culturaActivaEnVivo As System.Globalization.CultureInfo = Threading.Thread.CurrentThread.CurrentUICulture
+            ' Capturamos el idioma activo de la sesión de la RAM
+            Dim culturaActivaEnVivo As System.Globalization.CultureInfo = Threading.Thread.CurrentThread.CurrentUICulture
 
             'No quiero que salgan los días de prueba nunca, así que si vAviso2 es False, no mostramos nada
             vAviso2 = False
@@ -157,7 +157,7 @@ Module Funciones
             Dim txtTitol As String = If(resManager?.GetString("AppDisplayName", culturaActivaEnVivo), "ContaHogar 3.0 Premium")
             Dim txtVersio As String = If(resManager?.GetString("Versio", culturaActivaEnVivo), "Versión")
             Dim txtExercici As String = If(resManager?.GetString("Ejercicio", culturaActivaEnVivo), "Ejercicio")
-			Dim txtAvisoDiasRestantes As String = If(vAviso2, resManager.GetString("VersionEvaluacion") & ":  " & vAvisoDiasRestantes & " " & resManager.GetString("dias"), "")
+            Dim txtAvisoDiasRestantes As String = If(vAviso2, resManager.GetString("VersionEvaluacion") & ":  " & vAvisoDiasRestantes & " " & resManager.GetString("dias"), "")
             'MsgBox("En Funcion Idioma activo: " & culturaActivaEnVivo.Name & vbCrLf &
             '       "Título traducido: " & txtTitol & vbCrLf &
             '       "Versión traducida: " & txtVersio & vbCrLf &
@@ -288,7 +288,7 @@ Module Funciones
                 Dim saldosAcumulados As New Dictionary(Of Integer, Decimal)()
                 For Each fila As DataRow In dtMovimientos.Rows
                     Dim cuentaId As Integer = Convert.ToInt32(fila("CuentaAPU"))
-                    Dim importeAño As Decimal = Convert.ToDecimal(fila("SumaAño"))
+                    Dim importeAño As Decimal = ConvertirDecimalSeguro(fila("SumaAño"))
 
                     If saldosAcumulados.ContainsKey(cuentaId) Then
                         saldosAcumulados(cuentaId) += importeAño
@@ -433,9 +433,9 @@ Module Funciones
                 .Columns(2).Width = 200
                 .Columns(2).HeaderText = resManager.GetString("Descripcion") ' "Descripción"
                 .Columns(3).Width = 100
-				.Columns(3).HeaderText = resManager.GetString("Importe") & " " & vMoneda
-				.Columns(3).Name = "ImporteAPU" ' Asignamos un nombre biológico para localizarlo en la RAM
-				.Columns(4).Width = 90
+                .Columns(3).HeaderText = resManager.GetString("Importe") & " " & vMoneda
+                .Columns(3).Name = "ImporteAPU" ' Asignamos un nombre biológico para localizarlo en la RAM
+                .Columns(4).Width = 90
                 .Columns(4).HeaderText = resManager.GetString("Saldo") & " " & vMoneda
                 .Columns(5).Width = 140
                 .Columns(5).HeaderText = resManager.GetString("Notas") ' "Notas"
@@ -666,8 +666,8 @@ Module Funciones
                 Catch ex As Exception
                     MsgBox(resManager.GetString("ErrorAlEjecutar") & ":  " & cmdMdb1cr.CommandText & " : " & ex.Message)
                 End Try
-                fila.Cells(3).Value = Math.Round(Convert.ToDecimal(vSaldoCuentas), 2)
-                vValor += vSaldoCuentas
+                fila.Cells(3).Value = Math.Round(ConvertirDecimalSeguro(vSaldoCuentas), 2)
+                vValor += ConvertirDecimalSeguro(vSaldoCuentas)
             Next
             frmImprimirForm.LblTotal.Text = String.Format("{0}: {1} {2}", resManager.GetString("TOTAL"), vValor.ToString("N2"), vMoneda)
 
@@ -1081,7 +1081,7 @@ Module Funciones
         For Each fila As DataGridViewRow In frmCuentasBancarias.DgvCuentas.Rows
             ' Verificación de seguridad por si hay filas vacías al final
             If fila.Cells(3).Value IsNot Nothing AndAlso Not IsDBNull(fila.Cells(3).Value) Then
-                Dim valorCelda As Decimal = Convert.ToDecimal(fila.Cells(3).Value)
+                Dim valorCelda As Decimal = ConvertirDecimalSeguro(fila.Cells(3).Value)
 
                 If valorCelda >= 0 Then
                     vIngresos += valorCelda
@@ -1196,7 +1196,7 @@ Module Funciones
             If fila.Cells(3).Value IsNot Nothing AndAlso Not IsDBNull(fila.Cells(3).Value) Then
 
                 ' 1. Saneamos el importe con Valor Absoluto (Operamos con el dinero puro en positivo)
-                Dim importeAsiento As Decimal = Math.Abs(Convert.ToDecimal(fila.Cells(3).Value))
+                Dim importeAsiento As Decimal = Math.Abs(ConvertirDecimalSeguro(fila.Cells(3).Value))
 
                 ' 2. 🎯 CONEXIÓN BIOLÓGICA: Leemos el Tipo real desde la columna bautizada TipoCON
                 ' =========================================================================
@@ -1803,11 +1803,11 @@ Module Funciones
         End If
         If filas IsNot Nothing Then
             For Each fila As DataGridViewRow In filas
-                vImporteConcepto = fila.Cells(3).Value
+                vImporteConcepto = ConvertirDecimalSeguro(fila.Cells(3).Value)
                 If vNombreConcepto <> fila.Cells(1).Value.ToString Then
                     vNombreConcepto = fila.Cells(1).Value.ToString
-                    vImporteConcepto = ""
-                    vImporteConcepto = fila.Cells(3).Value
+                    vImporteConcepto = 0
+                    vImporteConcepto = ConvertirDecimalSeguro(fila.Cells(3).Value)
                     ' 1. Diseñamos la estructura parametrizada limpia para la tabla temporal
                     vAñadir = "INSERT INTO tempapu (ConceptoAPU, SumaImporteAPU) VALUES (?, ?)"
                     cmdMdb1cr.CommandText = vAñadir
@@ -2074,10 +2074,10 @@ Module Funciones
                 If fila.IsNewRow Then Continue For
 
                 ' Validación de que la celda del importe no esté vacía
-                If fila.Cells(3).Value IsNot Nothing AndAlso IsNumeric(fila.Cells(3).Value) AndAlso Convert.ToDecimal(fila.Cells(3).Value) <> 0 Then
+                If fila.Cells(3).Value IsNot Nothing AndAlso IsNumeric(fila.Cells(3).Value) AndAlso ConvertirDecimalSeguro(fila.Cells(3).Value) <> 0 Then
 
                     ' Conversión segura del importe de la celda
-                    Dim importeFila As Decimal = Convert.ToDecimal(fila.Cells(3).Value)
+                    Dim importeFila As Decimal = ConvertirDecimalSeguro(fila.Cells(3).Value)
                     vImporteConcepto = importeFila
 
                     ' Conversión segura de la fecha de la celda
@@ -2413,26 +2413,57 @@ Module Funciones
         End Try
     End Sub
 
+    'Public Function ConvertirDecimalSeguro(vValor As Object) As Decimal
+    '    Dim importeResultado As Decimal = 0.0D
+    '    If vValor IsNot Nothing AndAlso vValor IsNot DBNull.Value Then
+    '        Dim textoImporteRaw As String = vValor.ToString().Trim()
+
+    '        ' 1. Intento con cultura local de Windows
+    '        If Not Decimal.TryParse(textoImporteRaw,
+    '                            System.Globalization.NumberStyles.Number,
+    '                            System.Globalization.CultureInfo.CurrentCulture,
+    '                            importeResultado) Then
+
+    '            ' 2. Plan B con cultura invariante (punto universal)
+    '            Decimal.TryParse(textoImporteRaw,
+    '                         System.Globalization.NumberStyles.Number,
+    '                         System.Globalization.CultureInfo.InvariantCulture,
+    '                         importeResultado)
+    '        End If
+    '    End If
+    '    Return importeResultado
+    'End Function
+
     Public Function ConvertirDecimalSeguro(vValor As Object) As Decimal
         Dim importeResultado As Decimal = 0.0D
-        If vValor IsNot Nothing AndAlso vValor IsNot DBNull.Value Then
+
+        If vValor IsNot Nothing AndAlso Not IsDBNull(vValor) Then
             Dim textoImporteRaw As String = vValor.ToString().Trim()
 
-            ' 1. Intento con cultura local de Windows
-            If Not Decimal.TryParse(textoImporteRaw,
-                                System.Globalization.NumberStyles.Number,
-                                System.Globalization.CultureInfo.CurrentCulture,
-                                importeResultado) Then
+            ' Cortafuegos preventivo por si viene vacío
+            If String.IsNullOrWhiteSpace(textoImporteRaw) Then Return 0.0D
 
-                ' 2. Plan B con cultura invariante (punto universal)
-                Decimal.TryParse(textoImporteRaw,
-                             System.Globalization.NumberStyles.Number,
-                             System.Globalization.CultureInfo.InvariantCulture,
-                             importeResultado)
+            ' 1. Si el usuario escribe estrictamente con punto decimal (ej: "1250.55" o "1,250.55")
+            If textoImporteRaw.Contains(".") AndAlso Not textoImporteRaw.Contains(",") Then
+                ' Forzamos la Cultura Invariante en primer término (Sólido como una roca para el punto numérico)
+                Decimal.TryParse(textoImporteRaw, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, importeResultado)
+
+                ' 2. Si escribe con el formato tradicional de coma decimal (ej: "1250,55" o "1.250,55")
+            ElseIf textoImporteRaw.Contains(",") AndAlso Not textoImporteRaw.Contains(".") Then
+                ' Forzamos la Cultura Local de Windows/Hilos
+                Decimal.TryParse(textoImporteRaw, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, importeResultado)
+
+                ' 3. Casos mixtos, enteros planos o rebotes de base de datos (Tu Plan A y Plan B original con NumberStyles.Any)
+            Else
+                If Not Decimal.TryParse(textoImporteRaw, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, importeResultado) Then
+                    Decimal.TryParse(textoImporteRaw, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, importeResultado)
+                End If
             End If
         End If
+
         Return importeResultado
     End Function
+
 
     Public Sub LlenarComboConceptoExclusivoTraspaso(ByVal combo As ComboBox)
         combo.DataSource = Nothing
@@ -3356,7 +3387,7 @@ Module Funciones
                 Using drMdb1 As OleDbDataReader = cmdMdb1cr.ExecuteReader()
                     Dim vSaldoCuentas As Decimal = 0
                     While drMdb1.Read()
-                        vSaldoCuentas += Convert.ToDecimal(drMdb1.GetValue(0))
+                        vSaldoCuentas += ConvertirDecimalSeguro(drMdb1.GetValue(0))
                     End While
                     filaData("SaldoCalculado") = Math.Round(vSaldoCuentas, 2)
                 End Using
@@ -3851,22 +3882,22 @@ Module Funciones
 
             Dim fila As Integer = filaInicio + 1 ' Arrancamos la lectura de datos
             Dim celdasVaciasSeguidas As Integer = 0
-			Dim filaactual As Integer = 0
+            Dim filaactual As Integer = 0
 
             ' 3. 🚀 EL BUCLE MAESTRO INDESTRUCTIBLE (Tu cabecera de siempre)
             While True
                 Dim valorCeldaControl As String = Convert.ToString(hojaExcel.Cells(fila, colFecha).Value).ToString().Trim()
 
-				' Cortafuegos de fin de archivo real (Tus líneas impecables)
-				If String.IsNullOrEmpty(valorCeldaControl) Then
-					celdasVaciasSeguidas += 1
-					If celdasVaciasSeguidas >= 5 Then
-						If libroExcel IsNot Nothing Then libroExcel.Close(False)
-						Exit While
-					End If
-					fila += 1
-					Continue While
-				End If
+                ' Cortafuegos de fin de archivo real (Tus líneas impecables)
+                If String.IsNullOrEmpty(valorCeldaControl) Then
+                    celdasVaciasSeguidas += 1
+                    If celdasVaciasSeguidas >= 5 Then
+                        If libroExcel IsNot Nothing Then libroExcel.Close(False)
+                        Exit While
+                    End If
+                    fila += 1
+                    Continue While
+                End If
 
                 celdasVaciasSeguidas = 0
 
@@ -3876,7 +3907,7 @@ Module Funciones
                 ' Volvemos a tus asignaciones clásicas, directas y dóciles de toda la vida
                 Dim fechaBanco As DateTime = Convert.ToDateTime(hojaExcel.Cells(fila, colFecha).Value).Date
                 Dim conceptoBanco As String = Convert.ToString(hojaExcel.Cells(fila, colConcepto).Value).ToString().Trim()
-                Dim importeBanco As Decimal = Convert.ToDecimal(hojaExcel.Cells(fila, colImporte).Value)
+                Dim importeBanco As Decimal = ConvertirDecimalSeguro(hojaExcel.Cells(fila, colImporte).Value)
 
                 '' ==============================
                 '' 🎯 4. PESCA DE VARIABLES PURAS (BLINDADA CONTRA CAIXABANK)
@@ -3908,7 +3939,7 @@ Module Funciones
 
                 '' Conservamos tus lecturas dóciles de siempre para Concepto e Importe (usando .Text o .Value según convenga)
                 'Dim conceptoBanco As String = Convert.ToString(hojaExcel.Cells(fila, colConcepto).Value).ToString().Trim()
-                'Dim importeBanco As Decimal = Convert.ToDecimal(hojaExcel.Cells(fila, colImporte).Value)
+                'Dim importeBanco As Decimal = ConvertirDecimalSeguro(hojaExcel.Cells(fila, colImporte).Value)
 
                 'MsgBox("Fila: " & fila & vbCrLf &
                 '       "Fecha: " & fechaBanco.ToString("dd/MM/yyyy") & vbCrLf &
@@ -3919,7 +3950,7 @@ Module Funciones
                 filaactual += 1
 
                 If colSaldo > 0 And filaactual = 1 OrElse colSaldo < 0 And filaactual = 1 Then
-                    vSaldoFinal = Convert.ToDecimal(hojaExcel.Cells(fila, colSaldo).Value)
+                    vSaldoFinal = ConvertirDecimalSeguro(hojaExcel.Cells(fila, colSaldo).Value)
                 ElseIf colSaldo = 0 And filaactual = 1 Then
                     vSaldoFinal = 0
                 End If

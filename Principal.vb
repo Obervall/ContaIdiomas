@@ -1638,7 +1638,7 @@ Public Class Principal
                                                 cmdInsert.Parameters(0).Value = vFecha
                                                 cmdInsert.Parameters(1).Value = idConceptoReal
                                                 cmdInsert.Parameters(2).Value = vDescripcion
-                                                cmdInsert.Parameters(3).Value = If(IsNumeric(vImporte), Math.Round(Convert.ToDouble(vImporte), 2), vImporte)
+                                                cmdInsert.Parameters(3).Value = If(IsNumeric(vImporte), Math.Round(ConvertirDecimalSeguro(vImporte), 2), vImporte)
                                                 cmdInsert.Parameters(4).Value = vEjercicio
                                                 cmdInsert.Parameters(5).Value = vNotas
                                                 cmdInsert.Parameters(6).Value = idCuentaReal
