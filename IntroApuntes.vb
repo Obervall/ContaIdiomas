@@ -368,7 +368,7 @@ Public Class IntroApuntes
                 MsgBox(textoMensajeMostrar, MsgBoxStyle.Critical, resManager.GetString("AppDisplayName"))
 
                 ' Lanzamos tu vínculo profundo real de la Tienda de Microsoft
-                Dim vinculoProfundo As String = "ms-windows-store://pdp/?productid=9MWDQ6FK2P72"
+                Dim vinculoProfundo As String = "ms-windows-store://pdp/?ProductId=9mwdq6fk2p72"
                 Try
                     System.Diagnostics.Process.Start(New System.Diagnostics.ProcessStartInfo(vinculoProfundo) With {.UseShellExecute = True})
                 Catch ex As Exception

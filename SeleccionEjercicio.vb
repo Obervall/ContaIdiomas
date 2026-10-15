@@ -173,13 +173,14 @@ Public Class SeleccionEjercicio
                 '       "Aviso traducido: " & txtAvisoDiasRestantes, MsgBoxStyle.Information, "Depuración de traducción")
 
                 ' Forzamos el ensamblado del rótulo de cabecera de forma dócil e indestructible
-                f.Text = String.Format("{0}  -  {1}: {2}  -  {3}: {4}       {5}",
+                f.Text = String.Format("{0}  -  {1}: {2}  -  {3}: {4}       ",
                                         txtTitol.Trim(),
                                         txtVersio.Trim(),
                                         My.Settings.Version,
                                         txtExercici.Trim(),
-                                        vAñoEjercicio.ToString(),
-                                        txtAvisoDiasRestantes.Trim())
+                                        vAñoEjercicio.ToString())
+                'txtAvisoBdActiva.Trim(),
+                'txtAvisoDiasRestantes.Trim())
             End If
         Next
     End Sub

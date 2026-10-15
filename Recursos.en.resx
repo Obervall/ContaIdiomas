@@ -1124,4 +1124,7 @@ folders to use.</value>
   <data name="AñadirDescripcion" xml:space="preserve">
     <value>We add the description</value>
   </data>
+  <data name="Usuario" xml:space="preserve">
+    <value>User</value>
+  </data>
 </root>

@@ -1124,4 +1124,7 @@ Ordner zum Benutzen.</value>
   <data name="AñadirDescripcion" xml:space="preserve">
     <value>Wir fügen die Beschreibung hinzu</value>
   </data>
+  <data name="Usuario" xml:space="preserve">
+    <value>Nutzer</value>
+  </data>
 </root>

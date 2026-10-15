@@ -201,4 +201,16 @@
   <data name="CmbMonedas.Items5" xml:space="preserve">
     <value>Português</value>
   </data>
+  <data name="BtnCrearUsuario.Text" xml:space="preserve">
+    <value>Criar Usuário</value>
+  </data>
+  <data name="IntroduceNombreUsuario" xml:space="preserve">
+    <value>Insira o nome do novo usuário ou empresa (Ex: Maria ou Empresa2)</value>
+  </data>
+  <data name="NuevoUsuario" xml:space="preserve">
+    <value>Novo Usuário</value>
+  </data>
+  <data name="YaExisteArchivoMismoNombre" xml:space="preserve">
+    <value>Um arquivo de banco de dados com esse nome já existe</value>
+  </data>
 </root>

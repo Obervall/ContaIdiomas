@@ -1,5 +1,6 @@
 ﻿Imports System.Collections.Generic
 Imports System.Data
+Imports System.Data.OleDb
 Imports System.Drawing
 Imports System.Windows.Forms
 
@@ -68,7 +69,6 @@ Public Class Preferencias
         My.Settings.RutaBD = TxtBaseDatos.Text
         My.Settings.PathExportar = TxtPathExportar.Text
         My.Settings.Save()
-        My.Settings.Reload()
     End Sub
 
     Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
@@ -76,6 +76,10 @@ Public Class Preferencias
         If e.CloseReason = 3 Then
             e.Cancel = False ' NO Se cancela la solicitud de cerrar
         End If
+        DialogResult = Windows.Forms.DialogResult.Cancel
+        My.Settings.RutaBD = TxtBaseDatos.Text
+        My.Settings.PathExportar = TxtPathExportar.Text
+        My.Settings.Save()
     End Sub
 
     Private Sub ChbPantallaCompleta_Click(sender As Object, e As EventArgs) Handles ChbPantallaCompleta.Click
@@ -85,14 +89,12 @@ Public Class Preferencias
             My.Settings.PantallaCompleta = True
             My.Settings.PantallaCierre = False
             My.Settings.Save()
-            My.Settings.Reload()
         Else
             ChbPantallaCompleta.Checked = False
             ChbPantallaCierre.Checked = True
             My.Settings.PantallaCompleta = False
             My.Settings.PantallaCierre = True
             My.Settings.Save()
-            My.Settings.Reload()
         End If
     End Sub
 
@@ -103,14 +105,12 @@ Public Class Preferencias
             My.Settings.PantallaCompleta = False
             My.Settings.PantallaCierre = True
             My.Settings.Save()
-            My.Settings.Reload()
         Else
             ChbPantallaCompleta.Checked = True
             ChbPantallaCierre.Checked = False
             My.Settings.PantallaCompleta = True
             My.Settings.PantallaCierre = False
             My.Settings.Save()
-            My.Settings.Reload()
         End If
     End Sub
 
@@ -122,7 +122,6 @@ Public Class Preferencias
         My.Settings.ElegirImpresora = False
         My.Settings.DirectoImpresora = False
         My.Settings.Save()
-        My.Settings.Reload()
     End Sub
 
     Private Sub CheckBox2_Click(sender As Object, e As EventArgs) Handles CheckBox2.Click
@@ -133,7 +132,6 @@ Public Class Preferencias
         My.Settings.ElegirImpresora = True
         My.Settings.DirectoImpresora = False
         My.Settings.Save()
-        My.Settings.Reload()
     End Sub
 
     Private Sub CheckBox3_Click(sender As Object, e As EventArgs) Handles CheckBox3.Click
@@ -144,7 +142,6 @@ Public Class Preferencias
         My.Settings.ElegirImpresora = False
         My.Settings.DirectoImpresora = True
         My.Settings.Save()
-        My.Settings.Reload()
     End Sub
 
     Private Sub CmbElegirIdioma_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CmbElegirIdioma.SelectedIndexChanged
@@ -186,7 +183,6 @@ Public Class Preferencias
         My.Settings.Moneda = CmbMonedas.SelectedItem.ToString()
         vMoneda = My.Settings.Moneda
         My.Settings.Save()
-        My.Settings.Reload()
     End Sub
 
     Private Sub VerificarFiltrosDesactivados(sender As Object, e As MouseEventArgs) Handles Me.MouseMove
@@ -233,82 +229,189 @@ Public Class Preferencias
     End Sub
 
     Private Sub BtnCrearUsuario_Click(sender As Object, e As EventArgs) Handles BtnCrearUsuario.Click
-        ' 1. Pedimos el nombre del nuevo usuario o empresa de forma limpia con un InputBox nativo
-        Dim nombreNuevo As String = InputBox("Introduce el Nombre del Nuevo Usuario o Empresa (Ej: Maria, Empresa2026):", "Nuevo Usuario Premium")
-        nombreNuevo = nombreNuevo.Trim().Replace("'", "") ' Limpiamos comillas peligrosas
+        ' 1. Pedimos el nombre del nuevo usuario o empresa de forma limpia
+        Dim nombreNuevo As String = InputBox(rmse.GetString("IntroduceNombreUsuario") & ": ", rmse.GetString("NuevoUsuario"))
+        nombreNuevo = nombreNuevo.Trim().Replace("'", "").ToUpper ' Limpiamos comillas peligrosas
 
         ' Cortafuegos por si el usuario cancela o lo deja vacío
         If String.IsNullOrWhiteSpace(nombreNuevo) Then Exit Sub
 
         Try
-            ' 2. Calculamos las rutas físicas en base a tu variable global 'vRuta'
-            Dim carpetaBase As String = System.IO.Path.GetDirectoryName(vRuta)
-            Dim rutaNuevaMdb As String = System.IO.Path.Combine(carpetaBase, nombreNuevo & ".mdb")
+            ' 2. Calculamos las rutas físicas en base a tu variable elástica 'carpetaDB' (Mis Documentos)
+            Dim nombreArchivoNuevo As String = nombreNuevo.Replace(" ", "_").ToUpper() & ".mdb"
+            Dim rutaNuevaMdb As String = System.IO.Path.Combine(carpetaDB, nombreArchivoNuevo)
 
-            ' Comprobamos si ya existe un archivo con ese nombre para no machacarlo
+            ' Comprobamos si ya existe un archivo físico con ese nombre para no machacarlo
             If System.IO.File.Exists(rutaNuevaMdb) Then
-                MsgBox("Ya existe un usuario o base de datos con el nombre: " & nombreNuevo, MsgBoxStyle.Exclamation)
+                MsgBox(rmse.GetString("YaExisteArchivoMismoNombre") & ": " & nombreArchivoNuevo, MsgBoxStyle.Exclamation)
                 Exit Sub
             End If
 
-            ' 3. DUPLICAMOS LA BASE DE DATOS DE FÁBRICA (Hacemos el duplicado exacto del archivo activo actual)
-            ' Usamos tu base de datos actual 'vRuta' como la plantilla perfecta
-            System.IO.File.Copy(vRuta, rutaNuevaMdb, True)
+			' 3. DUPLICAMOS LA BASE DE DATOS ACTIVA ACTUAL COMO PLANTILLA PERFECTA
+			' Usamos tu base de datos actual 'vRuta' para que herede la estructura exacta de Access
+			System.IO.File.Copy(vRuta, rutaNuevaMdb, True)
 
             ' 4. PREGUNTAMOS SI DESEA TRASPASAR LA ESTRUCTURA DE CONTROL (Toque GesFácil Premium)
-            Dim preguntaTraspaso As String = "¿Deseas traspasar los Conceptos y las Cuentas Bancarias actuales al nuevo usuario?"
-            If MsgBox(preguntaTraspaso, MsgBoxStyle.YesNo + MsgBoxStyle.Question, "Traspaso de Datos Dinámico") = MsgBoxResult.Yes Then
+            ' =========================================================================
+            ' 🎯 4. SANEADO Y VACIADO SELECTIVO DE LA COPIA (Tu lógica correcta)
+            ' =========================================================================
+            Using cmdLimpiar As New OleDb.OleDbCommand()
+                cmdLimpiar.Connection = conexion1
+                If conexion1.State = ConnectionState.Closed Then conexion1.Open()
 
-                ' Abrimos un comando temporal puente para inyectar datos del archivo viejo al nuevo en 1 milisegundo
-                Using cmdTraspaso As New OleDb.OleDbCommand()
-                    cmdTraspaso.Connection = conexion1 ' Conectado rígidamente a tu base de datos activa actual
+                ' =========================================================================
+                ' 🎯 PREGUNTA DE TRASPASO ADAPTADA AL ESTÁNDAR DE TU INTERFAZ TRADUCIDA
+                ' =========================================================================
+                ' Pescamos el texto descriptivo y el título de la ventana (puedes meter tus claves del .resx aquí)
+                Dim textoPregunta As String = "¿Deseas traspasar los Conceptos y las Cuentas Bancarias actuales al nuevo usuario?"
+                Dim tituloVentana As String = "Traspaso de Datos Dinámico"
 
-                    ' Aseguramos que la conexión origen esté abierta preventivamente
-                    If conexion1.State = ConnectionState.Closed Then conexion1.Open()
+                ' Invocamos tu función reina unificada
+                Dim respuestaTraspaso As MsgBoxResult = ConfirmarAccionTraducida(textoPregunta, tituloVentana)
 
-                    ' Vaciamos primero las tablas del archivo nuevo (por si arrastrara apuntes viejos del copiado de archivos)
-                    cmdTraspaso.CommandText = $"DELETE * FROM apuntes IN '{rutaNuevaMdb}'"
-                    cmdTraspaso.ExecuteNonQuery()
+                ' Evaluamos la respuesta usando el estándar vbYes de tu solución
+                If respuestaTraspaso = vbYes Then
+                    ' ESCENARIO A: SÍ QUIERE TRASPASO
+                    ' Dejamos Conceptos y Cuentas intactos en la copia. Solo vaciamos el historial vivo
+                    cmdLimpiar.CommandText = $"DELETE * FROM apuntes In '{rutaNuevaMdb}'"
+                    MsgBox("cmdLimpiar.CommandText: " & cmdLimpiar.CommandText)
+                    cmdLimpiar.ExecuteNonQuery()
 
-                    cmdTraspaso.CommandText = $"DELETE * FROM extracto IN '{rutaNuevaMdb}'"
-                    cmdTraspaso.ExecuteNonQuery()
+                    cmdLimpiar.CommandText = $"DELETE * FROM extracto In '{rutaNuevaMdb}'"
+                    cmdLimpiar.ExecuteNonQuery()
 
-                    ' ¡EL MILAGRO DE ACCESS! Clonamos conceptos y cuentas directas hacia el nuevo archivo físico de red/disco
-                    cmdTraspaso.CommandText = $"INSERT INTO Conceptos SELECT * FROM Conceptos IN '{rutaNuevaMdb}'"
-                    cmdTraspaso.ExecuteNonQuery()
-
-                    cmdTraspaso.CommandText = $"INSERT INTO cuentas SELECT * FROM cuentas IN '{rutaNuevaMdb}'"
-                    cmdTraspaso.ExecuteNonQuery()
-                End Using
-
-                ' Opcional: Vaciamos también las tablas temporales o de presupuestos en el nuevo si fuera necesario
-                Using cmdClean As New OleDb.OleDbCommand($"DELETE * FROM presupuesto IN '{rutaNuevaMdb}'", conexion1)
-                    Try : cmdClean.ExecuteNonQuery() : Catch : End Try
-                End Using
-            Else
-                ' Si no quiere traspasar nada, vaciamos todas las tablas del nuevo archivo para dejarlo 100% de fábrica
-                Using cmdLimpiarTodo As New OleDb.OleDbCommand()
-                    cmdLimpiarTodo.Connection = conexion1
-                    Dim tablas() As String = {"apuntes", "extracto", "Conceptos", "cuentas", "presupuesto"}
-                    For Each tabla As String In tablas
-                        cmdLimpiarTodo.CommandText = $"DELETE * FROM {tabla} IN '{rutaNuevaMdb}'"
-                        Try : cmdLimpiarTodo.ExecuteNonQuery() : Catch : End Try
+                    cmdLimpiar.CommandText = $"DELETE * FROM presupuesto IN '{rutaNuevaMdb}'"
+                    Try : cmdLimpiar.ExecuteNonQuery() : Catch : End Try
+                Else
+                    ' ESCENARIO B: NO QUIERE TRASPASO (Lo vaciamos TODO en cadena)
+                    Dim tablasA_Vaciar() As String = {"apuntes", "extracto", "Conceptos", "cuentas", "presupuesto"}
+                    For Each tabla As String In tablasA_Vaciar
+                        cmdLimpiar.CommandText = $"DELETE * FROM {tabla} IN '{rutaNuevaMdb}'"
+                        Try : cmdLimpiar.ExecuteNonQuery() : Catch : End Try
                     Next
+                End If
+            End Using
+
+            ' =========================================================================
+            ' 🎯 5. INSCRIPCIÓN EN EL BÚNKER CENTRAL (usuarios.mdb en Documentos)
+            ' =========================================================================
+            Dim rutaUsuariosMdb As String = System.IO.Path.Combine(carpetaDB, "usuarios.mdb")
+
+            Using connCentral As New OleDb.OleDbConnection("Provider=Microsoft.Jet.Oledb.4.0; Data Source=" & rutaUsuariosMdb & ";")
+                Dim sqlInsertUsuario As String = "INSERT INTO usuarios (NombreUsuario, ArchivoMdb) VALUES (?, ?)"
+
+                Using cmdCentral As New OleDb.OleDbCommand(sqlInsertUsuario, connCentral)
+                    cmdCentral.Parameters.Add("@Nombre", OleDbType.VarChar).Value = nombreNuevo
+                    cmdCentral.Parameters.Add("@Archivo", OleDbType.VarChar).Value = nombreArchivoNuevo
+
+                    connCentral.Open()
+                    cmdCentral.ExecuteNonQuery()
+                    connCentral.Close()
                 End Using
+            End Using
+
+            ' =========================================================================
+            ' 🔄 REINICIO INTEGRAL CONTROLADO PREMIUM (Tu nueva regla de estabilidad)
+            ' =========================================================================
+            ' 1. Cerramos rígidamente la conexión activa para no corromper Access
+            If conexion1 IsNot Nothing AndAlso conexion1.State = ConnectionState.Open Then
+                conexion1.Close()
             End If
 
-            ' 5. ¡ÉXITO! Actualizamos el cuadro de texto de la ubicación con la nueva ruta para que el usuario opere ya con ella
-            ' [Ajusta TxtBaseDatos al nombre técnico real de tu TextBox de la ruta "C:\"]
-            TxtBaseDatos.Text = rutaNuevaMdb
+            ' 2. Avisamos al usuario del éxito rotundo
+            MsgBox("¡Usuario '" & nombreNuevo & "' creado y registrado con éxito!" & vbCrLf &
+                   "La aplicación se va a reiniciar de inmediato para cargar el nuevo perfil.", MsgBoxStyle.Information, "Nuevo Perfil Activado")
 
-            ' Sincronizamos tu variable de control para que al pulsar "Guardar/Salir" se quede fijada en el disco duro
-            vRuta = rutaNuevaMdb
+            ' 3. EL TRUCO DE REINICIO DE .NET: Levanta una nueva instancia del programa en background
+            Application.Restart()
 
-            MsgBox("¡Usuario '" & nombreNuevo & "' creado con éxito! Se ha seleccionado como tu base de datos activa.", MsgBoxStyle.Information)
+            ' 4. Estrangulamos de inmediato la instancia vieja para liberar el procesador
+            End
 
         Catch ex As Exception
             MsgBox("Error al generar el nuevo usuario contable: " & ex.Message, MsgBoxStyle.Critical)
         End Try
     End Sub
 
+    '        ' =========================================================================
+    '        ' 🎯 5. INSCRIPCIÓN EN EL BÚNKER CENTRAL (usuarios.mdb en Documentos)
+    '        ' =========================================================================
+    '        Dim rutaUsuariosMdb As String = System.IO.Path.Combine(carpetaDB, "usuarios.mdb")
+
+    '        Using connCentral As New OleDb.OleDbConnection("Provider=Microsoft.Jet.Oledb.4.0; Data Source=" & rutaUsuariosMdb & ";")
+    '            Dim sqlInsertUsuario As String = "INSERT INTO usuarios (NombreUsuario, ArchivoMdb) VALUES (?, ?)"
+
+    '            Using cmdCentral As New OleDb.OleDbCommand(sqlInsertUsuario, connCentral)
+    '                cmdCentral.Parameters.Add("@Nombre", OleDbType.VarChar).Value = nombreNuevo
+    '                cmdCentral.Parameters.Add("@Archivo", OleDbType.VarChar).Value = nombreArchivoNuevo
+
+    '                connCentral.Open()
+    '                cmdCentral.ExecuteNonQuery()
+    '                connCentral.Close()
+    '            End Using
+    '        End Using
+
+    '        ' =========================================================================
+    '        ' 6. ASENTAMOS LOS CAMBIOS EN EL MOTOR GENERAL
+    '        ' =========================================================================
+    '        ' Actualizamos el cuadro de texto de la ubicación con la nueva ruta para que el usuario opere ya con ella
+    '        TxtBaseDatos.Text = rutaNuevaMdb
+    '        vRuta = rutaNuevaMdb
+    '        My.Settings.RutaBD = TxtBaseDatos.Text
+    '        My.Settings.Save()
+
+    '        MsgBox("¡Usuario '" & nombreNuevo & "' creado y registrado con éxito! Se ha seleccionado como tu base de datos activa.", MsgBoxStyle.Information)
+
+    '    Catch ex As Exception
+    '        MsgBox("Error al generar el nuevo usuario contable: " & ex.Message, MsgBoxStyle.Critical)
+    '    End Try
+    'End Sub
+
+    Private Sub BtnCambiarEmpresa_Click(sender As Object, e As EventArgs) Handles BtnCambiarEmpresa.Click
+        ' ESCUDO PREVENTIVO: Limpiamos el foco activo de Preferencias para evitar tirones en ordenadores lentos
+        Me.ActiveControl = Nothing
+        Application.DoEvents()
+
+        Try
+            ' 1. Abrimos de nuevo tu magnífico selector síncrono Cabecera.vb
+            ' Bloqueará esta ventana hasta que el usuario haga doble clic en la lista
+            frmCabecera.ShowDialog()
+
+            ' 2. Cuando el usuario hace doble clic en la lista, Cabecera se cierra y la nueva ruta queda en vRuta.
+            ' Actualizamos el cuadro de texto visual de la ubicación con el nuevo archivo elegido
+            TxtBaseDatos.Text = vRuta
+
+            ' 3. 🎯 EL RE-CABLEADO EN CALIENTE: Cerramos el grifo viejo y abrimos el nuevo
+            If conexion1 IsNot Nothing AndAlso conexion1.State = ConnectionState.Open Then
+                conexion1.Close()
+            End If
+
+            ' Invocamos tu rutina estrella de conexión pasándole tu variable vRuta ya actualizada
+            My.Settings.RutaBD = vRuta
+            My.Settings.Save()
+
+            Conectarse("AccessMdb")
+
+            ' =========================================================================
+            ' 🎯 REPARADO: FORZAMOS EL REFRESCO EN CALIENTE DEL MENÚ PRINCIPAL
+            ' =========================================================================
+            ' Sincronizamos la variable global con el nuevo usuario activo de la RAM
+            Dim nombreEmpresaNueva As String = System.IO.Path.GetFileNameWithoutExtension(vRuta)
+            If nombreEmpresaNueva.ToLower() = "contahogar" Then nombreEmpresaNueva = "Admin"
+            txtAvisoBdActiva = nombreEmpresaNueva.ToUpper() ' Asegúrate de actualizar la variable global aquí
+
+            ' Invocamos tu función pasándole de forma rígida la instancia de tu Formulario Principal
+            ' (Ajusta 'frmPrincipal' al nombre técnico o variable global de tu ventana madre)
+            ActualizarTextosFormulario(frmPrincipal)
+            ' ===============================================================
+
+            MsgBox($"Conectado con éxito a la empresa: '{nombreEmpresaNueva}'. Los datos se han actualizado en pantalla.", MsgBoxStyle.Information, "Cambio de Empresa")
+
+            ' 5. Cerramos el formulario de Preferencias automáticamente para que el usuario vea su nuevo panel
+            Me.Close()
+
+        Catch ex As Exception
+            MsgBox("Error al cambiar de empresa en caliente: " & ex.Message, MsgBoxStyle.Critical)
+        End Try
+    End Sub
 End Class

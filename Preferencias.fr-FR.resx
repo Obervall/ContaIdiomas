@@ -201,4 +201,16 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Préférences</value>
   </data>
+  <data name="BtnCrearUsuario.Text" xml:space="preserve">
+    <value>Créer un utilisateur</value>
+  </data>
+  <data name="IntroduceNombreUsuario" xml:space="preserve">
+    <value>Saisissez le nom du nouvel utilisateur ou de l’entreprise (ex : Maria ou Company2)</value>
+  </data>
+  <data name="NuevoUsuario" xml:space="preserve">
+    <value>Nouvel utilisateur</value>
+  </data>
+  <data name="YaExisteArchivoMismoNombre" xml:space="preserve">
+    <value>Un fichier de base de données portant ce nom existe déjà</value>
+  </data>
 </root>

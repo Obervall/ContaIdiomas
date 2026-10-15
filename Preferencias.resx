@@ -168,7 +168,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;GBoxPantalla.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="ChbPantallaCompleta.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -240,7 +240,7 @@
     <value>MiddleLeft</value>
   </data>
   <data name="BtnSalir.Location" type="System.Drawing.Point, System.Drawing">
-    <value>325, 474</value>
+    <value>325, 523</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="BtnSalir.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
@@ -268,7 +268,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BtnSalir.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="&gt;&gt;CheckBox3.Name" xml:space="preserve">
     <value>CheckBox3</value>
@@ -331,7 +331,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;GroupBox1.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="CheckBox3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -451,7 +451,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;GroupBox2.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="TxtBaseDatos.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -508,7 +508,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label1.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="TxtPathExportar.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -586,7 +586,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CmbElegirIdioma.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="Label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -616,7 +616,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label2.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="GroupBox3.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 10.2pt, style=Bold</value>
@@ -643,7 +643,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;GroupBox3.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="CmbMonedas.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 10.2pt</value>
@@ -685,21 +685,21 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CmbMonedas.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="BtnCrearUsuario.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 10.2pt, style=Bold</value>
   </data>
   <data name="BtnCrearUsuario.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAFLSURBVDhPxZKhb4QwHIX5E5DYysrKyiHrrm7YKlJFUOQ8
-        iqAuqAV3OHDDXc0STp6b3CQSiXxLe7vtuNtuE0v2JS9NSt/XX1I876/ZNRqPlUBbCjzkCpffb7JNCJ47
-        jdEUGE2Kly7COmYLCc0JbM73HPY2Kxgq4SRzpzDWAtv44vCT97VgV0lMTQiYyGXuJaZeuLVIuCu54uTh
-        JFmIhkZjtoJeAL0EjDyuncDmXWDLIcKFZDHFkBPASs4y1xz6nv08gaXNKFDzRcaSQq74x8HidXNdPGfI
-        AowlcUW7ypj+7hVOiCRAm3PsMoK2DKGMAq8/J7iJMALpIYVoJE7ovXZ7rF7+D1fQmsIK9EG70oTZRe0V
-        1EGBNQw8Ft9LSEPAOuYkci/d2GtTQBqJ0IQIEgJ6d0Pg5z6COjje1HEXP/NBK+bK4SpCFKffC/6NN2C6
-        JBIvMpZPAAAAAElFTkSuQmCC
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
+        cwAAEnMBjCK5BwAAAUtJREFUOE/FkqFvhDAchfkTkNjKysrKIeuubtgqUkVQ5DyKoC6oBXc4cMNdzRJO
+        npvcJBKJfEt7u+24224TS/YlL01K39dfUjzvr9k1Go+VQFsKPOQKl99vsk0InjuN0RQYTYqXLsI6ZgsJ
+        zQlszvcc9jYrGCrhJHOnMNYC2/ji8JP3tWBXSUxNCJjIZe4lpl64tUi4K7ni5OEkWYiGRmO2gl4AvQSM
+        PK6dwOZdYMshwoVkMcWQE8BKzjLXHPqe/TyBpc0oUPNFxpJCrvjHweJ1c108Z8gCjCVxRbvKmP7uFU6I
+        JECbc+wygrYMoYwCrz8nuIkwAukhhWgkTui9dnusXv4PV9Cawgr0QbvShNlF7RXUQYE1DDwW30tIQ8A6
+        5iRyL93Ya1NAGonQhAgSAnp3Q+DnPoI6ON7UcRc/80Er5srhKkIUp98L/o03YLokEi8ylk8AAAAASUVO
+        RK5CYII=
 </value>
   </data>
   <data name="BtnCrearUsuario.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
@@ -736,13 +736,63 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BtnCrearUsuario.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="BtnCambiarEmpresa.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 10.2pt, style=Bold</value>
+  </data>
+  <data name="BtnCambiarEmpresa.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAEMSURBVFhH7ZVrEsIgDIQ5OkfrzeoETUuXPCDkl7ozGaFg
+        9guhWspf8zoXIlUtaa23AY15rj3PAsGEg4k0zoIYkksw2jwDQqvIMlK/g8k9qSZCYnEdP9HAk2uAY8kU
+        1pekJvWeK7Es00h6RnEcxyOi5qQhOc4l01prt/8ahyRW3IvXWGT4rnrYE5IKwNXOaKcNlzkCUKUrikI8
+        ABBiRv192AKQbrzXAj6laPUsFcBqA61V2vOJVIB7rAPw6TSQzVeRpL4NnnaPv9cFYJnjr2AmAMkEgOPu
+        I1Vu7zN6buqnAbC3LfDSwT1I01kKJZbiCXID5J1E+3sdQwYZYfcgBGMLQos4hGAaAdiD+H69AF/zzhEM
+        IVYnAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="BtnCambiarEmpresa.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="BtnCambiarEmpresa.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BtnCambiarEmpresa.Location" type="System.Drawing.Point, System.Drawing">
+    <value>325, 462</value>
+  </data>
+  <data name="BtnCambiarEmpresa.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="BtnCambiarEmpresa.Size" type="System.Drawing.Size, System.Drawing">
+    <value>208, 44</value>
+  </data>
+  <data name="BtnCambiarEmpresa.TabIndex" type="System.Int32, mscorlib">
+    <value>118</value>
+  </data>
+  <data name="BtnCambiarEmpresa.Text" xml:space="preserve">
+    <value>Cambiar Usuario</value>
+  </data>
+  <data name="BtnCambiarEmpresa.TextImageRelation" type="System.Windows.Forms.TextImageRelation, System.Windows.Forms">
+    <value>TextBeforeImage</value>
+  </data>
+  <data name="&gt;&gt;BtnCambiarEmpresa.Name" xml:space="preserve">
+    <value>BtnCambiarEmpresa</value>
+  </data>
+  <data name="&gt;&gt;BtnCambiarEmpresa.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnCambiarEmpresa.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BtnCambiarEmpresa.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>553, 545</value>
+    <value>553, 591</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -820,5 +870,14 @@
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="IntroduceNombreUsuario" xml:space="preserve">
+    <value>Introduce el Nombre del Nuevo Usuario o Empresa (Ej: María o Empresa2)</value>
+  </data>
+  <data name="NuevoUsuario" xml:space="preserve">
+    <value>Nuevo Usuario</value>
+  </data>
+  <data name="YaExisteArchivoMismoNombre" xml:space="preserve">
+    <value>Ya existe un archivo de base de datos con el nombre</value>
   </data>
 </root>

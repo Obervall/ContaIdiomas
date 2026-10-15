@@ -1124,4 +1124,7 @@ pastas para usar.</value>
   <data name="AñadirDescripcion" xml:space="preserve">
     <value>Adicionamos a descrição</value>
   </data>
+  <data name="Usuario" xml:space="preserve">
+    <value>Usuário</value>
+  </data>
 </root>

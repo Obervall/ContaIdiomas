@@ -1124,4 +1124,7 @@ carpetes per utilitzar.</value>
   <data name="AñadirDescripcion" xml:space="preserve">
     <value>Afegim la descripció</value>
   </data>
+  <data name="Usuario" xml:space="preserve">
+    <value>Usuari</value>
+  </data>
 </root>

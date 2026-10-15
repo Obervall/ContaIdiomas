@@ -12,7 +12,6 @@ Public Class Principal
 
     Public CantPantallas, vPantallas, vCodigo, vContador, vCalculoVersion1, vCalculoVersion2, vCalculoVersion3 As Integer
     Public tipoDsn, tipoSql, vtipoSql, respuesta As String
-    Public carpetaDB As String
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
     Public x As Integer = 315
     Public y As Integer = 30
@@ -231,7 +230,6 @@ Public Class Principal
             ' Cortafuegos silencioso por si el PC estuviera virgen en el primer inicio
         End Try
 
-
         ActualizarTextosFormulario(Me)
         RefrescarMenus()
 
@@ -292,7 +290,7 @@ Public Class Principal
                     Dim msgVencido As String = rmse.GetString("PeriodoVencido")
                     MsgBox(msgVencido, MsgBoxStyle.Critical, rmse.GetString("$this.Text") & " Premium")
 
-                    Dim vinculoProfundo As String = "ms-windows-store://pdp/?productid=9MWDQ6FK2P72"
+                    Dim vinculoProfundo As String = "ms-windows-store://pdp/?ProductId=9mwdq6fk2p72"
                     Try
                         System.Diagnostics.Process.Start(New System.Diagnostics.ProcessStartInfo(vinculoProfundo) With {.UseShellExecute = True})
                     Catch ex As Exception
@@ -353,7 +351,6 @@ Public Class Principal
         Dim archivoBdDestino As String = IO.Path.Combine(carpetaAppOficial, "ContaHogar.mdb")
 
         ' 2. Capturamos milimétricamente tu RUTA ANTERIOR de AppData\Roaming para rescatar datos de usuarios viejos
-        ' 🌟 ESTO NO SE TOCA: Sigue rescatando a los usuarios que instalaron el antiguo .msi
         Dim appDataPathViejo As String = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
         Dim carpetaDBVieja As String = IO.Path.Combine(appDataPathViejo, "A.Oberholzer", "ContaHogar3.0")
         Dim archivoBdAppDataVieja As String = IO.Path.Combine(carpetaDBVieja, "ContaHogar.mdb")
@@ -384,12 +381,10 @@ Public Class Principal
         Else
             Try
                 ' ESCENARIO B: ¿El usuario tiene un histórico real esperándole en Roaming de la era clásica?
-                ' 🌟 Tu puente sigue funcionando al 100%: si hay base de datos vieja, se copia esta primero.
                 If File.Exists(archivoBdAppDataVieja) Then
                     File.Copy(archivoBdAppDataVieja, archivoBdDestino, False)
                 Else
                     ' ESCENARIO A: Es un usuario nuevo o limpio. Sembramos la base de datos de fábrica.
-                    ' 🚀 CAMBIO CLAVE: Usamos AppDomain para saltarnos la virtualización del MSIX de la Store.
                     Dim archivoBdOrigenRuta As String = IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ContaHogar.mdb")
                     If File.Exists(archivoBdOrigenRuta) Then
                         File.Copy(archivoBdOrigenRuta, archivoBdDestino, False)
@@ -401,6 +396,128 @@ Public Class Principal
             Catch ex As Exception
                 MsgBox(rmse.GetString("ErrorCriticoPuenteRescate") & ": " & ex.Message, MsgBoxStyle.Critical)
             End Try
+        End If
+
+        ' =========================================================================
+        ' 🌟 6. ASENTAMOS LAS VARIABLES GLOBALES DEL TALLER
+        ' =========================================================================
+        carpetaDB = carpetaAppOficial
+        vRuta = archivoBdDestino
+
+        'My.Settings.RutaBD = vRuta
+        'My.Settings.Save()
+
+        ' =========================================================================
+        ' 🛡️ ESCUDO MULTIEMPRESA INTEGRADO CON AUTO-REPARACIÓN DE HUÉRFANOS
+        ' =========================================================================
+        Dim archivoUsuariosMdb As String = IO.Path.Combine(carpetaAppOficial, "usuarios.mdb")
+
+        ' Sembramos la plantilla de usuarios si no existe (Tu código intacto)
+        If Not File.Exists(archivoUsuariosMdb) Then
+            Try
+                Dim plantillaUsuariosOrigen As String = IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "usuarios.mdb")
+                If File.Exists(plantillaUsuariosOrigen) Then
+                    File.Copy(plantillaUsuariosOrigen, archivoUsuariosMdb, False)
+                End If
+            Catch : End Try
+        End If
+
+        ' =========================================================================
+        ' 🔍 RADAR SINCRO: Verificamos archivos físicos vs registros en base de datos
+        ' =========================================================================
+        If File.Exists(archivoUsuariosMdb) Then
+            Dim connCentral As New OleDb.OleDbConnection("Provider=Microsoft.Jet.Oledb.4.0; Data Source=" & archivoUsuariosMdb & ";")
+            Try
+                connCentral.Open()
+
+                ' =========================================================================
+                ' 🧽 LIMPIEZA DE FANTASMAS: Vaciamos la tabla manteniendo rígidamente al ADMIN
+                ' =========================================================================
+                ' Borramos cualquier registro cuyo IdUsuario sea mayor que 1. Así limpiamos el rastro
+                ' de archivos borrados a mano en caliente antes de volver a escanear el disco.
+                Using cmdLimpiarFantasmas As New OleDb.OleDbCommand("DELETE FROM usuarios WHERE IdUsuario > 1", connCentral)
+                    cmdLimpiarFantasmas.ExecuteNonQuery()
+                End Using
+
+                ' 1. Escaneamos la carpeta física en busca de bases de datos de usuarios (.mdb)
+                Dim archivosEnDisco() As String = Directory.GetFiles(carpetaAppOficial, "*.mdb")
+
+                For Each rutaFichero As String In archivosEnDisco
+                    Dim nombreFichero As String = Path.GetFileName(rutaFichero).ToLower()
+
+                    ' Saltamos el archivo de control central y el principal de Admin por lógica
+                    If nombreFichero = "usuarios.mdb" Then Continue For
+                    If nombreFichero = "contahogar.mdb" Then Continue For
+
+                    ' Interrogamos al búnker para ver si este archivo ya está registrado (Salvavidas)
+                    Dim existeRegistro As Boolean = False
+                    Using cmdCheckFichero As New OleDb.OleDbCommand("SELECT COUNT(*) FROM usuarios WHERE LCase(ArchivoMdb) = ?", connCentral)
+                        cmdCheckFichero.Parameters.Add("?", OleDbType.VarChar).Value = nombreFichero
+                        existeRegistro = (Convert.ToInt32(cmdCheckFichero.ExecuteScalar()) > 0)
+                    End Using
+
+                    ' Si el archivo físico real no está en la tabla, lo inyectamos de forma limpia
+                    If Not existeRegistro Then
+                        Dim nombreUsuarioAuto As String = Path.GetFileNameWithoutExtension(rutaFichero)
+                        ' Homogeneizamos el nombre visual de la interfaz quitando guiones bajos
+                        nombreUsuarioAuto = nombreUsuarioAuto.Replace("_", " ")
+
+                        Using cmdInsertHuérfano As New OleDb.OleDbCommand("INSERT INTO usuarios (NombreUsuario, ArchivoMdb) VALUES (?, ?)", connCentral)
+                            cmdInsertHuérfano.Parameters.Add("?", OleDbType.VarChar).Value = nombreUsuarioAuto
+                            cmdInsertHuérfano.Parameters.Add("?", OleDbType.VarChar).Value = nombreFichero
+                            cmdInsertHuérfano.ExecuteNonQuery()
+                        End Using
+                    End If
+                Next
+
+                ' 2. Ahora que la tabla refleja matemáticamente la realidad del disco, contamos de forma segura
+                cuentaEmpresas = 0
+                Using cmdCount As New OleDb.OleDbCommand("SELECT COUNT(*) FROM usuarios", connCentral)
+                    cuentaEmpresas = Convert.ToInt32(cmdCount.ExecuteScalar())
+                End Using
+
+                ' Si solo hay uno, capturamos su nombre técnico para el tiro directo clásico
+                If cuentaEmpresas = 1 Then
+                    Using cmdSingle As New OleDb.OleDbCommand("SELECT ArchivoMdb FROM usuarios", connCentral)
+                        archivoAConectar = Convert.ToString(cmdSingle.ExecuteScalar())
+                    End Using
+                End If
+                connCentral.Close()
+            Catch
+                cuentaEmpresas = 1
+                archivoAConectar = "ContaHogar.mdb"
+                If connCentral.State <> ConnectionState.Closed Then connCentral.Close()
+            End Try
+        Else
+            cuentaEmpresas = 1
+        End If
+
+        ' =========================================================================
+        ' 🎛️ CONTROLADOR CENTRAL DE TRÁFICO VISUAL
+        ' =========================================================================
+        If cuentaEmpresas <= 1 Then
+            ' CASO 1: Uniusuario clásico. Forzamos la variable vRuta al archivo único y conectamos directo
+            vRuta = IO.Path.Combine(carpetaAppOficial, archivoAConectar)
+            My.Settings.RutaBD = vRuta
+            My.Settings.Save()
+
+            tipoDsn = "AccessMdb" ' Se conecta a Mdb
+            Conectarse(tipoDsn)
+        Else
+            ' CASO 2: Multiempresa Premium. Abrimos el selector estilo GesFácil
+            vEmpresasExistentes = cuentaEmpresas ' Pasamos el número a la variable global de tu título
+
+            ' Lanzamos la ventana Cabecera en modo diálogo síncrono. Bloquea el hilo hasta que el usuario elija
+            frmCabecera.ShowDialog()
+
+            ' Sincronizamos preventivamente la variable antes del Conectarse
+            Dim nombreFila As String = System.IO.Path.GetFileNameWithoutExtension(vRuta)
+            If nombreFila.ToLower() = "contahogar" Then nombreFila = "Admin"
+            txtAvisoBdActiva = nombreFila.ToUpper()
+
+            tipoDsn = "AccessMdb" ' Se conecta a Mdb
+            Conectarse(tipoDsn)
+            Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
         End If
 
         ' =========================================================================
@@ -423,16 +540,6 @@ Public Class Principal
         Next
 
         ' =========================================================================
-        ' 🌟 6. ASENTAMOS LAS VARIABLES GLOBALES DEL TALLER
-        ' =========================================================================
-        carpetaDB = carpetaAppOficial
-        vRuta = archivoBdDestino
-
-        My.Settings.RutaBD = vRuta
-        My.Settings.Save()
-        My.Settings.Reload()
-
-        ' =========================================================================
         ' 🎨 POSICIONAMIENTO LIMPIO Y SEGURO DE LA VENTANA (¡Simplificado!)
         ' =========================================================================
         ' 1. Si el usuario guardó que prefiere arrancar con el tamaño del último cierre
@@ -453,9 +560,6 @@ Public Class Principal
             Me.WindowState = FormWindowState.Maximized
         End If
         ' =========================================================================
-
-        tipoDsn = "AccessMdb" ' Se conecta a Mdb
-        Conectarse(tipoDsn)
 
         VerificarYActualizarEstructuraBD()
 
@@ -555,9 +659,9 @@ Public Class Principal
 
         ' Mostramos el mensaje de "En Espera..." en la barra de estado mientras se carga todo
         If vAviso = True Then
-            Me.TsLabelFormulario.Text = resManager.GetString("Aviso") & ": " & resManager.GetString("NoHayDatosHistoricos")
+            Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("Aviso") & ": " & resManager.GetString("NoHayDatosHistoricos")
         Else
-            Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+            Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
         End If
 
         ' =========================================================================
@@ -686,6 +790,8 @@ Public Class Principal
             End Try
         Next
         ActualizarTextosFormulario(Me)
+        RefrescarMenus()
+
         ' En lugar de Me.Size, oblígalo redefiniendo los límites nativos:
         Me.SetBounds(x, y, vWidth, vHeigth)
 
@@ -737,7 +843,7 @@ Public Class Principal
         ' 8. IMPORTANTE: Limpiar la variable manual para evitar el error de objeto destruido
         frmApuntesContables = Nothing
         ' 9. Restaurar el texto de espera de la barra
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub BtnApuntesPeriodicos_Click(sender As Object, e As EventArgs) Handles BtnApuntesPeriodicos.Click
@@ -766,7 +872,9 @@ Public Class Principal
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
         frmApuntesPeriodicos.Dispose()
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        ' 8. IMPORTANTE: Limpiar la variable manual para evitar el error de objeto destruido
+        frmApuntesPeriodicos = Nothing
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub BtnConceptos_Click(sender As Object, e As EventArgs) Handles BtnConceptos.Click
@@ -796,7 +904,7 @@ Public Class Principal
         ' 8. IMPORTANTE: Limpiar la variable manual para evitar el error de objeto destruido
         frmConceptosContables = Nothing
         ' 9. Restaurar el texto de espera de la barra
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub BtnCuentasBancarias_Click(sender As Object, e As EventArgs) Handles BtnCuentasBancarias.Click
@@ -826,7 +934,7 @@ Public Class Principal
         ' 8. IMPORTANTE: Limpiar la variable manual para evitar el error de objeto destruido
         frmCuentasBancarias = Nothing
         ' 9. Restaurar el texto de espera de la barra
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub BtnTipoCuentas_Click(sender As Object, e As EventArgs) Handles BtnTipoCuentas.Click
@@ -856,7 +964,7 @@ Public Class Principal
         ' 8. IMPORTANTE: Limpiar la variable manual para evitar el error de objeto destruido
         frmTipoCuentaBancaria = Nothing
         ' 9. Restaurar el texto de espera de la barra
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub BtnPresupuestos_Click(sender As Object, e As EventArgs) Handles BtnPresupuestos.Click
@@ -886,7 +994,7 @@ Public Class Principal
         ' 8. IMPORTANTE: Limpiar la variable manual para evitar el error de objeto destruido
         frmIntroPresupuestos = Nothing
         ' 9. Restaurar el texto de espera de la barra
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub BtnDesviacionPresupuestos_Click(sender As Object, e As EventArgs) Handles BtnDesviacionPresupuestos.Click
@@ -916,7 +1024,7 @@ Public Class Principal
         ' 8. IMPORTANTE: Limpiar la variable manual para evitar el error de objeto destruido
         frmPresupuestos = Nothing
         ' 9. Restaurar el texto de espera de la barra
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub OrdenadoPorFechasToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OrdenadoPorFechasToolStripMenuItem.Click
@@ -935,7 +1043,7 @@ Public Class Principal
         ' Destruimos el formulario.
         frmSeleccionFechas.Dispose()
         vOrdenadoPorFechasAPU = 0
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub OrdenadoPorConceptosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OrdenadoPorConceptosToolStripMenuItem.Click
@@ -954,7 +1062,7 @@ Public Class Principal
         ' Destruimos el formulario.
         frmSeleccionFechas.Dispose()
         vOrdenadoPorConceptosAPU = 0
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub OrdenadoporImportesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OrdenadoporImportesToolStripMenuItem.Click
@@ -973,7 +1081,7 @@ Public Class Principal
         ' Destruimos el formulario.
         frmSeleccionFechas.Dispose()
         vOrdenadoPorImportesAPU = 0
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub SoloIngresosOrdenadoPorFechasToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SoloIngresosOrdenadoPorFechasToolStripMenuItem.Click
@@ -994,7 +1102,7 @@ Public Class Principal
         frmSeleccionFechas.Dispose()
         vSoloIngresosAPU = 0
         vOrdenadoPorFechasAPU = 0
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub SoloIngresosOrdenadoPorConceptosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SoloIngresosOrdenadoPorConceptosToolStripMenuItem.Click
@@ -1015,7 +1123,7 @@ Public Class Principal
         frmSeleccionFechas.Dispose()
         vSoloIngresosAPU = 0
         vOrdenadoPorConceptosAPU = 0
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub SoloIngresosOrdenadoPorImportesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SoloIngresosOrdenadoPorImportesToolStripMenuItem.Click
@@ -1036,7 +1144,7 @@ Public Class Principal
         frmSeleccionFechas.Dispose()
         vSoloIngresosAPU = 0
         vOrdenadoPorImportesAPU = 0
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub SoloGastosOrdenadoPorFechasToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SoloGastosOrdenadoPorFechasToolStripMenuItem.Click
@@ -1057,7 +1165,7 @@ Public Class Principal
         frmSeleccionFechas.Dispose()
         vSoloIngresosAPU = 0
         vOrdenadoPorFechasAPU = 0
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub SoloGastosOrdenadoPorConceptosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SoloGastosOrdenadoPorConceptosToolStripMenuItem.Click
@@ -1078,7 +1186,7 @@ Public Class Principal
         frmSeleccionFechas.Dispose()
         vSoloIngresosAPU = 0
         vOrdenadoPorConceptosAPU = 0
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub SoloGastosOrdenadoPorImportesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SoloGastosOrdenadoPorImportesToolStripMenuItem.Click
@@ -1099,7 +1207,7 @@ Public Class Principal
         frmSeleccionFechas.Dispose()
         vSoloIngresosAPU = 0
         vOrdenadoPorImportesAPU = 0
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub OrdenadoPorFechasToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles OrdenadoPorFechasToolStripMenuItem1.Click
@@ -1118,7 +1226,7 @@ Public Class Principal
         ' Destruimos el formulario.
         frmSeleccionFechas.Dispose()
         vOrdenadoPorFechasAPP = 0
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub OrdenadoPorConceptosToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles OrdenadoPorConceptosToolStripMenuItem1.Click
@@ -1137,7 +1245,7 @@ Public Class Principal
         ' Destruimos el formulario.
         frmSeleccionFechas.Dispose()
         vOrdenadoPorConceptosAPP = 0
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub OrdenadoPorImportesToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles OrdenadoPorImportesToolStripMenuItem2.Click
@@ -1156,7 +1264,7 @@ Public Class Principal
         ' Destruimos el formulario.
         frmSeleccionFechas.Dispose()
         vOrdenadoPorImportesAPP = 0
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub SoloIngresosOrdenadoPorFechasToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SoloIngresosOrdenadoPorFechasToolStripMenuItem1.Click
@@ -1177,7 +1285,7 @@ Public Class Principal
         frmSeleccionFechas.Dispose()
         vSoloIngresosAPP = 0
         vOrdenadoPorFechasAPP = 0
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub SoloIngresosOrdenadoPorConceptosToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SoloIngresosOrdenadoPorConceptosToolStripMenuItem1.Click
@@ -1198,7 +1306,7 @@ Public Class Principal
         frmSeleccionFechas.Dispose()
         vSoloIngresosAPP = 0
         vOrdenadoPorConceptosAPP = 0
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub SoloIngresosOrdenadoPorImportesToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SoloIngresosOrdenadoPorImportesToolStripMenuItem1.Click
@@ -1219,7 +1327,7 @@ Public Class Principal
         frmSeleccionFechas.Dispose()
         vSoloIngresosAPP = 0
         vOrdenadoPorImportesAPP = 0
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub SoloGastosOrdenadoPorFechasToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SoloGastosOrdenadoPorFechasToolStripMenuItem1.Click
@@ -1240,7 +1348,7 @@ Public Class Principal
         frmSeleccionFechas.Dispose()
         vSoloIngresosAPP = 0
         vOrdenadoPorFechasAPP = 0
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub SoloGastosOrdenadoPorConceptosToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SoloGastosOrdenadoPorConceptosToolStripMenuItem1.Click
@@ -1261,7 +1369,7 @@ Public Class Principal
         frmSeleccionFechas.Dispose()
         vSoloIngresosAPP = 0
         vOrdenadoPorConceptosAPP = 0
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub SoloGastosOrdenadoPorImportesToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SoloGastosOrdenadoPorImportesToolStripMenuItem1.Click
@@ -1282,7 +1390,7 @@ Public Class Principal
         frmSeleccionFechas.Dispose()
         vSoloIngresosAPP = 0
         vOrdenadoPorImportesAPP = 0
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub GráficosDeIngresosPorConceptoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GráficosDeIngresosPorConceptoToolStripMenuItem.Click
@@ -1299,7 +1407,7 @@ Public Class Principal
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
         frmSeleccionarDatosIngresos.Dispose()
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub GráficosDeGastosPorConceptoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GráficosDeGastosPorConceptoToolStripMenuItem.Click
@@ -1316,7 +1424,7 @@ Public Class Principal
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
         frmSeleccionarDatosGastos.Dispose()
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub MnuEvolucionCuentas_Click(sender As Object, e As EventArgs) Handles MnuEvolucionCuentas.Click
@@ -1459,7 +1567,7 @@ Public Class Principal
                         RutaOriginalVieja = ofd.FileName
                     Else
                         ' Si el usuario cancela la búsqueda, apagamos la redonda y abortamos de forma limpia
-                        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+                        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
                         Me.Cursor = Cursors.Default
                         Exit Sub
                     End If
@@ -1708,7 +1816,7 @@ Public Class Principal
         End If
         Me.Cursor = Cursors.Default
         TsLabelFormulario.ForeColor = Color.Black
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub BtnCambiarEjercicioActivo_Click(sender As Object, e As EventArgs) Handles BtnCambiarEjercicioActivo.Click
@@ -1728,7 +1836,7 @@ Public Class Principal
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
         frmSeleccionEjercicio.Dispose()
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub BtnAcercade_Click(sender As Object, e As EventArgs) Handles BtnAcercade.Click
@@ -1758,7 +1866,7 @@ Public Class Principal
         ' 8. IMPORTANTE: Limpiar la variable manual para evitar el error de objeto destruido
         frmAcercaDe = Nothing
         ' 9. Restaurar el texto de espera de la barra
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub BtnPreferencias_Click(sender As Object, e As EventArgs) Handles BtnPreferencias.Click
@@ -1778,7 +1886,7 @@ Public Class Principal
         'MessageBox.Show("Se ha cerrado el formulario.")
         ' Destruimos el formulario.
         frmPreferencias.Dispose()
-        Me.TsLabelFormulario.Text = rmse.GetString("MsgEspera")
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
     End Sub
 
     Private Sub BarraDeHerramientasMenu_Click(sender As Object, e As EventArgs) Handles BarraDeHerramientasMenu.Click
@@ -1818,7 +1926,6 @@ Public Class Principal
             My.Settings.LogoBuho = False
         End If
         My.Settings.Save()
-        My.Settings.Reload()
         If My.Settings.LogoBuho = True Then
             PictureBox1.Visible = True
         Else
@@ -2102,10 +2209,6 @@ Public Class Principal
 
             ' Consolidamos los datos en el disco duro del usuario
             My.Settings.Save()
-
-            ' Nota: My.Settings.Reload() no es necesario aquí porque la app ya se está cerrando, 
-            ' pero no rompe nada si decides dejarlo.
-
         Catch ex As Exception
             ' Evitamos que un fallo al guardar las coordenadas congele el cierre de la app
         End Try
@@ -2120,7 +2223,7 @@ Public Class Principal
     End Sub
 
     Private Sub BtnStore_Click(sender As Object, e As EventArgs) Handles BtnStore.Click
-        Dim vinculoProfundo As String = "ms-windows-store://pdp/?productid=9MWDQ6FK2P72"
+        Dim vinculoProfundo As String = "ms-windows-store://pdp/?ProductId=9mwdq6fk2p72"
         Try
             System.Diagnostics.Process.Start(New System.Diagnostics.ProcessStartInfo(vinculoProfundo) With {.UseShellExecute = True})
         Catch ex As Exception
@@ -2128,6 +2231,20 @@ Public Class Principal
         End Try
         Application.Exit()
         Return
+    End Sub
+
+    Private Sub BtnEstrella_Click(sender As Object, e As EventArgs) Handles ValorarToolStripMenuItem.Click, BtnEstrella.Click
+        Try
+            ' Lanzamos el protocolo URI directo a la sección de reseñas en minúsculas
+            Dim urlReview As String = "ms-windows-store://review/?ProductId=9mwdq6fk2p72"
+
+            ' Despierta el proceso nativo del sistema operativo para abrir la Tienda de Windows
+            System.Diagnostics.Process.Start(New System.Diagnostics.ProcessStartInfo(urlReview) With {.UseShellExecute = True})
+
+        Catch ex As Exception
+            ' Salvavidas por si el PC tuviera la tienda deshabilitada
+            MsgBox("No se pudo abrir la Microsoft Store: " & ex.Message, MsgBoxStyle.Exclamation)
+        End Try
     End Sub
 
     Private Sub HistorialDeVersionesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles HistorialDeVersionesToolStripMenuItem.Click
@@ -2382,7 +2499,7 @@ Public Class Principal
         If diasRestantes <= 0 Then
             MsgBox(resManager.GetString("MsgPeriodoPruebaExpirado"), MsgBoxStyle.Critical, resManager.GetString("PeriodoPrueba"))
 
-            Dim vinculoProfundo As String = "ms-windows-store://pdp/?productid=9MWDQ6FK2P72"
+            Dim vinculoProfundo As String = "ms-windows-store://pdp/?ProductId=9mwdq6fk2p72"
             Try
                 System.Diagnostics.Process.Start(New System.Diagnostics.ProcessStartInfo(vinculoProfundo) With {.UseShellExecute = True})
             Catch ex As Exception

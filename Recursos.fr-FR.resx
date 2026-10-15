@@ -1124,4 +1124,7 @@ des dossiers à utiliser.</value>
   <data name="AñadirDescripcion" xml:space="preserve">
     <value>Nous ajoutons la description</value>
   </data>
+  <data name="Usuario" xml:space="preserve">
+    <value>Utilisateur</value>
+  </data>
 </root>

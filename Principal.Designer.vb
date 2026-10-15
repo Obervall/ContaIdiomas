@@ -88,8 +88,9 @@ Partial Class Principal
 		Me.ArchivoDeAyudaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.HistorialDeVersionesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.AcercaDeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-		Me.ImportaAntiguoContahogarToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+		Me.ValorarToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.ToolStripSeparator21 = New System.Windows.Forms.ToolStripSeparator()
+		Me.ImportaAntiguoContahogarToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
 		Me.ToolStripTextBox1 = New System.Windows.Forms.ToolStripTextBox()
 		Me.VactualVDisponible = New System.Windows.Forms.ToolStripMenuItem()
 		Me.BarraDeEstado = New System.Windows.Forms.StatusStrip()
@@ -133,6 +134,8 @@ Partial Class Principal
 		Me.BtnAyuda = New System.Windows.Forms.ToolStripButton()
 		Me.BtnHistorialVersiones = New System.Windows.Forms.ToolStripButton()
 		Me.BtnAcercade = New System.Windows.Forms.ToolStripButton()
+		Me.BtnEstrella = New System.Windows.Forms.ToolStripButton()
+		Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
 		Me.BtnImportarContaHogar = New System.Windows.Forms.ToolStripButton()
 		Me.ToolStripSeparator19 = New System.Windows.Forms.ToolStripSeparator()
 		Me.ToolStripLabel5 = New System.Windows.Forms.ToolStripLabel()
@@ -480,7 +483,7 @@ Partial Class Principal
 		'
 		'AyudaToolStripMenuItem
 		'
-		Me.AyudaToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ArchivoDeAyudaToolStripMenuItem, Me.HistorialDeVersionesToolStripMenuItem, Me.AcercaDeToolStripMenuItem, Me.ImportaAntiguoContahogarToolStripMenuItem, Me.ToolStripSeparator21})
+		Me.AyudaToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ArchivoDeAyudaToolStripMenuItem, Me.HistorialDeVersionesToolStripMenuItem, Me.AcercaDeToolStripMenuItem, Me.ValorarToolStripMenuItem, Me.ToolStripSeparator21, Me.ImportaAntiguoContahogarToolStripMenuItem})
 		Me.AyudaToolStripMenuItem.Name = "AyudaToolStripMenuItem"
 		resources.ApplyResources(Me.AyudaToolStripMenuItem, "AyudaToolStripMenuItem")
 		'
@@ -499,15 +502,20 @@ Partial Class Principal
 		resources.ApplyResources(Me.AcercaDeToolStripMenuItem, "AcercaDeToolStripMenuItem")
 		Me.AcercaDeToolStripMenuItem.Name = "AcercaDeToolStripMenuItem"
 		'
-		'ImportaAntiguoContahogarToolStripMenuItem
+		'ValorarToolStripMenuItem
 		'
-		resources.ApplyResources(Me.ImportaAntiguoContahogarToolStripMenuItem, "ImportaAntiguoContahogarToolStripMenuItem")
-		Me.ImportaAntiguoContahogarToolStripMenuItem.Name = "ImportaAntiguoContahogarToolStripMenuItem"
+		resources.ApplyResources(Me.ValorarToolStripMenuItem, "ValorarToolStripMenuItem")
+		Me.ValorarToolStripMenuItem.Name = "ValorarToolStripMenuItem"
 		'
 		'ToolStripSeparator21
 		'
 		Me.ToolStripSeparator21.Name = "ToolStripSeparator21"
 		resources.ApplyResources(Me.ToolStripSeparator21, "ToolStripSeparator21")
+		'
+		'ImportaAntiguoContahogarToolStripMenuItem
+		'
+		resources.ApplyResources(Me.ImportaAntiguoContahogarToolStripMenuItem, "ImportaAntiguoContahogarToolStripMenuItem")
+		Me.ImportaAntiguoContahogarToolStripMenuItem.Name = "ImportaAntiguoContahogarToolStripMenuItem"
 		'
 		'ToolStripTextBox1
 		'
@@ -546,7 +554,7 @@ Partial Class Principal
 		'BarraDeHerramientas
 		'
 		Me.BarraDeHerramientas.ImageScalingSize = New System.Drawing.Size(30, 30)
-		Me.BarraDeHerramientas.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel12, Me.BtnSalir, Me.BtnPreferencias, Me.BtnCambiarEjercicioActivo, Me.ToolStripLabel4, Me.ToolStripLabel11, Me.ToolStripLabel16, Me.BtnConceptos, Me.BtnCuentasBancarias, Me.BtnTipoCuentas, Me.ToolStripLabel1, Me.ToolStripLabel14, Me.ToolStripLabel2, Me.BtnApuntesContables, Me.ToolStripSeparator6, Me.BtnApuntesPeriodicos, Me.ToolStripLabel3, Me.ToolStripLabel9, Me.ToolStripLabel6, Me.BtnPresupuestos, Me.BtnDesviacionPresupuestos, Me.ToolStripLabel7, Me.ToolStripLabel17, Me.ToolStripLabel8, Me.BtnCopiaSeguridad, Me.BtnRestaurarCopia, Me.BtnCompactarBaseDatos, Me.BtnIniciarBaseDatos, Me.ToolStripSeparator9, Me.BtnCalculadora, Me.ToolStripLabel13, Me.ToolStripLabel15, Me.ToolStripLabel10, Me.BtnAyuda, Me.BtnHistorialVersiones, Me.BtnAcercade, Me.BtnImportarContaHogar, Me.ToolStripSeparator19, Me.ToolStripLabel5})
+		Me.BarraDeHerramientas.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel12, Me.BtnSalir, Me.BtnPreferencias, Me.BtnCambiarEjercicioActivo, Me.ToolStripLabel4, Me.ToolStripLabel11, Me.ToolStripLabel16, Me.BtnConceptos, Me.BtnCuentasBancarias, Me.BtnTipoCuentas, Me.ToolStripLabel1, Me.ToolStripLabel14, Me.ToolStripLabel2, Me.BtnApuntesContables, Me.ToolStripSeparator6, Me.BtnApuntesPeriodicos, Me.ToolStripLabel3, Me.ToolStripLabel9, Me.ToolStripLabel6, Me.BtnPresupuestos, Me.BtnDesviacionPresupuestos, Me.ToolStripLabel7, Me.ToolStripLabel17, Me.ToolStripLabel8, Me.BtnCopiaSeguridad, Me.BtnRestaurarCopia, Me.BtnCompactarBaseDatos, Me.BtnIniciarBaseDatos, Me.ToolStripSeparator9, Me.BtnCalculadora, Me.ToolStripLabel13, Me.ToolStripLabel15, Me.ToolStripLabel10, Me.BtnAyuda, Me.BtnHistorialVersiones, Me.BtnAcercade, Me.BtnEstrella, Me.ToolStripSeparator5, Me.BtnImportarContaHogar, Me.ToolStripSeparator19, Me.ToolStripLabel5})
 		resources.ApplyResources(Me.BarraDeHerramientas, "BarraDeHerramientas")
 		Me.BarraDeHerramientas.Name = "BarraDeHerramientas"
 		Me.BarraDeHerramientas.RenderMode = System.Windows.Forms.ToolStripRenderMode.System
@@ -751,6 +759,17 @@ Partial Class Principal
 		resources.ApplyResources(Me.BtnAcercade, "BtnAcercade")
 		Me.BtnAcercade.Name = "BtnAcercade"
 		'
+		'BtnEstrella
+		'
+		Me.BtnEstrella.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+		resources.ApplyResources(Me.BtnEstrella, "BtnEstrella")
+		Me.BtnEstrella.Name = "BtnEstrella"
+		'
+		'ToolStripSeparator5
+		'
+		Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
+		resources.ApplyResources(Me.ToolStripSeparator5, "ToolStripSeparator5")
+		'
 		'BtnImportarContaHogar
 		'
 		Me.BtnImportarContaHogar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
@@ -933,4 +952,7 @@ Partial Class Principal
 	Friend WithEvents MnuEvolucionConceptos As Windows.Forms.ToolStripMenuItem
 	Friend WithEvents ToolStripSeparator4 As Windows.Forms.ToolStripSeparator
 	Friend WithEvents BtnStore As Windows.Forms.Button
+	Friend WithEvents ValorarToolStripMenuItem As Windows.Forms.ToolStripMenuItem
+	Friend WithEvents BtnEstrella As Windows.Forms.ToolStripButton
+	Friend WithEvents ToolStripSeparator5 As Windows.Forms.ToolStripSeparator
 End Class

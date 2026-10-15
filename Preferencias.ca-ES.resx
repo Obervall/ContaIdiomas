@@ -201,4 +201,16 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Preferències</value>
   </data>
+  <data name="BtnCrearUsuario.Text" xml:space="preserve">
+    <value>Crear usuari</value>
+  </data>
+  <data name="IntroduceNombreUsuario" xml:space="preserve">
+    <value>Introdueix el nom del nou usuari o empresa (Ex: Maria o Company2)</value>
+  </data>
+  <data name="NuevoUsuario" xml:space="preserve">
+    <value>Nou usuari</value>
+  </data>
+  <data name="YaExisteArchivoMismoNombre" xml:space="preserve">
+    <value>Ja existeix un fitxer de base de dades amb aquest nom</value>
+  </data>
 </root>

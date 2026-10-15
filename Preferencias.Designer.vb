@@ -41,6 +41,7 @@ Partial Class Preferencias
 		Me.GroupBox3 = New System.Windows.Forms.GroupBox()
 		Me.CmbMonedas = New System.Windows.Forms.ComboBox()
 		Me.BtnCrearUsuario = New System.Windows.Forms.Button()
+		Me.BtnCambiarEmpresa = New System.Windows.Forms.Button()
 		Me.GBoxPantalla.SuspendLayout()
 		Me.GroupBox1.SuspendLayout()
 		Me.GroupBox2.SuspendLayout()
@@ -156,10 +157,17 @@ Partial Class Preferencias
 		Me.BtnCrearUsuario.Name = "BtnCrearUsuario"
 		Me.BtnCrearUsuario.UseVisualStyleBackColor = True
 		'
+		'BtnCambiarEmpresa
+		'
+		resources.ApplyResources(Me.BtnCambiarEmpresa, "BtnCambiarEmpresa")
+		Me.BtnCambiarEmpresa.Name = "BtnCambiarEmpresa"
+		Me.BtnCambiarEmpresa.UseVisualStyleBackColor = True
+		'
 		'Preferencias
 		'
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
 		resources.ApplyResources(Me, "$this")
+		Me.Controls.Add(Me.BtnCambiarEmpresa)
 		Me.Controls.Add(Me.BtnCrearUsuario)
 		Me.Controls.Add(Me.CmbMonedas)
 		Me.Controls.Add(Me.GroupBox3)
@@ -205,4 +213,5 @@ Partial Class Preferencias
     Friend WithEvents GroupBox3 As Windows.Forms.GroupBox
     Friend WithEvents CmbMonedas As Windows.Forms.ComboBox
     Friend WithEvents BtnCrearUsuario As Windows.Forms.Button
+	Friend WithEvents BtnCambiarEmpresa As Windows.Forms.Button
 End Class

@@ -1761,7 +1761,6 @@ Public Class ApuntesContables
                 Dim strFileName As String = sfd.FileName
                 My.Settings.PathExportar = Path.GetDirectoryName(strFileName)
                 My.Settings.Save()
-                My.Settings.Reload()
 
                 Try
                     If ((DgvApuntes.Columns.Count = 0) Or (DgvApuntes.Rows.Count = 0)) Then

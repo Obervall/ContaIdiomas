@@ -1,3 +1,4 @@
+C:\ComptaLlar\Hogar\bin\Debug\Usuarios.mdb
 C:\ComptaLlar\Hogar\bin\Debug\ContaHogar.mdb
 C:\ComptaLlar\Hogar\bin\Debug\x86\SqlServerSpatial170.dll
 C:\ComptaLlar\Hogar\bin\Debug\x64\SqlServerSpatial170.dll
@@ -189,6 +190,7 @@ C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.ApuntesPeriodicos.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.ApuntesContables.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.AyudaApuntes.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.Buscar.resources
+C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.Cabecera.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.EditarApuntesPeriodicos.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.EditarTipoCuentaBancaria.resources
 C:\ComptaLlar\Hogar\obj\Debug\ContaHogar.EditarApuntes.resources

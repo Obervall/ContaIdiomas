@@ -2961,6 +2961,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Usuario.
+    '''</summary>
+    Friend Shared ReadOnly Property Usuario() As String
+        Get
+            Return ResourceManager.GetString("Usuario", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Sin Programar...
     '''</summary>
     Friend Shared ReadOnly Property Vacio() As String

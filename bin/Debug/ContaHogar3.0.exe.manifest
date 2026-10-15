@@ -91,26 +91,26 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ContaHogar3.0.exe" size="5143040">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ContaHogar3.0.exe" size="5160448">
       <assemblyIdentity name="ContaHogar3.0" version="0.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>3JIIdvIpZyO2dYmMy6rqKCu+JOExOAhwFHVbkKjKc24=</dsig:DigestValue>
+        <dsig:DigestValue>e0Yrr3HjkjFYgzajPTKkR9yHWtD7BPLvKPlWDilegSs=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="es\ContaHogar3.0.resources.dll" size="592384">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="es\ContaHogar3.0.resources.dll" size="592896">
       <assemblyIdentity name="ContaHogar3.0.resources" version="0.0.0.0" language="es" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>lK3pIj756epUKWdwjqPPzHgl1C0ooezjqxA0p0IBwaA=</dsig:DigestValue>
+        <dsig:DigestValue>AeA6fCdV99iHywvFecgJhOV/9Hu9oEYEyM8SdXjBlco=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -892,6 +892,15 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
       <dsig:DigestValue>JQ/WH7TxU0FmH4jmjhaVHOPTy+ouYrNsBbLDnZjc9Ks=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Usuarios.mdb" size="598016" writeableType="applicationData">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>UlNPGrWWtBuoHbocMwIj8HuJr8A5HMBzKDpr6OOSK9Q=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Version.pdf" size="4881375">

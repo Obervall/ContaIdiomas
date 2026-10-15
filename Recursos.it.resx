@@ -1124,4 +1124,7 @@ cartelle da usare.</value>
   <data name="AñadirDescripcion" xml:space="preserve">
     <value>Aggiungiamo la descrizione</value>
   </data>
+  <data name="Usuario" xml:space="preserve">
+    <value>Utente</value>
+  </data>
 </root>
