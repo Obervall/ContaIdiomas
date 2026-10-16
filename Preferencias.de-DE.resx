@@ -205,12 +205,24 @@
     <value>Benutzer erstellen</value>
   </data>
   <data name="IntroduceNombreUsuario" xml:space="preserve">
-    <value>Geben Sie den Namen des neuen Nutzers oder Unternehmens ein (z. B.: Maria oder Company2)</value>
+    <value>Geben Sie den Namen des neuen Nutzers oder Unternehmens ein
+(z. B.: Maria oder Company2)</value>
   </data>
   <data name="NuevoUsuario" xml:space="preserve">
     <value>Neuer Nutzer</value>
   </data>
   <data name="YaExisteArchivoMismoNombre" xml:space="preserve">
     <value>Eine Datenbankdatei mit diesem Namen existiert bereits</value>
+  </data>
+  <data name="BtnCambiarEmpresa.Text" xml:space="preserve">
+    <value>Benutzer ändern</value>
+  </data>
+  <data name="PreguntaTraspasoEmpresa" xml:space="preserve">
+    <value>Die neue Datenbank wird leer erstellt. 
+ 
+Möchten Sie die Konzepte und Bankkonten des aktuellen: {0} des neuen Nutzers {1} überweisen und pflegen?</value>
+  </data>
+  <data name="TraspasoDatosDinámico" xml:space="preserve">
+    <value>Dynamischer Datentransfer</value>
   </data>
 </root>

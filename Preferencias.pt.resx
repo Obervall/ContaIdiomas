@@ -205,12 +205,24 @@
     <value>Criar Usuário</value>
   </data>
   <data name="IntroduceNombreUsuario" xml:space="preserve">
-    <value>Insira o nome do novo usuário ou empresa (Ex: Maria ou Empresa2)</value>
+    <value>Insira o nome do novo usuário ou empresa
+(Ex: Maria ou Empresa2)</value>
   </data>
   <data name="NuevoUsuario" xml:space="preserve">
     <value>Novo Usuário</value>
   </data>
   <data name="YaExisteArchivoMismoNombre" xml:space="preserve">
     <value>Um arquivo de banco de dados com esse nome já existe</value>
+  </data>
+  <data name="BtnCambiarEmpresa.Text" xml:space="preserve">
+    <value>Alterar Usuário</value>
+  </data>
+  <data name="PreguntaTraspasoEmpresa" xml:space="preserve">
+    <value>O novo banco de dados será criado Vazio. 
+ 
+Você quer transferir e manter os conceitos e contas bancárias do atual: {0} o novo usuário {1}?</value>
+  </data>
+  <data name="TraspasoDatosDinámico" xml:space="preserve">
+    <value>Transferência Dinâmica de Dados</value>
   </data>
 </root>

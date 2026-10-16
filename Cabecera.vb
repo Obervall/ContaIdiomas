@@ -18,14 +18,6 @@ Public Class Cabecera
             .AllowUserToDeleteRows = False ' Prohíbe borrar perfiles con la tecla Supr
             .SelectionMode = DataGridViewSelectionMode.FullRowSelect ' Fila azul completa Premium
 
-            '' 🌟 TRUCO OBLIGATORIO: Desactivamos el estilo visual nativo de Windows 
-            '' para que nos deje pintar la cabecera con nuestro propio color
-            '.EnableHeadersVisualStyles = False
-
-            '' Configuramos el fondo blanco (o un tono suave) y el texto en gris oscuro/negro
-            '.ColumnHeadersDefaultCellStyle.BackColor = Color.White ' O puedes usar Color.FromArgb(245, 245, 245) para un gris muy suave
-            '.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black
-
             ' Opcional: Centramos el texto del encabezado para que quede más simétrico
             .ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
 
@@ -101,7 +93,7 @@ Public Class Cabecera
     Private Sub DgvUsuarios_DoubleClick(sender As Object, e As EventArgs) Handles DgvUsuarios.DoubleClick
         ' 3. DOBLE CLIC SELECCIONA Y CONECTA AL INSTANTE (Tu motor inteligente)
         If DgvUsuarios.CurrentRow IsNot Nothing AndAlso DgvUsuarios.Rows.Count > 0 Then
-            Dim archivoSeleccionado As String = DgvUsuarios.CurrentRow.Cells("ArchivoMdb").Value.ToString().Trim()
+            archivoSeleccionado = DgvUsuarios.CurrentRow.Cells("ArchivoMdb").Value.ToString().Trim()
 
             txtAvisoBdActiva = archivoSeleccionado
             ' Asignamos la ruta a tu variable global reina 'vRuta'

@@ -103,7 +103,7 @@ Module Funciones
     Public vEsVersionDemoSoftonic As Boolean
     Public vDiasRestantesDemoSoftonic, cuentaEmpresas As Integer
     Public MostrarBotonPayPal As Boolean = False
-    Public carpetaDB, archivoAConectar As String
+    Public carpetaDB, archivoAConectar, archivoSeleccionado As String
     ' Esta variable guardará el "cero" con el formato correcto del sistema (0,00 o 0.00)
     Public ReadOnly CeroFormateado As String = (0.0).ToString("N2")
 

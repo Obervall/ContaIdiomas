@@ -238,7 +238,7 @@ Public Class Preferencias
 
         Try
             ' 2. Calculamos las rutas físicas en base a tu variable elástica 'carpetaDB' (Mis Documentos)
-            Dim nombreArchivoNuevo As String = nombreNuevo.Replace(" ", "_").ToUpper() & ".mdb"
+            Dim nombreArchivoNuevo As String = nombreNuevo.Replace(" ", "_") & ".mdb"
             Dim rutaNuevaMdb As String = System.IO.Path.Combine(carpetaDB, nombreArchivoNuevo)
 
             ' Comprobamos si ya existe un archivo físico con ese nombre para no machacarlo
@@ -260,32 +260,41 @@ Public Class Preferencias
                 If conexion1.State = ConnectionState.Closed Then conexion1.Open()
 
                 ' =========================================================================
-                ' 🎯 PREGUNTA DE TRASPASO ADAPTADA AL ESTÁNDAR DE TU INTERFAZ TRADUCIDA
+                ' 🎯 PREGUNTA DE TRASPASO BLINDADA MULTI-IDIOMA CON MARCADOR {0}
                 ' =========================================================================
-                ' Pescamos el texto descriptivo y el título de la ventana (puedes meter tus claves del .resx aquí)
-                Dim textoPregunta As String = "¿Deseas traspasar los Conceptos y las Cuentas Bancarias actuales al nuevo usuario?"
-                Dim tituloVentana As String = "Traspaso de Datos Dinámico"
+                ' 1. Pescamos el nombre limpio de la base de datos de origen (ej: "Admin" o "MARIA.mdb")
+                Dim archivoOrigenLimpio As String = System.IO.Path.GetFileName(vRuta)
+                If archivoOrigenLimpio.ToLower() = "contahogar.mdb" Then archivoOrigenLimpio = "Admin"
+
+                ' 2. Recuperamos el molde de texto desde tu archivo de recursos
+                Dim plantillaMensaje As String = rmse.GetString("PreguntaTraspasoEmpresa")
+
+                ' Salvavidas por si acaso la clave no estuviera escrita todavía en el .resx
+                If String.IsNullOrEmpty(plantillaMensaje) Then
+                    plantillaMensaje = "La Nueva base de Datos se creará Vacía." & vbCrLf & vbCrLf &
+                                       "¿Deseas Traspasar y Mantener los Conceptos y las Cuentas Bancarias de la actual: {0} al Nuevo usuario {1}?"
+                End If
+
+                ' 3. FUSIÓN DINÁMICA: Inyectamos de forma dócil el nombre en el marcador {0}
+                Dim mensajeFinal As String = String.Format(plantillaMensaje, archivoOrigenLimpio.ToUpper, nombreNuevo.ToUpper)
+                Dim tituloVentana As String = rmse.GetString("TraspasoDatosDinámico")
 
                 ' Invocamos tu función reina unificada
-                Dim respuestaTraspaso As MsgBoxResult = ConfirmarAccionTraducida(textoPregunta, tituloVentana)
+                Dim respuestaTraspaso As MsgBoxResult = ConfirmarAccionTraducida(mensajeFinal, tituloVentana)
 
                 ' Evaluamos la respuesta usando el estándar vbYes de tu solución
                 If respuestaTraspaso = vbYes Then
                     ' ESCENARIO A: SÍ QUIERE TRASPASO
                     ' Dejamos Conceptos y Cuentas intactos en la copia. Solo vaciamos el historial vivo
-                    cmdLimpiar.CommandText = $"DELETE * FROM apuntes In '{rutaNuevaMdb}'"
-                    MsgBox("cmdLimpiar.CommandText: " & cmdLimpiar.CommandText)
-                    cmdLimpiar.ExecuteNonQuery()
-
-                    cmdLimpiar.CommandText = $"DELETE * FROM extracto In '{rutaNuevaMdb}'"
-                    cmdLimpiar.ExecuteNonQuery()
-
-                    cmdLimpiar.CommandText = $"DELETE * FROM presupuesto IN '{rutaNuevaMdb}'"
-                    Try : cmdLimpiar.ExecuteNonQuery() : Catch : End Try
+                    Dim tablasA_VaciarA() As String = {"apuntes", "apuper", "ejercicios", "extracto", "presupuesto", "tempapu", "temppre", "tmpprint"}
+                    For Each tabla As String In tablasA_VaciarA
+                        cmdLimpiar.CommandText = $"DELETE * FROM {tabla} IN '{rutaNuevaMdb}'"
+                        Try : cmdLimpiar.ExecuteNonQuery() : Catch : End Try
+                    Next
                 Else
                     ' ESCENARIO B: NO QUIERE TRASPASO (Lo vaciamos TODO en cadena)
-                    Dim tablasA_Vaciar() As String = {"apuntes", "extracto", "Conceptos", "cuentas", "presupuesto"}
-                    For Each tabla As String In tablasA_Vaciar
+                    Dim tablasA_VaciarB() As String = {"apuntes", "apuper", "conceptos", "cuentas", "ejercicios", "extracto", "presupuesto", "tempapu", "temppre", "tmpprint"}
+                    For Each tabla As String In tablasA_VaciarB
                         cmdLimpiar.CommandText = $"DELETE * FROM {tabla} IN '{rutaNuevaMdb}'"
                         Try : cmdLimpiar.ExecuteNonQuery() : Catch : End Try
                     Next

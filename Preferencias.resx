@@ -872,12 +872,21 @@
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="IntroduceNombreUsuario" xml:space="preserve">
-    <value>Introduce el Nombre del Nuevo Usuario o Empresa (Ej: María o Empresa2)</value>
+    <value>Introduce el Nombre del Nuevo Usuario o Empresa
+(Ej: María o Empresa2)</value>
   </data>
   <data name="NuevoUsuario" xml:space="preserve">
     <value>Nuevo Usuario</value>
   </data>
   <data name="YaExisteArchivoMismoNombre" xml:space="preserve">
     <value>Ya existe un archivo de base de datos con el nombre</value>
+  </data>
+  <data name="PreguntaTraspasoEmpresa" xml:space="preserve">
+    <value>La Nueva base de Datos se creará Vacía.
+ 
+¿Deseas Traspasar y Mantener los Conceptos y las Cuentas Bancarias de la actual: {0} al Nuevo usuario {1}?</value>
+  </data>
+  <data name="TraspasoDatosDinámico" xml:space="preserve">
+    <value>Traspaso de Datos Dinámico</value>
   </data>
 </root>

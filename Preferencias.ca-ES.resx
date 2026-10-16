@@ -205,12 +205,24 @@
     <value>Crear usuari</value>
   </data>
   <data name="IntroduceNombreUsuario" xml:space="preserve">
-    <value>Introdueix el nom del nou usuari o empresa (Ex: Maria o Company2)</value>
+    <value>Introdueix el nom del nou usuari o empresa
+(Ex: Maria o Company2)</value>
   </data>
   <data name="NuevoUsuario" xml:space="preserve">
     <value>Nou usuari</value>
   </data>
   <data name="YaExisteArchivoMismoNombre" xml:space="preserve">
     <value>Ja existeix un fitxer de base de dades amb aquest nom</value>
+  </data>
+  <data name="BtnCambiarEmpresa.Text" xml:space="preserve">
+    <value>Canvia l'usuari</value>
+  </data>
+  <data name="PreguntaTraspasoEmpresa" xml:space="preserve">
+    <value>La nova base de dades es crearà buida. 
+ 
+Vols transferir i mantenir els conceptes i comptes bancaris de l'actual: {0} el nou usuari {1}?</value>
+  </data>
+  <data name="TraspasoDatosDinámico" xml:space="preserve">
+    <value>Transferència dinàmica de dades</value>
   </data>
 </root>
