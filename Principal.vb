@@ -11,7 +11,7 @@ Imports ClosedXML.Excel
 Public Class Principal
 
     Public CantPantallas, vPantallas, vCodigo, vContador, vCalculoVersion1, vCalculoVersion2, vCalculoVersion3 As Integer
-    Public tipoDsn, tipoSql, vtipoSql, respuesta As String
+    Public tipoSql, vtipoSql, respuesta As String
     Public rmse As New System.ComponentModel.ComponentResourceManager(Me.GetType())
     Public x As Integer = 315
     Public y As Integer = 30
@@ -501,8 +501,7 @@ Public Class Principal
             My.Settings.RutaBD = vRuta
             My.Settings.Save()
 
-            tipoDsn = "AccessMdb" ' Se conecta a Mdb
-            Conectarse(tipoDsn)
+            Conectarse("AccessMdb")
         Else
             ' CASO 2: Multiempresa Premium. Abrimos el selector estilo GesFácil
             vEmpresasExistentes = cuentaEmpresas ' Pasamos el número a la variable global de tu título
@@ -515,8 +514,7 @@ Public Class Principal
             If nombreFila.ToLower() = "contahogar" Then nombreFila = "Admin"
             txtAvisoBdActiva = nombreFila.ToUpper()
 
-            tipoDsn = "AccessMdb" ' Se conecta a Mdb
-            Conectarse(tipoDsn)
+            Conectarse("AccessMdb")
             Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
         End If
 
@@ -1476,16 +1474,15 @@ Public Class Principal
             ' 1. Cerramos la compuerta de la conexión principal para liberar el candado del archivo
             conexion1.Close()
 
-            ' 2. 🚀 LA JUGADA MAESTRA: Compactamos en caliente dentro de la zona libre de derechos de usuario
+            ' 2. 🚀 LA JUGADA MAESTRA: Compactamos en caliente el archivo del usuario activo (vRuta)
             jetEng.CompactDatabase("Provider=Microsoft.Jet.Oledb.4.0; Data Source=" & vRuta,
                                    "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & vCompactadaReal & ";Jet OLEDB:Engine Type=5")
 
-            ' 3. Reemplazamos la base de datos oficial por la versión pulida y reducida a 488 KB
+            ' 3. Reemplazamos la base de datos oficial por la versión pulida y reducida
             File.Copy(vCompactadaReal, vRuta, True)
 
-            ' 4. Volvemos a levantar el motor de datos relacional para las cuadrículas y rejillas
-            tipoDsn = "AccessMdb"
-            Conectarse(tipoDsn)
+            ' 4. Volvemos a levantar el motor de datos relacional de inmediato para la RAM
+            Conectarse("AccessMdb")
 
             MessageBox.Show(rmse.GetString("CompactacionOk"), rmse.GetString("Compactar"), MessageBoxButtons.OK, MessageBoxIcon.Information)
 
@@ -1951,7 +1948,7 @@ Public Class Principal
         cmdMdb1cr.Parameters.Clear()
 
         ' 2. PRIMERA ALERTA TRADUCIDA (Con tu confirmador inmune al idioma de Windows)
-        Dim msgPregunta1 As String = rmse.GetString("MsgVaciarBD") & ": " & vAñoEjercicio.ToString & "?." & NL & rmse.GetString("MsgVaciarBD2") & NL & rmse.GetString("MsgNoVaciarBD")
+        Dim msgPregunta1 As String = rmse.GetString("MsgVaciarBD") & ": " & vAñoEjercicio.ToString & "?." & vbCrLf & rmse.GetString("MsgVaciarBD2") & NL & rmse.GetString("MsgNoVaciarBD")
         Dim titPregunta1 As String = rmse.GetString("MsgVaciarBD3") & ": " & vAñoEjercicio.ToString
 
         If ConfirmarAccionTraducida(msgPregunta1, titPregunta1) = MsgBoxResult.No Then
@@ -2061,7 +2058,7 @@ Public Class Principal
         ' =========================================================================
         ' 🚀 CONFIGURACIÓN DE RUTA SEGURA COMPATIBLE CON MICROSOFT STORE (MSIX)
         ' =========================================================================
-        ' Creamos una carpeta de Backups dócil y libre de derechos dentro de "Mis Documentos"
+        ' Creamos una carpeta de Backups dócil dentro de "Mis Documentos"
         Dim carpetaBackupSegura As String = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ContaHogar_Backups")
 
         Try
@@ -2069,28 +2066,35 @@ Public Class Principal
                 Directory.CreateDirectory(carpetaBackupSegura)
             End If
         Catch ex As Exception
-            ' Cortafuegos por si acaso, si falla cae directamente al directorio raíz de Documentos
             carpetaBackupSegura = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
         End Try
 
-        ' Preparamos el nombre cronológico del archivo de copia de seguridad
-        Dim NombreBaseDatos As String = "ContaHogar3.0" & "[" & Now.ToString("ddMMyyyy") & "]" & "[" & Now.ToString("HHmmss") & "]" & ".mdb"
-        Dim DataBaseFile As String = vRuta
+        ' =========================================================================
+        ' 🎯 REPARADO MULTIEMPRESA: DINAMIZAMOS EL NOMBRE DEL ARCHIVO DE BACKUP
+        ' =========================================================================
+        ' Pescamos el nombre del usuario o empresa activa de la sesión (ej: "MARIA")
+        Dim perfilActivo As String = txtAvisoBdActiva.Trim().Replace(" ", "_")
+        If String.IsNullOrEmpty(perfilActivo) Then perfilActivo = "ContaHogar3.0"
+
+        ' Construimos el nombre cronológico inyectando el perfil al principio (ej: "MARIA_[16102026]_[131500].mdb")
+        Dim NombreBaseDatos As String = perfilActivo & "_" & "[" & Now.ToString("ddMMyyyy") & "]" & "[" & Now.ToString("HHmmss") & "]" & ".mdb"
+        Dim DataBaseFile As String = vRuta ' Bebe de la variable elástica que tiene el archivo del usuario actual
 
         ' Configuramos el objeto de diálogo oficial de Windows de forma elástica
         backup.InitialDirectory = carpetaBackupSegura
-        backup.Title = "Backup BD Access - ContaHogar 3.0"
+        backup.Title = "Backup BD Access - " & perfilActivo
         backup.CheckFileExists = False
         backup.CheckPathExists = True
         backup.DefaultExt = "mdb"
         backup.FileName = NombreBaseDatos
-        backup.Filter = "Access (ContaHogar*.mdb)|ContaHogar*.mdb|All files (*.*)|*.*"
+
+        ' REPARADO FILTRO: Abrimos el filtro para que admita cualquier nombre de archivo .mdb de usuario
+        backup.Filter = "Access (*.mdb)|*.mdb|All files (*.*)|*.*"
         backup.RestoreDirectory = True
 
         If backup.ShowDialog = Windows.Forms.DialogResult.OK Then
             Try
                 ' 🚀 LA JUGADA MAESTRA: Copiamos la base de datos a la ruta EXACTA elegida por el usuario
-                ' Al ser una acción explícita en el SaveFileDialog, Windows otorga inmunidad total de escritura
                 Dim FileDestinoReal As String = backup.FileName
 
                 FileCopy(DataBaseFile, FileDestinoReal)
@@ -2112,39 +2116,63 @@ Public Class Principal
             ' =========================================================================
             ' 🚀 CONFIGURACIÓN DE RUTA SEGURA COMPATIBLE CON MICROSOFT STORE (MSIX)
             ' =========================================================================
-            ' Apuntamos a la misma carpeta dócil y libre de derechos dentro de "Mis Documentos"
             Dim carpetaBackupSegura As String = IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ContaHogar_Backups")
 
-            ' Cortafuegos por si la carpeta aún no existiera en el perfil del usuario
             If Not Directory.Exists(carpetaBackupSegura) Then
                 carpetaBackupSegura = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
             End If
 
-            Dim RestoreFile As String = vRuta ' Tu ruta oficial en Mis Documentos configurada en el Load
+            Dim RestoreFile As String = vRuta ' Bebe de la variable elástica que tiene la empresa activa
 
-            ' Configuramos el objeto de diálogo de forma elástica e inmune a bloqueos
+            ' Configuramos el objeto de diálogo de forma elástica
             restore.InitialDirectory = carpetaBackupSegura
             restore.Title = rmse.GetString("RestaurarBD")
-            restore.CheckFileExists = True ' 🚀 OBLIGATORIO: El archivo debe existir de verdad para poder restaurarlo
+            restore.CheckFileExists = True
             restore.CheckPathExists = True
             restore.DefaultExt = "mdb"
-            restore.Filter = "Access (ContaHogar*.mdb)|ContaHogar*.mdb|All files (*.*)|*.*"
+
+            ' REPARADO FILTRO: Abrimos el filtro para que el usuario pueda ver cualquier backup .mdb de sus perfiles
+            restore.Filter = "Access (*.mdb)|*.mdb|All files (*.*)|*.*"
             restore.RestoreDirectory = True
 
             If restore.ShowDialog = Windows.Forms.DialogResult.OK Then
                 Try
-                    ' 🚀 LA JUGADA MAESTRA: Machacamos tu archivo de producción vRuta en Mis Documentos
-                    ' usando el archivo legítimo seleccionado por el usuario en la ventana
+                    ' =========================================================================
+                    ' 🛡️ ESCUDO DE PROTECCIÓN CRUZADA DE EMPRESAS (Seguridad Comercial)
+                    ' =========================================================================
+                    Dim nombreArchivoSeleccionado As String = IO.Path.GetFileName(restore.FileName).ToUpper()
+                    Dim perfilActivo As String = txtAvisoBdActiva.Trim().ToUpper().Replace(" ", "_")
+
+                    ' Si el archivo que va a restaurar no empieza por el nombre de su usuario activo, alertamos
+                    If Not nombreArchivoSeleccionado.StartsWith(perfilActivo) Then
+                        Dim msgAdvertencia As String = "¡ALERTA DE SEGURIDAD!" & vbCrLf & vbCrLf &
+                                                       $"Estás logueado en la empresa '{txtAvisoBdActiva.Trim()}', pero el archivo que has seleccionado parece pertenecer a otra copia ({IO.Path.GetFileName(restore.FileName)})." & vbCrLf & vbCrLf &
+                                                       "¿Estás COMPLETAMENTE SEGURO de que quieres machacar los datos actuales con esta copia de seguridad?"
+
+                        If MsgBox(msgAdvertencia, MsgBoxStyle.YesNo + MsgBoxStyle.Critical, "Aviso de Sobreescritura Cruzada") = MsgBoxResult.No Then
+                            Exit Sub ' Cancelamos el proceso de forma dócil sin romper nada
+                        End If
+                    End If
+
+                    ' =========================================================================
+                    ' 🚀 LA JUGADA MAESTRA: Cerramos grifos y machacamos de forma segura
+                    ' =========================================================================
+                    ' Forzamos el cierre de la conexión en la RAM antes de machacar el archivo físico para evitar bloqueos
+                    If conexion1 IsNot Nothing AndAlso conexion1.State = ConnectionState.Open Then
+                        conexion1.Close()
+                    End If
+
+                    ' Copiamos y machacamos el .mdb correspondiente de Mis Documentos
                     FileCopy(restore.FileName, RestoreFile)
                     MessageBox.Show(rmse.GetString("RestaurarOk"), rmse.GetString("Restaurar"), MessageBoxButtons.OK, MessageBoxIcon.Information)
 
-                    ' 1. Avisamos al usuario con un MsgBox elegante en su idioma
+                    ' 1. Avisamos al usuario con un MsgBox en su idioma
                     Dim tituloReinicio As String = resManager.GetString("ReinicioAppRestore")
                     MsgBox(resManager.GetString("MensajeReinicio"), MsgBoxStyle.Information, tituloReinicio)
 
-                    ' 2. 🚀 EL TRUCO MAESTRO: Lanzamos una nueva instancia limpia del programa 
-                    ' y cerramos la actual inmediatamente. Evita corrupciones visuales al 100%.
+                    ' 2. ¡REINICIO LIMPIO! Lanzamos una nueva instancia y cerramos la actual
                     Application.Restart()
+                    End
 
                 Catch ex As Exception
                     MsgBox(rmse.GetString("ErrorCriticoRestauracion") & ": " & ex.Message, MsgBoxStyle.Critical)

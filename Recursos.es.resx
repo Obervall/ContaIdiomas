@@ -1127,4 +1127,13 @@ a carpetas para poder usar.</value>
   <data name="Usuario" xml:space="preserve">
     <value>Usuario</value>
   </data>
+  <data name="EmpresasExistentes" xml:space="preserve">
+    <value>EMPRESAS / USUARIOS</value>
+  </data>
+  <data name="EmpresaUsuario" xml:space="preserve">
+    <value>Empresa / Usuario</value>
+  </data>
+  <data name="ErrorListarEmpresas" xml:space="preserve">
+    <value>Error Listar Empresas</value>
+  </data>
 </root>

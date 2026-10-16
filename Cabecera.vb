@@ -1,13 +1,12 @@
 ﻿Imports System.Data
 Imports System.Windows.Forms
-Imports System.Drawing
 
 Public Class Cabecera
     Private Sub Cabecera_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' 1. Rotulamos el título dinámico con tu frase exacta (ej: "2 EMPRESAS EXISTENTES")
         LblTitulo.Text = $"{vEmpresasExistentes} {resManager.GetString("EmpresasExistentes")}"
         ' Si no tienes la clave traducida todavía, puedes poner el texto fijo:
-        LblTitulo.Text = vEmpresasExistentes & " EMPRESAS / USUARIOS"
+        'LblTitulo.Text = vEmpresasExistentes & " EMPRESAS / USUARIOS"
 
         ' =========================================================================
         ' 🔒 CORTAFUEGOS ANTI-EDICIÓN Y ESTÍLO VISUAL SUAVE PREMIUM
@@ -38,7 +37,7 @@ Public Class Cabecera
                     dt.Load(dr)
                     conn.Close()
                 Catch ex As Exception
-                    MsgBox("Error al listar empresas: " & ex.Message, MsgBoxStyle.Critical)
+                    MsgBox(resManager.GetString("ErrorListarEmpresas") & ": " & ex.Message, MsgBoxStyle.Critical)
                 End Try
             End Using
         End Using
@@ -58,7 +57,7 @@ Public Class Cabecera
                                DgvUsuarios.Columns("IdUsuario").Visible = False
                                DgvUsuarios.Columns("ArchivoMdb").Visible = False
 
-                               DgvUsuarios.Columns("NombreUsuario").HeaderText = "Empresa / Usuario"
+                               DgvUsuarios.Columns("NombreUsuario").HeaderText = resManager.GetString("EmpresaUsuario")
                                DgvUsuarios.Columns("NombreUsuario").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
                            End If
 

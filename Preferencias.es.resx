@@ -222,7 +222,25 @@
   <data name="BtnCambiarEmpresa.Text" xml:space="preserve">
     <value>Cambiar Usuario</value>
   </data>
-  <data name="TraspasoDatosDinámico" xml:space="preserve">
+  <data name="TraspasoDatosDinamico" xml:space="preserve">
     <value>Traspaso de Datos Dinámico</value>
+  </data>
+  <data name="ExitoRotundo" xml:space="preserve">
+    <value>¡Usuario {0} creado y registrado con éxito!
+
+La aplicación se va a reiniciar de inmediato para cargar el nuevo perfil.</value>
+  </data>
+  <data name="ErrorGenerarUsuario" xml:space="preserve">
+    <value>Error al generar el nuevo usuario contable</value>
+  </data>
+  <data name="ErrorCambioUsuario" xml:space="preserve">
+    <value>Error al cambiar de empresa en caliente</value>
+  </data>
+  <data name="ExitoCambioUsuario" xml:space="preserve">
+    <value>Conectado con éxito a la empresa: {0}.
+Los datos se han actualizado en pantalla.</value>
+  </data>
+  <data name="CambioUsuario" xml:space="preserve">
+    <value>Cambio de Usuario</value>
   </data>
 </root>

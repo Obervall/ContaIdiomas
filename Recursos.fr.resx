@@ -1127,4 +1127,13 @@ des dossiers à utiliser.</value>
   <data name="Usuario" xml:space="preserve">
     <value>Utilisateur</value>
   </data>
+  <data name="EmpresasExistentes" xml:space="preserve">
+    <value>ENTREPRISES / UTILISATEURS</value>
+  </data>
+  <data name="EmpresaUsuario" xml:space="preserve">
+    <value>Entreprise / Utilisateur</value>
+  </data>
+  <data name="ErrorListarEmpresas" xml:space="preserve">
+    <value>Sociétés de cotation d’erreurs</value>
+  </data>
 </root>

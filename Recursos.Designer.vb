@@ -994,6 +994,24 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a EMPRESAS / USUARIOS.
+    '''</summary>
+    Friend Shared ReadOnly Property EmpresasExistentes() As String
+        Get
+            Return ResourceManager.GetString("EmpresasExistentes", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Empresa / Usuario.
+    '''</summary>
+    Friend Shared ReadOnly Property EmpresaUsuario() As String
+        Get
+            Return ResourceManager.GetString("EmpresaUsuario", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a En Curso....
     '''</summary>
     Friend Shared ReadOnly Property EnCurso() As String
@@ -1417,6 +1435,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property ErrorLimpiarTemporal() As String
         Get
             Return ResourceManager.GetString("ErrorLimpiarTemporal", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Error Listar Empresas.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorListarEmpresas() As String
+        Get
+            Return ResourceManager.GetString("ErrorListarEmpresas", resourceCulture)
         End Get
     End Property
     

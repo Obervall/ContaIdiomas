@@ -1127,4 +1127,13 @@ folders to use.</value>
   <data name="Usuario" xml:space="preserve">
     <value>User</value>
   </data>
+  <data name="EmpresasExistentes" xml:space="preserve">
+    <value>COMPANIES / USERS</value>
+  </data>
+  <data name="EmpresaUsuario" xml:space="preserve">
+    <value>Company / User</value>
+  </data>
+  <data name="ErrorListarEmpresas" xml:space="preserve">
+    <value>Error Listing Companies</value>
+  </data>
 </root>

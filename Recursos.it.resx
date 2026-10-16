@@ -1127,4 +1127,13 @@ cartelle da usare.</value>
   <data name="Usuario" xml:space="preserve">
     <value>Utente</value>
   </data>
+  <data name="EmpresasExistentes" xml:space="preserve">
+    <value>AZIENDE / UTENTI</value>
+  </data>
+  <data name="EmpresaUsuario" xml:space="preserve">
+    <value>Azienda / Utente</value>
+  </data>
+  <data name="ErrorListarEmpresas" xml:space="preserve">
+    <value>Società di inserimento di errori</value>
+  </data>
 </root>

@@ -222,7 +222,25 @@
  
 Você quer transferir e manter os conceitos e contas bancárias do atual: {0} o novo usuário {1}?</value>
   </data>
-  <data name="TraspasoDatosDinámico" xml:space="preserve">
+  <data name="TraspasoDatosDinamico" xml:space="preserve">
     <value>Transferência Dinâmica de Dados</value>
+  </data>
+  <data name="ExitoRotundo" xml:space="preserve">
+    <value>Usuário {0} criado e registrado com sucesso! 
+
+O app reiniciará imediatamente para carregar o novo perfil.</value>
+  </data>
+  <data name="ErrorGenerarUsuario" xml:space="preserve">
+    <value>Novo usuário contábil gerador de erros</value>
+  </data>
+  <data name="ErrorCambioUsuario" xml:space="preserve">
+    <value>Erro ao trocar de empresa sob o calor</value>
+  </data>
+  <data name="ExitoCambioUsuario" xml:space="preserve">
+    <value>Conectada com sucesso à empresa: {0}. 
+Os dados foram atualizados na tela.</value>
+  </data>
+  <data name="CambioUsuario" xml:space="preserve">
+    <value>Mudança do usuário</value>
   </data>
 </root>

@@ -222,7 +222,25 @@
  
 Vuoi trasferire e mantenere i concetti e i conti bancari dell'attuale: {0} il nuovo utente {1}?</value>
   </data>
-  <data name="TraspasoDatosDinámico" xml:space="preserve">
+  <data name="TraspasoDatosDinamico" xml:space="preserve">
     <value>Trasferimento Dinamico dei Dati</value>
+  </data>
+  <data name="ExitoRotundo" xml:space="preserve">
+    <value>Utente {0} creato e registrato con successo! 
+
+L'app si riavvierà immediatamente per caricare il nuovo profilo.</value>
+  </data>
+  <data name="ErrorGenerarUsuario" xml:space="preserve">
+    <value>Generatore di errori per nuovi utenti contabili</value>
+  </data>
+  <data name="ErrorCambioUsuario" xml:space="preserve">
+    <value>Errore quando si cambia azienda durante il caldo</value>
+  </data>
+  <data name="ExitoCambioUsuario" xml:space="preserve">
+    <value>Collegato con successo all'azienda: {0}. 
+I dati sono stati aggiornati sullo schermo.</value>
+  </data>
+  <data name="CambioUsuario" xml:space="preserve">
+    <value>Modifica utente</value>
   </data>
 </root>

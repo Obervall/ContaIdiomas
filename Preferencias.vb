@@ -269,14 +269,14 @@ Public Class Preferencias
                 ' 2. Recuperamos el molde de texto desde tu archivo de recursos
                 Dim plantillaMensaje As String = rmse.GetString("PreguntaTraspasoEmpresa")
 
-                ' Salvavidas por si acaso la clave no estuviera escrita todavía en el .resx
-                If String.IsNullOrEmpty(plantillaMensaje) Then
-                    plantillaMensaje = "La Nueva base de Datos se creará Vacía." & vbCrLf & vbCrLf &
-                                       "¿Deseas Traspasar y Mantener los Conceptos y las Cuentas Bancarias de la actual: {0} al Nuevo usuario {1}?"
-                End If
+				' Salvavidas por si acaso la clave no estuviera escrita todavía en el .resx
+				If String.IsNullOrEmpty(plantillaMensaje) Then
+					plantillaMensaje = "La Nueva base de Datos se creará Vacía." & vbCrLf & vbCrLf &
+									   "¿Deseas Traspasar y Mantener los Conceptos y las Cuentas Bancarias de la actual: {0} al Nuevo usuario {1}?"
+				End If
 
-                ' 3. FUSIÓN DINÁMICA: Inyectamos de forma dócil el nombre en el marcador {0}
-                Dim mensajeFinal As String = String.Format(plantillaMensaje, archivoOrigenLimpio.ToUpper, nombreNuevo.ToUpper)
+				' 3. FUSIÓN DINÁMICA: Inyectamos de forma dócil el nombre en el marcador {0} y el nombre del nuevo usuario en {1}
+				Dim mensajeFinal As String = String.Format(plantillaMensaje, archivoOrigenLimpio.ToUpper, nombreNuevo.ToUpper)
                 Dim tituloVentana As String = rmse.GetString("TraspasoDatosDinámico")
 
                 ' Invocamos tu función reina unificada
@@ -327,9 +327,23 @@ Public Class Preferencias
                 conexion1.Close()
             End If
 
-            ' 2. Avisamos al usuario del éxito rotundo
-            MsgBox("¡Usuario '" & nombreNuevo & "' creado y registrado con éxito!" & vbCrLf &
-                   "La aplicación se va a reiniciar de inmediato para cargar el nuevo perfil.", MsgBoxStyle.Information, "Nuevo Perfil Activado")
+            ' 2. Recuperamos el molde de texto desde tu archivo de recursos
+            Dim plantillaMensajeExito As String = rmse.GetString("ExitoRotundo")
+
+            ' 🎯 REPARADO: Clavamos la llave de cierre {0} correctamente en el salvavidas
+            If String.IsNullOrEmpty(plantillaMensajeExito) Then
+                plantillaMensajeExito = "¡Usuario {0} creado y registrado con éxito!" & vbCrLf &
+                                        "La aplicación se va a reiniciar de inmediato para cargar el nuevo perfil."
+            End If
+
+            ' 3. FUSIÓN DINÁMICA: Inyectamos el nombre en el marcador {0} de forma dócil
+            Dim mensajeFinalExito As String = String.Format(plantillaMensajeExito, nombreNuevo.ToUpper())
+
+            Dim tituloVentanaExito As String = rmse.GetString("TraspasoDatosDinamico")
+            If String.IsNullOrEmpty(tituloVentanaExito) Then tituloVentanaExito = "Traspaso de Datos Dinámico"
+
+            ' 4. Avisamos al usuario del éxito rotundo
+            MsgBox(mensajeFinalExito, MsgBoxStyle.Information, tituloVentanaExito)
 
             ' 3. EL TRUCO DE REINICIO DE .NET: Levanta una nueva instancia del programa en background
             Application.Restart()
@@ -338,43 +352,10 @@ Public Class Preferencias
             End
 
         Catch ex As Exception
-            MsgBox("Error al generar el nuevo usuario contable: " & ex.Message, MsgBoxStyle.Critical)
+            MsgBox(rmse.GetString("ErrorGenerarUsuario") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
     End Sub
 
-    '        ' =========================================================================
-    '        ' 🎯 5. INSCRIPCIÓN EN EL BÚNKER CENTRAL (usuarios.mdb en Documentos)
-    '        ' =========================================================================
-    '        Dim rutaUsuariosMdb As String = System.IO.Path.Combine(carpetaDB, "usuarios.mdb")
-
-    '        Using connCentral As New OleDb.OleDbConnection("Provider=Microsoft.Jet.Oledb.4.0; Data Source=" & rutaUsuariosMdb & ";")
-    '            Dim sqlInsertUsuario As String = "INSERT INTO usuarios (NombreUsuario, ArchivoMdb) VALUES (?, ?)"
-
-    '            Using cmdCentral As New OleDb.OleDbCommand(sqlInsertUsuario, connCentral)
-    '                cmdCentral.Parameters.Add("@Nombre", OleDbType.VarChar).Value = nombreNuevo
-    '                cmdCentral.Parameters.Add("@Archivo", OleDbType.VarChar).Value = nombreArchivoNuevo
-
-    '                connCentral.Open()
-    '                cmdCentral.ExecuteNonQuery()
-    '                connCentral.Close()
-    '            End Using
-    '        End Using
-
-    '        ' =========================================================================
-    '        ' 6. ASENTAMOS LOS CAMBIOS EN EL MOTOR GENERAL
-    '        ' =========================================================================
-    '        ' Actualizamos el cuadro de texto de la ubicación con la nueva ruta para que el usuario opere ya con ella
-    '        TxtBaseDatos.Text = rutaNuevaMdb
-    '        vRuta = rutaNuevaMdb
-    '        My.Settings.RutaBD = TxtBaseDatos.Text
-    '        My.Settings.Save()
-
-    '        MsgBox("¡Usuario '" & nombreNuevo & "' creado y registrado con éxito! Se ha seleccionado como tu base de datos activa.", MsgBoxStyle.Information)
-
-    '    Catch ex As Exception
-    '        MsgBox("Error al generar el nuevo usuario contable: " & ex.Message, MsgBoxStyle.Critical)
-    '    End Try
-    'End Sub
 
     Private Sub BtnCambiarEmpresa_Click(sender As Object, e As EventArgs) Handles BtnCambiarEmpresa.Click
         ' ESCUDO PREVENTIVO: Limpiamos el foco activo de Preferencias para evitar tirones en ordenadores lentos
@@ -414,13 +395,16 @@ Public Class Preferencias
             ActualizarTextosFormulario(frmPrincipal)
             ' ===============================================================
 
-            MsgBox($"Conectado con éxito a la empresa: '{nombreEmpresaNueva}'. Los datos se han actualizado en pantalla.", MsgBoxStyle.Information, "Cambio de Empresa")
+            Dim plantillaExito As String = rmse.GetString("ExitoCambioUsuario")
+            Dim mensajeExito As String = String.Format(plantillaExito, nombreEmpresaNueva.ToUpper())
+
+            MsgBox(mensajeExito, MsgBoxStyle.Information, rmse.GetString("CambioUsuario"))
 
             ' 5. Cerramos el formulario de Preferencias automáticamente para que el usuario vea su nuevo panel
             Me.Close()
 
         Catch ex As Exception
-            MsgBox("Error al cambiar de empresa en caliente: " & ex.Message, MsgBoxStyle.Critical)
+            MsgBox(rmse.GetString("ErrorCambioUsuario") & ": " & ex.Message, MsgBoxStyle.Critical)
         End Try
     End Sub
 End Class

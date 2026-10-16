@@ -222,7 +222,25 @@
  
 Möchten Sie die Konzepte und Bankkonten des aktuellen: {0} des neuen Nutzers {1} überweisen und pflegen?</value>
   </data>
-  <data name="TraspasoDatosDinámico" xml:space="preserve">
+  <data name="TraspasoDatosDinamico" xml:space="preserve">
     <value>Dynamischer Datentransfer</value>
+  </data>
+  <data name="ExitoRotundo" xml:space="preserve">
+    <value>Der Nutzer {0} erfolgreich erstellt und registriert! 
+
+Die App startet sofort neu, um das neue Profil zu laden.</value>
+  </data>
+  <data name="ErrorGenerarUsuario" xml:space="preserve">
+    <value>Fehlererzeugender neuer Buchhaltungsbenutzer</value>
+  </data>
+  <data name="ErrorCambioUsuario" xml:space="preserve">
+    <value>Fehler beim Firmenwechsel bei hitziger Hitze</value>
+  </data>
+  <data name="ExitoCambioUsuario" xml:space="preserve">
+    <value>Erfolgreich mit dem Unternehmen verbunden: {0}. 
+Die Daten wurden auf dem Bildschirm aktualisiert.</value>
+  </data>
+  <data name="CambioUsuario" xml:space="preserve">
+    <value>Benutzeränderung</value>
   </data>
 </root>

@@ -1127,4 +1127,13 @@ Ordner zum Benutzen.</value>
   <data name="Usuario" xml:space="preserve">
     <value>Nutzer</value>
   </data>
+  <data name="EmpresasExistentes" xml:space="preserve">
+    <value>UNTERNEHMEN / NUTZER</value>
+  </data>
+  <data name="EmpresaUsuario" xml:space="preserve">
+    <value>Unternehmen / Nutzer</value>
+  </data>
+  <data name="ErrorListarEmpresas" xml:space="preserve">
+    <value>Fehlernotierte Unternehmen</value>
+  </data>
 </root>

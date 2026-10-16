@@ -1127,4 +1127,13 @@ carpetes per utilitzar.</value>
   <data name="Usuario" xml:space="preserve">
     <value>Usuari</value>
   </data>
+  <data name="EmpresasExistentes" xml:space="preserve">
+    <value>EMPRESES / USUARIS</value>
+  </data>
+  <data name="EmpresaUsuario" xml:space="preserve">
+    <value>Empresa / Usuari</value>
+  </data>
+  <data name="ErrorListarEmpresas" xml:space="preserve">
+    <value>Empreses de llista d'errors</value>
+  </data>
 </root>

@@ -222,7 +222,25 @@
  
 Souhaitez-vous transférer et maintenir les concepts et comptes bancaires de l’utilisateur actuel : {0} le nouvel utilisateur {1} ?</value>
   </data>
-  <data name="TraspasoDatosDinámico" xml:space="preserve">
+  <data name="TraspasoDatosDinamico" xml:space="preserve">
     <value>Transfert dynamique de données</value>
+  </data>
+  <data name="ExitoRotundo" xml:space="preserve">
+    <value>L’utilisateur {0} créé et enregistré avec succès ! 
+
+L’application redémarrera immédiatement pour charger le nouveau profil.</value>
+  </data>
+  <data name="ErrorGenerarUsuario" xml:space="preserve">
+    <value>Nouvel utilisateur comptable générant des erreurs</value>
+  </data>
+  <data name="ErrorCambioUsuario" xml:space="preserve">
+    <value>Erreur lors du changement de compagnie sous la chaleur</value>
+  </data>
+  <data name="ExitoCambioUsuario" xml:space="preserve">
+    <value>Connecté avec succès à l’entreprise : {0}. 
+Les données ont été mises à jour à l’écran.</value>
+  </data>
+  <data name="CambioUsuario" xml:space="preserve">
+    <value>Changement utilisateur</value>
   </data>
 </root>

@@ -1127,4 +1127,13 @@ pastas para usar.</value>
   <data name="Usuario" xml:space="preserve">
     <value>Utilizador</value>
   </data>
+  <data name="EmpresasExistentes" xml:space="preserve">
+    <value>EMPRESAS / UTILIZADORES</value>
+  </data>
+  <data name="EmpresaUsuario" xml:space="preserve">
+    <value>Empresa / Utilizador</value>
+  </data>
+  <data name="ErrorListarEmpresas" xml:space="preserve">
+    <value>Empresas de Listagem de Erros</value>
+  </data>
 </root>

@@ -222,7 +222,25 @@
  
 Vols transferir i mantenir els conceptes i comptes bancaris de l'actual: {0} el nou usuari {1}?</value>
   </data>
-  <data name="TraspasoDatosDinámico" xml:space="preserve">
+  <data name="TraspasoDatosDinamico" xml:space="preserve">
     <value>Transferència dinàmica de dades</value>
+  </data>
+  <data name="ExitoRotundo" xml:space="preserve">
+    <value>L'usuari {0} creat i registrat amb èxit! 
+
+L'aplicació es reiniciarà immediatament per carregar el nou perfil.</value>
+  </data>
+  <data name="ErrorGenerarUsuario" xml:space="preserve">
+    <value>Generador d'errors de l'usuari comptable nou</value>
+  </data>
+  <data name="ErrorCambioUsuario" xml:space="preserve">
+    <value>Error en canviar d'empresa sota la calor</value>
+  </data>
+  <data name="ExitoCambioUsuario" xml:space="preserve">
+    <value>Connectat amb èxit a l'empresa: {0}. 
+Les dades s'han actualitzat a la pantalla.</value>
+  </data>
+  <data name="CambioUsuario" xml:space="preserve">
+    <value>Canvi d'usuari</value>
   </data>
 </root>

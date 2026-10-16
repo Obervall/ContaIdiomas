@@ -122,49 +122,49 @@
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="ArchivoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 27</value>
+    <value>59, 24</value>
   </data>
   <data name="ArchivoToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Inicio</value>
   </data>
   <data name="VerToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 27</value>
+    <value>44, 24</value>
   </data>
   <data name="VerToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Ver</value>
   </data>
   <data name="MantenimientosToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 27</value>
+    <value>130, 24</value>
   </data>
   <data name="MantenimientosToolStripMenuItem.Text" xml:space="preserve">
     <value>Mantenimientos</value>
   </data>
   <data name="ApuntesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>77, 27</value>
+    <value>77, 24</value>
   </data>
   <data name="ApuntesToolStripMenuItem.Text" xml:space="preserve">
     <value>Apuntes</value>
   </data>
   <data name="PresupuestosToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 27</value>
+    <value>109, 24</value>
   </data>
   <data name="PresupuestosToolStripMenuItem.Text" xml:space="preserve">
     <value>Presupuestos</value>
   </data>
   <data name="InformesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>81, 27</value>
+    <value>81, 24</value>
   </data>
   <data name="InformesToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Informes</value>
   </data>
   <data name="HerramientasToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>112, 27</value>
+    <value>112, 24</value>
   </data>
   <data name="HerramientasToolStripMenuItem.Text" xml:space="preserve">
     <value>Herramientas</value>
   </data>
   <data name="AyudaToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 27</value>
+    <value>65, 24</value>
   </data>
   <data name="AyudaToolStripMenuItem.Text" xml:space="preserve">
     <value>Ayuda</value>
@@ -195,7 +195,7 @@
     <value>0, 0</value>
   </data>
   <data name="BarraDeMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1225, 28</value>
+    <value>1225, 30</value>
   </data>
   <data name="BarraDeMenu.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -883,7 +883,7 @@
   <data name="ValorarToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAeCAYAAABNChwpAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        DwAACw8BkvkDpQAABY9JREFUWEfFl3lMk3cch82WbMuyuT/myeaFRhAPPGCKYtzQbInLrnjMxJhpoplz
+        DgAACw4BQL7hQQAABY9JREFUWEfFl3lMk3cch82WbMuyuT/myeaFRhAPPGCKYtzQbInLrnjMxJhpoplz
         c0NFQQfTGTfPMA82Jgi4CFLxQAUqBFBQBAFBigoFwcpR6E1boKVU3mcpOpK+KEX8Y0/yps37/byf35P3
         fZv8Ooj/mUHiEy9Kh7FCfOqFeCkBq1lN8/UlQLt41G9eSkB99yx154eCNVc86jcvJSBPXkV9shuod4hH
         /WbAAjZzLaWRHjRKp0PtQgSbShzpFwMW0JUf5fbhkSjTPwD5DOyqBHGkXwxMQLBTn7qYkojxKNN9odqP
@@ -1603,11 +1603,8 @@
   <data name="BtnEstrella.Size" type="System.Drawing.Size, System.Drawing">
     <value>34, 34</value>
   </data>
-  <data name="BtnEstrella.Text" xml:space="preserve">
-    <value>BtnEstrella</value>
-  </data>
   <data name="BtnEstrella.ToolTipText" xml:space="preserve">
-    <value>Valorar ContaHogar 3.0 Premium</value>
+    <value>Valorar con Estrellas ContaHogar 3.0 Premium</value>
   </data>
   <data name="ToolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
     <value>6, 37</value>
@@ -1645,7 +1642,7 @@
     <value>7, 30</value>
   </data>
   <data name="BarraDeHerramientas.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 28</value>
+    <value>0, 30</value>
   </data>
   <data name="BarraDeHerramientas.Size" type="System.Drawing.Size, System.Drawing">
     <value>1225, 37</value>

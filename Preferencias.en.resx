@@ -222,7 +222,25 @@
  
 Do you want to Transfer and Maintain the Concepts and Bank Accounts of the current: {0} the New User {1}?</value>
   </data>
-  <data name="TraspasoDatosDinámico" xml:space="preserve">
+  <data name="TraspasoDatosDinamico" xml:space="preserve">
     <value>Dynamic Data Transfer</value>
+  </data>
+  <data name="ExitoRotundo" xml:space="preserve">
+    <value>User {0} successfully created and registered! 
+
+The app will restart immediately to load the new profile.</value>
+  </data>
+  <data name="ErrorGenerarUsuario" xml:space="preserve">
+    <value>Error Generating New Accounting User</value>
+  </data>
+  <data name="ErrorCambioUsuario" xml:space="preserve">
+    <value>Error when changing companies in the heat</value>
+  </data>
+  <data name="ExitoCambioUsuario" xml:space="preserve">
+    <value>Successfully connected to the company: {0}. 
+The data has been updated on the screen.</value>
+  </data>
+  <data name="CambioUsuario" xml:space="preserve">
+    <value>User Change</value>
   </data>
 </root>
