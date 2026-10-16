@@ -782,3 +782,4 @@ C:\ComptaLlar\Hogar\obj\Release\ContaHog.276DA8AC.Up2Date
 C:\ComptaLlar\Hogar\obj\Release\ContaHogar3.0.exe
 C:\ComptaLlar\Hogar\obj\Release\ContaHogar3.0.pdb
 C:\ComptaLlar\Hogar\obj\Release\ContaHogar.Cabecera.resources
+C:\ComptaLlar\Hogar\bin\Release\Usuarios.mdb

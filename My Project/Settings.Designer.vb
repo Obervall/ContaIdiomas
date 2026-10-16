@@ -351,6 +351,18 @@ Namespace My
                 Me("FormAlturaPeriodicos") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property UltimaVersionEjecutada() As String
+            Get
+                Return CType(Me("UltimaVersionEjecutada"),String)
+            End Get
+            Set
+                Me("UltimaVersionEjecutada") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

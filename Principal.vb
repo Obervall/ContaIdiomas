@@ -233,12 +233,29 @@ Public Class Principal
         ActualizarTextosFormulario(Me)
         RefrescarMenus()
 
-        ' El instalador actualiza los archivos, pero este código migra las preferencias
+        ' =========================================================================
+        ' 🛡️ RADAR DE DETECCIÓN DE ACTUALIZACIONES UNIVERSAL (MSI, MSIX y Debug)
+        ' =========================================================================
+        ' 1. El estándar nativo de .NET para recuperar configuraciones previas de la Store
         If My.Settings.UpgradeRequired Then
             My.Settings.Upgrade()
             My.Settings.UpgradeRequired = False
             My.Settings.Save()
+        End If
+
+        ' 2. ¡EL ESCUDO COMPLEMENTARIO PARA EL MSI!
+        ' Comparamos la versión guardada en el disco contra la versión actual de esta compilación
+        Dim versionActualCompilacion As String = My.Settings.Version.Trim()
+		Dim versionGuardadaEnDisco As String = My.Settings.UltimaVersionEjecutada.Trim()
+        'MsgBox("Versión actual de compilación: " & versionActualCompilacion & vbCrLf &
+        '       "Versión guardada en disco: " & versionGuardadaEnDisco, MsgBoxStyle.Information, "Depuración de versiones")
+        If versionGuardadaEnDisco <> versionActualCompilacion Then
+            ' ¡ALERTA DE ACTUALIZACIÓN DETECTADA! Da igual si viene de la Store o de un instalador .msi
             seHaActualizadoLaApp = True
+
+            ' Asentamos la nueva versión en los settings para que no vuelva a saltar en el próximo arranque
+            My.Settings.UltimaVersionEjecutada = versionActualCompilacion
+            My.Settings.Save()
         End If
 
         My.Settings.Version = "3.4.5"
