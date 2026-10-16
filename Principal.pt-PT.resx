@@ -696,4 +696,19 @@ Se precisares de fazer mais registos, podes dar o salto
   <data name="BtnStore.Text" xml:space="preserve">
     <value>Versão Premium</value>
   </data>
+  <data name="HistorialDeVersionesToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Histórico de Versões</value>
+  </data>
+  <data name="ValorarToolStripMenuItem.Text" xml:space="preserve">
+    <value>Análise do ContaHogar 3.0 Premium</value>
+  </data>
+  <data name="ValorarToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Análise do ContaHogar 3.0 Premium</value>
+  </data>
+  <data name="ImportaAntiguoContahogarToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Importa Base Datos Antiguo Contahogar</value>
+  </data>
+  <data name="BtnEstrella.ToolTipText" xml:space="preserve">
+    <value>Tarifa com ContaHogar 3.0 Estrelas Premium</value>
+  </data>
 </root>

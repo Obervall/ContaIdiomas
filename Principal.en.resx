@@ -8018,4 +8018,19 @@ to the premium version at any time.</value>
   <data name="BtnStore.Text" xml:space="preserve">
     <value>Premium Version</value>
   </data>
+  <data name="HistorialDeVersionesToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Version History</value>
+  </data>
+  <data name="ValorarToolStripMenuItem.Text" xml:space="preserve">
+    <value>Review ContaHogar 3.0 Premium</value>
+  </data>
+  <data name="ValorarToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Review ContaHogar 3.0 Premium</value>
+  </data>
+  <data name="ImportaAntiguoContahogarToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Import Old Contahogar Database</value>
+  </data>
+  <data name="BtnEstrella.ToolTipText" xml:space="preserve">
+    <value>Rate with ContaHogar 3.0 Premium Stars</value>
+  </data>
 </root>

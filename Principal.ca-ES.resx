@@ -695,4 +695,19 @@ a la versió premium en qualsevol moment.</value>
   <data name="BtnStore.Text" xml:space="preserve">
     <value>Versió Premium</value>
   </data>
+  <data name="HistorialDeVersionesToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Historial de Versions</value>
+  </data>
+  <data name="ValorarToolStripMenuItem.Text" xml:space="preserve">
+    <value>Ressenya de ContaHogar 3.0 Premium</value>
+  </data>
+  <data name="ValorarToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Ressenya de ContaHogar 3.0 Premium</value>
+  </data>
+  <data name="ImportaAntiguoContahogarToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Importa Base Dades Antic Contahogar</value>
+  </data>
+  <data name="BtnEstrella.ToolTipText" xml:space="preserve">
+    <value>Tarifa amb ContaHogar 3.0 Premium Stars</value>
+  </data>
 </root>

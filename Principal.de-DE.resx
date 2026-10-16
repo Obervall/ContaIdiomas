@@ -695,4 +695,19 @@ jederzeit auf die Premium-Version.</value>
   <data name="BtnStore.Text" xml:space="preserve">
     <value>Premium-Version</value>
   </data>
+  <data name="HistorialDeVersionesToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Versionsverlauf</value>
+  </data>
+  <data name="ValorarToolStripMenuItem.Text" xml:space="preserve">
+    <value>Bewertung von ContaHogar 3.0 Premium</value>
+  </data>
+  <data name="ValorarToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Bewertung von ContaHogar 3.0 Premium</value>
+  </data>
+  <data name="ImportaAntiguoContahogarToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Alte Contahogar-Datenbank importieren</value>
+  </data>
+  <data name="BtnEstrella.ToolTipText" xml:space="preserve">
+    <value>Bewertung mit ContaHogar 3.0 Premium Stars</value>
+  </data>
 </root>

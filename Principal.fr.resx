@@ -8033,4 +8033,19 @@ Si vous devez faire plus d’inscriptions, vous pouvez sauter le pas
   <data name="BtnStore.Text" xml:space="preserve">
     <value>Premium Version</value>
   </data>
+  <data name="HistorialDeVersionesToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Historique des versions</value>
+  </data>
+  <data name="ValorarToolStripMenuItem.Text" xml:space="preserve">
+    <value>Critique de ContaHogar 3.0 Premium</value>
+  </data>
+  <data name="ValorarToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Critique de ContaHogar 3.0 Premium</value>
+  </data>
+  <data name="ImportaAntiguoContahogarToolStripMenuItem.ToolTipText" xml:space="preserve">
+    <value>Importer l’ancienne base de données Contahogar</value>
+  </data>
+  <data name="BtnEstrella.ToolTipText" xml:space="preserve">
+    <value>Tarif avec ContaHogar 3.0 Premium Stars</value>
+  </data>
 </root>

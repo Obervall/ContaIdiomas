@@ -502,6 +502,9 @@ Public Class Principal
             My.Settings.Save()
 
             Conectarse("AccessMdb")
+            Dim nombreFila As String = System.IO.Path.GetFileNameWithoutExtension(vRuta)
+            If nombreFila.ToLower() = "contahogar" Then nombreFila = "Admin"
+            txtAvisoBdActiva = nombreFila.ToUpper()
         Else
             ' CASO 2: Multiempresa Premium. Abrimos el selector estilo GesFácil
             vEmpresasExistentes = cuentaEmpresas ' Pasamos el número a la variable global de tu título
@@ -515,8 +518,8 @@ Public Class Principal
             txtAvisoBdActiva = nombreFila.ToUpper()
 
             Conectarse("AccessMdb")
-            Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
         End If
+        Me.TsLabelFormulario.Text = resManager.GetString("Usuario") & ": " & txtAvisoBdActiva.Trim() & " " & rmse.GetString("MsgEspera")
 
         ' =========================================================================
         ' 🎯 5. SIEMBRA O ACTUALIZACIÓN AUTOMÁTICA DE MANUALES Y HISTORIAL (MSIX)

@@ -5,8 +5,6 @@ Public Class Cabecera
     Private Sub Cabecera_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' 1. Rotulamos el título dinámico con tu frase exacta (ej: "2 EMPRESAS EXISTENTES")
         LblTitulo.Text = $"{vEmpresasExistentes} {resManager.GetString("EmpresasExistentes")}"
-        ' Si no tienes la clave traducida todavía, puedes poner el texto fijo:
-        'LblTitulo.Text = vEmpresasExistentes & " EMPRESAS / USUARIOS"
 
         ' =========================================================================
         ' 🔒 CORTAFUEGOS ANTI-EDICIÓN Y ESTÍLO VISUAL SUAVE PREMIUM
