@@ -165,9 +165,6 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Einstieg mit Excel Banking</value>
   </data>
-  <data name="SelecConcepto" xml:space="preserve">
-    <value>Wählen Sie das Konzept aus</value>
-  </data>
   <data name="ErrorLlenarDesplegable" xml:space="preserve">
     <value>Fehler beim Ausfüllen des Dropdown-Menüs.
 Fehler</value>

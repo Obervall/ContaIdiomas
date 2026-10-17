@@ -1136,4 +1136,30 @@ folders to use.</value>
   <data name="ErrorListarEmpresas" xml:space="preserve">
     <value>Error Listing Companies</value>
   </data>
+  <data name="SelecConcepto" xml:space="preserve">
+    <value>Select the Concept</value>
+  </data>
+  <data name="EstaCuentaPreferida" xml:space="preserve">
+    <value>This Account - {0} - will be set as the Default
+and the first one will appear in all the drop-downs of the program.</value>
+  </data>
+  <data name="CuentaPredeterminadaF3" xml:space="preserve">
+    <value>Default Account (F3)</value>
+  </data>
+  <data name="ErrorGuardarPredeterminada" xml:space="preserve">
+    <value>Error saving Default Account</value>
+  </data>
+  <data name="CuentaEstablecida" xml:space="preserve">
+    <value>Account - {0} - set correctly
+as Default with the F3 key.</value>
+  </data>
+  <data name="ExitoEstablecidaF3" xml:space="preserve">
+    <value>Established Account (F3)</value>
+  </data>
+  <data name="LblAyudaPredeterminada" xml:space="preserve">
+    <value>Press F3 on Selected Account to Set as Default. Currently it is : {0}</value>
+  </data>
+  <data name="NINGUNA" xml:space="preserve">
+    <value>NONE</value>
+  </data>
 </root>

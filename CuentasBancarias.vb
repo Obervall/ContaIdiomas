@@ -45,7 +45,9 @@ Public Class CuentasBancarias
         TL(13) = New ToolTip
         TL(13).SetToolTip(Me.BtnUltimo, resManager.GetString("ToolTipUltimo"))
         TL(14) = New ToolTip
-        TL(14).SetToolTip(Me.BtnF6, resManager.GetString("ToolTipF6"))
+		TL(14).SetToolTip(Me.BtnF6, resManager.GetString("ToolTipF6"))
+
+        TxtLabelAyuda()  'Pinta el label de ayuda F3 en la parte superior del dgvCuentas
 
         ' Añade una línea por cada GroupBox donde tengas estos botones:
         AddHandler Me.GroupBox3.MouseMove, AddressOf VerificarFiltrosDesactivados
@@ -511,6 +513,82 @@ Public Class CuentasBancarias
             BtnFiltroTipoCuenta.Enabled = True
             BtnSinFiltroTipoCuenta.Enabled = False
         End If
+
+        If e.KeyCode = Keys.F3 Then
+            e.Handled = True
+            e.SuppressKeyPress = True
+
+            ' Validamos que haya una fila seleccionada real
+            If DgvCuentas.CurrentRow IsNot Nothing AndAlso DgvCuentas.Rows.Count > 0 Then
+
+                ' Pescamos el nombre de la cuenta usando el índice original seguro (Celda 1 = NombreCUE)
+                Dim nombreCuenta As String = DgvCuentas.CurrentRow.Cells(1).Value.ToString().Trim()
+
+                ' 2. Recuperamos el molde de texto desde tu archivo de recursos
+                Dim plantillaMensajeCuenta As String = resManager.GetString("EstaCuentaPreferida")
+
+                ' 🎯 REPARADO: Clavamos la llave de cierre {0} correctamente en el salvavidas & vbCrLf &
+                If String.IsNullOrEmpty(plantillaMensajeCuenta) Then
+                    plantillaMensajeCuenta = "Esta Cuenta - {0} - será configurada como la Predeterminada" & vbCrLf &
+                                             "y saldrá la primera en todos los desplegables del programa."
+                End If
+
+                ' 3. FUSIÓN DINÁMICA: Inyectamos el nombre en el marcador {0} de forma dócil
+                Dim mensajeFinalExito As String = String.Format(plantillaMensajeCuenta, nombreCuenta.ToUpper())
+
+                Dim tituloVentanaCuentaPredeterminada As String = resManager.GetString("CuentaPredeterminadaF3")
+                If String.IsNullOrEmpty(tituloVentanaCuentaPredeterminada) Then tituloVentanaCuentaPredeterminada = "Cuenta Predeterminada (F3)"
+
+                ' 4. Avisamos al usuario
+                MsgBox(mensajeFinalExito, MsgBoxStyle.Information, tituloVentanaCuentaPredeterminada)
+
+                ' =========================================================================
+                ' 🚀 ASENTAMOS LA PREFERIDA EN "CONCEPTOSLINEAS" (Blindado contra Nulls)
+                ' =========================================================================
+                Try
+                    Using cmdFav As New OleDb.OleDbCommand()
+                        cmdFav.Connection = conexion1
+                        If conexion1.State = ConnectionState.Closed Then conexion1.Open()
+
+                        ' 1. Vaciamos la tabla de control conceptoslineas (Como siempre)
+                        cmdFav.CommandText = "DELETE FROM conceptoslineas"
+                        cmdFav.ExecuteNonQuery()
+
+                        ' 2. 🎯 REPARADO: Sembramos el registro inyectando un valor en 'ReferenciaCONL'
+                        ' Añadimos la tercera columna y le pasamos un parámetro de texto vacío para burlar el 'Required = True'
+                        cmdFav.CommandText = "INSERT INTO conceptoslineas (ConceptoCONL, CuentaCONL, ReferenciaCONL) VALUES ('FAVORITA', ?, '-')"
+                        cmdFav.Parameters.Clear()
+                        cmdFav.Parameters.Add("@cta", OleDbType.VarChar).Value = nombreCuenta
+                        cmdFav.ExecuteNonQuery()
+                    End Using
+
+                    ' 2. Recuperamos el molde de texto desde tu archivo de recursos
+                    Dim plantillaMensajeCuentaEstablecida As String = resManager.GetString("CuentaEstablecida")
+
+                    ' 🎯 REPARADO: Clavamos la llave de cierre {0} correctamente en el salvavidas & vbCrLf &
+                    If String.IsNullOrEmpty(plantillaMensajeCuentaEstablecida) Then
+                        plantillaMensajeCuentaEstablecida = "Cuenta - {0} - establecida correctamente" & vbCrLf &
+                                             "como Predeterminada con la tecla F3."
+                    End If
+
+                    ' 3. FUSIÓN DINÁMICA: Inyectamos el nombre en el marcador {0} de forma dócil
+                    Dim mensajeFinalEstablecida As String = String.Format(plantillaMensajeCuentaEstablecida, nombreCuenta.ToUpper())
+
+                    Dim tituloVentanaCuentaEstablecida As String = resManager.GetString("ExitoEstablecidaF3")
+                    If String.IsNullOrEmpty(tituloVentanaCuentaEstablecida) Then tituloVentanaCuentaEstablecida = "Cuenta Establecida (F3)"
+
+                    ' 4. Avisamos al usuario
+                    MsgBox(mensajeFinalEstablecida, MsgBoxStyle.Information, tituloVentanaCuentaEstablecida)
+
+                    ' Refrescamos la rejilla y el label de ayuda instantáneamente en el monitor
+                    TxtLabelAyuda()
+
+                Catch ex As Exception
+                    MsgBox(resManager.GetString("ErrorGuardarPredeterminada") & ": " & ex.Message, MsgBoxStyle.Critical)
+                End Try
+            End If
+        End If
+
     End Sub
 
     Private Sub DgvCuentas_DoubleClick(sender As Object, e As EventArgs) Handles DgvCuentas.DoubleClick
@@ -848,6 +926,39 @@ Public Class CuentasBancarias
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information)
         End If
+    End Sub
+
+    Private Sub TxtLabelAyuda()
+
+        ' =========================================================================
+        ' 🎯 ROTULACIÓN DINÁMICA DE LA AYUDA PREDETERMINADA (Toque Premium F3)
+        ' =========================================================================
+        Dim cuentaFavoritaActual As String = ""
+
+        ' 1. Interrogamos al búnker conceptoslineas para rescatar el nombre de la favorita real
+        cmdMdb1cr.CommandText = "SELECT CuentaCONL FROM conceptoslineas WHERE ConceptoCONL = 'FAVORITA'"
+        Try
+            cuentaFavoritaActual = Convert.ToString(cmdMdb1cr.ExecuteScalar()).Trim()
+        Catch
+            cuentaFavoritaActual = ""
+        End Try
+
+        ' 2. Recuperamos el molde traducido desde tu archivo de recursos .resx
+        Dim plantillaAyuda As String = resManager.GetString("LblAyudaPredeterminada")
+
+        ' Salvavidas por si acaso la clave no se hubiera actualizado todavía en el .resx
+        If String.IsNullOrEmpty(plantillaAyuda) Then
+            plantillaAyuda = "F3: Establecer Cuenta como Predeterminada. Actualmente es: {0}"
+        End If
+
+        ' 3. FUSIÓN DINÁMICA: Si no hay ninguna favorita en la BD, ponemos un aviso dócil
+        If String.IsNullOrEmpty(cuentaFavoritaActual) Then
+            ' Puedes meter esta palabra también en el .resx si lo deseas
+            cuentaFavoritaActual = resManager.GetString("NINGUNA")
+        End If
+
+        ' Machacamos el comodín {0} con el nombre de la cuenta corriente real en la RAM
+        Me.LblAyudaPredeterminada.Text = String.Format(plantillaAyuda, cuentaFavoritaActual)
     End Sub
 
 End Class

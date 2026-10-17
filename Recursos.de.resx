@@ -1136,4 +1136,30 @@ Ordner zum Benutzen.</value>
   <data name="ErrorListarEmpresas" xml:space="preserve">
     <value>Fehlernotierte Unternehmen</value>
   </data>
+  <data name="SelecConcepto" xml:space="preserve">
+    <value>Wählen Sie das Konzept aus</value>
+  </data>
+  <data name="EstaCuentaPreferida" xml:space="preserve">
+    <value>Dieses Konto – {0} – wird als Standard gesetzt
+und die erste erscheint in allen Dropdown-Menüs des Programms.</value>
+  </data>
+  <data name="CuentaPredeterminadaF3" xml:space="preserve">
+    <value>Standardkonto (F3)</value>
+  </data>
+  <data name="ErrorGuardarPredeterminada" xml:space="preserve">
+    <value>Fehler Speichert Standardkonto</value>
+  </data>
+  <data name="CuentaEstablecida" xml:space="preserve">
+    <value>Konto – {0} – korrekt eingestellt
+als Standard mit der F3-Taste.</value>
+  </data>
+  <data name="ExitoEstablecidaF3" xml:space="preserve">
+    <value>Eingerichtetes Konto (F3)</value>
+  </data>
+  <data name="LblAyudaPredeterminada" xml:space="preserve">
+    <value>Drücke F3 auf ausgewähltem Konto, um es als Standard zu setzen. Derzeit ist es: {0}</value>
+  </data>
+  <data name="NINGUNA" xml:space="preserve">
+    <value>KEINE</value>
+  </data>
 </root>

@@ -1136,4 +1136,30 @@ carpetes per utilitzar.</value>
   <data name="ErrorListarEmpresas" xml:space="preserve">
     <value>Empreses de llista d'errors</value>
   </data>
+  <data name="SelecConcepto" xml:space="preserve">
+    <value>Seleccionar el Concepte</value>
+  </data>
+  <data name="EstaCuentaPreferida" xml:space="preserve">
+    <value>Aquest Compte - {0} - es definirà com a Predeterminada
+i el primer apareixerà en tots els desplegables del programa.</value>
+  </data>
+  <data name="CuentaPredeterminadaF3" xml:space="preserve">
+    <value>Compte per defecte (F3)</value>
+  </data>
+  <data name="ErrorGuardarPredeterminada" xml:space="preserve">
+    <value>Desar errors Compte per defecte</value>
+  </data>
+  <data name="CuentaEstablecida" xml:space="preserve">
+    <value>Compte - {0} - configurat correctament
+com a Default amb la tecla F3.</value>
+  </data>
+  <data name="ExitoEstablecidaF3" xml:space="preserve">
+    <value>Compte establert (F3)</value>
+  </data>
+  <data name="LblAyudaPredeterminada" xml:space="preserve">
+    <value>Prem F3 al compte seleccionat per configurar-lo com a predeterminat. Actualment és: {0}</value>
+  </data>
+  <data name="NINGUNA" xml:space="preserve">
+    <value>CAP</value>
+  </data>
 </root>

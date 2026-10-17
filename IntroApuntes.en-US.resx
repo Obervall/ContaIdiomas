@@ -165,9 +165,6 @@
   <data name="NoCantidadImporte" xml:space="preserve">
     <value>No Amount</value>
   </data>
-  <data name="SelecConcepto" xml:space="preserve">
-    <value>Select the Concept</value>
-  </data>
   <data name="ErrorLlenarDesplegable" xml:space="preserve">
     <value>Error filling out the drop-down.
 Error</value>

@@ -151,9 +151,6 @@ Error</value>
   <data name="LblBuscarLetras.Text" xml:space="preserve">
     <value>Search Description:</value>
   </data>
-  <data name="SelecConcepto" xml:space="preserve">
-    <value>Select the Concept</value>
-  </data>
   <data name="SelecDescripcion" xml:space="preserve">
     <value>Select Description or Type to Search (3 min)</value>
   </data>

@@ -1136,4 +1136,30 @@ pastas para usar.</value>
   <data name="ErrorListarEmpresas" xml:space="preserve">
     <value>Empresas de Listagem de Erros</value>
   </data>
+  <data name="SelecConcepto" xml:space="preserve">
+    <value>Selecione o Conceito</value>
+  </data>
+  <data name="EstaCuentaPreferida" xml:space="preserve">
+    <value>Esta Conta - {0} - será definida como o padrão
+e o primeiro aparecerá em todos os menus suspensos do programa.</value>
+  </data>
+  <data name="CuentaPredeterminadaF3" xml:space="preserve">
+    <value>Conta Padrão (F3)</value>
+  </data>
+  <data name="ErrorGuardarPredeterminada" xml:space="preserve">
+    <value>Salvamento de erro Conta padrão</value>
+  </data>
+  <data name="CuentaEstablecida" xml:space="preserve">
+    <value>Conta - {0} - configurada corretamente
+como padrão com a tecla F3.</value>
+  </data>
+  <data name="ExitoEstablecidaF3" xml:space="preserve">
+    <value>Conta Estabelecida (F3)</value>
+  </data>
+  <data name="LblAyudaPredeterminada" xml:space="preserve">
+    <value>Pressione F3 na conta selecionada para definir como padrão. Atualmente é : {0}</value>
+  </data>
+  <data name="NINGUNA" xml:space="preserve">
+    <value>NENHUM</value>
+  </data>
 </root>

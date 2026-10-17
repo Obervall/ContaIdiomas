@@ -64,9 +64,9 @@ Public Class IntroApuntesPeriodicos
         TL(3) = New ToolTip
         TL(3).SetToolTip(Me.BtnCancelar, resManager.GetString("ToolTipCancelar"))
         TL(4) = New ToolTip
-        TL(4).SetToolTip(Me.CmbConcepto, frmIntroApuntes.rmse.GetString("SelecConcepto"))
+        TL(4).SetToolTip(Me.CmbConcepto, resManager.GetString("SelecConcepto"))
         TL(5) = New ToolTip
-        TL(5).SetToolTip(Me.CmbCuenta, frmIntroApuntes.rmse.GetString("SelecCuenta"))
+        TL(5).SetToolTip(Me.CmbCuenta, resManager.GetString("SelecCuenta"))
         TL(6) = New ToolTip
         TL(6).SetToolTip(Me.TxtBuscarLetras, resManager.GetString("TxtABuscar"))
         TL(7) = New ToolTip
@@ -657,7 +657,22 @@ Public Class IntroApuntesPeriodicos
     Public Sub LlenarComboCuentasPeriodicos(ByVal combo As ComboBox)
         If combo Is Nothing Then Exit Sub
 
-        cmdMdb1cr.CommandText = "SELECT IdCuentaCUE, NombreCUE FROM cuentas"
+        ' =========================================================================
+        ' 🎯 CONSULTA DE UNIÓN PRIORITARIA PARA APUNTES PERIÓDICOS (Orden Virtual)
+        ' =========================================================================
+        ' Bloque 1: Selecciona la cuenta favorita de conceptoslineas (Orden = 1)
+        ' Bloque 2: Selecciona todas las demás cuentas de la aplicación (Orden = 2)
+        ' Al final, ordenamos rígidamente por Orden ASC y luego por el Nombre nativo ASC
+        cmdMdb1cr.CommandText =
+            "SELECT 1 As Orden, cuentas.IdCuentaCUE, cuentas.NombreCUE " &
+            "FROM cuentas " &
+            "INNER JOIN conceptoslineas ON cuentas.NombreCUE = conceptoslineas.CuentaCONL " &
+            "WHERE conceptoslineas.ConceptoCONL = 'FAVORITA' " &
+            "UNION " &
+            "SELECT 2 As Orden, cuentas.IdCuentaCUE, cuentas.NombreCUE " &
+            "FROM cuentas " &
+            "WHERE cuentas.NombreCUE NOT IN (SELECT CuentaCONL FROM conceptoslineas WHERE ConceptoCONL = 'FAVORITA') " &
+            "ORDER BY Orden ASC, NombreCUE ASC"
 
         Dim dtCuentas As New DataTable()
         Try
@@ -665,8 +680,10 @@ Public Class IntroApuntesPeriodicos
                 dtCuentas.Load(dr)
             End Using
 
+            ' Creamos la columna virtual para el texto traducido que verá el usuario
             dtCuentas.Columns.Add("TextoComboCUE", GetType(String))
 
+            ' Recorremos las filas para aplicar tus traducciones desde el archivo de recursos .resx
             For Each fila As DataRow In dtCuentas.Rows
                 Dim nombreOriginal As String = fila("NombreCUE").ToString().Trim()
                 Dim textoFinal As String = nombreOriginal
@@ -679,15 +696,22 @@ Public Class IntroApuntesPeriodicos
                 fila("TextoComboCUE") = textoFinal
             Next
 
-            ' Ordenamos alfabéticamente por la traducción en la memoria RAM
-            dtCuentas.DefaultView.Sort = "TextoComboCUE ASC"
+            ' =========================================================================
+            ' 🎛️ ORDENACIÓN HÍBRIDA EN MEMORIA RAM
+            ' =========================================================================
+            ' Modificamos tu Sort para que respete rígidamente el Orden numérico de prioridad (1 y 2) 
+            ' y luego organice alfabéticamente por los literales traducidos que ve el usuario.
+            dtCuentas.DefaultView.Sort = "Orden ASC, TextoComboCUE ASC"
 
+            ' =========================================================================
+            ' 🚀 VINCULACIÓN AL COMBOBOX (Estructura original intacta)
+            ' =========================================================================
             combo.DataSource = Nothing
             combo.ValueMember = "IdCuentaCUE"
             combo.DisplayMember = "TextoComboCUE"
             combo.DataSource = dtCuentas.DefaultView
 
-            ' Sincronización inteligente con la pantalla de atrás si venía filtrado
+            ' Sincronización inteligente con la pantalla de atrás si venía filtrado (Tu lógica exacta)
             If frmApuntesPeriodicos.BtnFiltroCuenta.Enabled = False Then
                 combo.SelectedValue = frmApuntesPeriodicos.CmbCuenta.SelectedValue
             Else

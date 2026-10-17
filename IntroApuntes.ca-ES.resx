@@ -165,9 +165,6 @@
   <data name="NoCantidadImporte" xml:space="preserve">
     <value>No hi ha Quantitat en Import</value>
   </data>
-  <data name="SelecConcepto" xml:space="preserve">
-    <value>Seleccionar el Concepte</value>
-  </data>
   <data name="ErrorLlenarDesplegable" xml:space="preserve">
     <value>Error en omplir el desplegable. 
 Error</value>

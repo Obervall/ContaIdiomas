@@ -60,6 +60,7 @@ Partial Class CuentasBancarias
 		Me.Label9 = New System.Windows.Forms.Label()
 		Me.Label8 = New System.Windows.Forms.Label()
 		Me.Label7 = New System.Windows.Forms.Label()
+		Me.LblAyudaPredeterminada = New System.Windows.Forms.Label()
 		Me.GroupBox1.SuspendLayout()
 		Me.GroupBox2.SuspendLayout()
 		Me.GroupBox3.SuspendLayout()
@@ -309,10 +310,17 @@ Partial Class CuentasBancarias
 		resources.ApplyResources(Me.Label7, "Label7")
 		Me.Label7.Name = "Label7"
 		'
+		'LblAyudaPredeterminada
+		'
+		resources.ApplyResources(Me.LblAyudaPredeterminada, "LblAyudaPredeterminada")
+		Me.LblAyudaPredeterminada.ForeColor = System.Drawing.SystemColors.ControlDarkDark
+		Me.LblAyudaPredeterminada.Name = "LblAyudaPredeterminada"
+		'
 		'CuentasBancarias
 		'
 		resources.ApplyResources(Me, "$this")
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+		Me.Controls.Add(Me.LblAyudaPredeterminada)
 		Me.Controls.Add(Me.GroupBox7)
 		Me.Controls.Add(Me.LblCuentas)
 		Me.Controls.Add(Me.GroupBox8)
@@ -377,4 +385,5 @@ Partial Class CuentasBancarias
     Friend WithEvents Label8 As Windows.Forms.Label
     Friend WithEvents Label7 As Windows.Forms.Label
     Friend WithEvents BtnF6 As Windows.Forms.Button
+	Friend WithEvents LblAyudaPredeterminada As Windows.Forms.Label
 End Class

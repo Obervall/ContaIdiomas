@@ -1009,9 +1009,6 @@
   <data name="ImporteAsiento" xml:space="preserve">
     <value>Importe del Apunte</value>
   </data>
-  <data name="SelecConcepto" xml:space="preserve">
-    <value>Seleccionar el Concepto</value>
-  </data>
   <data name="ErrorLlenarDesplegable" xml:space="preserve">
     <value>Error al llenar el desplegable.
 Error</value>

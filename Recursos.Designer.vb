@@ -499,6 +499,25 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Cuenta - {0} - establecida correctamente
+    '''como Predeterminada con la tecla F3..
+    '''</summary>
+    Friend Shared ReadOnly Property CuentaEstablecida() As String
+        Get
+            Return ResourceManager.GetString("CuentaEstablecida", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Cuenta Predeterminada (F3).
+    '''</summary>
+    Friend Shared ReadOnly Property CuentaPredeterminadaF3() As String
+        Get
+            Return ResourceManager.GetString("CuentaPredeterminadaF3", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Cuentas.
     '''</summary>
     Friend Shared ReadOnly Property Cuentas() As String
@@ -1322,6 +1341,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Error al guardar Cuenta Predeterminada.
+    '''</summary>
+    Friend Shared ReadOnly Property ErrorGuardarPredeterminada() As String
+        Get
+            Return ResourceManager.GetString("ErrorGuardarPredeterminada", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Error al leer importes mensuales.
     '''</summary>
     Friend Shared ReadOnly Property ErrorImportesMensuales() As String
@@ -1628,6 +1656,16 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Esta Cuenta - {0} - será configurada como la Predeterminada
+    '''y saldrá la primera en todos los desplegables del programa..
+    '''</summary>
+    Friend Shared ReadOnly Property EstaCuentaPreferida() As String
+        Get
+            Return ResourceManager.GetString("EstaCuentaPreferida", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a ESTETICA.
     '''</summary>
     Friend Shared ReadOnly Property ESTETICA() As String
@@ -1687,6 +1725,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property Exito() As String
         Get
             Return ResourceManager.GetString("Exito", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Cuenta Establecida (F3).
+    '''</summary>
+    Friend Shared ReadOnly Property ExitoEstablecidaF3() As String
+        Get
+            Return ResourceManager.GetString("ExitoEstablecidaF3", resourceCulture)
         End Get
     End Property
     
@@ -1940,6 +1987,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Pulsar F3 en Cuenta Seleccionada para Establecer como Predeterminada.      Actualmente es : {0}.
+    '''</summary>
+    Friend Shared ReadOnly Property LblAyudaPredeterminada() As String
+        Get
+            Return ResourceManager.GetString("LblAyudaPredeterminada", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a LUZ.
     '''</summary>
     Friend Shared ReadOnly Property LUZ() As String
@@ -2122,6 +2178,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property MsgSeleccionarFilasEliminar() As String
         Get
             Return ResourceManager.GetString("MsgSeleccionarFilasEliminar", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a NINGUNA.
+    '''</summary>
+    Friend Shared ReadOnly Property NINGUNA() As String
+        Get
+            Return ResourceManager.GetString("NINGUNA", resourceCulture)
         End Get
     End Property
     
@@ -2545,6 +2610,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property SeleccioneTipoCuenta() As String
         Get
             Return ResourceManager.GetString("SeleccioneTipoCuenta", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Seleccionar el Concepto.
+    '''</summary>
+    Friend Shared ReadOnly Property SelecConcepto() As String
+        Get
+            Return ResourceManager.GetString("SelecConcepto", resourceCulture)
         End Get
     End Property
     

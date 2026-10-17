@@ -156,7 +156,7 @@ Public Class AprendizajeBancario
         TL(2) = New ToolTip
         TL(2).SetToolTip(Me.BtnCancelar, rmse.GetString("BtnCancelar.Text") & " " & rmse.GetString("$this.Text"))
         TL(3) = New ToolTip
-        TL(3).SetToolTip(Me.CmbConcepto, rmse.GetString("SelecConcepto"))
+        TL(3).SetToolTip(Me.CmbConcepto, resManager.GetString("SelecConcepto"))
         TL(4) = New ToolTip
         TL(4).SetToolTip(Me.CmbCuenta, rmse.GetString("SelecCuenta"))
         TL(5) = New ToolTip

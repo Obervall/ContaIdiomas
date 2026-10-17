@@ -165,9 +165,6 @@
   <data name="NoCantidadImporte" xml:space="preserve">
     <value>Sem Valor</value>
   </data>
-  <data name="SelecConcepto" xml:space="preserve">
-    <value>Selecione o Conceito</value>
-  </data>
   <data name="ErrorLlenarDesplegable" xml:space="preserve">
     <value>Erro ao preencher o menu suspenso.
 Erro</value>

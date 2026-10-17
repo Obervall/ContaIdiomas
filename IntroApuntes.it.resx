@@ -186,9 +186,6 @@ Errore</value>
   <data name="NoCantidadImporte" xml:space="preserve">
     <value>Nessuna somma</value>
   </data>
-  <data name="SelecConcepto" xml:space="preserve">
-    <value>Seleziona il concetto</value>
-  </data>
   <data name="SelecCuenta" xml:space="preserve">
     <value>Seleziona il Conto a cui si riferisce la Voce</value>
   </data>

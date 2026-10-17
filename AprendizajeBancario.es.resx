@@ -308,9 +308,6 @@
   <data name="BtnAyuda.Text" xml:space="preserve">
     <value>Ayuda (?)</value>
   </data>
-  <data name="SelecConcepto" xml:space="preserve">
-    <value>Seleccionar el Concepto</value>
-  </data>
   <data name="Label7.Text" xml:space="preserve">
     <value>€</value>
   </data>

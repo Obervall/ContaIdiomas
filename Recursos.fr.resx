@@ -1136,4 +1136,30 @@ des dossiers à utiliser.</value>
   <data name="ErrorListarEmpresas" xml:space="preserve">
     <value>Sociétés de cotation d’erreurs</value>
   </data>
+  <data name="SelecConcepto" xml:space="preserve">
+    <value>Sélectionnez le concept</value>
+  </data>
+  <data name="EstaCuentaPreferida" xml:space="preserve">
+    <value>Ce compte - {0} - sera défini comme le Compte par défaut
+et le premier apparaîtra dans tous les menus déroulants du programme.</value>
+  </data>
+  <data name="CuentaPredeterminadaF3" xml:space="preserve">
+    <value>Compte par défaut (F3)</value>
+  </data>
+  <data name="ErrorGuardarPredeterminada" xml:space="preserve">
+    <value>Sauvegarde d’erreur Compte par défaut</value>
+  </data>
+  <data name="CuentaEstablecida" xml:space="preserve">
+    <value>Compte - {0} - correctement réglé
+par défaut avec la touche F3.</value>
+  </data>
+  <data name="ExitoEstablecidaF3" xml:space="preserve">
+    <value>Compte établi (F3)</value>
+  </data>
+  <data name="LblAyudaPredeterminada" xml:space="preserve">
+    <value>Appuyez sur F3 sur un compte sélectionné pour définir par défaut. Actuellement, c’est : {0}</value>
+  </data>
+  <data name="NINGUNA" xml:space="preserve">
+    <value>AUCUN</value>
+  </data>
 </root>

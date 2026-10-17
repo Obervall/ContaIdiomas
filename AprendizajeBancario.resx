@@ -1004,9 +1004,6 @@ Error</value>
   <data name="ExtractoCompletado" xml:space="preserve">
     <value>Se ha Completado la revisión del Extracto Bancario!</value>
   </data>
-  <data name="SelecConcepto" xml:space="preserve">
-    <value>Seleccionar el Concepto</value>
-  </data>
   <data name="SelecCuenta" xml:space="preserve">
     <value>Seleccionar la Cuenta a la que se refiere el Apunte</value>
   </data>

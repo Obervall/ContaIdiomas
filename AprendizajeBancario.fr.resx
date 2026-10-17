@@ -148,9 +148,6 @@ Erreur</value>
   <data name="LblBuscarLetras.Text" xml:space="preserve">
     <value>Description de la recherche :</value>
   </data>
-  <data name="SelecConcepto" xml:space="preserve">
-    <value>Sélectionnez le concept</value>
-  </data>
   <data name="SelecDescripcion" xml:space="preserve">
     <value>Sélectionnez Description ou Type à Rechercher (3 min)</value>
   </data>

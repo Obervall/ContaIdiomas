@@ -160,9 +160,6 @@ Erro</value>
   <data name="Label3.Text" xml:space="preserve">
     <value>Descrição 1:</value>
   </data>
-  <data name="SelecConcepto" xml:space="preserve">
-    <value>Selecione o Conceito</value>
-  </data>
   <data name="SelecDescripcion" xml:space="preserve">
     <value>Selecione Descrição ou Tipo para Pesquisar (3 min)</value>
   </data>

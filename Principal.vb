@@ -258,7 +258,56 @@ Public Class Principal
             My.Settings.Save()
         End If
 
-        My.Settings.Version = "3.4.5"
+        ' =========================================================================
+        ' 🛡️ RADAR FILTRADO EN DISCO: ¿STORE (MSIX) O INSTALADOR CLÁSICO (MSI)?
+        ' =========================================================================
+        Dim esVersionDeLaStore As Boolean = False
+
+        ' Calculamos la ruta teórica donde Windows aloja el manifiesto del empaquetado
+        Dim rutaManifiestoStore As String = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AppXManifest.xml")
+
+        ' Si el archivo físico existe en la carpeta raíz, estamos dentro de la jaula MSIX de la Store
+        If System.IO.File.Exists(rutaManifiestoStore) Then
+            esVersionDeLaStore = True
+        Else
+            ' Si no existe, es el instalador clásico .msi de toda la vida o modo Debug
+            esVersionDeLaStore = False
+        End If
+
+        ' =========================================================================
+        ' ⭐ GESTIÓN DEL BOTÓN DE LAS 5 ESTRELLAS Y EL MENÚ DE AYUDA
+        ' =========================================================================
+        If esVersionDeLaStore Then
+            ' CASO A: Versión Premium de la Store. Encendemos los accesos
+            BtnEstrella.Enabled = True
+            ValorarToolStripMenuItem.Enabled = True
+        Else
+            ' CASO B: Instalador clásico .msi. Apagamos de forma dócil los botones
+            BtnEstrella.Enabled = False
+            ValorarToolStripMenuItem.Enabled = False
+
+            ' Si prefieres que desaparezca por completo para que no quede gris el hueco:
+            ' BtnEstrella.Visible = False
+        End If
+
+        ' =========================================================================
+        ' ⭐ GESTIÓN DEL BOTÓN DE LAS 5 ESTRELLAS Y EL MENÚ DE AYUDA
+        ' =========================================================================
+        If esVersionDeLaStore Then
+            ' CASO A: Es la versión Premium de la Store. Encendemos los accesos
+            BtnEstrella.Enabled = True
+            ValorarToolStripMenuItem.Enabled = True
+        Else
+            ' CASO B: Es el instalador clásico .msi. Apagamos de forma dócil los botones
+            BtnEstrella.Enabled = False
+            ValorarToolStripMenuItem.Enabled = False
+
+            ' Opcional: Si quieres un acabado aún más limpio para que no quede el hueco gris, 
+            ' puedes ocultarlos directamente con .Visible = False
+            ' BtnEstrella.Visible = False
+        End If
+
+        My.Settings.Version = "3.4.6"
         My.Settings.Save()
 
         ' Dejar en False para que no muestre el mensaje de Softonic al arrancar, en True mostrará el mensaje de Softonic

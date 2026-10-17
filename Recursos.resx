@@ -1136,4 +1136,30 @@ a carpetas para poder usar.</value>
   <data name="ErrorListarEmpresas" xml:space="preserve">
     <value>Error Listar Empresas</value>
   </data>
+  <data name="SelecConcepto" xml:space="preserve">
+    <value>Seleccionar el Concepto</value>
+  </data>
+  <data name="LblAyudaPredeterminada" xml:space="preserve">
+    <value>Pulsar F3 en Cuenta Seleccionada para Establecer como Predeterminada.      Actualmente es : {0}</value>
+  </data>
+  <data name="EstaCuentaPreferida" xml:space="preserve">
+    <value>Esta Cuenta - {0} - será configurada como la Predeterminada
+y saldrá la primera en todos los desplegables del programa.</value>
+  </data>
+  <data name="CuentaPredeterminadaF3" xml:space="preserve">
+    <value>Cuenta Predeterminada (F3)</value>
+  </data>
+  <data name="ErrorGuardarPredeterminada" xml:space="preserve">
+    <value>Error al guardar Cuenta Predeterminada</value>
+  </data>
+  <data name="CuentaEstablecida" xml:space="preserve">
+    <value>Cuenta - {0} - establecida correctamente
+como Predeterminada con la tecla F3.</value>
+  </data>
+  <data name="ExitoEstablecidaF3" xml:space="preserve">
+    <value>Cuenta Establecida (F3)</value>
+  </data>
+  <data name="NINGUNA" xml:space="preserve">
+    <value>NINGUNA</value>
+  </data>
 </root>

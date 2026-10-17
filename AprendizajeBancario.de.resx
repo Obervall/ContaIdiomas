@@ -144,9 +144,6 @@
   <data name="LblBuscarLetras.Text" xml:space="preserve">
     <value>Suchbeschreibung:</value>
   </data>
-  <data name="SelecConcepto" xml:space="preserve">
-    <value>Wählen Sie das Konzept aus</value>
-  </data>
   <data name="SelecDescripcion" xml:space="preserve">
     <value>Wähle Beschreibung oder Typ zum Suchen (3 Min.)</value>
   </data>
