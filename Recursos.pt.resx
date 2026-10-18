@@ -1162,4 +1162,11 @@ como padrão com a tecla F3.</value>
   <data name="NINGUNA" xml:space="preserve">
     <value>NENHUM</value>
   </data>
+  <data name="MsgActualizacionVersionStore" xml:space="preserve">
+    <value>O ContaHogar 3.0 Premium foi atualizado com sucesso! 
+Bem-vindo à nova versão {0}. 
+Aplicamos melhorias e correções automáticas. 
+Lembre-se de avaliar com Estrelas de Ouro na Microsoft Store!, obrigado. 
+Quer ver o que há de novo agora?</value>
+  </data>
 </root>

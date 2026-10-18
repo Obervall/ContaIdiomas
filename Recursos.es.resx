@@ -1162,4 +1162,11 @@ como Predeterminada con la tecla F3.</value>
   <data name="NINGUNA" xml:space="preserve">
     <value>NINGUNA</value>
   </data>
+  <data name="MsgActualizacionVersionStore" xml:space="preserve">
+    <value>¡ContaHogar 3.0 Premium se ha actualizado correctamente!
+Bienvenido a la nueva versión {0}.
+Hemos aplicado mejoras y correcciones automáticas.
+¡Recuerda Valorar con Estrellas Doradas en Microsoft Store!, Gracias.
+¿Deseas ver las novedades ahora?</value>
+  </data>
 </root>

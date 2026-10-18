@@ -699,15 +699,15 @@ a la versió premium en qualsevol moment.</value>
     <value>Historial de Versions</value>
   </data>
   <data name="ValorarToolStripMenuItem.Text" xml:space="preserve">
-    <value>Ressenya de ContaHogar 3.0 Premium</value>
+    <value>Valorar amb Estrelles Daurades ContaHogar 3.0 Premium</value>
   </data>
   <data name="ValorarToolStripMenuItem.ToolTipText" xml:space="preserve">
-    <value>Ressenya de ContaHogar 3.0 Premium</value>
+    <value>Valorar amb Estrelles Daurades ContaHogar 3.0 Premium</value>
   </data>
   <data name="ImportaAntiguoContahogarToolStripMenuItem.ToolTipText" xml:space="preserve">
     <value>Importa Base Dades Antic Contahogar</value>
   </data>
   <data name="BtnEstrella.ToolTipText" xml:space="preserve">
-    <value>Tarifa amb ContaHogar 3.0 Premium Stars</value>
+    <value>Valorar amb Estrelles Daurades ContaHogar 3.0 Premium</value>
   </data>
 </root>

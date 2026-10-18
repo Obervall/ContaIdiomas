@@ -19,6 +19,9 @@ Public Class Principal
     Public vHeigth As Integer = 629
     Public idsDuplicadosEncontrados As Integer
     Public seHaActualizadoLaApp As Boolean = False
+    Public esVersionDeLaStore As Boolean = False
+    Dim textoMensaje As String
+
 
     ' 1. Constructor: Es el mejor sitio para fijar el idioma antes de que se vea nada
     Public Sub New()
@@ -246,7 +249,7 @@ Public Class Principal
         ' 2. ¡EL ESCUDO COMPLEMENTARIO PARA EL MSI!
         ' Comparamos la versión guardada en el disco contra la versión actual de esta compilación
         Dim versionActualCompilacion As String = My.Settings.Version.Trim()
-		Dim versionGuardadaEnDisco As String = My.Settings.UltimaVersionEjecutada.Trim()
+        Dim versionGuardadaEnDisco As String = My.Settings.UltimaVersionEjecutada.Trim()
         'MsgBox("Versión actual de compilación: " & versionActualCompilacion & vbCrLf &
         '       "Versión guardada en disco: " & versionGuardadaEnDisco, MsgBoxStyle.Information, "Depuración de versiones")
         If versionGuardadaEnDisco <> versionActualCompilacion Then
@@ -259,20 +262,48 @@ Public Class Principal
         End If
 
         ' =========================================================================
-        ' 🛡️ RADAR FILTRADO EN DISCO: ¿STORE (MSIX) O INSTALADOR CLÁSICO (MSI)?
+        ' 🛡️ RADAR DE ENTORNO EN MEMORIA (Inmune a la virtualización MSIX)
         ' =========================================================================
-        Dim esVersionDeLaStore As Boolean = False
+        'Dim esVersionDeLaStore As Boolean = False
 
-        ' Calculamos la ruta teórica donde Windows aloja el manifiesto del empaquetado
-        Dim rutaManifiestoStore As String = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AppXManifest.xml")
+        Try
+            ' Interrogamos a la RAM del sistema operativo buscando la firma del contenedor de la Store
+            Dim ServerName As String = Environment.GetEnvironmentVariable("SS_SERVER_NAME")
+            Dim AppIdStore As String = Environment.GetEnvironmentVariable("APP_POOL_ID")
 
-        ' Si el archivo físico existe en la carpeta raíz, estamos dentro de la jaula MSIX de la Store
-        If System.IO.File.Exists(rutaManifiestoStore) Then
-            esVersionDeLaStore = True
-        Else
-            ' Si no existe, es el instalador clásico .msi de toda la vida o modo Debug
+            ' El truco definitivo y dócil para Windows 11/10 empaquetado:
+            ' Cuando corre en la Store, Windows genera un token de entorno con el ID del paquete.
+            ' Si contiene la palabra "WindowsApps" o existe una identidad de manifiesto activa:
+            Dim rutaEjecucion As String = AppDomain.CurrentDomain.BaseDirectory.ToLower()
+
+            ' COMPROBACIÓN REINA: Interrogamos al sistema si estamos bajo el ala de WindowsApps
+            If rutaEjecucion.Contains("windowsapps") OrElse Not String.IsNullOrEmpty(Environment.GetEnvironmentVariable("AppPackageId")) Then
+                esVersionDeLaStore = True
+            Else
+                ' SEGURIDAD EXTRA: Intentamos leer una propiedad del hilo de ejecución del paquete
+                ' Si estamos en la Store, esta variable de entorno no vendrá vacía
+                Dim packageFamily As String = Environment.GetEnvironmentVariable("RE_PACKAGE_FAMILY_NAME")
+                If Not String.IsNullOrEmpty(packageFamily) Then
+                    esVersionDeLaStore = True
+                End If
+            End If
+
+            ' =====================================================================
+            ' 🎯 EL PLAN DE RESPALDO DEFINITIVO (Por si las variables fallan)
+            ' =====================================================================
+            ' Si las variables de arriba vienen mudas, usamos el detector por token de registro de Windows nativo.
+            ' Access y la Store se llevan de lujo con este chivato dócil:
+            If Not esVersionDeLaStore Then
+                ' Buscamos si el hilo actual contiene la marca de aislamiento "msix" o "appx"
+                If System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName.ToLower().Contains("windowsapps") Then
+                    esVersionDeLaStore = True
+                End If
+            End If
+
+        Catch ex As Exception
+            ' Salvavidas: si da cualquier error de permisos, asumimos que es el .msi clásico
             esVersionDeLaStore = False
-        End If
+        End Try
 
         ' =========================================================================
         ' ⭐ GESTIÓN DEL BOTÓN DE LAS 5 ESTRELLAS Y EL MENÚ DE AYUDA
@@ -285,29 +316,9 @@ Public Class Principal
             ' CASO B: Instalador clásico .msi. Apagamos de forma dócil los botones
             BtnEstrella.Enabled = False
             ValorarToolStripMenuItem.Enabled = False
-
-            ' Si prefieres que desaparezca por completo para que no quede gris el hueco:
-            ' BtnEstrella.Visible = False
         End If
 
-        ' =========================================================================
-        ' ⭐ GESTIÓN DEL BOTÓN DE LAS 5 ESTRELLAS Y EL MENÚ DE AYUDA
-        ' =========================================================================
-        If esVersionDeLaStore Then
-            ' CASO A: Es la versión Premium de la Store. Encendemos los accesos
-            BtnEstrella.Enabled = True
-            ValorarToolStripMenuItem.Enabled = True
-        Else
-            ' CASO B: Es el instalador clásico .msi. Apagamos de forma dócil los botones
-            BtnEstrella.Enabled = False
-            ValorarToolStripMenuItem.Enabled = False
-
-            ' Opcional: Si quieres un acabado aún más limpio para que no quede el hueco gris, 
-            ' puedes ocultarlos directamente con .Visible = False
-            ' BtnEstrella.Visible = False
-        End If
-
-        My.Settings.Version = "3.4.6"
+        My.Settings.Version = "3.4.7"
         My.Settings.Save()
 
         ' Dejar en False para que no muestre el mensaje de Softonic al arrancar, en True mostrará el mensaje de Softonic
@@ -2627,6 +2638,7 @@ Public Class Principal
     End Sub
 
     Private Sub Principal_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
+
         ' Si la consulta devuelve más de 0, es que hay registros corruptos por la actualización vieja
         If idsDuplicadosEncontrados > 0 Then
             ' Avisamos del desajuste inicial de la estructura
@@ -2643,10 +2655,15 @@ Public Class Principal
 
         ' El mensaje interactivo solo salta cuando frmPrincipal ya está totalmente abierto y listo
         If seHaActualizadoLaApp Then
+            If esVersionDeLaStore Then
+                ' Formateamos el texto de tu ResX Manager pasando el número de versión a {0}
+                textoMensaje = String.Format(resManager.GetString("MsgActualizacionVersionStore"), My.Settings.Version)
+            Else
 
-            ' Formateamos el texto de tu ResX Manager pasando el número de versión a {0}
-            Dim textoMensaje As String = String.Format(resManager.GetString("MsgActualizacionVersion"), My.Settings.Version)
+                ' Formateamos el texto de tu ResX Manager pasando el número de versión a {0}
+                textoMensaje = String.Format(resManager.GetString("MsgActualizacionVersion"), My.Settings.Version)
 
+            End If
             ' Mostramos el cuadro de diálogo flotando sobre frmPrincipal ya cargado
             Dim respuesta As MsgBoxResult = ConfirmarAccionTraducida(textoMensaje, resManager.GetString("ActualizacionCompletada"))
 

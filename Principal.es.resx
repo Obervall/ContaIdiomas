@@ -7832,15 +7832,15 @@ a la versión premium en cualquier momento.</value>
     <value>Historial de Versiones</value>
   </data>
   <data name="ValorarToolStripMenuItem.Text" xml:space="preserve">
-    <value>Valorar ContaHogar 3.0 Premium</value>
+    <value>Valorar con Estrellas Doradas ContaHogar 3.0 Premium</value>
   </data>
   <data name="ValorarToolStripMenuItem.ToolTipText" xml:space="preserve">
-    <value>Valorar ContaHogar 3.0 Premium</value>
+    <value>Valorar con Estrellas Doradas ContaHogar 3.0 Premium</value>
   </data>
   <data name="ImportaAntiguoContahogarToolStripMenuItem.ToolTipText" xml:space="preserve">
     <value>Importa Base Datos Antiguo Contahogar</value>
   </data>
   <data name="BtnEstrella.ToolTipText" xml:space="preserve">
-    <value>Valorar con Estrellas ContaHogar 3.0 Premium</value>
+    <value>Valorar con Estrellas Doradas ContaHogar 3.0 Premium</value>
   </data>
 </root>

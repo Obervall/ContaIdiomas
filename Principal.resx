@@ -862,10 +862,10 @@
     <value>362, 26</value>
   </data>
   <data name="ValorarToolStripMenuItem.Text" xml:space="preserve">
-    <value>Valorar ContaHogar 3.0 Premium</value>
+    <value>Valorar con Estrellas Doradas ContaHogar 3.0 Premium</value>
   </data>
   <data name="ValorarToolStripMenuItem.ToolTipText" xml:space="preserve">
-    <value>Valorar ContaHogar 3.0 Premium</value>
+    <value>Valorar con Estrellas Doradas ContaHogar 3.0 Premium</value>
   </data>
   <data name="ToolStripSeparator21.Size" type="System.Drawing.Size, System.Drawing">
     <value>359, 6</value>
@@ -1604,7 +1604,7 @@
     <value>34, 34</value>
   </data>
   <data name="BtnEstrella.ToolTipText" xml:space="preserve">
-    <value>Valorar con Estrellas ContaHogar 3.0 Premium</value>
+    <value>Valorar con Estrellas Doradas ContaHogar 3.0 Premium</value>
   </data>
   <data name="ToolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
     <value>6, 37</value>

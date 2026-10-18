@@ -1162,4 +1162,11 @@ as Default with the F3 key.</value>
   <data name="NINGUNA" xml:space="preserve">
     <value>NONE</value>
   </data>
+  <data name="MsgActualizacionVersionStore" xml:space="preserve">
+    <value>ContaHogar 3.0 Premium has been successfully updated! 
+Welcome to the new version {0}. 
+We've applied improvements and automatic fixes. 
+Remember to Rate with Gold Stars in the Microsoft Store!, Thank you. 
+Want to see what's new now?</value>
+  </data>
 </root>

@@ -2062,6 +2062,19 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a ¡ContaHogar 3.0 Premium se ha actualizado correctamente!
+    '''Bienvenido a la nueva versión {0}.
+    '''Hemos aplicado mejoras y correcciones automáticas.
+    '''¡Recuerda Valorar con Estrellas Doradas en Microsoft Store!, Gracias.
+    '''¿Deseas ver las novedades ahora?.
+    '''</summary>
+    Friend Shared ReadOnly Property MsgActualizacionVersionStore() As String
+        Get
+            Return ResourceManager.GetString("MsgActualizacionVersionStore", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a El antivirus o la protección de Windows está bloqueando el acceso a &apos;Mis Documentos&apos;.
     '''Por favor, añade este programa a la lista de exclusiones o permite el acceso controlado
     '''a carpetas para poder usar..

@@ -1689,9 +1689,6 @@
   <data name="LblAyudaPredeterminada.TabIndex" type="System.Int32, mscorlib">
     <value>104</value>
   </data>
-  <data name="LblAyudaPredeterminada.Text" xml:space="preserve">
-    <value>Pulsar F3 en Cuenta Seleccionda para Establecer como Predeterminada</value>
-  </data>
   <data name="LblAyudaPredeterminada.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleRight</value>
   </data>

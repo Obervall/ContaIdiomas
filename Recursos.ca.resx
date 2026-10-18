@@ -1162,4 +1162,11 @@ com a Default amb la tecla F3.</value>
   <data name="NINGUNA" xml:space="preserve">
     <value>CAP</value>
   </data>
+  <data name="MsgActualizacionVersionStore" xml:space="preserve">
+    <value>ContaHogar 3.0 Premium s'ha actualitzat amb èxit! 
+Benvinguts a la nova versió {0}. 
+Hem aplicat millores i solucions automàtiques. 
+Recorda puntuar amb estrelles d'or a la Microsoft Store!, gràcies. 
+Vols veure què hi ha de nou ara?</value>
+  </data>
 </root>
