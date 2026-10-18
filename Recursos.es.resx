@@ -1089,12 +1089,6 @@ soporte multi-idioma, consigue ContaHogar 3.0 Premium en la Microsoft Store.</va
   <data name="TituloFiltro" xml:space="preserve">
     <value>Filtrar por Descripción</value>
   </data>
-  <data name="MsgActualizacionVersion" xml:space="preserve">
-    <value>¡ContaHogar 3.0 Premium se ha actualizado correctamente!
-Bienvenido a la nueva versión {0}.
-Hemos aplicado mejoras y correcciones automáticas.
-¿Deseas ver las novedades ahora?</value>
-  </data>
   <data name="MsgAntivirus" xml:space="preserve">
     <value>El antivirus o la protección de Windows está bloqueando el acceso a 'Mis Documentos'.
 Por favor, añade este programa a la lista de exclusiones o permite el acceso controlado
@@ -1167,6 +1161,15 @@ como Predeterminada con la tecla F3.</value>
 Bienvenido a la nueva versión {0}.
 Hemos aplicado mejoras y correcciones automáticas.
 ¡Recuerda Valorar con Estrellas Doradas en Microsoft Store!, Gracias.
+¿Deseas ver las novedades ahora?</value>
+  </data>
+  <data name="MsgActualizacionVersion" xml:space="preserve">
+    <value>¡ContaHogar 3.0 Premium se ha actualizado correctamente!
+Bienvenido a la nueva versión {0}.
+Hemos aplicado mejoras y correcciones automáticas.
+
+¡Recuerda que hay el botón de Donación en Acerca de.....! Gracias
+
 ¿Deseas ver las novedades ahora?</value>
   </data>
 </root>

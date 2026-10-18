@@ -318,7 +318,7 @@ Public Class Principal
             ValorarToolStripMenuItem.Enabled = False
         End If
 
-        My.Settings.Version = "3.4.7"
+        My.Settings.Version = "3.4.8"
         My.Settings.Save()
 
         ' Dejar en False para que no muestre el mensaje de Softonic al arrancar, en True mostrará el mensaje de Softonic

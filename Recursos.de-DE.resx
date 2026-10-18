@@ -1089,12 +1089,6 @@ Mehrsprachige Unterstützung, hol dir ContaHogar 3.0 Premium im Microsoft Store.
   <data name="TituloFiltro" xml:space="preserve">
     <value>Filtern nach Beschreibung</value>
   </data>
-  <data name="MsgActualizacionVersion" xml:space="preserve">
-    <value>ContaHogar 3.0 Premium wurde erfolgreich aktualisiert! 
-Willkommen zur neuen Version {0}. 
-Wir haben Verbesserungen und automatische Korrekturen vorgenommen. 
-Möchten Sie sehen, was es jetzt neu gibt?</value>
-  </data>
   <data name="MsgAntivirus" xml:space="preserve">
     <value>Antiviren- oder Windows-Schutz blockiert den Zugriff auf 'Meine Dokumente'. 
 Bitte fügen Sie dieses Programm der Ausschlussliste hinzu oder erlauben Sie kontrollierten Zugriff
@@ -1167,6 +1161,15 @@ als Standard mit der F3-Taste.</value>
 Willkommen zur neuen Version {0}. 
 Wir haben Verbesserungen und automatische Korrekturen vorgenommen. 
 Denken Sie daran, im Microsoft Store mit Goldsternen zu bewerten! Danke. 
+Möchten Sie sehen, was es jetzt neu gibt?</value>
+  </data>
+  <data name="MsgActualizacionVersion" xml:space="preserve">
+    <value>ContaHogar 3.0 Premium wurde erfolgreich aktualisiert! 
+Willkommen zur neuen Version {0}. 
+Wir haben Verbesserungen und automatische Korrekturen vorgenommen. 
+
+Denken Sie daran, dass es einen Spenden-Button in Über ..... gibt! Danke
+
 Möchten Sie sehen, was es jetzt neu gibt?</value>
   </data>
 </root>

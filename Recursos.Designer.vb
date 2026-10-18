@@ -2053,6 +2053,9 @@ Friend Class Recursos
     '''  Busca una cadena traducida similar a ¡ContaHogar 3.0 Premium se ha actualizado correctamente!
     '''Bienvenido a la nueva versión {0}.
     '''Hemos aplicado mejoras y correcciones automáticas.
+    '''
+    '''¡Recuerda que hay el botón de Donación en Acerca de.....! Gracias
+    '''
     '''¿Deseas ver las novedades ahora?.
     '''</summary>
     Friend Shared ReadOnly Property MsgActualizacionVersion() As String
