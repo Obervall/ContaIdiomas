@@ -970,7 +970,7 @@ Menys dades ofereixen una anàlisi molt més clara!</value>
   <data name="Ayuda" xml:space="preserve">
     <value>Ajut</value>
   </data>
-  <data name="Validación" xml:space="preserve">
+  <data name="Validacion" xml:space="preserve">
     <value>Validació</value>
   </data>
   <data name="NoEditarFueraEjercicio" xml:space="preserve">
@@ -1171,5 +1171,41 @@ Hem aplicat millores i solucions automàtiques.
 Recorda que hi ha un botó de Donació a Sobre.....! Gràcies
 
 Vols veure què hi ha de nou ara?</value>
+  </data>
+  <data name="TipoCuentaActualizado" xml:space="preserve">
+    <value>Tipus de compte actualitzat amb èxit.</value>
+  </data>
+  <data name="NombreTipoCuentaVacio" xml:space="preserve">
+    <value>El nom del tipus de compte no pot estar buit</value>
+  </data>
+  <data name="NoSePuedeUsarTipoCuentaPredeterminada" xml:space="preserve">
+    <value>No pots utilitzar aquest nom perquè pertany a un
+Tipus de compte per defecte i protegit del sistema.</value>
+  </data>
+  <data name="AccionDenegada" xml:space="preserve">
+    <value>Acció denegada</value>
+  </data>
+  <data name="YaExisteTipoCuenta" xml:space="preserve">
+    <value>Ja hi ha un altre tipus de compte amb el mateix nom. Si us plau, introdueix-ne un de diferent.</value>
+  </data>
+  <data name="RegistroDuplicado" xml:space="preserve">
+    <value>Registre duplicat</value>
+  </data>
+  <data name="NombreCuentaVacio" xml:space="preserve">
+    <value>El nom del compte bancari no pot estar buit.</value>
+  </data>
+  <data name="NoSePuedeUsarCuentaPredeterminada" xml:space="preserve">
+    <value>No pots utilitzar aquest nom perquè pertany a un
+Compte bancari impagat i protegit del sistema.</value>
+  </data>
+  <data name="YaExisteCuenta" xml:space="preserve">
+    <value>Ja hi ha un altre compte bancari amb el mateix nom. 
+Introdueix-ne un altre.</value>
+  </data>
+  <data name="CuentaActualizada" xml:space="preserve">
+    <value>Compte actualitzat amb èxit.</value>
+  </data>
+  <data name="ConceptoActualizado" xml:space="preserve">
+    <value>Concepte actualitzat</value>
   </data>
 </root>

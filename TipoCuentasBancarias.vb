@@ -235,8 +235,22 @@ Public Class TipoCuentaBancaria
     End Sub
 
     Private Sub BtnEditarRegistro_Click(sender As Object, e As EventArgs) Handles BtnEditarRegistro.Click
+
         ' 1. Obtener la fila seleccionada de la cuadrícula de tipos de cuenta
         filaActual = DgvTipoCuentasBancarias.CurrentRow.Index
+
+        '    ' =========================================================================
+        '    ' 2. OBTENER EL ID NUMÉRICO REAL DESDE EL GRID DE LA PANTALLA ANTERIOR
+        '    ' =========================================================================
+        idTipoModificar = 0
+        Try
+            Dim filaActual As Integer = DgvTipoCuentasBancarias.CurrentRow.Index
+            ' Recuperamos el Id numérico que viaja en la Celda 2 del Grid maestro
+            idTipoModificar = Convert.ToInt32(DgvTipoCuentasBancarias.Rows(filaActual).Cells(2).Value)
+        Catch ex As Exception
+            MessageBox.Show(resManager.GetString("ErrorRecuperarID"), resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Exit Sub
+        End Try
 
         ' 2. LEER EL CÓDIGO REAL: La columna del código es la Celda 0 de tu Grid (ej: SPARBUCH / SAVINGS)
         Dim codigoCelda As String = DgvTipoCuentasBancarias.Rows(filaActual).Cells(0).Value.ToString().Trim().ToUpper()
@@ -287,22 +301,23 @@ Public Class TipoCuentaBancaria
             End If
         Next
 
-        ' 3. PASO DEL RODILLO 2: Si aún no ha saltado, evaluamos contra la lista de Cuentas (CAJAEFECTIVO...)
-        If Not cuentaProtegidaDetectada Then
-            For Each cuentaBase As String In CuentasMuestraSistema
-                ' Buscamos la traducción elástica en tu .resx (ej: CAJA_EFECTIVO o CAJAEFECTIVO)
-                Dim cuentaTraducida As String = resManager.GetString(cuentaBase)
-                If String.IsNullOrEmpty(cuentaTraducida) Then cuentaTraducida = resManager.GetString(cuentaBase.Replace(" ", "_"))
-                If String.IsNullOrEmpty(cuentaTraducida) Then cuentaTraducida = cuentaBase ' Salvavidas
+        '    ' 3. PASO DEL RODILLO 2: Si aún no ha saltado, evaluamos contra la lista de Cuentas (CAJAEFECTIVO...)
+        '    If Not cuentaProtegidaDetectada Then
+        '        For Each cuentaBase As String In CuentasMuestraSistema
+        '' Buscamos la traducción elástica en tu .resx (ej: CAJA_EFECTIVO o CAJAEFECTIVO)
+        'MsgBox("Buscando traducción para: " & cuentaBase) ' Depuración")
+        'Dim cuentaTraducida As String = resManager.GetString(cuentaBase)
+        '            If String.IsNullOrEmpty(cuentaTraducida) Then cuentaTraducida = resManager.GetString(cuentaBase.Replace(" ", "_"))
+        '            If String.IsNullOrEmpty(cuentaTraducida) Then cuentaTraducida = cuentaBase ' Salvavidas
 
-                Dim cuentaTraducidaLimpia As String = cuentaTraducida.Replace("_", "").Replace(" ", "").Trim().ToUpper()
+        '            Dim cuentaTraducidaLimpia As String = cuentaTraducida.Replace("_", "").Replace(" ", "").Trim().ToUpper()
 
-                If textoPantallaLimpio = cuentaBase.ToUpper() OrElse textoPantallaLimpio = cuentaTraducidaLimpia Then
-                    cuentaProtegidaDetectada = True
-                    Exit For
-                End If
-            Next
-        End If
+        '            If textoPantallaLimpio = cuentaBase.ToUpper() OrElse textoPantallaLimpio = cuentaTraducidaLimpia Then
+        '                cuentaProtegidaDetectada = True
+        '                Exit For
+        '            End If
+        '        Next
+        '    End If
 
         ' 4. ACTIVACIÓN DEL CANDADO INMUNE A CAMBIOS FUTUROS
         If cuentaProtegidaDetectada Then

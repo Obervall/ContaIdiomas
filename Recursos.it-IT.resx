@@ -970,7 +970,7 @@ Meno dati offrono un'analisi molto più chiara!</value>
   <data name="Ayuda" xml:space="preserve">
     <value>Aiuto</value>
   </data>
-  <data name="Validación" xml:space="preserve">
+  <data name="Validacion" xml:space="preserve">
     <value>Validazione</value>
   </data>
   <data name="NoEditarFueraEjercicio" xml:space="preserve">
@@ -1171,5 +1171,41 @@ Abbiamo applicato miglioramenti e soluzioni automatiche.
 Ricorda che c'è un pulsante Dona in About.....! Grazie
 
 Vuoi vedere cosa c'è di nuovo adesso?</value>
+  </data>
+  <data name="TipoCuentaActualizado" xml:space="preserve">
+    <value>Tipo account aggiornato con successo.</value>
+  </data>
+  <data name="NombreTipoCuentaVacio" xml:space="preserve">
+    <value>Il nome del tipo di conto non può essere vuoto</value>
+  </data>
+  <data name="NoSePuedeUsarTipoCuentaPredeterminada" xml:space="preserve">
+    <value>Non puoi usare questo nome perché appartiene a un
+Tipo di conto predefinito e protetto del sistema.</value>
+  </data>
+  <data name="AccionDenegada" xml:space="preserve">
+    <value>Azione respinta</value>
+  </data>
+  <data name="YaExisteTipoCuenta" xml:space="preserve">
+    <value>Esiste già un altro tipo di account con lo stesso nome. Per favore, inseriscine uno diverso.</value>
+  </data>
+  <data name="RegistroDuplicado" xml:space="preserve">
+    <value>Registrazione duplicata</value>
+  </data>
+  <data name="NombreCuentaVacio" xml:space="preserve">
+    <value>Il nome del conto bancario non può essere vuoto.</value>
+  </data>
+  <data name="NoSePuedeUsarCuentaPredeterminada" xml:space="preserve">
+    <value>Non puoi usare questo nome perché appartiene a un
+Conto bancario inadempibile e protetto del sistema.</value>
+  </data>
+  <data name="YaExisteCuenta" xml:space="preserve">
+    <value>C'è già un altro conto bancario con lo stesso nome. 
+Ne entra un altro.</value>
+  </data>
+  <data name="CuentaActualizada" xml:space="preserve">
+    <value>Aggiornamento dell'account con successo.</value>
+  </data>
+  <data name="ConceptoActualizado" xml:space="preserve">
+    <value>Concetto aggiornato</value>
   </data>
 </root>

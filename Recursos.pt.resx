@@ -970,7 +970,7 @@ Menos dados oferecem uma análise muito mais clara!</value>
   <data name="Ayuda" xml:space="preserve">
     <value>Ajuda</value>
   </data>
-  <data name="Validación" xml:space="preserve">
+  <data name="Validacion" xml:space="preserve">
     <value>Validação</value>
   </data>
   <data name="NoEditarFueraEjercicio" xml:space="preserve">
@@ -1171,5 +1171,41 @@ Aplicamos melhorias e correções automáticas.
 Lembre-se que existe um botão de Doação em Cerca de .....! Obrigado
 
 Quer ver o que há de novo agora?</value>
+  </data>
+  <data name="TipoCuentaActualizado" xml:space="preserve">
+    <value>Tipo de conta atualizado com sucesso.</value>
+  </data>
+  <data name="NombreTipoCuentaVacio" xml:space="preserve">
+    <value>Nome do tipo de conta não pode estar vazio</value>
+  </data>
+  <data name="NoSePuedeUsarTipoCuentaPredeterminada" xml:space="preserve">
+    <value>Você não pode usar esse nome porque ele pertence a um
+Padrão e tipo de conta protegida do sistema.</value>
+  </data>
+  <data name="AccionDenegada" xml:space="preserve">
+    <value>Ação negada</value>
+  </data>
+  <data name="YaExisteTipoCuenta" xml:space="preserve">
+    <value>Já existe outro Tipo de Conta com o mesmo nome. Por favor, insira um diferente.</value>
+  </data>
+  <data name="RegistroDuplicado" xml:space="preserve">
+    <value>Registro Duplicado</value>
+  </data>
+  <data name="NombreCuentaVacio" xml:space="preserve">
+    <value>O nome da conta bancária não pode estar vazio.</value>
+  </data>
+  <data name="NoSePuedeUsarCuentaPredeterminada" xml:space="preserve">
+    <value>Você não pode usar esse nome porque ele pertence a um
+Conta bancária inadimplente e protegida do sistema.</value>
+  </data>
+  <data name="YaExisteCuenta" xml:space="preserve">
+    <value>Já existe outra conta bancária com o mesmo nome. 
+Entra em cena uma diferente.</value>
+  </data>
+  <data name="CuentaActualizada" xml:space="preserve">
+    <value>Conta atualizada com sucesso.</value>
+  </data>
+  <data name="ConceptoActualizado" xml:space="preserve">
+    <value>Conceito Atualizado</value>
   </data>
 </root>

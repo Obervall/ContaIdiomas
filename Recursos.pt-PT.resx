@@ -970,7 +970,7 @@ Menos dados oferecem uma análise muito mais clara!</value>
   <data name="Ayuda" xml:space="preserve">
     <value>Ajuda</value>
   </data>
-  <data name="Validación" xml:space="preserve">
+  <data name="Validacion" xml:space="preserve">
     <value>Validação</value>
   </data>
   <data name="NoEditarFueraEjercicio" xml:space="preserve">
@@ -1171,5 +1171,41 @@ Aplicámos melhorias e correções automáticas.
 Lembra-te que há um botão de Doação em About.....! Obrigado
 
 Queres ver o que há de novo agora?</value>
+  </data>
+  <data name="TipoCuentaActualizado" xml:space="preserve">
+    <value>Tipo de conta atualizado com sucesso.</value>
+  </data>
+  <data name="NombreTipoCuentaVacio" xml:space="preserve">
+    <value>O nome do tipo de conta não pode estar vazio</value>
+  </data>
+  <data name="NoSePuedeUsarTipoCuentaPredeterminada" xml:space="preserve">
+    <value>Não podes usar este nome porque pertence a um
+Tipo de conta padrão e protegida do sistema.</value>
+  </data>
+  <data name="AccionDenegada" xml:space="preserve">
+    <value>Ação Negada</value>
+  </data>
+  <data name="YaExisteTipoCuenta" xml:space="preserve">
+    <value>Já existe outro Tipo de Conta com o mesmo nome. Por favor, introduza um diferente.</value>
+  </data>
+  <data name="RegistroDuplicado" xml:space="preserve">
+    <value>Registo Duplicado</value>
+  </data>
+  <data name="NombreCuentaVacio" xml:space="preserve">
+    <value>O nome da conta bancária não pode estar vazio.</value>
+  </data>
+  <data name="NoSePuedeUsarCuentaPredeterminada" xml:space="preserve">
+    <value>Não podes usar este nome porque pertence a um
+Incumprimento e conta bancária protegida do sistema.</value>
+  </data>
+  <data name="YaExisteCuenta" xml:space="preserve">
+    <value>Já existe outra conta bancária com o mesmo nome. 
+Entra um diferente.</value>
+  </data>
+  <data name="CuentaActualizada" xml:space="preserve">
+    <value>Conta atualizada com sucesso.</value>
+  </data>
+  <data name="ConceptoActualizado" xml:space="preserve">
+    <value>Conceito Atualizado</value>
   </data>
 </root>

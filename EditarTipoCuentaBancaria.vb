@@ -25,8 +25,8 @@ Public Class EditarTipoCuentaBancaria
 
         If vEditar = "SI" Then
             'LblEditando.Text = "EDITANDO TIPO CUENTA BANCARIA"
-            TxtNombre.Enabled = False
-            TxtDescripcion.Select()
+            TxtNombre.Enabled = True
+            TxtNombre.Select()
             BtnEliminar.Enabled = False
         Else
             LblEditando.Text = rmse.GetString("LblEliminando")
@@ -34,6 +34,12 @@ Public Class EditarTipoCuentaBancaria
             TxtDescripcion.Enabled = False
             BtnAceptar.Enabled = False
             BtnEliminar.Select()
+        End If
+    End Sub
+
+    Private Sub TxtNombre_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtNombre.KeyPress
+        If e.KeyChar = ChrW(Keys.Enter) Then
+            TxtDescripcion.Select()
         End If
     End Sub
 
@@ -45,39 +51,106 @@ Public Class EditarTipoCuentaBancaria
 
     Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click
         ' 1. Capturamos los textos limpios de los cuadros del formulario
-        vTxtNombre = TxtNombre.Text.Trim()
-        vTxtDescripcion = TxtDescripcion.Text.Trim() ' Los parámetros gestionan comillas y apóstrofes solos
+        vTxtNombre = TxtNombre.Text.Trim().ToUpper()
+        vTxtDescripcion = TxtDescripcion.Text.Trim()
+
+        ' Cortafuegos básico
+        If String.IsNullOrWhiteSpace(vTxtNombre) Then
+            MsgBox(resManager.GetString("NombreTipoCuentaVacio"), MsgBoxStyle.Exclamation, resManager.GetString("Validacion"))
+            Exit Sub
+        End If
 
         ' =========================================================================
-        ' 2. OBTENER EL ID NUMÉRICO REAL DESDE EL GRID DE LA PANTALLA ANTERIOR
+        ' 🛡️ PASO 2: LOGÍSTICA INVERSA MULTI-IDIOMA (Averiguar la clave base del .resx)
         ' =========================================================================
-        Dim idTipoModificar As Integer = 0
-        Try
-            Dim filaActual As Integer = frmTipoCuentaBancaria.DgvTipoCuentasBancarias.CurrentRow.Index
-            ' Recuperamos el Id numérico que viaja en la Celda 2 del Grid maestro
-            idTipoModificar = Convert.ToInt32(frmTipoCuentaBancaria.DgvTipoCuentasBancarias.Rows(filaActual).Cells(2).Value)
-        Catch ex As Exception
+        ' Convertimos el texto de la pantalla a su equivalente original en Español de fábrica
+        Dim nombreEnEspañolBase As String = vTxtNombre
+
+        Dim resSet As System.Resources.ResourceSet = resManager.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
+        If resSet IsNot Nothing Then
+            For Each dict As System.Collections.DictionaryEntry In resSet
+                Dim llaveKey As String = dict.Key.ToString()
+                If llaveKey.StartsWith("Desc_", StringComparison.OrdinalIgnoreCase) Then Continue For
+
+                Dim valorTraducido As String = dict.Value?.ToString().Trim().ToUpper()
+
+                ' Si lo que ha tecleado el usuario coincide con una traducción activa del .resx (ej: "COMPTE CORRENT")
+                If valorTraducido = vTxtNombre Then
+                    ' Recuperamos rígidamente la clave original de fábrica (ej: "CUENTA_CORRIENTE")
+                    nombreEnEspañolBase = llaveKey.ToUpper()
+                    Exit For
+                End If
+            Next
+        End If
+
+        ' Limpiamos espacios y guiones para comparar de forma estricta contra tu lista de la propiedad (ej: "CUENTACORRIENTE")
+        Dim textoACompararSistema As String = nombreEnEspañolBase.Replace("_", "").Replace(" ", "").Trim().ToUpper()
+
+        ' =========================================================================
+        ' ❌ CORTAFUEGOS 1: PROHIBIDO USAR NOMBRES PROTEGIDOS DE SISTEMA
+        ' =========================================================================
+        ' Si el usuario intenta renombrar una cuenta libre y llamarla igual que un tipo de fábrica 
+        ' (ya sea escribiéndolo en su idioma o en el código base), lo detenemos en seco.
+        For Each tipoProtegido As String In TiposCuentaMuestraSistema
+            Dim tipoProtegidoLimpio As String = tipoProtegido.Replace("_", "").Replace(" ", "").Trim().ToUpper()
+
+            If textoACompararSistema = tipoProtegidoLimpio Then
+                Dim msgBloqueoSystem As String = resManager.GetString("NoSePuedeUsarTipoCuentaPredeterminada")
+                MsgBox(msgBloqueoSystem, MsgBoxStyle.Critical, resManager.GetString("AccionDenegada"))
+                TxtNombre.Focus()
+				TxtNombre.SelectAll()
+				Exit Sub ' Frena el guardado inmediatamente
+            End If
+        Next
+
+        ' =========================================================================
+        ' 2. OBTENER EL ID NUMÉRICO REAL (Usamos tu variable global de control)
+        ' =========================================================================
+        ' Recuperamos el Id numérico de forma rígida a través de la variable global del taller 
+        ' que seteamos al abrir esta pantalla (ej: vIdTipoModificar). 
+        If idTipoModificar <= 0 Then
             MessageBox.Show(resManager.GetString("ErrorRecuperarID"), resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
-        End Try
+        End If
 
         ' =========================================================================
-        ' 3. CONFIGURAR EL UPDATE USANDO EL ID NUMÉRICO (MÁXIMA CONSISTENCIA)
+        ' 🔍 CORTAFUEGOS 2: RADAR ANTI-DUPLICADOS EN LA BASE DE DATOS
         ' =========================================================================
-        ' Cambiamos el filtro WHERE para que busque estrictamente por el IdTipoCUE
-        vtipoSql = "UPDATE tipocuentas SET DescripcionTIP = ? WHERE IdTipoCUE = ?"
+
+        ' Comprobamos tanto el nombre crudo introducido como su traducción inversa por seguridad
+        cmdMdb1cr.CommandText = "SELECT COUNT(*) FROM tipocuentas WHERE (UCase(CodigoTIP) = ? Or UCase(CodigoTIP) = ?) And IdTipoCUE <> ?"
+        cmdMdb1cr.Parameters.Clear()
+        cmdMdb1cr.Parameters.AddWithValue("@Nom1", vTxtNombre)
+        cmdMdb1cr.Parameters.AddWithValue("@Nom2", nombreEnEspañolBase.Replace("_", " "))
+        cmdMdb1cr.Parameters.AddWithValue("@Id", idTipoModificar)
+
+        Try
+            Dim existeDuplicado As Boolean = (Convert.ToInt32(cmdMdb1cr.ExecuteScalar()) > 0)
+            If existeDuplicado Then
+                MsgBox(resManager.GetString("YaExisteTipoCuenta"), MsgBoxStyle.Exclamation, resManager.GetString("RegistroDuplicado"))
+                TxtNombre.Focus()
+				TxtNombre.SelectAll()
+				Exit Sub
+            End If
+        Catch : End Try
+
+        ' =========================================================================
+        ' 🚀 PASO 3: CONFIGURAR EL UPDATE SEGURO
+        ' =========================================================================
+        ' Guardamos siempre la clave en su formato plano limpio para no corromper las relaciones futuras
+        vtipoSql = "UPDATE tipocuentas SET CodigoTIP = ?, DescripcionTIP = ? WHERE IdTipoCUE = ?"
         cmdMdb1cr.CommandText = vtipoSql
 
-        ' En Access/OleDb el orden de los parámetros debe ser EXACTO al del SQL
         cmdMdb1cr.Parameters.Clear()
+        cmdMdb1cr.Parameters.AddWithValue("@CodigoTIP", vTxtNombre)
         cmdMdb1cr.Parameters.AddWithValue("@DescripcionTIP", vTxtDescripcion)
-        cmdMdb1cr.Parameters.AddWithValue("@IdTipoCUE", idTipoModificar) ' Filtro WHERE numérico
+        cmdMdb1cr.Parameters.AddWithValue("@IdTipoCUE", idTipoModificar)
 
         Try
             Dim filasAfectadas As Integer = cmdMdb1cr.ExecuteNonQuery()
-
             If filasAfectadas > 0 Then
-                Me.Close() ' Guardado con éxito, cierra la ventana modal
+                MessageBox.Show(resManager.GetString("TipoCuentaActualizado"), resManager.GetString("Mantenimiento"), MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Me.Close()
             Else
                 MessageBox.Show(resManager.GetString("NoEncuentraRegistro"), resManager.GetString("Atencion"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
@@ -85,6 +158,7 @@ Public Class EditarTipoCuentaBancaria
             MessageBox.Show(resManager.GetString("ErrorModificarRegistro") & ": " & vbNewLine & ex.Message, resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
 
     Private Sub BtnEliminar_Click(sender As Object, e As EventArgs) Handles BtnEliminar.Click
         MsgBox(rmse.GetString("EliminarCuenta5"))

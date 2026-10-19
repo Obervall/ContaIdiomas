@@ -970,7 +970,7 @@ Weniger Daten bieten eine viel klarere Analyse!</value>
   <data name="Ayuda" xml:space="preserve">
     <value>Hilfe</value>
   </data>
-  <data name="Validación" xml:space="preserve">
+  <data name="Validacion" xml:space="preserve">
     <value>Validierung</value>
   </data>
   <data name="NoEditarFueraEjercicio" xml:space="preserve">
@@ -1171,5 +1171,41 @@ Wir haben Verbesserungen und automatische Korrekturen vorgenommen.
 Denken Sie daran, dass es einen Spenden-Button in Über ..... gibt! Danke
 
 Möchten Sie sehen, was es jetzt neu gibt?</value>
+  </data>
+  <data name="TipoCuentaActualizado" xml:space="preserve">
+    <value>Kontotyp erfolgreich aktualisiert.</value>
+  </data>
+  <data name="NombreTipoCuentaVacio" xml:space="preserve">
+    <value>Kontotypname darf nicht leer sein</value>
+  </data>
+  <data name="NoSePuedeUsarTipoCuentaPredeterminada" xml:space="preserve">
+    <value>Du darfst diesen Namen nicht verwenden, weil er zu einer
+Standard- und geschützter Kontotyp des Systems.</value>
+  </data>
+  <data name="AccionDenegada" xml:space="preserve">
+    <value>Abgelehnte Maßnahme</value>
+  </data>
+  <data name="YaExisteTipoCuenta" xml:space="preserve">
+    <value>Es gibt bereits einen anderen Kontotyp mit demselben Namen. Bitte geben Sie einen anderen ein.</value>
+  </data>
+  <data name="RegistroDuplicado" xml:space="preserve">
+    <value>Doppelte Registrierung</value>
+  </data>
+  <data name="NombreCuentaVacio" xml:space="preserve">
+    <value>Der Name des Bankkontos darf nicht leer sein.</value>
+  </data>
+  <data name="NoSePuedeUsarCuentaPredeterminada" xml:space="preserve">
+    <value>Du darfst diesen Namen nicht verwenden, weil er zu einer
+Standard- und geschütztes Bankkonto des Systems.</value>
+  </data>
+  <data name="YaExisteCuenta" xml:space="preserve">
+    <value>Es gibt bereits ein anderes Bankkonto mit demselben Namen. 
+Ein anderer Film betritt sich.</value>
+  </data>
+  <data name="CuentaActualizada" xml:space="preserve">
+    <value>Konto wurde erfolgreich aktualisiert.</value>
+  </data>
+  <data name="ConceptoActualizado" xml:space="preserve">
+    <value>Aktualisiertes Konzept</value>
   </data>
 </root>

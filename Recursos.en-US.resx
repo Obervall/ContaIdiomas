@@ -970,7 +970,7 @@ Less data offers a much clearer analysis!</value>
   <data name="Ayuda" xml:space="preserve">
     <value>Help</value>
   </data>
-  <data name="Validación" xml:space="preserve">
+  <data name="Validacion" xml:space="preserve">
     <value>Validation</value>
   </data>
   <data name="NoEditarFueraEjercicio" xml:space="preserve">
@@ -1171,5 +1171,41 @@ We've applied improvements and automatic fixes.
 Remember that there is a Donate button in About.....! Thank you
 
 Want to see what's new now?</value>
+  </data>
+  <data name="TipoCuentaActualizado" xml:space="preserve">
+    <value>Account type successfully updated.</value>
+  </data>
+  <data name="NombreTipoCuentaVacio" xml:space="preserve">
+    <value>Account Type Name Cannot Be Empty</value>
+  </data>
+  <data name="NoSePuedeUsarTipoCuentaPredeterminada" xml:space="preserve">
+    <value>You can't use this name because it belongs to a
+Default and protected account type of the system.</value>
+  </data>
+  <data name="AccionDenegada" xml:space="preserve">
+    <value>Action Denied</value>
+  </data>
+  <data name="YaExisteTipoCuenta" xml:space="preserve">
+    <value>There is already another Account Type with the same name. Please enter a different one.</value>
+  </data>
+  <data name="RegistroDuplicado" xml:space="preserve">
+    <value>Duplicate Registration</value>
+  </data>
+  <data name="NombreCuentaVacio" xml:space="preserve">
+    <value>The bank account name cannot be empty.</value>
+  </data>
+  <data name="NoSePuedeUsarCuentaPredeterminada" xml:space="preserve">
+    <value>You can't use this name because it belongs to a
+Default and protected bank account of the system.</value>
+  </data>
+  <data name="YaExisteCuenta" xml:space="preserve">
+    <value>There is already another Bank Account with the same name. 
+Enter a different one.</value>
+  </data>
+  <data name="CuentaActualizada" xml:space="preserve">
+    <value>Account updated successfully.</value>
+  </data>
+  <data name="ConceptoActualizado" xml:space="preserve">
+    <value>Updated Concept</value>
   </data>
 </root>

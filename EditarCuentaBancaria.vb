@@ -1,5 +1,4 @@
-﻿Imports System.Data
-Imports System.Data.OleDb
+﻿Imports System.Data.OleDb
 Imports System.Windows.Forms
 
 Public Class EditarCuentaBancaria
@@ -27,6 +26,7 @@ Public Class EditarCuentaBancaria
         ' ******************************************************
         CmbTipoCuenta.DropDownStyle = ComboBoxStyle.DropDownList
         CargarComboTipoCuentaGlobal(CmbTipoCuenta)
+
         ' 2. RECUPERAR LOS DATOS DE LA FILA SELECCIONADA
         ' ******************************************************
         filaActual = frmCuentasBancarias.DgvCuentas.CurrentRow.Index
@@ -44,13 +44,15 @@ Public Class EditarCuentaBancaria
         TxtNombre.Text = frmCuentasBancarias.DgvCuentas.Rows(filaActual).Cells(1).Value.ToString
         TxtNumero.Text = frmCuentasBancarias.DgvCuentas.Rows(filaActual).Cells(2).Value.ToString
         TxtNota.Text = frmCuentasBancarias.DgvCuentas.Rows(filaActual).Cells(4).Value.ToString
+
+
         ' 3. CONFIGURAR SEGÚN MODO EDITAR O MODO ELIMINAR
         ' ******************************************************
         If vEditar = "SI" Then
             'LblEditando.Text = Por defecto creado en el diseño del formulario, se le asigna el texto de Editando
             CmbTipoCuenta.Enabled = True
-            TxtNombre.Enabled = False
-            TxtNumero.Select()
+            TxtNombre.Enabled = True
+            TxtNombre.SelectAll()
             BtnEliminar.Enabled = False
         Else
             LblEditando.Text = rmse.GetString("LblEliminando")
@@ -63,143 +65,195 @@ Public Class EditarCuentaBancaria
         End If
     End Sub
 
-    Private Sub TxtDescripcion_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtNumero.KeyPress
+    Private Sub TxtNombre_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtNombre.KeyPress
+        If e.KeyChar = ChrW(Keys.Enter) Then
+            TxtNumero.Select()
+        End If
+    End Sub
+
+    Private Sub TxtNumero_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtNumero.KeyPress
+        If e.KeyChar = ChrW(Keys.Enter) Then
+            CmbTipoCuenta.Select()
+        End If
+    End Sub
+
+    Private Sub CmbTipoCuenta_KeyPress(sender As Object, e As KeyPressEventArgs) Handles CmbTipoCuenta.KeyPress
         If e.KeyChar = ChrW(Keys.Enter) Then
             TxtNota.Select()
         End If
     End Sub
-    Private Sub TxtNota_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtNota.KeyPress
-        If e.KeyChar = ChrW(Keys.Enter) Then
+
+    Private Sub TxtNota_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtNota.KeyDown
+        ' Verificamos si la tecla presionada es Intro (Enter)
+        If e.KeyCode = Keys.Enter Then
+            ' Suprimimos el comportamiento por defecto para que no borre ni procese la tecla
+            e.SuppressKeyPress = True
+
+            ' (Opcional) Deselecciona el texto y coloca el cursor al final
+            TxtNota.SelectionLength = 0
+            TxtNota.SelectionStart = TxtNota.Text.Length
+
+            ' (Opcional) Si quieres que ejecute alguna acción al pulsar Intro, hazlo aquí
+            ' EjecutarMiAccion()
             If BtnAceptar.Enabled Then BtnAceptar.Select()
         End If
     End Sub
 
     Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles BtnAceptar.Click
-        vTxtNombre = TxtNombre.Text.Trim()
+        ' 1. Capturamos los textos limpios de los cuadros del formulario
+        vTxtNombre = TxtNombre.Text.Trim().ToUpper() ' Forzamos mayúsculas homogéneas en la RAM
         vTxtNumero = TxtNumero.Text.Trim()
         vTxtNotas = TxtNota.Text.Trim()
 
-        ' 2. OBTENER EL ID NUMÉRICO REAL DESDE EL GRID DE LA PANTALLA ANTERIOR
-        Dim idCuentaModificar As Integer
+        ' Cortafuegos básico: No permitir nombres en blanco
+        If String.IsNullOrWhiteSpace(vTxtNombre) Then
+            MsgBox(resManager.GetString("NombreCuentaVacio"), MsgBoxStyle.Exclamation, resManager.GetString("Validacion"))
+            Exit Sub
+        End If
+
+        ' =========================================================================
+        ' 2. OBTENER EL ID NUMÉRICO REAL (Blindado contra descalces de columnas)
+        ' =========================================================================
+        Dim idCuentaModificar As Integer = 0
 
         Try
-            Dim filaActual As Integer = frmCuentasBancarias.DgvCuentas.CurrentRow.Index
-            ' Recuperamos el Id numérico de la fila seleccionada
-            idCuentaModificar = Convert.ToInt32(frmCuentasBancarias.DgvCuentas.Rows(filaActual).Cells(5).Value)
+            ' 🎯 REPARADO: Buscamos la celda de la ID por su nombre técnico, da igual si se movieron los índices
+            If frmCuentasBancarias.DgvCuentas.CurrentRow IsNot Nothing Then
+                idCuentaModificar = Convert.ToInt32(frmCuentasBancarias.DgvCuentas.CurrentRow.Cells("IdCuentaCUE").Value)
+            End If
         Catch ex As Exception
             MessageBox.Show(resManager.GetString("ErrorRecuperarID"), resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End Try
 
         ' =========================================================================
-        ' 3. OBTENER EL ID NUMÉRICO REAL DIRECTAMENTE DEL COMBOBOX (CORREGIDO)
+        ' 3. OBTENER EL ID DEL TIPO DE CUENTA DIRECTAMENTE DEL COMBOBOX
         ' =========================================================================
         Dim vIdTipoCUE As Integer = 0
 
         If CmbTipoCuenta.SelectedItem IsNot Nothing Then
-            ' Como ElementoCombo es una Structure, usamos DirectCast para desempaquetarlo de forma segura
             Dim itemSeleccionado = DirectCast(CmbTipoCuenta.SelectedItem, ElementoCombo)
-
-            ' 🌟 ¡AQUÍ ESTÁ LA MAGIA!: ValorInterno ya contiene el ID numérico (1, 3, 4...), no hace falta hacer ningún SELECT
             vIdTipoCUE = Convert.ToInt32(itemSeleccionado.ValorInterno)
         Else
-            ' Valor por defecto seguro en caso de que no haya nada seleccionado
             vIdTipoCUE = 1
         End If
 
-        ' Modificar Registro
-        '*******************
+        ' =========================================================================
+        ' 🛡️ 4. LOGÍSTICA INVERSA MULTI-IDIOMA (Averiguar clave base de cuentas)
+        ' =========================================================================
+        Dim nombreEnEspañolBase As String = vTxtNombre
 
-        If Not String.IsNullOrEmpty(vTxtTipo) Then
+        Dim resSet As System.Resources.ResourceSet = resManager.GetResourceSet(System.Globalization.CultureInfo.CurrentUICulture, True, True)
+        If resSet IsNot Nothing Then
+            For Each dict As System.Collections.DictionaryEntry In resSet
+                Dim llaveKey As String = dict.Key.ToString()
+                ' Saltamos descripciones largas
+                If llaveKey.StartsWith("Desc_", StringComparison.OrdinalIgnoreCase) Then Continue For
 
-            ' 1. Normalizamos la cadena directamente en VB.NET (quitamos todos los espacios)
-            Dim vTxtTipoLimpio As String = vTxtTipo.Replace(" ", "")
+                Dim valorTraducido As String = dict.Value?.ToString().Trim().ToUpper()
 
-            ' 2. Simplificamos la consulta SQL eliminando la función 'Replace' que hace fallar a Access
-            Dim cmdBuscarId As New OleDb.OleDbCommand("SELECT IdTipoCUE FROM tipocuentas WHERE CodigoTIP = ? OR CodigoTIP = ?", conexion1)
-
-            ' 3. Pasamos los parámetros en el orden estricto en que aparecen en el SQL
-            cmdBuscarId.Parameters.AddWithValue("?", vTxtTipo)
-            cmdBuscarId.Parameters.AddWithValue("?", vTxtTipoLimpio)
-
-            Try
-                Dim resultado As Object = cmdBuscarId.ExecuteScalar() ' ExecuteScalar es ideal porque solo lee un número
-                If resultado IsNot Nothing AndAlso Not IsDBNull(resultado) Then
-                    ' 2. ¡EL TRUCO RAPIDO!: Buscamos el ID numérico directo en la base de datos
-                    vIdTipoCUE = Convert.ToInt32(resultado)
+                ' Si lo que teclea el usuario equivale a una traducción activa (ej: "CAIXA EFECTIU" -> "CAJA_EFECTIVO")
+                If valorTraducido = vTxtNombre Then
+                    nombreEnEspañolBase = llaveKey.ToUpper()
+                    Exit For
                 End If
-            Catch ex As Exception
-                MessageBox.Show($"{resManager.GetString("ErrorRecuperarID")}: {ex.Message}", resManager.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End Try
+            Next
         End If
 
-        ' Modificar Registro
-        '*******************
-        ' 1. Limpias la consulta cambiando todas las comillas por "?"
-        vtipoSql = "UPDATE cuentas SET NumeroCUE = ?, TipoCUE = ?, NotasCUE = ? WHERE IdCuentaCUE = ?"
-        cmdMdb1cr.CommandText = vtipoSql
+        Dim textoACompararSistema As String = nombreEnEspañolBase.Replace("_", "").Replace(" ", "").Trim().ToUpper()
 
-        ' 2. Limpias los parámetros para evitar acumulaciones
+        ' =========================================================================
+        ' ❌ CORTAFUEGOS 1: PROHIBIDO USAR NOMBRES DE CUENTAS DE FÁBRICA
+        ' =========================================================================
+        For Each cuentaProtegida As String In CuentasMuestraSistema
+            Dim cuentaProtegidaLimpia As String = cuentaProtegida.Replace("_", "").Replace(" ", "").Trim().ToUpper()
+
+            If textoACompararSistema = cuentaProtegidaLimpia Then
+                Dim msgBloqueoSystem As String = resManager.GetString("NoSePuedeUsarCuentaPredeterminada")
+                MsgBox(msgBloqueoSystem, MsgBoxStyle.Critical, resManager.GetString("AccionDenegada"))
+
+                ' Sombreado azul total interactivo para machacar el error
+                TxtNombre.Focus()
+                TxtNombre.SelectAll()
+                Exit Sub
+            End If
+        Next
+
+        ' =========================================================================
+        ' 🔍 CORTAFUEGOS 2: RADAR ANTI-DUPLICADOS EN CUENTAS BANCARIAS
+        ' =========================================================================
+        cmdMdb1cr.CommandText = "SELECT COUNT(*) FROM cuentas WHERE (UCase(NombreCUE) = ? Or UCase(NombreCUE) = ?) And IdCuentaCUE <> ?"
         cmdMdb1cr.Parameters.Clear()
+        cmdMdb1cr.Parameters.AddWithValue("@Nom1", vTxtNombre)
+        cmdMdb1cr.Parameters.AddWithValue("@Nom2", nombreEnEspañolBase.Replace("_", " "))
+        cmdMdb1cr.Parameters.AddWithValue("@Id", idCuentaModificar)
 
-        ' 3. Añades los 4 valores en el orden exacto de aparición
-        cmdMdb1cr.Parameters.AddWithValue("?", vTxtNumero)
-        cmdMdb1cr.Parameters.AddWithValue("?", vIdTipoCUE)
-        cmdMdb1cr.Parameters.AddWithValue("?", vTxtNotas)
-        cmdMdb1cr.Parameters.AddWithValue("?", idCuentaModificar) ' El WHERE va al final
+        Try
+            Dim existeDuplicado As Boolean = (Convert.ToInt32(cmdMdb1cr.ExecuteScalar()) > 0)
+            If existeDuplicado Then
+                MsgBox(resManager.GetString("YaExisteCuenta"), MsgBoxStyle.Exclamation, resManager.GetString("RegistroDuplicado"))
+                TxtNombre.Focus()
+                TxtNombre.SelectAll()
+                Exit Sub
+            End If
+        Catch : End Try
+
+        ' =========================================================================
+        ' 🚀 5. EJECUCIÓN DEL UPDATE DE CUATRO CAMPOS (Inyectado NombreCUE)
+        ' =========================================================================
+        vtipoSql = "UPDATE cuentas SET NombreCUE = ?, NumeroCUE = ?, TipoCUE = ?, NotasCUE = ? WHERE IdCuentaCUE = ?"
         cmdMdb1cr.CommandText = vtipoSql
+
+        ' Los parámetros se añaden en el orden ESTRICTO de las "?" en la sentencia SQL
+        cmdMdb1cr.Parameters.Clear()
+        cmdMdb1cr.Parameters.AddWithValue("@NombreCUE", TxtNombre.Text.Trim()) ' Conserva tipografía original
+        cmdMdb1cr.Parameters.AddWithValue("@NumeroCUE", vTxtNumero)
+        cmdMdb1cr.Parameters.AddWithValue("@TipoCUE", vIdTipoCUE)
+        cmdMdb1cr.Parameters.AddWithValue("@NotasCUE", vTxtNotas)
+        cmdMdb1cr.Parameters.AddWithValue("@IdCuentaCUE", idCuentaModificar) ' Filtro WHERE al final
 
         Try
             Dim filasAfectadas As Integer = cmdMdb1cr.ExecuteNonQuery()
 
             If filasAfectadas > 0 Then
+                ' Refrescamos la rejilla principal llamando a tu cargador del módulo
                 CargarCuentasBancarias()
 
                 ' =====================================================================
-                ' 🔍 RADAR POST-GUARDADO: AUDITORÍA EN TIEMPO REAL
+                ' 🔍 RADAR POST-GUARDADO: AUDITORÍA EN TIEMPO REAL (Tu código intacto)
                 ' =====================================================================
                 Try
-                    ' Pasamos la consulta matemática para ver si siguen quedando IDs duplicados
                     cmdMdb1cr.CommandText =
-                "SELECT COUNT(*) FROM (" &
-                "  SELECT IdCuentaCUE FROM cuentas " &
-                "  GROUP BY IdCuentaCUE " &
-                "  HAVING COUNT(*) > 1" &
-                ")"
+                        "SELECT COUNT(*) FROM (" &
+                        "  SELECT IdCuentaCUE FROM cuentas " &
+                        "  GROUP BY IdCuentaCUE " &
+                        "  HAVING COUNT(*) > 1" &
+                        ")"
 
                     Dim idsDuplicadosEncontrados As Integer = Convert.ToInt32(cmdMdb1cr.ExecuteScalar())
 
                     If idsDuplicadosEncontrados = 0 Then
-						' 🎉 ¡ÉXITO! Ya no hay duplicados: apagamos el modo emergencia de la sesión
+                        If frmCuentasBancarias.DgvCuentas.Columns.Count >= 5 Then
+                            frmCuentasBancarias.DgvCuentas.Columns(5).Visible = False
+                        End If
 
-						' Ocultamos la columna 5 (índice 4) automáticamente para dejar la tabla limpia
-						If frmCuentasBancarias.DgvCuentas.Columns.Count >= 5 Then
-							frmCuentasBancarias.DgvCuentas.Columns(5).Visible = False
-						End If
-
-						If vModoRepararDuplicados = "SI" Then
-                            ' ⚠️ Si veníamos de un modo de reparación, avisamos al usuario que ya no hay duplicados
+                        If vModoRepararDuplicados = "SI" Then
                             MessageBox.Show(resManager.GetString("EstructuraCuentasCorregida"),
                                 resManager.GetString("AppDisplayName"),
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Information)
                         End If
-
                         vModoRepararDuplicados = "NO"
                     Else
-                        ' ⚠️ Si el usuario guardó pero SIGUE habiendo duplicados, nos aseguramos 
-                        ' de mantener la variable en "SI" y la columna 5 bien abierta para que siga revisando
                         vModoRepararDuplicados = "SI"
                         If frmCuentasBancarias.DgvCuentas.Columns.Count >= 5 Then
                             frmCuentasBancarias.DgvCuentas.Columns(5).Visible = True
                         End If
                     End If
+                Catch : End Try
 
-                Catch ex As Exception
-                    ' Cortafuegos silencioso
-                End Try
-
-                Me.Close() ' Guardado con éxito, cierra la ventana modal
+                MessageBox.Show(resManager.GetString("CuentaActualizada"), resManager.GetString("Mantenimiento"), MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Me.Close() ' Éxito absoluto, cerramos ventana modal
             Else
                 MessageBox.Show(resManager.GetString("NoEncuentraRegistro"), resManager.GetString("Atencion"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
@@ -379,4 +433,5 @@ Public Class EditarCuentaBancaria
             e.Cancel = False
         End If
     End Sub
+
 End Class

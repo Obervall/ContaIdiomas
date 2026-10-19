@@ -100,6 +100,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Acción Denegada.
+    '''</summary>
+    Friend Shared ReadOnly Property AccionDenegada() As String
+        Get
+            Return ResourceManager.GetString("AccionDenegada", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Actualización Completada.
     '''</summary>
     Friend Shared ReadOnly Property ActualizacionCompletada() As String
@@ -427,6 +436,15 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a Concepto Actualizado.
+    '''</summary>
+    Friend Shared ReadOnly Property ConceptoActualizado() As String
+        Get
+            Return ResourceManager.GetString("ConceptoActualizado", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a Conceptos.
     '''</summary>
     Friend Shared ReadOnly Property Conceptos() As String
@@ -495,6 +513,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property CUENTA_VIVIENDA() As String
         Get
             Return ResourceManager.GetString("CUENTA_VIVIENDA", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Cuenta actualizada con éxito..
+    '''</summary>
+    Friend Shared ReadOnly Property CuentaActualizada() As String
+        Get
+            Return ResourceManager.GetString("CuentaActualizada", resourceCulture)
         End Get
     End Property
     
@@ -2315,11 +2342,49 @@ Friend Class Recursos
     End Property
     
     '''<summary>
+    '''  Busca una cadena traducida similar a El nombre de la cuenta bancaria no puede estar vacío..
+    '''</summary>
+    Friend Shared ReadOnly Property NombreCuentaVacio() As String
+        Get
+            Return ResourceManager.GetString("NombreCuentaVacio", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a El Nombre del Tipo de Cuenta no puede estar Vacío.
+    '''</summary>
+    Friend Shared ReadOnly Property NombreTipoCuentaVacio() As String
+        Get
+            Return ResourceManager.GetString("NombreTipoCuentaVacio", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
     '''  Busca una cadena traducida similar a No se pudo encontrar el manual.
     '''</summary>
     Friend Shared ReadOnly Property NoPudoEncontrarManual() As String
         Get
             Return ResourceManager.GetString("NoPudoEncontrarManual", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a No puedes utilizar este nombre porque pertenece a una
+    '''Cuenta Bancaria predeterminada y protegida del sistema..
+    '''</summary>
+    Friend Shared ReadOnly Property NoSePuedeUsarCuentaPredeterminada() As String
+        Get
+            Return ResourceManager.GetString("NoSePuedeUsarCuentaPredeterminada", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a No puedes utilizar este nombre porque pertenece a un
+    '''Tipo de Cuenta predeterminado y protegido del sistema..
+    '''</summary>
+    Friend Shared ReadOnly Property NoSePuedeUsarTipoCuentaPredeterminada() As String
+        Get
+            Return ResourceManager.GetString("NoSePuedeUsarTipoCuentaPredeterminada", resourceCulture)
         End Get
     End Property
     
@@ -2482,6 +2547,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property RegistroBorrado() As String
         Get
             Return ResourceManager.GetString("RegistroBorrado", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Registro Duplicado.
+    '''</summary>
+    Friend Shared ReadOnly Property RegistroDuplicado() As String
+        Get
+            Return ResourceManager.GetString("RegistroDuplicado", resourceCulture)
         End Get
     End Property
     
@@ -2761,6 +2835,15 @@ Friend Class Recursos
     Friend Shared ReadOnly Property Tipo_Traspaso() As String
         Get
             Return ResourceManager.GetString("Tipo_Traspaso", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Tipo de cuenta actualizado con éxito..
+    '''</summary>
+    Friend Shared ReadOnly Property TipoCuentaActualizado() As String
+        Get
+            Return ResourceManager.GetString("TipoCuentaActualizado", resourceCulture)
         End Get
     End Property
     
@@ -3098,9 +3181,9 @@ Friend Class Recursos
     '''<summary>
     '''  Busca una cadena traducida similar a Validación.
     '''</summary>
-    Friend Shared ReadOnly Property Validación() As String
+    Friend Shared ReadOnly Property Validacion() As String
         Get
-            Return ResourceManager.GetString("Validación", resourceCulture)
+            Return ResourceManager.GetString("Validacion", resourceCulture)
         End Get
     End Property
     
@@ -3155,6 +3238,25 @@ Friend Class Recursos
     Friend Shared ReadOnly Property VersionInstalada() As String
         Get
             Return ResourceManager.GetString("VersionInstalada", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Ya existe otra Cuenta Bancaria con ese mismo nombre.
+    '''Introduce uno diferente..
+    '''</summary>
+    Friend Shared ReadOnly Property YaExisteCuenta() As String
+        Get
+            Return ResourceManager.GetString("YaExisteCuenta", resourceCulture)
+        End Get
+    End Property
+    
+    '''<summary>
+    '''  Busca una cadena traducida similar a Ya existe otro Tipo de Cuenta con ese mismo nombre. Introduce uno diferente..
+    '''</summary>
+    Friend Shared ReadOnly Property YaExisteTipoCuenta() As String
+        Get
+            Return ResourceManager.GetString("YaExisteTipoCuenta", resourceCulture)
         End Get
     End Property
 End Class

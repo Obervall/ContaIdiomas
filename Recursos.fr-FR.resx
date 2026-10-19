@@ -970,7 +970,7 @@ Moins de données offrent une analyse bien plus claire !</value>
   <data name="Ayuda" xml:space="preserve">
     <value>À l’aide</value>
   </data>
-  <data name="Validación" xml:space="preserve">
+  <data name="Validacion" xml:space="preserve">
     <value>Validation</value>
   </data>
   <data name="NoEditarFueraEjercicio" xml:space="preserve">
@@ -1171,5 +1171,41 @@ Nous avons appliqué des améliorations et des corrections automatiques.
 N’oubliez pas qu’il y a un bouton Don dans About ..... ! Merci
 
 Vous voulez voir ce qui est nouveau maintenant ?</value>
+  </data>
+  <data name="TipoCuentaActualizado" xml:space="preserve">
+    <value>Type de compte mis à jour avec succès.</value>
+  </data>
+  <data name="NombreTipoCuentaVacio" xml:space="preserve">
+    <value>Le nom du type de compte ne peut pas être vide</value>
+  </data>
+  <data name="NoSePuedeUsarTipoCuentaPredeterminada" xml:space="preserve">
+    <value>Vous ne pouvez pas utiliser ce nom car il appartient à un
+Par défaut et type de compte protégé du système.</value>
+  </data>
+  <data name="AccionDenegada" xml:space="preserve">
+    <value>Action refusée</value>
+  </data>
+  <data name="YaExisteTipoCuenta" xml:space="preserve">
+    <value>Il existe déjà un autre type de compte portant le même nom. Veuillez en entrer un autre.</value>
+  </data>
+  <data name="RegistroDuplicado" xml:space="preserve">
+    <value>Enregistrement en double</value>
+  </data>
+  <data name="NombreCuentaVacio" xml:space="preserve">
+    <value>Le nom du compte bancaire ne peut pas être vide.</value>
+  </data>
+  <data name="NoSePuedeUsarCuentaPredeterminada" xml:space="preserve">
+    <value>Vous ne pouvez pas utiliser ce nom car il appartient à un
+Compte bancaire par défaut et protégé du système.</value>
+  </data>
+  <data name="YaExisteCuenta" xml:space="preserve">
+    <value>Il existe déjà un autre compte bancaire portant le même nom. 
+En voici un autre.</value>
+  </data>
+  <data name="CuentaActualizada" xml:space="preserve">
+    <value>Compte mis à jour avec succès.</value>
+  </data>
+  <data name="ConceptoActualizado" xml:space="preserve">
+    <value>Concept mis à jour</value>
   </data>
 </root>

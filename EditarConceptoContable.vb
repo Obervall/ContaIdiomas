@@ -81,15 +81,31 @@ Public Class EditarConceptoContable
         End If
     End Sub
 
+    Private Sub TxtNombre_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtNombre.KeyPress
+        If e.KeyChar = ChrW(Keys.Enter) Then
+            TxtDescripcion.Select()
+        End If
+    End Sub
+
     Private Sub TxtDescripcion_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtDescripcion.KeyPress
         If e.KeyChar = ChrW(Keys.Enter) Then
             TxtNota.Select()
         End If
     End Sub
 
-    Private Sub TxtNota_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtNota.KeyPress
-        If e.KeyChar = ChrW(Keys.Enter) Then
-            BtnAceptar.Select()
+    Private Sub TxtNota_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtNota.KeyDown
+        ' Verificamos si la tecla presionada es Intro (Enter)
+        If e.KeyCode = Keys.Enter Then
+            ' Suprimimos el comportamiento por defecto para que no borre ni procese la tecla
+            e.SuppressKeyPress = True
+
+            ' (Opcional) Deselecciona el texto y coloca el cursor al final
+            TxtNota.SelectionLength = 0
+            TxtNota.SelectionStart = TxtNota.Text.Length
+
+            ' (Opcional) Si quieres que ejecute alguna acción al pulsar Intro, hazlo aquí
+            ' EjecutarMiAccion()
+            If BtnAceptar.Enabled Then BtnAceptar.Select()
         End If
     End Sub
 
@@ -117,8 +133,8 @@ Public Class EditarConceptoContable
         vtipoSql = "UPDATE conceptos SET CodigoCON = ?, DescripcionCON = ?, NotasCON = ? WHERE IdConceptoCON = ?"
         cmdMdb1cr.CommandText = vtipoSql
 
-		' En Access/OleDb el orden de los parámetros debe ser STABLE y EXACTO al del SQL
-		cmdMdb1cr.Parameters.Clear()
+        ' En Access/OleDb el orden de los parámetros debe ser STABLE y EXACTO al del SQL
+        cmdMdb1cr.Parameters.Clear()
         cmdMdb1cr.Parameters.AddWithValue("@CodigoCON", vTxtNombre)
         cmdMdb1cr.Parameters.AddWithValue("@DescripcionCON", vTxtDescripcion)
         cmdMdb1cr.Parameters.AddWithValue("@NotasCON", vTxtNotas)
@@ -128,6 +144,9 @@ Public Class EditarConceptoContable
             Dim filasAfectadas As Integer = cmdMdb1cr.ExecuteNonQuery()
 
             If filasAfectadas > 0 Then
+                MessageBox.Show(resManager.GetString("ConceptoActualizado"), resManager.GetString("Mantenimiento"), MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Me.Close() ' Éxito absoluto, cerramos ventana modal
+
                 Me.Close() ' Guardado con éxito, cierra la ventana modal
             Else
                 MessageBox.Show(resManager.GetString("NoEncuentraRegistro"), resManager.GetString("Atencion"), MessageBoxButtons.OK, MessageBoxIcon.Warning)

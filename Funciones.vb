@@ -101,7 +101,7 @@ Module Funciones
     Public vModoRepararDuplicados As String = "NO"
     Public mensajeReinicio As String
     Public vEsVersionDemoSoftonic As Boolean
-    Public vDiasRestantesDemoSoftonic, cuentaEmpresas As Integer
+    Public vDiasRestantesDemoSoftonic, cuentaEmpresas, idTipoModificar As Integer
     Public MostrarBotonPayPal As Boolean = False
     Public carpetaDB, archivoAConectar, archivoSeleccionado As String
     ' Esta variable guardará el "cero" con el formato correcto del sistema (0,00 o 0.00)

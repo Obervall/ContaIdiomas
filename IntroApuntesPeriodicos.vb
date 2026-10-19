@@ -490,9 +490,19 @@ Public Class IntroApuntesPeriodicos
         End If
     End Sub
 
-    Private Sub TxtNota_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TxtNota.KeyPress
-        If e.KeyChar = ChrW(Keys.Enter) Then
-            BtnAceptarSalir.Select()
+    Private Sub TxtNota_KeyDown(sender As Object, e As KeyEventArgs) Handles TxtNota.KeyDown
+        ' Verificamos si la tecla presionada es Intro (Enter)
+        If e.KeyCode = Keys.Enter Then
+            ' Suprimimos el comportamiento por defecto para que no borre ni procese la tecla
+            e.SuppressKeyPress = True
+
+            ' (Opcional) Deselecciona el texto y coloca el cursor al final
+            TxtNota.SelectionLength = 0
+            TxtNota.SelectionStart = TxtNota.Text.Length
+
+            ' (Opcional) Si quieres que ejecute alguna acción al pulsar Intro, hazlo aquí
+            ' EjecutarMiAccion()
+            If BtnAceptarSalir.Enabled Then BtnAceptarSalir.Select()
         End If
     End Sub
 
