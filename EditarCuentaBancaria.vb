@@ -216,8 +216,6 @@ Public Class EditarCuentaBancaria
             Dim filasAfectadas As Integer = cmdMdb1cr.ExecuteNonQuery()
 
             If filasAfectadas > 0 Then
-                ' Refrescamos la rejilla principal llamando a tu cargador del módulo
-                CargarCuentasBancarias()
 
                 ' =====================================================================
                 ' 🔍 RADAR POST-GUARDADO: AUDITORÍA EN TIEMPO REAL (Tu código intacto)
@@ -253,6 +251,8 @@ Public Class EditarCuentaBancaria
                 Catch : End Try
 
                 MessageBox.Show(resManager.GetString("CuentaActualizada"), resManager.GetString("Mantenimiento"), MessageBoxButtons.OK, MessageBoxIcon.Information)
+                ' Refrescamos la rejilla principal llamando a tu cargador del módulo
+                CargarCuentasBancarias()
                 Me.Close() ' Éxito absoluto, cerramos ventana modal
             Else
                 MessageBox.Show(resManager.GetString("NoEncuentraRegistro"), resManager.GetString("Atencion"), MessageBoxButtons.OK, MessageBoxIcon.Warning)
